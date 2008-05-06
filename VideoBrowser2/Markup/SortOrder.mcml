@@ -1,0 +1,112 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
+      xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/SortOrderItem"
+	  xmlns:cor="assembly://MSCorLib/System"
+      xmlns:st="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+      xmlns:me="Me"
+      >
+  
+
+  <UI Name="SortOrder">
+
+    <Properties>
+      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
+      <ArrayListDataSet Name="List" ArrayListDataSet="$Required"/>
+      <a:ListPage Name="Model" ListPage="$Required"/>
+      <IntRangedValue Name="ViewIndex" IntRangedValue="$Required"/>
+    </Properties>
+
+    <Rules>
+      <Binding Source="[Input.DeepKeyFocus]" Target="[Model.SortOrderHasFocus]"/>
+    </Rules>
+
+    <Content>
+      <Panel Layout="HorizontalFlow">
+        <Children>
+          <me:ViewSelector ViewIndex="[ViewIndex]"/>
+          <Text Content=" "></Text>
+          <Repeater Source="[List]" Layout="HorizontalFlow">
+            <Content>
+              <Panel>
+                <Children>
+                  <s:SortOrderItem Description="[RepeatedItem!cor:String]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]"/>
+                </Children>
+              </Panel>
+            </Content>
+          </Repeater>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <UI Name="ViewSelector">
+    <Properties>
+      <Image Name="LinesImage" Image="image://st:Lines"/>
+      <IntRangedValue Name="ViewIndex" IntRangedValue="$Required"/>
+      <Image Name="Image" Image="null"/>
+      <Image Name="FocusImage" Image="image://st:ButtonSelection"/>
+    </Properties>
+    <Locals>
+      <ClickHandler Name="Clicker"/>
+    </Locals>
+    <Rules>
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Background.Content]" Value="[FocusImage]"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true" >
+        <Actions>
+          <PlayAnimation Target="[Background]" Animation="animation://me:ButtonPress"/>
+        </Actions>
+      </Condition>
+
+      <Changed Source="[Clicker.Invoked]">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="0"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewIndex.Value]" Value="1"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Clicker.Invoked]">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewIndex.Value]" Value="0"/>
+        </Actions>
+      </Changed>
+
+    </Rules>
+    <Content>
+      <Graphic Name="Background" Content="[Image]" MinimumSize="88,42" MaximumSize="88,42" Padding="5,1,1,1">
+        <Children>
+          <Panel Layout="HorizontalFlow">
+            <Children>
+              <Graphic Content="[LinesImage]" Margins="0,12,7,0" MaximumSize="13,13"></Graphic>
+              <Text Content="view" Color="LightBlue" Font="Segoe Media Center Semibold,20"/>
+            </Children>
+          </Panel>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+
+  <Animation Name="ButtonPress" Loop="0" CenterPointPercent="0.5,0.5,1.0">
+    <Keyframes>
+      <ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Log"/>
+      <ScaleKeyframe Time="0.08" Value="0.9,0.9,1.0"/>
+      <ScaleKeyframe Time="0.15" Value="1.0,1.0,1.0"/>
+    </Keyframes>
+  </Animation>
+
+
+</Mcml>

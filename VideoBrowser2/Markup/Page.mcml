@@ -1,0 +1,298 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MsCorLib/System"
+	  xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
+    xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
+	  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+	  xmlns:lv="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ListView"
+    xmlns:pv="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/PosterView"
+    xmlns:vp="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/NowPlayingViewport"
+    xmlns:so="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/SortOrder"
+    xmlns:me="Me"
+      >
+
+	<UI Name="Page">
+
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+      <a:ListPage Name="Model" ListPage="$Required"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>   
+      <IntRangedValue Name="FocusedIndex" MinValue ="-1" MaxValue="9999"/>
+      <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
+      <IntRangedValue Name="ViewIndex" MinValue="0" MaxValue="1"/>
+      <lib:FolderItemContainer Name="SelectedItem"/>
+    </Properties>
+
+    <Rules>
+      <Default Target="[SortOrderIndex.Value]" Value="0"/>
+      
+      <Changed Source="[Model.SortOrderHasFocus]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.SortOrderHasFocus]" Value="true">
+          </Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[FocusedIndex.Value]" Value="-1"></Set>
+        </Actions>
+      </Changed>
+      
+      <Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
+      
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[Application.CurrentIndex]" Value="[FocusedIndex.Value]"/>
+        </Actions>
+      </Changed>
+
+      
+      <Changed Source="[SortOrderIndex.Value]" InitialEvaluate="false">
+        <Actions>
+          <Invoke Target="[FolderItems.Sort]" sortOrder="[SortOrderIndex.Value]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Application.FindText]" InitialEvaluate="false">
+        <Conditions>
+          <Equality Source="[Application.JILtext.Value]" ConditionOp="NotEquals" Value=""/>
+        </Conditions>
+        <Actions>
+          <Set Target="[FindAsYouTypePanel.Visible]" Value="true"/>
+          <Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Application.FindText]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Application.JILtext.Value]" ConditionOp="Equals" Value=""/>
+        </Conditions>
+        <Actions>
+          <Set Target="[FindAsYouTypePanel.Visible]" Value="false"/>
+          <Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ViewIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value ="0"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[PosterView.Visible]" Value="false"/>
+          <Set Target="[DetailsView.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ViewIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[PosterView.Visible]" Value="true"/>
+          <Set Target="[DetailsView.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      
+    </Rules>
+    
+    
+		<Content>
+      <ColorFill Content="Black" Layout="Form">
+        <Children>
+
+          <!-- find in list panel - highest Z-Order -->
+          <Panel Name="FindAsYouTypePanel">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.80"/>
+            </LayoutInput>
+            <Layout>
+              <FlowLayout ItemAlignment="Center"/>
+            </Layout>
+            <Children>
+              <ColorFill Content="Gray" Padding="8,0,8,-3" >
+                <Children>
+                  <Text Name="FindAsYouType" Font="Segoe Media Center Semibold,40" Content="" Color="Black"  />
+                </Children>   
+              </ColorFill> 
+             </Children>
+          </Panel>
+
+          <Panel Name="FadeOutPanel" Visible="false">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Content="Black" Alpha=".5"/>
+            </Children>
+          </Panel>
+
+          <me:DetailsView Name="DetailsView" Visible="true" Model="[Model]" FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" Application="[Application]" FolderItems="[FolderItems]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.02" Top="Parent,.11" Bottom="Parent,.95" />
+            </LayoutInput>
+          </me:DetailsView>
+         
+          <pv:PosterView Name="PosterView" Visible="false" Application="[Application]" FolderItems="[FolderItems]" FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.04" Top="Parent,.13" Bottom="Parent,.95" Right="Parent,.96"/>
+            </LayoutInput>
+          </pv:PosterView>
+
+          <vp:NowPlayingViewport Application="[Application]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.79" Right="Parent,.95" Top="Parent,.80"  Bottom="Parent,.93"/>
+            </LayoutInput>
+          </vp:NowPlayingViewport>
+
+          <so:SortOrder Name="SortOrderUI" ViewIndex="[ViewIndex]" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" Model="[Model]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.32" Top="Parent,.04"  Bottom="Parent,.22"/>
+            </LayoutInput>
+          </so:SortOrder>
+
+ 
+        </Children>
+			</ColorFill>
+    </Content>
+  </UI>
+
+
+  
+  <!-- Details view is the image + ItemDetailsBig + listview-->
+  <UI Name="DetailsView">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
+      <lib:FolderItemContainer Name="SelectedItem"/>
+      <!-- introduce a 100 ms delay when displaying item cause it can take a while to render and i dont like slow scrolling -->
+      <Timer Name="MyTimer" AutoRepeat="true" Interval="100" Enabled="false"/>
+      <a:ListPage Name="Model" ListPage="$Required"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+    </Properties>
+
+    <Rules>
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[MyTimer.Enabled]" Value="true"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[MyTimer.Tick]">
+        <Actions>
+          <Set Target="[MyTimer.Enabled]" Value="false"/>
+          <Set Target="[Preview.Visible]" Value="true"/>
+          <Set Target="[Preview.Content]" Value="[SelectedItem.Value.MCMLThumb]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[Preview.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      
+    </Rules>
+    
+    
+    <Content>
+      <Panel Layout="Form">
+        <Children>
+          
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0.05" Top="Parent,0" Bottom="Parent,.75" Right="Parent,.28"></FormLayoutInput>
+            </LayoutInput>
+            <Children>
+              <Panel Layout="VerticalFlow">
+                <Children>
+                  <Panel>
+                    <Layout>
+                      <ScaleLayout AllowScaleUp="true" AllowScaleDown="true" MaintainAspectRatio="true"/>
+                    </Layout>
+                    <Children>
+                      <Graphic Name="Preview" MaintainAspectRatio="true"/>
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+          <lv:ListView Visible="true" Application="[Application]" FolderItems="[FolderItems]" FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" Name="MyItems">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.30" Top="Parent,0" Bottom="Parent,.66" />
+            </LayoutInput>
+          </lv:ListView>
+
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.10" Right="Parent,.90"  Top="Parent,.76" />
+            </LayoutInput>
+            <Children>
+              <me:ItemDetailsBig FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]"/>
+            </Children>
+          </Panel>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+  
+  <UI Name="ItemDetailsBig">
+    <Properties>
+      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
+      <lib:FolderItemContainer Name="SelectedItem"/>
+    </Properties>
+    <Rules>
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[Title1.Content]" Value="[SelectedItem.Value.Title1]"/>
+          <Set Target="[Title2.Content]" Value="[SelectedItem.Value.Title2]"/>
+          <Set Target="[Summary.Content]" Value="[SelectedItem.Value.Overview]"/>
+          <Set Target="[Runtime.Content]" Value="[SelectedItem.Value.RunningTimeString]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[Title1.Content]" Value=""/>
+          <Set Target="[Summary.Content]" Value=""/>
+          <Set Target="[Title2.Content]" Value=""/>
+          <Set Target="[Runtime.Content]" Value=""/>
+        </Actions>
+      </Changed>
+      
+    </Rules>
+    <Content>
+      <Panel>
+        <Children>
+          <Panel Layout="VerticalFlow">
+            <Children>
+              <Text Name="Title1" Color="LightBlue" Font="Segoe Media Center,22"/>
+              <Text Name="Title2" Color="LightGray" Font="Segoe Media Center Semibold,20" Margins="0,-5,0,0"/>
+              <Panel MaximumSize="1000,140">
+                <Children>
+                  <Text Name="Summary" Color="LightBlue" WordWrap="true" Font="Segoe Media Center,18"  Margins="0,-5,0,0"/>
+                </Children>
+              </Panel>
+              <Text Name="Runtime" Color="White" WordWrap="true" Font="Segoe Media Center,18"  Margins="0,0,0,0"/>
+            </Children>
+          </Panel>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>
