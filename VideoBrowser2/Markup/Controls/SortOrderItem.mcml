@@ -18,8 +18,8 @@
 
       <Condition Source="[FocusedIndex.Value]" SourceValue="[Index.Value]" ConditionOp="NotEquals">
         <Actions>
-          <Set Target="[L.Color]" Value="Black"/>
-          <Set Target="[R.Color]" Value="Black"/>
+          <Set Target="[L.Color]" Value="Transparent"/>
+          <Set Target="[R.Color]" Value="Transparent"/>
         </Actions>
       </Condition>
 

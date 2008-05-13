@@ -64,6 +64,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 iMDBRating = float.Parse(rating);
             }
+            else
+            {
+                iMDBRating = -1;
+            }
 
             foreach (XmlNode item in elem.SelectNodes("Genres/Genre"))
             {

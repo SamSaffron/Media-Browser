@@ -97,27 +97,44 @@
     <None Include="Readme.htm" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\1star.png" />
+    <Content Include="Images\Background.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\Star\Star_Full.png" />
+    <Content Include="Images\Star\Star_Empty.png" />
+    <Content Include="Images\Star\Star_Half.png" />
+    <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
+    <Content Include="Images\Button\ButtonDisabled.png" />
+    <Content Include="Images\Button\ButtonDormant.png" />
+    <Content Include="Images\Button\ButtonLeftFocus.png" />
+    <Content Include="Images\Button\ButtonLeftFocusOverlay.png" />
+    <Content Include="Images\Button\ButtonNoFocus.png" />
     <Content Include="Images\ButtonSelection.png" />
     <None Include="Images\Down.png" />
     <None Include="Images\ButtonSelection2.png" />
     <Content Include="Images\folder.png" />
     <None Include="Images\Up.png" />
     <None Include="Images\lines.png" />
-    <Content Include="Markup\Button.mcml" />
-    <Content Include="Markup\Controls.mcml" />
+    <Content Include="Markup\Base\Base.mcml" />
+    <Content Include="Markup\Base\Animations.mcml" />
+    <Content Include="Markup\Base\Images.mcml" />
+    <Content Include="Markup\Controls\Button.mcml" />
+    <Content Include="Markup\Controls\Controls.mcml" />
     <Content Include="Images\Application.png" />
-    <Content Include="Markup\DetailsPageButton.mcml" />
-    <Content Include="Markup\GraphicButton.mcml" />
-    <Content Include="Markup\ListView.mcml" />
+    <Content Include="Markup\Controls\ButtonList.mcml" />
+    <Content Include="Markup\Controls\DetailsPageButton.mcml" />
+    <Content Include="Markup\Controls\GraphicButton.mcml" />
+    <Content Include="Markup\Controls\ListView.mcml" />
+    <Content Include="Markup\Controls\SimpleButton.mcml" />
+    <Content Include="Markup\Controls\StarRating.mcml" />
+    <Content Include="Markup\Controls\ViewDetails.mcml" />
     <Content Include="Markup\Page.mcml" />
     <Content Include="Markup\MovieDetailsPage.mcml" />
-    <Content Include="Markup\NowPlayingViewport.mcml" />
-    <Content Include="Markup\PosterView.mcml" />
-    <Content Include="Markup\RepeatItem.mcml" />
-    <Content Include="Markup\SortOrder.mcml" />
-    <Content Include="Markup\SortOrderItem.mcml" />
+    <Content Include="Markup\Controls\NowPlayingViewport.mcml" />
+    <Content Include="Markup\Controls\PosterView.mcml" />
+    <Content Include="Markup\Controls\RepeatItem.mcml" />
+    <Content Include="Markup\Controls\SortOrder.mcml" />
+    <Content Include="Markup\Controls\SortOrderItem.mcml" />
     <Content Include="Markup\Styles.mcml" />
     <Content Include="Markup\Test.mcml" />
     <Content Include="Registration.xml" />
@@ -133,8 +150,8 @@
   <PropertyGroup>
     <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
 
-cd $(ProjectDir)
-$(ProjectDir)\DevInstall.cmd /debug</PostBuildEvent>
+cd "$(ProjectDir)"
+"$(ProjectDir)\DevInstall.cmd" /debug</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

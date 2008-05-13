@@ -88,7 +88,7 @@ goto unregister
     ECHO.
 
     ECHO.Register the DLL with the global assembly cache
-    "%ProgramFilesPath%\Microsoft Visual Studio 8\SDK\v2.0\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%AssemblyName%\%AssemblyName%.dll"
+    "%ProgramFilesPath%\Microsoft SDKs\Windows\v6.0A\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%AssemblyName%\%AssemblyName%.dll"
     ECHO.
 
     ECHO.Register the application with Windows Media Center

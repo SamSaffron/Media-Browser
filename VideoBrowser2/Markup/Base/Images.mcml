@@ -1,0 +1,13 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      >
+  
+  <Image Name="Background" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Background" />
+  <Image Name="Logo" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Logo" />
+  
+  <Image Name="StarEmpty" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Empty" />
+  <Image Name="StarFull" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Full" />
+  <Image Name="StarHalf" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Half" />
+
+  <Color Name="MediumBlue" Color="255, 2, 166, 212"/>
+
+</Mcml>

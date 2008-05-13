@@ -133,7 +133,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
 
             }

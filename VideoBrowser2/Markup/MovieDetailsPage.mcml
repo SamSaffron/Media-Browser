@@ -1,85 +1,103 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-      xmlns:cor="assembly://MsCorLib/System"
+    xmlns:cor="assembly://MsCorLib/System"
 	  xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
     xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
 	  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
-	  xmlns:r="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RepeatItem"
-    xmlns:db="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/DetailsPageButton"
-    xmlns:gb="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/GraphicButton"
     xmlns:me="Me"
-      >
-
+    >
+  
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base"/>
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Controls"/>
 
   <UI Name="MovieDetailsPage">
 
-		<Properties>
+    <Properties>
       <a:Application Name="Application" Application="$Required"/>
       <lib:FolderItem Name="FolderItem" FolderItem="$Required"/>
       <Image Name="UpButton" Image="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Up"/>
       <Image Name="DownButton" Image="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Down"/>
-		</Properties>
-    
+    </Properties>
+
     <Locals>
       <ScrollingData Name="MovieScrollingData"/>
       <ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true"/>
+
+      <Command Name="PlayMovieCommand" />
+      <Command Name="ActorCommand" />
+
+      <Command Name="ScrollUpCommand" />
+      <Command Name="ScrollDownCommand" />
     </Locals>
+
     <Rules>
+
       <Default Target="[ScrollingHandler.ScrollingData]" Value="[MovieScrollingData]"/>
-      <Default Target="[IMDBRating.Content]" Value="[FolderItem.IMDBRatingString]">
-      </Default>
-      <Changed InitialEvaluate="true" Source="[FolderItem.IMDBRating]">
-        <Conditions>
-          <Equality ConditionOp="GreaterThan" Source="[FolderItem.IMDBRating]" Value="0"></Equality>
-        </Conditions>
+      <Default Target="[IMDBRating.Content]" Value="[FolderItem.IMDBRatingString]" />
+
+      <Changed Source="[PlayMovieCommand.Invoked]">
         <Actions>
-          <Set Target="[Rating.Visible]" Value="true"></Set>
+          <Invoke Target="[Application.PlayMovie]" item="[FolderItem]"/>
         </Actions>
       </Changed>
+
+      <Changed Source="[ScrollUpCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[MovieScrollingData.ScrollUp]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[ScrollDownCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[MovieScrollingData.ScrollDown]"/>
+        </Actions>
+      </Changed>
+      
+
     </Rules>
-    
-		<Content>
-      <ColorFill Content="Black" Layout="Form">
+
+
+
+    <Content>
+      <ColorFill Content="Transparent" Layout="Form">
         <Children>
 
+          <!-- Play Movie Button-->
           <Panel Name="PlayMovie">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.8" Top="Parent,.8"   />
+              <FormLayoutInput Left="Parent,0,20" Top="Parent,.6"   />
             </LayoutInput>
             <Children>
-              <db:DetailsPageButton Application="[Application]" Text="Play Movie" FolderItem="[FolderItem]">
-              </db:DetailsPageButton>
+              <me:SimpleButton Text="Play Movie" Size="250,51" Command="[PlayMovieCommand]" />
             </Children>
           </Panel>
-          
+
+          <!-- Movie Title -->
           <Panel Name="MovieTitle">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.08" Top="Parent,.04"/>
             </LayoutInput>
             <Children>
-              <Text Content="[FolderItem.Description]"  Font="Segoe Media Center Semibold,32" Color="White"/>
+              <Text Content="[FolderItem.Description]"  Font="Segoe Media Center,32" Color="White"/>
             </Children>
           </Panel>
 
+          <!-- Cast (Actors) -->
           <Panel Name="MovieActors" Layout="VerticalFlow">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.08" Top="Parent,.12" Right="Parent,.9" Bottom="Parent,.36"/>
+              <FormLayoutInput Left="Parent,.55" Top="Parent,.11" Right="Parent,.9" Bottom="Parent,.55"/>
             </LayoutInput>
             <Children>
-              <Panel Layout="HorizontalFlow">
-                <Children>
-                  <Text Font="Segoe Media Center Semibold,20" Color="LightBlue" Content="Directed By: "/>
-                  <Text Font="Segoe Media Center,20" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
-                </Children>
-              </Panel>
+              <Text Font="Segoe Media Center,20" Color="color://me:MediumBlue" Content="Cast..."/>
 
               <Scroller>
                 <Children>
                   <Repeater Name="ListRepeater" Source="[FolderItem.Movie.Actors]">
                     <Layout>
-                      <GridLayout Orientation="Vertical" AllowWrap="false" ReferenceSize="800,35"/>
+                      <GridLayout Orientation="Vertical" AllowWrap="false" ReferenceSize="800,52"/>
                     </Layout>
                     <Content>
-                      <Text Font="Segoe Media Center,20" Color="White" Content="[RepeatedItem.ToString]"/>
+                      <me:SimpleButton Text="[RepeatedItem.ToString]" Size="400,45" Command="[ActorCommand]"
+                                       Font="Segoe Media Center,18"/>
+                      <!--<Text Font="Segoe Media Center,20" Color="White" Content="[RepeatedItem.ToString]"/>-->
                     </Content>
                   </Repeater>
                 </Children>
@@ -87,67 +105,84 @@
             </Children>
           </Panel>
 
-
-       
-          <Panel Name="RunningTime" Layout="HorizontalFlow">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.08" Top="Parent,.85"/>
-            </LayoutInput>
-            <Children>
-              <Text Content="[FolderItem.Movie.ProductionYearString]"  Font="Segoe Media Center Semibold,20" Color="LightBlue"/>
-              <Text Content="  Runtime: "  Font="Segoe Media Center Semibold,20" Color="White"/>
-              <Text Content="[FolderItem.Movie.RunningTimeString]"  Font="Segoe Media Center Semibold,20" Color="White"/>
-              <Text Content="mins"  Font="Segoe Media Center Semibold,20" Color="White" />
-            </Children>
-          </Panel>
-
-      
-          
-
-          <ColorFill Name="Background" Content="30,255,255,255" MouseInteractive="true"
+          <!-- Plot Summary / Description -->
+          <!--<ColorFill Name="Background" Content="30,255,255,255" MouseInteractive="true"
                      Padding="10,20,10,20"  >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.07" Top="Parent,.41" Right="Parent,.70" Bottom="Parent,.80"/>
+              <FormLayoutInput Left="Parent,.25" Top="Parent,.52" Right="Parent,.80" Bottom="Parent,.80"/>
             </LayoutInput>
-            
             <Children>
 
               <Panel Name="MovieDescription">
-                
                 <Children>
-                  <Scroller Orientation="Vertical" ScrollingData="[MovieScrollingData]" FadeSize="-30">
+
+                  <Scroller Orientation="Vertical" ScrollingData="[MovieScrollingData]" FadeSize="-20">
                     <Children>
-                      <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true" Font="Segoe Media Center,22" />
+                      <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true" 
+                            Font="Segoe Media Center,20" />
                     </Children>
+                    <Animations>
+                      <Animation Animation="animation://me:ScrollerMoveItemSmooth" />
+                    </Animations>
                   </Scroller>
+
                 </Children>
               </Panel>
             </Children>
-          </ColorFill>
+          </ColorFill>-->
 
-          <Panel>
+          <Panel Name="Background" MouseInteractive="true"
+                       >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.71" Top="Parent,.41"/>
+              <FormLayoutInput Left="Parent,.25" Top="Parent,.52" Right="Parent,.80" Bottom="Parent,.80"/>
             </LayoutInput>
             <Children>
-              <gb:GraphicButton Application="[Application]" SelectionImage="[UpButton]" Scroller="[MovieScrollingData]" Direction="Up"></gb:GraphicButton>
+
+                  <Scroller Orientation="Vertical" Padding="10,20,10,20" ScrollingData="[MovieScrollingData]" FadeSize="-20">
+                    <Children>
+                      <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true"
+                            Font="Segoe Media Center,20" />
+                    </Children>
+                    <Animations>
+                      <Animation Animation="animation://me:ScrollerMoveItemSmooth" />
+                    </Animations>
+                  </Scroller>
+
+                  <ColorFill Name="Backgrgfound" Content="30,255,255,255" MouseInteractive="true"
+                  Padding="10,20,10,20"  Alpha="0.6" >
+
+                  </ColorFill>
+              
+            </Children>
+          </Panel>
+
+          
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.81" Top="Parent,.52"/>
+            </LayoutInput>
+            <Children>
+              <me:SimpleButton Text="˄" Size="50,50" Command="[ScrollUpCommand]" />
+              <!--<me:GraphicButton Application="[Application]" SelectionImage="[UpButton]" Scroller="[MovieScrollingData]" 
+                                Direction="Up" />-->
             </Children>
           </Panel>
 
           <Panel>
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.71" Top="Parent,.76"/>
+              <FormLayoutInput Left="Parent,.81" Bottom="Parent,.80"/>
             </LayoutInput>
             <Children>
-              <gb:GraphicButton Application="[Application]" SelectionImage="[DownButton]" Scroller="[MovieScrollingData]" Direction="Down"></gb:GraphicButton>
+              <me:SimpleButton Text="˅" Size="50,50" Command="[ScrollDownCommand]" />
+              <!--<me:GraphicButton Application="[Application]" SelectionImage="[DownButton]" Scroller="[MovieScrollingData]" 
+                                Direction="Down" />-->
             </Children>
           </Panel>
-          
 
-          
+          <!-- Poster Image -->
           <Panel Visible="true">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.78" Top="Parent,.08" Bottom="Parent,.5" Right="Parent,.97"></FormLayoutInput>
+              <FormLayoutInput Left="Parent,0,25" Top="Parent,.15" Bottom="Parent,.55" Right="Parent,.22"></FormLayoutInput>
             </LayoutInput>
             <Children>
               <Panel Layout="VerticalFlow">
@@ -165,28 +200,63 @@
             </Children>
           </Panel>
 
-          <Panel Name="Rating" Visible="false" >
+          <!-- Rating Details Panel -->
+          <Panel Name="Rating" Visible="true" >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.78" Top="Parent,.52" ></FormLayoutInput>
+              <FormLayoutInput Left="Parent,.25" Top="Parent,.15" ></FormLayoutInput>
             </LayoutInput>
             <Children>
-              <Panel Layout="HorizontalFlow">
+              <Panel Layout="VerticalFlow">
                 <Children>
-                  <Text Font="Segoe Media Center Semibold,18" Color="LightBlue" Content="IMDB Rating: "/>
-                  <Text Name="IMDBRating" Content="" Color="White" Font="Segoe Media Center Semibold,18"/>
+
+                  <Panel>
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" Spacing="10,0"/>
+                    </Layout>
+                    <Children>
+                      <Text Content="[FolderItem.Movie.ProductionYearString]"  Font="Segoe Media Center Semibold,18"
+                        Color="White"/>
+                      <me:StarRating Name="StarRating" Value="[FolderItem.IMDBRating]"/>
+                    </Children>
+                  </Panel>
+
+                  <Panel Margins="0,-5,0,0">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal"/>
+                    </Layout>
+                    <Children>
+                      <Text Font="Segoe Media Center,14" Color="White" Content="IMDB Rating: "/>
+                      <Text Name="IMDBRating" Content="" Color="White" Font="Segoe Media Center Semibold,14"/>
+                    </Children>
+                  </Panel>
+
+                  <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,16" Color="color://me:MediumBlue" Margins="0,10,0,0" />
+
+                  <Panel Layout="HorizontalFlow" Margins="0,10,0,0">
+                    <Children>
+                      <Text Font="Segoe Media Center,18" Color="White" Content="Directed By: "/>
+                      <Text Font="Segoe Media Center Semibold,18" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
+                    </Children>
+                  </Panel>
+
                 </Children>
               </Panel>
             </Children>
           </Panel>
 
-
+          <Graphic Content="image://me:Logo" MaintainAspectRatio="true" MaximumSize="100,100">
+            <LayoutInput>
+              <FormLayoutInput Right="Parent,1,-10" Top="Parent,0,10"/>
+            </LayoutInput>
+          </Graphic>
+          
+          <Graphic Content="image://me:Background" Layout="Fill"/>
 
         </Children>
       </ColorFill>
-			
-		</Content>
 
-	</UI>
+    </Content>
+  </UI>
 
 </Mcml>
 

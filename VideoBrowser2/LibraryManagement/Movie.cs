@@ -98,12 +98,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public string BackImage { get; private set; }
         public string FrontImage { get; private set; }
         public int ProductionYear { get; private set; }
-        public float IMDBRating { get; private set; } 
+        public float IMDBRating { get; set; } 
         public List<string> Genres { get; private set; }
         public List<string> Directors { get; private set; }
         public List<Actor> Actors { get; private set; }
 
-
+        
 
         public string RunningTimeString
         {

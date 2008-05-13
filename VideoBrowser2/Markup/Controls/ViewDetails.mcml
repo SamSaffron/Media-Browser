@@ -1,0 +1,145 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
+    xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
+	  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+    xmlns:me="Me">
+
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ListView"/>
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/StarRating"/>
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base"/>
+
+  <!-- Details view is the image + ItemDetailsBig + listview-->
+  <UI Name="ViewDetails">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
+      <lib:FolderItemContainer Name="SelectedItem"/>
+      <!-- introduce a 100 ms delay when displaying item cause it can take a while to render and i dont like slow scrolling -->
+      <Timer Name="MyTimer" AutoRepeat="true" Interval="100" Enabled="false"/>
+      <a:ListPage Name="Model" ListPage="$Required"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+    </Properties>
+
+    <Rules>
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[MyTimer.Enabled]" Value="true"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[MyTimer.Tick]">
+        <Actions>
+          <Set Target="[MyTimer.Enabled]" Value="false"/>
+          <Set Target="[Preview.Visible]" Value="true"/>
+          <Set Target="[Preview.Content]" Value="[SelectedItem.Value.MCMLThumb]"/>
+          <Set Target="[StarRating.Value]" Value="[SelectedItem.Value.IMDBRating]" />
+          <Set Target="[Runtime.Content]" Value="[SelectedItem.Value.RunningTimeString]"/>
+          <Set Target="[Title1.Content]" Value="[SelectedItem.Value.Title1]"/>
+          <Set Target="[Title2.Content]" Value="[SelectedItem.Value.Title2]"/>
+          <Set Target="[Summary.Content]" Value="[SelectedItem.Value.Overview]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[Preview.Visible]" Value="false"/>
+          <Set Target="[StarRating.Value]" Value="-1" />
+          <Set Target="[Runtime.Content]" Value=""/>
+          <Set Target="[Title1.Content]" Value=""/>
+          <Set Target="[Title2.Content]" Value=""/>
+          <Set Target="[Summary.Content]" Value=""/>
+        </Actions>
+      </Changed>
+
+    </Rules>
+
+    <Content>
+      <Panel Layout="Form">
+        <Children>
+
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0,10" Top="Parent,0" Right="Parent,.4"></FormLayoutInput>
+            </LayoutInput>
+            <Children>
+              <Panel >
+                <Layout>
+                  <FlowLayout Orientation="Vertical" Spacing="10,10"/>
+                </Layout>
+                <Children>
+
+                  <Panel>
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" Spacing="10,10"/>
+                    </Layout>
+                    <LayoutInput>
+                      <FormLayoutInput Bottom="Parent,.4" />
+                    </LayoutInput>
+                    <Children>
+
+                      <!-- Cover Art / Folder Art -->
+                      <Panel MinimumSize="250,0">
+                        <Children>
+                          <Graphic Name="Preview"  MaintainAspectRatio="true" MaximumSize="250,350" />
+                        </Children>
+                      </Panel>
+
+                      <!-- Star Rating / Duration -->
+                      <Panel>
+                        <Layout>
+                          <FlowLayout  Orientation="Vertical" Spacing="10,10"/>
+                        </Layout>
+                        <LayoutInput>
+                          <DockLayoutInput Position="Bottom"/>
+                        </LayoutInput>
+                        <Children>
+
+                          <me:StarRating Name="StarRating" />
+
+                          <Text Name="Runtime" Color="color://me:MediumBlue" WordWrap="true" Font="Segoe Media Center,14"
+                            Margins="0,0,0,0"/>
+
+                        </Children>
+                      </Panel>
+
+                    </Children>
+                  </Panel>
+
+                  <Text Name="Title1" Color="White" Font="Segoe Media Center Semibold,20"/>
+
+                  <Text Name="Title2" Color="White" Font="Segoe Media Center, 18" Margins="0,-5,0,0"/>
+
+                  <Panel MaximumSize="1000,140" Margins="0,5,0,0">
+                    <Children>
+                      <Text Name="Summary" Color="LightBlue" WordWrap="true" Font="Segoe Media Center,16"  Margins="0,-5,0,0"/>
+                    </Children>
+                  </Panel>
+
+
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+          <me:ListView Visible="true" Application="[Application]" FolderItems="[FolderItems]"
+                       FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" Name="MyItems">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent, .4" Right="Parent,1,-20" Top="Parent,0" Bottom="Parent,.77" />
+            </LayoutInput>
+          </me:ListView>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+ 
+
+</Mcml>

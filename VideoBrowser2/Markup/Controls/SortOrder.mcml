@@ -5,7 +5,8 @@
       xmlns:st="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
       xmlns:me="Me"
       >
-  
+
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/SortOrderItem"/>
 
   <UI Name="SortOrder">
 
@@ -29,7 +30,7 @@
             <Content>
               <Panel>
                 <Children>
-                  <s:SortOrderItem Description="[RepeatedItem!cor:String]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]"/>
+                  <me:SortOrderItem Description="[RepeatedItem!cor:String]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]"/>
                 </Children>
               </Panel>
             </Content>

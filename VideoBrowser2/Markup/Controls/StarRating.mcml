@@ -1,0 +1,298 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor ="assembly://mscorlib/System"
+      xmlns:proxy ="assembly://ehiProxy/ehiProxy"
+      xmlns:me = "Me"
+      >
+
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base" />
+
+  <UI Name="StarRating">
+    <Properties>
+      <cor:Single Name="Value" Single="0"/>
+
+    </Properties>
+    <Locals>
+      <Image Name="EmptyStar" Image="image://me:StarEmpty" />
+      <Image Name="HalfStar"  Image="image://me:StarHalf" />
+      <Image Name="FullStar"  Image="image://me:StarFull" />
+      
+      <cor:Int32 Name="Stars" Int32="0" />
+
+    </Locals>
+    <Rules>
+      <Binding Source="[Value]" Target="[Stars]">
+        <Transformer>
+          <MathTransformer Type="Int32" />
+        </Transformer>
+      </Binding>
+      
+      <Changed Source="[Value]">
+        <Actions>
+          <Set Target="[Stars0.Visible]"  Value="false" />
+          <Set Target="[Stars0h.Visible]" Value="false" />
+          <Set Target="[Stars1.Visible]"  Value="false" />
+          <Set Target="[Stars1h.Visible]" Value="false" />
+          <Set Target="[Stars2.Visible]"  Value="false" />
+          <Set Target="[Stars2h.Visible]" Value="false" />
+          <Set Target="[Stars3.Visible]"  Value="false" />
+          <Set Target="[Stars3h.Visible]" Value="false" />
+          <Set Target="[Stars4.Visible]"  Value="false" />
+          <Set Target="[Stars4h.Visible]" Value="false" />
+          <Set Target="[Stars5.Visible]"  Value="false" />
+          <Set Target="[Stars]" Value="[Value]">
+            <Transformer>
+              <MathTransformer Type="Int32" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars0.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="1"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars0h.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="2"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars1.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="3"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars1h.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="4"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars2.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="5"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars2h.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="6"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars3.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="7"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars3h.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="8"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars4.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="9"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars4h.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[Stars]" ConditionOp="Equals" Value="10"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Stars5.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+    </Rules>
+
+    <Content>
+      <Panel Layout="HorizontalFlow">
+        <Children>
+          <Panel>
+            <Children>
+              <Panel Name="Stars0" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars0h" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[HalfStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars1" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel  Name="Stars1h" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[HalfStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel  Name="Stars2" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars2h" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[HalfStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars3" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars3h" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[HalfStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars4" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[EmptyStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars4h" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[HalfStar]" />
+                </Children>
+              </Panel>
+
+              <Panel Name="Stars5" Visible="false">
+                <Layout>
+                  <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                  <Graphic Content="[FullStar]" />
+                </Children>
+              </Panel>
+
+            </Children>
+          </Panel>
+          
+          
+        </Children>
+      </Panel>
+
+    </Content>
+  </UI>
+</Mcml>

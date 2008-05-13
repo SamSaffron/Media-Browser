@@ -7,6 +7,13 @@
 
   <UI Name="ListView">
 
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
+      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
+    </Properties>
+
     <Locals>
       <!-- Use the MouseWheel handler to handle the mouse wheel.  -->
       <ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
@@ -17,12 +24,38 @@
       <TypingHandler Name="Typer" HandlerStage="Bubbled" MaxLength="3" TypingPolicy="Default"/>
 
       <Timer Name="ClearTripleTypeTimer" AutoRepeat="true" Interval="1000" Enabled="false"/>
+      <cor:Int32 Name="CounterValue" Int32="0" />
     </Locals>
 
     <Rules>
 
 
       <Binding Source="[Application.JILtext]" Target="[Typer.EditableText]"/>
+      <!-- Give ScrollingData to ScrollingHandler. -->
+      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
+
+      <!-- Give Repeater to ScrollingData. -->
+      <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
+
+      <!--`Bind the current number of Folder Items to the List Total -->
+      <Binding Source="[FocusedIndex.Value]" Target="[CounterValue]" >
+        <Transformer>
+          <MathTransformer Add="1" />
+        </Transformer>
+      </Binding>
+      <Binding Source="[CounterValue]" Target="[List_Counter.Content]" >
+        <Transformer>
+          <FormatTransformer Format="{0} "/>
+        </Transformer>
+      </Binding>
+
+      <!--`Bind the current number of Folder Items to the List Total -->
+      <Binding Source="[FolderItems.Count]" Target="[List_Total.Content]" >
+        <Transformer>
+          <FormatTransformer Format="| {0}" />
+        </Transformer>
+      </Binding>
+
 
       <Changed Source="[Application.JILtext.Value]">
         <Conditions>
@@ -44,16 +77,11 @@
         </Actions>
       </Changed>
 
-
-
       <Changed Source="[Application.JILindex]">
         <Actions>
-
           <Invoke Target="[ScrollingData.Scroll]" amount="[Application.JILindex]"/>
         </Actions>
       </Changed>
-
-
 
       <!-- Fix up the navigation so always the first item is selected-->
       <Rule ConditionLogicalOp="And">
@@ -61,7 +89,6 @@
           <Modified Source="[Application]" InitialEvaluate="true"/>
           <Equality Source="[Application.NavigatingForward]" Value="true"/>
         </Conditions>
-
         <Actions>
           <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
         </Actions>
@@ -73,33 +100,60 @@
         </Actions>
       </Changed>
 
-      <!-- Give ScrollingData to ScrollingHandler. -->
-      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
-
-      <!-- Give Repeater to ScrollingData. -->
-      <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
-
     </Rules>
 
 
-    <Properties>
-      <a:Application Name="Application" Application="$Required"/>
-      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
-    </Properties>
+
 
 
     <Content>
-      <Scroller Orientation="Vertical" FadeSize="-5" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
+      <Panel Layout="Dock">
         <Children>
-          <Repeater Source="[FolderItems]" Name="MyRepeater" ContentName="BaseItem">
-            <Layout>
-              <FlowLayout Orientation="Vertical" Spacing="4,0"/>
-            </Layout>
-          </Repeater>
+
+          <Panel>
+            <LayoutInput>
+              <DockLayoutInput Position="Left" Alignment="Near"  />
+            </LayoutInput>
+            <Children>
+              <ColorFill Content="White" Alpha=".8" MinimumSize="1,440" Margins="15,10,5,10" />
+            </Children>
+          </Panel>
+
+          <Panel>
+            <LayoutInput>
+              <DockLayoutInput Alignment="Far" Position="Bottom"  />
+            </LayoutInput>
+            <Children>
+              <Panel Layout="HorizontalFlow" >
+                <Children>
+                  <Text Name="List_Counter" Content="2" Color="White" Font="Segoe Media Center, 20, Bold" />
+                  <Text Name="List_Total" Content="45" Color="LightBlue" Font="Segoe Media Center, 20" Margins="0,0,255,0" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+
+          <Scroller Orientation="Vertical" FadeSize="-5" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
+            <LayoutInput>
+              <DockLayoutInput Alignment="Fill"  Position="Right"  />
+            </LayoutInput>
+            <Children>
+              <Repeater Source="[FolderItems]" Layout="Fill" Name="MyRepeater" ContentName="BaseItem">
+                <Layout>
+                  <FlowLayout Orientation="Vertical"  ItemAlignment="Far" Spacing="4,0"/>
+                </Layout>
+              </Repeater>
+            </Children>
+          </Scroller>
+          
+         
+        
         </Children>
-      </Scroller>
+      </Panel>
+
+
+
     </Content>
     <Content Name="BaseItem">
       <r:RepeatItem Application="[Application]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]" Model="[RepeatedItem!lib:FolderItem]" SelectedItem="[SelectedItem]">

@@ -277,6 +277,21 @@ namespace SamSoft.VideoBrowser
             NavigateToPath(Helper.MyVideosPath); 
         }
 
+        private Boolean PlayStartupAnimation = true;
+
+        public Boolean CanPlayStartup()
+        {
+            if (PlayStartupAnimation)
+            {
+                PlayStartupAnimation = false;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         public void PlayMovie(FolderItem item)
         {
