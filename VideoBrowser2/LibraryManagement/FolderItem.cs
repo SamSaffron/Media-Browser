@@ -293,18 +293,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 } 
 
                 if (!thumbLoaded)
-                {
-                    thumbPath = Helper.GetThumb(filename,IsFolder);
-                    thumbLoaded = true; 
+                { 
+                    var tp = Helper.GetThumb(filename,IsFolder);
+                    thumbLoaded = true;
+                    if (!string.IsNullOrEmpty(tp))
+                    {
+                        thumbPath = tp; 
+                    }
                 }
 
                 if (thumbPath == null && !metadataLoaded)
                 {
                     LoadMetadata();
-                    if (_tvshow != null && !String.IsNullOrEmpty(_tvshow.ThumbPath))
-                    {
-                        thumbPath = _tvshow.ThumbPath;
-                    }
                 } 
 
                 return thumbPath; 

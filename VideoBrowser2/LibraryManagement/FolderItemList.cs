@@ -30,7 +30,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         string _cacheKey = null;
         private bool _data_is_cached = false;
         private System.Threading.ManualResetEvent _populatedRealItems = new ManualResetEvent(false); 
-        List<FolderItem> _realItems; 
+        List<FolderItem> _realItems;
+
+        FolderItemListPrefs _prefs; 
 
         static FolderItemList()
         {
@@ -99,16 +101,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             try
             {
                 // look up to see if the filename is there 
-                string xml = System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey));
-                if (System.IO.File.Exists(xml))
+                string xmlPath = System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey));
+                if (System.IO.File.Exists(xmlPath))
                 {
                     // yay a cache hit. 
                     XmlDocument doc = new XmlDocument();
-                    doc.Load(xml);
+                    doc.Load(xmlPath);
                     var rval = new List<CachedFolderItem>(); 
                     foreach (XmlElement elem in doc.SelectNodes("Items/Item"))
                     {
-                        rval.Add(new CachedFolderItem(elem, CacheKey));
+                        rval.Add(new CachedFolderItem(elem, CacheKey, this));
                     }
                     return rval;
                 }
@@ -177,7 +179,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
 
-            Sort(SortOrderEnum.Name);
+            _prefs = new FolderItemListPrefs(CacheKey); 
+            Sort(_prefs.SortOrder);
 
             Changed();
         }
@@ -221,7 +224,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
 
-            Sort(SortOrderEnum.Name);
+            _prefs = new FolderItemListPrefs(CacheKey); 
+            Sort(_prefs.SortOrder);
             Changed();
         }
 
@@ -406,6 +410,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             lock (this)
             {
+                if (_prefs != null)
+                {
+                    _prefs.SortOrder = sortOrderEnum;
+                    _prefs.Save();
+                }
+
                 if (sortOrderEnum == SortOrderEnum.Genre)
                 {
                     if (nonGenreList == null)
@@ -639,104 +649,138 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     return;
                 }
 
-                // save this in a cache file ... 
-                MemoryStream ms = new MemoryStream();
-                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Items");
-                foreach (BaseFolderItem item in itemsToCache.Values)
-                {
-                    writer.WriteStartElement("Item");
-                    writer.WriteElementString("Filename", item.Filename);
-                    writer.WriteElementString("IsFolder", item.IsFolder.ToString());
-                    writer.WriteElementString("IsVideo", item.IsVideo.ToString());
-                    writer.WriteElementString("IsMovie", item.IsMovie.ToString());
-                    writer.WriteElementString("Description", item.Description);
-                    if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
-                    {
-                        writer.WriteElementString("ThumbHash", item.ThumbHash);
-                    }
-                    writer.WriteElementString("Title1", item.Title1);
-                    writer.WriteElementString("Title2", item.Title2);
-                    writer.WriteElementString("Overview", item.Overview);
-                    if (item.IsMovie)
-                    {
-                        writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
-                        writer.WriteElementString("RunningTime", item.RunningTime.ToString()); 
-                    }
-                    if (item.IsMovie && item.Genres.Count > 0)
-                    {
-                        writer.WriteStartElement("Genres");
-                        foreach (var genre in item.Genres)
-                        {
-                            writer.WriteElementString("Genre", genre);
-                        }
-                        writer.WriteEndElement();
-                    }
-                    writer.WriteStartElement("CreatedDate");
-                    writer.WriteValue(item.CreatedDate);
-                    writer.WriteEndElement();
-                    writer.WriteStartElement("ModifiedDate");
-                    writer.WriteValue(item.ModifiedDate);
-                    writer.WriteEndElement();
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-                writer.Close();
-                ms.Flush();
-
-                File.WriteAllBytes(System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey)), ms.ToArray()); 
-            
-                // cache images
-                string imagePath = System.IO.Path.Combine(Helper.AppDataPath, CacheKey);
-
-                // ensure its there 
-                if (!Directory.Exists(imagePath))
-                {
-                    Directory.CreateDirectory(imagePath);
-                }
-
-                Dictionary<string, bool> cachedImages = new Dictionary<string, bool>();
-
-                foreach (var filename in Directory.GetFiles(imagePath))
-	            {
-                    cachedImages[System.IO.Path.GetFileName(filename)] = false;
-	            }
-
-                
-                foreach (object o in this)
-                {
-                    FolderItem item = o as FolderItem;
-
-                    if (item != null)
-                    {
-                        if (!String.IsNullOrEmpty(item.ThumbPath))
-                        {
-                            string key = item.ThumbHash;
-
-                            if (!cachedImages.ContainsKey(key))
-                            {
-                                System.IO.File.Copy(item.ThumbPath, System.IO.Path.Combine(imagePath, key));
-                            }
-                            cachedImages[key] = true;
-                        }
-                    }
-                }
-
-                foreach (var item in cachedImages)
-                {
-                    if (item.Value == false)
-                    {
-                        File.Delete(System.IO.Path.Combine(imagePath, item.Key)); 
-                    }
-                }
+                CacheImages();
+                CacheFolderXml(itemsToCache);
 
             }
             catch(Exception e)
             { 
                 // forget about it its only the cache (could be collection modified cause we did a sort)
                 Trace.WriteLine("Caching failed!!! " + e.ToString()); 
+            }
+        }
+
+        // this is called if the cache is corrupt some how. 
+        public void DestroyCache()
+        {
+            lock (this)
+            {
+                try 
+                {
+                    File.Delete(CacheXmlPath);
+                }
+                catch
+                {
+                    // well at least we tried 
+                }
+            } 
+        }
+
+        private void CacheImages()
+        {
+            // cache images
+            string imagePath = System.IO.Path.Combine(Helper.AppDataPath, CacheKey);
+
+            // ensure its there 
+            if (!Directory.Exists(imagePath))
+            {
+                Directory.CreateDirectory(imagePath);
+            }
+
+            Dictionary<string, bool> cachedImages = new Dictionary<string, bool>();
+
+            foreach (var filename in Directory.GetFiles(imagePath))
+            {
+                cachedImages[System.IO.Path.GetFileName(filename)] = false;
+            }
+
+
+            foreach (object o in this)
+            {
+                FolderItem item = o as FolderItem;
+
+                if (item != null)
+                {
+                    if (!String.IsNullOrEmpty(item.ThumbPath))
+                    {
+                        string key = item.ThumbHash;
+
+                        if (!cachedImages.ContainsKey(key))
+                        {
+                            System.IO.File.Copy(item.ThumbPath, System.IO.Path.Combine(imagePath, key));
+                        }
+                        cachedImages[key] = true;
+                    }
+                }
+            }
+
+            foreach (var item in cachedImages)
+            {
+                if (item.Value == false)
+                {
+                    File.Delete(System.IO.Path.Combine(imagePath, item.Key));
+                }
+            }
+        }
+
+        private void CacheFolderXml(Dictionary<string, BaseFolderItem> itemsToCache)
+        {
+            // save this in a cache file ... 
+            MemoryStream ms = new MemoryStream();
+            XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Items");
+            foreach (BaseFolderItem item in itemsToCache.Values)
+            {
+                writer.WriteStartElement("Item");
+                writer.WriteElementString("Filename", item.Filename);
+                writer.WriteElementString("IsFolder", item.IsFolder.ToString());
+                writer.WriteElementString("IsVideo", item.IsVideo.ToString());
+                writer.WriteElementString("IsMovie", item.IsMovie.ToString());
+                writer.WriteElementString("Description", item.Description);
+                if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
+                {
+                    writer.WriteElementString("ThumbHash", item.ThumbHash);
+                }
+                writer.WriteElementString("Title1", item.Title1);
+                writer.WriteElementString("Title2", item.Title2);
+                writer.WriteElementString("Overview", item.Overview);
+                if (item.IsMovie)
+                {
+                    writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
+                    writer.WriteElementString("RunningTime", item.RunningTime.ToString());
+                }
+                if (item.IsMovie && item.Genres.Count > 0)
+                {
+                    writer.WriteStartElement("Genres");
+                    foreach (var genre in item.Genres)
+                    {
+                        writer.WriteElementString("Genre", genre);
+                    }
+                    writer.WriteEndElement();
+                }
+                writer.WriteStartElement("CreatedDate");
+                writer.WriteValue(item.CreatedDate);
+                writer.WriteEndElement();
+                writer.WriteStartElement("ModifiedDate");
+                writer.WriteValue(item.ModifiedDate);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+            ms.Flush();
+
+            File.WriteAllBytes(CacheXmlPath, ms.ToArray());
+
+        }
+
+        private string CacheXmlPath
+        {
+            get
+            {
+                return System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey));
             }
         }
 

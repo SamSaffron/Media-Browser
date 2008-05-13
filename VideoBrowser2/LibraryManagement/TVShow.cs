@@ -60,8 +60,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             var p = metadataDoc.SafeGetString("Item/filename");
             if (p.Length > 0)
             {
-                // TODO : check for file? 
-                ThumbPath = System.IO.Path.Combine(path, System.IO.Path.GetFileName(p));
+                ThumbPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), System.IO.Path.GetFileName(p));
+                if (!System.IO.File.Exists(ThumbPath))
+                {
+                    ThumbPath = null;
+                }
             }
 
             Overview = metadataDoc.SafeGetString("Item/Overview");

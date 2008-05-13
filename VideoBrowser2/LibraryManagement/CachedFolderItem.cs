@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using Microsoft.MediaCenter.UI;
+using System.IO;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -30,13 +31,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     // This class is used for the xml caching stuff 
     public class CachedFolderItem : BaseFolderItem
     {
+        FolderItemList parent; 
+
         // needed for mcml 
         public CachedFolderItem()
         { }
 
         // load the item from the element
-        public CachedFolderItem(XmlElement elem, string folderHash)
+        public CachedFolderItem(XmlElement elem, string folderHash, FolderItemList parent)
         {
+            this.parent = parent;
             this.folderHash = folderHash;
             filename = elem.SafeGetString("Filename");
             Description = elem.SafeGetString("Description");
@@ -122,17 +126,31 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public override DateTime ModifiedDate { get { return modifiedDate; } }
 
 
+        Image image = null; 
         public override Microsoft.MediaCenter.UI.Image MCMLThumb
         {
             get 
             {
-                string path = "";
-                if (!string.IsNullOrEmpty(ThumbHash))
+                if (image == null)
                 {
-                    path = System.IO.Path.Combine(Helper.AppDataPath, folderHash);
-                    path = System.IO.Path.Combine(path, ThumbHash); 
+                    string path = "";
+                    if (!string.IsNullOrEmpty(ThumbHash))
+                    {
+                        path = System.IO.Path.Combine(Helper.AppDataPath, folderHash);
+                        path = System.IO.Path.Combine(path, ThumbHash);
+
+                        if (!File.Exists(path))
+                        {
+                            parent.DestroyCache();
+                            // this should have existed but is not there ... 
+                            var realItem = new FolderItem(Filename, IsFolder, Description);
+                            image = realItem.MCMLThumb;
+                            return image; 
+                        }
+                    }
+                    image = Helper.GetMCMLThumb(path, IsVideo);
                 }
-                return Helper.GetMCMLThumb(path, IsVideo);
+                return image; 
             }
         }
 
