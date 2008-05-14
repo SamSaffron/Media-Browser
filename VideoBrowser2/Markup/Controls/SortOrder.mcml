@@ -5,7 +5,7 @@
       xmlns:st="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
       xmlns:me="Me"
       >
-
+  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base"/>
   <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/SortOrderItem"/>
 
   <UI Name="SortOrder">
@@ -51,7 +51,7 @@
       <Image Name="LinesImage" Image="image://st:Lines"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
       <Image Name="Image" Image="null"/>
-      <Image Name="FocusImage" Image="image://st:ButtonSelection"/>
+      <Image Name="FocusImage" Image="image://st:ButtonSelection" />
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker"/>
@@ -66,6 +66,7 @@
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[Background.Content]" Value="[FocusImage]"/>
+          <Set Target="[Label.Color]" Value="White"/>
         </Actions>
       </Condition>
 
@@ -99,7 +100,7 @@
           <Panel Layout="HorizontalFlow">
             <Children>
               <Graphic Content="[LinesImage]" Margins="0,12,7,0" MaximumSize="13,13"></Graphic>
-              <Text Content="view" Color="LightBlue" Font="Segoe Media Center Semibold,20"/>
+              <Text Name="Label" Content="view" Color="color://me:MediumBlue" Font="Segoe Media Center Semibold,20"/>
             </Children>
           </Panel>
         </Children>

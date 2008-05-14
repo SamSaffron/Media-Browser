@@ -23,6 +23,7 @@
       <!-- and triple tap for tripletap navigation -->
       <TypingHandler Name="Typer" HandlerStage="Bubbled" MaxLength="3" TypingPolicy="Default"/>
 
+      <Timer Name="PreLoadTimer" AutoRepeat="true" Interval="300" Enabled="true"/>
       <Timer Name="ClearTripleTypeTimer" AutoRepeat="true" Interval="1000" Enabled="false"/>
       <cor:Int32 Name="CounterValue" Int32="0" />
     </Locals>
@@ -55,7 +56,17 @@
           <FormatTransformer Format="| {0}" />
         </Transformer>
       </Binding>
-
+      
+      <!-- 
+      <Rule>
+        <Conditions>
+          <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[Scroller.NavigateInto]" />
+        </Actions>
+      </Rule>
+-->
 
       <Changed Source="[Application.JILtext.Value]">
         <Conditions>
@@ -77,13 +88,23 @@
         </Actions>
       </Changed>
 
+      <Changed Source="[PreLoadTimer.Tick]">
+        <Conditions>
+          <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
+          <Set Target="[PreLoadTimer.Enabled]" Value="false"/>
+        </Actions>
+      </Changed>
+
       <Changed Source="[Application.JILindex]">
         <Actions>
           <Invoke Target="[ScrollingData.Scroll]" amount="[Application.JILindex]"/>
         </Actions>
       </Changed>
 
-      <!-- Fix up the navigation so always the first item is selected-->
+      <!-- Fix up the navigation so always the first item is selected
       <Rule ConditionLogicalOp="And">
         <Conditions>
           <Modified Source="[Application]" InitialEvaluate="true"/>
@@ -93,7 +114,7 @@
           <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
         </Actions>
       </Rule>
-
+-->
       <Changed Source="[Application]" InitialEvaluate="true">
         <Actions>
           <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val ="50" />
@@ -124,7 +145,7 @@
               <DockLayoutInput Alignment="Far" Position="Bottom"  />
             </LayoutInput>
             <Children>
-              <Panel Layout="HorizontalFlow" >
+              <Panel Layout="HorizontalFlow" Margins="0,5,0,0" >
                 <Children>
                   <Text Name="List_Counter" Content="2" Color="White" Font="Segoe Media Center, 20, Bold" />
                   <Text Name="List_Total" Content="45" Color="LightBlue" Font="Segoe Media Center, 20" Margins="0,0,255,0" />
@@ -134,14 +155,14 @@
           </Panel>
 
 
-          <Scroller Orientation="Vertical" FadeSize="-5" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
+          <Scroller Orientation="Vertical" FadeSize="-5" Margins="15,0,0,0" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
             <LayoutInput>
-              <DockLayoutInput Alignment="Fill"  Position="Right"  />
+              <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>
             <Children>
               <Repeater Source="[FolderItems]" Layout="Fill" Name="MyRepeater" ContentName="BaseItem">
                 <Layout>
-                  <FlowLayout Orientation="Vertical"  ItemAlignment="Far" Spacing="4,0"/>
+                  <FlowLayout Orientation="Vertical"  ItemAlignment="Center" Spacing="4,0"/>
                 </Layout>
               </Repeater>
             </Children>

@@ -243,14 +243,8 @@
               </Panel>
             </Children>
           </Panel>
-
-          <Graphic Content="image://me:Logo" MaintainAspectRatio="true" MaximumSize="100,100">
-            <LayoutInput>
-              <FormLayoutInput Right="Parent,1,-10" Top="Parent,0,10"/>
-            </LayoutInput>
-          </Graphic>
           
-          <Graphic Content="image://me:Background" Layout="Fill"/>
+          <Graphic Content="image://me:Background" Margins="-20,-20,-20,-20" Layout="Fill"/>
 
         </Children>
       </ColorFill>

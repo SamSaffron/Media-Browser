@@ -131,7 +131,7 @@
           <me:ListView Visible="true" Application="[Application]" FolderItems="[FolderItems]"
                        FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" Name="MyItems">
             <LayoutInput>
-              <FormLayoutInput Left="Parent, .4" Right="Parent,1,-20" Top="Parent,0" Bottom="Parent,.77" />
+              <FormLayoutInput Left="Parent, .4" Right="Parent,1,-20" Top="Parent,0" Bottom="Parent,.79" />
             </LayoutInput>
           </me:ListView>
 
