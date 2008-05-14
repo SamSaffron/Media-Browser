@@ -23,12 +23,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     XmlDocument doc = new XmlDocument();
                     doc.Load(filename);
                     _sortOrder = (SortOrderEnum)(Int32.Parse(doc.SelectSingleNode("Prefs/SortOrder").InnerText));
+                    _viewIndex = (Int32.Parse(doc.SelectSingleNode("Prefs/ViewIndex").InnerText));
                 }
             }
             catch
             {
                 // corrupt pref file, not a big deal
                 Trace.WriteLine("Error reading pref file");
+            }
+        }
+
+        int _viewIndex;
+        public int ViewIndex
+        {
+            get 
+            {
+                return _viewIndex;
+            }
+            set
+            {
+                _viewIndex = value;
             }
         }
 
@@ -56,6 +70,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Prefs");
                 writer.WriteElementString("SortOrder", ((int)SortOrder).ToString());
+                writer.WriteElementString("ViewIndex", ((int)ViewIndex).ToString());
                 writer.WriteEndElement();
                 writer.Close();
                 ms.Flush();

@@ -419,7 +419,7 @@ namespace SamSoft.VideoBrowser
             Dictionary<string, object> properties = new Dictionary<string, object>();
             properties["Application"] = this;
             properties["FolderItems"] = items;
-            properties["Model"] = new ListPage();
+            properties["Model"] = new ListPage(items);
 
             if (session != null)
             {

@@ -96,6 +96,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        public abstract string ThumbPath
+        {
+            get;
+            set;
+        }
+
         #endregion
     }
 }

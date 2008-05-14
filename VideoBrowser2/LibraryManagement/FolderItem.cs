@@ -270,7 +270,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             } 
         } 
 
-        public string ThumbPath 
+        public override string ThumbPath 
         {
             set
             {

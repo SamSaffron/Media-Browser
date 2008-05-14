@@ -17,7 +17,6 @@
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>   
       <IntRangedValue Name="FocusedIndex" MinValue ="-1" MaxValue="9999"/>
       <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
-      <IntRangedValue Name="ViewIndex" MinValue="0" MaxValue="1"/>
       <lib:FolderItemContainer Name="SelectedItem"/>
     </Properties>
 
@@ -114,9 +113,9 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[ViewIndex.Value]" InitialEvaluate="true">
+      <Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value ="0"></Equality>
+          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value ="0"></Equality>
         </Conditions>
         <Actions>
           <Set Target="[PosterView.Visible]" Value="false"/>
@@ -124,9 +123,9 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[ViewIndex.Value]" InitialEvaluate="true">
+      <Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="1"></Equality>
+          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="1"></Equality>
         </Conditions>
         <Actions>
           <Set Target="[PosterView.Visible]" Value="true"/>
@@ -189,7 +188,7 @@
           
 
           <!-- Sort Order Controls -->
-          <me:SortOrder Name="SortOrderUI" ViewIndex="[ViewIndex]" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" 
+          <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" 
                         Model="[Model]">
             <LayoutInput>
               <FormLayoutInput Right="Parent,1,-150" Top="Parent,0,15"  Bottom="Parent,.20"/>

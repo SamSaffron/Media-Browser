@@ -137,24 +137,39 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (image == null)
                 {
+                    image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
+                }
+                return image; 
+            }
+        }
+
+        private string _thumbPath = null; 
+        public override string ThumbPath
+        {
+            get
+            {
+                if (_thumbPath == null)
+                {
                     string path = "";
                     if (!string.IsNullOrEmpty(ThumbHash))
                     {
                         path = System.IO.Path.Combine(Helper.AppDataPath, folderHash);
                         path = System.IO.Path.Combine(path, ThumbHash);
-
                         if (!File.Exists(path))
                         {
                             parent.DestroyCache();
-                            // this should have existed but is not there ... 
                             var realItem = new FolderItem(Filename, IsFolder, Description);
-                            image = realItem.MCMLThumb;
-                            return image; 
+                            path = realItem.ThumbPath;
                         }
+
+                        _thumbPath = path;
                     }
-                    image = Helper.GetMCMLThumb(path, IsVideo);
                 }
-                return image; 
+                return _thumbPath;
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
 

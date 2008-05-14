@@ -12,6 +12,7 @@ using System.Collections;
 using System.Xml;
 using System.IO.IsolatedStorage;
 using System.Security.Cryptography;
+using System.Drawing;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -60,6 +61,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public override string ToString()
         {
             return _path;
+        }
+
+        public FolderItemListPrefs Prefs
+        {
+            get
+            {
+                return _prefs;
+            }
         }
 
         /*
@@ -399,21 +408,24 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get { return _path; }
         }
 
-       // public string ParentPath
-       // {
-       //     get { return ParentPath; }
-      //  }
+        public List<BaseFolderItem> nonGenreList;
 
-        public List<BaseFolderItem> nonGenreList; 
+        public SortOrderEnum SortOrder { get; set; } 
 
         public void Sort(SortOrderEnum sortOrderEnum)
         {
             lock (this)
             {
+                SortOrder = sortOrderEnum;
                 if (_prefs != null)
                 {
                     _prefs.SortOrder = sortOrderEnum;
                     _prefs.Save();
+                }
+
+                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime)
+                {
+                    AddGenreAndRuntimeSort();
                 }
 
                 if (sortOrderEnum == SortOrderEnum.Genre)
@@ -500,6 +512,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             Changed();
         }
+
+        /// <summary>
+        /// Return the height / width of the first image in the folder
+        /// </summary>
+        public float ThumbAspectRatio
+        {
+            get
+            {
+                foreach (BaseFolderItem item in this)
+                {
+                    if (!string.IsNullOrEmpty(item.ThumbPath))
+                    {
+                        Image image = new Bitmap(item.ThumbPath);
+                        return ((float)image.Height) / ((float)image.Width);
+                    }
+                }
+                return 1; 
+            }
+        }
+
 
         private List<string> sortOrders; 
         public List<string> SortOrders
@@ -821,9 +853,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private void AddGenreAndRuntimeSort()
         {
-            sortOrders.Add("by genre");
-            sortOrders.Add("by runtime");
-            if (OnSortOrdersChanged != null) OnSortOrdersChanged();
+            if (this.sortOrders.Count == 2)
+            {
+                sortOrders.Add("by genre");
+                sortOrders.Add("by runtime");
+                if (OnSortOrdersChanged != null) OnSortOrdersChanged();
+            }
         }
 
         // used for genre stuff 

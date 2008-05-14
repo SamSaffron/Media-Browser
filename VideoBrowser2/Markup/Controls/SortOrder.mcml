@@ -14,23 +14,29 @@
       <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
       <ArrayListDataSet Name="List" ArrayListDataSet="$Required"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
-      <IntRangedValue Name="ViewIndex" IntRangedValue="$Required"/>
     </Properties>
 
     <Rules>
       <Binding Source="[Input.DeepKeyFocus]" Target="[Model.SortOrderHasFocus]"/>
+
+      <Changed Source="[Model.SortOrder]" InitialEvaluate="true">
+        <Actions>
+          <Invoke Target="[MyRepeater.NavigateIntoIndex]" index="[Model.SortOrderInt]"></Invoke>
+        </Actions>
+      </Changed>
+      
     </Rules>
 
     <Content>
       <Panel Layout="HorizontalFlow">
         <Children>
-          <me:ViewSelector ViewIndex="[ViewIndex]"/>
+          <me:ViewSelector Model="[Model]"/>
           <Text Content=" "></Text>
-          <Repeater Source="[List]" Layout="HorizontalFlow">
+          <Repeater Name="MyRepeater" Source="[List]" Layout="HorizontalFlow" Navigation="RememberFocus">
             <Content>
               <Panel>
                 <Children>
-                  <me:SortOrderItem Description="[RepeatedItem!cor:String]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]"/>
+                  <me:SortOrderItem Description="[RepeatedItem!cor:String]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]" Model="[Model]"/>
                 </Children>
               </Panel>
             </Content>
@@ -43,7 +49,7 @@
   <UI Name="ViewSelector">
     <Properties>
       <Image Name="LinesImage" Image="image://st:Lines"/>
-      <IntRangedValue Name="ViewIndex" IntRangedValue="$Required"/>
+      <a:ListPage Name="Model" ListPage="$Required"/>
       <Image Name="Image" Image="null"/>
       <Image Name="FocusImage" Image="image://st:ButtonSelection"/>
     </Properties>
@@ -71,18 +77,18 @@
 
       <Changed Source="[Clicker.Invoked]">
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="0"></Equality>
+          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="0"></Equality>
         </Conditions>
         <Actions>
-          <Set Target="[ViewIndex.Value]" Value="1"/>
+          <Set Target="[Model.ViewIndex]" Value="1"/>
         </Actions>
       </Changed>
       <Changed Source="[Clicker.Invoked]">
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[ViewIndex.Value]" Value="1"></Equality>
+          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="1"></Equality>
         </Conditions>
         <Actions>
-          <Set Target="[ViewIndex.Value]" Value="0"/>
+          <Set Target="[Model.ViewIndex]" Value="0"/>
         </Actions>
       </Changed>
 

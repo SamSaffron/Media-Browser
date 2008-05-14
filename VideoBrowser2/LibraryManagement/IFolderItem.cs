@@ -21,6 +21,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         float IMDBRating { get; }
         string IMDBRatingString { get; }
         string Filename { get; }
+        string ThumbPath { get; set; }
 
         string Description { get; }
         string Title1 { get; }
