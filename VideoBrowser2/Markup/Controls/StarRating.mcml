@@ -52,7 +52,7 @@
           <Equality Source="[Stars]" ConditionOp="Equals" Value="0"/>
         </Conditions>
         <Actions>
-          <Set Target="[Stars0.Visible]" Value="true" />
+          <Set Target="[Stars0.Visible]" Value="false" />
         </Actions>
       </Rule>
       <Rule>
