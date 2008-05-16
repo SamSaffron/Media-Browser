@@ -25,8 +25,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         void InternalListChanged()
         {
-            this.Count = 0;
-            this.Count = folderItems.Count;
+            try
+            {
+                this.Count = 0;
+                this.Count = folderItems.Count;
+            }
+            catch
+            {
+                // fall through, we may need to ensure we are on the UI thread
+            }
         }
         void SortOrderChanged()
         {

@@ -639,6 +639,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private void LoadTVMetadata()
         {
+            // tv shows can not be folders
+            if (IsFolder) return;
+
             string metadataPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filename), "metadata");
             string metadataFile = System.IO.Path.Combine(metadataPath, System.IO.Path.GetFileNameWithoutExtension(filename) + ".xml");
 

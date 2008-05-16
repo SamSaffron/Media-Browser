@@ -297,7 +297,7 @@ namespace SamSoft.VideoBrowser
         {
             if (item != null)
             {
-                if (item.IsFolder && !item.IsVideo)
+                if (item.VirtualFolder!=null || (item.IsFolder && !item.IsVideo))
                 {
                     if (item.VirtualFolder != null)
                     {
@@ -439,6 +439,10 @@ namespace SamSoft.VideoBrowser
             if (item is CachedFolderItem)
             {
                 fi = new FolderItem(item.Filename, item.IsFolder, item.Description);
+                if (Helper.IsVirtualFolder(item.Filename))
+                {
+                    fi.VirtualFolder = new VirtualFolder(item.Filename);
+                }
             }
             else
             {

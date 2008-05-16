@@ -173,7 +173,7 @@
           <me:ViewDetails Name="DetailsView" Visible="true" Model="[Model]" FocusedIndex="[FocusedIndex]" 
                           SelectedItem="[SelectedItem]" Application="[Application]" FolderItems="[FolderItems]">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.02" Top="Parent,.11" Bottom="Parent,.95" />
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.13" Bottom="Parent,.95" />
             </LayoutInput>
           </me:ViewDetails>
 
@@ -191,7 +191,7 @@
           <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" 
                         Model="[Model]">
             <LayoutInput>
-              <FormLayoutInput Right="Parent,1,-150" Top="Parent,0,15"  Bottom="Parent,.20"/>
+              <FormLayoutInput Right="Parent,1,-150" Top="Parent,.06"/>
             </LayoutInput>
           </me:SortOrder>
 

@@ -67,6 +67,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
+                if (_prefs == null)
+                {
+                    _prefs = new FolderItemListPrefs(CacheKey);
+                }
                 return _prefs;
             }
         }
@@ -150,8 +154,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         key = this._path;
                     }
 
-                    // hash and stringify 
-                    _cacheKey = Helper.HashString(key);
+                    if (key != null)
+                    {
+                        // hash and stringify 
+                        _cacheKey = Helper.HashString(key);
+                    }
                 }
                 return _cacheKey;
             }
@@ -188,8 +195,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
 
-            _prefs = new FolderItemListPrefs(CacheKey); 
-            Sort(_prefs.SortOrder);
+            
+            Sort(Prefs.SortOrder);
 
             Changed();
         }
@@ -232,9 +239,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                 }
             }
-
-            _prefs = new FolderItemListPrefs(CacheKey); 
-            Sort(_prefs.SortOrder);
+ 
+            Sort(Prefs.SortOrder);
             Changed();
         }
 
@@ -417,11 +423,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             lock (this)
             {
                 SortOrder = sortOrderEnum;
-                if (_prefs != null)
+
+                // do not attempt to cache if we have navigated directly to a list of items (in genere case)
+                if (CacheKey != null)
                 {
-                    _prefs.SortOrder = sortOrderEnum;
-                    _prefs.Save();
+                    Prefs.SortOrder = sortOrderEnum;
+                    Prefs.Save();
                 }
+      
 
                 if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime)
                 {
@@ -520,7 +529,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                foreach (BaseFolderItem item in this)
+                foreach (BaseFolderItem item in ActualItems)
                 {
                     if (!string.IsNullOrEmpty(item.ThumbPath))
                     {
@@ -539,6 +548,59 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get
             {
                 return sortOrders;
+            }
+        }
+
+        // returns the actual list of items in the folder, regardless on if the genre browsing is selected
+        private List<BaseFolderItem> ActualItems
+        {
+            get 
+            {
+                List<BaseFolderItem> items = new List<BaseFolderItem>(); 
+                lock (this)
+                {
+                    if (nonGenreList != null)
+                    {
+                        foreach (var item in nonGenreList)
+                        {
+                            items.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (BaseFolderItem item in this)
+                        {
+                            items.Add(item);
+                        }
+                    }
+                }
+                return items;
+            }
+        }
+
+        private void AddItem(BaseFolderItem item)
+        {
+            if (nonGenreList != null)
+            {
+                nonGenreList.Add(item);
+                // TODO : refresh genre list
+            }
+            else
+            {
+                this.Add(item);
+            }
+        }
+
+        private void RemoveItem(BaseFolderItem item)
+        {
+            if (nonGenreList != null)
+            {
+                nonGenreList.Remove(item);
+                // TODO - refresh genre list 
+            }
+            else
+            {
+                this.Remove(item);
             }
         }
 
@@ -561,7 +623,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                 if (_data_is_cached)
                 {
-                    foreach (CachedFolderItem item in this)
+                    foreach (CachedFolderItem item in ActualItems)
                     {
                         if (item.IsMovie)
                         {
@@ -592,7 +654,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                     lock (this)
                     {
-                        foreach (CachedFolderItem item in this)
+                        List<CachedFolderItem> ourItems = new List<CachedFolderItem>();
+
+                        foreach (CachedFolderItem item in ActualItems)
                         {
                             if (!itemsToCache.ContainsKey(item.Filename))
                             {
@@ -620,7 +684,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         {
                             if (item is FolderItem)
                             {
-                                this.Add(item);
+                                AddItem(item); 
                                 itemsAdded = true;
                             }
                         }
@@ -632,7 +696,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         {
                             foreach (var item in itemsToRemove)
                             {
-                                this.Remove(item);
+                                RemoveItem(item);
                             }
                         }
                         cache_changed = true;
@@ -658,7 +722,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     cache_changed = true;
                     // start a process to cache all metadata xml for this folder
-                    foreach (FolderItem item in this)
+                    foreach (FolderItem item in ActualItems)
                     {
                         item.EnsureMetadataLoaded();
                         if (item.IsMovie)
@@ -727,7 +791,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
 
 
-            foreach (object o in this)
+            foreach (object o in ActualItems)
             {
                 FolderItem item = o as FolderItem;
 
