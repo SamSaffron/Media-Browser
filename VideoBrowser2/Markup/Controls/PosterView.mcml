@@ -9,7 +9,7 @@
   >
 
   <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/StarRating"/>
-  
+
   <UI Name="PosterView">
 
     <Locals>
@@ -102,7 +102,7 @@
           <Set Target="[MyRepeater.Layout]" Value="[Widescreen]"/>
         </Actions>
       </Rule>
-      
+
 
     </Rules>
 
@@ -124,7 +124,7 @@
             </LayoutInput>
             <Children>
               <Repeater Source="[FolderItems]" Name="MyRepeater" ContentName="BaseItem">
-              <!--  <Layout>
+                <!--  <Layout>
                   <GridLayout Orientation="Horizontal" Rows="2" Columns="8" AllowWrap="true" Spacing="1,1"/>
                 </Layout> -->
                 <Animations>
@@ -143,7 +143,7 @@
               <FormLayoutInput Top="Parent,0"  Left="Parent,0,20"/>
             </LayoutInput>
           </me:ItemTitle>
-         
+
         </Children>
       </ColorFill>
     </Content>
@@ -162,21 +162,21 @@
       <ui:Size Name="TempSize" Size="0,39"></ui:Size>
       <ui:Inset Name="TempInset" Inset="0,0,0,0"></ui:Inset>
     </Locals>
-    
+
     <Rules>
-      
+
       <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
         <Conditions>
           <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
         </Conditions>
-        <Actions>          
-          <Set Target="[Name.Content]" Value="[SelectedItem.Value.Description]"/>          
+        <Actions>
+          <Set Target="[Name.Content]" Value="[SelectedItem.Value.Description]"/>
           <Set Target="[Runtime.Content]" Value="[SelectedItem.Value.RunningTimeString]"/>
-          <Set Target="[StarRating.Value]" Value="[SelectedItem.Value.IMDBRating]" />          
+          <Set Target="[StarRating.Value]" Value="[SelectedItem.Value.IMDBRating]" />
         </Actions>
       </Changed>
     </Rules>
-    
+
     <Content>
       <Panel>
         <Layout>
@@ -184,16 +184,16 @@
         </Layout>
         <Children>
 
-          
+
           <Text Name="Name" Content="" Color="White" Font="Segoe Media Center,26"></Text>
           <me:StarRating Name="StarRating" Value="-1" />
           <Text Name="Runtime" Content="" Color="color://me:MediumBlue" Font="Segoe Media Center,18" Margins="0,9,0,0"></Text>
-          
+
         </Children>
       </Panel>
     </Content>
   </UI>
-  
+
   <UI Name="ListItem">
     <Properties>
       <lib:BaseFolderItem Name="Model" BaseFolderItem="$Required"/>
@@ -210,9 +210,9 @@
     </Locals>
 
     <Rules>
-
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Binding Source="[Model]" Target="[Clicker.Command]"/>
+
       <Changed Source="[Clicker.Invoked]">
         <Actions>
           <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
@@ -244,7 +244,7 @@
       <Default Target="[Accessible.DefaultActionCommand]" Value="[Model]"/>
       <Default Target="[Accessible.DefaultAction]"        Value="Press"/>
       <Default Target="[Accessible.Role]"                 Value="PushButton"/>
-      
+
     </Rules>
 
     <Content>
@@ -258,20 +258,19 @@
           </Animation>
         </Animations>
         <Children>
-      
-            <Graphic Content="[BlankImage]" Name="Background" Padding="0,0,0,0" SizingPolicy="SizeToChildren">
-              <Children>
-                <Graphic Content="[Model.MCMLThumb]" MaintainAspectRatio="true">
-                </Graphic>               
-              </Children>
-            </Graphic>
-       
-          
+
+          <Graphic Content="[BlankImage]" Name="Background" Padding="0,0,0,0" SizingPolicy="SizeToChildren">
+            <Children>
+              <Graphic Content="[Model.MCMLThumb]" Layout="Fill"/>
+            </Children>
+          </Graphic>
+
+
         </Children>
       </Panel>
     </Content>
   </UI>
 
-  
+
 
 </Mcml>
