@@ -14,16 +14,21 @@
       <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
       <ArrayListDataSet Name="List" ArrayListDataSet="$Required"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
+      <a:Application Name="Application" Application="$Required"/>
     </Properties>
 
     <Rules>
       <Binding Source="[Input.DeepKeyFocus]" Target="[Model.SortOrderHasFocus]"/>
 
-      <Changed Source="[Model.SortOrder]" InitialEvaluate="true">
+      <Rule>
+        <Conditions>
+          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="true" />
+          <Modified Source="[Model.SortOrder]" InitialEvaluate="true"/>
+        </Conditions>
         <Actions>
           <Invoke Target="[MyRepeater.NavigateIntoIndex]" index="[Model.SortOrderInt]"></Invoke>
         </Actions>
-      </Changed>
+      </Rule>
       
     </Rules>
 

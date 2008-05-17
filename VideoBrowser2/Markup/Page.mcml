@@ -25,8 +25,9 @@
       <Timer Name="BGTimer" Interval="100" Enabled="false"/>
     </Locals>
     <Rules>
-      
-      <Default Target="[SortOrderIndex.Value]" Value="0"/>
+
+
+    
 
    <!-- <Binding Source="[Application.CanPlayStartup]" Target="[CanPlay]" />   
    <Rule>
@@ -188,7 +189,7 @@
           
 
           <!-- Sort Order Controls -->
-          <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" 
+          <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" Application="[Application]" 
                         Model="[Model]">
             <LayoutInput>
               <FormLayoutInput Right="Parent,1,-150" Top="Parent,.06"/>

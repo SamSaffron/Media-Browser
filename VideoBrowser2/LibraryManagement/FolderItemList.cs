@@ -420,6 +420,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public void Sort(SortOrderEnum sortOrderEnum)
         {
+            Trace.WriteLine("Sort was called with " + sortOrderEnum.ToString() + " for " + this.Path); 
+
             lock (this)
             {
                 SortOrder = sortOrderEnum;

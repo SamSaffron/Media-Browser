@@ -90,7 +90,17 @@
 
       <Changed Source="[PreLoadTimer.Tick]">
         <Conditions>
+          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[PreLoadTimer.Enabled]" Value="false"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[PreLoadTimer.Tick]">
+        <Conditions>
           <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
+          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
           <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>

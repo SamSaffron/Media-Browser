@@ -10,20 +10,20 @@ namespace SamSoft.VideoBrowser
     {
         public ListPage(FolderItemListMCE items)
         {
-            FolderItems = items;
+            FolderItemsMCE = items;
             items.folderItems.OnChanged += new FolderItemListModifiedDelegate(folderItems_OnChanged);
             SortOrder = items.folderItems.SortOrder;
         }
 
         void folderItems_OnChanged()
         {
-            if (FolderItems.folderItems.SortOrder != sortOrder)
+            if (FolderItemsMCE.folderItems.SortOrder != sortOrder)
             {
-                SortOrder = FolderItems.folderItems.SortOrder;
+                SortOrder = FolderItemsMCE.folderItems.SortOrder;
             }
         }
 
-        public FolderItemListMCE FolderItems { get; set; }
+        public FolderItemListMCE FolderItemsMCE { get; set; }
 
         public bool SortOrderHasFocus
         {
@@ -42,12 +42,12 @@ namespace SamSoft.VideoBrowser
         {
             get
             {
-                return FolderItems.folderItems.Prefs.ViewIndex; 
+                return FolderItemsMCE.folderItems.Prefs.ViewIndex; 
             }
             set
             {
-                FolderItems.folderItems.Prefs.ViewIndex = value;
-                FolderItems.folderItems.Prefs.Save();
+                FolderItemsMCE.folderItems.Prefs.ViewIndex = value;
+                FolderItemsMCE.folderItems.Prefs.Save();
                 FirePropertyChanged("ViewIndex");
             }
         }
@@ -71,7 +71,15 @@ namespace SamSoft.VideoBrowser
             {
                 return (int)SortOrder;
             }
-        } 
+        }
+
+        public float ThumbAspectRatio
+        {
+            get
+            {
+                return FolderItemsMCE.folderItems.ThumbAspectRatio;
+            }
+        }
 
         private SortOrderEnum sortOrder = SortOrderEnum.Name;
         private bool sortOrderHasFocus = false; 
