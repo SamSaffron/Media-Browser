@@ -493,7 +493,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                         fi.SetTitle2(item.Value.Count.ToString() + movieText);
                         fi.SetOverview(string.Format("Including: {0}", Helper.GetRandomNames(item.Value, 200)));
-                        string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.MyVideosPath, "metadata"), item.Key + ".jpg");
+                        string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppDataPath, "genres"), item.Key + ".jpg");
                         if (File.Exists(thumbPath))
                         {
                             fi.ThumbPath = thumbPath;
