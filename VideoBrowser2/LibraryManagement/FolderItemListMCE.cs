@@ -23,6 +23,31 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
         }
 
+        public float ThumbAspectRatio
+        {
+            get
+            {
+                return folderItems.ThumbAspectRatio;
+            }
+        }
+
+        // Cause its easier to do this in code than transformers, guess the height between 0.27 and 0.9
+        public float GuessHeight
+        {
+            get
+            {
+                float f = ThumbAspectRatio / (float)2.1;
+                f += (float)0.27;
+
+                if (f > 0.9)
+                {
+                    f = (float)0.9; 
+                }
+                return f;
+            }
+        }
+
+
         void InternalListChanged()
         {
             try

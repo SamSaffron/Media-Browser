@@ -358,7 +358,7 @@ namespace SamSoft.VideoBrowser
                         mce = host.MediaCenterEnvironment;    // Get access to Windows Media Center host.
                         // Play the video in the Windows Media Center view port.
 
-
+                        //mce.PlayMedia(MediaType.Video, "http://0-a.mymovies.net/asx/asx_output.asp?url=/film/fid5610/trailers/trid3582/wm/bb.asx&filmid=5610&trid=3582&s=&n=", false);
                         mce.PlayMedia(MediaType.Video, filename, false);
                         mce.MediaExperience.GoToFullScreen();
                     }

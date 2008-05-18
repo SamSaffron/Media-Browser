@@ -27,6 +27,8 @@
       <Environment Name="Environment" />
       <GridLayout Name="Nonwidescreen" Orientation="Horizontal" Rows="2" Columns="6" AllowWrap="true" Spacing="1,1"/>
       <GridLayout Name="Widescreen" Orientation="Horizontal" Rows="2" Columns="7" AllowWrap="true" Spacing="1,1"/>
+      <FormLayoutInput Name="PosterLayout" Top="Parent,0.2"/>
+      <AnchorEdge Name="PosterAnchorEdge" Id="Parent" Percent="0.9"></AnchorEdge>
     </Locals>
 
     <Rules>
@@ -102,8 +104,16 @@
           <Set Target="[MyRepeater.Layout]" Value="[Widescreen]"/>
         </Actions>
       </Rule>
+<!-- [FolderItems.ThumbAspectRatio] TestAnchorEdge-->
+      <Default Target="[PosterLayout.Bottom]" Value="[PosterAnchorEdge]">
+      </Default>
 
+      <Default Target="[PosterAnchorEdge.Percent]" Value="[FolderItems.GuessHeight]">
+        
+      </Default>
 
+      <Default Target="[Scroller.LayoutInput]" Value="[PosterLayout]"></Default> 
+      
     </Rules>
 
 
@@ -226,7 +236,7 @@
           <Equality Source="[DisplayText.Length]" ConditionOp="LessThan" Value="10" />
         </Conditions> 
         <Actions>          
-          <Set Target="[Label.Visible]" Value="true" />
+          <Set Target="[LabelPanel.Visible]" Value="true"/>
         </Actions>
       </Changed>
 
@@ -291,9 +301,16 @@
               <ColorFill Content="Black" Layout="Center" >               
                 
                 <Children>
-                  <Text Name="Label" Color="White" Font="Segoe Media Center, 20, Bold"
-                        Content="[Model.Description]" Visible="false"  WordWrap="true"
-                        Padding="5,0,0,0"/>
+                  <Panel Name="LabelPanel" Visible="false">
+                    <Children>
+                      <Text Alpha="1" Name="Label" Color="White" Font="Segoe Media Center, 20, Bold"
+                        Content="[Model.Description]" WordWrap="true" Padding="5,5,5,5" >       
+                      </Text>
+                      <ColorFill Content="Black" Alpha="0.7" Layout="Fill" />
+                    </Children>
+                  </Panel>
+       
+
                   <Graphic Name="BoxArt" Content="[Model.MCMLThumb]"  MaintainAspectRatio="true"/>
                 </Children>
               </ColorFill>
