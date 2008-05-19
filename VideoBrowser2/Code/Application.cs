@@ -8,7 +8,7 @@ using System.Text;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
+using Transcode360.Interface;
 
 namespace SamSoft.VideoBrowser
 {
@@ -351,33 +351,64 @@ namespace SamSoft.VideoBrowser
                         }
 
                     }
-
-                    try
+                    
+                    // Check to see if we are running on an extender... must have Full Trust permissions
+                    Microsoft.MediaCenter.Hosting.AddInHost host = Microsoft.MediaCenter.Hosting.AddInHost.Current;
+                    
+                    // if we are on a mce host, we can just play the media
+                    if (host.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
+                             (bool)host.MediaCenterEnvironment.Capabilities["Console"] == true)
                     {
-                        MediaCenterEnvironment mce;
-                        mce = host.MediaCenterEnvironment;    // Get access to Windows Media Center host.
-                        // Play the video in the Windows Media Center view port.
+                        try
+                        {
+                            // Get access to Windows Media Center host.
+                            MediaCenterEnvironment mce;
+                            mce = host.MediaCenterEnvironment;
 
-                        //mce.PlayMedia(MediaType.Video, "http://0-a.mymovies.net/asx/asx_output.asp?url=/film/fid5610/trailers/trid3582/wm/bb.asx&filmid=5610&trid=3582&s=&n=", false);
-                        mce.PlayMedia(MediaType.Video, filename, false);
-                        mce.MediaExperience.GoToFullScreen();
+                            // Play the video in the Windows Media Center view port.
+                            mce.PlayMedia(MediaType.Video, filename, false);
+                            mce.MediaExperience.GoToFullScreen();
+                        }
+                        catch (Exception e)
+                        {
+                            // Failed to play the movie, log it
+                            Trace.WriteLine("Failed to load movie : " + e.ToString());
+                        }
+
                     }
-                    catch (Exception e)
+
+                    // if we are on an extender, we need to start up our transcoder
+                    else
                     {
-                        // Failed to play the movie, log it
-                        Trace.WriteLine("Failed to load movie : " + e.ToString());
-                    }
+                        //ITranscode360 transcoder = null;
+                        //transcoder = Transcode.ConnectToTranscoder();
+                        Transcode.ConnectToTranscoder();
 
+                        string bufferpath = Transcode.BeginTranscode(filename);
+                                                
+                        try
+                        {
+                            // Get access to Windows Media Center host.
+                            MediaCenterEnvironment mce;
+                            mce = host.MediaCenterEnvironment;
+                            
+                            // Play the video in the Windows Media Center view port.
+                            mce.PlayMedia(MediaType.Video, bufferpath, false);
+                            mce.MediaExperience.GoToFullScreen();
+                        }
+                        catch (Exception e)
+                        {
+                            // Failed to play the movie, log it
+                            Trace.WriteLine("Failed to load movie : " + e.ToString());
+                        }
+                    }
                 }
             }
-        }
-
-      
+        }    
 
         public void ShowNowPlaying()
         {
             host.ViewPorts.NowPlaying.Focus();
-            
         }
 
         private void CacheData(object param)
