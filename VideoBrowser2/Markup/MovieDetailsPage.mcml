@@ -69,7 +69,7 @@
           <!-- Play Movie Button-->
           <Panel Name="PlayMovie" FocusOrder="0">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0,20" Top="Parent,.6"   />
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.6"   />
             </LayoutInput>
             <Children>
               <me:SimpleButton Text="Play Movie" Size="250,51" Command="[PlayMovieCommand]" />
@@ -89,7 +89,7 @@
           <!-- Cast (Actors) -->
           <Panel Name="MovieActors" Layout="VerticalFlow">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.55" Top="Parent,.11" Right="Parent,.9" Bottom="Parent,.55"/>
+              <FormLayoutInput Left="Parent,.55" Top="Parent,.11" Right="Parent,.92" Bottom="Parent,.55"/>
             </LayoutInput>
             <Children>
               <Text Font="Segoe Media Center,20" Color="color://me:MediumBlue" Content="Cast..."/>
@@ -101,6 +101,7 @@
                       <GridLayout Orientation="Vertical" AllowWrap="false" ReferenceSize="800,52"/>
                     </Layout>
                     <Content>
+                      <!-- we should probably change this to a percentage thing so it works on non-widescreen and scales to parent -->
                       <me:SimpleButton Text="[RepeatedItem.ToString]" Size="400,45" Command="[ActorCommand]"
                                        Font="Segoe Media Center,18"/>
                       <!--<Text Font="Segoe Media Center,20" Color="White" Content="[RepeatedItem.ToString]"/>-->
@@ -140,7 +141,7 @@
           <Panel Name="Background" MouseInteractive="true"
                        >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.25" Top="Parent,.52" Right="Parent,.80" Bottom="Parent,.80"/>
+              <FormLayoutInput Left="Parent,.27" Top="Parent,.52" Right="Parent,.90" Bottom="Parent,.90"/>
             </LayoutInput>
             <Children>
 
@@ -165,7 +166,7 @@
           
           <Panel>
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.81" Top="Parent,.52"/>
+              <FormLayoutInput Left="Parent,.91" Top="Parent,.52"/>
             </LayoutInput>
             <Children>
               <me:SimpleButton Text="˄" Size="50,50" Command="[ScrollUpCommand]" />
@@ -176,7 +177,7 @@
 
           <Panel>
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.81" Bottom="Parent,.80"/>
+              <FormLayoutInput Left="Parent,.91" Bottom="Parent,.80"/>
             </LayoutInput>
             <Children>
               <me:SimpleButton Text="˅" Size="50,50" Command="[ScrollDownCommand]" />
@@ -188,7 +189,7 @@
           <!-- Poster Image -->
           <Panel Visible="true">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0,25" Top="Parent,.15" Bottom="Parent,.55" Right="Parent,.22"></FormLayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.15" Bottom="Parent,.55" Right="Parent,.22"></FormLayoutInput>
             </LayoutInput>
             <Children>
               <Panel Layout="VerticalFlow">
@@ -209,7 +210,7 @@
           <!-- Rating Details Panel -->
           <Panel Name="Rating" Visible="true" >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.25" Top="Parent,.15" ></FormLayoutInput>
+              <FormLayoutInput Left="Parent,.27" Top="Parent,.15" ></FormLayoutInput>
             </LayoutInput>
             <Children>
               <Panel Layout="VerticalFlow">
