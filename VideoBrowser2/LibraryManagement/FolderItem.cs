@@ -532,8 +532,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
+                var nestedPath = System.IO.Path.Combine(filename,"VIDEO_TS"); 
+                bool nestedPathExists = Directory.Exists(nestedPath); 
+
                 // check either in the dir or in video_ts
-                return CheckForDVD(filename) || CheckForDVD(System.IO.Path.Combine(filename,"VIDEO_TS")); 
+                return CheckForDVD(filename) || (nestedPathExists && CheckForDVD(nestedPath)); 
             }
         }
   

@@ -701,16 +701,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                                 RemoveItem(item);
                             }
                         }
-                        cache_changed = true;
-                        Changed(); 
                     }
 
-                    if (itemsAdded)
+                    if (itemsAdded || itemsToRemove.Count > 0)
                     {
                         cache_changed = true;
-                        Changed();
+                        InvokeChanged(); 
                     }
-                    
+
 
                     foreach (BaseFolderItem item in itemsToCache.Values)
                     {
@@ -756,6 +754,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 // forget about it its only the cache (could be collection modified cause we did a sort)
                 Trace.WriteLine("Caching failed!!! " + e.ToString()); 
             }
+        }
+
+        private void InvokeChanged()
+        {
+            Microsoft.MediaCenter.UI.Application.DeferredInvoke(ChangedForInvoke); 
+        }
+
+        private void ChangedForInvoke(object state)
+        {
+            Changed();
         }
 
         // this is called if the cache is corrupt some how. 
@@ -807,6 +815,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         {
                             System.IO.File.Copy(item.ThumbPath, System.IO.Path.Combine(imagePath, key));
                         }
+                        cachedImages[key] = true;
+                    }
+                }
+
+                CachedFolderItem ci = o as CachedFolderItem;
+                if (ci != null)
+                {
+                    if (!String.IsNullOrEmpty(ci.ThumbPath))
+                    {
+                        string key = ci.ThumbHash;
                         cachedImages[key] = true;
                     }
                 }
