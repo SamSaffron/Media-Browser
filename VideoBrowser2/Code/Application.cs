@@ -359,50 +359,68 @@ namespace SamSoft.VideoBrowser
                     if (host.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
                              (bool)host.MediaCenterEnvironment.Capabilities["Console"] == true)
                     {
-                        try
-                        {
-                            // Get access to Windows Media Center host.
-                            MediaCenterEnvironment mce;
-                            mce = host.MediaCenterEnvironment;
-
-                            // Play the video in the Windows Media Center view port.
-                            mce.PlayMedia(MediaType.Video, filename, false);
-                            mce.MediaExperience.GoToFullScreen();
-                        }
-                        catch (Exception e)
-                        {
-                            // Failed to play the movie, log it
-                            Trace.WriteLine("Failed to load movie : " + e.ToString());
-                        }
+                        PlayFileWithoutTranscode(filename, host);
 
                     }
 
                     // if we are on an extender, we need to start up our transcoder
                     else
                     {
-                        //ITranscode360 transcoder = null;
-                        //transcoder = Transcode.ConnectToTranscoder();
-                        Transcode.ConnectToTranscoder();
-
-                        string bufferpath = Transcode.BeginTranscode(filename);
-                                                
                         try
                         {
-                            // Get access to Windows Media Center host.
-                            MediaCenterEnvironment mce;
-                            mce = host.MediaCenterEnvironment;
-                            
-                            // Play the video in the Windows Media Center view port.
-                            mce.PlayMedia(MediaType.Video, bufferpath, false);
-                            mce.MediaExperience.GoToFullScreen();
+                            PlayFileWithTranscode(filename, host);
                         }
-                        catch (Exception e)
+                        catch
                         {
-                            // Failed to play the movie, log it
-                            Trace.WriteLine("Failed to load movie : " + e.ToString());
+                            // in case t360 is not installed - we may get an assembly loading failure 
+                            PlayFileWithoutTranscode(filename, host);
                         }
                     }
                 }
+            }
+        }
+
+        private void PlayFileWithoutTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
+        {
+            try
+            {
+                // Get access to Windows Media Center host.
+                MediaCenterEnvironment mce;
+                mce = host.MediaCenterEnvironment;
+
+                // Play the video in the Windows Media Center view port.
+                mce.PlayMedia(MediaType.Video, filename, false);
+                mce.MediaExperience.GoToFullScreen();
+            }
+            catch (Exception e)
+            {
+                // Failed to play the movie, log it
+                Trace.WriteLine("Failed to load movie : " + e.ToString());
+            }
+        }
+
+        private void PlayFileWithTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
+        {
+            //ITranscode360 transcoder = null;
+            //transcoder = Transcode.ConnectToTranscoder();
+            Transcode.ConnectToTranscoder();
+
+            string bufferpath = Transcode.BeginTranscode(filename);
+
+            try
+            {
+                // Get access to Windows Media Center host.
+                MediaCenterEnvironment mce;
+                mce = host.MediaCenterEnvironment;
+
+                // Play the video in the Windows Media Center view port.
+                mce.PlayMedia(MediaType.Video, bufferpath, false);
+                mce.MediaExperience.GoToFullScreen();
+            }
+            catch (Exception e)
+            {
+                // Failed to play the movie, log it
+                Trace.WriteLine("Failed to load movie : " + e.ToString());
             }
         }    
 

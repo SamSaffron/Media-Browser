@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace System.Runtime.CompilerServices
 {
@@ -35,13 +36,16 @@ namespace System.Xml
             return defaultInt;
         }
 
+        private static CultureInfo _usCulture = new CultureInfo("en-US"); 
+
         public static float SafeGetFloat(this XmlDocument doc, string path, float minValue, float maxValue)
         {
             XmlNode rvalNode = doc.SelectSingleNode(path);
             if (rvalNode != null && rvalNode.InnerText.Length > 0)
             {
                 float rval;
-                if (float.TryParse(rvalNode.InnerText, out rval))
+                // float.TryParse is local aware, so it can be probamatic, force us culture
+                if (float.TryParse(rvalNode.InnerText, NumberStyles.AllowDecimalPoint, _usCulture,  out rval))
                 {
                     if (rval >= minValue && rval <= maxValue)
                     {
