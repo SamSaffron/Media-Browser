@@ -54,7 +54,9 @@
       <HintPath>.\System.Data.SQLite.DLL</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
+    <Reference Include="Transcode360.Interface, Version=1.6.0.0, Culture=neutral, PublicKeyToken=33c91c6bf8125883, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Application.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="LibraryManagement\SortedCache.cs" />
     <Compile Include="LibraryManagement\SortOrderEnum.cs" />
     <Compile Include="LibraryManagement\SpecialFolderItem.cs" />
+    <Compile Include="LibraryManagement\Transcode.cs" />
     <Compile Include="LibraryManagement\TVShow.cs" />
     <Compile Include="LibraryManagement\VirtualFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +105,7 @@
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
+    <Content Include="LibraryManagement\Transcode360.Interface.dll" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
     <Content Include="Images\Button\ButtonDisabled.png" />
