@@ -8,7 +8,7 @@ using System.Text;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Transcode360.Interface;
+
 
 namespace SamSoft.VideoBrowser
 {
@@ -208,6 +208,7 @@ namespace SamSoft.VideoBrowser
         private static Application singleApplicationInstance;
         private AddInHost host;
         private MyHistoryOrientedPageSession session;
+        private Transcoder transcoder; 
 
         private bool navigatingForward;
 
@@ -274,6 +275,8 @@ namespace SamSoft.VideoBrowser
 
         public void GoToMenu()
         {
+    
+            transcoder = new Transcoder();
             NavigateToPath(Helper.MyVideosPath); 
         }
 
@@ -351,16 +354,15 @@ namespace SamSoft.VideoBrowser
                         }
 
                     }
-                    
+                 
                     // Check to see if we are running on an extender... must have Full Trust permissions
-                    Microsoft.MediaCenter.Hosting.AddInHost host = Microsoft.MediaCenter.Hosting.AddInHost.Current;
+                    Microsoft.MediaCenter.Hosting.AddInHost myHost = Microsoft.MediaCenter.Hosting.AddInHost.Current;
                     
                     // if we are on a mce host, we can just play the media
-                    if (host.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
-                             (bool)host.MediaCenterEnvironment.Capabilities["Console"] == true)
+                    if (myHost.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
+                             (bool)myHost.MediaCenterEnvironment.Capabilities["Console"] == true)
                     {
                         PlayFileWithoutTranscode(filename, host);
-
                     }
 
                     // if we are on an extender, we need to start up our transcoder
@@ -401,11 +403,15 @@ namespace SamSoft.VideoBrowser
 
         private void PlayFileWithTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
-            //ITranscode360 transcoder = null;
-            //transcoder = Transcode.ConnectToTranscoder();
-            Transcode.ConnectToTranscoder();
-
-            string bufferpath = Transcode.BeginTranscode(filename);
+            string bufferpath = transcoder.BeginTranscode(filename);
+            
+            // if bufferpath comes back null, that means the transcoder i) failed to start or ii) they
+            // don't even have it installed
+            if (bufferpath == null)
+            {
+                MediaCenterEnvironment.Dialog("Could not start transcoding process", "Transcode Error", new object[] { DialogButtons.Ok }, 10, true, null, delegate(DialogResult dialogResult) { });
+                return;
+            }
 
             try
             {

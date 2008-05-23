@@ -56,7 +56,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
-    <Reference Include="Transcode360.Interface, Version=1.6.0.0, Culture=neutral, PublicKeyToken=33c91c6bf8125883, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Application.cs" />
@@ -105,7 +104,6 @@
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
-    <Content Include="LibraryManagement\Transcode360.Interface.dll" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
     <Content Include="Images\Button\ButtonDisabled.png" />
@@ -153,9 +151,9 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
-
+"$(ProjectDir)Setup\Build.bat" $(ConfigurationName)
 cd "$(ProjectDir)"
-"$(ProjectDir)\DevInstall.cmd" /debug</PostBuildEvent>
+"$(ProjectDir)DevInstall.cmd"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
