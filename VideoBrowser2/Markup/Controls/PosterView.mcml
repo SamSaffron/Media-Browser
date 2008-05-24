@@ -298,15 +298,15 @@
 
           <Graphic Content="[BlankImage]" Name="Background" Padding="0,0,0,0" SizingPolicy="SizeToChildren">
             <Children>
-              <ColorFill Content="Black" Layout="Center" >               
+              <ColorFill Content="Transparent" Layout="Center" >               
                 
                 <Children>
-                  <Panel Name="LabelPanel" Visible="false">
+                  <Panel Name="LabelPanel" Visible="false" Layout="Center">
                     <Children>
                       <Text Alpha="1" Name="Label" Color="White" Font="Segoe Media Center, 20, Bold"
-                        Content="[Model.Description]" WordWrap="true" Padding="5,5,5,5" >       
+                        Content="[Model.Description]"  WordWrap="true" Padding="5,5,5,5" >       
                       </Text>
-                      <ColorFill Content="Black" Alpha="0.7" Layout="Fill" />
+                      <ColorFill Content="Black" Alpha="0.5" Layout="Fill" />
                     </Children>
                   </Panel>
        

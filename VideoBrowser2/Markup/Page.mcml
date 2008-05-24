@@ -203,7 +203,7 @@
             </LayoutInput>
           </me:NowPlayingViewport>
 
-          <Graphic Name="MainBG" Content="image://me:Background" Margins="-20,-20,-20,-20" Layout="Fill" />
+          <Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill" />
           
         </Children>
 			</ColorFill>
