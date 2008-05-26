@@ -72,7 +72,7 @@
               <FormLayoutInput Left="Parent,.05" Top="Parent,.6"   />
             </LayoutInput>
             <Children>
-              <me:SimpleButton Text="Play Movie" Size="250,51" Command="[PlayMovieCommand]" />
+              <me:SimpleButton Text="Play Movie" Size="225,51" Command="[PlayMovieCommand]" />
             </Children>
           </Panel>
 
@@ -112,40 +112,14 @@
             </Children>
           </Panel>
 
-          <!-- Plot Summary / Description -->
-          <!--<ColorFill Name="Background" Content="30,255,255,255" MouseInteractive="true"
-                     Padding="10,20,10,20"  >
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.25" Top="Parent,.52" Right="Parent,.80" Bottom="Parent,.80"/>
-            </LayoutInput>
-            <Children>
-
-              <Panel Name="MovieDescription">
-                <Children>
-
-                  <Scroller Orientation="Vertical" ScrollingData="[MovieScrollingData]" FadeSize="-20">
-                    <Children>
-                      <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true" 
-                            Font="Segoe Media Center,20" />
-                    </Children>
-                    <Animations>
-                      <Animation Animation="animation://me:ScrollerMoveItemSmooth" />
-                    </Animations>
-                  </Scroller>
-
-                </Children>
-              </Panel>
-            </Children>
-          </ColorFill>-->
-
-          <Panel Name="Background" MouseInteractive="true"
-                       >
+          <!-- Plot Summary / Description -->       
+          <Panel Name="Background" MouseInteractive="true">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.27" Top="Parent,.52" Right="Parent,.90" Bottom="Parent,.90"/>
             </LayoutInput>
             <Children>
 
-                  <Scroller Orientation="Vertical" Padding="10,20,10,20" ScrollingData="[MovieScrollingData]" FadeSize="-20">
+                  <Scroller Orientation="Vertical" Padding="10,20,10,20" ScrollingData="[MovieScrollingData]" FadeSize="20">
                     <Children>
                       <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true"
                             Font="Segoe Media Center,20" />
@@ -156,9 +130,7 @@
                   </Scroller>
 
                   <ColorFill Name="Backgrgfound" Content="30,255,255,255" MouseInteractive="true"
-                  Padding="10,20,10,20"  Alpha="0.6" >
-
-                  </ColorFill>
+                  Padding="10,20,10,20"  Alpha="0.6" Layout="Fill" />
               
             </Children>
           </Panel>
@@ -239,10 +211,10 @@
 
                   <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,16" Color="color://me:MediumBlue" Margins="0,10,0,0" />
 
-                  <Panel Layout="HorizontalFlow" Margins="0,10,0,0">
+                  <Panel Layout="HorizontalFlow" Margins="0,10,0,0" MaximumSize="350,0">
                     <Children>
                       <Text Font="Segoe Media Center,18" Color="White" Content="Directed By: "/>
-                      <Text Font="Segoe Media Center Semibold,18" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
+                      <Text Font="Segoe Media Center Semibold,18" WordWrap="true" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
                     </Children>
                   </Panel>
 
