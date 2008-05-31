@@ -22,11 +22,11 @@
 
       <Rule>
         <Conditions>
-          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="true" />
+        <!--  <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="true" /> --> 
           <Modified Source="[Model.SortOrder]" InitialEvaluate="true"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[MyRepeater.NavigateIntoIndex]" index="[Model.SortOrderInt]"></Invoke>
+          <Set Target="[FocusedIndex.Value]"  Value="[Model.SortOrderInt]"/>
         </Actions>
       </Rule>
       

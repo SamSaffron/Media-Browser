@@ -58,8 +58,8 @@
         <Actions>
           <PlaySound Sound="res://ehres!Focus_a.wav" />
           <Set Target="[Background.Content]" Value="[FocusImage]"/>
-          <Set Target="[FocusedIndex.Value]" Value="[Index.Value]"/>
           <Set Target="[SelectedItem.Value]" Value="[Model]"/>
+          <Set Target="[FocusedIndex.Value]" Value="[Index.Value]"/>
         </Actions>
       </Condition>
 

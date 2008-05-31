@@ -138,7 +138,6 @@
     <Content Include="Markup\Controls\SortOrder.mcml" />
     <Content Include="Markup\Controls\SortOrderItem.mcml" />
     <Content Include="Markup\Styles.mcml" />
-    <Content Include="Markup\Test.mcml" />
     <Content Include="Registration.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +150,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
-"$(ProjectDir)Setup\Build.bat" $(ConfigurationName)
 cd "$(ProjectDir)"
-"$(ProjectDir)DevInstall.cmd"</PostBuildEvent>
+"$(ProjectDir)DevInstall.cmd" /debug</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -13,40 +13,39 @@
   <UI Name="ViewDetails">
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem"/>
       <!-- introduce a 100 ms delay when displaying item cause it can take a while to render and i dont like slow scrolling -->
-      <Timer Name="MyTimer" AutoRepeat="true" Interval="100" Enabled="false"/>
+      <Timer Name="InfoTimer" AutoRepeat="true" Interval="100" Enabled="false"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
     </Properties>
 
     <Rules>
-      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+      
+      <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+          <Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
         </Conditions>
         <Actions>
-          <Set Target="[MyTimer.Enabled]" Value="true"/>
+          <Set Target="[InfoTimer.Enabled]" Value="true"/>
         </Actions>
       </Changed>
 
-      <Changed Source="[MyTimer.Tick]">
+      <Changed Source="[InfoTimer.Tick]">
         <Actions>
-          <Set Target="[MyTimer.Enabled]" Value="false"/>
+          <Set Target="[InfoTimer.Enabled]" Value="false"/>
           <Set Target="[Preview.Visible]" Value="true"/>
-          <Set Target="[Preview.Content]" Value="[SelectedItem.Value.MCMLThumb]"/>
-          <Set Target="[StarRating.Value]" Value="[SelectedItem.Value.IMDBRating]" />
-          <Set Target="[Runtime.Content]" Value="[SelectedItem.Value.RunningTimeString]"/>
-          <Set Target="[Title1.Content]" Value="[SelectedItem.Value.Title1]"/>
-          <Set Target="[Title2.Content]" Value="[SelectedItem.Value.Title2]"/>
-          <Set Target="[Summary.Content]" Value="[SelectedItem.Value.Overview]"/>
+          <Set Target="[Preview.Content]" Value="[FolderItems.SelectedItem.MCMLThumb]"/>
+          <Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
+          <Set Target="[Runtime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
+          <Set Target="[Title1.Content]" Value="[FolderItems.SelectedItem.Title1]"/>
+          <Set Target="[Title2.Content]" Value="[FolderItems.SelectedItem.Title2]"/> 
+          <Set Target="[Summary.Content]" Value="[FolderItems.SelectedItem.Overview]"/>
         </Actions>
       </Changed>
 
-      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+      <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+          <Equality ConditionOp="Equals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
         </Conditions>
         <Actions>
           <Set Target="[Preview.Visible]" Value="false"/>
@@ -128,8 +127,7 @@
             </Children>
           </Panel>
 
-          <me:ListView Visible="true" Application="[Application]" FolderItems="[FolderItems]"
-                       FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" Name="MyItems">
+          <me:ListView Visible="true" Application="[Application]" FolderItems="[FolderItems]" Name="MyItems">
             <LayoutInput>
               <FormLayoutInput Left="Parent, .4" Right="Parent,1,-20" Top="Parent,0" Bottom="Parent,.79" />
             </LayoutInput>

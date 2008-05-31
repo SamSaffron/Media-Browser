@@ -68,6 +68,7 @@
         <Conditions>
           <Modified Source="[Application]" InitialEvaluate="true"/>
           <Equality Source="[Application.NavigatingForward]" Value="true"/>
+          <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
         </Conditions>
 
         <Actions>
@@ -120,8 +121,6 @@
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
     </Properties>
 
 
@@ -148,7 +147,7 @@
               </Repeater>
             </Children>
           </Scroller>
-          <me:ItemTitle FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]">
+          <me:ItemTitle FolderItems="[FolderItems]">
             <LayoutInput>
               <FormLayoutInput Top="Parent,0"  Left="Parent,0,20"/>
             </LayoutInput>
@@ -158,15 +157,14 @@
       </ColorFill>
     </Content>
     <Content Name="BaseItem">
-      <me:ListItem Application="[Application]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]" Model="[RepeatedItem!lib:FolderItem]" SelectedItem="[SelectedItem]">
+      <me:ListItem Application="[Application]" Index="[RepeatedItemIndex]" Model="[RepeatedItem!lib:BaseFolderItem]" FolderItems="[FolderItems]">
       </me:ListItem>
     </Content>
   </UI>
 
   <UI Name="ItemTitle">
     <Properties>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
     </Properties>
     <Locals>
       <ui:Size Name="TempSize" Size="0,39"></ui:Size>
@@ -175,14 +173,14 @@
 
     <Rules>
 
-      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+      <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+          <Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
         </Conditions>
         <Actions>
-          <Set Target="[Name.Content]" Value="[SelectedItem.Value.Description]"/>
-          <Set Target="[Runtime.Content]" Value="[SelectedItem.Value.RunningTimeString]"/>
-          <Set Target="[StarRating.Value]" Value="[SelectedItem.Value.IMDBRating]" />
+          <Set Target="[Name.Content]" Value="[FolderItems.SelectedItem.Description]"/>
+          <Set Target="[Runtime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
+          <Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
         </Actions>
       </Changed>
     </Rules>
@@ -207,10 +205,9 @@
   <UI Name="ListItem">
     <Properties>
       <lib:BaseFolderItem Name="Model" BaseFolderItem="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
       <a:Application Name="Application" Application="$Required"/>
       <Index Name="Index" Index="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
       <Image Name="FocusImage" Image="image://s:ButtonSelection2"/>
       <Image Name="BlankImage" Image="null"/>
     </Properties>
@@ -258,8 +255,7 @@
 
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[FocusedIndex.Value]" Value="[Index.Value]"/>
-          <Set Target="[SelectedItem.Value]" Value="[Model]"/>
+          <Set Target="[FolderItems.SelectedIndex.Value]" Value="[Index.Value]"/>
           <Set Target="[Background.Content]" Value="[FocusImage]"/>
           <Set Target="[MainPanel.Scale]" Value="1.6,1.6,1.0"/>
           <Set Target="[MainPanel.Padding]" Value="2,2,2,2"/>

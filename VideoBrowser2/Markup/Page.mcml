@@ -15,9 +15,7 @@
 			<a:Application Name="Application" Application="$Required"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>   
-      <IntRangedValue Name="FocusedIndex" MinValue ="-1" MaxValue="9999"/>
       <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
-      <lib:FolderItemContainer Name="SelectedItem"/>
     </Properties>
 
     <Locals>
@@ -72,18 +70,18 @@
           </Equality>
         </Conditions>
         <Actions>
-          <Set Target="[FocusedIndex.Value]" Value="-1"></Set>
+          <Set Target="[FolderItems.SelectedIndex.Value]" Value="-1"></Set>
         </Actions>
       </Changed>
       
       <Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
       
-      <Changed Source="[FocusedIndex.Value]" InitialEvaluate="true">
+      <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality ConditionOp="NotEquals" Source="[FocusedIndex.Value]" Value="-1"></Equality>
+          <Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
         </Conditions>
         <Actions>
-          <Set Target="[Application.CurrentIndex]" Value="[FocusedIndex.Value]"/>
+          <Set Target="[Application.CurrentIndex]" Value="[FolderItems.SelectedIndex.Value]"/>
         </Actions>
       </Changed>
 
@@ -171,16 +169,14 @@
           </Panel>
 
           <!--  View Details-->
-          <me:ViewDetails Name="DetailsView" Visible="true" Model="[Model]" FocusedIndex="[FocusedIndex]" 
-                          SelectedItem="[SelectedItem]" Application="[Application]" FolderItems="[FolderItems]">
+          <me:ViewDetails Name="DetailsView" Visible="true" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.05" Top="Parent,.13" Bottom="Parent,.95" />
             </LayoutInput>
           </me:ViewDetails>
 
           <!-- Poster View -->
-          <me:PosterView Name="PosterView" Visible="false" Application="[Application]" FolderItems="[FolderItems]" 
-                         FocusedIndex="[FocusedIndex]" SelectedItem="[SelectedItem]" >
+          <me:PosterView Name="PosterView" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.04" Top="Parent,.1" Bottom="Parent,.95" Right="Parent,.96"/>
             </LayoutInput>

@@ -6,6 +6,8 @@ using System.Diagnostics;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
+    // This is our model
+
     public class FolderItemListMCE : VirtualList
     {
         internal FolderItemList folderItems;
@@ -19,8 +21,37 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             folderItems = new FolderItemList();
             folderItems.OnChanged += new FolderItemListModifiedDelegate(InternalListChanged);
-            // retarded mce does not allow cross thread signalling
+            selectedIndex = new IntRangedValue();
+            selectedIndex.MinValue = -1;
+            selectedIndex.MaxValue = 20000;
+            selectedIndex.Value = -1; 
+            //  mce does not allow cross thread signalling
             //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
+        }
+
+        public IFolderItem SelectedItem
+        {
+            get
+            {
+                try
+                {
+                    return folderItems[selectedIndex.Value];
+                }
+                catch
+                {
+                    // fall through return an empty item 
+                    return new FolderItem(); 
+                }
+            }
+        }
+
+        IntRangedValue selectedIndex;
+        public IntRangedValue SelectedIndex
+        {
+            get
+            {
+                return selectedIndex;
+            }
         }
 
         public float ThumbAspectRatio

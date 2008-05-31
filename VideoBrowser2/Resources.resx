@@ -172,9 +172,6 @@
   <data name="SortOrderItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\sortorderitem.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Test" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\test.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Animations" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\base\animations.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

@@ -19,14 +19,9 @@
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
       <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
-
-      
-      
       <Index Name="Index" Index="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>  
       <lib:BaseFolderItem Name="Model" BaseFolderItem="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
-
+      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
       <Inset Name="TextMargins" Inset="8,-2,8,2"/>
       <cor:Boolean Name="CenterText" Boolean="false"/>
       
@@ -71,8 +66,7 @@
         <Actions>
           <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
           <PlaySound Sound="sound://me:Focus" />
-          <Set Target="[FocusedIndex.Value]" Value="[Index.Value]"/>
-          <Set Target="[SelectedItem.Value]" Value="[Model]"/>
+          <Set Target="[FolderItems.SelectedIndex.Value]" Value="[Index.Value]"/>
         </Actions>
       </Condition>
 

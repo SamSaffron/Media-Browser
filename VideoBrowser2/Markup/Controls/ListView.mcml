@@ -10,8 +10,6 @@
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <lib:FolderItemContainer Name="SelectedItem" FolderItemContainer="$Required"/>
     </Properties>
 
     <Locals>
@@ -20,10 +18,13 @@
                         HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollingHandler"/>
 
       <ScrollingData Name="ScrollingData" />
-      <!-- and triple tap for tripletap navigation -->
+      <!-- tripletap navigation -->
       <TypingHandler Name="Typer" HandlerStage="Bubbled" MaxLength="3" TypingPolicy="Default"/>
 
+      <!--
       <Timer Name="PreLoadTimer" AutoRepeat="true" Interval="300" Enabled="true"/>
+      -->
+      
       <Timer Name="ClearTripleTypeTimer" AutoRepeat="true" Interval="1000" Enabled="false"/>
       <cor:Int32 Name="CounterValue" Int32="0" />
     </Locals>
@@ -39,7 +40,7 @@
       <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
 
       <!--`Bind the current number of Folder Items to the List Total -->
-      <Binding Source="[FocusedIndex.Value]" Target="[CounterValue]" >
+      <Binding Source="[FolderItems.SelectedIndex.Value]" Target="[CounterValue]" >
         <Transformer>
           <MathTransformer Add="1" />
         </Transformer>
@@ -57,16 +58,6 @@
         </Transformer>
       </Binding>
       
-      <!-- 
-      <Rule>
-        <Conditions>
-          <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[Scroller.NavigateInto]" />
-        </Actions>
-      </Rule>
--->
 
       <Changed Source="[Application.JILtext.Value]">
         <Conditions>
@@ -88,25 +79,18 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[PreLoadTimer.Tick]">
+      <Rule ConditionLogicalOp="And">
         <Conditions>
-          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[PreLoadTimer.Enabled]" Value="false"/>
-        </Actions>
-      </Changed>
-
-      <Changed Source="[PreLoadTimer.Tick]">
-        <Conditions>
+          <Modified Source="[Application]" InitialEvaluate="true"/>
+          <Equality Source="[Application.NavigatingForward]" Value="true"/>
           <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
-          <Equality Source="[Application.NavigatingForward]" ConditionOp="Equals" Value="true" />
         </Conditions>
+
         <Actions>
           <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
-          <Set Target="[PreLoadTimer.Enabled]" Value="false"/>
         </Actions>
-      </Changed>
+      </Rule>
+      
 
       <Changed Source="[Application.JILindex]">
         <Actions>
@@ -114,17 +98,6 @@
         </Actions>
       </Changed>
 
-      <!-- Fix up the navigation so always the first item is selected
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Modified Source="[Application]" InitialEvaluate="true"/>
-          <Equality Source="[Application.NavigatingForward]" Value="true"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
-        </Actions>
-      </Rule>
--->
       <Changed Source="[Application]" InitialEvaluate="true">
         <Actions>
           <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val ="50" />
@@ -132,10 +105,6 @@
       </Changed>
 
     </Rules>
-
-
-
-
 
     <Content>
       <Panel Layout="Dock">
@@ -187,7 +156,7 @@
 
     </Content>
     <Content Name="BaseItem">
-      <r:RepeatItem Application="[Application]" Index="[RepeatedItemIndex]" FocusedIndex="[FocusedIndex]" Model="[RepeatedItem!lib:FolderItem]" SelectedItem="[SelectedItem]">
+      <r:RepeatItem Application="[Application]" Index="[RepeatedItemIndex]" FolderItems="[FolderItems]" Model="[RepeatedItem!lib:BaseFolderItem]">
       </r:RepeatItem>
     </Content>
   </UI>

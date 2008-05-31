@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Security.Cryptography;
 using Microsoft.MediaCenter.UI;
+using Microsoft.Win32;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -221,6 +222,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return System.IO.Path.GetExtension(filename).ToLower() == ".lnk";
         }
 
+        public static Dictionary<string, bool> perceivedTypeCache = new Dictionary<string, bool>(); 
+
+        // I left the hardcoded list, cause the failure mode is better, at least it will show
+        // videos if the codecs are not installed properly
         public static bool IsVideo(string filename)
         {
             string extension = System.IO.Path.GetExtension(filename).ToLower();
@@ -236,11 +241,38 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 case ".mp4":
                 case ".mkv":
                 case ".divx":
-                case ".dvr-ms": 
+                case ".dvr-ms":
+                case ".ogm":
                     return true;
 
                 default:
-                    return false;
+
+                    bool isVideo;
+                    lock (perceivedTypeCache)
+                    {
+                        if (perceivedTypeCache.TryGetValue(extension, out isVideo))
+                        {
+                            return isVideo;
+                        }
+                    }
+                        
+                        
+                    string pt = null;
+                    RegistryKey key = Registry.ClassesRoot;
+                    key = key.OpenSubKey(extension);
+                    if (key != null)
+                    {
+                        pt = key.GetValue("PerceivedType") as string;
+                    }
+                    if (pt == null) pt = "";
+                    pt = pt.ToLower(); 
+
+                    lock (perceivedTypeCache)
+                    {
+                        perceivedTypeCache[extension] = (pt == "video");
+                    }
+
+                    return perceivedTypeCache[extension];
             }
         }
 
