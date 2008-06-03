@@ -172,6 +172,24 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         #endregion 
 
+        static string _app_config_path = null; 
+        public static string AppConfigPath
+        {
+            get 
+            {
+                if (_app_config_path == null)
+                {
+                    var e = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "VideoBrowser");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _app_config_path = e;
+                }
+                return _app_config_path;
+            }
+        }
+
         static string _app_data_path = null; 
         public static string AppDataPath
         {
@@ -179,13 +197,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (_app_data_path == null)
                 {
-                    var e = Environment.GetEnvironmentVariable("APPDATA");
-                    e = System.IO.Path.Combine(e, @"SamsVideoBrowser");
+                    var e = Path.Combine(AppConfigPath, "Data");
                     if (!Directory.Exists(e))
                     {
                         Directory.CreateDirectory(e);
                     }
-                    _app_data_path = e; 
+                    _app_data_path = e;
                 }
                 return _app_data_path;
             }
@@ -232,6 +249,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             switch (extension)
             {
+                // special case so DVD files are never considered videos
+                case ".vob":
+                case ".bup":
+                case ".ifo": 
+                    return false;
                 case ".rmvb":
                 case ".mov":
                 case ".avi":

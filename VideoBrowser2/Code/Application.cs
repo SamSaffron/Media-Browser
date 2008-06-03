@@ -26,6 +26,13 @@ namespace SamSoft.VideoBrowser
         protected override void LoadPage(object target, string source, IDictionary<string, object> sourceData, IDictionary<string, object> uiProperties, bool navigateForward)
         {
             this.Application.NavigatingForward = navigateForward;
+            if (!navigateForward)
+            {
+                if (uiProperties.ContainsKey("FolderItems"))
+                {
+                    this.Application.FolderItems = uiProperties["FolderItems"] as FolderItemListMCE;
+                }
+            }
             base.LoadPage(target, source, sourceData, uiProperties, navigateForward);
         }
     }
@@ -83,7 +90,7 @@ namespace SamSoft.VideoBrowser
 
                 string match = JILtext.Value.ToLower(); 
 
-                foreach (var item in data.folderItems)
+                foreach (var item in FolderItems.folderItems)
                 {
                     if (item.Description.ToLower().StartsWith(match))
                     {
@@ -116,62 +123,30 @@ namespace SamSoft.VideoBrowser
 
             if (previous_letter != null)
             {
-                switch (previous_letter)
+                if (previous_letter == '1')
                 {
-                    case '1':
-                        JILindex = 0 - CurrentIndex;
-                        FindText = "";
-                        break; 
-                    case '2':
-                        NavigateTo('a', counter);
-                        break;
-                    case '3':
-                        NavigateTo('d', counter);
-                        break;
-                    case '4':
-                        NavigateTo('g', counter);
-                        break;
-                    case '5':
-                        NavigateTo('j', counter);
-                        break;
-                    case '6':
-                        NavigateTo('m', counter);
-                        break;
-                    case '7':
-                        NavigateTo('p', counter);
-                        break;
-                    case '8':
-                        NavigateTo('t', counter);
-                        break;
-                    case '9':
-                        NavigateTo('w', counter);
-                        break; 
-
-                    default:
-                        break;
+                    JILindex = 0 - CurrentIndex;
+                    FindText = "";
                 }
-            } 
-            
-
+                else if (previous_letter > '1' && previous_letter <= '9')
+                {
+                    NavigateTo((char)previous_letter, counter);
+                }
+            }   
         }
+
+        
 
         void NavigateTo(char letter, int count)
         {
-            List<char> letters = new List<char>();
-            letters.Add(letter);
-            letters.Add((char)(((byte)letter) + 1));
-            letters.Add((char)(((byte)letter) + 2));
-            if (letter == 'p' || letter == 'w')
-            {
-                letters.Add((char)(((byte)letter) + 3));
-            }
+            List<char> letters = letterMap[letter]; 
 
             Dictionary<char, int> found_letters = new Dictionary<char,int>();
 
             int index = 0;
 
             // remove letters we do not have 
-            foreach (var item in data.folderItems)
+            foreach (var item in FolderItems.folderItems)
             {
                 char current_letter = item.Description.ToLower()[0];
                 if (letters.Contains(current_letter))
@@ -204,7 +179,7 @@ namespace SamSoft.VideoBrowser
 
         /**/
 
-        private FolderItemListMCE data;
+        public FolderItemListMCE FolderItems;
         private static Application singleApplicationInstance;
         private AddInHost host;
         private MyHistoryOrientedPageSession session;
@@ -217,7 +192,30 @@ namespace SamSoft.VideoBrowser
             get { return navigatingForward; }
             set { navigatingForward = value; }
         }
-	
+
+        private static Dictionary<char, List<char>> letterMap = new Dictionary<char, List<char>>();
+        static Application()
+        {
+            // init the letter map for JIL list 
+            AddLetterMapping('2',"abc2");
+            AddLetterMapping('3',"def3");
+            AddLetterMapping('4',"ghi4");
+            AddLetterMapping('5',"jkl5");
+            AddLetterMapping('6',"mno6");
+            AddLetterMapping('7',"pqrs7");
+            AddLetterMapping('8', "tuv8");
+            AddLetterMapping('9',"wxyz9");
+        }
+
+        private static void AddLetterMapping(char letter, string letters)
+        {
+            var list = new List<char>();
+            foreach (char c in letters)
+            {
+                list.Add(c);
+            }
+            letterMap[letter] = list;
+        }
 
         public Application()
             : this(null, null)
@@ -357,10 +355,12 @@ namespace SamSoft.VideoBrowser
                  
                     // Check to see if we are running on an extender... must have Full Trust permissions
                     Microsoft.MediaCenter.Hosting.AddInHost myHost = Microsoft.MediaCenter.Hosting.AddInHost.Current;
-                    
+
+                    bool isLocal = myHost.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
+                             (bool)myHost.MediaCenterEnvironment.Capabilities["Console"];
+
                     // if we are on a mce host, we can just play the media
-                    if (myHost.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
-                             (bool)myHost.MediaCenterEnvironment.Capabilities["Console"] == true)
+                    if (isLocal || !Config.Instance.EnableTranscode360)
                     {
                         PlayFileWithoutTranscode(filename, host);
                     }
@@ -443,30 +443,30 @@ namespace SamSoft.VideoBrowser
 
         private void Done(object param)
         {
-            data.RefreshSortOrder();
+            FolderItems.RefreshSortOrder();
         }
 
         public void NavigateToItems(List<IFolderItem> items)
         {
-            data = new FolderItemListMCE();
-            data.Navigate(items);
-            OpenPage(data); 
+            FolderItems = new FolderItemListMCE();
+            FolderItems.Navigate(items);
+            OpenPage(FolderItems); 
         }
 
         public void NavigateToPath(string path)
         {    
-            data = new FolderItemListMCE();
-            data.Navigate(path);
-            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, data);
-            OpenPage(data); 
+            FolderItems = new FolderItemListMCE();
+            FolderItems.Navigate(path);
+            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
+            OpenPage(FolderItems); 
         }
 
         private void NavigateToVirtualFolder(VirtualFolder virtualFolder)
         {
-            data = new FolderItemListMCE();
-            data.Navigate(virtualFolder);
-            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, data);
-            OpenPage(data);
+            FolderItems = new FolderItemListMCE();
+            FolderItems.Navigate(virtualFolder);
+            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
+            OpenPage(FolderItems);
         }
 
         public void OpenPage(FolderItemListMCE items)

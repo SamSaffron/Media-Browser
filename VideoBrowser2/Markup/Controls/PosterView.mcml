@@ -78,7 +78,7 @@
 
       <Changed Source="[Application]" InitialEvaluate="true">
         <Actions>
-          <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val="50" />
+          <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val="250" />
         </Actions>
       </Changed>
 
@@ -238,6 +238,7 @@
       </Changed>
 
       <!-- If the current item is a movie then fill the BoxArt. -->
+      
       <Rule>
         <Conditions>
           <Equality Source="[Model.IsMovie]" Value="true" />
@@ -305,9 +306,9 @@
                       <ColorFill Content="Black" Alpha="0.5" Layout="Fill" />
                     </Children>
                   </Panel>
-       
 
-                  <Graphic Name="BoxArt" Content="[Model.MCMLThumb]"  MaintainAspectRatio="true"/>
+                  <!-- <ColorFill Name="BoxArt" Content="Black" Alpha="0.5" Layout="Fill" />-->
+                   <Graphic Name="BoxArt" Content="[Model.MCMLThumb]"  MaintainAspectRatio="true"/>
                 </Children>
               </ColorFill>
               

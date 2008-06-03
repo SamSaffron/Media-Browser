@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Application.cs" />
+    <Compile Include="Code\Config.cs" />
     <Compile Include="Code\Launch.cs" />
     <Compile Include="Code\ListPage.cs" />
     <Compile Include="LibraryManagement\BaseFolderItem.cs" />
