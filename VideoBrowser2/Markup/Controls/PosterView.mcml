@@ -308,7 +308,7 @@
                   </Panel>
 
                   <!-- <ColorFill Name="BoxArt" Content="Black" Alpha="0.5" Layout="Fill" />-->
-                   <Graphic Name="BoxArt" Content="[Model.MCMLThumb]"  MaintainAspectRatio="true"/>
+                   <Graphic Name="BoxArt" Content="[Model.MCMLThumb]" Layout="Fill" MaintainAspectRatio="true"/>
                 </Children>
               </ColorFill>
               

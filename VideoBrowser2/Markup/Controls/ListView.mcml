@@ -109,7 +109,8 @@
     <Content>
       <Panel Layout="Dock">
         <Children>
-
+          
+          <!-- Spacer -->
           <Panel>
             <LayoutInput>
               <DockLayoutInput Position="Left" Alignment="Near"  />
@@ -119,6 +120,7 @@
             </Children>
           </Panel>
 
+          <!-- List Counter -->
           <Panel>
             <LayoutInput>
               <DockLayoutInput Alignment="Far" Position="Bottom"  />
@@ -133,8 +135,8 @@
             </Children>
           </Panel>
 
-
-          <Scroller Orientation="Vertical" FadeSize="-5" Margins="15,0,0,0" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
+          <!-- List Repeater -->
+          <Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,0" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
             <LayoutInput>
               <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>

@@ -115,7 +115,7 @@
 
                   <Text Name="Title2" Color="White" Font="Segoe Media Center, 18" Margins="0,-5,0,0"/>
 
-                  <Panel MaximumSize="1000,140" Margins="0,5,0,0">
+                  <Panel MaximumSize="0,0" Margins="0,5,0,0">
                     <Children>
                       <Text Name="Summary" Color="LightBlue" WordWrap="true" Font="Segoe Media Center,16"  Margins="0,-5,0,0"/>
                     </Children>
