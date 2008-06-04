@@ -153,7 +153,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     string path = "";
                     if (!string.IsNullOrEmpty(ThumbHash))
                     {
-                        path = System.IO.Path.Combine(Helper.AppDataPath, folderHash);
+                        path = System.IO.Path.Combine(Helper.AppCachePath, folderHash);
                         path = System.IO.Path.Combine(path, ThumbHash);
                         if (!File.Exists(path))
                         {

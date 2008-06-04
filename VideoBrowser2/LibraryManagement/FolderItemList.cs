@@ -47,14 +47,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             sortOrders = new List<string>();
             sortOrders.Add("by name");
             sortOrders.Add("by date");
-            Changed();
+            InvokeChanged();
         }
 
         private void Changed()
         {
             if (OnChanged != null)
             {
-                OnChanged();
+                 OnChanged();
             }
         }
 
@@ -114,7 +114,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             try
             {
                 // look up to see if the filename is there 
-                string xmlPath = System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey));
+                string xmlPath = System.IO.Path.Combine(Helper.AppCachePath, string.Format("{0}.xml", CacheKey));
                 if (System.IO.File.Exists(xmlPath))
                 {
                     // yay a cache hit. 
@@ -198,7 +198,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             
             Sort(Prefs.SortOrder);
 
-            Changed();
+            InvokeChanged();
         }
 
          
@@ -241,7 +241,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
  
             Sort(Prefs.SortOrder);
-            Changed();
+            InvokeChanged();
         }
 
         // this is here so GetFolderDetails does not block the UI thread 
@@ -398,7 +398,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 AddRange(items);
             }
 
-            Changed();
+            InvokeChanged();
         }
 
         public const string NewVideosPath = "New Videos";
@@ -493,7 +493,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                         fi.SetTitle2(item.Value.Count.ToString() + movieText);
                         fi.SetOverview(string.Format("Including: {0}", Helper.GetRandomNames(item.Value, 200)));
-                        string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppDataPath, "genres"), item.Key + ".jpg");
+                        string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppConfigPath, "GenreImages"), item.Key + ".jpg");
                         if (File.Exists(thumbPath))
                         {
                             fi.ThumbPath = thumbPath;
@@ -521,7 +521,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             }
 
-            Changed();
+            InvokeChanged();
         }
 
         /// <summary>
@@ -744,6 +744,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     return;
                 }
+          
+                this.Sort(this.SortOrder);
 
                 CacheImages();
                 CacheFolderXml(itemsToCache);
@@ -785,7 +787,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         private void CacheImages()
         {
             // cache images
-            string imagePath = System.IO.Path.Combine(Helper.AppDataPath, CacheKey);
+            string imagePath = System.IO.Path.Combine(Helper.AppCachePath, CacheKey);
 
             // ensure its there 
             if (!Directory.Exists(imagePath))
@@ -896,7 +898,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                return System.IO.Path.Combine(Helper.AppDataPath, string.Format("{0}.xml", CacheKey));
+                return System.IO.Path.Combine(Helper.AppCachePath, string.Format("{0}.xml", CacheKey));
             }
         }
 
@@ -956,7 +958,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             Sort(SortOrderEnum.Name);
 
-            Changed();
+            InvokeChanged();
         }
     }
     

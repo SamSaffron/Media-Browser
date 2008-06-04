@@ -190,21 +190,21 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        static string _app_data_path = null; 
-        public static string AppDataPath
+        static string _app_cache_path = null; 
+        public static string AppCachePath
         {
             get
             {
-                if (_app_data_path == null)
+                if (_app_cache_path == null)
                 {
-                    var e = Path.Combine(AppConfigPath, "Data");
+                    var e = Path.Combine(AppConfigPath, "Cache");
                     if (!Directory.Exists(e))
                     {
                         Directory.CreateDirectory(e);
                     }
-                    _app_data_path = e;
+                    _app_cache_path = e;
                 }
-                return _app_data_path;
+                return _app_cache_path;
             }
         }
 
@@ -239,7 +239,21 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return System.IO.Path.GetExtension(filename).ToLower() == ".lnk";
         }
 
-        public static Dictionary<string, bool> perceivedTypeCache = new Dictionary<string, bool>(); 
+        public static Dictionary<string, bool> perceivedTypeCache = new Dictionary<string, bool>();
+
+        public static bool IsExtenderNativeVideo(string filename)
+        {
+            string extension = System.IO.Path.GetExtension(filename).ToLower();
+            var extensions = Config.Instance.ExtenderNativeTypes.Split(',');
+            foreach (var item in extensions)
+            {
+                if (item == extension)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         // I left the hardcoded list, cause the failure mode is better, at least it will show
         // videos if the codecs are not installed properly

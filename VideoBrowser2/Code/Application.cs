@@ -165,7 +165,8 @@ namespace SamSoft.VideoBrowser
                 return; 
             }
 
-            count = count % found_letters.Count; 
+            // navigate to letters first then numbers
+            count = (count+1) % found_letters.Count; 
             foreach (var item in found_letters)
 	        {
 		        if (count == 0) 
@@ -352,7 +353,7 @@ namespace SamSoft.VideoBrowser
                         }
 
                     }
-                 
+
                     // Check to see if we are running on an extender... must have Full Trust permissions
                     Microsoft.MediaCenter.Hosting.AddInHost myHost = Microsoft.MediaCenter.Hosting.AddInHost.Current;
 
@@ -360,7 +361,7 @@ namespace SamSoft.VideoBrowser
                              (bool)myHost.MediaCenterEnvironment.Capabilities["Console"];
 
                     // if we are on a mce host, we can just play the media
-                    if (isLocal || !Config.Instance.EnableTranscode360)
+                    if (isLocal || !Config.Instance.EnableTranscode360 || Helper.IsExtenderNativeVideo(filename))
                     {
                         PlayFileWithoutTranscode(filename, host);
                     }

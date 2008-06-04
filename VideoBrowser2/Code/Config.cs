@@ -10,30 +10,50 @@ using SamSoft.VideoBrowser.LibraryManagement;
 namespace SamSoft.VideoBrowser
 {
     [global::System.AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-    sealed class DefaultAttribute : Attribute
+    sealed class CommentAttribute : Attribute
     {
-        // See the attribute guidelines at 
-        //  http://go.microsoft.com/fwlink/?LinkId=85236
-        readonly object value;
 
-        public DefaultAttribute(object value)
+        // This is a positional argument
+        public CommentAttribute(string comment)
         {
-            this.value = value;
+            Comment = comment;
         }
 
-        public string Value { get; private set; }
-
-        // This is a named argument
-        public int NamedInt { get; set; }
+        public string Comment { get; private set; }
     }
 
+    
     public class Config
     {
 
         /* All app settings go here, they must all have defaults or they will not work properly */
-        /* They must be fields and must start with a capitol letter */ 
-        [Default(false)]
-        public bool EnableTranscode360;
+        /* They must be fields and must start with a capitol letter, and should have a default setting */
+        /* The comment will be inlined in the config file to help the user */
+        
+        [Comment(
+@"Enable transcode 360 support on extenders"
+            )]
+        public bool EnableTranscode360 = true;
+        [Comment(
+@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")
+         ]
+        public string ExtenderNativeTypes = ".dvr-ms,.wmv"; 
+        
+        [Comment(
+@"Enable the Glass effect on buttons"
+            )]
+        public bool EnableGlassButtons = true;
+
+        [Comment(
+@"Set to false to enable the old-skool black background (keep in mind to disable the glass buttons for the full effect)"
+            )]
+        public bool MCEStyleBackground = true;
+
+        [Comment(
+@"Example. If set to true the following will be treated as a movie and an automatic playlist will be created
+Indiana Jones / Disc 1 / a.avi 
+Indiana Jones / Disc 2 / b.avi")] 
+        public bool EnableNestedMovieFolders = true; 
 
 
         /* End of app specific settings*/
@@ -58,10 +78,18 @@ namespace SamSoft.VideoBrowser
             }
         }
 
-        string filename; 
+        string filename;
+
+        private Dictionary<string, object> defaults = new Dictionary<string, object>(); 
 
         private Config ()
 	    {
+
+            // store the defaults so we can later recover them if needed
+            foreach (FieldInfo field in SettingFields)
+            {
+                defaults[field.Name] = field.GetValue(this);  
+            }
 
             var path = Helper.AppConfigPath;
             if (!Directory.Exists(path))
@@ -76,11 +104,29 @@ namespace SamSoft.VideoBrowser
             }
             catch
             {
-                File.WriteAllText(filename, "<settings></settings>");
+                File.WriteAllText(filename, "<Settings></Settings>");
                 Write();
             }
 	    }
 
+
+        private List<FieldInfo> SettingFields
+        {
+            get
+            {
+                // todo: cache this, not really important 
+                List<FieldInfo> fields = new List<FieldInfo>();
+                foreach (MemberInfo mi in this.GetType().GetMembers(
+                       BindingFlags.Public | BindingFlags.Instance ))
+                {
+                    if (IsSettingField(mi))
+                    {
+                        fields.Add((FieldInfo)mi); 
+                    }
+                }
+                return fields;
+            }
+        }
 
         /// <summary>
         /// Read current config from file
@@ -90,29 +136,12 @@ namespace SamSoft.VideoBrowser
             bool stuff_changed = false;
 
             XmlDocument dom = new XmlDocument();
-            dom.Load(filename); 
+            dom.Load(filename);
 
-            MemberInfo[] fields = this.GetType().GetMembers(
-                       BindingFlags.Public | BindingFlags.Instance );
-
-            foreach(MemberInfo member in fields)
+            foreach (FieldInfo field in SettingFields)
             {
-                FieldInfo field = null;
-                
-                if (IsSettingField(member))
-                {
-                    field = (FieldInfo) member;
-                }
-                else
-                {
-                    continue; 
-                }
 
-                var settingsNode = dom.SelectSingleNode("/settings");
-                if (settingsNode == null)
-                {
-                    settingsNode = dom.CreateNode(XmlNodeType.Element, "settings", null);
-                }
+                var settingsNode = GetSettingsNode(dom);
 
                 XmlNode node = settingsNode.SelectSingleNode(field.Name);
 
@@ -120,8 +149,8 @@ namespace SamSoft.VideoBrowser
                 {
                     node = dom.CreateNode(XmlNodeType.Element, field.Name, null);
                     settingsNode.AppendChild(node);
+                    node.InnerText = Default(field).ToString();
                     stuff_changed = true;
-                    node.InnerText = Default(member).ToString(); 
                 }
 
                 string value = node.InnerText;
@@ -138,7 +167,7 @@ namespace SamSoft.VideoBrowser
                     }
                     catch
                     {
-                        field.SetValue(this, Default(member));
+                        field.SetValue(this, Default(field));
                         stuff_changed = true;
                     }
                 }
@@ -156,6 +185,12 @@ namespace SamSoft.VideoBrowser
       }
 
 
+        private static XmlNode GetSettingsNode(XmlDocument dom)
+        {
+            return dom.SelectSingleNode("/Settings");
+        }
+
+
 
         /// <summary>
         /// Write current config to file
@@ -166,43 +201,27 @@ namespace SamSoft.VideoBrowser
             XmlDocument dom = new XmlDocument();
             dom.Load(filename); 
 
-            foreach (MemberInfo field in this.GetType().GetMembers())
+            foreach (FieldInfo field in SettingFields)
             {
-                if (!IsSettingField(field))
+
+                string value = "";
+                object v = field.GetValue(this);
+                if (v == null)
                 {
-                    // don't persist lower fields and properties
-                    continue;
+                    v = Default(field);
+                }
+                if (v != null)
+                {
+                    value = v.ToString();
                 }
 
-                string value = null;
-                if (field.MemberType == MemberTypes.Field)
-                {
-                    object v = ((FieldInfo)field).GetValue(this);
-                    if (v == null)
-                    {
-                        v = Default(field);
-                    }
-                    else
-                    {
-                        value = v.ToString(); 
-                    }
-                }
-
-                else
-                {
-                    continue; // not a property or field
-                }
-
-                var settingsNode = dom.SelectSingleNode("/settings");
-                if (settingsNode == null)
-                {
-                    settingsNode = dom.CreateNode(XmlNodeType.Element, "settings", null);
-                }
+                var settingsNode = GetSettingsNode(dom);
 
                 XmlNode node = settingsNode.SelectSingleNode(field.Name);
 
                 if (node == null)
                 {
+                    settingsNode.AppendChild(dom.CreateComment(GetComment(field)));
                     node = dom.CreateNode(XmlNodeType.Element,field.Name, null);
                     settingsNode.AppendChild(node);
                 }
@@ -211,16 +230,27 @@ namespace SamSoft.VideoBrowser
             dom.Save(filename);
         }
 
-        private static bool IsSettingField(MemberInfo field)
+        private string GetComment(MemberInfo field)
         {
-            return field.Name[0].ToString() != field.Name[0].ToString().ToLower();
+            string comment = "";
+            var attribs = field.GetCustomAttributes(typeof(CommentAttribute), false);
+            if (attribs != null && attribs.Length > 0)
+            {
+                comment = ((CommentAttribute)attribs[0]).Comment;
+            }
+            return comment;
+        }
+
+        private static bool IsSettingField(MemberInfo mi)
+        {
+            return mi.Name[0].ToString() != mi.Name[0].ToString().ToLower() && mi.MemberType == MemberTypes.Field;
         }
 
         private object Default(MemberInfo field)
         {
             //TODO: some nice error handling
-            DefaultAttribute da = (DefaultAttribute)field.GetCustomAttributes(typeof(DefaultAttribute), false)[0];
-            return da.Value;
+            // DefaultAttribute da = (DefaultAttribute)field.GetCustomAttributes(typeof(DefaultAttribute), false)[0];
+            return defaults[field.Name];
         }
     }
 }

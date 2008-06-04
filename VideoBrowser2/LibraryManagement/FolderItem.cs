@@ -434,7 +434,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 List<string> movies = new List<string>();
 
-                foreach (string file in RecursiveMovieSearch(filename, true))
+                foreach (string file in MovieSearch(filename, true, true))
                 {
                     if (Helper.IsVideo(file) || Helper.IsDvd(file))
                     {
@@ -453,7 +453,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 List<string> movies = new List<string>();
 
-                foreach (string file in RecursiveMovieSearch(filename))
+                foreach (string file in MovieSearch(filename))
                 {
                     if (Helper.IsVideo(file))
                     {
@@ -497,7 +497,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
 
                 int i = 0;
-                foreach (string file in RecursiveMovieSearch(filename))
+                foreach (string file in MovieSearch(filename))
                 {
                     // exclude tv shows
                     if (file.ToLower().EndsWith("series.xml"))
@@ -574,12 +574,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             //Trace.WriteLine(this.Displayname + " " + createdDate.ToString());
         }
 
-        private IEnumerable<string> RecursiveMovieSearch(string directory)
+        private IEnumerable<string> MovieSearch(string directory)
         {
-            return RecursiveMovieSearch(directory, false); 
+            return MovieSearch(directory, false, Config.Instance.EnableNestedMovieFolders); 
         }
 
-        private IEnumerable<string> RecursiveMovieSearch(string directory, bool includeVobs)
+        private IEnumerable<string> MovieSearch(string directory, bool includeVobs, bool recursive)
         {
           
             foreach (string file in Directory.GetFiles(directory))
@@ -594,11 +594,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 } 
             }
 
-            foreach (string file in Directory.GetDirectories(directory))
+            if (recursive)
             {
-                foreach (string movie in RecursiveMovieSearch(file, includeVobs))
+                foreach (string file in Directory.GetDirectories(directory))
                 {
-                    yield return movie;
+                    foreach (string movie in MovieSearch(file, includeVobs, recursive))
+                    {
+                        yield return movie;
+                    }
                 }
             }
             
