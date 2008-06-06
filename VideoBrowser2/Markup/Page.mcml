@@ -188,7 +188,7 @@
           <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" Application="[Application]" 
                         Model="[Model]">
             <LayoutInput>
-              <FormLayoutInput Right="Parent,1,-150" Top="Parent,.06"/>
+              <FormLayoutInput Right="Parent,1,-100" Top="Parent,.04"/>
             </LayoutInput>
           </me:SortOrder>
 
