@@ -103,5 +103,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         #endregion
+
+        #region IFolderItem Members
+
+
+        public abstract string GenresString
+        {
+            get;
+        }
+
+        #endregion
     }
 }

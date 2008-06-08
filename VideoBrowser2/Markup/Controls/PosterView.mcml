@@ -290,6 +290,22 @@
               <ScaleKeyframe Time="0.15" RelativeTo="Final"/>
             </Keyframes>
           </Animation>
+          <Animation Loop="0" Type="Show" CenterPointPercent="0.5,0.5,1.0">
+            <Keyframes>
+              <ScaleKeyframe Time="0" Value="0,0,0" Interpolation="Log"/>
+              <ScaleKeyframe Time="0.5" Value="1,1,1"/>
+              <AlphaKeyframe Time="0" Value="0" Interpolation="Log"/>
+              <AlphaKeyframe Time="0.5" Value="1" />
+            </Keyframes>
+          </Animation>
+          <Animation Loop="0" Type="Hide" CenterPointPercent="0.5,0.5,1.0">
+            <Keyframes>
+              <ScaleKeyframe Time="0" Value="1,1,1" Interpolation="Log"/>
+              <ScaleKeyframe Time="0.5" Value="0,0,0"/>
+              <AlphaKeyframe Time="0" Value="1" Interpolation="Log"/>
+              <AlphaKeyframe Time="0.3" Value="0" />
+            </Keyframes>
+          </Animation>
         </Animations>
         <Children>
 

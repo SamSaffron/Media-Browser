@@ -123,6 +123,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        public override string GenresString
+        {
+            get
+            {
+                if (Genres.Count > 0)
+                {
+                    string returnStr = string.Empty;
+                    
+                    foreach (string g in Genres)
+                    {
+                        returnStr += g + ", ";
+                    }
+                    return returnStr;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         private DateTime createdDate;
         public override DateTime CreatedDate { get { return createdDate; } }
 

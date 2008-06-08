@@ -249,6 +249,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        public override string GenresString
+        {
+            get
+            {
+                EnsureMetadataLoaded();
+                if (IsMovie && Movie.Genres.Count > 0)
+                {
+                    string returnStr = string.Empty;
+                    foreach (string g in Movie.Genres)
+                    {
+                        returnStr += g + ", ";
+                    }
+                    return returnStr;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         public long ThumbDate
         {
             get

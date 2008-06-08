@@ -91,7 +91,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public override string ToString()
         {
-            return Name + " ... " + Role;
+            return Name + " . . . " + Role;
         }
     }
 
@@ -174,7 +174,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 StringBuilder sb = new StringBuilder();
                 foreach (Actor actor in Actors)
                 {
-                    sb.AppendLine(string.Format("{0} ... {1}", actor.Name, actor.Role)); 
+                    sb.AppendLine(string.Format("{0} . . . {1}", actor.Name, actor.Role)); 
                 }
 
                 return sb.ToString();

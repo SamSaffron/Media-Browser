@@ -22,7 +22,9 @@ namespace SamSoft.VideoBrowser
             get { return myApp; }
             set { myApp = value; }
         }
-	
+
+        
+
         protected override void LoadPage(object target, string source, IDictionary<string, object> sourceData, IDictionary<string, object> uiProperties, bool navigateForward)
         {
             this.Application.NavigatingForward = navigateForward;
@@ -71,6 +73,14 @@ namespace SamSoft.VideoBrowser
             }
         }
 
+        public Config Config
+        {
+            get
+            {
+                return Config.Instance;
+                
+            }
+        }
 
         public int CurrentIndex { get; set; }
 

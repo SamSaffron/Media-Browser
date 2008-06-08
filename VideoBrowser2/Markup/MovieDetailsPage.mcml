@@ -27,6 +27,7 @@
 
       <Command Name="ScrollUpCommand" />
       <Command Name="ScrollDownCommand" />
+      
     </Locals>
 
     <Rules>
@@ -56,8 +57,18 @@
           <Set Target="[IMDBRatingPanel.Visible]" Value="false"/>
         </Actions>
       </Condition>
-      
 
+      <!-- Check config file to hide background -->
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Application.Config.GetTBackground]"
+                    Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainBG.Visible]" Value="false" />
+        </Actions>
+      </Rule>
+      
     </Rules>
 
 
@@ -89,22 +100,22 @@
           <!-- Cast (Actors) -->
           <Panel Name="MovieActors" Layout="VerticalFlow">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.55" Top="Parent,.11" Right="Parent,.92" Bottom="Parent,.55"/>
+              <FormLayoutInput Left="Parent,.55" Top="Parent,.11" Right="Parent,.92" Bottom="Parent,.50"/>
             </LayoutInput>
             <Children>
-              <Text Font="Segoe Media Center,20" Color="color://me:MediumBlue" Content="Cast..."/>
+              <Text Font="Segoe Media Center,20" Color="color://me:MediumBlue" Content="Cast . . ."/>
 
               <Scroller>
                 <Children>
                   <Repeater Name="ListRepeater" Source="[FolderItem.Movie.Actors]">
                     <Layout>
-                      <GridLayout Orientation="Vertical" AllowWrap="false" ReferenceSize="800,52"/>
+                      <FlowLayout Orientation="Vertical" />
                     </Layout>
                     <Content>
                       <!-- we should probably change this to a percentage thing so it works on non-widescreen and scales to parent -->
-                      <me:SimpleButton Text="[RepeatedItem.ToString]" Size="400,45" Command="[ActorCommand]"
-                                       Font="Segoe Media Center,18"/>
-                      <!--<Text Font="Segoe Media Center,20" Color="White" Content="[RepeatedItem.ToString]"/>-->
+                      <!--<me:SimpleButton Text="[RepeatedItem.ToString]" Size="400,45" Command="[ActorCommand]"
+                                       Font="Segoe Media Center,18"/>-->
+                      <Text Font="Segoe Media Center,18" Color="White" MinimumSize="400,35" Content="[RepeatedItem.ToString]"/>
                     </Content>
                   </Repeater>
                 </Children>
@@ -118,7 +129,7 @@
               <FormLayoutInput Left="Parent,.27" Top="Parent,.52" Right="Parent,.90" Bottom="Parent,.90"/>
             </LayoutInput>
             <Children>
-
+                            
                   <Scroller Orientation="Vertical" Padding="10,20,10,20" ScrollingData="[MovieScrollingData]" FadeSize="20">
                     <Children>
                       <Text Content="[FolderItem.Movie.Description]" Color="White" WordWrap="true"
@@ -129,8 +140,10 @@
                     </Animations>
                   </Scroller>
 
-                  <ColorFill Name="Backgrgfound" Content="30,255,255,255" MouseInteractive="true"
-                  Padding="10,20,10,20"  Alpha="0.6" Layout="Fill" />
+                  <!--<ColorFill Name="Backgrgfound" Content="30,255,255,255" MouseInteractive="true"
+                  Padding="10,20,10,20"  Alpha="0.6" Layout="Fill" />-->
+              <Graphic Name="Va" Content="image://me:ButtonLeftFocus" MouseInteractive="true"
+                  Padding="10,20,10,20"  Alpha="0.6" Layout="Fill"  />
               
             </Children>
           </Panel>
@@ -199,7 +212,7 @@
                     </Children>
                   </Panel>
 
-                  <Panel Margins="0,-5,0,0" Name="IMDBRatingPanel">
+                  <Panel Margins="0,0,0,0" Name="IMDBRatingPanel">
                     <Layout>
                       <FlowLayout Orientation="Horizontal"/>
                     </Layout>
@@ -209,27 +222,45 @@
                     </Children>
                   </Panel>
 
-                  <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,16" Color="color://me:MediumBlue" Margins="0,10,0,0" />
+                  <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,14" Color="White"/>
 
-                  <Panel Layout="HorizontalFlow" Margins="0,10,0,0" MaximumSize="350,0">
+                  <Panel Layout="HorizontalFlow" Margins="0,0,0,0" MaximumSize="350,0">
                     <Children>
-                      <Text Font="Segoe Media Center,18" Color="White" Content="Directed By: "/>
-                      <Text Font="Segoe Media Center Semibold,18" WordWrap="true" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
+                      <Text Font="Segoe Media Center,16" Color="White" Content="Directed By: "/>
+                      <Text Font="Segoe Media Center Semibold,16" WordWrap="true" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
                     </Children>
                   </Panel>
 
+                  <Repeater Name="GenreRepeater" Source="[FolderItem.Movie.Genres]"
+                                    DividerName="Divider" MaximumSize="350,0"  >
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                    </Layout>
+                    <Content>
+                      <Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White"
+                            Margins="0,0,10,0"/>
+                    </Content>
+                  </Repeater>
+                  
                 </Children>
               </Panel>
             </Children>
           </Panel>
           
-          <Graphic Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+          <Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
 
         </Children>
       </ColorFill>
 
     </Content>
+
+    <Content Name="Divider">
+      <Text Content="●" Font="Segoe Media Center,14" WordWrap="false" Color="White" Alpha="0.6" MinimumSize="25,0" />
+    </Content>
+    
   </UI>
 
+  <Image Name="ButtonLeftFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
+  
 </Mcml>
 

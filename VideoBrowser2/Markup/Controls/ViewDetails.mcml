@@ -17,9 +17,11 @@
       <Timer Name="InfoTimer" AutoRepeat="true" Interval="100" Enabled="false"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
       <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+      
     </Properties>
 
     <Rules>
+      
       
       <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
         <Conditions>
@@ -36,7 +38,9 @@
           <Set Target="[Preview.Visible]" Value="true"/>
           <Set Target="[Preview.Content]" Value="[FolderItems.SelectedItem.MCMLThumb]"/>
           <Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
-          <Set Target="[Runtime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
+          <Set Target="[TxtRuntime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
+          <Set Target="[GenreRepeater.Visible]" Value="true"/>
+          <Set Target="[GenreRepeater.Source]" Value="[FolderItems.SelectedItem.Genres]"/>
           <Set Target="[Title1.Content]" Value="[FolderItems.SelectedItem.Title1]"/>
           <Set Target="[Title2.Content]" Value="[FolderItems.SelectedItem.Title2]"/> 
           <Set Target="[Summary.Content]" Value="[FolderItems.SelectedItem.Overview]"/>
@@ -49,8 +53,9 @@
         </Conditions>
         <Actions>
           <Set Target="[Preview.Visible]" Value="false"/>
+          <Set Target="[GenreRepeater.Visible]" Value="false"/>
           <Set Target="[StarRating.Value]" Value="-1" />
-          <Set Target="[Runtime.Content]" Value=""/>
+          <Set Target="[TxtRuntime.Content]" Value=""/>
           <Set Target="[Title1.Content]" Value=""/>
           <Set Target="[Title2.Content]" Value=""/>
           <Set Target="[Summary.Content]" Value=""/>
@@ -102,8 +107,23 @@
 
                           <me:StarRating Name="StarRating" />
 
-                          <Text Name="Runtime" Color="color://me:MediumBlue" WordWrap="true" Font="Segoe Media Center,14"
+                          <Text Name="TxtRuntime" Color="color://me:MediumBlue" WordWrap="true" Font="Segoe Media Center,14"
                             Margins="0,0,0,0"/>
+                          
+                          <Repeater Name="GenreRepeater" Source="[FolderItems.SelectedItem.Genres]" 
+                                    DividerName="Divider"   >
+                            <Layout>
+                              <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                            </Layout>
+                            <Content>
+                              <Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White"  
+                                    Margins="0,0,10,0"/>
+                            </Content>
+                          </Repeater>
+
+                          
+
+                          
 
                         </Children>
                       </Panel>
@@ -135,6 +155,10 @@
 
         </Children>
       </Panel>
+    </Content>
+
+    <Content Name="Divider">
+      <Text Content="●" Font="Segoe Media Center,14" WordWrap="false" Color="White" Alpha="0.6" MinimumSize="25,0" />
     </Content>
   </UI>
 

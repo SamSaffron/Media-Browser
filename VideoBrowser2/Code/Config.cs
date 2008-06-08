@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Xml;
 using SamSoft.VideoBrowser.LibraryManagement;
 
+using Microsoft.MediaCenter.UI;
+
 namespace SamSoft.VideoBrowser
 {
     [global::System.AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
@@ -23,7 +25,7 @@ namespace SamSoft.VideoBrowser
     }
 
     
-    public class Config
+    public class Config : ModelItem
     {
 
         /* All app settings go here, they must all have defaults or they will not work properly */
@@ -40,14 +42,16 @@ namespace SamSoft.VideoBrowser
         public string ExtenderNativeTypes = ".dvr-ms,.wmv"; 
         
         [Comment(
-@"Enable the Glass effect on buttons"
-            )]
-        public bool EnableGlassButtons = true;
-
-        [Comment(
-@"Set to false to enable the old-skool black background (keep in mind to disable the glass buttons for the full effect)"
-            )]
-        public bool MCEStyleBackground = true;
+@" TransparentBackground [Default Value - False]
+    True: Enables transparent background. 
+    False: Use default Video Browser background."
+            )]        
+        public bool TransparentBackground = false;
+        [MarkupVisible]
+        public bool GetTBackground
+        {
+            get { return TransparentBackground; }
+        }
 
         [Comment(
 @"Example. If set to true the following will be treated as a movie and an automatic playlist will be created

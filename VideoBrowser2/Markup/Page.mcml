@@ -24,21 +24,18 @@
     </Locals>
     <Rules>
 
+    <!-- Check config file to hide background -->
+    <Rule>
+      <Conditions>
+        <Equality ConditionOp="Equals" Source="[Application.Config.GetTBackground]" 
+                  Value="true"/>
+      </Conditions>
+      <Actions>
+        <Set Target="[MainBG.Visible]" Value="false" />
+      </Actions>
+    </Rule>
 
-    
-
-   <!-- <Binding Source="[Application.CanPlayStartup]" Target="[CanPlay]" />   
-   <Rule>
-        <Conditions>
-          <Equality Source="[Application.CanPlayStartup]" ConditionOp="Equals" Value="true" />
-        </Conditions>
-        <Actions>
-          <PlayAnimation Animation="animation://me:BackgroundFadeIn" Target="[MainBG]" />
-         
-        </Actions>
-      </Rule>
-      
-      -->
+  
       <Rule>
         <Actions>
           <Set Target="[BGTimer.Enabled]" Value="true" />
