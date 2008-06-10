@@ -116,7 +116,7 @@
               <DockLayoutInput Position="Left" Alignment="Near"  />
             </LayoutInput>
             <Children>
-              <ColorFill Content="White" Alpha=".8" MinimumSize="1,440" Margins="15,10,5,10" />
+              <ColorFill Content="Transparent" Alpha=".8" MinimumSize="1,440" Margins="15,10,5,10" />
             </Children>
           </Panel>
 
@@ -126,10 +126,10 @@
               <DockLayoutInput Alignment="Far" Position="Bottom"  />
             </LayoutInput>
             <Children>
-              <Panel Layout="HorizontalFlow" Margins="0,5,0,0" >
+              <Panel Layout="HorizontalFlow" Margins="0,15,0,0" >
                 <Children>
                   <Text Name="List_Counter" Content="2" Color="White" Font="Segoe Media Center, 20, Bold" />
-                  <Text Name="List_Total" Content="45" Color="LightBlue" Font="Segoe Media Center, 20" Margins="0,0,255,0" />
+                  <Text Name="List_Total" Content="45" Color="LightBlue" Font="Segoe Media Center, 20" Margins="0,0,60,0" />
                 </Children>
               </Panel>
             </Children>

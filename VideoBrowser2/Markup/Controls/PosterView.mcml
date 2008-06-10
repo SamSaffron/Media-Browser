@@ -210,6 +210,14 @@
       <Index Name="Index" Index="$Required"/>
       <Image Name="FocusImage" Image="image://s:ButtonSelection2"/>
       <Image Name="BlankImage" Image="null"/>
+      <Animation Name="Test" Loop="0" Type="Show" CenterPointPercent="0.5,0.5,1.0">
+        <Keyframes>
+          <ScaleKeyframe Time="0" Value="0,0,0" Interpolation="Log"/>
+          <ScaleKeyframe Time="0.5" Value="1,1,1"/>
+          <AlphaKeyframe Time="0" Value="0" Interpolation="Log"/>
+          <AlphaKeyframe Time="0.5" Value="1" />
+        </Keyframes>
+      </Animation>
     </Properties>
 
     <Locals>
@@ -290,14 +298,12 @@
               <ScaleKeyframe Time="0.15" RelativeTo="Final"/>
             </Keyframes>
           </Animation>
-          <Animation Loop="0" Type="Show" CenterPointPercent="0.5,0.5,1.0">
-            <Keyframes>
-              <ScaleKeyframe Time="0" Value="0,0,0" Interpolation="Log"/>
-              <ScaleKeyframe Time="0.5" Value="1,1,1"/>
-              <AlphaKeyframe Time="0" Value="0" Interpolation="Log"/>
-              <AlphaKeyframe Time="0.5" Value="1" />
-            </Keyframes>
-          </Animation>
+          <TransformAnimation Delay="0.2">
+            <Source>
+              <Animation Animation="[Test]" />
+            </Source>
+          </TransformAnimation>
+          
           <Animation Loop="0" Type="Hide" CenterPointPercent="0.5,0.5,1.0">
             <Keyframes>
               <ScaleKeyframe Time="0" Value="1,1,1" Interpolation="Log"/>

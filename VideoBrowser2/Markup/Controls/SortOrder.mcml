@@ -56,12 +56,14 @@
       <Image Name="LinesImage" Image="image://st:Lines"/>
       <a:ListPage Name="Model" ListPage="$Required"/>
       <Image Name="Image" Image="null"/>
-      <Image Name="FocusImage" Image="image://st:ButtonSelection" />
+      <Image Name="FocusImage" Image="image://me:ButtonLeftFocus" />
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker"/>
     </Locals>
     <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      
       <Changed Source="[Clicker.Invoked]">
         <Actions>
           <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
@@ -100,7 +102,7 @@
 
     </Rules>
     <Content>
-      <Graphic Name="Background" Content="[Image]" MinimumSize="88,42" MaximumSize="88,42" Padding="5,1,1,1">
+      <Graphic Name="Background" Content="[Image]" MinimumSize="120,42" MaximumSize="120,42" Padding="15,2,2,2">
         <Children>
           <Panel Layout="HorizontalFlow">
             <Children>
@@ -121,5 +123,5 @@
     </Keyframes>
   </Animation>
 
-
+  <Image Name="ButtonLeftFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
 </Mcml>

@@ -90,7 +90,7 @@
           <!-- Movie Title -->
           <Panel Name="MovieTitle">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.08" Top="Parent,.04"/>
+              <FormLayoutInput Left="Parent,.08" Bottom="Parent,.13" />
             </LayoutInput>
             <Children>
               <Text Content="[FolderItem.Description]"  Font="Segoe Media Center,32" Color="White"/>
@@ -115,10 +115,17 @@
                       <!-- we should probably change this to a percentage thing so it works on non-widescreen and scales to parent -->
                       <!--<me:SimpleButton Text="[RepeatedItem.ToString]" Size="400,45" Command="[ActorCommand]"
                                        Font="Segoe Media Center,18"/>-->
-                      <Text Font="Segoe Media Center,18" Color="White" MinimumSize="400,35" Content="[RepeatedItem.ToString]"/>
+                      <Text Font="Segoe Media Center,16" Color="White" MinimumSize="400,35" Content="[RepeatedItem.ToString]"/>
                     </Content>
                   </Repeater>
                 </Children>
+                <Animations>
+                  <TransformAnimation Delay="0.8">
+                    <Source>
+                      <Animation Animation="animation://me:SlideRightFade" />
+                    </Source>
+                  </TransformAnimation>
+                </Animations>
               </Scroller>
             </Children>
           </Panel>
@@ -174,7 +181,7 @@
           <!-- Poster Image -->
           <Panel Visible="true">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.15" Bottom="Parent,.55" Right="Parent,.22"></FormLayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.15" Bottom="Parent,.58" Right="Parent,.25"></FormLayoutInput>
             </LayoutInput>
             <Children>
               <Panel Layout="VerticalFlow">
@@ -210,6 +217,13 @@
                         Color="White"/>
                       <me:StarRating Name="StarRating" Value="[FolderItem.IMDBRating]"/>
                     </Children>
+                    <Animations>
+                      <TransformAnimation Delay="0">
+                        <Source>
+                          <Animation Animation="animation://me:SlideUpFade" />
+                        </Source>
+                      </TransformAnimation>
+                    </Animations>
                   </Panel>
 
                   <Panel Margins="0,0,0,0" Name="IMDBRatingPanel">
@@ -220,16 +234,24 @@
                       <Text Font="Segoe Media Center,14" Color="White" Content="IMDB Rating: "/>
                       <Text Name="IMDBRating" Content="" Color="White" Font="Segoe Media Center Semibold,14"/>
                     </Children>
+                    <Animations>
+                      <TransformAnimation Delay="0.2">
+                        <Source>
+                          <Animation Animation="animation://me:SlideUpFade" />
+                        </Source>
+                      </TransformAnimation>
+                    </Animations>
                   </Panel>
 
-                  <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,14" Color="White"/>
-
-                  <Panel Layout="HorizontalFlow" Margins="0,0,0,0" MaximumSize="350,0">
-                    <Children>
-                      <Text Font="Segoe Media Center,16" Color="White" Content="Directed By: "/>
-                      <Text Font="Segoe Media Center Semibold,16" WordWrap="true" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
-                    </Children>
-                  </Panel>
+                  <Text Content="[FolderItem.RunningTimeString]"  Font="Segoe Media Center,14" Color="color://me:MediumBlue">
+                    <Animations>
+                      <TransformAnimation Delay="0.4">
+                        <Source>
+                          <Animation Animation="animation://me:SlideUpFade" />
+                        </Source>
+                      </TransformAnimation>
+                    </Animations>
+                  </Text>
 
                   <Repeater Name="GenreRepeater" Source="[FolderItem.Movie.Genres]"
                                     DividerName="Divider" MaximumSize="350,0"  >
@@ -240,11 +262,32 @@
                       <Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White"
                             Margins="0,0,10,0"/>
                     </Content>
+                    <Animations>
+                      <TransformAnimation Delay="0.6">
+                        <Source>
+                          <Animation Animation="animation://me:SlideUpFade" />
+                        </Source>
+                      </TransformAnimation>
+                    </Animations>
                   </Repeater>
                   
+                  <Panel Layout="HorizontalFlow" Margins="0,0,0,0" MaximumSize="350,0">
+                    <Children>
+                      <Text Font="Segoe Media Center,16" Color="White" Content="Directed By: "/>
+                      <Text Font="Segoe Media Center Semibold,16" WordWrap="true" Color="White" Content="[FolderItem.Movie.DirectorString]"/>
+                    </Children>
+                    <Animations>
+                      <TransformAnimation Delay="0.8">
+                        <Source>
+                          <Animation Animation="animation://me:SlideUpFade" />
+                        </Source>
+                      </TransformAnimation>
+                    </Animations>
+                  </Panel>
                 </Children>
               </Panel>
             </Children>
+            
           </Panel>
           
           <Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
