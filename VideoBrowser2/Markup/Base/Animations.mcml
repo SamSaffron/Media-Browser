@@ -57,6 +57,13 @@
       <PositionKeyframe Time="0.4" Value="0,0,0" Interpolation="SCurve" />
     </Keyframes>
   </Animation>
+
+  <Animation Name="FadeFast">
+    <Keyframes>
+      <AlphaKeyframe Time="0.0" Value="0" />
+      <AlphaKeyframe Time="0.4" Value="1" Interpolation="SCurve" />
+    </Keyframes>
+  </Animation>
   
   <Animation Name="RegularFastScale" Type="Scale">
     <Keyframes>
