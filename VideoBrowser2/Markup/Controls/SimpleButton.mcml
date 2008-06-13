@@ -12,7 +12,7 @@
       <ICommand Name="Command" ICommand="$Required" />
       <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
       <cor:String Name="Text" String="" />
-      <Size Name="Size" Size="251,51" />
+      <Size Name="Size" Size="0,0" />
       <Font Name="Font" Font="font://me:Font" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
@@ -35,6 +35,18 @@
       <Binding Source="[Text]" Target="[Label.Content]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
+      <Rule>
+        <Conditions>
+          <Equality Source="[Size]" Value="0,0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[imgButton.MaximumSize]" Value="1000,1000"/>
+          <Set Target="[imgFocusOverlay.MaximumSize]" Value="1000,1000"/>
+          <Set Target="[imgButton.SizingPolicy]"  Value="SizeToConstraint"/>
+          <Set Target="[imgFocusOverlay.SizingPolicy]"  Value="SizeToConstraint"/>
+        </Actions>
+      </Rule>
+      
       <Rule>
         <Conditions>
           <Modified Source="[Clicker.Invoked]"/>

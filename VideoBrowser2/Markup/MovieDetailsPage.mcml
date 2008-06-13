@@ -61,7 +61,7 @@
       <!-- Check config file to hide background -->
       <Rule>
         <Conditions>
-          <Equality ConditionOp="Equals" Source="[Application.Config.GetTBackground]"
+          <Equality ConditionOp="Equals" Source="[Application.Config.TransparentBackgroundMCML]"
                     Value="true"/>
         </Conditions>
         <Actions>
@@ -80,10 +80,10 @@
           <!-- Play Movie Button-->
           <Panel Name="PlayMovie" FocusOrder="0">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.6"   />
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.6"  Right="Parent,.23" Bottom="Parent,.67"/>
             </LayoutInput>
             <Children>
-              <me:SimpleButton Text="Play Movie" Size="225,51" Command="[PlayMovieCommand]" />
+              <me:SimpleButton Text="Play Movie" Command="[PlayMovieCommand]"/>
             </Children>
           </Panel>
 
@@ -206,7 +206,7 @@
           <!-- Rating Details Panel -->
           <Panel Name="Rating" Visible="true" >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.27" Top="Parent,.15" ></FormLayoutInput>
+              <FormLayoutInput Left="Parent,.27" Top="Parent,.15" Right="Parent,.50" ></FormLayoutInput>
             </LayoutInput>
             <Children>
               <Panel Layout="VerticalFlow">

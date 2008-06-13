@@ -39,28 +39,42 @@ namespace SamSoft.VideoBrowser
         [Comment(
 @"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")
          ]
-        public string ExtenderNativeTypes = ".dvr-ms,.wmv"; 
-        
+        public string ExtenderNativeTypes = ".dvr-ms,.wmv";
+
         [Comment(
 @" TransparentBackground [Default Value - False]
     True: Enables transparent background. 
     False: Use default Video Browser background."
-            )]        
+            )]
         public bool TransparentBackground = false;
-        [MarkupVisible]
-        public bool GetTBackground
-        {
-            get { return TransparentBackground; }
-        }
 
         [Comment(
 @"Example. If set to true the following will be treated as a movie and an automatic playlist will be created
 Indiana Jones / Disc 1 / a.avi 
 Indiana Jones / Disc 2 / b.avi")] 
-        public bool EnableNestedMovieFolders = true; 
+        public bool EnableNestedMovieFolders = true;
+
+        [Comment(
+@"The starting folder for video browser. By default its set to MyVideos. 
+Can be set to a folder for example c:\ or a virtual folder for example c:\folder.vf"
+            )]
+        public string InitialFolder = "MyVideos";
 
 
+        
         /* End of app specific settings*/
+
+
+        // so we can access settings from mcml 
+        [MarkupVisible]
+        public bool TransparentBackgroundMCML
+        {
+            get 
+            {
+                return TransparentBackground; 
+            }
+        }
+
 
         private static object _syncobj = new object(); 
         private static Config _instance = null; 

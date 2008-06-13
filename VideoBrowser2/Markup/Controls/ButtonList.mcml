@@ -13,7 +13,7 @@
     <Properties>
       
       <cor:String Name="Text" String="" />
-      <Size Name="MinSize" Size="500,57" />
+      <Size Name="MinSize" Size="300,57" />
       <Size Name="Size" Size="625,57" />
       <Font Name="Font" Font="font://me:Font" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
@@ -91,7 +91,7 @@
                    MouseInteractive="true"
                    MinimumSize="[MinSize]"
                    MaximumSize="[Size]"
-                   SizingPolicy="SizeToContent"
+                   SizingPolicy="SizeToConstraint"
                    HorizontalAlignment="Fill"
                    VerticalAlignment="Fill"
                    >

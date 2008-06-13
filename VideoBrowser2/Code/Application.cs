@@ -282,11 +282,21 @@ namespace SamSoft.VideoBrowser
             }
         }
 
+        // Entry point for the app
         public void GoToMenu()
         {
-    
-            transcoder = new Transcoder();
-            NavigateToPath(Helper.MyVideosPath); 
+            var filename = Config.InitialFolder.ToLower();
+            
+            if (Helper.IsVirtualFolder(filename))
+            {
+                NavigateToVirtualFolder(new VirtualFolder(filename));
+            }
+
+            if (filename == "myvideos" || !System.IO.Directory.Exists(filename))
+            {
+                filename = Helper.MyVideosPath;    
+            }
+            NavigateToPath(filename);
         }
 
         private Boolean PlayStartupAnimation = true;
@@ -414,6 +424,11 @@ namespace SamSoft.VideoBrowser
 
         private void PlayFileWithTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
+            if (transcoder == null)
+            {
+                transcoder = new Transcoder();
+            }
+
             string bufferpath = transcoder.BeginTranscode(filename);
             
             // if bufferpath comes back null, that means the transcoder i) failed to start or ii) they

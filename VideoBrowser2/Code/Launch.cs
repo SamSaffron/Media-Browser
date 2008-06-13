@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using Microsoft.MediaCenter.Hosting;
+using Microsoft.MediaCenter;
 
 namespace SamSoft.VideoBrowser
 {
     public class MyAddIn : IAddInModule, IAddInEntryPoint
     {
-        private static HistoryOrientedPageSession s_session;
 
         public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)
         {
@@ -17,8 +17,9 @@ namespace SamSoft.VideoBrowser
 
         public void Launch(AddInHost host)
         {
-            s_session = new MyHistoryOrientedPageSession();
-            Application app = new Application((MyHistoryOrientedPageSession)s_session, host);
+        //  uncomment to debug
+        //  host.MediaCenterEnvironment.Dialog("debug", "debug", DialogButtons.Ok, 100, true); 
+            Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
         }
     }

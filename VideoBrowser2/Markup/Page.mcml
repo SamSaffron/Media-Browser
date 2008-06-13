@@ -25,9 +25,10 @@
     <Rules>
 
     <!-- Check config file to hide background -->
-    <Rule>
+
+      <Rule>
       <Conditions>
-        <Equality ConditionOp="Equals" Source="[Application.Config.GetTBackground]" 
+        <Equality ConditionOp="Equals" Source="[Application.Config.TransparentBackgroundMCML]" 
                   Value="true"/>
       </Conditions>
       <Actions>
