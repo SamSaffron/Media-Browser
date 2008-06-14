@@ -51,13 +51,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 try
                 {
                     // load it ... and notify 
-                    var image = ImageFromStream(File.OpenRead(item.ThumbPath));
+                    var image = ImageFromStream(new MemoryStream(File.ReadAllBytes(item.ThumbPath)));
 
                     lock (item)
                     {
                         item.image = image;
-                        item.FirePropertyChanged("MCMLThumb"); 
                     }
+                    Microsoft.MediaCenter.UI.Application.DeferredInvoke(item.NewThumbnailGenerated);
                 }
                 catch
                 {
@@ -92,21 +92,40 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        private void NewThumbnailGenerated(object state)
+        {
+            this.FirePropertyChanged("MCMLThumb"); 
+        }
+
         Image image = null;
 
+
+        [MarkupVisible]
         public Image MCMLThumb
         {
             get
             {
+                bool enableExperimentalPosterFix = false;
+
+                bool loadImage = false;
+
                 lock (this)
                 {
                     if (image == null)
                     {
-                        image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
+                        if (enableExperimentalPosterFix)
+                        {
+                            loadImage = true;
+                            image = Helper.GetMCMLThumb("", IsVideo);
+                        }
+                        else
+                        {
+                            image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
+                        }
                     }
                 }
-                /*
-                if (!string.IsNullOrEmpty(ThumbPath))
+                
+                if (!string.IsNullOrEmpty(ThumbPath) && loadImage)
                 {
                     // start a background load 
                     lock (syncObj)
@@ -115,7 +134,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         StartProcessingQueue(); 
                     }
                 }
-                 */
+              
 
                 return image;
             }

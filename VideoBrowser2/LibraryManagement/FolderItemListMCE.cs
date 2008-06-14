@@ -26,7 +26,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             selectedIndex.MaxValue = 20000;
             selectedIndex.Value = -1;
 
-            VisualReleaseBehavior = ReleaseBehavior.Dispose;
+            //VisualReleaseBehavior = ReleaseBehavior.Dispose;
             
             // TODO : decide if it makes sense to discard of screen visuals, will require 
             // DiscardOffscreenVisuals="true" in the repeater 
