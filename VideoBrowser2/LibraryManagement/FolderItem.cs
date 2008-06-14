@@ -43,13 +43,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         #region Statics
         private static MD5CryptoServiceProvider CryptoService = new MD5CryptoServiceProvider();
         static object syncObj = new object();
-        static MethodInfo fromStreamMethodInfo = null;
         #endregion 
 
         #region Privates 
 
         VirtualFolder virtualFolder = null;
-        Image image = null;
         private string path = null;
         bool thumbLoaded = false;
         bool metadataLoaded = false;
@@ -81,18 +79,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 virtualFolder = value;
             } 
         }
-       
-        public override Image MCMLThumb
-        {
-            get
-            {
-                if (image == null)
-                {
-                    image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
-                }
-                return image;
-            } 
-        }
+
 
         public string Path 
         {
@@ -512,7 +499,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
 
                 string path = System.IO.Path.GetDirectoryName(filename);
-                if (File.Exists(System.IO.Path.Combine(path, "series.xml")))
+                // path may be null for network shares (get directory name will not work for //10.0.0.2/dd
+                if (path == null || File.Exists(System.IO.Path.Combine(path, "series.xml")))
                 {
                     return false;
                 }
@@ -565,6 +553,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             try
             {
+                // dont care about times for non files 
+                if (filename == null)
+                {
+                    return;
+                }
+
                 DirectoryInfo di = new DirectoryInfo(filename);
                 modifiedDate = di.LastWriteTime;
                 if (!IsFolder || !IsVideo)
@@ -703,32 +697,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         #endregion 
-
-        private static Image ImageFromStream(Stream stream)
-        {
-            if (fromStreamMethodInfo == null)
-            {
-                lock (syncObj)
-                {
-                    MethodInfo[] mis = typeof(Image).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
-
-                    foreach (MethodInfo mi in mis)
-                    {
-                        ParameterInfo[] pis = mi.GetParameters();
-                        if (mi.Name == "FromStream" && pis.Length == 2)
-                        {
-                            if (pis[0].ParameterType == typeof(String) &&
-                                pis[1].ParameterType == typeof(Stream))
-                            {
-                                fromStreamMethodInfo = mi;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return (Image)fromStreamMethodInfo.Invoke(null, new object[] { null, stream });
-        }
 
         private static bool CheckForDVD(string directory)
         {

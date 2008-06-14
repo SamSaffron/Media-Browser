@@ -150,20 +150,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         private DateTime modifiedDate;
         public override DateTime ModifiedDate { get { return modifiedDate; } }
 
-
-        Image image = null; 
-        public override Microsoft.MediaCenter.UI.Image MCMLThumb
-        {
-            get 
-            {
-                if (image == null)
-                {
-                    image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
-                }
-                return image; 
-            }
-        }
-
         private string _thumbPath = null; 
         public override string ThumbPath
         {

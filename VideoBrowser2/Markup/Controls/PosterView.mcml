@@ -236,6 +236,7 @@
           <FormatTransformer Format="{0}z" ToLower="true" />
         </Transformer>
       </Binding>
+      
       <Changed Source="[DisplayText]">
        <Conditions>
           <Equality Source="[DisplayText.Length]" ConditionOp="LessThan" Value="10" />

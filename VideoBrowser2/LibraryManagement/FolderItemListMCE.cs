@@ -24,7 +24,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             selectedIndex = new IntRangedValue();
             selectedIndex.MinValue = -1;
             selectedIndex.MaxValue = 20000;
-            selectedIndex.Value = -1; 
+            selectedIndex.Value = -1;
+
+            VisualReleaseBehavior = ReleaseBehavior.Dispose;
+            
+            // TODO : decide if it makes sense to discard of screen visuals, will require 
+            // DiscardOffscreenVisuals="true" in the repeater 
+            
+            //EnableSlowDataRequests = true;
+
+
             //  mce does not allow cross thread signalling
             //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
         }
@@ -33,6 +42,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
+                if (selectedIndex.Value == -1)
+                {
+                    return new FolderItem();
+                }
+
                 try
                 {
                     return folderItems[selectedIndex.Value];
@@ -96,11 +110,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             RefreshSortOrder();
         }
 
-        protected override void OnRequestItem(int index, ItemRequestCallback callback)
-        {
-            callback(this, index, folderItems[index]); 
-            
-        }
+       
 
         internal void Navigate(List<IFolderItem> items)
         {
@@ -158,5 +168,33 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             folderItems.Navigate(virtualFolder);
             Count = folderItems.Count;
         }
+
+        #region Speed optimisations for poster view
+
+        protected override void OnRequestItem(int index, ItemRequestCallback callback)
+        {
+          //  Trace.WriteLine("RequestItem " + index.ToString());
+            callback(this, index, folderItems[index]);
+        }
+
+        protected override void OnRequestSlowData(int index)
+        {
+         //   Trace.WriteLine("OnRequestSlowData " + index.ToString());
+            base.OnRequestSlowData(index);
+        }
+
+        protected override void OnVisualsCreated(int index)
+        {
+         //   Trace.WriteLine("OnVisualsCreated " + index.ToString());
+            base.OnVisualsCreated(index);
+        }
+
+        protected override void OnVisualsReleased(int index)
+        {
+         //   Trace.WriteLine("OnVisualsReleased " + index.ToString());
+            base.OnVisualsReleased(index);
+        }
+
+        #endregion 
     }
 }
