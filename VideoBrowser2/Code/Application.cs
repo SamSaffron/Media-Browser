@@ -290,6 +290,7 @@ namespace SamSoft.VideoBrowser
             if (Helper.IsVirtualFolder(filename))
             {
                 NavigateToVirtualFolder(new VirtualFolder(filename));
+                return;
             }
 
             if (filename == "myvideos" || !System.IO.Directory.Exists(filename))
