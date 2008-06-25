@@ -4,10 +4,12 @@ using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using SamSoft.VideoBrowser.LibraryManagement;
+using SamSoft.VideoBrowser.Util;
 using System.Text;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 
 namespace SamSoft.VideoBrowser
@@ -194,7 +196,11 @@ namespace SamSoft.VideoBrowser
         private static Application singleApplicationInstance;
         private AddInHost host;
         private MyHistoryOrientedPageSession session;
-        private Transcoder transcoder; 
+        private Transcoder transcoder;
+
+        private int Version = 100; // This number needs to correspond to the version info XML file values.
+
+        private static Semaphore displaySem;
 
         private bool navigatingForward;
 
@@ -250,6 +256,10 @@ namespace SamSoft.VideoBrowser
             JILtext.Value = "";
             JILtext.Submitted += new EventHandler(JILtext_Activity);
 
+            // We only allow a single thread to have this at a time.  The purpose
+            // of this semaphore is to allow popup dialogs to not be over-ridden by page navigation.
+            displaySem = new Semaphore(1, 1);
+
             
         }
 
@@ -285,19 +295,32 @@ namespace SamSoft.VideoBrowser
         // Entry point for the app
         public void GoToMenu()
         {
+            // We check config here instead of in the Updater class because the Config class 
+            // CANNOT be instantiated outside of the application thread.
+            if (Config.EnableUpdates)
+            {
+                Updater update = new Updater(this, Version);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(update.checkUpdate));
+            }
+
             var filename = Config.InitialFolder.ToLower();
-            
+            bool isVF = false;;
             if (Helper.IsVirtualFolder(filename))
             {
                 NavigateToVirtualFolder(new VirtualFolder(filename));
-                return;
+                isVF = true;
             }
 
             if (filename == "myvideos" || !System.IO.Directory.Exists(filename))
             {
                 filename = Helper.MyVideosPath;    
             }
-            NavigateToPath(filename);
+
+            if (!isVF)
+            {
+                NavigateToPath(filename);
+            }
+
         }
 
         private Boolean PlayStartupAnimation = true;
@@ -484,6 +507,7 @@ namespace SamSoft.VideoBrowser
         {    
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(path);
+            displaySem.WaitOne();
             Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
             OpenPage(FolderItems); 
         }
@@ -492,6 +516,7 @@ namespace SamSoft.VideoBrowser
         {
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(virtualFolder);
+            displaySem.WaitOne();
             Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
             OpenPage(FolderItems);
         }
@@ -511,6 +536,7 @@ namespace SamSoft.VideoBrowser
             {
                 Debug.WriteLine("GoToMenu");
             }
+            displaySem.Release();
         }
 
         public void Navigate(IFolderItem item)
@@ -544,6 +570,16 @@ namespace SamSoft.VideoBrowser
             }
 
             PlayMovie(fi);
+        }
+
+        public DialogResult displayDialog(string message, string caption, DialogButtons buttons, int timeout)
+        {
+            // We won't be able to take this during a page transition.  This is good!
+            // Conversly, no new pages can be navigated while this is present.
+            displaySem.WaitOne();
+            DialogResult result = MediaCenterEnvironment.Dialog(message, caption, buttons, timeout, true);
+            displaySem.Release();
+            return result;
         }
 
     }

@@ -87,6 +87,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Timer.cs" />
+    <Compile Include="Util\Updater.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

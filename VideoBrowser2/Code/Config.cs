@@ -60,7 +60,15 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
             )]
         public string InitialFolder = "MyVideos";
 
+        [Comment(
+@"Flag for auto-updates.  True will auto-update, false will not."
+            )]
+        public bool EnableUpdates = true;
 
+        [Comment(
+@"Flag for beta updates.  True will prompt you to update to beta versions."
+            )]
+        public bool EnableBetas = false;
         
         /* End of app specific settings*/
 
