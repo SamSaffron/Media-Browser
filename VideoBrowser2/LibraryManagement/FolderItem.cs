@@ -506,12 +506,20 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
 
                 int i = 0;
+                bool hasIso = false;
                 foreach (string file in MovieSearch(filename))
                 {
                     // exclude tv shows
                     if (file.ToLower().EndsWith("series.xml"))
                     {
                         return false;
+                    }
+
+                    // We gotta check for ISO files here since
+                    // we cannot playlist them.
+                    if (Helper.isIso(file))
+                    {
+                        hasIso = true;
                     }
 
                     i++;
@@ -525,6 +533,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     return ContainsDvd; 
                 }
+
+                // 2 playable videos is fine, but not OK with ISO files.
+                else if (i == 2)
+                {
+                    return !hasIso && Config.Instance.EnableMoviePlaylists;
+                }
+
                 else
                 {
                     return true;

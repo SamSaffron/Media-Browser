@@ -255,6 +255,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return false;
         }
 
+        // Check if this file is an Iso.  (This is not used to determine what files
+        // are videos, etc.  It is more used to filter certain cases
+        // that are handled differently for Isos).
+        public static bool isIso(string filename)
+        {
+            string extension = System.IO.Path.GetExtension(filename).ToLower();
+
+            return extension == ".iso";
+        }
+
         // I left the hardcoded list, cause the failure mode is better, at least it will show
         // videos if the codecs are not installed properly
         public static bool IsVideo(string filename)
@@ -277,6 +287,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 case ".mp4":
                 case ".mkv":
                 case ".divx":
+                case ".iso":
                 case ".dvr-ms":
                 case ".ogm":
                     return true;

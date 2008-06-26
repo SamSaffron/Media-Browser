@@ -55,6 +55,14 @@ Indiana Jones / Disc 2 / b.avi")]
         public bool EnableNestedMovieFolders = true;
 
         [Comment(
+@"Example. If set to true the following will be treated as a movie and an automatic playlist will be created
+Indiana Jones / a.avi 
+Indiana Jones / b.avi (This only works for 2 videos (no more))
+**Setting this to false will override EnableNestedMovieFolders if that is enabled.**"
+            )]
+        public bool EnableMoviePlaylists = true;
+
+        [Comment(
 @"The starting folder for video browser. By default its set to MyVideos. 
 Can be set to a folder for example c:\ or a virtual folder for example c:\folder.vf"
             )]
@@ -69,6 +77,16 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
 @"Flag for beta updates.  True will prompt you to update to beta versions."
             )]
         public bool EnableBetas = false;
+
+        [Comment(
+@"Set the location of the Daemon Tools binary.."
+    )]
+        public string DaemonToolsLocation = "C:\\Program Files\\DAEMON Tools Lite\\daemon.exe";
+
+        [Comment(
+@"The drive letter of the Daemon Tools virtual drive."
+    )]
+        public string DaemonToolsDrive = "E";
         
         /* End of app specific settings*/
 

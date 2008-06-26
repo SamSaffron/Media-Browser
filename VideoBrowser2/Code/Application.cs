@@ -431,6 +431,32 @@ namespace SamSoft.VideoBrowser
         {
             try
             {
+                if (Helper.isIso(filename))
+                {
+                    try
+                    {
+                        // Create the process start information.
+                        Process process = new Process();
+                        process.StartInfo.Arguments = "-mount 0,\"" + filename + "\"";                  
+                        process.StartInfo.FileName = Config.DaemonToolsLocation;
+                        process.StartInfo.ErrorDialog = false;
+                        process.StartInfo.CreateNoWindow = true;
+
+                        // We wait for exit to ensure the iso is completely loaded.
+                        process.Start();
+                        process.WaitForExit();
+
+                        // Play the DVD video that was mounted.
+                        filename = Config.DaemonToolsDrive + ":\\";
+                    }
+                    catch (Exception)
+                    {
+                        // Display the error in this case, they might wonder why it didn't work.
+                        displayDialog("DaemonTools is not correctly configured.", "Could not load ISO", DialogButtons.Ok, 10);
+                        throw (new Exception("Daemon tools is not configured correctly"));
+                    }
+                }
+                
                 // Get access to Windows Media Center host.
                 MediaCenterEnvironment mce;
                 mce = host.MediaCenterEnvironment;
@@ -445,6 +471,7 @@ namespace SamSoft.VideoBrowser
                 Trace.WriteLine("Failed to load movie : " + e.ToString());
             }
         }
+
 
         private void PlayFileWithTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
