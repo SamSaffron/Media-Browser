@@ -369,9 +369,32 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         internal static Image GetMCMLThumb(string path, bool isVideo)
         {
             string resource;
+            bool isEmpty = true;
 
+            Image retval = null;
 
-            if (String.IsNullOrEmpty(path))
+            // Do we have a thumbnail path?
+            if (!String.IsNullOrEmpty(path))
+            {
+                // yes, so lets say the string is not empty and construct the resource
+                // to build the image from.
+                isEmpty = false;
+                resource = "file://" + path;
+                try
+                {
+                    // This throws an exception is the file does not exist (and possibly
+                    // if the file is not an image?)
+                    retval = new Image(resource);
+                }
+                catch (Exception)
+                {
+                    // If that failed, treat the rest of the function as if the path was 
+                    // empty.
+                    isEmpty = true;
+                }
+            }
+            
+            if (isEmpty)   
             {
                 if (isVideo)
                 {
@@ -381,13 +404,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     resource = "resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder";
                 }
-            }
-            else
-            {
-                resource = "file://" + path;
+
+                retval = new Image(resource);
             }
 
-            return new Image(resource);
+            return retval;
         }
 
         internal static string GetRandomNames(List<IFolderItem> items, int maxLength)
