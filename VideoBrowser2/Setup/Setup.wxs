@@ -116,7 +116,7 @@
 			<!-- value 5.0 and the presence of the file %windir%\eHome\RegisterMceApp.exe. If all of these     -->
 			<!-- conditions are met, the system is a Windows Vista Home Premium or Ultimate Edition operating  -->
 			<!-- system and the product will be allowed to install.                                            -->
-			<Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT = 600 OR NOT MCEINSTALLVERSION = "5.0" OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
+      <Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT = 600 OR NOT MCEINSTALLVERSION >= "5.0" OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
 
 			<Custom Action="CA_RegisterMceApp_Unregister_Install_Cmd" After="CostFinalize">
 				<![CDATA[NOT REMOVE]]>
@@ -161,7 +161,7 @@
 			<Custom Action="CA_BlockOlderVersionInstall" After="FindRelatedProducts">
 				<![CDATA[NEWERVERSIONDETECTED]]>
 			</Custom>
-			<Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT = 600 OR NOT MCEINSTALLVERSION = "5.0" OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
+      <Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT = 600 OR NOT MCEINSTALLVERSION >= "5.0" OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
 		</InstallUISequence>
 
 		<!-- These properties define links that will appear in the Add/Remove Programs control panel when    -->
