@@ -69,6 +69,7 @@
     <Compile Include="LibraryManagement\FolderItemList.cs" />
     <Compile Include="LibraryManagement\FolderItemListMCE.cs" />
     <Compile Include="LibraryManagement\FolderItemListPrefs.cs" />
+    <Compile Include="LibraryManagement\FolderItemSorter.cs" />
     <Compile Include="LibraryManagement\Genre.cs" />
     <Compile Include="LibraryManagement\Helper.cs" />
     <Compile Include="LibraryManagement\IFolderItem.cs" />

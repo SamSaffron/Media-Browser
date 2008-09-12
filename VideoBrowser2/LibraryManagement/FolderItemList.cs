@@ -414,7 +414,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get { return _path; }
         }
 
-        public List<BaseFolderItem> nonGenreList;
+        public List<BaseFolderItem> nonDrilldownList;
 
         public SortOrderEnum SortOrder { get; set; } 
 
@@ -432,87 +432,32 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     Prefs.SortOrder = sortOrderEnum;
                     Prefs.Save();
                 }
-      
-
-                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime)
+     
+                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime || sortOrderEnum == SortOrderEnum.ProductionYear)
                 {
-                    AddGenreAndRuntimeSort();
+                    AddMovieSortOptions();
                 }
 
                 if (sortOrderEnum == SortOrderEnum.Genre)
                 {
-                    if (nonGenreList == null)
-                    {
-                        nonGenreList = new List<BaseFolderItem> ();
-                        foreach (BaseFolderItem item in this)
-                        {
-                            nonGenreList.Add(item);
-                        }
-                    }
-
-                    var generes = new Dictionary<string, List<IFolderItem>>();
-
-
-                    this.Clear();
-                    foreach (var item in nonGenreList)
-                    {
-                        if (this.Count == 0) 
-                        {
-                            if (!item.IsMovie || item.Genres.Count == 0)
-                            {
-                                if (!generes.ContainsKey("Other"))
-                                {
-                                    generes["Other"] = new List<IFolderItem>();  
-                                }
-                                generes["Other"].Add(item);
-                                
-                            }
-                        }
-                        if (item.IsMovie)
-                        {
-                            foreach (var genre in item.Genres)
-                            {
-                                if (!generes.ContainsKey(genre))
-                                {
-                                    generes[genre] = new List<IFolderItem>();
-                                }
-                                generes[genre].Add(item);
-                            }
-                        }
-                    }
-
-                    foreach (var item in generes)
-                    {
-                        FolderItem fi = new FolderItem("test", true, item.Key);
-                        fi.Contents = item.Value;
-                        var movieText = " movie";
-                        if (item.Value.Count > 1)
-                        {
-                            movieText = " movies";
-                        }
-
-                        fi.SetTitle2(item.Value.Count.ToString() + movieText);
-                        fi.SetOverview(string.Format("Including: {0}", Helper.GetRandomNames(item.Value, 200)));
-                        string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppConfigPath, "GenreImages"), item.Key + ".jpg");
-                        if (File.Exists(thumbPath))
-                        {
-                            fi.ThumbPath = thumbPath;
-                        }
-                        this.Add(fi);
-                    }
-
+                    GenreDrilldown();
+                    this.Sort(new FolderItemSorter(sortOrderEnum));
+                }
+                else if (sortOrderEnum == SortOrderEnum.ProductionYear)
+                {
+                    ProductionYearDrilldown();
                     this.Sort(new FolderItemSorter(sortOrderEnum));
                 }
                 else
                 {
-                    if (nonGenreList != null)
+                    if (nonDrilldownList != null)
                     {
                         this.Clear();
-                        foreach (BaseFolderItem item in nonGenreList)
+                        foreach (BaseFolderItem item in nonDrilldownList)
                         {
                             this.Add(item);
                         }
-                        nonGenreList = null; 
+                        nonDrilldownList = null;
                     }
 
                     this.Sort(new FolderItemSorter(sortOrderEnum));
@@ -522,6 +467,92 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
 
             InvokeChanged();
+        }
+
+        private void ProductionYearDrilldown()
+        {
+            nonDrilldownList = ActualItems;
+            this.Clear();
+            var productionYearRange = new Dictionary<string, List<IFolderItem>>();
+
+            foreach (var item in nonDrilldownList)
+            {
+                
+                if (!item.IsMovie || item.ProductionYear < 1900)
+                {
+                    if (!productionYearRange.ContainsKey("Unknown"))
+                    {
+                        productionYearRange["Unknown"] = new List<IFolderItem>();
+                    }
+                    productionYearRange["Unknown"].Add(item);
+
+                }
+                else 
+                {
+                    if (!productionYearRange.ContainsKey(item.ProductionYear.ToString()))
+                    {
+                        productionYearRange[item.ProductionYear.ToString()] = new List<IFolderItem>(); 
+                    }
+                    productionYearRange[item.ProductionYear.ToString()].Add(item); 
+                }
+            }
+
+            AddDrildownItems(productionYearRange, "ProductionYearImages");
+        }
+
+        private void AddDrildownItems(Dictionary<string, List<IFolderItem>> items, string image_location)
+        {
+            foreach (var item in items)
+            {
+                FolderItem fi = new FolderItem("test", true, item.Key);
+                fi.Contents = item.Value;
+                var movieText = " movie";
+                if (item.Value.Count > 1)
+                {
+                    movieText = " movies";
+                }
+                fi.SetTitle2(item.Value.Count.ToString() + movieText);
+                fi.SetOverview(string.Format("Including: {0}", Helper.GetRandomNames(item.Value, 200)));
+                string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppConfigPath, image_location), item.Key + ".jpg");
+                if (File.Exists(thumbPath))
+                {
+                    fi.ThumbPath = thumbPath;
+                }
+                this.Add(fi);
+            }
+        }
+
+        private void GenreDrilldown()
+        {
+            nonDrilldownList = ActualItems;
+            var generes = new Dictionary<string, List<IFolderItem>>();
+            this.Clear();
+            foreach (var item in nonDrilldownList)
+            {
+               
+                if (!item.IsMovie || item.Genres.Count == 0)
+                {
+                    if (!generes.ContainsKey("Other"))
+                    {
+                        generes["Other"] = new List<IFolderItem>();
+                    }
+                    generes["Other"].Add(item);
+
+                }
+                else
+                {
+                    foreach (var genre in item.Genres)
+                    {
+                        if (!generes.ContainsKey(genre))
+                        {
+                            generes[genre] = new List<IFolderItem>();
+                        }
+                        generes[genre].Add(item);
+                    }
+                }
+            }
+
+            AddDrildownItems(generes, "GenreImages");
         }
 
         /// <summary>
@@ -553,7 +584,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        // returns the actual list of items in the folder, regardless on if the genre browsing is selected
+        // returns a copy of the actual list of items in the folder, regardless on if we are drilling down
         private List<BaseFolderItem> ActualItems
         {
             get 
@@ -561,9 +592,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 List<BaseFolderItem> items = new List<BaseFolderItem>(); 
                 lock (this)
                 {
-                    if (nonGenreList != null)
+                    if (nonDrilldownList != null)
                     {
-                        foreach (var item in nonGenreList)
+                        foreach (var item in nonDrilldownList)
                         {
                             items.Add(item);
                         }
@@ -582,9 +613,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private void AddItem(BaseFolderItem item)
         {
-            if (nonGenreList != null)
+            if (nonDrilldownList != null)
             {
-                nonGenreList.Add(item);
+                nonDrilldownList.Add(item);
                 // TODO : refresh genre list
             }
             else
@@ -595,9 +626,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private void RemoveItem(BaseFolderItem item)
         {
-            if (nonGenreList != null)
+            if (nonDrilldownList != null)
             {
-                nonGenreList.Remove(item);
+                nonDrilldownList.Remove(item);
                 // TODO - refresh genre list 
             }
             else
@@ -612,11 +643,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 bool cache_changed = false; 
 
-                int minMoviesToShowGenreSearch = (int)(0.3 * this.Count);
+                int minMoviesToShowMovieSortOrders = (int)(0.3 * this.Count);
                 // unless we have no movies at all 
-                if (minMoviesToShowGenreSearch == 0)
+                if (minMoviesToShowMovieSortOrders == 0)
                 {
-                    minMoviesToShowGenreSearch = 1;
+                    minMoviesToShowMovieSortOrders = 1;
                 }
                 int moviesWithMetadata = 0;
                 bool updatedSortOptions = false;
@@ -632,9 +663,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             moviesWithMetadata++;
                         }
 
-                        if (!updatedSortOptions && moviesWithMetadata >= minMoviesToShowGenreSearch)
+                        if (!updatedSortOptions && moviesWithMetadata >= minMoviesToShowMovieSortOrders)
                         {
-                            AddGenreAndRuntimeSort();
+                            AddMovieSortOptions();
                             updatedSortOptions = true;
                         }
                     }
@@ -730,9 +761,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             moviesWithMetadata++;
                         }
 
-                        if (!updatedSortOptions && moviesWithMetadata >= minMoviesToShowGenreSearch)
+                        if (!updatedSortOptions && moviesWithMetadata >= minMoviesToShowMovieSortOrders)
                         {
-                            AddGenreAndRuntimeSort();
+                            AddMovieSortOptions();
                             updatedSortOptions = true;
                         }
 
@@ -889,7 +920,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private void AddGenreAndRuntimeSort()
+        private void AddMovieSortOptions()
         {
             if (this.sortOrders.Count == 2)
             {
@@ -915,76 +946,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
     }
     
-    #region Folder Sorter
+   
 
-    class FolderItemSorter : IComparer<IFolderItem>
-    {
-        public FolderItemSorter(SortOrderEnum sortOrderEnum)
-        {
-            this.sortOrderEnum = sortOrderEnum;
-        }
+  
 
-        SortOrderEnum sortOrderEnum; 
-
-        #region IComparer<IFolderItem> Members
-
-        public int Compare(IFolderItem x, IFolderItem y)
-        {
-            if (x is SpecialFolderItem && ! (y is SpecialFolderItem))
-            {
-                return -1; 
-            }
-
-            if (!(x is SpecialFolderItem) && y is SpecialFolderItem)
-            {
-                return 1;
-            } 
-
-            if (sortOrderEnum == SortOrderEnum.Name)
-            {
-                if (x.IsFolder && !(y.IsFolder))
-                {
-                    return -1;
-                }
-
-                if (!(x.IsFolder) && y.IsFolder)
-                {
-                    return 1;
-                }
-
-                return x.Description.CompareTo(y.Description);
-            }
-            else if (sortOrderEnum == SortOrderEnum.Date)
-            {
-                // reverse order for dates
-                return y.CreatedDate.CompareTo(x.CreatedDate);
-            }
-            else if (sortOrderEnum == SortOrderEnum.RunTime)
-            {
-                int xval = x.RunningTime;
-                if (xval <= 0) xval = 999999;
-                int yval = y.RunningTime;
-                if (yval <= 0) yval = 999999;
-                return xval.CompareTo(yval);
-            }
-            else if (sortOrderEnum == SortOrderEnum.ProductionYear)
-            {
-                var c = y.ProductionYear.CompareTo(x.ProductionYear);
-                if (c == 0)
-                {
-                    c = x.Description.CompareTo(y.Description); 
-                }
-                return c;
-            }
-            else
-            {
-                // genre sort
-                return x.Description.CompareTo(y.Description);
-            }
-        }
-
-        #endregion
-    }
-
-    #endregion
-}
+ }
