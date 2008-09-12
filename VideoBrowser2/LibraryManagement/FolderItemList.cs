@@ -843,55 +843,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private void CacheFolderXml(Dictionary<string, BaseFolderItem> itemsToCache)
         {
-            // save this in a cache file ... 
-            MemoryStream ms = new MemoryStream();
-            XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
-            writer.WriteStartDocument();
-            writer.WriteStartElement("Items");
-            foreach (BaseFolderItem item in itemsToCache.Values)
-            {
-                writer.WriteStartElement("Item");
-                writer.WriteElementString("Filename", item.Filename);
-                writer.WriteElementString("IsFolder", item.IsFolder.ToString());
-                writer.WriteElementString("IsVideo", item.IsVideo.ToString());
-                writer.WriteElementString("IsMovie", item.IsMovie.ToString());
-                writer.WriteElementString("Description", item.Description);
-                if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
-                {
-                    writer.WriteElementString("ThumbHash", item.ThumbHash);
-                }
-                writer.WriteElementString("Title1", item.Title1);
-                writer.WriteElementString("Title2", item.Title2);
-                writer.WriteElementString("Overview", item.Overview);
-                if (item.IsMovie)
-                {
-                    writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
-                    writer.WriteElementString("RunningTime", item.RunningTime.ToString());
-                }
-                if (item.IsMovie && item.Genres.Count > 0)
-                {
-                    writer.WriteStartElement("Genres");
-                    foreach (var genre in item.Genres)
-                    {
-                        writer.WriteElementString("Genre", genre);
-                    }
-                    writer.WriteEndElement();
-                }
-                writer.WriteStartElement("CreatedDate");
-                writer.WriteValue(item.CreatedDate);
-                writer.WriteEndElement();
-                writer.WriteStartElement("ModifiedDate");
-                writer.WriteValue(item.ModifiedDate);
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Close();
-            ms.Flush();
-
-            File.WriteAllBytes(CacheXmlPath, ms.ToArray());
-
+            CachedFolderItem.Write(CacheXmlPath, itemsToCache.Values); 
         }
 
         private string CacheXmlPath
@@ -943,6 +895,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 sortOrders.Add("by genre");
                 sortOrders.Add("by runtime");
+                SortOrders.Add("by year"); 
                 if (OnSortOrdersChanged != null) OnSortOrdersChanged();
             }
         }
@@ -1013,6 +966,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 int yval = y.RunningTime;
                 if (yval <= 0) yval = 999999;
                 return xval.CompareTo(yval);
+            }
+            else if (sortOrderEnum == SortOrderEnum.ProductionYear)
+            {
+                var c = y.ProductionYear.CompareTo(x.ProductionYear);
+                if (c == 0)
+                {
+                    c = x.Description.CompareTo(y.Description); 
+                }
+                return c;
             }
             else
             {

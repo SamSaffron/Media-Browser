@@ -259,6 +259,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        public abstract int ProductionYear
+        {
+            get;
+        }
+
         #endregion
     }
 }

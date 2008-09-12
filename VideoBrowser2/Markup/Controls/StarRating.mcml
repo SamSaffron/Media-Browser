@@ -18,25 +18,25 @@
     </Locals>
     <Rules>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="GreaterThanOrEquals" Value="0"/>
+          <Equality Source="[Value]" ConditionOp="GreaterThan" Value="0"/>
         </Conditions>
         <Actions>
           <Set Target="[Stars.Visible]" Value="true"/>
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="LessThan" Value="0"/>
+          <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="0"/>
         </Conditions>
         <Actions>
           <Set Target="[Stars.Visible]" Value="false"/>
         </Actions>
       </Changed>
       
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="0"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="1"/>
@@ -50,7 +50,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="1"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="2"/>
@@ -64,7 +64,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="2"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="3"/>
@@ -78,7 +78,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="3"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="4"/>
@@ -92,7 +92,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="4"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="5"/>
@@ -106,7 +106,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="5"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="6"/>
@@ -120,7 +120,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="6"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="7"/>
@@ -134,7 +134,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="7"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="8"/>
@@ -148,7 +148,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="8"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="9"/>
@@ -162,7 +162,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Value]" ConditionOp="GreaterThan" Value="9"/>
           <Equality Source="[Value]" ConditionOp="LessThanOrEquals" Value="10"/>

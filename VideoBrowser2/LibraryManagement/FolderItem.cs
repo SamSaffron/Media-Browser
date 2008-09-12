@@ -62,6 +62,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         Movie _movie = null;
         string title2;
         string overview;
+  
 
         #endregion 
 
@@ -149,6 +150,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
         }
+
+        public override int ProductionYear
+        {
+            get
+            {
+                EnsureMetadataLoaded();
+                if (IsMovie && Movie.ProductionYear > 0)
+                {
+                    return Movie.ProductionYear;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
 
         public override string RunningTimeString
         {

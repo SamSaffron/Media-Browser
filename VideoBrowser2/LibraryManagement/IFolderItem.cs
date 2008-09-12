@@ -17,6 +17,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         DateTime CreatedDate { get; }
         DateTime ModifiedDate { get; }
         int RunningTime { get; }
+        int ProductionYear { get; }
         List<string> Genres{ get; }
         string RunningTimeString { get; }
         string GenresString { get; }

@@ -37,6 +37,60 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public CachedFolderItem()
         { }
 
+
+        internal static void Write(string CacheXmlPath, IEnumerable<BaseFolderItem> items)
+        {
+            // save this in a cache file ... 
+            MemoryStream ms = new MemoryStream();
+            XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Items");
+            foreach (BaseFolderItem item in items)
+            {
+                writer.WriteStartElement("Item");
+                writer.WriteElementString("Filename", item.Filename);
+                writer.WriteElementString("IsFolder", item.IsFolder.ToString());
+                writer.WriteElementString("IsVideo", item.IsVideo.ToString());
+                writer.WriteElementString("IsMovie", item.IsMovie.ToString());
+                writer.WriteElementString("Description", item.Description);
+                if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
+                {
+                    writer.WriteElementString("ThumbHash", item.ThumbHash);
+                }
+                writer.WriteElementString("Title1", item.Title1);
+                writer.WriteElementString("Title2", item.Title2);
+                writer.WriteElementString("Overview", item.Overview);
+                if (item.IsMovie)
+                {
+                    writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
+                    writer.WriteElementString("RunningTime", item.RunningTime.ToString());
+                    writer.WriteElementString("ProductionYear", item.ProductionYear.ToString());
+                }
+                if (item.IsMovie && item.Genres.Count > 0)
+                {
+                    writer.WriteStartElement("Genres");
+                    foreach (var genre in item.Genres)
+                    {
+                        writer.WriteElementString("Genre", genre);
+                    }
+                    writer.WriteEndElement();
+                }
+                writer.WriteStartElement("CreatedDate");
+                writer.WriteValue(item.CreatedDate);
+                writer.WriteEndElement();
+                writer.WriteStartElement("ModifiedDate");
+                writer.WriteValue(item.ModifiedDate);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+            ms.Flush();
+
+            File.WriteAllBytes(CacheXmlPath, ms.ToArray());
+        }
+
         // load the item from the element
         public CachedFolderItem(XmlElement elem, string folderHash, FolderItemList parent)
         {
@@ -57,6 +111,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             if (!String.IsNullOrEmpty(runtime))
             {
                 runningTime = Int32.Parse(runtime); 
+            }
+            var p = elem.SafeGetString("ProductionYear");
+            if (!String.IsNullOrEmpty(p))
+            {
+                productionYear = Int32.Parse(p);
             }
 
             var rating = elem.SafeGetString("IMDBRating");
@@ -112,6 +171,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private int runningTime;
         public override int RunningTime { get { return runningTime;} }
+
+        private int productionYear;
+        public override int ProductionYear { get { return productionYear; } }
 
         private float iMDBRating;
         public override float IMDBRating { get { return iMDBRating; } }
@@ -203,5 +265,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+
+        
     }
 }

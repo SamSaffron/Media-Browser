@@ -527,6 +527,7 @@ namespace SamSoft.VideoBrowser
         {
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(items);
+            displaySem.WaitOne();
             OpenPage(FolderItems); 
         }
 
