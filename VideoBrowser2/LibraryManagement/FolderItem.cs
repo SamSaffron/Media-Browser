@@ -254,6 +254,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        public override List<string> Actors
+        {
+            get
+            {
+                EnsureMetadataLoaded();
+                if (this.Movie != null)
+                {
+                    var actors = new List<string>();
+                    foreach (var a in this.Movie.Actors)
+                    {
+                        actors.Add(a.Name);
+                    }
+
+                    return actors;
+                }
+                // To match implementation in cached version 
+                return new List<string>();
+            }
+        }
+
+
         public override string GenresString
         {
             get

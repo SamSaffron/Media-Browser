@@ -264,6 +264,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        public abstract List<String> Actors
+        {
+            get;
+        }
+
         #endregion
     }
 }

@@ -416,17 +416,20 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             var itemsCopy = items.ToArray();
             Shuffle(itemsCopy);
             var isFirst = true;
-            StringBuilder sb = new StringBuilder();
+            var len = 0;
+            var count = 0; 
+            
             for (int i = 0; i < itemsCopy.Length ; i++)
             {
-                if (sb.Length + itemsCopy[i].Description.Length + 3 < maxLength)
+                if (len + itemsCopy[i].Description.Length + 3 < maxLength)
                 {
                     if (!isFirst)
                     {
-                        sb.Append(", "); 
+                        len += 2; 
                     }
-                    sb.Append(itemsCopy[i].Description);
+                    len += itemsCopy[i].Description.Length;
                     isFirst = false;
+                    count++;
                 }
                 else
                 {
@@ -434,6 +437,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
 
+            isFirst = true;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                if (!isFirst)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(itemsCopy[i].Description);
+                isFirst = false;
+            }
             sb.Append(".");
 
             return sb.ToString();

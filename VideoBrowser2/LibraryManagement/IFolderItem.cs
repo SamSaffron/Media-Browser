@@ -19,6 +19,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         int RunningTime { get; }
         int ProductionYear { get; }
         List<string> Genres{ get; }
+        List<string> Actors { get; }
         string RunningTimeString { get; }
         string GenresString { get; }
         float IMDBRating { get; }

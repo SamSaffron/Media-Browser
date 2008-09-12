@@ -10,7 +10,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         Date, 
         Genre, 
         RunTime,
-        ProductionYear
+        ProductionYear,
+        Actor
 	} 
   
 }

@@ -67,11 +67,22 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 return y.Description.CompareTo(x.Description);
             }
-            else
+            else if (sortOrderEnum == SortOrderEnum.Actor)
             {
-                // genre sort etc...
-                return x.Description.CompareTo(y.Description);
+                // a little hacky, actors with only 1 movie show up in the bottom 
+                if (x.Title2.StartsWith("1") && !y.Title2.StartsWith("1")) 
+                {
+                    return 1;
+                }
+                if (!x.Title2.StartsWith("1") && y.Title2.StartsWith("1")) 
+                {
+                    return -1;
+                }
             }
+            
+            // default is by description asc
+            return x.Description.CompareTo(y.Description);
+            
         }
 
         #endregion

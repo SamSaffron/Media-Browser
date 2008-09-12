@@ -24,6 +24,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             return defaultString;
         }
+
+        public static void WriteList(this XmlWriter writer, string node, IEnumerable<string> list)
+        {
+            writer.WriteStartElement(node + "s");
+            foreach (var item in list)
+            {
+                writer.WriteElementString(node, item);
+            }
+            writer.WriteEndElement();
+        }
     }
 
 
@@ -66,14 +76,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     writer.WriteElementString("RunningTime", item.RunningTime.ToString());
                     writer.WriteElementString("ProductionYear", item.ProductionYear.ToString());
                 }
-                if (item.IsMovie && item.Genres.Count > 0)
+                if (item.IsMovie)
                 {
-                    writer.WriteStartElement("Genres");
-                    foreach (var genre in item.Genres)
+                    if (item.Genres.Count > 0)
                     {
-                        writer.WriteElementString("Genre", genre);
+                        writer.WriteList("Genre", item.Genres);
                     }
-                    writer.WriteEndElement();
+
+                    if (item.Actors.Count > 0)
+                    {
+                        writer.WriteList("Actor", item.Actors);
+                    }
                 }
                 writer.WriteStartElement("CreatedDate");
                 writer.WriteValue(item.CreatedDate);
@@ -139,6 +152,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     // fall through i dont care, one less actor/director
                 }
             }
+
+            foreach (XmlNode item in elem.SelectNodes("Actors/Actor"))
+            {
+                try
+                {
+                    actors.Add(item.InnerText);
+                }
+                catch
+                {
+                    // fall through i dont care, one less actor/director
+                }
+            }
         }
 
         List<string> genres = new List<string>();
@@ -177,6 +202,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private float iMDBRating;
         public override float IMDBRating { get { return iMDBRating; } }
+
+        private List<string> actors = new List<string>();
+        public override List<string> Actors
+        {
+            get 
+            { 
+                return actors; 
+            }
+        }
 
         public override List<string> Genres {
             get

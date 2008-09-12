@@ -432,8 +432,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     Prefs.SortOrder = sortOrderEnum;
                     Prefs.Save();
                 }
-     
-                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime || sortOrderEnum == SortOrderEnum.ProductionYear)
+
+                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime || sortOrderEnum == SortOrderEnum.ProductionYear || sortOrderEnum == SortOrderEnum.Actor)
                 {
                     AddMovieSortOptions();
                 }
@@ -446,6 +446,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 else if (sortOrderEnum == SortOrderEnum.ProductionYear)
                 {
                     ProductionYearDrilldown();
+                    this.Sort(new FolderItemSorter(sortOrderEnum));
+                }
+                else if (sortOrderEnum == SortOrderEnum.Actor)
+                {
+                    ActorDrilldown();
                     this.Sort(new FolderItemSorter(sortOrderEnum));
                 }
                 else
@@ -520,6 +525,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 this.Add(fi);
             }
+        }
+
+        private void ActorDrilldown()
+        {
+            nonDrilldownList = ActualItems;
+            var actors = new Dictionary<string, List<IFolderItem>>();
+            this.Clear();
+            foreach (var item in nonDrilldownList)
+            {
+
+                if (!item.IsMovie || item.Actors.Count > 0)
+                {
+                    foreach (var actor in item.Actors)
+                    {
+                        if (!actors.ContainsKey(actor))
+                        {
+                            actors[actor] = new List<IFolderItem>();
+                        }
+                        actors[actor].Add(item);
+                    }
+                }
+            }
+
+            AddDrildownItems(actors, "ActorImages");
         }
 
         private void GenreDrilldown()
@@ -926,7 +955,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 sortOrders.Add("by genre");
                 sortOrders.Add("by runtime");
-                SortOrders.Add("by year"); 
+                sortOrders.Add("by year");
+                sortOrders.Add("by actor");
                 if (OnSortOrdersChanged != null) OnSortOrdersChanged();
             }
         }
