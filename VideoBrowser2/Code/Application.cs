@@ -198,9 +198,9 @@ namespace SamSoft.VideoBrowser
         private MyHistoryOrientedPageSession session;
         private Transcoder transcoder;
 
-        private int Version = 100; // This number needs to correspond to the version info XML file values.
+        private int version = 100; // This number needs to correspond to the version info XML file values.
 
-        private static Semaphore displaySem;
+        private static object syncObj = new object(); 
 
         private bool navigatingForward;
 
@@ -255,11 +255,6 @@ namespace SamSoft.VideoBrowser
             _JILtext = new EditableText(this.Owner, "JIL");
             JILtext.Value = "";
             JILtext.Submitted += new EventHandler(JILtext_Activity);
-
-            // We only allow a single thread to have this at a time.  The purpose
-            // of this semaphore is to allow popup dialogs to not be over-ridden by page navigation.
-            displaySem = new Semaphore(1, 1);
-
             
         }
 
@@ -299,7 +294,7 @@ namespace SamSoft.VideoBrowser
             // CANNOT be instantiated outside of the application thread.
             if (Config.EnableUpdates)
             {
-                Updater update = new Updater(this, Version);
+                Updater update = new Updater(this);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(update.checkUpdate));
             }
 
@@ -527,26 +522,32 @@ namespace SamSoft.VideoBrowser
         {
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(items);
-            displaySem.WaitOne();
-            OpenPage(FolderItems); 
+            lock (syncObj)
+            {
+                OpenPage(FolderItems);
+            }
         }
 
         public void NavigateToPath(string path)
         {    
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(path);
-            displaySem.WaitOne();
-            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
-            OpenPage(FolderItems); 
+            lock (syncObj)
+            {
+                Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
+                OpenPage(FolderItems);
+            }
         }
 
         private void NavigateToVirtualFolder(VirtualFolder virtualFolder)
         {
             FolderItems = new FolderItemListMCE();
             FolderItems.Navigate(virtualFolder);
-            displaySem.WaitOne();
-            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
-            OpenPage(FolderItems);
+            lock (syncObj)
+            {
+                Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
+                OpenPage(FolderItems);
+            }
         }
 
         public void OpenPage(FolderItemListMCE items)
@@ -564,7 +565,6 @@ namespace SamSoft.VideoBrowser
             {
                 Debug.WriteLine("GoToMenu");
             }
-            displaySem.Release();
         }
 
         public void Navigate(IFolderItem item)
@@ -604,10 +604,11 @@ namespace SamSoft.VideoBrowser
         {
             // We won't be able to take this during a page transition.  This is good!
             // Conversly, no new pages can be navigated while this is present.
-            displaySem.WaitOne();
-            DialogResult result = MediaCenterEnvironment.Dialog(message, caption, buttons, timeout, true);
-            displaySem.Release();
-            return result;
+            lock (syncObj)
+            {
+                DialogResult result = MediaCenterEnvironment.Dialog(message, caption, buttons, timeout, true);
+                return result;
+            }       
         }
 
     }

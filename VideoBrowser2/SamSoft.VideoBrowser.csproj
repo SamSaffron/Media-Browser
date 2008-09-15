@@ -64,6 +64,7 @@
     <Compile Include="Code\ListPage.cs" />
     <Compile Include="LibraryManagement\BaseFolderItem.cs" />
     <Compile Include="LibraryManagement\CachedFolderItem.cs" />
+    <Compile Include="LibraryManagement\DVRMSItem.cs" />
     <Compile Include="LibraryManagement\FolderItem.cs" />
     <Compile Include="LibraryManagement\FolderItemContainer.cs" />
     <Compile Include="LibraryManagement\FolderItemList.cs" />
@@ -142,6 +143,7 @@
     <Content Include="Markup\Controls\SortOrderItem.mcml" />
     <Content Include="Markup\Styles.mcml" />
     <Content Include="Registration.xml" />
+    <Content Include="Setup\info.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

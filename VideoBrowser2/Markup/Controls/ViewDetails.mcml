@@ -89,14 +89,14 @@
                     <Children>
 
                       <!-- Cover Art / Folder Art -->
-                      <Panel MinimumSize="250,0">
+                      <Panel MinimumSize="250,0" Name="CoverArtPanel">
                         <Children>
-                          <Graphic Name="Preview"  MaintainAspectRatio="true" MaximumSize="250,350" />
+                          <Graphic Name="Preview"  MaintainAspectRatio="true" MaximumSize="500,350" />
                         </Children>
                       </Panel>
 
                       <!-- Star Rating / Duration -->
-                      <Panel>
+                      <Panel Name="MovieExtraInfoPanel">
                         <Layout>
                           <FlowLayout  Orientation="Vertical" Spacing="10,10"/>
                         </Layout>

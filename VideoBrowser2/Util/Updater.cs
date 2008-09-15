@@ -9,83 +9,78 @@ using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using SamSoft.VideoBrowser;
+using System.Reflection;
+
+
+
+// XML File structure
+/*
+ 
+ <Config> 
+    <Beta url="" version=""/> 
+    <Release url="" version="">
+ </Config>
+ 
+ 
+ */
 
 namespace SamSoft.VideoBrowser.Util
 {
     // Updater class deals with checking for updates and downloading/installing them.
-    class Updater
+    public class Updater
     {
         // Reference back to the application for displaying dialog (thread safe).
         private Application appRef;
 
-        // The version we are currently at.
-        private int version;
-
         // Constructor.
-        public Updater(Application appRef, int version)
+        public Updater(Application appRef)
         {
             this.appRef = appRef;
-            this.version = version;
+        }
+
+        public static System.Version CurrentVersion
+        {
+            get
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
         }
 
         // private members.
         private string remoteFile;
         private string localFile;
-        private int newVersion;
+        private System.Version newVersion;
         
         // This should be replaced with the real location of the version info XML.
-        private const string infoURL = "http://thelucks.org/vb/info.xml";
+        private const string infoURL = "http://videobrowser.ch/info.xml";
 
         // Blocking call to check the XML file up in the cloud to see if we need an update.
         // This is really meant to be called as its own thread.
         public void checkUpdate(object stateInfo)
         {
             try
-            {     
-                // Obtain the XML for the latest info.
-                XmlTextReader reader = new XmlTextReader(infoURL);
-                int i = 0;
-                while (reader.Read())
+            {
+               // appRef.displayDialog("Test", "Test", (DialogButtons)12, 10000);
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load(new XmlTextReader(infoURL));
+
+                XmlNode node;
+
+                if (appRef.Config.EnableBetas)
                 {
-                    if (reader.NodeType == XmlNodeType.Text)
-                    {
-                        i++;
-                        switch (i)
-                        {
-                            case 1:
-                                // Beta version number
-                                if (appRef.Config.EnableBetas)
-                                {
-                                    newVersion = Convert.ToInt32(reader.Value);
-                                }
-                                break;
-                            case 2:
-                                // beta URL 
-                                if (appRef.Config.EnableBetas)
-                                {
-                                    remoteFile = reader.Value;
-                                }
-                                break;
-                            case 3:
-                                // Version # - We compare this to the current value.                         
-                                if (!appRef.Config.EnableBetas)
-                                {
-                                    newVersion = Convert.ToInt32(reader.Value);
-                                }
-                                break;
-                            case 4:
-                                // non-beta URL                 
-                                if (!appRef.Config.EnableBetas)
-                                {
-                                    remoteFile = reader.Value;
-                                }
-                                break;
-                        }
-                    }
+                    node = doc.SelectSingleNode("/Config/Beta"); 
+                }
+                else
+                {
+                    node = doc.SelectSingleNode("/Config/Release"); 
                 }
 
+                newVersion = new System.Version(node.Attributes["version"].Value);
+                remoteFile = node.Attributes["url"].Value;
+
                 // Old -> start update
-                if ((version < newVersion) && (newVersion != 0))
+                if (CurrentVersion < newVersion)
                 {
                     // Prompt them if they want to update.
                     DialogResult reply = appRef.displayDialog("Do you wish to update VideoBrowser now?  (Requires you to grant permissions and a restart of VideoBrowser)", "Update Available", (DialogButtons)12 /* Yes, No */, 10);
@@ -99,6 +94,7 @@ namespace SamSoft.VideoBrowser.Util
             catch (Exception)
             {
                 // No biggie, just return out.
+                Trace.WriteLine("Update failed");
             }
 
         }

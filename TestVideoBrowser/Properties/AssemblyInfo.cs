@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Video Browser")]
-[assembly: AssemblyDescription("Vista MCE Video Browser")]
+[assembly: AssemblyTitle("TestVideoBrowser")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("GPL")]
-[assembly: AssemblyProduct("Video Browser")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("TestVideoBrowser")]
 [assembly: AssemblyCopyright("Copyright ©  2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b3bdab0c-f5d5-4922-bcca-fa7dd630673b")]
+[assembly: Guid("6ca0b033-c7f4-496c-817a-5f340178befc")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,5 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
