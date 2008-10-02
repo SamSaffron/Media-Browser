@@ -82,12 +82,21 @@ namespace SamSoft.VideoBrowser.Util
                 // Old -> start update
                 if (CurrentVersion < newVersion)
                 {
-                    // Prompt them if they want to update.
-                    DialogResult reply = appRef.displayDialog("Do you wish to update VideoBrowser now?  (Requires you to grant permissions and a restart of VideoBrowser)", "Update Available", (DialogButtons)12 /* Yes, No */, 10);
-                    if (reply == DialogResult.Yes)
+                    if (appRef.MediaCenterEnvironment.Capabilities.ContainsKey("Console"))
                     {
-                        // If they want it, download in the background and prompt when done.
-                        DownloadUpdate();
+                        // Prompt them if they want to update.
+                        DialogResult reply = appRef.displayDialog("Do you wish to update VideoBrowser now?  (Requires you to grant permissions and a restart of VideoBrowser)", "Update Available", (DialogButtons)12 /* Yes, No */, 10);
+                        if (reply == DialogResult.Yes)
+                        {
+                            // If they want it, download in the background and prompt when done.
+                            DownloadUpdate();
+                        }
+                    }
+                    else
+                    {
+                        // Let the user know about the update, but do nothing as we can't install from 
+                        // an extender.
+                        DialogResult reply = appRef.displayDialog("There is an update available for Video Browser.  Please update Video Browser next time you are at your MediaCenter PC.", "Update Available", (DialogButtons)1 /* OK */, 10);
                     }
                 }
             }
