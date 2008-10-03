@@ -12,6 +12,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     {
         Image MCMLThumb { get; }
 
+        /// <summary>
+        /// A globally unique ID for the file (based off Guid)
+        /// </summary>
+        string Key { get; }
+
         bool IsMovie{ get; }
         bool IsFolder { get; }
         DateTime CreatedDate { get; }

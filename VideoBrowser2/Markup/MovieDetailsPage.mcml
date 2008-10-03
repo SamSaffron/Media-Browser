@@ -23,6 +23,7 @@
       <ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true"/>
 
       <Command Name="PlayMovieCommand" />
+      <Command Name="ResumeMovieCommand" />
       <Command Name="ActorCommand" />
 
       <Command Name="ScrollUpCommand" />
@@ -37,7 +38,13 @@
 
       <Changed Source="[PlayMovieCommand.Invoked]">
         <Actions>
-          <Invoke Target="[Application.PlayMovie]" item="[FolderItem]"/>
+          <Invoke Target="[FolderItem.Play]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ResumeMovieCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderItem.Resume]"/>
         </Actions>
       </Changed>
 
@@ -68,6 +75,16 @@
           <Set Target="[MainBG.Visible]" Value="false" />
         </Actions>
       </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[FolderItem.CanResume]" Value="false"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[PlayMovie.Visible]" Value="false"/>
+          <Set Target="[ResumeMovieButton.Text]" Value="Play Movie"/>
+        </Actions>
+      </Rule>
       
     </Rules>
 
@@ -77,15 +94,29 @@
       <ColorFill Content="Transparent" Layout="Form">
         <Children>
 
-          <!-- Play Movie Button-->
-          <Panel Name="PlayMovie" FocusOrder="0">
+
+          <!-- Resume Movie Button-->
+          <Panel Name="ResumeMovie" FocusOrder="0" >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.6"  Right="Parent,.23" Bottom="Parent,.67"/>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.60"  Right="Parent,.23" Bottom="Parent,.67"/>
+            </LayoutInput>
+            <Children>
+              <me:SimpleButton Name="ResumeMovieButton" Text="Resume Movie" Command="[ResumeMovieCommand]"/>
+            </Children>
+          </Panel>
+          
+          
+          <!-- Play Movie Button-->
+          <Panel Name="PlayMovie" FocusOrder="0" Layout="VerticalFlow">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.68"  Right="Parent,.23" Bottom="Parent,.78"/>
             </LayoutInput>
             <Children>
               <me:SimpleButton Text="Play Movie" Command="[PlayMovieCommand]"/>
             </Children>
           </Panel>
+
+          
 
           <!-- Movie Title -->
           <Panel Name="MovieTitle">

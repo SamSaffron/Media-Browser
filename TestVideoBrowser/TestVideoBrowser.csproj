@@ -38,8 +38,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.MediaCenter" />
+    <Reference Include="Microsoft.MediaCenter.UI" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockFolderItem.cs" />
+    <Compile Include="PlayStateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigTest.cs" />
   </ItemGroup>

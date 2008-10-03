@@ -48,7 +48,7 @@
       <Changed Source="[Clicker.Invoked]">
         <Actions>
           <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
-          <Invoke Target="[Application.PlayMovie]" item="[FolderItem]"/>
+          <Invoke Target="[FolderItem.Play]"/>
         </Actions>
       </Changed>
 

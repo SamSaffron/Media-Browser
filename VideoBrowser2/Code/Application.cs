@@ -14,33 +14,7 @@ using System.Threading;
 
 namespace SamSoft.VideoBrowser
 {
-    public class MyHistoryOrientedPageSession : HistoryOrientedPageSession
-    {
-
-        private Application myApp;
-
-        public Application Application
-        {
-            get { return myApp; }
-            set { myApp = value; }
-        }
-
-        
-
-        protected override void LoadPage(object target, string source, IDictionary<string, object> sourceData, IDictionary<string, object> uiProperties, bool navigateForward)
-        {
-            this.Application.NavigatingForward = navigateForward;
-            if (!navigateForward)
-            {
-                if (uiProperties.ContainsKey("FolderItems"))
-                {
-                    this.Application.FolderItems = uiProperties["FolderItems"] as FolderItemListMCE;
-                }
-            }
-            base.LoadPage(target, source, sourceData, uiProperties, navigateForward);
-        }
-    }
-
+    
     public class Application : ModelItem
     {
 
@@ -194,15 +168,20 @@ namespace SamSoft.VideoBrowser
 
         public FolderItemListMCE FolderItems;
         private static Application singleApplicationInstance;
-        private AddInHost host;
+        private static AddInHost host;
         private MyHistoryOrientedPageSession session;
-        private Transcoder transcoder;
-
-        private int version = 100; // This number needs to correspond to the version info XML file values.
 
         private static object syncObj = new object(); 
 
         private bool navigatingForward;
+
+        public static AddInHost Host
+        {
+            get 
+            {
+                return host;
+            }
+        }
 
         public bool NavigatingForward
         {
@@ -249,7 +228,7 @@ namespace SamSoft.VideoBrowser
             {
                 this.session.Application = this;
             }
-            this.host = host;
+            Application.host = host;
             singleApplicationInstance = this;
 
             _JILtext = new EditableText(this.Owner, "JIL");
@@ -278,7 +257,7 @@ namespace SamSoft.VideoBrowser
 
         }
 
-        public MediaCenterEnvironment MediaCenterEnvironment
+        public static MediaCenterEnvironment MediaCenterEnvironment
         {
             get
             {
@@ -334,174 +313,7 @@ namespace SamSoft.VideoBrowser
         }
 
 
-        public void PlayMovie(FolderItem item)
-        {
-            if (item != null)
-            {
-                if (item.VirtualFolder!=null || (item.IsFolder && !item.IsVideo))
-                {
-                    if (item.VirtualFolder != null)
-                    {
-                        NavigateToVirtualFolder(item.VirtualFolder); 
-                    }
-                    else if (item.Contents == null)
-                    {
-                        NavigateToPath(item.Filename);
-                    }
-                    else
-                    {
-                        NavigateToItems(item.Contents);
-                    }
-                }
-                else
-                {
-                    string filename = item.Filename;
-
-                    if (item.IsFolder && !item.ContainsDvd)
-                    {
-                        string[] filenames = item.GetMovieList();
-
-                        if (filenames.Length > 1)
-                        {
-                            filename = System.IO.Path.GetTempFileName();
-                            filename += ".wpl";
-
-                            // create a .wpl file and play it 
-                            StringBuilder contents = new StringBuilder(@"
-<?wpl version=""1.0""?>
-<smil>
-    <body>
-        <seq>
-");
-                            foreach (string file in filenames)
-                            {
-                                contents.Append(@"<media src=""");
-                                contents.Append(file);
-                                contents.AppendLine(@"""/>");
-                            }
-                            contents.Append(@"
-</seq>
-    </body>
-</smil>
-");
-                            System.IO.File.WriteAllText(filename, contents.ToString());
-                        }
-                        else
-                        {
-                            filename = filenames[0];
-                        }
-
-                    }
-
-                    // Check to see if we are running on an extender... must have Full Trust permissions
-                    Microsoft.MediaCenter.Hosting.AddInHost myHost = Microsoft.MediaCenter.Hosting.AddInHost.Current;
-
-                    bool isLocal = myHost.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
-                             (bool)myHost.MediaCenterEnvironment.Capabilities["Console"];
-
-                    // if we are on a mce host, we can just play the media
-                    if (isLocal || !Config.Instance.EnableTranscode360 || Helper.IsExtenderNativeVideo(filename))
-                    {
-                        PlayFileWithoutTranscode(filename, host);
-                    }
-
-                    // if we are on an extender, we need to start up our transcoder
-                    else
-                    {
-                        try
-                        {
-                            PlayFileWithTranscode(filename, host);
-                        }
-                        catch
-                        {
-                            // in case t360 is not installed - we may get an assembly loading failure 
-                            PlayFileWithoutTranscode(filename, host);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void PlayFileWithoutTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
-        {
-            try
-            {
-                if (Helper.isIso(filename))
-                {
-                    try
-                    {
-                        // Create the process start information.
-                        Process process = new Process();
-                        process.StartInfo.Arguments = "-mount 0,\"" + filename + "\"";                  
-                        process.StartInfo.FileName = Config.DaemonToolsLocation;
-                        process.StartInfo.ErrorDialog = false;
-                        process.StartInfo.CreateNoWindow = true;
-
-                        // We wait for exit to ensure the iso is completely loaded.
-                        process.Start();
-                        process.WaitForExit();
-
-                        // Play the DVD video that was mounted.
-                        filename = Config.DaemonToolsDrive + ":\\";
-                    }
-                    catch (Exception)
-                    {
-                        // Display the error in this case, they might wonder why it didn't work.
-                        displayDialog("DaemonTools is not correctly configured.", "Could not load ISO", DialogButtons.Ok, 10);
-                        throw (new Exception("Daemon tools is not configured correctly"));
-                    }
-                }
-                
-                // Get access to Windows Media Center host.
-                MediaCenterEnvironment mce;
-                mce = host.MediaCenterEnvironment;
-
-                // Play the video in the Windows Media Center view port.
-                mce.PlayMedia(MediaType.Video, filename, false);
-                mce.MediaExperience.GoToFullScreen();
-            }
-            catch (Exception e)
-            {
-                // Failed to play the movie, log it
-                Trace.WriteLine("Failed to load movie : " + e.ToString());
-            }
-        }
-
-
-        private void PlayFileWithTranscode(string filename, Microsoft.MediaCenter.Hosting.AddInHost host)
-        {
-            if (transcoder == null)
-            {
-                transcoder = new Transcoder();
-            }
-
-            string bufferpath = transcoder.BeginTranscode(filename);
-            
-            // if bufferpath comes back null, that means the transcoder i) failed to start or ii) they
-            // don't even have it installed
-            if (bufferpath == null)
-            {
-                MediaCenterEnvironment.Dialog("Could not start transcoding process", "Transcode Error", new object[] { DialogButtons.Ok }, 10, true, null, delegate(DialogResult dialogResult) { });
-                return;
-            }
-
-            try
-            {
-                // Get access to Windows Media Center host.
-                MediaCenterEnvironment mce;
-                mce = host.MediaCenterEnvironment;
-
-                // Play the video in the Windows Media Center view port.
-                mce.PlayMedia(MediaType.Video, bufferpath, false);
-                mce.MediaExperience.GoToFullScreen();
-            }
-            catch (Exception e)
-            {
-                // Failed to play the movie, log it
-                Trace.WriteLine("Failed to load movie : " + e.ToString());
-            }
-        }    
-
+      
         public void ShowNowPlaying()
         {
             host.ViewPorts.NowPlaying.Focus();
@@ -567,7 +379,7 @@ namespace SamSoft.VideoBrowser
             }
         }
 
-        public void Navigate(IFolderItem item)
+        public void Navigate(BaseFolderItem item)
         {
             FolderItem fi;
 
@@ -597,7 +409,34 @@ namespace SamSoft.VideoBrowser
                 return;
             }
 
-            PlayMovie(fi);
+            if (fi.VirtualFolder != null || (fi.IsFolder && !fi.IsVideo))
+            {
+                if (fi.VirtualFolder != null)
+                {
+                    NavigateToVirtualFolder(fi.VirtualFolder);
+                }
+                else if (fi.Contents == null)
+                {
+                    NavigateToPath(fi.Filename);
+                }
+                else
+                {
+                    NavigateToItems(fi.Contents);
+                }
+            }
+            else
+            {
+                // decide if we need to play or resume
+                if (fi.CanResume)
+                {
+                    // Todo, activate the resume window
+                    fi.Resume();
+                }
+                else
+                {
+                    fi.Play();
+                }
+            }
         }
 
         public DialogResult displayDialog(string message, string caption, DialogButtons buttons, int timeout)

@@ -22,7 +22,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         // we need a base for mcml 
         public BaseFolderItem()
         {
-
+            
         }
 
         #region Background image loading support
@@ -170,6 +170,49 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         #endregion 
 
+        #region Playback control, a bunch of shadow methods 
+
+        private PlaybackController playbackController;
+        public PlaybackController PlaybackController 
+        {
+            get
+            {
+                if (playbackController == null)
+                {
+                    // upgrade to folderItem if required
+                    var folderItem = this as FolderItem;
+                    if (folderItem == null)
+                    {
+                        folderItem = new FolderItem(this.Filename, this.IsFolder);
+                    }
+
+                    playbackController = new PlaybackController(folderItem);
+                }
+
+                return playbackController; 
+            }
+        }
+
+        public bool CanResume
+        {
+            get
+            {
+                return PlaybackController.CanResume;
+            }
+        }
+
+        public void Play()
+        {
+            PlaybackController.Play();
+        }
+
+        public void Resume()
+        {
+           PlaybackController.Resume();
+        }
+
+        #endregion 
+
         #region IFolderItem Members
 
         public abstract bool IsVideo
@@ -269,6 +312,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        protected string uniqueKey;
+        public string Key
+        {
+            get
+            {
+                if (uniqueKey == null)
+                {
+                    uniqueKey = Helper.HashString(this.Filename);
+                }
+                return uniqueKey;
+            }
+        }
+
         #endregion
+
+
+
+
+     
+
+
     }
 }

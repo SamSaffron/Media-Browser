@@ -190,7 +190,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        static string _app_cache_path = null; 
+        static string _app_cache_path = null;
         public static string AppCachePath
         {
             get
@@ -205,6 +205,42 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     _app_cache_path = e;
                 }
                 return _app_cache_path;
+            }
+        }
+
+        static string _app_playstate_path = null;
+        public static string AppPlayStatePath
+        {
+            get
+            {
+                if (_app_playstate_path == null)
+                {
+                    var e = Path.Combine(AppCachePath, "PlayState");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _app_playstate_path = e;
+                }
+                return _app_playstate_path;
+            }
+        }
+
+        static string _auto_playlist_path = null;
+        public static string AutoPlaylistPath
+        {
+            get
+            {
+                if (_auto_playlist_path == null)
+                {
+                    var e = Path.Combine(AppCachePath, "AutoPlaylists");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _auto_playlist_path = e;
+                }
+                return _auto_playlist_path;
             }
         }
 

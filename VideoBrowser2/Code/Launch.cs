@@ -21,6 +21,7 @@ namespace SamSoft.VideoBrowser
         //  host.MediaCenterEnvironment.Dialog("debug", "debug", DialogButtons.Ok, 100, true); 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
+
         }
     }
 }
