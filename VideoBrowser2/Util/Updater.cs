@@ -82,7 +82,7 @@ namespace SamSoft.VideoBrowser.Util
                 // Old -> start update
                 if (CurrentVersion < newVersion)
                 {
-                    if (appRef.MediaCenterEnvironment.Capabilities.ContainsKey("Console"))
+                    if (Application.MediaCenterEnvironment.Capabilities.ContainsKey("Console"))
                     {
                         // Prompt them if they want to update.
                         DialogResult reply = appRef.displayDialog("Do you wish to update VideoBrowser now?  (Requires you to grant permissions and a restart of VideoBrowser)", "Update Available", (DialogButtons)12 /* Yes, No */, 10);
