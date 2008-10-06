@@ -30,7 +30,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     try
                     {
                         title = mce.MediaMetadata["Title"] as string;
-
+                        /*
                         foreach (var key in mce.MediaMetadata)
                         {
                             var fi = mce.GetType().GetField("_legacyExperience", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -44,7 +44,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                           //  {
                            //     Trace.WriteLine(key.Key + " : " + key.Value.ToString() + "  --- " + key.Value.GetType().ToString());
                            // }
+                         
                         }
+                         */
                     }
                     catch (Exception e)
                     {
