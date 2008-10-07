@@ -29,7 +29,7 @@ namespace SamSoft.VideoBrowser
     {
 
         /* All app settings go here, they must all have defaults or they will not work properly */
-        /* They must be fields and must start with a capitol letter, and should have a default setting */
+        /* They must be fields and must start with a capital letter, and should have a default setting */
         /* The comment will be inlined in the config file to help the user */
         
         [Comment(
@@ -90,28 +90,34 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
 
 		[Comment(
 @"Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.
-Note that the sorting algorithm is case insensitive."
+      Note that the sorting algorithm is case insensitive."
 	)]
 		public bool EnableAlphanumericSorting = true;
 
 		[Comment(
-@"List of characters to remove from titles for alphanumeric sorting.  Characters are replaced with a ' '.
-      Separate each character with a '|'."
+@"List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.
+      This allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted."
 	)]
-		public string SortRemoveCharacters = ".|-|+|&|%|,";
+		public string SortRemoveCharacters = ",";
+
+		[Comment(
+@"List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.
+      This allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted."
+	)]
+		public string SortReplaceCharacters = ".|-|+|&|%";
 
 		[Comment(
 @"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
       algorithm appends a ' ' to the end of each word during the search which means words found at the end
       of each title will not be removed.  This is generally not an issue since most people will only want
-      articles removed and articles are rarely found at the end of media titles."
+      articles removed and articles are rarely found at the end of media titles.  This, combined with SortReplaceCharacters,
+      allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."
 	)]
-		public string SortRemoveWords = "the|a|an";
+		public string SortReplaceWords = "the|a|an";
 
 		/* End of app specific settings*/
 
 		private string[] _SortRemoveCharactersArray = null;
-
 		public string[] SortRemoveCharactersArray
 		{
 			get
@@ -121,14 +127,23 @@ Note that the sorting algorithm is case insensitive."
 			}
 		}
 
-		private string[] _SortRemoveWordsArray = null;
-
-		public string[] SortRemoveWordsArray
+		private string[] _SortReplaceCharactersArray = null;
+		public string[] SortReplaceCharactersArray
 		{
 			get
 			{
-				_SortRemoveWordsArray = _SortRemoveWordsArray ?? SortRemoveWords.Split('|');
-				return _SortRemoveWordsArray;
+				_SortReplaceCharactersArray = _SortReplaceCharactersArray ?? SortReplaceCharacters.Split('|');
+				return _SortReplaceCharactersArray;
+			}
+		}
+
+		private string[] _SortReplaceWordsArray = null;
+		public string[] SortReplaceWordsArray
+		{
+			get
+			{
+				_SortReplaceWordsArray = _SortReplaceWordsArray ?? SortReplaceWords.Split('|');
+				return _SortReplaceWordsArray;
 			}
 		}
 

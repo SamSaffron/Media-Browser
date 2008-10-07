@@ -59,10 +59,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 					// Sanitize titles before comparing
 					foreach (string search in Config.Instance.SortRemoveCharactersArray)
 					{
+						s1 = s1.Replace(search.ToLower(), string.Empty);
+						s2 = s2.Replace(search.ToLower(), string.Empty);
+					}
+					foreach (string search in Config.Instance.SortReplaceCharactersArray)
+					{
 						s1 = s1.Replace(search.ToLower(), " ");
 						s2 = s2.Replace(search.ToLower(), " ");
 					}
-					foreach (string search in Config.Instance.SortRemoveWordsArray)
+					foreach (string search in Config.Instance.SortReplaceWordsArray)
 					{
 						// Remove items but only if they are followed by a space
 						// Then add the removed space back in
