@@ -87,9 +87,50 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
 @"The drive letter of the Daemon Tools virtual drive."
     )]
         public string DaemonToolsDrive = "E";
-        
-        /* End of app specific settings*/
 
+		[Comment(
+@"Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.
+Note that the sorting algorithm is case insensitive."
+	)]
+		public bool EnableAlphanumericSorting = true;
+
+		[Comment(
+@"List of characters to remove from titles for alphanumeric sorting.  Characters are replaced with a ' '.
+      Separate each character with a '|'."
+	)]
+		public string SortRemoveCharacters = ".|-|+|&|%|,";
+
+		[Comment(
+@"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
+      algorithm appends a ' ' to the end of each word during the search which means words found at the end
+      of each title will not be removed.  This is generally not an issue since most people will only want
+      articles removed and articles are rarely found at the end of media titles."
+	)]
+		public string SortRemoveWords = "the|a|an";
+
+		/* End of app specific settings*/
+
+		private string[] _SortRemoveCharactersArray = null;
+
+		public string[] SortRemoveCharactersArray
+		{
+			get
+			{
+				_SortRemoveCharactersArray = _SortRemoveCharactersArray ?? SortRemoveCharacters.Split('|');
+				return _SortRemoveCharactersArray;
+			}
+		}
+
+		private string[] _SortRemoveWordsArray = null;
+
+		public string[] SortRemoveWordsArray
+		{
+			get
+			{
+				_SortRemoveWordsArray = _SortRemoveWordsArray ?? SortRemoveWords.Split('|');
+				return _SortRemoveWordsArray;
+			}
+		}
 
         // so we can access settings from mcml 
         [MarkupVisible]
