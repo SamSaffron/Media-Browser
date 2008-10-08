@@ -35,6 +35,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         string Description { get; }
         string Title1 { get; }
         string Title2 { get; }
-        string Overview { get; } 
+        string Overview { get; }
+		string SortableDescription { get; }
     }
 }

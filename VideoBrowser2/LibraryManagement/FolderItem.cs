@@ -34,7 +34,37 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             this.filename = filename;
             this.isFolder = isFolder;
-            this.Description = description;
+			this.Description = description;
+
+			// Sanitize description (for sorting)
+
+			sortableDescription = description.ToLower();
+			foreach (string search in Config.Instance.SortRemoveCharactersArray)
+			{
+				sortableDescription = sortableDescription.Replace(search.ToLower(), string.Empty);
+			}
+			foreach (string search in Config.Instance.SortReplaceCharactersArray)
+			{
+				sortableDescription = sortableDescription.Replace(search.ToLower(), " ");
+			}
+			foreach (string search in Config.Instance.SortReplaceWordsArray)
+			{
+				string searchLower = search.ToLower();
+				// Remove from beginning if a space follows
+				if (sortableDescription.StartsWith(searchLower + " "))
+				{
+					sortableDescription = sortableDescription.Remove(0, searchLower.Length + 1);
+				}
+				// Remove from middle if surrounded by spaces
+				sortableDescription = sortableDescription.Replace(" " + searchLower + " ", " ");
+
+				// Remove from end if followed by a space
+				if (sortableDescription.EndsWith(" " + searchLower))
+				{
+					sortableDescription = sortableDescription.Remove(sortableDescription.Length - (searchLower.Length + 1));
+				}
+			}
+			//sortableDescription = sortableDescription.Trim();
 
         }
 
@@ -62,6 +92,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         Movie _movie = null;
         string title2;
         string overview;
+		string sortableDescription;
   
 
         #endregion 
@@ -229,7 +260,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get { return isFolder; }
         }
 
-        public override string ThumbHash
+		public override string SortableDescription
+		{
+			get { return sortableDescription; }
+		}
+		
+		public override string ThumbHash
         {
             get
             {

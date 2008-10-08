@@ -98,13 +98,16 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
 @"List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.
       This allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted."
 	)]
-		public string SortRemoveCharacters = ",";
+		public string SortRemoveCharacters = ",|&|-";
 
 		[Comment(
 @"List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.
       This allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted."
 	)]
-		public string SortReplaceCharacters = ".|-|+|&|%";
+		public string SortReplaceCharacters = ".|+|%";
+
+		// TODO: Might need REAL "replacers", i.e. replace & with "and" and replace % with "percent"
+		//       Could do Roman Numerals here as well
 
 		[Comment(
 @"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the

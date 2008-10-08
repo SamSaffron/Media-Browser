@@ -280,7 +280,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
-        public abstract string ThumbHash
+		public abstract string SortableDescription
+		{
+			get;
+		}
+		
+		public abstract string ThumbHash
         {
             get;
         }

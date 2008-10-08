@@ -42,12 +42,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 					return 1;
 				}
 
-				string s1 = x.Description.ToLower();
+				string s1 = x.SortableDescription.ToLower();
 				if (s1 == null)
 				{
 					return 0;
 				}
-				string s2 = y.Description.ToLower();
+				string s2 = y.SortableDescription.ToLower();
 				if (s2 == null)
 				{
 					return 0;
@@ -55,28 +55,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
 				if (Config.Instance.EnableAlphanumericSorting)
 				{
-
-					// Sanitize titles before comparing
-					foreach (string search in Config.Instance.SortRemoveCharactersArray)
-					{
-						s1 = s1.Replace(search.ToLower(), string.Empty);
-						s2 = s2.Replace(search.ToLower(), string.Empty);
-					}
-					foreach (string search in Config.Instance.SortReplaceCharactersArray)
-					{
-						s1 = s1.Replace(search.ToLower(), " ");
-						s2 = s2.Replace(search.ToLower(), " ");
-					}
-					foreach (string search in Config.Instance.SortReplaceWordsArray)
-					{
-						// Remove items but only if they are followed by a space
-						// Then add the removed space back in
-						s1 = s1.Replace(search.ToLower() + " ", string.Empty + " ");
-						s2 = s2.Replace(search.ToLower() + " ", string.Empty + " ");
-					}
-					s1 = s1.Trim();
-					s2 = s2.Trim();
-
 					// http://dotnetperls.com/Content/Alphanumeric-Sorting.aspx
 
 					int len1 = s1.Length;

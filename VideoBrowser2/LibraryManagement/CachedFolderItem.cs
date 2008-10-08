@@ -52,7 +52,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             // save this in a cache file ... 
             MemoryStream ms = new MemoryStream();
-            XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Encoding = Encoding.UTF8;
+			settings.Indent = true;
+			settings.IndentChars = "\t";
+			XmlWriter writer = XmlWriter.Create(ms, settings);
             writer.WriteStartDocument();
             writer.WriteStartElement("Items");
             foreach (BaseFolderItem item in items)
@@ -63,7 +67,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 writer.WriteElementString("IsVideo", item.IsVideo.ToString());
                 writer.WriteElementString("IsMovie", item.IsMovie.ToString());
                 writer.WriteElementString("Description", item.Description);
-                if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
+				writer.WriteElementString("SortableDescription", item.SortableDescription);
+				if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).ThumbPath))
                 {
                     writer.WriteElementString("ThumbHash", item.ThumbHash);
                 }
@@ -111,7 +116,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             this.folderHash = folderHash;
             filename = elem.SafeGetString("Filename");
             Description = elem.SafeGetString("Description");
-            thumbHash = elem.SafeGetString("ThumbHash");
+			sortableDescription = elem.SafeGetString("SortableDescription");
+			thumbHash = elem.SafeGetString("ThumbHash");
             title1 = elem.SafeGetString("Title1");
             title2 = elem.SafeGetString("Title2");
             isFolder = Boolean.Parse(elem.SafeGetString("IsFolder"));
@@ -194,7 +200,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         private string overview;
         public override string Overview { get { return overview; } }
 
-        private int runningTime;
+		private string sortableDescription;
+		public override string SortableDescription { get { return sortableDescription; } }
+		
+		private int runningTime;
         public override int RunningTime { get { return runningTime;} }
 
         private int productionYear;

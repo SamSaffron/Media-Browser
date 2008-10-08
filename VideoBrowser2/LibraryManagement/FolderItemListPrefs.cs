@@ -66,7 +66,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             try
             {
                 MemoryStream ms = new MemoryStream();
-                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Encoding = Encoding.UTF8;
+				settings.Indent = true;
+				settings.IndentChars = "\t";
+				XmlWriter writer = XmlWriter.Create(ms, settings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Prefs");
                 writer.WriteElementString("SortOrder", ((int)SortOrder).ToString());
