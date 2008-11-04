@@ -505,7 +505,7 @@
 			
 			<Rule>
 				<Conditions>
-					<Equality Source="[FolderItems.Count]" ConditionOp="LessThanOrEquals"  Value="6"/>
+					<Equality Source="[FolderItems.Count]" ConditionOp="LessThanOrEquals"  Value="4"/>
 				</Conditions>
 				<Actions>
 					<Set Target="[MyLayout.Rows]" Value="1" />
@@ -635,7 +635,7 @@
 			<Index Name="Index" Index="$Required"/>
 			<Image Name="FocusImage" Image="image://s:ZoomPane"/>
 			<Image Name="FolderImage" Image="image://s:Folder"/>
-			<Image Name="Tick" Image="image://s:Tick"/>
+			<Image Name="Tick" Image="image://s:TickPoster"/>
 			<Image Name="BlankImage" Image="null"/>
 			<Size Name="MinSize" />
 			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
@@ -800,7 +800,7 @@
 												</LayoutInput>
 													
 												<Children>
-													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" Visible="[Model.HaveWatched]">
+													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" MaximumSize="30,30" Alpha="0.8" Visible="[Model.HaveWatched]">
 														
 													</Graphic>
 													<Panel Name="LabelPanel" Visible="false" Layout="Anchor" Padding="0,10,0,0">

@@ -116,6 +116,7 @@
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
     <Content Include="Images\Tick.png" />
+    <Content Include="Images\TickPoster.png" />
     <Content Include="Images\zoompane.png" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />

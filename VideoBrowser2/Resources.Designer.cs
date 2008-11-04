@@ -342,6 +342,13 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap TickPoster {
+            get {
+                object obj = ResourceManager.GetObject("TickPoster", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Up {
             get {
                 object obj = ResourceManager.GetObject("Up", resourceCulture);
