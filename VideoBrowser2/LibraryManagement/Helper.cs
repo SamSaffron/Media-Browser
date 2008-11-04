@@ -208,6 +208,24 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        static string _app_prefs_path = null;
+        public static string AppPrefsPath
+        {
+            get
+            {
+                if (_app_prefs_path == null)
+                {
+                    var e = Path.Combine(AppConfigPath, "Prefs");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _app_prefs_path = e;
+                }
+                return _app_prefs_path;
+            }
+        }
+
         static string _app_playstate_path = null;
         public static string AppPlayStatePath
         {
@@ -215,7 +233,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (_app_playstate_path == null)
                 {
-                    var e = Path.Combine(AppCachePath, "PlayState");
+                    var e = Path.Combine(AppConfigPath, "PlayState");
                     if (!Directory.Exists(e))
                     {
                         Directory.CreateDirectory(e);

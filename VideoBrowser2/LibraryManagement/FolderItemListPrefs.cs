@@ -15,7 +15,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public FolderItemListPrefs(string key)
         {
-            filename = System.IO.Path.Combine(Helper.AppCachePath, key + ".prefs.xml");
+            filename = System.IO.Path.Combine(Helper.AppPrefsPath, key + ".prefs.xml");
             try
             {
                 if (System.IO.File.Exists(filename))
