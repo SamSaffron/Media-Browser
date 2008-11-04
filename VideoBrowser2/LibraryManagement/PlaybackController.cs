@@ -30,23 +30,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     try
                     {
                         title = mce.MediaMetadata["Title"] as string;
-                        /*
-                        foreach (var key in mce.MediaMetadata)
-                        {
-                            var fi = mce.GetType().GetField("_legacyExperience", BindingFlags.NonPublic | BindingFlags.Instance);
-                            object test = fi.GetValue(mce);
-                            Trace.WriteLine(test.GetType().ToString());
-                            Trace.WriteLine(test.GetType().Assembly.CodeBase);
-
-                          
-
-                           // if (key.Value != null)
-                          //  {
-                           //     Trace.WriteLine(key.Key + " : " + key.Value.ToString() + "  --- " + key.Value.GetType().ToString());
-                           // }
-                         
-                        }
-                         */
                     }
                     catch (Exception e)
                     {
@@ -54,7 +37,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                     if (title == Path.GetFileNameWithoutExtension(currentPlaybackController.folderItem.Filename))
                     {
-                        currentPlaybackController.playState.Position = mce.Transport.Position;
+                        currentPlaybackController.folderItem.PlayState.Position = mce.Transport.Position;
                         Trace.WriteLine("Set the playlist.");
                     }
                 }
@@ -72,7 +55,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 return;
             }
 
-            // No resume support fot playlists
+            // No resume support for playlists
             // There is no way for us to figure out our position in the play list. 
             if (playbackController.folderItem.IsFolder && playbackController.folderItem.GetMovieList().Length > 1)
             {
@@ -98,12 +81,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
        
 
         private FolderItem folderItem;
-        private PlayState playState;
-
+        
         public PlaybackController(FolderItem folderItem)
         {
             this.folderItem = folderItem;
-            this.playState = new PlayState(folderItem);
 
         }
 
@@ -116,8 +97,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             PlayFile(VideoFilename);
 
             var mce = AddInHost.Current.MediaCenterEnvironment;
-            mce.MediaExperience.Transport.Position = playState.Position;
-            Trace.WriteLine("Trying to play from position :" + playState.Position.ToString()); 
+            mce.MediaExperience.Transport.Position = folderItem.PlayState.Position;
+            Trace.WriteLine("Trying to play from position :" + folderItem.PlayState.Position.ToString()); 
             
         } 
 
@@ -129,8 +110,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
 
             PlayFile(VideoFilename);
-            playState.LastPlayed = DateTime.Now;
-            playState.PlayCount = playState.PlayCount + 1;
+            folderItem.PlayState.LastPlayed = DateTime.Now;
+            folderItem.PlayState.PlayCount = folderItem.PlayState.PlayCount + 1;
  
         }
 
@@ -138,7 +119,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                return playState.Position.Milliseconds > 0;
+                return folderItem.PlayState.Position.Milliseconds > 0;
             }
         }
 
@@ -265,6 +246,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                 // Get access to Windows Media Center host.
                 var mce = AddInHost.Current.MediaCenterEnvironment;
+
+                // in case something else is playing try to save its position
+                if (currentPlaybackController != null)
+                {
+                    Transport_PropertyChanged(null, "Position");
+                }
 
                 // Play the video in the Windows Media Center view port.
                 mce.PlayMedia(MediaType.Video, filename, false);

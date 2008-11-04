@@ -7,7 +7,14 @@
   <Image Name="StarEmpty" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Empty" />
   <Image Name="StarFull" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Full" />
   <Image Name="StarHalf" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Star_Half" />
+	<Image Name="RadioButtonOn" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RadioButtonOn" />
+	<Image Name="RadioButtonOff" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RadioButtonOff" />
+	<Image Name="ButtonLeftFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
+	<Image Name="BlankImage" Image="null"/>
 
   <Color Name="MediumBlue" Color="255, 2, 166, 212"/>
+	<Color Name="ZoomBackgroundBlue" Color="255, 32, 83, 136"/>
+	<Color Name="LightBlue"               Color="255, 151, 217, 255"/>
+	
 
 </Mcml>

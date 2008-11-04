@@ -438,13 +438,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 else
                 {
-                    resource = "resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder";
+                    return null;
+                    //resource = "resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder";
                 }
 
                 retval = new Image(resource);
             }
 
             return retval;
+        }
+
+        internal static Image GetMCMLBanner(string path)
+        {
+            if (!String.IsNullOrEmpty(path))
+            {
+                try
+                {
+                    return new Image("file://" + path);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+            return null;
         }
 
         internal static string GetRandomNames(List<IFolderItem> items, int maxLength)

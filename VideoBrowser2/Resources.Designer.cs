@@ -244,9 +244,30 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap RadioButtonOff {
+            get {
+                object obj = ResourceManager.GetObject("RadioButtonOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RadioButtonOn {
+            get {
+                object obj = ResourceManager.GetObject("RadioButtonOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] RepeatItem {
             get {
                 object obj = ResourceManager.GetObject("RepeatItem", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] ScrollableText {
+            get {
+                object obj = ResourceManager.GetObject("ScrollableText", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -314,6 +335,13 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap Tick {
+            get {
+                object obj = ResourceManager.GetObject("Tick", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Up {
             get {
                 object obj = ResourceManager.GetObject("Up", resourceCulture);
@@ -325,6 +353,20 @@ namespace SamSoft.VideoBrowser {
             get {
                 object obj = ResourceManager.GetObject("ViewDetails", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] ViewMenu {
+            get {
+                object obj = ResourceManager.GetObject("ViewMenu", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ZoomPane {
+            get {
+                object obj = ResourceManager.GetObject("ZoomPane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

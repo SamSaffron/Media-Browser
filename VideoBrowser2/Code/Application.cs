@@ -10,6 +10,7 @@ using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.IO;
 
 
 namespace SamSoft.VideoBrowser
@@ -216,12 +217,13 @@ namespace SamSoft.VideoBrowser
         public Application()
             : this(null, null)
         {
+            
         }
 
         public Application(MyHistoryOrientedPageSession session, AddInHost host)
         {
-
-           // Debugger.Break();
+            //Debugger.Break();
+            //Thread.Sleep(20000);
 
             this.session = session;
             if (session != null)
@@ -241,7 +243,6 @@ namespace SamSoft.VideoBrowser
         {
             try
             {
-
                 PropertyInfo pi = scroller.GetType().GetProperty("View", BindingFlags.Public | BindingFlags.Instance);
                 object view = pi.GetValue(scroller, null);
                 pi = view.GetType().GetProperty("Control", BindingFlags.Public | BindingFlags.Instance);
@@ -281,7 +282,7 @@ namespace SamSoft.VideoBrowser
             bool isVF = false;;
             if (Helper.IsVirtualFolder(filename))
             {
-                NavigateToVirtualFolder(new VirtualFolder(filename));
+                NavigateToVirtualFolder(new VirtualFolder(filename), null);
                 isVF = true;
             }
 
@@ -292,7 +293,7 @@ namespace SamSoft.VideoBrowser
 
             if (!isVF)
             {
-                NavigateToPath(filename);
+                NavigateToPath(filename, null);
             }
 
         }
@@ -324,50 +325,50 @@ namespace SamSoft.VideoBrowser
             FolderItemListMCE data = param as FolderItemListMCE;
             data.CacheMetadata();
         }
-
+        
         private void Done(object param)
         {
             FolderItems.RefreshSortOrder();
         }
 
-        public void NavigateToItems(List<IFolderItem> items)
+        public void NavigateToItems(List<IFolderItem> item, string breadcrumb)
         {
-            FolderItems = new FolderItemListMCE();
-            FolderItems.Navigate(items);
+            FolderItems = new FolderItemListMCE(FolderItems, breadcrumb);
+            FolderItems.Navigate(item);
             lock (syncObj)
             {
-                OpenPage(FolderItems);
+                OpenPage(FolderItems, null);
             }
         }
 
-        public void NavigateToPath(string path)
-        {    
-            FolderItems = new FolderItemListMCE();
+        public void NavigateToPath(string path, string breadcrumb)
+        {
+            FolderItems = new FolderItemListMCE(FolderItems, breadcrumb);
             FolderItems.Navigate(path);
             lock (syncObj)
             {
                 Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
-                OpenPage(FolderItems);
+                OpenPage(FolderItems, path);
             }
         }
 
-        private void NavigateToVirtualFolder(VirtualFolder virtualFolder)
+        private void NavigateToVirtualFolder(VirtualFolder virtualFolder, string breadcrumb)
         {
-            FolderItems = new FolderItemListMCE();
+            FolderItems = new FolderItemListMCE(FolderItems, breadcrumb);
             FolderItems.Navigate(virtualFolder);
             lock (syncObj)
             {
                 Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheData, Done, FolderItems);
-                OpenPage(FolderItems);
+                OpenPage(FolderItems, null);
             }
         }
 
-        public void OpenPage(FolderItemListMCE items)
+        public void OpenPage(FolderItemListMCE items, string path)
         {
             Dictionary<string, object> properties = new Dictionary<string, object>();
             properties["Application"] = this;
             properties["FolderItems"] = items;
-            properties["Model"] = new ListPage(items);
+            properties["Model"] = new ListPage(items, path);
 
             if (session != null)
             {
@@ -413,15 +414,15 @@ namespace SamSoft.VideoBrowser
             {
                 if (fi.VirtualFolder != null)
                 {
-                    NavigateToVirtualFolder(fi.VirtualFolder);
+                    NavigateToVirtualFolder(fi.VirtualFolder, fi.Description);
                 }
                 else if (fi.Contents == null)
                 {
-                    NavigateToPath(fi.Filename);
+                    NavigateToPath(fi.Filename, fi.Description);
                 }
                 else
                 {
-                    NavigateToItems(fi.Contents);
+                    NavigateToItems(fi.Contents, fi.Description);
                 }
             }
             else
@@ -436,6 +437,7 @@ namespace SamSoft.VideoBrowser
                 {
                     fi.Play();
                 }
+                item.FirePropertyChanged_Public("HaveWatched");
             }
         }
 

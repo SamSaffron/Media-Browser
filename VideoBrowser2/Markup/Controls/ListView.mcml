@@ -27,11 +27,13 @@
       
       <Timer Name="ClearTripleTypeTimer" AutoRepeat="true" Interval="1000" Enabled="false"/>
       <cor:Int32 Name="CounterValue" Int32="0" />
-    </Locals>
+
+		
+	</Locals>
 
     <Rules>
-
-
+		
+		
       <Binding Source="[Application.JILtext]" Target="[Typer.EditableText]"/>
       <!-- Give ScrollingData to ScrollingHandler. -->
       <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
@@ -136,7 +138,7 @@
           </Panel>
 
           <!-- List Repeater -->
-          <Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,0" Name="Scroller" Navigation="None" ScrollingData="[ScrollingData]" >
+          <Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,20" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
             <LayoutInput>
               <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>

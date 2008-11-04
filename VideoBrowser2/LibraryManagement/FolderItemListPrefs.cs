@@ -33,7 +33,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        int _viewIndex;
+        int _viewIndex = Config.Instance.DefaultViewIndex;
         public int ViewIndex
         {
             get 

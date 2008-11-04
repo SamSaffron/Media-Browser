@@ -117,5 +117,25 @@ namespace TestVideoBrowser
         }
 
         #endregion
+
+        #region IFolderItem Members
+
+
+        public string SortableDescription
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string LastWatched
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool HaveWatched
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

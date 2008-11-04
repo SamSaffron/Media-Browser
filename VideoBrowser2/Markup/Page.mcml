@@ -3,211 +3,406 @@
 	  xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
     xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
 	  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+	  xmlns:vm="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ViewMenu"
+	  xmlns:so="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/SortOrder"
     xmlns:me="Me"
       >
 
-  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Controls"/>
-  <Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base"/>
-  
+	<Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Controls"/>
+	<Aggregate Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Base"/>
+
 	<UI Name="Page">
 
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
-      <a:ListPage Name="Model" ListPage="$Required"/>
-      <lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>   
-      <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
-    </Properties>
+			<a:ListPage Name="Model" ListPage="$Required"/>
+			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+			<IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
+		</Properties>
 
-    <Locals>
-      <cor:Boolean Name="CanPlay" Boolean="false" />
-      <Timer Name="BGTimer" Interval="100" Enabled="false"/>
-    </Locals>
-    <Rules>
+		<Locals>
+			<cor:Boolean Name="CanPlay" Boolean="false" />
+			<Timer Name="BGTimer" Interval="100" Enabled="false"/>
+			<BooleanChoice Name="ShowLabels" Value="true" />
+			
+			<Choice Name="Views" >
+				<Options>
+					<cor:String String="Details List" />
+					<cor:String String="Posters" />
+					<cor:String String="Posters (labeled)" />
+					<cor:String String="Details Strip" />
+					<cor:String String="Details Strip (labeled)" />
+				</Options>
+			</Choice>
+			<Choice Name="None" >
+				<Options>
+					<cor:String String="name" />
+				</Options>
+			</Choice>
+			<Command Name="ViewsDropDown" />
+		</Locals>
+		<Rules>
+			<Default Target="[Views.ChosenIndex]" Value="[Model.ViewIndex]" />
+			<Default Target="[Views.DefaultIndex]" Value="[Model.ViewIndex]" />
+			<Binding Target="[Model.ViewIndex]" Source="[Views.ChosenIndex]"/>
 
-    <!-- Check config file to hide background -->
+			
 
-      <Rule>
-      <Conditions>
-        <Equality ConditionOp="Equals" Source="[Application.Config.TransparentBackgroundMCML]" 
-                  Value="true"/>
-      </Conditions>
-      <Actions>
-        <Set Target="[MainBG.Visible]" Value="false" />
-      </Actions>
-    </Rule>
+			<!--<Binding Source="[Views.Chosen!cor:String]" Target="[ViewsBtn.Text]" />-->
+			<Changed Source="[ViewsDropDown.Invoked]">
+				<Actions>
+					<Set Target="[ViewRadioGroup.Vis]" Value="true"/>
+					<Invoke Target="[ViewRadioGroup.NavigateInto]" />
+				</Actions>
+			</Changed>
+			
+			<!-- Check config file to hide background -->
 
-  
-      <Rule>
-        <Actions>
-          <Set Target="[BGTimer.Enabled]" Value="true" />
-        </Actions>
-      </Rule>
+			<Rule>
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Application.Config.TransparentBackgroundMCML]"
+							  Value="true"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[MainBG.Visible]" Value="false" />
+				</Actions>
+			</Rule>
 
-      <Changed Source="[BGTimer.Tick]">
-        <Actions>
-          <Set Target="[CanPlay]" Value="[Application.CanPlayStartup]" />
-          <Set Target="[BGTimer.Enabled]" Value="false" />
-        </Actions>
-      </Changed>
-      
-     <Changed Source="[CanPlay]" >
-       <Conditions>
-         
-         <Equality Source="[CanPlay]" ConditionOp="Equals" Value="true" />
-       </Conditions>
-        
-        <Actions>
-          <PlayAnimation Animation="animation://me:BackgroundFadeIn" Target="[MainBG]" />
-          <!--<Set Target="[MainBG.Alpha]" Value="1" />-->
-        </Actions>
-      </Changed>
-      
-      <Changed Source="[Model.SortOrderHasFocus]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Model.SortOrderHasFocus]" Value="true">
-          </Equality>
-        </Conditions>
-        <Actions>
-          <Set Target="[FolderItems.SelectedIndex.Value]" Value="-1"></Set>
-        </Actions>
-      </Changed>
-      
-      <Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
-      
-      <Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
-        <Conditions>
-          <Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
-        </Conditions>
-        <Actions>
-          <Set Target="[Application.CurrentIndex]" Value="[FolderItems.SelectedIndex.Value]"/>
-        </Actions>
-      </Changed>
 
-      
-      <Changed Source="[SortOrderIndex.Value]" InitialEvaluate="false">
-        <Actions>
-          <Invoke Target="[FolderItems.Sort]" sortOrder="[SortOrderIndex.Value]"/>
-        </Actions>
-      </Changed>
+			<Rule>
+				<Actions>
+					<Set Target="[BGTimer.Enabled]" Value="true" />
+				</Actions>
+			</Rule>
 
-      <Changed Source="[Application.FindText]" InitialEvaluate="false">
-        <Conditions>
-          <Equality Source="[Application.JILtext.Value]" ConditionOp="NotEquals" Value=""/>
-        </Conditions>
-        <Actions>
-          <Set Target="[FindAsYouTypePanel.Visible]" Value="true"/>
-          <Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
-        </Actions>
-      </Changed>
+			<Rule>
+				<Conditions>
+					<Equality Source="[Model.HasBanner]" ConditionOp="Equals" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BreadCrumbs.Font]" Value="Segoe Media Center Light, 36" />
+				</Actions>
+			</Rule>
 
-      <Changed Source="[Application.FindText]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Application.JILtext.Value]" ConditionOp="Equals" Value=""/>
-        </Conditions>
-        <Actions>
-          <Set Target="[FindAsYouTypePanel.Visible]" Value="false"/>
-          <Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
-        </Actions>
-      </Changed>
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Equality Source="[Model.HasBanner]" ConditionOp="Equals" Value="false" />
+					<Equality Source="[Model.BreadCrumbs]" ConditionOp="Equals" Value="" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BreadCrumbs.Content]" Value="video library" />
+					<Set Target="[BreadCrumbs.Font]" Value="Segoe Media Center Light, 36" />
+				</Actions>
+			</Rule>
 
-      <Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
-        <Conditions>
-          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value ="0"></Equality>
-        </Conditions>
-        <Actions>
-          <Set Target="[PosterView.Visible]" Value="false"/>
-          <Set Target="[DetailsView.Visible]" Value="true"/>
-        </Actions>
-      </Changed>
+			<Changed Source="[BGTimer.Tick]">
+				<Actions>
+					<Set Target="[CanPlay]" Value="[Application.CanPlayStartup]" />
+					<Set Target="[BGTimer.Enabled]" Value="false" />
+				</Actions>
+			</Changed>
 
-      <Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
-        <Conditions>
-          <Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="1"></Equality>
-        </Conditions>
-        <Actions>
-          <Set Target="[PosterView.Visible]" Value="true"/>
-          <Set Target="[DetailsView.Visible]" Value="false"/>
-        </Actions>
-      </Changed>
-      
-    </Rules>
-    
-    
+			<Changed Source="[CanPlay]" >
+				<Conditions>
+					<Equality Source="[CanPlay]" ConditionOp="Equals" Value="true" />
+				</Conditions>
+				<Actions>
+					<PlayAnimation Animation="animation://me:BackgroundFadeIn" Target="[MainBG]" />
+					<!--<Set Target="[MainBG.Alpha]" Value="1" />-->
+				</Actions>
+			</Changed>
+<!--
+			<Changed Source="[Model.SortOrderHasFocus]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Model.SortOrderHasFocus]" Value="true">
+					</Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[FolderItems.SelectedIndex.Value]" Value="-1"></Set>
+				</Actions>
+			</Changed>
+
+			<Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
+
+			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[Application.CurrentIndex]" Value="[FolderItems.SelectedIndex.Value]"/>
+				</Actions>
+			</Changed>
+-->
+<!--
+			<Changed Source="[SortOrderIndex.Value]" InitialEvaluate="false">
+				<Actions>
+					<Invoke Target="[FolderItems.Sort]" sortOrder="[SortOrderIndex.Value]"/>
+				</Actions>
+			</Changed>
+-->
+			<Changed Source="[Application.FindText]" InitialEvaluate="false">
+				<Conditions>
+					<Equality Source="[Application.JILtext.Value]" ConditionOp="NotEquals" Value=""/>
+				</Conditions>
+				<Actions>
+					<Set Target="[FindAsYouTypePanel.Visible]" Value="true"/>
+					<Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
+					<Set Target="[ShadowLabel.Content]" Value="[Application.FindText]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Application.FindText]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Application.JILtext.Value]" ConditionOp="Equals" Value=""/>
+				</Conditions>
+				<Actions>
+					<Set Target="[FindAsYouTypePanel.Visible]" Value="false"/>
+					<Set Target="[FindAsYouType.Content]" Value="[Application.FindText]"/>
+					<Set Target="[ShadowLabel.Content]" Value="[Application.FindText]" />
+				</Actions>
+			</Changed>
+		</Rules>
+
+
 		<Content>
-      <ColorFill Content="Transparent" Layout="Form">
-        <Children>
+			<Panel Layout="Form">
+				<Children>
 
-          <!-- find in list panel - highest Z-Order -->
-          <Panel Name="FindAsYouTypePanel">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.80"/>
-            </LayoutInput>
-            <Layout>
-              <FlowLayout ItemAlignment="Center"/>
-            </Layout>
-            <Children>
-              <ColorFill Content="LavenderBlush" Padding="8,0,8,-3" >
-                <Children>
-                  <Text Name="FindAsYouType" Font="Segoe Media Center Semibold,64" Content="" Color="Black"  />
-                </Children>   
-              </ColorFill> 
-             </Children>
-          </Panel>
+					<!-- find in list panel - highest Z-Order -->
+					<Panel Name="FindAsYouTypePanel" >
+						<LayoutInput>
+							<FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
+						</LayoutInput>
+						<Layout>
+							<FlowLayout ItemAlignment="Center"/>
+						</Layout>
+						<Children>
+							<ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
+								<Children>
+									<Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://me:LightBlue"  />
+									<!-- Shadow - Confirmed text (opaque) -->
+									<Text Name="ShadowLabel" Content="Fred" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
+										<LayoutInput>
+											<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
+										</LayoutInput>
+									</Text>
+								</Children>
+							</ColorFill>
+						</Children>
+					</Panel>
 
-          
-          
-          <!-- Black Overlay to Fade Out contents -->
-          <Panel Name="FadeOutPanel" Visible="false">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
-            </LayoutInput>
-            <Children>
-              <ColorFill Content="Black" Alpha="0"/>
-            </Children>
-          </Panel>
+					<!-- Black Overlay to Fade Out contents -->
+					<Panel Name="FadeOutPanel" Visible="false">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
+						</LayoutInput>
+						<Children>
+							<ColorFill Content="Black" Alpha="0"/>
+						</Children>
+					</Panel>
 
-          <!--  View Details-->
-          <me:ViewDetails Name="DetailsView" Visible="true" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.13" Bottom="Parent,.95" />
-            </LayoutInput>
-          </me:ViewDetails>
+					
+					
+					<!--Banner / Breadcrumbs -->
+					<Panel Name="Breadcrumbs">
+						<Layout>
+							<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+						</Layout>
+						<Children>
+							<Graphic Content="[Model.Banner]" MaintainAspectRatio="true" MaximumSize="350,70">
+							</Graphic>
+							<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+								<Children>
+									<Text Name="BreadCrumbs" Content="[Model.BreadCrumbs]" Font="Segoe Media Center Light, 16" Color="color://me:MediumBlue">
+									</Text>
+								</Children>
+							</Clip>
 
-          <!-- Poster View -->
-          <me:PosterView Name="PosterView" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.04" Top="Parent,.1" Bottom="Parent,.95" Right="Parent,.96"/>
-            </LayoutInput>
-          </me:PosterView>
+						</Children>
+						<LayoutInput>
+							<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
+						</LayoutInput>
+					</Panel>
 
-          
+					<so:ViewSelector Name="ViewsBtn" Model="[Model]">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0,50" Bottom="SortOrderUI,0,5"/>
+						</LayoutInput>
+					</so:ViewSelector>
+					<!-- View menu -->
+					<!--
+					<vm:ViewsButton Name="ViewsBtn" Command="[ViewsDropDown]">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0,50" Bottom="SortOrderUI,0"/>
+						</LayoutInput>
+					</vm:ViewsButton>
+					-->
+					<vm:RadioGroup Name="ViewRadioGroup" Vis="false" Model="[Views]" >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0,50" Top="ViewsBtn,1"/>
+						</LayoutInput>
+					</vm:RadioGroup>
+					
+					<!-- Sort Order Controls -->
+					
+					
+					<me:SortOrder Name="SortOrderUI" List="[FolderItems.SortOrders]">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0,40" Bottom="ViewPanel,0" Right="Parent,1,-40"/>
+						</LayoutInput>
+					</me:SortOrder>
 
-          <!-- Sort Order Controls -->
-          <me:SortOrder Name="SortOrderUI" FocusedIndex="[SortOrderIndex]" List="[FolderItems.SortOrderList]" Application="[Application]" 
-                        Model="[Model]">
-            <LayoutInput>
-              <FormLayoutInput Right="Parent,1,-100" Top="Parent,.04"/>
-            </LayoutInput>
-          </me:SortOrder>
+					<!--  View Details-->
+					<me:DetailArea Name="ViewPanel" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.0" Top="Parent,0,105" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</me:DetailArea>
 
-          <!-- Now Playing View -->
-          <me:NowPlayingViewport>
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.79" Right="Parent,.95" Top="Parent,.80"  Bottom="Parent,.93"/>
-            </LayoutInput>
-          </me:NowPlayingViewport>
+					<!-- Now Playing View -->
+					<me:NowPlayingViewport>
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,-10" />
+						</LayoutInput>
+					</me:NowPlayingViewport>
 
-          <Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill" />
-          
-        </Children>
-			</ColorFill>
-    </Content>
-  </UI>
+					<Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill" />			
+			</Children>
+			</Panel>
+		</Content>
+	</UI>
 
+	<UI Name="DetailArea">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<a:ListPage Name="Model" ListPage="$Required"/>
+			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
+		</Properties>
+		
+		<Rules>
+			<Condition Source="[Input.DeepKeyFocus]" SourceValue="false" ConditionOp="Equals">
+				<Actions>
+					<Set Target="[MainPanel.Alpha]" Value="0.2" />
+				</Actions>
+			</Condition>
 
-  
-  
-  
-  
+			<Condition Source="[Input.DeepKeyFocus]" SourceValue="true" ConditionOp="Equals">
+				<Actions>
+					<Set Target="[MainPanel.Alpha]" Value="1" />
+				</Actions>
+			</Condition>
+			<Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value ="0"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[PosterView.Visible]" Value="false"/>
+					<Set Target="[DetailsView.Visible]" Value="true"/>
+					<Set Target="[PosterViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbView.Visible]" Value="false"/>
+				</Actions>
+			</Changed>
 
+			<Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="1"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[PosterView.Visible]" Value="true"/>
+					<Set Target="[DetailsView.Visible]" Value="false"/>
+					<Set Target="[PosterViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbView.Visible]" Value="false"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="2"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[PosterView.Visible]" Value="false"/>
+					<Set Target="[DetailsView.Visible]" Value="false"/>
+					<Set Target="[PosterViewWithLabels.Visible]" Value="true"/>
+					<Set Target="[ThumbViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbView.Visible]" Value="false"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="3"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[PosterView.Visible]" Value="false"/>
+					<Set Target="[DetailsView.Visible]" Value="false"/>
+					<Set Target="[PosterViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbView.Visible]" Value="true"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Model.ViewIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Model.ViewIndex]" Value="4"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[PosterView.Visible]" Value="false"/>
+					<Set Target="[DetailsView.Visible]" Value="false"/>
+					<Set Target="[PosterViewWithLabels.Visible]" Value="false"/>
+					<Set Target="[ThumbViewWithLabels.Visible]" Value="true"/>
+					<Set Target="[ThumbView.Visible]" Value="false"/>
+				</Actions>
+			</Changed>
+		</Rules>
+		
+		<Content>
+			<Panel Name="MainPanel" Layout="Anchor">
+				<Animations>
+					<Animation Animation="animation://me:AlphaAnimation"/>
+				</Animations>
+				<Children>
+					<me:ViewDetails Name="DetailsView" Visible="true" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<AnchorLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,0.9"/>
+						</LayoutInput>
+					</me:ViewDetails>
+
+					<me:PosterView Name="PosterView" ShowLabels="false" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</me:PosterView>
+
+					<me:PosterView Name="PosterViewWithLabels" ShowLabels="true" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</me:PosterView>
+
+					<me:ThumbDetailsView Name="ThumbView" ShowLabels="false" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,.95" Right="Parent,1"/>
+						</LayoutInput>
+					</me:ThumbDetailsView>
+
+					<me:ThumbDetailsView Name="ThumbViewWithLabels" ShowLabels="true" Visible="false" Application="[Application]" FolderItems="[FolderItems]">
+						<LayoutInput>
+							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,.95" Right="Parent,1"/>
+						</LayoutInput>
+					</me:ThumbDetailsView>
+				</Children>
+				
+			</Panel>
+		</Content>
+			
+	</UI>
+
+	<Animation Name="AlphaAnimation" Type="Alpha">
+		<Keyframes>
+			<AlphaKeyframe Time="0.0"  RelativeTo="Current" Interpolation="EaseIn"/>
+			<AlphaKeyframe Time="0.1"  RelativeTo="Final"/>
+		</Keyframes>
+	</Animation>
 </Mcml>

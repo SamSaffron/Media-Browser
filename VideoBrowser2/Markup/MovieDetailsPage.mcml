@@ -83,6 +83,7 @@
         <Actions>
           <Set Target="[PlayMovie.Visible]" Value="false"/>
           <Set Target="[ResumeMovieButton.Text]" Value="Play Movie"/>
+          <Set Target="[ResumeMovieButton.Command]" Value="[PlayMovieCommand]"/>
         </Actions>
       </Rule>
       

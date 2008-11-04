@@ -83,6 +83,7 @@
     <Compile Include="LibraryManagement\SortOrderEnum.cs" />
     <Compile Include="LibraryManagement\SpecialFolderItem.cs" />
     <Compile Include="LibraryManagement\Transcode.cs" />
+    <Compile Include="LibraryManagement\TVSeries.cs" />
     <Compile Include="LibraryManagement\TVShow.cs" />
     <Compile Include="LibraryManagement\VirtualFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,9 +110,13 @@
   <ItemGroup>
     <Content Include="Images\Background.png" />
     <Content Include="Images\Logo.png" />
+    <Content Include="Images\RadioButtonOff.png" />
+    <Content Include="Images\RadioButtonOn.png" />
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
+    <Content Include="Images\Tick.png" />
+    <Content Include="Images\zoompane.png" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
     <Content Include="Images\Button\ButtonDisabled.png" />
@@ -135,9 +140,11 @@
     <Content Include="Markup\Controls\DetailsPageButton.mcml" />
     <Content Include="Markup\Controls\GraphicButton.mcml" />
     <Content Include="Markup\Controls\ListView.mcml" />
+    <Content Include="Markup\Controls\ScrollableText.mcml" />
     <Content Include="Markup\Controls\SimpleButton.mcml" />
     <Content Include="Markup\Controls\StarRating.mcml" />
     <Content Include="Markup\Controls\ViewDetails.mcml" />
+    <Content Include="Markup\Controls\ViewMenu.mcml" />
     <Content Include="Markup\Page.mcml" />
     <Content Include="Markup\MovieDetailsPage.mcml" />
     <Content Include="Markup\Controls\NowPlayingViewport.mcml" />
@@ -155,6 +162,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

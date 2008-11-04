@@ -1,0 +1,315 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:i="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Images"
+	  xmlns:st="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+	  xmlns:me="Me"
+	  >
+
+	<Color Name="BackgroundBlue" Color="255, 32, 83, 136"/>
+	<Color Name="LightBlue" Color="255, 151, 217, 255"/>
+	<Image Name="Border" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
+<!--
+	<UI Name="Test">
+		<Rules>
+			<Binding Source="[Menu.SelectedViewIndex.Value]" Target="[Selection.Content]">
+				<Transformer>
+					<FormatTransformer Format="{0}"/>
+				</Transformer>
+			</Binding>
+		</Rules>
+		<Content>
+			
+			<Panel Layout="VerticalFlow">
+				<Children>
+					<me:ViewMenu Name="Menu" >
+						<SelectedViewIndex>
+							<IntRangedValue Value="2" />
+						</SelectedViewIndex>
+					</me:ViewMenu>
+					<Text Name="Selection" Color="Red" Font="Arial,20" Margins="0,0,0,30" />
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+	
+	<UI Name="ViewMenu">
+		<Properties>
+			<IntRangedValue Name="SelectedViewIndex" IntRangedValue="$Required" />
+		</Properties>
+		
+		<Locals>
+			<Choice Name="Views" >
+				<Options>
+					<cor:String String="Details" />
+					<cor:String String="Poster" />
+					<cor:String String="Poster with labels" />
+					<cor:String String="Thumb Strip" />
+					<cor:String String="Thumb Strip with labels" />
+				</Options>
+			</Choice>
+		</Locals>
+		<Rules>
+			<Default Target="[Views.ChosenIndex]" Value="[SelectedViewIndex.Value]" />
+			<Default Target="[Views.DefaultIndex]" Value="[SelectedViewIndex.Value]" />
+			
+			<Binding Source="[Views.ChosenIndex]" Target="[SelectedViewIndex.Value]" />
+			<Binding Source="[Views.DefaultIndex]" Target="[SelectedViewIndex.Value]" />
+		</Rules>
+		<Content>
+			<ColorFill Content="color://me:BackgroundBlue" Layout="Center">
+				<Layout>
+					<FlowLayout Orientation="Vertical"/>
+				</Layout>
+				<Children>
+					<me:DropDownMenu Choices="[Views]" />
+				</Children>
+			</ColorFill>
+		</Content>
+	</UI>
+	
+	<UI Name="DropDownMenu">
+		<Properties>
+			<Choice Name="Choices" Choice="$Required" />
+		</Properties>
+		<Locals>
+			<Command Name="DropDown" />
+		</Locals>
+		<Rules>
+			<Binding Source="[Choices.Chosen!cor:String]" Target="[Btn.Text]" />
+			<Changed Source="[DropDown.Invoked]">
+				<Actions>
+					<Set Target="[Group.Vis]" Value="true"/>
+					<Invoke Target="[Group.NavigateInto]" />
+				</Actions>
+			</Changed>
+		</Rules>
+		<Content>
+			<Panel Layout="VerticalFlow">
+				<Children>
+					<Panel>
+						<Layout>
+							<FlowLayout Orientation="Horizontal" Spacing="5,0" />
+						</Layout>
+						<Children>
+							<me:BaseBtn Name="Btn" Text="Menu" Command="[DropDown]"/>
+						</Children>						
+					</Panel>
+					<me:RadioGroup Name="Group" Vis="false" Model="[Choices]" >
+					</me:RadioGroup>
+				</Children>
+			</Panel>
+		</Content>
+
+	</UI>
+-->
+
+	<UI Name="BaseBtn">
+		<Properties>
+			<cor:String Name="Text" String="$Required" />
+			<ICommand Name="Command" ICommand="$Required"/>
+			
+		</Properties>
+		<Locals>
+			<ClickHandler Name="Clicker" Command="[Command]"/>
+		</Locals>
+		<Rules>
+			<Binding Source="[Text]" Target="[Label.Content]" />
+			<Default Target="[Input.KeyInteractive]" Value="true" />
+			<Condition Source="[Input.KeyFocus]"  SourceValue="true">
+				<Actions>
+					<Set Target="[Label.Color]" Value="White" />
+				</Actions>
+			</Condition>
+			<Condition Source="[Input.KeyFocus]"  SourceValue="false">
+				<Actions>
+					<Set Target="[Label.Color]" Value="LightBlue" />
+				</Actions>
+			</Condition>
+		</Rules>
+		<Content>
+			<Text Name="Label" Content="[Text]" Font="Segoe Media Center Semibold,18" Color="LightBlue" />
+		</Content>
+	</UI>
+
+
+	<UI Name="ViewsButton">
+		<Properties>
+			<ICommand Name="Command" ICommand="$Required"/>
+		</Properties>
+		<Locals>
+			<ClickHandler Name="Clicker" Command="[Command]"/>
+			<Image Name="Image" Image="null"/>
+			<Image Name="FocusImage" Image="image://i:ButtonLeftFocus" />
+		</Locals>
+		<Rules>
+			
+			<Default Target="[Input.KeyInteractive]" Value="true" />
+
+			<Changed Source="[Clicker.Invoked]">
+				<Actions>
+					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+				</Actions>
+			</Changed>
+
+			<Condition Source="[Input.KeyFocus]" SourceValue="true">
+				<Actions>
+					<Set Target="[Background.Content]" Value="[FocusImage]"/>
+					<Set Target="[Label.Color]" Value="White"/>
+				</Actions>
+			</Condition>
+
+			<Condition Source="[Clicker.Clicking]" SourceValue="true" >
+				<Actions>
+					<PlayAnimation Target="[Background]" Animation="animation://me:ButtonPress"/>
+				</Actions>
+			</Condition>
+		</Rules>
+		<Content>
+			<Graphic Name="Background" Content="[Image]" SizingPolicy="SizeToChildren" Padding="15,2,15,2">
+				<Children>
+					<Panel Layout="HorizontalFlow">
+						<Children>
+							<Graphic Content="image://st:Lines" Margins="0,12,7,0" MaximumSize="13,13"></Graphic>
+							<Text Name="Label" Content="view" Color="color://i:MediumBlue" Font="Segoe Media Center Semibold,18"/>
+						</Children>
+					</Panel>
+				</Children>
+			</Graphic>
+			<!--<ColorFill Content="Red" MinimumSize="200,200">
+				<Children>
+					
+			<Graphic Name="Background" Content="[BlankImage]" MinimumSize="120,42" MaximumSize="1200,42" Padding="15,2,2,2">
+				<Children>
+					<Panel Layout="HorizontalFlow">
+						<Children>
+							<Graphic Content="image://st:Lines" Margins="0,12,7,0" MaximumSize="13,13"></Graphic>
+							<Text Name="Label" Content="view" Color="color://i:MediumBlue" Font="Segoe Media Center Semibold,18"/>
+						</Children>
+					</Panel>
+				</Children>
+			</Graphic>
+
+				</Children>
+			</ColorFill>-->
+		</Content>
+	</UI>
+
+	<Animation Name="ButtonPress" Loop="0" CenterPointPercent="0.5,0.5,1.0">
+		<Keyframes>
+			<ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Log"/>
+			<ScaleKeyframe Time="0.08" Value="0.9,0.9,1.0"/>
+			<ScaleKeyframe Time="0.15" Value="1.0,1.0,1.0"/>
+		</Keyframes>
+	</Animation>
+		
+	<!--  This implementation of the RadioGroup -->
+	<UI Name="RadioGroup" >
+
+		<Properties>
+			<Choice Name="Model" Choice="$Required" />
+			<cor:Boolean Name="Vis" Boolean="true" />
+			
+		</Properties>
+		<Locals>
+			<Command Name="Close"/>
+		</Locals>
+
+		<Rules>
+			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+			<Default Target="[Input.KeyInteractive]" Value="true" />
+			<Binding Source="[Model.Options]" Target="[Repeater.Source]" />
+			<Binding Source="[Vis]" Target="[RootPanel.Visible]" />
+			<Changed Source="[Close.Invoked]">
+				<Actions>
+					<Set Target="[Vis]" Value="false"/>
+				</Actions>
+			</Changed>
+		</Rules>
+		<Content>
+			<ColorFill Content="color://me:BackgroundBlue" Alpha="1">
+				<Children>
+					<Graphic Content="image://me:Border" Margins="-2,-2,-2,-2" Padding="10,10,10,10" SizingPolicy="SizeToChildren" Name="RootPanel" Layout="VerticalFlow" MouseInteractive="true" MaintainAspectRatio="false">
+						<Children>
+							<Repeater Name="Repeater" ContentName="RadioButton" Navigation="RememberFocus" DefaultFocusIndex="[Model.DefaultIndex]" >
+								<Layout>
+									<FlowLayout Orientation="Vertical" Spacing="5,0" ItemAlignment="Near" AllowWrap="true"/>
+								</Layout>
+							</Repeater>
+						</Children>
+					</Graphic>
+				</Children>
+			</ColorFill>
+		</Content>
+		<Content Name="RadioButton">
+			<me:SimpleRadioButton Model="[Model]" CloseCmd="[Close]" Option="[RepeatedItem!cor:String]" />
+		</Content>
+	</UI>
+
+
+	<!-- Implementation of a simple radio button.                             -->
+	<!-- This takes a Choice Model item and displays various choice options.  -->
+	<UI Name="SimpleRadioButton">
+		<Properties>
+			<Choice       Name="Model" Choice="$Required"/>
+			<cor:String   Name="Option" String="$Required"/>
+			<Size Name="BoxSize" Size="20,20"/>
+			<Command Name="CloseCmd" Command="$Required" />
+			
+		</Properties>
+		<Locals>
+			<ClickHandler Name="Clicker" HandleEnterSpaceKeys ="true" HandlePrimaryMouseButton ="true" HandlerStage="Bubbled"/>
+		</Locals>
+		<Rules>
+			<Default Target="[Input.KeyInteractive]" Value="true" />
+			
+			<Condition Source="[Input.KeyFocus]" SourceValue="true">
+				<Actions>
+					<Set Target="[Box.Content]" Value="image://i:RadioButtonOn" />
+					<Set Target="[Label.Color]" Value="White" />
+				</Actions>
+			</Condition>
+
+			<Condition Source="[Input.KeyFocus]" SourceValue="false">
+				<Actions>
+					<Set Target="[Label.Color]" Value="color://me:LightBlue" />
+				</Actions>
+			</Condition>
+			
+			<Condition Source="[Input.KeyFocus]" SourceValue="false">
+				<Conditions>
+					<Equality Source="[Model.Chosen]" ConditionOp="NotEquals" Value="[Option]"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[Box.Content]" Value="image://i:RadioButtonOff" />
+				</Actions>
+			</Condition>
+			
+			<Changed Source="[Clicker.Invoked]">
+				<Actions>
+					<Set Target="[Model.Chosen]" Value="[Option]"/>
+					<Invoke Target="[CloseCmd.Invoke]" />
+				</Actions>
+			</Changed>
+			
+			<!-- Show the choice label. -->
+			<Binding Source="[Option]" Target="[Label.Content]"/>
+		</Rules>
+
+		<Content>
+
+			<Panel Name="Root">
+				<Layout>
+					<FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+				</Layout>
+				<Children>
+
+					<Graphic Content="image://i:RadioButtonOff" Name="Box" MinimumSize="[BoxSize]" MaximumSize="[BoxSize]" />	
+					<Text Name="Label" Color="color://me:LightBlue" Font="Segoe Media Center Semibold,16"/>
+
+				</Children>
+			</Panel>
+		</Content>
+
+	</UI>
+
+</Mcml>

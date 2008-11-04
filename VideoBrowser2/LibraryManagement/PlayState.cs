@@ -15,6 +15,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
     public class PlayState
     {
+        private static Dictionary<string, PlayState> playStateCache = new Dictionary<string, PlayState>();
+       
+        public static PlayState Get(IFolderItem folderItem)
+        {
+            if (folderItem.Key == null)
+                return null;
+            lock (playStateCache)
+                if (playStateCache.ContainsKey(folderItem.Key))
+                    return playStateCache[folderItem.Key];
+                else
+                {
+                    PlayState ps = new PlayState(folderItem);
+                    playStateCache[folderItem.Key] = ps;
+                    return ps;
+                }
+        }
+
 
         public struct PlayStateData
         {
@@ -40,7 +57,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             public DateTime LastPlayed;
         }
 
-        public PlayState(IFolderItem folderItem)
+        private PlayState(IFolderItem folderItem)
         {
             filename = Path.Combine(Helper.AppPlayStatePath,folderItem.Key + ".xml"); 
             Load(); 
@@ -123,7 +140,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public DateTime LastPlayed
         {
             get { return playstate.LastPlayed; }
-            set { playstate.LastPlayed = value; Save(); } 
+            set 
+            {
+                if (playstate.LastPlayed != value)
+                {
+                    playstate.LastPlayed = value;
+                    Save();
+                }
+            } 
         }
     }
 }

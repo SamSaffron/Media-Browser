@@ -29,6 +29,37 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
         }
 
+        public static string GetSortableDescription(string description)
+        {
+            string sortableDescription = description.ToLower();
+            foreach (string search in Config.Instance.SortRemoveCharactersArray)
+            {
+                sortableDescription = sortableDescription.Replace(search.ToLower(), string.Empty);
+            }
+            foreach (string search in Config.Instance.SortReplaceCharactersArray)
+            {
+                sortableDescription = sortableDescription.Replace(search.ToLower(), " ");
+            }
+            foreach (string search in Config.Instance.SortReplaceWordsArray)
+            {
+                string searchLower = search.ToLower();
+                // Remove from beginning if a space follows
+                if (sortableDescription.StartsWith(searchLower + " "))
+                {
+                    sortableDescription = sortableDescription.Remove(0, searchLower.Length + 1);
+                }
+                // Remove from middle if surrounded by spaces
+                sortableDescription = sortableDescription.Replace(" " + searchLower + " ", " ");
+
+                // Remove from end if followed by a space
+                if (sortableDescription.EndsWith(" " + searchLower))
+                {
+                    sortableDescription = sortableDescription.Remove(sortableDescription.Length - (searchLower.Length + 1));
+                }
+            }
+            //sortableDescription = sortableDescription.Trim();
+            return sortableDescription;
+        }
 
         public FolderItem(string filename, bool isFolder, string description)
         {
@@ -38,33 +69,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
 			// Sanitize description (for sorting)
 
-			sortableDescription = description.ToLower();
-			foreach (string search in Config.Instance.SortRemoveCharactersArray)
-			{
-				sortableDescription = sortableDescription.Replace(search.ToLower(), string.Empty);
-			}
-			foreach (string search in Config.Instance.SortReplaceCharactersArray)
-			{
-				sortableDescription = sortableDescription.Replace(search.ToLower(), " ");
-			}
-			foreach (string search in Config.Instance.SortReplaceWordsArray)
-			{
-				string searchLower = search.ToLower();
-				// Remove from beginning if a space follows
-				if (sortableDescription.StartsWith(searchLower + " "))
-				{
-					sortableDescription = sortableDescription.Remove(0, searchLower.Length + 1);
-				}
-				// Remove from middle if surrounded by spaces
-				sortableDescription = sortableDescription.Replace(" " + searchLower + " ", " ");
-
-				// Remove from end if followed by a space
-				if (sortableDescription.EndsWith(" " + searchLower))
-				{
-					sortableDescription = sortableDescription.Remove(sortableDescription.Length - (searchLower.Length + 1));
-				}
-			}
-			//sortableDescription = sortableDescription.Trim();
+            sortableDescription = GetSortableDescription(this.Description);
 
         }
 
@@ -73,6 +78,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         #region Statics
         private static MD5CryptoServiceProvider CryptoService = new MD5CryptoServiceProvider();
         static object syncObj = new object();
+        public const string DUMMY_DIR = "{919BC682-F0E4-47ba-9E08-899858D5D2BB}";
         #endregion 
 
         #region Privates 
@@ -88,6 +94,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         bool isFolder;
         string thumbPath;
         TVShow _tvshow;
+        TVSeries _tvSeries;
         DateTime thumbDate = DateTime.MinValue;
         Movie _movie = null;
         string title2;
@@ -112,6 +119,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             } 
         }
 
+        public override List<string> Directors
+        {
+            get 
+            {
+                if (IsMovie)
+                {
+                    return this.Movie.Directors;
+                }
+
+                return new List<string>() ;
+            }
+        }
 
         public string Path 
         {
@@ -305,6 +324,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                     return actors;
                 }
+                else if (this._tvSeries != null)
+                {
+                    return new List<string>(_tvSeries.Actors);
+                }
                 // To match implementation in cached version 
                 return new List<string>();
             }
@@ -324,6 +347,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         returnStr += g + ", ";
                     }
                     return returnStr;
+                }
+                else if ((_tvSeries != null) && (_tvSeries.Genres.Count > 0))
+                {
+                    return string.Join(", ", _tvSeries.Genres.ToArray());
                 }
                 else
                 {
@@ -417,6 +444,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     return _tvshow.Overview; 
                 }
+                else if (_tvSeries != null)
+                {
+                    return _tvSeries.Overview;
+                }
                 else if (_movie != null)
                 {
                     return _movie.Description;
@@ -469,6 +500,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 if (_tvshow != null)
                 {
                     return _tvshow.LongSeriesName;
+                }
+                else if (_tvSeries != null)
+                {
+                    return _tvSeries.SeriesName;
                 }
 
                 return rval;
@@ -570,6 +605,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         private bool FolderContainsMovie()
         {
             // TODO: Do we cache this? 
+
+            if (filename == DUMMY_DIR)
+            {
+                return false;
+            }
+
             try
             {
 
@@ -644,7 +685,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             try
             {
                 // dont care about times for non files 
-                if (filename == null)
+                if ((filename == null) || (filename==""))
                 {
                     return;
                 }
@@ -735,9 +776,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             try
             {
                 if (!LoadMovieMetadata())
-                {
                     LoadTVMetadata();
-                }
+                
 
                 metadataLoaded = true;
             }
@@ -748,10 +788,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        private void LoadSeriesMetaData()
+        {
+            string metadataPath = System.IO.Path.Combine(filename, "series.xml");
+            if (File.Exists(metadataPath))
+            {
+                _tvSeries = new TVSeries(metadataPath);
+            }
+        }
+
         private void LoadTVMetadata()
         {
             // tv shows can not be folders
-            if (IsFolder) return;
+            if (IsFolder)
+            {
+                LoadSeriesMetaData();
+                return;
+            }
 
             string metadataPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filename), "metadata");
             string metadataFile = System.IO.Path.Combine(metadataPath, System.IO.Path.GetFileNameWithoutExtension(filename) + ".xml");
@@ -765,7 +818,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     thumbPath = _tvshow.ThumbPath;
                 }
-
             }
         }
 

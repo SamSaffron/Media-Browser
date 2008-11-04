@@ -1,6 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	    xmlns:cor="assembly://MSCorLib/System"
       xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
+	  xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
       xmlns:me="Me"
       >
 
@@ -8,11 +9,10 @@
   
   <UI Name="SortOrderItem">
     <Properties>
-      <cor:String Name="Description"  String="$Required"/>
-      <Index Name="Index" Index="$Required"/>
-      <IntRangedValue Name="FocusedIndex" IntRangedValue="$Required"/>
-      <a:ListPage Name="Model" ListPage="$Required"/>
-      
+      <cor:String Name="Option" String="$Required"/>
+      <Choice Name="Model" Choice="$Required"/>
+		<lib:StringRef Name="SwitchingTo" StringRef="$Required" />
+		<BooleanChoice Name="ParentFocus" BooleanChoice="$Required" />
     </Properties>
     <Rules>
 
@@ -22,61 +22,60 @@
         </Actions>
       </Condition>
 
-      <Condition Source="[FocusedIndex.Value]" SourceValue="[Index.Value]" ConditionOp="NotEquals">
-        <Actions>
-          <Set Target="[L.Color]" Value="Transparent"/>
-          <Set Target="[R.Color]" Value="Transparent"/>
-        </Actions>
-      </Condition>
+		<Default Target="[Input.KeyInteractive]" Value="true" />
+		<Default Target="[Input.KeyFocusOnMouseEnter]" Value="False"/>
+		
+		<Condition Source="[Input.KeyFocus]" SourceValue="true">
+			<Actions>
+				<!--<Set Target="[L.Font]" Value="Segoe Media Center Semibold,16"/>
+				<Set Target="[Text.Font]" Value="Segoe Media Center Semibold,16"/>
+				<Set Target="[R.Font]" Value="Segoe Media Center Semibold,16"/>-->
+				<Set Target="[L.Color]" Value="White"/>
+				<Set Target="[Text.Color]" Value="White"/>
+				<Set Target="[R.Color]" Value="White"/>
+				<Set Target="[SwitchingTo.Value]" Value="[Option]"/>
+			</Actions>
+		</Condition>
 
+		<Condition Source="[ParentFocus.Value]" SourceValue="true">
+			<Conditions>
+				<Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="false"/>
+			</Conditions>
+			<Actions>
+				<Set Target="[Text.Color]" Value="color://me:LightBlue" />
+			</Actions>
+		</Condition>
+		
+		<Condition Source="[Input.KeyFocus]" SourceValue="false">
+			<Conditions>
+				<Equality Source="[SwitchingTo.Value]" ConditionOp="Equals" Value="[Option]"/>
+			</Conditions>
+			<Actions>
+				<Set Target="[Text.Color]" Value="color://me:LightBlue" />
+				<Set Target="[L.Color]" Value="color://me:LightBlue"/>
+				<Set Target="[R.Color]" Value="color://me:LightBlue"/>
+			</Actions>
+		</Condition>
 
-      <Condition Source="[FocusedIndex.Value]" SourceValue="[Index.Value]">
-        <Actions>
-          <Set Target="[L.Font]" Value="Segoe Media Center Semibold,20"/>
-          <Set Target="[Text.Font]" Value="Segoe Media Center Semibold,20"/>
-          <Set Target="[R.Font]" Value="Segoe Media Center Semibold,20"/>
-        </Actions>
-      </Condition>
+		<Condition Source="[Input.KeyFocus]" SourceValue="false">
+			<Conditions>
+				<Equality Source="[SwitchingTo.Value]" ConditionOp="NotEquals" Value="[Option]"/>
+			</Conditions>
+			<Actions>
+				<Set Target="[L.Color]" Value="Transparent"/>
+				<Set Target="[R.Color]" Value="Transparent"/>
+				<Set Target="[Text.Color]" Value="color://me:MediumBlue"/>
+			</Actions>
+		</Condition>
+      
 
-      <Rule>
-        <Conditions>
-          <Equality Source="[Model.SortOrderHasFocus]" Value="false"/>
-          <Equality Source="[FocusedIndex.Value]" Value="[Index.Value]" ConditionOp="NotEquals"/>
-          <Equality Source="[Input.MouseFocus]" Value="false"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[Text.Color]" Value="color://me:MediumBlue"/>
-        </Actions>
-      </Rule>
-
-
-      <Condition Source="[Input.MouseFocus]"  SourceValue="true">
-        <Actions>
-          <Set Target="[L.Color]" Value="White"/>
-          <Set Target="[Text.Color]" Value="White"/>
-          <Set Target="[R.Color]" Value="White"/>
-        </Actions>
-      </Condition>
-
-      <Default Target="[Input.KeyInteractive]" Value="True"/>
-      <Default Target="[Input.KeyFocusOnMouseEnter]" Value="False"/>
-
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Actions>
-          <Set Target="[L.Color]" Value="White"/>
-          <Set Target="[Text.Color]" Value="White"/>
-          <Set Target="[R.Color]" Value="White"/>
-          <Set Target="[FocusedIndex.Value]" Value="[Index.Value]"/>
-        </Actions>
-      </Condition>
     </Rules>
     <Content>
-      <Panel Layout="HorizontalFlow" Name="Root">
+      <Panel Layout="HorizontalFlow" Name="Root" >
         <Children>
-          <Text Name="L" Color="LightBlue" Font="Segoe Media Center,18"  Content="&lt;"/>
-          <Text Name="Text"  Color="LightBlue" Font="Segoe Media Center,18" Content="[Description]"/>
-          <Text Name="R"  Color="LightBlue" Font="Segoe Media Center,18" Content="&gt;"/>
+          <Text Name="L" Color="LightBlue" Font="Segoe Media Center,16"  Content="&lt;"/>
+          <Text Name="Text"  Color="LightBlue" Font="Segoe Media Center,16" Content="[Option]"/>
+          <Text Name="R"  Color="LightBlue" Font="Segoe Media Center,16" Content="&gt;"/>
         </Children>
       </Panel>
     </Content>

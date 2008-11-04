@@ -42,15 +42,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 					return 1;
 				}
 
-				string s1 = x.SortableDescription.ToLower();
-				if (s1 == null)
+				string s1 = x.SortableDescription;
+				if ((s1 == null) || s1.Length==0)
 				{
-					return 0;
+                    s1 = FolderItem.GetSortableDescription(x.Description);
 				}
-				string s2 = y.SortableDescription.ToLower();
-				if (s2 == null)
+				string s2 = y.SortableDescription;
+				if ((s2 == null) || (s2.Length==0))
 				{
-					return 0;
+					s2 = FolderItem.GetSortableDescription(y.Description);
 				}
 
 				if (Config.Instance.EnableAlphanumericSorting)
@@ -163,7 +163,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 				}
 				return y.Description.CompareTo(x.Description);
 			}
-			else if (sortOrderEnum == SortOrderEnum.Actor)
+			else if (sortOrderEnum == SortOrderEnum.Actor || sortOrderEnum == SortOrderEnum.Director) 
 			{
 				// a little hacky, actors with only 1 movie show up in the bottom 
 				if (x.Title2.StartsWith("1") && !y.Title2.StartsWith("1"))

@@ -10,7 +10,7 @@
           <Video Layout="Fill" MouseInteractive="false" Visible="true" Alpha="0.5" LetterboxColor="Transparent"  />
         </Children>
       </Panel>-->
-      <NowPlaying MinimumSize="100,100" ShowFullMetadata="Never"/>
+      <NowPlaying ShowFullMetadata="OnFocus"  SnapToDefaultPosition="true"/>
 
     </Content>
   </UI>

@@ -13,6 +13,7 @@ using System.Xml;
 using System.IO.IsolatedStorage;
 using System.Security.Cryptography;
 using System.Drawing;
+using Microsoft.MediaCenter.UI;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -25,14 +26,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public event FolderItemListModifiedDelegate OnChanged;
         public event SortOrdersModifiedDelegate OnSortOrdersChanged;
         static FolderItemList newVideos = new FolderItemList();
-        
+        private Choice sortOrders = new Choice();
         string _path;
         private VirtualFolder _virtualFolder;
         string _cacheKey = null;
         private bool _data_is_cached = false;
         private System.Threading.ManualResetEvent _populatedRealItems = new ManualResetEvent(false); 
         List<FolderItem> _realItems;
-
         FolderItemListPrefs _prefs; 
 
         static FolderItemList()
@@ -43,11 +43,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public FolderItemList()
         {
+            
             // add default sort orders
-            sortOrders = new List<string>();
-            sortOrders.Add("by name");
-            sortOrders.Add("by date");
+            ArrayList al = new ArrayList();
+            al.Add(SortOrderNames.GetName(SortOrderEnum.Name));
+            al.Add(SortOrderNames.GetName(SortOrderEnum.Date));
+            sortOrders.Options = al;
+            sortOrders.ChosenChanged += new EventHandler(sortOrders_ChosenChanged);
             InvokeChanged();
+        }
+
+        public Choice SortOrders
+        {
+            get
+            {
+                return sortOrders;
+            }
+        }
+
+        void sortOrders_ChosenChanged(object sender, EventArgs e)
+        {
+            this.Sort(SortOrderNames.GetEnum(sortOrders.Chosen.ToString()));
         }
 
         private void Changed()
@@ -56,6 +72,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                  OnChanged();
             }
+        }
+
+        private void AddMovieSortOptions()
+        {
+            if (this.sortOrders.Options.Count == 2)
+            {
+                sortOrders.Options.Add(SortOrderNames.GetName(SortOrderEnum.Genre));
+                sortOrders.Options.Add(SortOrderNames.GetName(SortOrderEnum.RunTime));
+                sortOrders.Options.Add(SortOrderNames.GetName(SortOrderEnum.ProductionYear));
+                sortOrders.Options.Add(SortOrderNames.GetName(SortOrderEnum.Actor));
+                sortOrders.Options.Add(SortOrderNames.GetName(SortOrderEnum.Director));
+            }
+        }
+
+        internal void RefreshSortOrder()
+        {
+            // this is required as changed made to the list are not reflected in the UI and the changes need to happen on the UI thread
+            sortOrders.ChosenChanged -= new EventHandler(sortOrders_ChosenChanged);
+            ArrayList al = new ArrayList();
+            al.AddRange(this.sortOrders.Options);
+            object chosen = this.sortOrders.Chosen;
+            this.sortOrders.Options = al;
+            this.sortOrders.Chosen = chosen;
+            sortOrders.ChosenChanged += new EventHandler(sortOrders_ChosenChanged);
         }
 
         public override string ToString()
@@ -416,7 +456,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public List<BaseFolderItem> nonDrilldownList;
 
-        public SortOrderEnum SortOrder { get; set; } 
+        //public SortOrderEnum SortOrder { get; set; } 
 
         public void Sort(SortOrderEnum sortOrderEnum)
         {
@@ -424,7 +464,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             lock (this)
             {
-                SortOrder = sortOrderEnum;
+                
+                //SortOrder = sortOrderEnum;
 
                 // do not attempt to cache if we have navigated directly to a list of items (in genere case)
                 if (CacheKey != null)
@@ -433,10 +474,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     Prefs.Save();
                 }
 
-                if (sortOrderEnum == SortOrderEnum.Genre || sortOrderEnum == SortOrderEnum.RunTime || sortOrderEnum == SortOrderEnum.ProductionYear || sortOrderEnum == SortOrderEnum.Actor)
+                if (sortOrderEnum == SortOrderEnum.Genre 
+                    || sortOrderEnum == SortOrderEnum.RunTime 
+                    || sortOrderEnum == SortOrderEnum.ProductionYear 
+                    || sortOrderEnum == SortOrderEnum.Actor
+                    || sortOrderEnum == SortOrderEnum.Director)
                 {
                     AddMovieSortOptions();
                 }
+                sortOrders.ChosenIndex = sortOrders.Options.IndexOf(SortOrderNames.GetName(sortOrderEnum));
+                sortOrders.DefaultIndex = sortOrders.ChosenIndex;
 
                 if (sortOrderEnum == SortOrderEnum.Genre)
                 {
@@ -446,6 +493,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 else if (sortOrderEnum == SortOrderEnum.ProductionYear)
                 {
                     ProductionYearDrilldown();
+                    this.Sort(new FolderItemSorter(sortOrderEnum));
+                }
+                else if (sortOrderEnum == SortOrderEnum.Director)
+                {
+                    DirectorDrilldown();
                     this.Sort(new FolderItemSorter(sortOrderEnum));
                 }
                 else if (sortOrderEnum == SortOrderEnum.Actor)
@@ -509,7 +561,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             foreach (var item in items)
             {
-                FolderItem fi = new FolderItem("test", true, item.Key);
+                FolderItem fi = new FolderItem(FolderItem.DUMMY_DIR, true, item.Key);
                 fi.Contents = item.Value;
                 var movieText = " movie";
                 if (item.Value.Count > 1)
@@ -518,10 +570,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 fi.SetTitle2(item.Value.Count.ToString() + movieText);
                 fi.SetOverview(string.Format("Including: {0}", Helper.GetRandomNames(item.Value, 200)));
-                string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppConfigPath, image_location), item.Key + ".jpg");
-                if (File.Exists(thumbPath))
+                if (item.Key.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) < 0)
                 {
-                    fi.ThumbPath = thumbPath;
+                    string thumbPath = System.IO.Path.Combine(System.IO.Path.Combine(Helper.AppConfigPath, image_location), item.Key + ".jpg");
+                    if (File.Exists(thumbPath))
+                    {
+                        fi.ThumbPath = thumbPath;
+                    }
                 }
                 this.Add(fi);
             }
@@ -535,7 +590,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             foreach (var item in nonDrilldownList)
             {
 
-                if (!item.IsMovie || item.Actors.Count > 0)
+                if (item.Actors.Count > 0)
                 {
                     foreach (var actor in item.Actors)
                     {
@@ -549,6 +604,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
 
             AddDrildownItems(actors, "ActorImages");
+        }
+
+        private void DirectorDrilldown()
+        {
+            nonDrilldownList = ActualItems;
+            var directors = new Dictionary<string, List<IFolderItem>>();
+            this.Clear();
+            foreach (var item in nonDrilldownList)
+            {
+
+                if (item.Directors.Count > 0)
+                {
+                    foreach (var director in item.Directors)
+                    {
+                        if (!directors.ContainsKey(director))
+                        {
+                            directors[director] = new List<IFolderItem>();
+                        }
+                        directors[director].Add(item);
+                    }
+                }
+            }
+
+            AddDrildownItems(directors, "DirectorImages");
         }
 
         private void GenreDrilldown()
@@ -595,7 +674,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     if (!string.IsNullOrEmpty(item.ThumbPath))
                     {
-                        Image image = new Bitmap(item.ThumbPath);
+                        System.Drawing.Image image = new Bitmap(item.ThumbPath);
                         return ((float)image.Height) / ((float)image.Width);
                     }
                 }
@@ -603,15 +682,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-
-        private List<string> sortOrders; 
-        public List<string> SortOrders
-        {
-            get
-            {
-                return sortOrders;
-            }
-        }
+        
 
         // returns a copy of the actual list of items in the folder, regardless on if we are drilling down
         private List<BaseFolderItem> ActualItems
@@ -805,7 +876,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     return;
                 }
           
-                this.Sort(this.SortOrder);
+                this.Sort(this.Prefs.SortOrder);
 
                 CacheImages();
                 CacheFolderXml(itemsToCache);
@@ -949,17 +1020,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private void AddMovieSortOptions()
-        {
-            if (this.sortOrders.Count == 2)
-            {
-                sortOrders.Add("by genre");
-                sortOrders.Add("by runtime");
-                sortOrders.Add("by year");
-                sortOrders.Add("by actor");
-                if (OnSortOrdersChanged != null) OnSortOrdersChanged();
-            }
-        }
+       
+
+
 
         // used for genre stuff 
         internal void Navigate(List<IFolderItem> items)
@@ -974,6 +1037,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             InvokeChanged();
         }
+
+        
     }
     
    

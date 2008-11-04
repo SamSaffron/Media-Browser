@@ -25,14 +25,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return defaultString;
         }
 
-        public static void WriteList(this XmlWriter writer, string node, IEnumerable<string> list)
+        public static void WriteList(this XmlWriter writer, string node, List<string> list)
         {
-            writer.WriteStartElement(node + "s");
-            foreach (var item in list)
+            if (list != null && list.Count > 0)
             {
-                writer.WriteElementString(node, item);
+                writer.WriteStartElement(node + "s");
+                foreach (var item in list)
+                {
+                    writer.WriteElementString(node, item);
+                }
+                writer.WriteEndElement();
             }
-            writer.WriteEndElement();
         }
     }
 
@@ -83,15 +86,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 if (item.IsMovie)
                 {
-                    if (item.Genres.Count > 0)
-                    {
-                        writer.WriteList("Genre", item.Genres);
-                    }
-
-                    if (item.Actors.Count > 0)
-                    {
-                        writer.WriteList("Actor", item.Actors);
-                    }
+                    writer.WriteList("Genre", item.Genres);
+                    writer.WriteList("Actor", item.Actors);
+                    writer.WriteList("Director", item.Directors); 
                 }
                 writer.WriteStartElement("CreatedDate");
                 writer.WriteValue(item.CreatedDate);
@@ -117,6 +114,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             filename = elem.SafeGetString("Filename");
             Description = elem.SafeGetString("Description");
 			sortableDescription = elem.SafeGetString("SortableDescription");
+            if ((sortableDescription == null) || (sortableDescription.Length == 0))
+                sortableDescription = FolderItem.GetSortableDescription(this.Description);
 			thumbHash = elem.SafeGetString("ThumbHash");
             title1 = elem.SafeGetString("Title1");
             title2 = elem.SafeGetString("Title2");
@@ -145,6 +144,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             else
             {
                 iMDBRating = -1;
+            }
+
+            foreach (XmlNode item in elem.SelectNodes("Directors/Director"))
+            {
+                try
+                {
+                    directors.Add(item.InnerText);
+                }
+                catch
+                {
+                    // fall through i dont care, one less actor/director
+                }
             }
 
             foreach (XmlNode item in elem.SelectNodes("Genres/Genre"))
@@ -211,6 +222,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private float iMDBRating;
         public override float IMDBRating { get { return iMDBRating; } }
+
+        private List<string> directors = new List<string>();
+        public override List<string> Directors
+        {
+            get { return directors; }
+        }
 
         private List<string> actors = new List<string>();
         public override List<string> Actors

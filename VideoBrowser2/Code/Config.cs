@@ -31,7 +31,29 @@ namespace SamSoft.VideoBrowser
         /* All app settings go here, they must all have defaults or they will not work properly */
         /* They must be fields and must start with a capital letter, and should have a default setting */
         /* The comment will be inlined in the config file to help the user */
-        
+
+        [Comment(
+@"The standard poster view will be selectable with the view button"
+           )]
+        public bool EnablePosterView = true;
+        [Comment(
+@"The standard detail view will be selectable with the view button"
+         )]
+        public bool EnableDetailView = true;
+        [Comment(
+@"Enable the beta strip view"
+         )]
+        public bool EnableThumbView = false;
+        [Comment(
+@"The poster view with movie titles above will be selectable with the view button"
+         )]
+        public bool EnablePosterView2 = false;
+        [Comment(
+@"The strip view with movie titles above will be selectable with the view button"
+         )]
+        public bool EnableThumbView2 = false;
+
+
         [Comment(
 @"Enable transcode 360 support on extenders"
             )]
@@ -93,6 +115,28 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
       Note that the sorting algorithm is case insensitive."
 	)]
 		public bool EnableAlphanumericSorting = true;
+
+        [Comment(@"Enables the showing of tick in the list view for files that have been watched")]
+        public bool EnableListViewTicks = false;
+        public bool EnableListViewTicksMcml { get { return this.EnableListViewTicks; } }
+
+        [Comment(@"Enables the showing of watched shows in a different color in the list view (Transparent disables it)")]
+        public Colors ListViewWatchedColor = Colors.LightSkyBlue;
+        public Color ListViewWatchedColorMcml
+        {
+            get { return new Color(this.ListViewWatchedColor); }
+        }
+
+        [Comment(@"Indicates that files with a date stamp before this date should be assumed to have been watched for the purpose of ticking them off.")]
+        public DateTime AssumeWatchedBefore = DateTime.MinValue;
+
+        [Comment(@"Changes the default view index for folders that have not yet been visited
+        0=Details, 1=Poster, 2=PosterWithLabels, 3=ThumbDetails, 4=ThumbDetailsWithLabels
+        ")]
+        public int DefaultViewIndex = 0;
+
+        [Comment(@"Limits the number of levels shown by the breadcrumbs.")]
+        public int BreadcrumbCountLimit = 2;
 
 		[Comment(
 @"List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.
@@ -274,7 +318,35 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                         stuff_changed = true;
                     }
                 }
-                else 
+                else if (field.FieldType == typeof(DateTime))
+                {
+                    DateTime dt;
+                    if (DateTime.TryParse(value, out dt))
+                        field.SetValue(this, dt);
+                    else
+                        stuff_changed = true;
+                }
+                else if (field.FieldType == typeof(int))
+                {
+                    int x;
+                    if (Int32.TryParse(value, out x))
+                        field.SetValue(this, x);
+                    else
+                        stuff_changed = true;
+                }
+                else if (field.FieldType == typeof(Colors))
+                {
+                    try
+                    {
+                        Colors c = (Colors)Enum.Parse(typeof(Colors), value);
+                        field.SetValue(this, c);
+                    }
+                    catch
+                    {
+                        System.Diagnostics.Debugger.Break();
+                    }
+                }
+                else
                 {
                     // only supporting above types for now
                     return;

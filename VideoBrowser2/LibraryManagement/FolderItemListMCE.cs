@@ -11,14 +11,44 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     public class FolderItemListMCE : VirtualList
     {
         internal FolderItemList folderItems;
+        private FolderItemListMCE parent;
+        string breadcrumb;
 
-        public void Sort(int sortOrder)
+        public string Breadcrumb
         {
-            folderItems.Sort((SortOrderEnum)sortOrder);
+            get
+            {
+                FolderItemListMCE list = this;
+                List<string> breadcrumbs = new List<string>();
+
+                for (int i = 0; i < Config.Instance.BreadcrumbCountLimit; i++)
+                {
+                    if (list.breadcrumb != null)
+                    {
+                        breadcrumbs.Insert(0, list.breadcrumb);
+                    }
+
+                    list = list.parent;
+                    if (list == null)
+                    {
+                        break;
+                    }
+                }
+
+                if (breadcrumbs.Count == 0)
+                {
+                    return "Video Library";
+                }
+
+                return String.Join(" | ", breadcrumbs.ToArray());
+                
+            }
         }
-
-        public FolderItemListMCE()
+       
+        public FolderItemListMCE(FolderItemListMCE parent, string breadcrumb)
         {
+            this.parent = parent;
+            this.breadcrumb = breadcrumb;
             folderItems = new FolderItemList();
             folderItems.OnChanged += new FolderItemListModifiedDelegate(InternalListChanged);
             selectedIndex = new IntRangedValue();
@@ -57,6 +87,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     return new FolderItem(); 
                 }
             }
+        }
+
+        static FolderItem blank = new FolderItem("",true);
+        public IFolderItem BlankItem
+        {
+            get { return blank; }
         }
 
         IntRangedValue selectedIndex;
@@ -105,18 +141,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 // fall through, we may need to ensure we are on the UI thread
             }
         }
-        void SortOrderChanged()
-        {
-            RefreshSortOrder();
-        }
-
        
-
         internal void Navigate(List<IFolderItem> items)
         {
             folderItems.Navigate(items);
             Count = folderItems.Count;
-        } 
+        }
 
         internal void Navigate(string path)
         {
@@ -129,39 +159,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             folderItems.CacheMetadata();
         }
 
-        ArrayListDataSet sortOrderList;  
-        public ArrayListDataSet SortOrderList
+        
+        public Choice SortOrders
         {
-            get
-            {
-                if (sortOrderList == null)
-                {
-                    sortOrderList = new ArrayListDataSet();
-                    RefreshSortOrder();
-                }
-                return sortOrderList;
-            }
+            get { return this.folderItems.SortOrders; }
         }
 
         public void RefreshSortOrder()
         {
-            try
-            {
-                if (sortOrderList.Count != folderItems.SortOrders.Count)
-                {
-                    sortOrderList.Clear();
-                    foreach (var item in folderItems.SortOrders)
-                    {
-                        sortOrderList.Add(item);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.Write(e.ToString());
-            }
+            this.folderItems.RefreshSortOrder();
         }
-
 
         internal void Navigate(VirtualFolder virtualFolder)
         {

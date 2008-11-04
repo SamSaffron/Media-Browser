@@ -140,6 +140,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        
 
         private static Image ImageFromStream(Stream stream)
         {
@@ -193,6 +194,22 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        private PlayState playState;
+        public PlayState PlayState
+        {
+            get
+            {
+                if (this.playState == null)
+                    this.playState = PlayState.Get(this);
+                return this.playState;
+            }
+        }
+
+        public void FirePropertyChanged_Public(string prop)
+        {
+            this.FirePropertyChanged(prop);
+        }
+
         public bool CanResume
         {
             get
@@ -214,6 +231,43 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         #endregion 
 
         #region IFolderItem Members
+
+        public String LastWatched
+        {
+            get 
+            {
+                if ((!IsFolder || IsMovie) && (this.PlayState != null) && (this.PlayState.LastPlayed != DateTime.MinValue))
+                {
+                    return "Last Watched: " + this.PlayState.LastPlayed.ToShortDateString();
+                }
+                else
+                    return "";
+            }
+        }
+
+        [MarkupVisible]
+        public bool HaveWatched
+        {
+            get
+            {
+                if (!IsFolder || IsMovie)
+                {
+                    if (this.PlayState == null)
+                        return false;
+                    if (this.PlayState.LastPlayed != DateTime.MinValue)
+                        return true;
+                    Debug.WriteLine(this.Filename);
+                    if (File.Exists(this.Filename))
+                    {
+                        FileInfo fi = new FileInfo(this.Filename);
+                        if (fi.LastWriteTime <= Config.Instance.AssumeWatchedBefore)
+                            return true;
+                    }
+                }
+                return false;
+            }
+
+        }
 
         public abstract bool IsVideo
         {
@@ -317,6 +371,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        public abstract List<String> Directors
+        {
+            get;
+        }
+
         protected string uniqueKey;
         public string Key
         {
@@ -324,6 +383,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (uniqueKey == null)
                 {
+                    if (this.Filename == null)
+                        return null;
                     uniqueKey = Helper.HashString(this.Filename);
                 }
                 return uniqueKey;

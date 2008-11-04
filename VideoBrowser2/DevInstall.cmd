@@ -13,7 +13,7 @@ set ProgramImage=Application.png
  
 ECHO.Determine whether we are on an 32 or 64 bit machine
 if "%PROCESSOR_ARCHITECTURE%"=="x86" if "%PROCESSOR_ARCHITEW6432%"=="" goto x86
-set ProgramFilesPath=%ProgramFiles(x86)%
+set ProgramFilesPath=c:\Program Files
 ECHO.
  
 goto unregister
