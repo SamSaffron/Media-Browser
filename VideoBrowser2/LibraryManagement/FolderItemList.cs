@@ -171,7 +171,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch
             {
                 // cache failure
-                Trace.WriteLine("Cache loading failed !!! (GetCache)");
+                Trace.TraceInformation("Cache loading failed !!! (GetCache)");
             }
             // cache miss of failure
             return null;
@@ -422,7 +422,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (DirectoryNotFoundException)
             {
-                Trace.WriteLine("Missing Dir: (Bad shortcut)" + path);
+                Trace.TraceInformation("Missing Dir: (Bad shortcut)" + path);
             }
 
             return rval;
@@ -460,7 +460,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public void Sort(SortOrderEnum sortOrderEnum)
         {
-            Trace.WriteLine("Sort was called with " + sortOrderEnum.ToString() + " for " + this.Path); 
+            Trace.TraceInformation("Sort was called with " + sortOrderEnum.ToString() + " for " + this.Path); 
 
             lock (this)
             {
@@ -885,7 +885,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch(Exception e)
             { 
                 // forget about it its only the cache (could be collection modified cause we did a sort)
-                Trace.WriteLine("Caching failed!!! " + e.ToString()); 
+                Trace.TraceInformation("Caching failed!!! " + e.ToString()); 
             }
         }
 

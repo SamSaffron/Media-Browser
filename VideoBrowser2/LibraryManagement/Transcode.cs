@@ -130,7 +130,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception)
             {
-               // Trace.WriteLine("Unable to load Transcode360: " + e.Message);
+               // Trace.TraceInformation("Unable to load Transcode360: " + e.Message);
             }   
             return null;
         }

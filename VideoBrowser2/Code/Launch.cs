@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter;
+using System.Diagnostics;
+using SamSoft.VideoBrowser.LibraryManagement;
+using System.IO;
+using System;
 
 namespace SamSoft.VideoBrowser
 {
@@ -9,6 +13,12 @@ namespace SamSoft.VideoBrowser
 
         public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)
         {
+            if (Config.Instance.EnableTraceLogging)
+            {
+                TextWriterTraceListener t = new TextWriterTraceListener(Path.Combine(Helper.AppConfigPath, "Log_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt"));
+                Trace.AutoFlush = true;
+                Trace.Listeners.Add(t);
+            }
         }
 
         public void Uninitialize()

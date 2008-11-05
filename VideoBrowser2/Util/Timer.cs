@@ -24,7 +24,7 @@ namespace SamSoft.VideoBrowser.Util
         public void Dispose()
         {
 #if DEBUG
-            Trace.WriteLine(string.Format("{0} : {1}", description, DateTime.Now.Ticks - startTime));
+            Trace.TraceInformation(string.Format("{0} : {1}", description, DateTime.Now.Ticks - startTime));
 #endif 
         }
 

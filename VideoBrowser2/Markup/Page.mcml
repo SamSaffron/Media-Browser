@@ -209,7 +209,7 @@
 							<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
 						</Layout>
 						<Children>
-							<Graphic Content="[Model.Banner]" MaintainAspectRatio="true" MaximumSize="350,70">
+							<Graphic Content="[Model.Banner]" MaintainAspectRatio="true" MaximumSize="600,90">
 							</Graphic>
 							<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
 								<Children>
@@ -217,7 +217,6 @@
 									</Text>
 								</Children>
 							</Clip>
-
 						</Children>
 						<LayoutInput>
 							<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
@@ -255,7 +254,7 @@
 					<!--  View Details-->
 					<me:DetailArea Name="ViewPanel" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="Parent,0,105" Bottom="Parent,1" Right="Parent,1"/>
+							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1" Right="Parent,1"/>
 						</LayoutInput>
 					</me:DetailArea>
 

@@ -20,7 +20,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception e)
             {
-                Trace.WriteLine("bodgy series.xml: " + path + " " + e.ToString());
+                Trace.TraceInformation("bodgy series.xml: " + path + " " + e.ToString());
                 // bad metadata :( 
             }
         }

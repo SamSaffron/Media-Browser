@@ -140,7 +140,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception e)
             {
-                Trace.WriteLine("bodgy metadata: " + path + " " + e.ToString());
+                Trace.TraceInformation("bodgy metadata: " + path + " " + e.ToString());
                 // bad metadata :( 
             }
         }

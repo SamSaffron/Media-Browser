@@ -81,8 +81,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception e)
             {
-                // never crash cause we can not load the state
-                Trace.WriteLine("Failed to load play state." + e.ToString());
+                // never crash because we can not load the state
+                Trace.TraceInformation("Failed to load play state." + e.ToString());
             }
         }
 
@@ -92,7 +92,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return xs;
         }
 
-        private void Save()
+        public void Save()
         {
             try
             {
@@ -104,8 +104,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch(Exception e)
             {
-                // never crash cause we can not save the state
-                Trace.WriteLine("Failed to save play state." + e.ToString());
+                // never crash because we can not save the state
+                Trace.TraceInformation("Failed to save play state." + e.ToString());
             }
         }
 
@@ -134,7 +134,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public TimeSpan Position 
         {
             get { return playstate.Position;  }
-            set { playstate.Position = value; Save(); } 
+            set 
+            {
+                bool save = (value.Subtract(playstate.Position).TotalSeconds > 10);
+                playstate.Position = value; 
+                if (save) // trim down saving the position to once every 10 seconds while playing
+                    Save(); 
+            } 
         }
 
         public DateTime LastPlayed

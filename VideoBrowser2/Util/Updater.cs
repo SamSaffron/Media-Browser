@@ -103,7 +103,7 @@ namespace SamSoft.VideoBrowser.Util
             catch (Exception)
             {
                 // No biggie, just return out.
-                Trace.WriteLine("Update failed");
+                Trace.TraceInformation("Update failed");
             }
 
         }

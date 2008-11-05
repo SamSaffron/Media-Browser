@@ -8,6 +8,7 @@ using Microsoft.MediaCenter.UI;
 using Microsoft.MediaCenter;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Threading;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -16,36 +17,53 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     /// </summary>
     public class PlaybackController
     {
-       
-
-
+        
         static void Transport_PropertyChanged(IPropertyObject sender, string property)
         {
             if (currentPlaybackController != null)
             {
-                if (property == "Position")
-                {
+                //Trace.TraceInformation("Transport property changed: " + property);
+                if (property == "Position")                {
                     var mce = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
-                    string title = null; 
                     try
                     {
-                        title = mce.MediaMetadata["Title"] as string;
+                        if (mce.Transport != null)
+                        {
+                            //Trace.TraceInformation("PlayState: " + mce.Transport.PlayState.ToString());
+                            //Trace.TraceInformation("Position: " + mce.Transport.Position.ToString());
+                            string title = null;
+                            string currentItem = Path.GetFileNameWithoutExtension(currentPlaybackController.folderItem.Filename);
+                            try
+                            {
+                                title = mce.MediaMetadata["Title"] as string;
+                            }
+                            catch (Exception e)
+                            {
+                                Trace.TraceInformation("Failed to get title on current media item!\n" + e.ToString());
+                                return;
+                            }
+
+                            if (title == currentItem)
+                            {
+                                currentPlaybackController.folderItem.PlayState.Position = mce.Transport.Position;
+                                if (mce.Transport.PlayState != Microsoft.MediaCenter.PlayState.Playing)
+                                    currentPlaybackController.folderItem.PlayState.Save(); // force the save
+                                //Trace.TraceInformation("Playstate position recorded.");
+                            }
+                            else
+                                Trace.TraceInformation("Property " + property + " changed for " + title + " currentController was on " + currentItem);
+                        }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        Trace.WriteLine("Failed to get title!" + e.ToString());
-                    }
-                    if (title == Path.GetFileNameWithoutExtension(currentPlaybackController.folderItem.Filename))
-                    {
-                        currentPlaybackController.folderItem.PlayState.Position = mce.Transport.Position;
-                        Trace.WriteLine("Set the playlist.");
+                        Trace.TraceError("Error trying to get mce.Transport.\n" + ex.ToString());
                     }
                 }
             }
         }
 
         static PlaybackController currentPlaybackController;
-        static PropertyChangedEventHandler transportChangedHandler;
+        static MediaTransport currentTransport;
 
         static void ListenForChanges(PlaybackController playbackController)
         {
@@ -61,25 +79,28 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 return;
             }
-
-            // attempt to unhook previous handler
-            if (transportChangedHandler == null)
+            try
             {
-                try
+                if (currentTransport != AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport)
                 {
-                    transportChangedHandler = new PropertyChangedEventHandler(Transport_PropertyChanged);
-                    AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PropertyChanged += transportChangedHandler;
+                    if (currentTransport != null)
+                        currentTransport.PropertyChanged -= new PropertyChangedEventHandler(Transport_PropertyChanged);
+                    currentTransport = AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport;
+                    currentTransport.PropertyChanged += new PropertyChangedEventHandler(Transport_PropertyChanged);
                 }
-                catch (Exception e)
-                {
-                    // Don't crash!
-                    Trace.WriteLine("Failed to unhook previous handler. " + e.ToString());
-                }
+            }
+            catch (Exception e)
+            {
+                Trace.TraceInformation("Failed trying to hook Transport.PropertyChanged.\n" + e.ToString());
             }
             currentPlaybackController = playbackController;
         }
-       
 
+        static void currentTransport_PropertyChanged(IPropertyObject sender, string property)
+        {
+            throw new NotImplementedException();
+        }
+        
         private FolderItem folderItem;
         
         public PlaybackController(FolderItem folderItem)
@@ -97,8 +118,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             PlayFile(VideoFilename);
 
             var mce = AddInHost.Current.MediaCenterEnvironment;
+            Trace.TraceInformation("Trying to play from position :" + folderItem.PlayState.Position.ToString());
+            int i = 0;
+            while ((i++ < 15) && (mce.MediaExperience.Transport.PlayState != Microsoft.MediaCenter.PlayState.Playing))
+            {
+                // settng the position only works once it is playing and on fast multicore machines we can get here too quick!
+                Thread.Sleep(100);
+            }
             mce.MediaExperience.Transport.Position = folderItem.PlayState.Position;
-            Trace.WriteLine("Trying to play from position :" + folderItem.PlayState.Position.ToString()); 
             
         } 
 
@@ -112,7 +139,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             PlayFile(VideoFilename);
             folderItem.PlayState.LastPlayed = DateTime.Now;
             folderItem.PlayState.PlayCount = folderItem.PlayState.PlayCount + 1;
- 
+
         }
 
         public bool CanResume
@@ -244,17 +271,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                 }
 
-                // Get access to Windows Media Center host.
-                var mce = AddInHost.Current.MediaCenterEnvironment;
-
                 // in case something else is playing try to save its position
                 if (currentPlaybackController != null)
                 {
                     Transport_PropertyChanged(null, "Position");
+                    currentPlaybackController.folderItem.PlayState.Save(); // force the save
                 }
-
-                // Play the video in the Windows Media Center view port.
-                mce.PlayMedia(MediaType.Video, filename, false);
+                // Get access to Windows Media Center host.
+                var mce = AddInHost.Current.MediaCenterEnvironment;
+                try
+                {
+                    // Play the video in the Windows Media Center view port.
+                    if (!mce.PlayMedia(MediaType.Video, filename, false))
+                    {
+                        Trace.TraceInformation("PlayMedia returned false");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceInformation("Playing media failed.\n" + ex.ToString());
+                    Trace.TraceInformation("Application has broken MediaCenterEnvironment, possibly due to 5 minutes of idle while running under system with TVPack installed.\n Application will now close.");
+                    Trace.TraceInformation("Attempting to use reflection that sometimes works to show a dialog box");
+                    Application.DialogBoxViaReflection("Application will now close due to broken MediaCenterEnvironment object, possibly due to 5 minutes of idle time when running with TVPack installed.");
+                    AddInHost.Current.ApplicationContext.CloseApplication();
+                }
                 mce.MediaExperience.GoToFullScreen();
                 ListenForChanges(this);
 
@@ -262,7 +302,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch (Exception e)
             {
                 // Failed to play the movie, log it
-                Trace.WriteLine("Failed to load movie : " + e.ToString());
+                //Trace.TraceInformation("Failed to load movie : " + e.ToString());
+                Trace.TraceInformation("Error in PlayFilewithoutTranscode file: " + filename + "\n" + e.ToString());
             }
         }
 
@@ -298,7 +339,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch (Exception e)
             {
                 // Failed to play the movie, log it
-                Trace.WriteLine("Failed to load movie : " + e.ToString());
+                //Trace.TraceInformation("Failed to load movie : " + e.ToString());
+                Trace.TraceInformation("Error playing file: " + filename + "\n" + e.ToString());
             }
         }    
 

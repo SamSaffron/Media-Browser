@@ -180,25 +180,25 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         protected override void OnRequestItem(int index, ItemRequestCallback callback)
         {
-          //  Trace.WriteLine("RequestItem " + index.ToString());
+          //  Trace.TraceInformation("RequestItem " + index.ToString());
             callback(this, index, folderItems[index]);
         }
 
         protected override void OnRequestSlowData(int index)
         {
-         //   Trace.WriteLine("OnRequestSlowData " + index.ToString());
+         //   Trace.TraceInformation("OnRequestSlowData " + index.ToString());
             base.OnRequestSlowData(index);
         }
 
         protected override void OnVisualsCreated(int index)
         {
-         //   Trace.WriteLine("OnVisualsCreated " + index.ToString());
+         //   Trace.TraceInformation("OnVisualsCreated " + index.ToString());
             base.OnVisualsCreated(index);
         }
 
         protected override void OnVisualsReleased(int index)
         {
-         //   Trace.WriteLine("OnVisualsReleased " + index.ToString());
+         //   Trace.TraceInformation("OnVisualsReleased " + index.ToString());
             base.OnVisualsReleased(index);
         }
 

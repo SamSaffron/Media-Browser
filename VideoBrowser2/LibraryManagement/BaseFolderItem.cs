@@ -61,7 +61,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 catch
                 {
-                    Trace.WriteLine("Failed to load item");
+                    Trace.TraceInformation("Failed to load item");
                     // fall through 
                 }
 
@@ -254,9 +254,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     if (this.PlayState == null)
                         return false;
-                    if (this.PlayState.LastPlayed != DateTime.MinValue)
+                    if (this.PlayState.PlayCount != 0)
                         return true;
-                    Debug.WriteLine(this.Filename);
                     if (File.Exists(this.Filename))
                     {
                         FileInfo fi = new FileInfo(this.Filename);

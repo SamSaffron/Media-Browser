@@ -87,7 +87,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (DirectoryNotFoundException)
             {
-                Trace.WriteLine("Missing Dir: (Bad shortcut)" + path);
+                Trace.TraceInformation("Missing Dir: (Bad shortcut)" + path);
             }
 
             return rval;

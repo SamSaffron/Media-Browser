@@ -11,13 +11,16 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.IO;
+using Microsoft.MediaCenter.AddIn;
+using System.Collections;
 
 
 namespace SamSoft.VideoBrowser
 {
     
-    public class Application : ModelItem
+    public class Application : ModelItem, IDisposable
     {
+
 
         /* Triple type support  http://mytv.senseitweb.com/blogs/mytv/archive/2007/11/22/implementing-jil-jump-in-list-in-your-mcml-application.aspx */
         private EditableText _JILtext;
@@ -169,20 +172,20 @@ namespace SamSoft.VideoBrowser
 
         public FolderItemListMCE FolderItems;
         private static Application singleApplicationInstance;
-        private static AddInHost host;
+        //private static AddInHost host;
         private MyHistoryOrientedPageSession session;
 
         private static object syncObj = new object(); 
 
         private bool navigatingForward;
-
+        /*
         public static AddInHost Host
         {
             get 
             {
                 return host;
             }
-        }
+        }*/
 
         public bool NavigatingForward
         {
@@ -220,7 +223,9 @@ namespace SamSoft.VideoBrowser
             
         }
 
-        public Application(MyHistoryOrientedPageSession session, AddInHost host)
+        System.Threading.Timer keepAliveTimer;
+
+        public Application(MyHistoryOrientedPageSession session, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
             //Debugger.Break();
             //Thread.Sleep(20000);
@@ -230,14 +235,119 @@ namespace SamSoft.VideoBrowser
             {
                 this.session.Application = this;
             }
-            Application.host = host;
+            //Application.host = host;
             singleApplicationInstance = this;
 
             _JILtext = new EditableText(this.Owner, "JIL");
             JILtext.Value = "";
             JILtext.Submitted += new EventHandler(JILtext_Activity);
+            //keepAliveTimer = new System.Threading.Timer(new TimerCallback(KeepAlive), null, 10000, 60000);
+            Trace.TraceInformation("Started");
+        }
+
+        /// <summary>
+        /// This is an oddity under TVPack, sometimes the MediaCenterEnvironemt and MediaExperience objects go bad and become
+        /// disconnected from their host in the main application. Typically this is after 5 minutes of leaving the application idle (but noot always).
+        /// What is odd is that using reflection under these circumstances seems to work - even though it is only doing the same as Reflector shoulds the real 
+        /// methods do. As I said it's odd but this at least lets us get a warning on the screen before the application crashes out!
+        /// </summary>
+        /// <param name="message"></param>
+        public static void DialogBoxViaReflection(string message)
+        {
+            MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            FieldInfo fi = ev.GetType().GetField("_legacyAddInHost", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+            if (fi != null)
+            {
+                AddInHost2 ah2 = (AddInHost2)fi.GetValue(ev);
+                if (ah2 != null)
+                {
+                    Type t = ah2.GetType();
+                    PropertyInfo pi = t.GetProperty("HostControl", BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Public);
+                    if (pi != null)
+                    {
+                        HostControl hc = (HostControl)pi.GetValue(ah2, null);
+                        hc.Dialog(message, "Video Browser", 1, 120, true);
+                    }
+                }
+            }
+
+        }
+
+        /*
+         * The below doesn't seem to work fully, stangely the PlayMediaByReflection works when the 
+         * normal PlayMedia doesn't even though it's only doing what Reflector shows is normally happening anyway.
+         * The problem is that there are other calls required as well and the app still tends to be a bit unstable 
+         * so I've stopped this avenue of coding for now - hopefully MS will fix TVPack soon.
+         * For now we just have a problem - when running under TVPack 5 minutes of idle will kill the app.
+        public static void PlayMediaViaReflection(string media)
+        {
+            Trace.TraceInformation("Playing via relfection: " + media);
+            MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            FieldInfo fi = ev.GetType().GetField("_legacyAddInHost", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+            if (fi != null)
+            {
+                AddInHost2 ah2 = (AddInHost2)fi.GetValue(ev);
+                if (ah2 != null)
+                {
+                    Type t = ah2.GetType();
+                    PropertyInfo pi = t.GetProperty("HostControl", BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Public);
+                    if (pi != null)
+                    {
+                        HostControl hc = (HostControl)pi.GetValue(ah2, null);
+                        hc.PlayMedia(Microsoft.MediaCenter.Extensibility.MediaType.Video,media, false);
+                        Trace.TraceInformation("Suceeded playing via reflection: " + media);
+                    }
+                }
+            }
             
         }
+         */
+        /* I was hoping to be able to keep the relavent object alive by accessing them regularly to prevent the 
+         * timeout - this had some success but only kept alive some of the objects that were required, so didn;t solve the full problem.
+         * I really hope MS fix this TVPack issue soon.
+         * 
+        private void KeepAlive(object none)
+        {
+            // this is necessary as otherwise the AddinHost disappears after 5 minutes of inactivity
+            // See remarks for IAddInEntryPoint.Launch Method in media center sdk
+            // we need to do something that accesses the HostControl object
+            try
+            {
+                MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                FieldInfo fi = ev.GetType().GetField("_legacyAddInHost", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                if (fi != null)
+                {
+                    AddInHost2 ah2 = (AddInHost2)fi.GetValue(ev);
+                    if (ah2 != null)
+                    {
+                        Type t = ah2.GetType();
+                        PropertyInfo pi = t.GetProperty("HostControl", BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Public);
+                        if (pi != null)
+                        {
+                            HostControl hc = (HostControl)pi.GetValue(ah2, null);
+                            IDictionary dict = hc.MediaContext;
+                            Trace.TraceInformation("Keep alive found HostControl");
+                            if (dict != null)
+                            {
+                                foreach (object key in dict.Keys)
+                                {
+                                    object o = dict[key];
+                                    Trace.TraceInformation(key.ToString() + " : " + (o == null ? "null" : o.ToString()));
+                                }
+                            }
+                            return;
+                        }
+                    }
+                }
+                Trace.TraceInformation("Keep alive failed, no host control");
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Keep alive failed: \n" + e.ToString());
+            }
+        }
+
+        */
 
         public void FixRepeatRate(object scroller, uint val)
         {
@@ -257,13 +367,14 @@ namespace SamSoft.VideoBrowser
             } 
 
         }
-
+        
         public static MediaCenterEnvironment MediaCenterEnvironment
         {
             get
             {
-                if (host == null) return null;
-                return host.MediaCenterEnvironment;
+                return Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                //if (host == null) return null;
+                //return host.MediaCenterEnvironment;
             }
         }
 
@@ -317,7 +428,7 @@ namespace SamSoft.VideoBrowser
       
         public void ShowNowPlaying()
         {
-            host.ViewPorts.NowPlaying.Focus();
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.ViewPorts.NowPlaying.Focus();
         }
 
         private void CacheData(object param)
@@ -406,7 +517,6 @@ namespace SamSoft.VideoBrowser
                 properties["Application"] = this;
                 properties["FolderItem"] = fi;
                 session.GoToPage("resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/MovieDetailsPage", properties);
-
                 return;
             }
 
@@ -452,5 +562,20 @@ namespace SamSoft.VideoBrowser
             }       
         }
 
+
+        #region IDisposable Members
+
+        ~Application()
+        {
+            Dispose();
+        }
+
+        void IDisposable.Dispose()
+        {
+            keepAliveTimer.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

@@ -25,12 +25,15 @@ namespace SamSoft.VideoBrowser
     }
 
     
-    public class Config : ModelItem
+    public class Config 
     {
 
         /* All app settings go here, they must all have defaults or they will not work properly */
         /* They must be fields and must start with a capital letter, and should have a default setting */
         /* The comment will be inlined in the config file to help the user */
+
+        [Comment(@"Enables the writing of trace log files in a production environment to assist with problem solving")]
+        public bool EnableTraceLogging = false;
 
         [Comment(
 @"The standard poster view will be selectable with the view button"
@@ -53,6 +56,16 @@ namespace SamSoft.VideoBrowser
          )]
         public bool EnableThumbView2 = false;
 
+        [Comment(@"The maximum size of the poster images in poster view")]
+        public Size MaximumPosterSize = new Size(200, 230);
+        public Size MaximumPosterSizeMcml
+        {
+            get { return this.MaximumPosterSize; }
+        }
+        public float MaximumPosterAspectMcml
+        {
+            get { return (float)this.MaximumPosterSize.Height / (float)this.MaximumPosterSize.Width; }
+        }
 
         [Comment(
 @"Enable transcode 360 support on extenders"
@@ -334,6 +347,19 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                     else
                         stuff_changed = true;
                 }
+                else if (field.FieldType == typeof(Size))
+                {
+                    try
+                    {
+                        string[] parts = value.Split(',');
+                        Size s = new Size(Int32.Parse(parts[0]), Int32.Parse(parts[1]));
+                        field.SetValue(this, s);
+                    }
+                    catch
+                    {
+                        stuff_changed = true;
+                    }
+                }
                 else if (field.FieldType == typeof(Colors))
                 {
                     try
@@ -387,7 +413,13 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                 }
                 if (v != null)
                 {
-                    value = v.ToString();
+                    if (field.FieldType == typeof(Size))
+                    {
+                        Size s = (Size)v;
+                        value = s.Width + "," + s.Height;
+                    }
+                    else
+                        value = v.ToString();
                 }
 
                 var settingsNode = GetSettingsNode(dom);

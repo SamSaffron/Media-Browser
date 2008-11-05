@@ -663,7 +663,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception)
             {
-                Trace.WriteLine(filename + " is a faulty directory!");
+                Trace.TraceInformation(filename + " is a faulty directory!");
                 return false;
             }
         }
@@ -713,11 +713,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception e)
             {
-                Trace.WriteLine(filename);
-                Trace.WriteLine(e.ToString());
+                Trace.TraceInformation(filename);
+                Trace.TraceInformation(e.ToString());
             }
 
-            //Trace.WriteLine(this.Displayname + " " + createdDate.ToString());
+            //Trace.TraceInformation(this.Displayname + " " + createdDate.ToString());
         }
 
         private IEnumerable<string> MovieSearch(string directory)
@@ -783,7 +783,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.ToString()); 
+                Trace.TraceInformation(e.ToString()); 
                 // Suppress any exceptions so the UI does not blow up
             }
         }

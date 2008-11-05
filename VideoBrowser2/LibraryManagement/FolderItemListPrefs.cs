@@ -29,7 +29,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch
             {
                 // corrupt pref file, not a big deal
-                Trace.WriteLine("Error reading pref file");
+                Trace.TraceInformation("Error reading pref file");
             }
         }
 
@@ -83,7 +83,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             catch
             {
                 // not a huge deal, prefs did not save. 
-                Trace.WriteLine("Error saving pref file");
+                Trace.TraceInformation("Error saving pref file");
             }
         }
     }

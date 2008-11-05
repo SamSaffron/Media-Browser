@@ -21,12 +21,15 @@
 			<cor:Boolean Name="ShowLabels" />
 		</Properties>
 
+		<Locals>
+			<Size Name="PosterSize" Size="[Application.Config.MaximumPosterSizeMcml]" />
+		</Locals>
 		<Content>
 			<Panel Layout="Form">
 				<Children>
-					<me:PosterScroller Name="ItemPanel" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[ShowLabels]">
+					<me:PosterScroller Name="ItemPanel" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[ShowLabels]" DesiredMaxImageSize="[Application.Config.MaximumPosterSizeMcml]" MaxAspect="[Application.Config.MaximumPosterAspectMcml]">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,0.85" Right="Parent,0.94"/>
+							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
 						</LayoutInput>
 					</me:PosterScroller>
 					<ColorFill Content="White" Alpha="0.1">
@@ -355,8 +358,8 @@
 			<!-- To change the sizing restrictions on the thumbnail images
 			change the DesiredMaxImageSize and the MaxAspect 
 			below, MaxAspect is the aspect of the DesiredMaxImageSize-->
-			<Size Name="DesiredMaxImageSize" Size="200,230"/>
-			<cor:Single Name="MaxAspect" Single="1.15" /><!-- DesiredMaxImageSize Height/Width-->
+			<Size Name="DesiredMaxImageSize" Size="100,100"/>
+			<cor:Single Name="MaxAspect" Single="1" /><!-- DesiredMaxImageSize Height/Width-->
 		</Properties>
 		<Locals>
 			
@@ -374,7 +377,7 @@
 			
 			
 			<Size Name="ItemSize" Size="0,0"/> <!-- The size we calcuate based on the aspect of the image -->
-			<GridLayout Name="MyLayout" Orientation="Vertical" Rows="[RowLimit]" Columns="0" AllowWrap="true" Spacing="2,2" MinorAlignment="Center" MajorAlignment="Center" />
+			<GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="[RowLimit]" Columns="0" AllowWrap="true" Spacing="2,2" MinorAlignment="Center" MajorAlignment="Center" />
 			
 			<MathTransformer Name="Mult" Multiply="[FolderItems.ThumbAspectRatio]"/>
 			<MathTransformer Name="Div" Divide="[FolderItems.ThumbAspectRatio]"/>
@@ -519,8 +522,8 @@
 				<Children>
 					<me:FocusSelector>
 						<LayoutInput>
-							<FormLayoutInput Left="Focus,-0.1,-3" Right="Focus,1.1,3"
-											 Top="Focus,-0.1,-3" Bottom="Focus,1.1,3"
+							<FormLayoutInput Left="Focus,-0.075,-3" Right="Focus,1.075,3"
+											 Top="Focus,-0.075,-3" Bottom="Focus,1.075,3"
 											 ContributesToHeight="false"
 											 ContributesToWidth="false"/>
 						</LayoutInput>
@@ -531,7 +534,7 @@
 					</me:FocusSelector>
 					<Scroller Orientation="Horizontal" FadeSize="-50" Name="Scroller" Navigation="RememberFocus,Group" ScrollingData="[ScrollingData]">
 						<Children>
-							<Repeater Source="[FolderItems]" Name="MyRepeater" ContentName="BaseItem" Layout="[MyLayout]">
+							<Repeater Source="[FolderItems]" Name="MyRepeater" ContentName="BaseItem" Layout="[MyLayout]" >
 								<Animations>
 									<Animation Type="Move">
 										<Keyframes>
@@ -680,8 +683,11 @@
 				</Actions>
 			</Rule>
 
+			
+
 			<Changed Source="[Clicker.Invoked]">
 				<Actions>
+					<Invoke Target="[Application.Navigate]" item="[Model]"/>
 					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
 				</Actions>
 			</Changed>
@@ -720,11 +726,7 @@
 				</Actions>
 			</Changed>
 
-			<Changed Source="[Clicker.Invoked]">
-				<Actions>
-					<Invoke Target="[Application.Navigate]" item="[Model]"/>
-				</Actions>
-			</Changed>
+			
 
 			<!-- part of an experimental fix -->
 			<Binding Source="[Model.MCMLThumb]" Target="[BoxArt.Content]"/>
