@@ -187,7 +187,7 @@
 									<FormLayoutInput Left="Poster,1,10" Top="TitleSet,1" Right="MovieInfo,0,-14" Bottom="Parent,1"></FormLayoutInput>
 								</LayoutInput>
 							</me:Summary>
-							<ColorFill Content="White" Name="Splitter">
+							<ColorFill Content="White" Name="Splitter" Alpha="0.5">
 								<LayoutInput>
 									<FormLayoutInput Left="MovieInfo,0,-6" Right="MovieInfo,0,-4" Bottom="MovieInfo,1" Top="MovieInfo,0" />
 								</LayoutInput>
@@ -711,7 +711,7 @@
 			<Condition Source="[Input.KeyFocus]" SourceValue="true" ConditionOp="Equals">
 				<Actions>
 					<Set Target="[AnimTimer.Enabled]" Value="true" ExclusiveApply="false"/>
-					<Set Target="[FolderItems.SelectedIndex.Value]" Value="[Index.Value]"/>
+					<Set Target="[FolderItems.SelectedIndex.Value]" Value="[Index.SourceValue]"/>
 				</Actions>
 			</Condition>
 			

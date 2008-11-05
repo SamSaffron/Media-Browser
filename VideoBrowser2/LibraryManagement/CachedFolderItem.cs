@@ -78,18 +78,19 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 writer.WriteElementString("Title1", item.Title1);
                 writer.WriteElementString("Title2", item.Title2);
                 writer.WriteElementString("Overview", item.Overview);
+                if (item.IMDBRating>=0)
+                    writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
                 if (item.IsMovie)
                 {
-                    writer.WriteElementString("IMDBRating", item.IMDBRating.ToString());
                     writer.WriteElementString("RunningTime", item.RunningTime.ToString());
                     writer.WriteElementString("ProductionYear", item.ProductionYear.ToString());
                 }
-                if (item.IsMovie)
-                {
+                if ((item.Genres!=null) && (item.Genres.Count>0))
                     writer.WriteList("Genre", item.Genres);
+                if ((item.Actors != null) && (item.Actors.Count > 0))
                     writer.WriteList("Actor", item.Actors);
+                if (item.IsMovie)
                     writer.WriteList("Director", item.Directors); 
-                }
                 writer.WriteStartElement("CreatedDate");
                 writer.WriteValue(item.CreatedDate);
                 writer.WriteEndElement();

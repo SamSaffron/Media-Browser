@@ -169,6 +169,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     return Movie.IMDBRating;
                 }
+                else if (_tvshow != null)
+                    return _tvshow.IMDBRating;
                 else
                 {
                     return -1;
@@ -301,9 +303,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 EnsureMetadataLoaded(); 
                 if (this.Movie != null)
-                {
                     return this.Movie.Genres;
-                }
+                else if (this._tvSeries != null)
+                    return this._tvSeries.Genres;
                 // To match implementation in cached version 
                 return new List<string>(); 
             }

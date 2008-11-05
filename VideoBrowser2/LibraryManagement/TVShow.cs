@@ -31,6 +31,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public string ShowName { get; private set; }
         public string EpisodeName { get; private set; }
         public string SeasonNumber { get; private set; }
+        public float IMDBRating { get; set; } 
 
         public string LongSeriesName
         {
@@ -72,6 +73,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             EpisodeName = metadataDoc.SafeGetString("Item/EpisodeName");
             ShowName = metadataDoc.SafeGetString("Item/ShowName");
             SeasonNumber = metadataDoc.SafeGetString("Item/SeasonNumber");
+            IMDBRating = metadataDoc.SafeGetFloat("Item/Rating",(float)-1,10);
 
         }
 

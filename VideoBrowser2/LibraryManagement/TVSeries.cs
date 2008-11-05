@@ -53,7 +53,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 this.Actors = new List<string>(actors.Split('|'));
             string genres = metadataDoc.SafeGetString("Series/Genre");
             if (genres.Length > 0)
-                this.Genres = new List<string>(genres.Split('|'));
+                this.Genres = new List<string>(genres.Trim('|').Split('|'));
             
         }
     }
