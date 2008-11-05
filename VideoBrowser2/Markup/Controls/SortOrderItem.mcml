@@ -73,9 +73,9 @@
     <Content>
       <Panel Layout="HorizontalFlow" Name="Root" >
         <Children>
-          <Text Name="L" Color="LightBlue" Font="Segoe Media Center,16"  Content="&lt;"/>
-          <Text Name="Text"  Color="LightBlue" Font="Segoe Media Center,16" Content="[Option]"/>
-          <Text Name="R"  Color="LightBlue" Font="Segoe Media Center,16" Content="&gt;"/>
+          <Text Name="L" Color="LightBlue" Font="Segoe Media Center,18"  Content="&lt;"/>
+          <Text Name="Text"  Color="LightBlue" Font="Segoe Media Center,18" Content="[Option]"/>
+          <Text Name="R"  Color="LightBlue" Font="Segoe Media Center,18" Content="&gt;"/>
         </Children>
       </Panel>
     </Content>
