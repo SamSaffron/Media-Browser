@@ -270,7 +270,19 @@ namespace SamSoft.VideoBrowser
                     }
                 }
             }
+        }
 
+        /// <summary>
+        /// Unfortunately TVPack has some issues at the moment where the MedaCenterEnvironment stops working, we catch these errors and rport them then close.
+        /// In the future this method and all references should be able to be removed, once MS fix the bugs
+        /// </summary>
+        internal static void ReportBrokenEnvironment()
+        {
+            Trace.TraceInformation("Application has broken MediaCenterEnvironment, possibly due to 5 minutes of idle while running under system with TVPack installed.\n Application will now close.");
+            Trace.TraceInformation("Attempting to use reflection that sometimes works to show a dialog box");
+            // for some reason using reflection still works
+            Application.DialogBoxViaReflection("Application will now close due to broken MediaCenterEnvironment object, possibly due to 5 minutes of idle time and/or running with TVPack installed.");
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
         }
 
         /*
@@ -428,7 +440,14 @@ namespace SamSoft.VideoBrowser
       
         public void ShowNowPlaying()
         {
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.ViewPorts.NowPlaying.Focus();
+            try
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.ViewPorts.NowPlaying.Focus();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error attempting to show and focus NowPlaying view port.\n" + ex.ToString());
+            }
         }
 
         private void CacheData(object param)
@@ -577,5 +596,7 @@ namespace SamSoft.VideoBrowser
         }
 
         #endregion
+
+        
     }
 }

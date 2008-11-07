@@ -5,6 +5,7 @@ using System.Diagnostics;
 using SamSoft.VideoBrowser.LibraryManagement;
 using System.IO;
 using System;
+using System.Threading;
 
 namespace SamSoft.VideoBrowser
 {
@@ -31,7 +32,6 @@ namespace SamSoft.VideoBrowser
         //  host.MediaCenterEnvironment.Dialog("debug", "debug", DialogButtons.Ok, 100, true); 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
-
         }
     }
 }

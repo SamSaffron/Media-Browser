@@ -48,7 +48,7 @@
 							</Animation>
 						</Animations>
 						<LayoutInput>
-							<FormLayoutInput Top="ItemPanel,1,10"  Left="Focus,0,20"/>
+							<FormLayoutInput Top="ItemPanel,1"  Left="Focus,0,20"/>
 						</LayoutInput>
 					</me:ItemTitle>
 				</Children>
@@ -595,7 +595,7 @@
 						</Layout>
 						<Children>
 							<Text Name="Runtime" Content="" Color="color://me:MediumBlue" Font="Segoe Media Center,18" Margins="0,-10,0,0"></Text>
-							<me:StarRating Name="StarRating" Value="-1" />
+							<me:StarRating Name="StarRating" Value="-1" Margins="0,-5,0,0"/>
 						</Children>
 					</Panel>
 				</Children>

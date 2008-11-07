@@ -24,9 +24,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 //Trace.TraceInformation("Transport property changed: " + property);
                 if (property == "Position")                {
-                    var mce = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
                     try
                     {
+                        var mce = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
                         if (mce.Transport != null)
                         {
                             //Trace.TraceInformation("PlayState: " + mce.Transport.PlayState.ToString());
@@ -56,7 +56,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                     catch (Exception ex)
                     {
-                        Trace.TraceError("Error trying to get mce.Transport.\n" + ex.ToString());
+                        Trace.TraceError("Error trying in Transport_PropertyChanged.\n" + ex.ToString());
                     }
                 }
             }
@@ -234,9 +234,18 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                bool isLocal = AddInHost.Current.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
-                         (bool)AddInHost.Current.MediaCenterEnvironment.Capabilities["Console"];
-                return !isLocal;
+                try
+                {
+                    bool isLocal = AddInHost.Current.MediaCenterEnvironment.Capabilities.ContainsKey("Console") &&
+                             (bool)AddInHost.Current.MediaCenterEnvironment.Capabilities["Console"];
+                    return !isLocal;
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError("Error in RunningOnExtender.\n" + ex.ToString());
+                    Application.ReportBrokenEnvironment();
+                    throw;
+                }
             }
         }
         
@@ -290,10 +299,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 catch (Exception ex)
                 {
                     Trace.TraceInformation("Playing media failed.\n" + ex.ToString());
-                    Trace.TraceInformation("Application has broken MediaCenterEnvironment, possibly due to 5 minutes of idle while running under system with TVPack installed.\n Application will now close.");
-                    Trace.TraceInformation("Attempting to use reflection that sometimes works to show a dialog box");
-                    Application.DialogBoxViaReflection("Application will now close due to broken MediaCenterEnvironment object, possibly due to 5 minutes of idle time when running with TVPack installed.");
-                    AddInHost.Current.ApplicationContext.CloseApplication();
+                    Application.ReportBrokenEnvironment();
+                    return;
                 }
                 mce.MediaExperience.GoToFullScreen();
                 ListenForChanges(this);
@@ -341,6 +348,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 // Failed to play the movie, log it
                 //Trace.TraceInformation("Failed to load movie : " + e.ToString());
                 Trace.TraceInformation("Error playing file: " + filename + "\n" + e.ToString());
+                Application.ReportBrokenEnvironment();
             }
         }    
 
