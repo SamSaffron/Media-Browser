@@ -82,7 +82,7 @@ namespace SamSoft.VideoBrowser
 
                 foreach (var item in FolderItems.folderItems)
                 {
-                    if (item.Description.ToLower().StartsWith(match))
+                    if (item.SortableDescription.StartsWith(match))
                     {
                         JILindex = index - CurrentIndex;
                         break; 
@@ -138,7 +138,7 @@ namespace SamSoft.VideoBrowser
             // remove letters we do not have 
             foreach (var item in FolderItems.folderItems)
             {
-                char current_letter = item.Description.ToLower()[0];
+                char current_letter = item.SortableDescription[0];
                 if (letters.Contains(current_letter))
                 {
                     if (!found_letters.ContainsKey(current_letter))
