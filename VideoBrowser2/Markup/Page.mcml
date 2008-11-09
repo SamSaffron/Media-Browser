@@ -123,7 +123,7 @@
 			</Changed>
 
 			<Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
-
+-->
 			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
@@ -132,7 +132,6 @@
 					<Set Target="[Application.CurrentIndex]" Value="[FolderItems.SelectedIndex.Value]"/>
 				</Actions>
 			</Changed>
--->
 <!--
 			<Changed Source="[SortOrderIndex.Value]" InitialEvaluate="false">
 				<Actions>
