@@ -17,9 +17,29 @@
 			<ScrollingData Name="ScrollingData" />
 			<Command Name="ScrollUpCommand" />
 			<Command Name="ScrollDownCommand" />
-
 		</Locals>
+    
 		<Rules>
+
+      <Changed Source="[Text]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Text.Length]" ConditionOp="Equals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainPanel.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Text]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Text.Length]" ConditionOp="NotEquals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainPanel.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
+     
+      
 			<Binding Source="[Text]" Target="[TextVal.Content]" />
 			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
 			
@@ -77,7 +97,7 @@
 											<Animation Type="Move">
 												<Keyframes>
 													<PositionKeyframe Time="0" Value="0,0,0" RelativeTo="Current" Interpolation="Exp"/>
-													<PositionKeyframe Time=".1" Value="0,0,0"/>
+													<PositionKeyframe Time=".01" Value="0,0,0"/>
 												</Keyframes>
 											</Animation>
 										</Animations>

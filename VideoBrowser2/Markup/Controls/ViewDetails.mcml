@@ -26,7 +26,7 @@
 		<Rules>
 
 			
-			
+
 			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
@@ -40,19 +40,20 @@
 				<Actions>
 					<Set Target="[InfoTimer.Enabled]" Value="false"/>
 					<Set Target="[Preview.Visible]" Value="true"/>
-					<Set Target="[Preview.Content]" Value="[FolderItems.SelectedItem.MCMLThumb]"/>
-					<Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
+          <Set Target="[Preview.Content]" Value="[FolderItems.SelectedItem.MCMLThumb]"/>
+          <Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
 					<Set Target="[TxtRuntime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
-					<Set Target="[GenreRepeater.Visible]" Value="true"/>
+          <Set Target="[GenreRepeater.Visible]" Value="true"/>
 					<Set Target="[GenreRepeater.Source]" Value="[FolderItems.SelectedItem.Genres]"/>
-					<Set Target="[Title1.Content]" Value="[FolderItems.SelectedItem.Title1]"/>
-					<Set Target="[LastWatched.Content]" Value="[FolderItems.SelectedItem.LastWatched]"/>
+          <Set Target="[Title1.Content]" Value="[FolderItems.SelectedItem.Title1]"/>
+          <Set Target="[Title2.Content]" Value="[FolderItems.SelectedItem.Title2]"/>
+          <Set Target="[Summary.Text]" Value="[FolderItems.SelectedItem.Overview]"/> 
+          <Set Target="[LastWatched.Content]" Value="[FolderItems.SelectedItem.LastWatched]"/>
 					<Set Target="[LastWatched.Visible]" Value="[FolderItems.SelectedItem.HaveWatched]"/>
-					<Set Target="[Title2.Content]" Value="[FolderItems.SelectedItem.Title2]"/>
-					<Set Target="[Summary.Text]" Value="[FolderItems.SelectedItem.Overview]"/>
+					
 				</Actions>
 			</Changed>
-
+<!-- 
 			<Changed Source="[InfoTimer.Tick]">
 				<Conditions>
 					<Equality Source="[FolderItems.SelectedItem.Overview.Length]" ConditionOp="Equals" Value="0"/>
@@ -71,7 +72,7 @@
 				</Actions>
 			</Changed>
 
-			
+			-->
 
 
 			<!--
@@ -170,7 +171,7 @@
 							<FormLayoutInput Left="DetailsSection,0" Top="DetailsSection,1" Right="DetailsSection,1" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>
 						<Children>
-							<st:ScrollableText Visible="false" Name="Summary" >
+							<st:ScrollableText Name="Summary" >
 							</st:ScrollableText>
 						</Children>
 					</Panel>
