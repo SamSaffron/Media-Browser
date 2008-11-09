@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.IO; 
+using System.IO;
+using System.Text.RegularExpressions; 
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -13,20 +14,47 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public VirtualFolder(string path)
         {
-            Path = path;
+			Path = path;
             foreach (var line in File.ReadAllLines(path))
-            {                        
+            {
                 if (line.StartsWith("image:"))
                 {
-                    // TODO? test if its a file  
-                    ThumbPath = line.Substring(6).Trim(); 
+                    // TODO: test if it is a valid image
+					string thumbPath = line.Substring(6).Trim();
+					if (!IsValidPath(thumbPath) || !File.Exists(thumbPath))
+					{
+						Application.DialogBoxViaReflection("Invalid virtual folder thumbnail path: " + thumbPath);
+					}
+					else
+					{
+						ThumbPath = thumbPath;
+					}
                 }
                 else if (line.StartsWith("folder:"))
                 { 
-                    // TODO? test if its a file
-                    Folders.Add(line.Substring(7).Trim()); 
+					string folderPath = line.Substring(7).Trim();
+					if (!IsValidPath(folderPath) || !Directory.Exists(folderPath))
+					{
+						Application.DialogBoxViaReflection("Invalid virtual folder path: " + folderPath);
+					}
+					else
+					{
+						Folders.Add(folderPath);
+					}
                 }
             }
         }
+
+		/// <summary>
+		/// Gets whether the specified path is a valid absolute file path.
+		/// http://www.csharp411.com/check-valid-file-path-in-c/
+		/// </summary>
+		/// <param name="path">Any path. OK if null or empty.</param>
+		static public bool IsValidPath(string path)
+		{
+			Regex r = new Regex(@"^(([a-zA-Z]\:)|(\\))(\\{1}|((\\{1})[^\\]([^/:*?<>""|]*))+)$");
+			return r.IsMatch(path);
+		}
+
     }
 }
