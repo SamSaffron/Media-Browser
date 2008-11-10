@@ -51,6 +51,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         { }
 
 
+        public static System.Version Version = new System.Version(1,0);
+
         internal static void Write(string CacheXmlPath, IEnumerable<BaseFolderItem> items)
         {
             // save this in a cache file ... 
@@ -62,6 +64,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 			XmlWriter writer = XmlWriter.Create(ms, settings);
             writer.WriteStartDocument();
             writer.WriteStartElement("Items");
+            writer.WriteAttributeString("Version", Version.ToString()); 
             foreach (BaseFolderItem item in items)
             {
                 writer.WriteStartElement("Item");

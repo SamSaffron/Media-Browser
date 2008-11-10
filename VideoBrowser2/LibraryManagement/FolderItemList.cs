@@ -160,12 +160,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     // yay a cache hit. 
                     XmlDocument doc = new XmlDocument();
                     doc.Load(xmlPath);
-                    var rval = new List<CachedFolderItem>(); 
-                    foreach (XmlElement elem in doc.SelectNodes("Items/Item"))
+                    var version = new System.Version(doc.SelectSingleNode("Items").Attributes["Version"].Value);
+                    if (version == CachedFolderItem.Version)
                     {
-                        rval.Add(new CachedFolderItem(elem, CacheKey, this));
-                    }
-                    return rval;
+                        var rval = new List<CachedFolderItem>();
+                        foreach (XmlElement elem in doc.SelectNodes("Items/Item"))
+                        {
+                            rval.Add(new CachedFolderItem(elem, CacheKey, this));
+                        }
+                        return rval;
+                    }  
                 }
             }
             catch
