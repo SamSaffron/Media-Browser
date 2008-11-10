@@ -32,6 +32,14 @@ namespace SamSoft.VideoBrowser
         /* They must be fields and must start with a capital letter, and should have a default setting */
         /* The comment will be inlined in the config file to help the user */
 
+        [Comment(@"Enables you to scan the display to cope with overscan issue, parameter should be of the for x,y,z scaling factors")]
+        public Vector3 OverScanScaling = new Vector3(1, 1, 1);
+        public Vector3 OverScanScalingMcml
+        {
+            get { return this.OverScanScaling; }
+        }
+
+
         [Comment(@"Enables the writing of trace log files in a production environment to assist with problem solving")]
         public bool EnableTraceLogging = false;
 
@@ -369,8 +377,18 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                     }
                     catch
                     {
-                        System.Diagnostics.Debugger.Break();
+                        
                     }
+                }
+                else if (field.FieldType == typeof(Vector3))
+                {
+                    try
+                    {
+                        string[] parts = value.Split(',');
+                        Vector3 s = new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
+                        field.SetValue(this, s);
+                    }
+                    catch { }
                 }
                 else
                 {
@@ -417,6 +435,11 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                     {
                         Size s = (Size)v;
                         value = s.Width + "," + s.Height;
+                    }
+                    else if (field.FieldType == typeof(Vector3))
+                    {
+                        Vector3 s = (Vector3)v;
+                        value = s.X + "," + s.Y + "," + s.Z;
                     }
                     else
                         value = v.ToString();

@@ -24,7 +24,7 @@
 			<cor:Boolean Name="CanPlay" Boolean="false" />
 			<Timer Name="BGTimer" Interval="100" Enabled="false"/>
 			<BooleanChoice Name="ShowLabels" Value="true" />
-			
+
 			<Choice Name="Views" >
 				<Options>
 					<cor:String String="Details List" />
@@ -46,7 +46,7 @@
 			<Default Target="[Views.DefaultIndex]" Value="[Model.ViewIndex]" />
 			<Binding Target="[Model.ViewIndex]" Source="[Views.ChosenIndex]"/>
 
-			
+
 
 			<!--<Binding Source="[Views.Chosen!cor:String]" Target="[ViewsBtn.Text]" />-->
 			<Changed Source="[ViewsDropDown.Invoked]">
@@ -55,7 +55,7 @@
 					<Invoke Target="[ViewRadioGroup.NavigateInto]" />
 				</Actions>
 			</Changed>
-			
+
 			<!-- Check config file to hide background -->
 
 			<Rule>
@@ -111,19 +111,7 @@
 					<!--<Set Target="[MainBG.Alpha]" Value="1" />-->
 				</Actions>
 			</Changed>
-<!--
-			<Changed Source="[Model.SortOrderHasFocus]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.SortOrderHasFocus]" Value="true">
-					</Equality>
-				</Conditions>
-				<Actions>
-					<Set Target="[FolderItems.SelectedIndex.Value]" Value="-1"></Set>
-				</Actions>
-			</Changed>
-
-			<Binding Source="[Model.SortOrderHasFocus]" Target="[FadeOutPanel.Visible]"/>
--->
+		
 			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
@@ -132,13 +120,7 @@
 					<Set Target="[Application.CurrentIndex]" Value="[FolderItems.SelectedIndex.Value]"/>
 				</Actions>
 			</Changed>
-<!--
-			<Changed Source="[SortOrderIndex.Value]" InitialEvaluate="false">
-				<Actions>
-					<Invoke Target="[FolderItems.Sort]" sortOrder="[SortOrderIndex.Value]"/>
-				</Actions>
-			</Changed>
--->
+			
 			<Changed Source="[Application.FindText]" InitialEvaluate="false">
 				<Conditions>
 					<Equality Source="[Application.JILtext.Value]" ConditionOp="NotEquals" Value=""/>
@@ -164,108 +146,111 @@
 
 
 		<Content>
-			<Panel Layout="Form">
+			<Panel Layout="Center">
 				<Children>
-
-					<!-- find in list panel - highest Z-Order -->
-					<Panel Name="FindAsYouTypePanel" >
-						<LayoutInput>
-							<FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
-						</LayoutInput>
-						<Layout>
-							<FlowLayout ItemAlignment="Center"/>
-						</Layout>
+					<Clip Layout="Form" Scale="[Application.Config.OverScanScalingMcml]" CenterPointPercent="0.5,0.5,0.5">
 						<Children>
-							<ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
+
+							<!-- find in list panel - highest Z-Order -->
+							<Panel Name="FindAsYouTypePanel" >
+								<LayoutInput>
+									<FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
+								</LayoutInput>
+								<Layout>
+									<FlowLayout ItemAlignment="Center"/>
+								</Layout>
 								<Children>
-									<Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://me:LightBlue"  />
-									<!-- Shadow - Confirmed text (opaque) -->
-									<Text Name="ShadowLabel" Content="Fred" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
-										<LayoutInput>
-											<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
-										</LayoutInput>
-									</Text>
+									<ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
+										<Children>
+											<Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://me:LightBlue"  />
+											<!-- Shadow - Confirmed text (opaque) -->
+											<Text Name="ShadowLabel" Content="Fred" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
+												<LayoutInput>
+													<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
+												</LayoutInput>
+											</Text>
+										</Children>
+									</ColorFill>
 								</Children>
-							</ColorFill>
-						</Children>
-					</Panel>
+							</Panel>
 
-					<!-- Black Overlay to Fade Out contents -->
-					<Panel Name="FadeOutPanel" Visible="false">
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
-						</LayoutInput>
-						<Children>
-							<ColorFill Content="Black" Alpha="0"/>
-						</Children>
-					</Panel>
-
-					
-					
-					<!--Banner / Breadcrumbs -->
-					<Panel Name="Breadcrumbs">
-						<Layout>
-							<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
-						</Layout>
-						<Children>
-							<Graphic Content="[Model.Banner]" MaintainAspectRatio="true" MaximumSize="600,90">
-							</Graphic>
-							<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+							<!-- Black Overlay to Fade Out contents -->
+							<Panel Name="FadeOutPanel" Visible="false">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
+								</LayoutInput>
 								<Children>
-									<Text Name="BreadCrumbs" Content="[Model.BreadCrumbs]" Font="Segoe Media Center Light, 16" Color="color://me:MediumBlue">
-									</Text>
+									<ColorFill Content="Black" Alpha="0"/>
 								</Children>
-							</Clip>
-						</Children>
-						<LayoutInput>
-							<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
-						</LayoutInput>
-					</Panel>
+							</Panel>
 
-					<so:ViewSelector Name="ViewsBtn" Model="[Model]">
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0,50" Bottom="SortOrderUI,0,5"/>
-						</LayoutInput>
-					</so:ViewSelector>
-					<!-- View menu -->
-					<!--
+
+
+							<!--Banner / Breadcrumbs -->
+							<Panel Name="Breadcrumbs">
+								<Layout>
+									<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+								</Layout>
+								<Children>
+									<Graphic Content="[Model.Banner]" MaintainAspectRatio="true" MaximumSize="600,90">
+									</Graphic>
+									<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+										<Children>
+											<Text Name="BreadCrumbs" Content="[Model.BreadCrumbs]" Font="Segoe Media Center Light, 16" Color="color://me:MediumBlue">
+											</Text>
+										</Children>
+									</Clip>
+								</Children>
+								<LayoutInput>
+									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
+								</LayoutInput>
+							</Panel>
+
+							<so:ViewSelector Name="ViewsBtn" Model="[Model]">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,50" Bottom="SortOrderUI,0,5"/>
+								</LayoutInput>
+							</so:ViewSelector>
+							<!-- View menu -->
+							<!--
 					<vm:ViewsButton Name="ViewsBtn" Command="[ViewsDropDown]">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,0,50" Bottom="SortOrderUI,0"/>
 						</LayoutInput>
 					</vm:ViewsButton>
 					-->
-					<vm:RadioGroup Name="ViewRadioGroup" Vis="false" Model="[Views]" >
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0,50" Top="ViewsBtn,1"/>
-						</LayoutInput>
-					</vm:RadioGroup>
-					
-					<!-- Sort Order Controls -->
-					
-					
-					<me:SortOrder Name="SortOrderUI" List="[FolderItems.SortOrders]">
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0,40" Bottom="ViewPanel,0" Right="Parent,1,-40"/>
-						</LayoutInput>
-					</me:SortOrder>
+							<vm:RadioGroup Name="ViewRadioGroup" Vis="false" Model="[Views]" >
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,50" Top="ViewsBtn,1"/>
+								</LayoutInput>
+							</vm:RadioGroup>
 
-					<!--  View Details-->
-					<me:DetailArea Name="ViewPanel" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1" Right="Parent,1"/>
-						</LayoutInput>
-					</me:DetailArea>
+							<!-- Sort Order Controls -->
 
-					<!-- Now Playing View -->
-					<me:NowPlayingViewport>
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,-10" />
-						</LayoutInput>
-					</me:NowPlayingViewport>
 
-					<Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill" />			
-			</Children>
+							<me:SortOrder Name="SortOrderUI" List="[FolderItems.SortOrders]">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,40" Bottom="ViewPanel,0" Right="Parent,1,-40"/>
+								</LayoutInput>
+							</me:SortOrder>
+
+							<!--  View Details-->
+							<me:DetailArea Name="ViewPanel" Model="[Model]" Application="[Application]" FolderItems="[FolderItems]">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1" Right="Parent,1"/>
+								</LayoutInput>
+							</me:DetailArea>
+
+							<!-- Now Playing View -->
+							<me:NowPlayingViewport>
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,-10" />
+								</LayoutInput>
+							</me:NowPlayingViewport>
+						</Children>
+					</Clip>
+					<Graphic Name="MainBG" Content="image://me:Background" Margins="-50,-20,-150,-20" Layout="Fill" />
+				</Children>
 			</Panel>
 		</Content>
 	</UI>
@@ -276,7 +261,7 @@
 			<a:ListPage Name="Model" ListPage="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
 		</Properties>
-		
+
 		<Rules>
 			<Condition Source="[Input.DeepKeyFocus]" SourceValue="false" ConditionOp="Equals">
 				<Actions>
@@ -354,7 +339,7 @@
 				</Actions>
 			</Changed>
 		</Rules>
-		
+
 		<Content>
 			<Panel Name="MainPanel" Layout="Anchor">
 				<Animations>
@@ -391,10 +376,10 @@
 						</LayoutInput>
 					</me:ThumbDetailsView>
 				</Children>
-				
+
 			</Panel>
 		</Content>
-			
+
 	</UI>
 
 	<Animation Name="AlphaAnimation" Type="Alpha">
