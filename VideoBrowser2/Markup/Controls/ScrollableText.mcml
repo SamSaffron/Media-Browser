@@ -45,6 +45,8 @@
 			
 			<Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[TextVal.Color]" Value="White"/>
 			
+     
+      
 			<Changed Source="[ScrollUpCommand.Invoked]">
 				<Actions>
 					<Invoke Target="[ScrollingData.ScrollUp]"/>
@@ -55,7 +57,7 @@
 					<Invoke Target="[ScrollingData.ScrollDown]"/>
 				</Actions>
 			</Changed>
-
+     
 			<Binding Source="[ScrollingData.CurrentPage]" Target="[CurrentPage.Content]">
 				<Transformer>
 					<FormatTransformer Format="{0:F0}"/>
@@ -70,13 +72,13 @@
 
 			<Rule>
 				<Conditions>
-					<Equality Source="[ScrollingData.TotalPages]" ConditionOp="Equals" Value="1" />
+					<Equality Source="[ScrollingData.TotalPages]" ConditionOp="LessThanOrEquals" Value="1" />
 				</Conditions>
 				<Actions>
 					<Set Target="[ScrollInfo.Visible]" Value="false" />
 				</Actions>
 			</Rule> 
-			
+      
 		</Rules>
 
 		<Content>
@@ -93,11 +95,11 @@
 								</LayoutInput>
 								<Children>
 									<Text Name="TextVal" Color="color://i:LightBlue" Font="Segoe Media Center,16" WordWrap="true" Content="[Text]">
-										<Animations>
+                    <Animations>
 											<Animation Type="Move">
 												<Keyframes>
 													<PositionKeyframe Time="0" Value="0,0,0" RelativeTo="Current" Interpolation="Exp"/>
-													<PositionKeyframe Time=".01" Value="0,0,0"/>
+													<PositionKeyframe Time=".1" Value="0,0,0"/>
 												</Keyframes>
 											</Animation>
 										</Animations>
