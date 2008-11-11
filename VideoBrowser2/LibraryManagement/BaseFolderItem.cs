@@ -134,8 +134,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         StartProcessingQueue(); 
                     }
                 }
-              
-
                 return image;
             }
         }
@@ -250,20 +248,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                if (!IsFolder || IsMovie)
+                try
                 {
-                    if (this.PlayState == null)
-                        return false;
-                    if (this.PlayState.PlayCount != 0)
-                        return true;
-                    if (File.Exists(this.Filename))
+                    if (!IsFolder || IsMovie)
                     {
-                        FileInfo fi = new FileInfo(this.Filename);
-                        if (fi.LastWriteTime <= Config.Instance.AssumeWatchedBefore)
+                        if (this.PlayState == null)
+                            return false;
+                        if (this.PlayState.PlayCount != 0)
                             return true;
+                        if (File.Exists(this.Filename))
+                        {
+                            FileInfo fi = new FileInfo(this.Filename);
+                            if (fi.LastWriteTime <= Config.Instance.AssumeWatchedBefore)
+                                return true;
+                        }
                     }
+                    return false;
                 }
-                return false;
+                catch
+                {
+                    return false;
+                }
             }
 
         }

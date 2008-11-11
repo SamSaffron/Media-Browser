@@ -257,7 +257,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get
             {
                 LoadModifiedDate();
-
                 return modifiedDate;
             }
         }
@@ -267,7 +266,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             if (modifiedDate == DateTime.MinValue)
             {
                 DirectoryInfo di = new DirectoryInfo(filename);
-                modifiedDate = di.LastWriteTime;
+                try
+                {
+                    modifiedDate = di.LastWriteTime;
+                }
+                catch
+                {
+                    modifiedDate = DateTime.Now;
+                }
             }
         }
 
