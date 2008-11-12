@@ -109,9 +109,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Background.png" />
+    <Content Include="Images\CheckBoxCheckedFocus.png" />
+    <Content Include="Images\CheckBoxCheckedNoFocus.png" />
+    <Content Include="Images\CheckBoxUncheckedFocus.png" />
+    <Content Include="Images\CheckBoxUncheckedNoFocus.png" />
     <Content Include="Images\Logo.png" />
-    <Content Include="Images\RadioButtonOff.png" />
-    <Content Include="Images\RadioButtonOn.png" />
+    <Content Include="Images\RadioFocus.png" />
+    <Content Include="Images\RadioNoFocus.png" />
+    <Content Include="Images\RadioSelectFocus.png" />
+    <Content Include="Images\RadioSelectNoFocus.png" />
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
@@ -135,12 +141,14 @@
     <Content Include="Markup\Base\Animations.mcml" />
     <Content Include="Markup\Base\Images.mcml" />
     <Content Include="Markup\Controls\Button.mcml" />
+    <Content Include="Markup\Controls\CheckBox.mcml" />
     <Content Include="Markup\Controls\Controls.mcml" />
     <Content Include="Images\Application.png" />
     <Content Include="Markup\Controls\ButtonList.mcml" />
     <Content Include="Markup\Controls\DetailsPageButton.mcml" />
     <Content Include="Markup\Controls\GraphicButton.mcml" />
     <Content Include="Markup\Controls\ListView.mcml" />
+    <Content Include="Markup\Controls\RadioGroup.mcml" />
     <Content Include="Markup\Controls\ScrollableText.mcml" />
     <Content Include="Markup\Controls\SimpleButton.mcml" />
     <Content Include="Markup\Controls\StarRating.mcml" />

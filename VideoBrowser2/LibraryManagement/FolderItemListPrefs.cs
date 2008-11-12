@@ -4,87 +4,279 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.MediaCenter.UI;
+using System.Xml.Serialization;
+using System.Collections;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
     // prefs for the folder item list 
     // sort order and view 
-    public class FolderItemListPrefs
+    [Serializable]
+    public class FolderItemListPrefs : ModelItem
     {
-        string filename; 
+        string filename;
+        Choice viewType;
+        BooleanChoice showLabels;
+        BooleanChoice verticalScroll;
 
         public FolderItemListPrefs(string key)
         {
-            filename = System.IO.Path.Combine(Helper.AppPrefsPath, key + ".prefs.xml");
+            viewType = new Choice();
+            ArrayList list = new ArrayList();
+            foreach (ViewType v in Enum.GetValues(typeof(ViewType)))
+                list.Add(ViewTypeNames.GetName(v));
+            viewType.Options = list;
+            this.ViewType = Config.Instance.DefaultViewType;
+            
+            showLabels = new BooleanChoice();
+            showLabels.Value = Config.Instance.DefaultShowLabels;
+            
+            verticalScroll = new BooleanChoice();
+            verticalScroll.Value = Config.Instance.DefaultVerticalScroll;
             try
             {
+                filename = System.IO.Path.Combine(Helper.AppPrefsPath, key + ".prefs.xml");
                 if (System.IO.File.Exists(filename))
                 {
                     XmlDocument doc = new XmlDocument();
                     doc.Load(filename);
-                    _sortOrder = (SortOrderEnum)(Int32.Parse(doc.SelectSingleNode("Prefs/SortOrder").InnerText));
-                    _viewIndex = (Int32.Parse(doc.SelectSingleNode("Prefs/ViewIndex").InnerText));
+                    // support migration from the old format view files
+                    XmlNode node = doc.SelectSingleNode("Prefs/ViewIndex");
+                    try
+                    {
+                        if (node != null)
+                        {
+                            int i = Int32.Parse(node.InnerText);
+                            switch (i)
+                            {
+                                case 0:
+                                    this.ViewType = ViewType.Detail;
+                                    break;
+                                case 1:
+                                    this.ViewType = ViewType.Poster;
+                                    this.ShowLabels = false;
+                                    break;
+                                case 2:
+                                    this.ViewType = ViewType.Poster;
+                                    this.ShowLabels = true;
+                                    break;
+                                case 3:
+                                    this.ViewType = ViewType.Thumb;
+                                    this.ShowLabels = false;
+                                    break;
+                                case 4:
+                                    this.ViewType = ViewType.Thumb;
+                                    this.ShowLabels = true;
+                                    break;
+                            }
+                        }
+                    }
+                    catch { }
+                    node = doc.SelectSingleNode("Prefs/SortOrder");
+                    try
+                    {
+                        if (node != null)
+                            sortOrder = (SortOrderEnum)(Int32.Parse(node.InnerText));
+                    }
+                    catch { }
+                    node = doc.SelectSingleNode("Prefs/ViewType");
+                    try
+                    {
+                        if (node!=null)
+                            ViewType = (ViewType)(Enum.Parse(typeof(ViewType), node.InnerText));
+                    }
+                    catch { }
+                    node = doc.SelectSingleNode("Prefs/ShowLabels");
+                    try
+                    {
+                        if (node != null)
+                            ShowLabels = (bool.Parse(node.InnerText));
+                    }
+                    catch { }
+                    node = doc.SelectSingleNode("Prefs/VerticalScroll");
+                    try
+                    {
+                        if (node != null)
+                            VerticalScroll = (bool.Parse(node.InnerText));
+                    }
+                    catch { }
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 // corrupt pref file, not a big deal
-                Trace.TraceInformation("Error reading pref file");
+                Trace.WriteLine("Error reading pref file.\n" + ex.ToString());
+                Save();
             }
+            viewType.ChosenChanged += new EventHandler(viewType_ChosenChanged);
+            showLabels.ChosenChanged += new EventHandler(showLabels_ChosenChanged);
+            verticalScroll.ChosenChanged += new EventHandler(verticalScroll_ChosenChanged);
         }
 
-        int _viewIndex = Config.Instance.DefaultViewIndex;
-        public int ViewIndex
+        void showLabels_ChosenChanged(object sender, EventArgs e)
         {
-            get 
+            Save();
+            FirePropertyChanged("ShowLabels");
+        }
+
+        void verticalScroll_ChosenChanged(object sender, EventArgs e)
+        {
+            Save();
+            FirePropertyChanged("VerticalScroll");
+        }
+
+        void viewType_ChosenChanged(object sender, EventArgs e)
+        {
+            Save();
+            FirePropertyChanged("ViewType");
+            FirePropertyChanged("ViewTypeString");
+        }
+
+        
+        [XmlIgnore]
+        public Choice ViewTypeChoice
+        {
+            get { return this.viewType; }
+        }
+
+        [XmlElement]
+        public ViewType ViewType 
+        {
+            get
             {
-                return _viewIndex;
+                return ViewTypeNames.GetEnum((string)this.viewType.Chosen);
             }
             set
             {
-                _viewIndex = value;
+                string name = ViewTypeNames.GetName(value);
+                if (this.viewType.Chosen != name)
+                    this.viewType.Chosen = name;
             }
         }
 
-        SortOrderEnum _sortOrder = SortOrderEnum.Name; 
+        [XmlIgnore]
+        public string ViewTypeString
+        {
+            get { return this.ViewType.ToString(); }
+        }
+
+        [XmlIgnore]
+        public BooleanChoice ShowLabelsChoice
+        {
+            get { return this.showLabels; }
+        }
+
+        [XmlElement]
+        public bool ShowLabels 
+        { 
+            get
+            {
+                return this.showLabels.Value;
+            }
+            set
+            {
+                if (this.showLabels.Value != value)
+                    this.showLabels.Value = value;
+            }
+        }
+
+        [XmlIgnore]
+        public BooleanChoice VerticalScrollChoice
+        {
+            get { return this.verticalScroll; }
+        }
+
+        [XmlElement]
+        public bool VerticalScroll
+        {
+            get
+            {
+                return this.verticalScroll.Value;
+            }
+            set
+            {
+                if (this.verticalScroll.Value != value)
+                    this.verticalScroll.Value = value;
+            }
+        }
+        
+
+        SortOrderEnum sortOrder = SortOrderEnum.Name; 
         public SortOrderEnum SortOrder
         {
             get
             {
-                return _sortOrder; 
+                return sortOrder; 
             }
             set
             {
-                _sortOrder = value;
+                if (sortOrder != value)
+                {
+                    sortOrder = value;
+                    Save();
+                    FirePropertyChanged("SortOrder");
+                }
             }
         } 
        
-        // TODO : view in here 
- 
+         
         public void Save() 
         {
             try
             {
-                MemoryStream ms = new MemoryStream();
-				XmlWriterSettings settings = new XmlWriterSettings();
-				settings.Encoding = Encoding.UTF8;
-				settings.Indent = true;
-				settings.IndentChars = "\t";
-				XmlWriter writer = XmlWriter.Create(ms, settings);
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Prefs");
-                writer.WriteElementString("SortOrder", ((int)SortOrder).ToString());
-                writer.WriteElementString("ViewIndex", ((int)ViewIndex).ToString());
-                writer.WriteEndElement();
-                writer.Close();
-                ms.Flush();
-                File.WriteAllBytes(filename, ms.ToArray());
+                try
+                {
+                    MemoryStream ms = new MemoryStream();
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Encoding = Encoding.UTF8;
+                    settings.Indent = true;
+                    settings.IndentChars = "\t";
+                    XmlWriter writer = XmlWriter.Create(ms, settings);
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Prefs");
+                    writer.WriteElementString("SortOrder", ((int)SortOrder).ToString());
+                    writer.WriteElementString("ViewType", ViewType.ToString());
+                    writer.WriteElementString("ShowLabels", ShowLabels.ToString());
+                    writer.WriteElementString("VerticalScroll", VerticalScroll.ToString());
+                    writer.WriteEndElement();
+                    writer.Close();
+                    ms.Flush();
+                    File.WriteAllBytes(filename, ms.ToArray());
+                }
+                catch
+                {
+                    // not a huge deal, prefs did not save. 
+                    Trace.WriteLine("Error saving pref file");
+                }
             }
-            catch
+            catch (Exception ex)
             {
                 // not a huge deal, prefs did not save. 
-                Trace.TraceInformation("Error saving pref file");
+                Trace.TraceInformation("Error saving pref file.\n" + ex.ToString());
             }
+        }
+    }
+
+    public enum ViewType
+    {
+        Detail,
+        Poster,
+        Thumb
+    }
+
+    public class ViewTypeNames
+    {
+        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip"};
+
+        public static string GetName(ViewType type)
+        {
+            return Names[(int)type];
+        }
+
+        public static ViewType GetEnum(string name)
+        {
+            return (ViewType)Array.IndexOf<string>(Names, name);
         }
     }
 }

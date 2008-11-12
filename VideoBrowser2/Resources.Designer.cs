@@ -144,6 +144,41 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static byte[] CheckBox {
+            get {
+                object obj = ResourceManager.GetObject("CheckBox", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CheckBoxCheckedFocus {
+            get {
+                object obj = ResourceManager.GetObject("CheckBoxCheckedFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CheckBoxCheckedNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("CheckBoxCheckedNoFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CheckBoxUncheckedFocus {
+            get {
+                object obj = ResourceManager.GetObject("CheckBoxUncheckedFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CheckBoxUncheckedNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("CheckBoxUncheckedNoFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] Controls {
             get {
                 object obj = ResourceManager.GetObject("Controls", resourceCulture);
@@ -244,16 +279,37 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap RadioButtonOff {
+        internal static System.Drawing.Bitmap RadioFocus {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonOff", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioFocus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap RadioButtonOn {
+        internal static byte[] RadioGroup {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonOn", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioGroup", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RadioNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("RadioNoFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RadioSelectFocus {
+            get {
+                object obj = ResourceManager.GetObject("RadioSelectFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RadioSelectNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("RadioSelectNoFocus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

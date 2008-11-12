@@ -29,7 +29,7 @@ namespace SamSoft.VideoBrowser
         public void Launch(AddInHost host)
         {
         //  uncomment to debug
-        //  host.MediaCenterEnvironment.Dialog("debug", "debug", DialogButtons.Ok, 100, true); 
+           //host.MediaCenterEnvironment.Dialog("debug", "debug", DialogButtons.Ok, 100, true); 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
         }

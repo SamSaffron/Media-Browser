@@ -39,31 +39,17 @@ namespace SamSoft.VideoBrowser
             get { return this.OverScanScaling; }
         }
 
+        [Comment("Defines padding to apply round the edge of the screen to cope with overscan issues")]
+        public Inset OverScanPadding = new Inset(0, 0, 0, 0);
+        public Inset OverScanPaddingMcml
+        {
+            get { return this.OverScanPadding; }
+        }
 
         [Comment(@"Enables the writing of trace log files in a production environment to assist with problem solving")]
         public bool EnableTraceLogging = false;
 
-        [Comment(
-@"The standard poster view will be selectable with the view button"
-           )]
-        public bool EnablePosterView = true;
-        [Comment(
-@"The standard detail view will be selectable with the view button"
-         )]
-        public bool EnableDetailView = true;
-        [Comment(
-@"Enable the beta strip view"
-         )]
-        public bool EnableThumbView = false;
-        [Comment(
-@"The poster view with movie titles above will be selectable with the view button"
-         )]
-        public bool EnablePosterView2 = false;
-        [Comment(
-@"The strip view with movie titles above will be selectable with the view button"
-         )]
-        public bool EnableThumbView2 = false;
-
+       
         [Comment(@"The maximum size of the poster images in poster view")]
         public Size MaximumPosterSize = new Size(200, 230);
         public Size MaximumPosterSizeMcml
@@ -75,66 +61,36 @@ namespace SamSoft.VideoBrowser
             get { return (float)this.MaximumPosterSize.Height / (float)this.MaximumPosterSize.Width; }
         }
 
-        [Comment(
-@"Enable transcode 360 support on extenders"
-            )]
+        [Comment(@"Enable transcode 360 support on extenders")]
         public bool EnableTranscode360 = true;
-        [Comment(
-@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")
-         ]
+        [Comment(@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")]
         public string ExtenderNativeTypes = ".dvr-ms,.wmv";
 
-        [Comment(
-@" TransparentBackground [Default Value - False]
-    True: Enables transparent background. 
-    False: Use default Video Browser background."
-            )]
+        [Comment("TransparentBackground [Default Value - False]\n\tTrue: Enables transparent background.\n\tFalse: Use default Video Browser background.")]
         public bool TransparentBackground = false;
 
-        [Comment(
-@"Example. If set to true the following will be treated as a movie and an automatic playlist will be created
-Indiana Jones / Disc 1 / a.avi 
-Indiana Jones / Disc 2 / b.avi")] 
+        [Comment("Example. If set to true the following will be treated as a movie and an automatic playlist will be created.\n\tIndiana Jones / Disc 1 / a.avi\n\tIndiana Jones / Disc 2 / b.avi")] 
         public bool EnableNestedMovieFolders = true;
 
-        [Comment(
-@"Example. If set to true the following will be treated as a movie and an automatic playlist will be created
-Indiana Jones / a.avi 
-Indiana Jones / b.avi (This only works for 2 videos (no more))
-**Setting this to false will override EnableNestedMovieFolders if that is enabled.**"
-            )]
+        [Comment("Example. If set to true the following will be treated as a movie and an automatic playlist will be created.\n\tIndiana Jones / a.avi\n\tIndiana Jones / b.avi (This only works for 2 videos (no more))\n**Setting this to false will override EnableNestedMovieFolders if that is enabled.**")]
         public bool EnableMoviePlaylists = true;
 
-        [Comment(
-@"The starting folder for video browser. By default its set to MyVideos. 
-Can be set to a folder for example c:\ or a virtual folder for example c:\folder.vf"
-            )]
+        [Comment("The starting folder for video browser. By default its set to MyVideos.\nCan be set to a folder for example c:\\ or a virtual folder for example c:\\folder.vf")]
         public string InitialFolder = "MyVideos";
 
-        [Comment(
-@"Flag for auto-updates.  True will auto-update, false will not."
-            )]
+        [Comment(@"Flag for auto-updates.  True will auto-update, false will not.")]
         public bool EnableUpdates = true;
 
-        [Comment(
-@"Flag for beta updates.  True will prompt you to update to beta versions."
-            )]
+        [Comment(@"Flag for beta updates.  True will prompt you to update to beta versions.")]
         public bool EnableBetas = false;
 
-        [Comment(
-@"Set the location of the Daemon Tools binary.."
-    )]
+        [Comment(@"Set the location of the Daemon Tools binary..")]
         public string DaemonToolsLocation = "C:\\Program Files\\DAEMON Tools Lite\\daemon.exe";
 
-        [Comment(
-@"The drive letter of the Daemon Tools virtual drive."
-    )]
+        [Comment(@"The drive letter of the Daemon Tools virtual drive.")]
         public string DaemonToolsDrive = "E";
 
-		[Comment(
-@"Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.
-      Note that the sorting algorithm is case insensitive."
-	)]
+		[Comment("Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.\nNote that the sorting algorithm is case insensitive."	)]
 		public bool EnableAlphanumericSorting = true;
 
         [Comment(@"Enables the showing of tick in the list view for files that have been watched")]
@@ -151,36 +107,32 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
         [Comment(@"Indicates that files with a date stamp before this date should be assumed to have been watched for the purpose of ticking them off.")]
         public DateTime AssumeWatchedBefore = DateTime.MinValue;
 
-        [Comment(@"Changes the default view index for folders that have not yet been visited
-        0=Details, 1=Poster, 2=PosterWithLabels, 3=ThumbDetails, 4=ThumbDetailsWithLabels
-        ")]
-        public int DefaultViewIndex = 0;
+        [Comment("Changes the default view index for folders that have not yet been visited.\n\t[Detail|Poster|Thumb]")]
+        public ViewType DefaultViewType = ViewType.Detail;
+
+        [Comment("Specifies whether the default Poster and Thumb views show labels")]
+        public bool DefaultShowLabels = false;
+
+        [Comment("Specifies is the default for the Poster view is vertical scrolling")]
+        public bool DefaultVerticalScroll = false;
 
         [Comment(@"Limits the number of levels shown by the breadcrumbs.")]
         public int BreadcrumbCountLimit = 2;
 
-		[Comment(
-@"List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.
-      This allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted."
-	)]
+		[Comment("List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted."	)]
 		public string SortRemoveCharacters = ",|&|-";
 
-		[Comment(
-@"List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.
-      This allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted."
-	)]
+		[Comment("List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted.")]
 		public string SortReplaceCharacters = ".|+|%";
 
 		// TODO: Might need REAL "replacers", i.e. replace & with "and" and replace % with "percent"
 		//       Could do Roman Numerals here as well
 
-		[Comment(
-@"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
-      algorithm appends a ' ' to the end of each word during the search which means words found at the end
-      of each title will not be removed.  This is generally not an issue since most people will only want
-      articles removed and articles are rarely found at the end of media titles.  This, combined with SortReplaceCharacters,
-      allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."
-	)]
+		[Comment(@"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
+        algorithm appends a ' ' to the end of each word during the search which means words found at the end
+        of each title will not be removed.  This is generally not an issue since most people will only want
+        articles removed and articles are rarely found at the end of media titles.  This, combined with SortReplaceCharacters,
+        allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."	)]
 		public string SortReplaceWords = "the|a|an";
 
 		/* End of app specific settings*/
@@ -368,6 +320,19 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                         stuff_changed = true;
                     }
                 }
+                else if (field.FieldType == typeof(Inset))
+                {
+                    try
+                    {
+                        string[] parts = value.Split(',');
+                        Inset s = new Inset(Int32.Parse(parts[0]), Int32.Parse(parts[1]), Int32.Parse(parts[2]), Int32.Parse(parts[3]));
+                        field.SetValue(this, s);
+                    }
+                    catch
+                    {
+                        stuff_changed = true;
+                    }
+                }
                 else if (field.FieldType == typeof(Colors))
                 {
                     try
@@ -389,6 +354,18 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                         field.SetValue(this, s);
                     }
                     catch { }
+                }
+                else if (field.FieldType == typeof(ViewType))
+                {
+                    try
+                    {
+                        ViewType c = (ViewType)Enum.Parse(typeof(ViewType), value);
+                        field.SetValue(this, c);
+                    }
+                    catch
+                    {
+
+                    }
                 }
                 else
                 {
@@ -440,6 +417,11 @@ Can be set to a folder for example c:\ or a virtual folder for example c:\folder
                     {
                         Vector3 s = (Vector3)v;
                         value = s.X + "," + s.Y + "," + s.Z;
+                    }
+                    else if (field.FieldType == typeof(Inset))
+                    {
+                        Inset s = (Inset)v;
+                        value = s.Left + "," + s.Top + "," + s.Right + "," + s.Bottom;
                     }
                     else
                         value = v.ToString();

@@ -63,7 +63,7 @@
 					
 					<Panel Name="DetailsSection" MouseInteractive="true" Padding="5,5,0,0" >
 						<LayoutInput>
-							<FormLayoutInput Left="Parent, .5" Right="Parent,1,-60" Top="Parent,0.04" />
+							<FormLayoutInput Left="Parent, .5" Right="Parent,1,-30" Top="Parent,0.04" />
 						</LayoutInput>
 						<Layout>
 							<FlowLayout Orientation="Vertical" Spacing="0,0"/>

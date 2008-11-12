@@ -1,12 +1,12 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-  xmlns:cor="assembly://MSCorLib/System"
-  xmlns:r="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RepeatItem"
-  xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
-  xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
-  xmlns:me="Me"
-  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
-  xmlns:sr="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/StarRating"
-  xmlns:ui="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.UI"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:r="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RepeatItem"
+	  xmlns:a="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser"
+	  xmlns:lib="assembly://SamSoft.VideoBrowser/SamSoft.VideoBrowser.LibraryManagement"
+	  xmlns:me="Me"
+	  xmlns:s="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Styles"
+	  xmlns:sr="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/StarRating"
+	  xmlns:ui="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.UI"
 	  xmlns:st="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ScrollableText"
 	  xmlns:i="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Images"
 	  xmlns:shell="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.Shell"
@@ -18,18 +18,23 @@
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-			<cor:Boolean Name="ShowLabels" />
+			<lib:FolderItemListPrefs Name="Prefs" FolderItemListPrefs="$Required" />
 		</Properties>
 
 		<Locals>
 			<Size Name="PosterSize" Size="[Application.Config.MaximumPosterSizeMcml]" />
+			<FormLayoutInput Name="TitleLayout" Top="ItemPanel,1"  Left="Focus,0,20"/>
 		</Locals>
+		<Rules>
+			<Condition Source="[Prefs.VerticalScroll]" SourceValue="true" Target="[TitleLayout.Left]" Value="Parent,0,150" />
+			<Condition Source="[Prefs.VerticalScroll]" SourceValue="false" Target="[TitleLayout.Left]" Value="Focus,0,20" />
+		</Rules>
 		<Content>
 			<Panel Layout="Form">
 				<Children>
-					<me:PosterScroller Name="ItemPanel" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[ShowLabels]" DesiredMaxImageSize="[Application.Config.MaximumPosterSizeMcml]" MaxAspect="[Application.Config.MaximumPosterAspectMcml]">
+					<me:PosterScroller Name="ItemPanel" Application="[Application]" VerticalScroll="[Prefs.VerticalScrollChoice]" FolderItems="[FolderItems]" ShowLabels="[Prefs.ShowLabelsChoice]" DesiredMaxImageSize="[Application.Config.MaximumPosterSizeMcml]" MaxAspect="[Application.Config.MaximumPosterAspectMcml]">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,0.84" Right="Parent,0.94"/>
+							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
 						</LayoutInput>
 					</me:PosterScroller>
 					<ColorFill Content="White" Alpha="0.1">
@@ -38,7 +43,7 @@
 						</LayoutInput>
 					</ColorFill>
 
-					<me:ItemTitle FolderItems="[FolderItems]">
+					<me:ItemTitle FolderItems="[FolderItems]" LayoutInput="[TitleLayout]">
 						<Animations>
 							<Animation Type="Move">
 								<Keyframes>
@@ -47,9 +52,6 @@
 								</Keyframes>
 							</Animation>
 						</Animations>
-						<LayoutInput>
-							<FormLayoutInput Top="ItemPanel,1"  Left="Focus,0,20"/>
-						</LayoutInput>
 					</me:ItemTitle>
 				</Children>
 			</Panel>
@@ -60,8 +62,7 @@
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-			<cor:Boolean Name="ShowLabels" />
-			
+			<lib:FolderItemListPrefs Name="Prefs" FolderItemListPrefs="$Required" />
 		</Properties>
 
 		<Locals>
@@ -69,24 +70,37 @@
 			<lib:IFolderItem Name="PreSelectedItem" IFolderItem="[FolderItems.SelectedItem]" />
 			<lib:IFolderItem Name="BlankItem"  IFolderItem="[FolderItems.BlankItem]"/>
 			<Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
-			
+
 			<Size Name="SizeWithLabels" Size="200,150" />
 			<cor:Single Name="AspectWithLabels" Single="0.75" />
+			<Size Name="SizeNoLabels" Size="200,150" />
+			<cor:Single Name="AspectNoLabels" Single="0.75" />
 			<Size Name="DesiredSize" Size="200,180" />
 			<cor:Single Name="DesiredAspect" Single="0.9" />
 			<cor:Int32 Name="CurrentItemIndex" Int32="0"/>
+			<BooleanChoice Name="Vertical" Value="false" />
 		</Locals>
 		<Rules>
+
 			<Rule>
 				<Conditions>
-					<Equality Source="[ShowLabels]" ConditionOp="Equals" Value="true" />
+					<Equality Source="[Prefs.ShowLabelsChoice.Value]" ConditionOp="Equals" Value="true" />
 				</Conditions>
 				<Actions>
 					<Set Target="[ItemPanel.DesiredMaxImageSize]" Value="[SizeWithLabels]"/>
 					<Set Target="[ItemPanel.MaxAspect]" Value="[AspectWithLabels]"/>
 				</Actions>
 			</Rule>
-			
+			<Rule>
+				<Conditions>
+					<Equality Source="[Prefs.ShowLabelsChoice.Value]" ConditionOp="Equals" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[ItemPanel.DesiredMaxImageSize]" Value="[SizeNoLabels]"/>
+					<Set Target="[ItemPanel.MaxAspect]" Value="[AspectNoLabels]"/>
+				</Actions>
+			</Rule>
+
 			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
@@ -106,7 +120,7 @@
 					<Set Target="[Splitter.Visible]" Value="true" />
 				</Actions>
 			</Changed>
-			
+
 			<Binding Source="[SelectedItem]" Target="[Poster.Model]"/>
 			<Binding Source="[SelectedItem]" Target="[TitleSet.Model]"/>
 			<Binding Source="[SelectedItem]" Target="[MovieInfo.Model]"/>
@@ -139,7 +153,7 @@
 		<Content>
 			<Panel Layout="Form">
 				<Children>
-					<me:PosterScroller RowLimit="1" Name="ItemPanel" DesiredMaxImageSize="[DesiredSize]" MaxAspect="[DesiredAspect]" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[ShowLabels]">
+					<me:PosterScroller RowLimit="1" Name="ItemPanel" VerticalScroll="[Vertical]" DesiredMaxImageSize="[DesiredSize]" MaxAspect="[DesiredAspect]" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[Prefs.ShowLabelsChoice]">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0" Bottom="Parent,0,210" Right="Parent,0.94"/>
 						</LayoutInput>
@@ -181,7 +195,7 @@
 									<FormLayoutInput Left="Parent,.0" Top="LastWatched,1" Bottom="Parent,1" Right="Parent,0.3"/>
 								</LayoutInput>
 							</me:ItemPoster>
-							
+
 							<me:Summary Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]">
 								<LayoutInput>
 									<FormLayoutInput Left="Poster,1,10" Top="TitleSet,1" Right="MovieInfo,0,-14" Bottom="Parent,1"></FormLayoutInput>
@@ -290,7 +304,7 @@
 		</Content>
 	</UI>
 
-	
+
 	<UI Name="ItemPoster">
 		<Properties>
 			<lib:IFolderItem Name="Model" IFolderItem="$Required"/>
@@ -347,22 +361,24 @@
 			</Panel>
 		</Content>
 	</UI>
-	
+
 	<UI Name="PosterScroller">
 
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
-			<cor:Boolean Name="ShowLabels" />
+			<BooleanChoice Name="ShowLabels" BooleanChoice="$Required" />
+			<BooleanChoice Name="VerticalScroll" BooleanChoice="$Required" />
 			<cor:Int32 Name="RowLimit"  />
 			<!-- To change the sizing restrictions on the thumbnail images
 			change the DesiredMaxImageSize and the MaxAspect 
 			below, MaxAspect is the aspect of the DesiredMaxImageSize-->
 			<Size Name="DesiredMaxImageSize" Size="100,100"/>
-			<cor:Single Name="MaxAspect" Single="1" /><!-- DesiredMaxImageSize Height/Width-->
+			<cor:Single Name="MaxAspect" Single="1" />
+			<!-- DesiredMaxImageSize Height/Width-->
 		</Properties>
 		<Locals>
-			
+
 			<!-- Use the MouseWheel handler to handle the mouse wheel.  -->
 			<ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
 							  HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollingHandler"/>
@@ -374,24 +390,71 @@
 			<Timer Name="ClearTripleTypeTimer" AutoRepeat="true" Interval="1000" Enabled="false"/>
 
 			<Environment Name="Environment" />
-			
-			
-			<Size Name="ItemSize" Size="0,0"/> <!-- The size we calcuate based on the aspect of the image -->
+
+
+			<Size Name="ItemSize" Size="0,0"/>
+			<!-- The size we calcuate based on the aspect of the image -->
 			<GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="[RowLimit]" Columns="0" AllowWrap="true" Spacing="2,2" MinorAlignment="Center" MajorAlignment="Center" />
-			
+
 			<MathTransformer Name="Mult" Multiply="[FolderItems.ThumbAspectRatio]"/>
 			<MathTransformer Name="Div" Divide="[FolderItems.ThumbAspectRatio]"/>
-
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled"/>
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled"/>
 			<IntRangedValue Name="NavCount" Value="0" />
-			<cor:UInt32 Name="NormalKeyRepeat" UInt32="250"/>
+			<cor:UInt32 Name="NormalKeyRepeat" UInt32="200"/>
+			<!-- This must be less than anim delay -->
 			<cor:UInt32 Name="FastKeyRepeat" UInt32="100"/>
-			<cor:Int32 Name="AnimDelay" Int32="300" /> <!-- This must be greater than NormalKeyRepeat-->
-			<cor:Int32 Name="SpeedUpDelay" Int32="3"/> <!--The number of items to got across at normal speed before speeding up -->
+			<cor:Int32 Name="AnimDelay" Int32="300" />
+			<!-- This must be greater than NormalKeyRepeat-->
+			<cor:Int32 Name="SpeedUpDelay" Int32="3"/>
+			<!--The number of items to got across at normal speed before speeding up -->
+			<FormLayoutInput Name="HLayout" Horizontal="Fill" Vertical="Center"/>
+			<FormLayoutInput Name="VLayout" Horizontal="Center" Vertical="Fill"/>
 		</Locals>
 
 		<Rules>
+			<Condition Source="[VerticalScroll.Value]" SourceValue="true">
+				<Actions>
+					<Set Target="[Scroller.Orientation]" Value="Vertical" />
+					<Set Target="[MyLayout.Orientation]" Value="Horizontal" />
+					<Set Target="[MyLayout.Rows]" Value="0" />
+					<Set Target="[ItemPanel.Padding]" Value="0,50,0,50" />
+					<Set Target="[Scroller.LayoutInput]" Value="[VLayout]" />
+					<Set Target="[MyLayout.Repeat]" Value="Never" />
+				</Actions>
+			</Condition>
+			<Condition Source="[VerticalScroll.Value]" SourceValue="false">
+				<Actions>
+					<Set Target="[Scroller.Orientation]" Value="Horizontal" />
+					<Set Target="[MyLayout.Orientation]" Value="Vertical" />
+					<!--<Set Target="[MyLayout.Rows]" Value="[RowLimit]" />-->
+					<Set Target="[ItemPanel.Padding]" Value="0,0,0,0" />
+					<Set Target="[Scroller.LayoutInput]" Value="[HLayout]" />
+					<Set Target="[MyLayout.Repeat]" Value="WhenTooBig" />
+				</Actions>
+			</Condition>
+
+			<Rule>
+				<Conditions>
+					<Equality Source="[FolderItems.Count]" ConditionOp="LessThanOrEquals"  Value="4"/>
+					<Equality Source="[VerticalScroll.Value]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[MyLayout.Rows]" Value="1" />
+				</Actions>
+			</Rule>
+
+			<Rule>
+				<Conditions>
+					<Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan"  Value="4"/>
+					<Equality Source="[VerticalScroll.Value]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[MyLayout.Rows]" Value="[RowLimit]" />
+				</Actions>
+			</Rule>
+
+
 			<Rule>
 				<Conditions>
 					<Modified Source="[JumpForward.Invoked]"/>
@@ -409,8 +472,8 @@
 					<Invoke Target="[ScrollingData.PageUp]"/>
 				</Actions>
 			</Rule>
-			
-			
+
+
 			<!-- we are height limited -->
 			<Rule>
 				<Conditions>
@@ -432,7 +495,7 @@
 					<Set Target="[ItemSize.Height]" Value="[DesiredMaxImageSize.Width]" Transformer="[Mult]"/>
 				</Actions>
 			</Rule>
-			
+
 			<Binding Source="[Application.JILtext]" Target="[Typer.EditableText]"/>
 
 			<Changed Source="[Application.JILtext.Value]">
@@ -505,19 +568,11 @@
 			<!-- Give Repeater to ScrollingData. -->
 			<Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
 
-			
-			<Rule>
-				<Conditions>
-					<Equality Source="[FolderItems.Count]" ConditionOp="LessThanOrEquals"  Value="4"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[MyLayout.Rows]" Value="1" />
-				</Actions>
-			</Rule>
+
 
 		</Rules>
 
-		<Content>		
+		<Content>
 			<Panel Name="ItemPanel" Layout="Form" Navigation="ContainHorizontal">
 				<Children>
 					<me:FocusSelector>
@@ -583,21 +638,29 @@
 		</Rules>
 
 		<Content>
-			<Panel>
+			<Panel Margins="0,0,15,0">
 				<Layout>
-					<FlowLayout Orientation="Vertical" Spacing="0,0"/>
+					<ScaleLayout AllowScaleDown="true" AllowScaleUp="false" MaintainAspectRatio="true"/>
 				</Layout>
 				<Children>
-					<Text Name="Name" Content="" Color="White" Font="Segoe Media Center,26"></Text>
 					<Panel>
 						<Layout>
-							<FlowLayout Orientation="Horizontal" Spacing="15,0"/>
+							<FlowLayout Orientation="Vertical" Spacing="0,0"/>
 						</Layout>
 						<Children>
-							<Text Name="Runtime" Content="" Color="color://me:MediumBlue" Font="Segoe Media Center,18" Margins="0,-10,0,0"></Text>
-							<me:StarRating Name="StarRating" Value="-1" Margins="0,-5,0,0"/>
+							<Text Name="Name" Content="" Color="White" Font="Segoe Media Center,26"></Text>
+							<Panel>
+								<Layout>
+									<FlowLayout Orientation="Horizontal" Spacing="15,0"/>
+								</Layout>
+								<Children>
+									<Text Name="Runtime" Content="" Color="color://me:MediumBlue" Font="Segoe Media Center,18" Margins="0,-10,0,0"></Text>
+									<me:StarRating Name="StarRating" Value="-1" Margins="0,-5,0,0"/>
+								</Children>
+							</Panel>
 						</Children>
 					</Panel>
+
 				</Children>
 			</Panel>
 		</Content>
@@ -627,13 +690,13 @@
 			</Graphic>
 		</Content>
 	</UI>
-	
+
 	<UI Name="ListItem">
 		<Properties>
 			<lib:BaseFolderItem Name="Model" BaseFolderItem="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
 			<a:Application Name="Application" Application="$Required"/>
-			<cor:Boolean Name="ShowLabels" />
+			<BooleanChoice Name="ShowLabels" BooleanChoice="$Required"/>
 			<Size Name="ImageSize" />
 			<Index Name="Index" Index="$Required"/>
 			<Image Name="FocusImage" Image="image://s:ZoomPane"/>
@@ -655,7 +718,7 @@
 		<Rules>
 			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
 			<Binding Source="[Model]" Target="[Clicker.Command]"/>
-
+			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
 			<!-- Determine whether or not to display text on item. -->
 			<Binding Target="[DisplayText]" Source="[Model.ThumbPath]">
 				<Transformer>
@@ -666,7 +729,7 @@
 			<Rule>
 				<Conditions>
 					<Equality Source="[DisplayText.Length]" ConditionOp="LessThan" Value="1" />
-					<Equality Source="[ShowLabels]" ConditionOp="Equals" Value="false" />
+					<Equality Source="[ShowLabels.Value]" ConditionOp="Equals" Value="false" />
 				</Conditions>
 				<Actions>
 					<Set Target="[LabelPanel.Visible]" Value="true"/>
@@ -683,15 +746,13 @@
 				</Actions>
 			</Rule>
 
-			
-
 			<Changed Source="[Clicker.Invoked]">
 				<Actions>
 					<Invoke Target="[Application.Navigate]" item="[Model]"/>
 					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
 				</Actions>
 			</Changed>
-			
+
 			<Condition Source="[Input.KeyFocus]" SourceValue="false" ConditionOp="Equals">
 				<Actions>
 					<Invoke Target="[AnimTimer.Stop]" />
@@ -714,10 +775,10 @@
 					<Set Target="[FolderItems.SelectedIndex.Value]" Value="[Index.SourceValue]"/>
 				</Actions>
 			</Condition>
-			
+
 			<Changed Source="[AnimTimer.Tick]">
 				<Actions>
-					
+
 					<Set Target="[MainPanel.Scale]" Value="1.15,1.15,1.0"/>
 					<Set Target="[BoxItem.Alpha]" Value="1"/>
 					<Set Target="[BelowLabelPanel.Alpha]" Value="1" />
@@ -726,7 +787,7 @@
 				</Actions>
 			</Changed>
 
-			
+
 
 			<!-- part of an experimental fix -->
 			<Binding Source="[Model.MCMLThumb]" Target="[BoxArt.Content]"/>
@@ -752,7 +813,7 @@
 							<ScaleKeyframe Time="0.15" RelativeTo="Final"/>
 						</Keyframes>
 					</Animation>
-						
+					<!-- Removed to try an eliminate some of the jerkyness of the fast scrolling
 					<TransformAnimation Delay="0.2">
 						<Source>
 							<Animation Name="Test" Loop="0" Type="Show" CenterPointPercent="0.5,0.5,1.0">
@@ -765,7 +826,7 @@
 							</Animation>
 						</Source>
 					</TransformAnimation>
-
+		
 					<Animation Loop="0" Type="Hide" CenterPointPercent="0.5,0.5,1.0">
 						<Keyframes>
 							<ScaleKeyframe Time="0" Value="1,1,1" Interpolation="Log"/>
@@ -774,6 +835,7 @@
 							<AlphaKeyframe Time="0.3" Value="0" />
 						</Keyframes>
 					</Animation>
+					-->
 				</Animations>
 				<Children>
 					<ColorFill Name="BoxItem" Content="Transparent" Alpha="0.7" Padding="0,0,0,0" >
@@ -789,7 +851,7 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
 								</Layout>
 								<Children>
-									<Text Name="BelowLabelPanel" MaximumSize="[ImageSize]" Margins="0,5,0,-5" Alpha="0.7" Visible="[ShowLabels]" Color="White" Font="Segoe Media Center Semibold, 16" Content="[Model.Description]" WordWrap="false" HorizontalAlignment="Near">
+									<Text Name="BelowLabelPanel" MaximumSize="[ImageSize]" Margins="0,5,0,-5" Alpha="0.7" Color="White" Font="Segoe Media Center Semibold, 16" Content="[Model.Description]" WordWrap="false" HorizontalAlignment="Near">
 									</Text>
 									<Panel  Padding="0,0,0,0" MaximumSize="[ImageSize]" MinimumSize="[ImageSize]" >
 										<Layout>
@@ -800,10 +862,10 @@
 												<LayoutInput>
 													<AnchorLayoutInput Horizontal="Center"/>
 												</LayoutInput>
-													
+
 												<Children>
 													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" MaximumSize="30,30" Alpha="0.8" Visible="[Model.HaveWatched]">
-														
+
 													</Graphic>
 													<Panel Name="LabelPanel" Visible="false" Layout="Anchor" Padding="0,10,0,0">
 														<Children>
@@ -843,10 +905,10 @@
 								</Children>
 
 							</ColorFill>
-							
+
 						</Children>
 					</ColorFill>
-					
+
 				</Children>
 			</Graphic>
 		</Content>

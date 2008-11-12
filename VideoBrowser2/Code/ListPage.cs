@@ -36,9 +36,7 @@ namespace SamSoft.VideoBrowser
                     return "BANG";
                 }
             }
-        }
-
-        
+        }   
 
         Image banner = null;
         bool bannerLoaded = false;
@@ -62,7 +60,6 @@ namespace SamSoft.VideoBrowser
             get { return (Banner != null); }
         }
 
-
         private string GetBannerPath(string startPath, int recursion)
         {
             if ((startPath == null) || (recursion > 2))
@@ -73,73 +70,10 @@ namespace SamSoft.VideoBrowser
             else
                 return GetBannerPath(Path.GetDirectoryName(startPath), recursion + 1);
         }
-
-
-
        
-        
-        enum ViewEnum
+        public FolderItemListPrefs FolderPrefs
         {
-            DetailsView = 0,
-            PosterView,
-            PosterViewWithLabels,
-            ThumbView,
-            ThumbViewWithLabels
-        }
-
-        public int ViewIndex
-        {
-            get
-            {
-                return FolderItemsMCE.folderItems.Prefs.ViewIndex; 
-            }
-            set
-            {
-                switch ((ViewEnum)value)
-                {
-                    case ViewEnum.DetailsView:
-                        if (!Config.Instance.EnableDetailView)
-                        {
-                            ViewIndex = (int)ViewEnum.PosterView;
-                            return;
-                        }
-                        break;
-                    case ViewEnum.PosterView:
-                        if (!Config.Instance.EnablePosterView)
-                        {
-                            ViewIndex = (int)ViewEnum.PosterViewWithLabels;
-                            return;
-                        }
-                        break;
-                    case ViewEnum.PosterViewWithLabels:
-                        if (!Config.Instance.EnablePosterView2)
-                        {
-                            ViewIndex = (int)ViewEnum.ThumbView;
-                            return;
-                        }
-                        break;
-
-                    case ViewEnum.ThumbView:
-                        if (!Config.Instance.EnableThumbView)
-                        {
-                            ViewIndex = (int)ViewEnum.ThumbViewWithLabels;
-                            return;
-                        }
-                        break;
-
-                    case ViewEnum.ThumbViewWithLabels:
-                        if (!Config.Instance.EnableThumbView2)
-                        {
-                            ViewIndex = (int)ViewEnum.DetailsView;
-                            return;
-                        }
-                        break;
-                }
-
-                FolderItemsMCE.folderItems.Prefs.ViewIndex = value;
-                FolderItemsMCE.folderItems.Prefs.Save();
-                FirePropertyChanged("ViewIndex");
-            }
+            get { return FolderItemsMCE.folderItems.Prefs; }
         }
         
         public float ThumbAspectRatio

@@ -65,7 +65,7 @@
 	</UI>
 
 
-
+<!--
 	<UI Name="ViewSelector">
 		<Properties>
 			<Image Name="LinesImage" Image="image://st:Lines"/>
@@ -133,7 +133,7 @@
 			</Graphic>
 		</Content>
 	</UI>
-
+-->
 	<Animation Name="ButtonPress" Loop="0" CenterPointPercent="0.5,0.5,1.0">
 		<Keyframes>
 			<ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Log"/>
