@@ -172,9 +172,6 @@
   <data name="SortOrderItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\sortorderitem.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Animations" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\base\animations.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\base\base.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -241,40 +238,40 @@
   <data name="ScrollableText" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\scrollabletext.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="RadioButtonOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\radiobuttonoff.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RadioButtonOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\radiobuttonon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ViewMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\viewmenu.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TickPoster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\tickposter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CheckBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\controls\checkbox.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="MPAARating" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\mpaarating.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckBoxCheckedFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\checkboxcheckedfocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_g" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-g.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CheckBoxCheckedNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\checkboxcheckednofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_nc_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-nc-17.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CheckBoxUncheckedFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\checkboxuncheckedfocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-nr.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CheckBoxUncheckedNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\checkboxuncheckednofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_pg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-pg.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RadioFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\radiofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_pg_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-pg-13.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RadioGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\controls\radiogroup.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="rated_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-r.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RadioNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\radionofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RadioSelectFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\radioselectfocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RadioSelectNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\radioselectnofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rated_unrated" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-unrated.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
