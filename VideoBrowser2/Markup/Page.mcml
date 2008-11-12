@@ -202,7 +202,7 @@
 									</Clip>
 								</Children>
 								<LayoutInput>
-									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
+									<FormLayoutInput Right="Parent,1,-60" Top="Parent,0,40"  />
 								</LayoutInput>
 							</Panel>
 

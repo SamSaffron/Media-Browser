@@ -29,7 +29,7 @@
 				<Children>
 					<me:PosterScroller Name="ItemPanel" Application="[Application]" FolderItems="[FolderItems]" ShowLabels="[ShowLabels]" DesiredMaxImageSize="[Application.Config.MaximumPosterSizeMcml]" MaxAspect="[Application.Config.MaximumPosterAspectMcml]">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
+							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,0.84" Right="Parent,0.94"/>
 						</LayoutInput>
 					</me:PosterScroller>
 					<ColorFill Content="White" Alpha="0.1">
