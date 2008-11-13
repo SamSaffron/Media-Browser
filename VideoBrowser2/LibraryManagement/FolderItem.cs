@@ -334,7 +334,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 else if (this._tvSeries != null)
                 {
-                    return new List<string>(_tvSeries.Actors);
+                    if (_tvSeries.Actors != null)
+                    {
+                        return new List<string>(_tvSeries.Actors);
+                    }
                 }
                 // To match implementation in cached version 
                 return new List<string>();
@@ -450,15 +453,20 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 EnsureMetadataLoaded();
                 if (_tvshow != null)
                 {
-                    return _tvshow.Overview; 
+                    overview = _tvshow.Overview; 
                 }
                 else if (_tvSeries != null)
                 {
-                    return _tvSeries.Overview;
+                    overview =  _tvSeries.Overview;
                 }
                 else if (_movie != null)
                 {
-                    return _movie.Description;
+                    overview = _movie.Description;
+                }
+
+                if (overview != null)
+                {
+                    return overview;
                 }
                 else
                 {
