@@ -9,6 +9,11 @@ namespace TestVideoBrowser
     {
         #region IFolderItem Members
 
+        public Microsoft.MediaCenter.UI.Image PosterViewThumb
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public Microsoft.MediaCenter.UI.Image MCMLThumb
         {
             get { throw new NotImplementedException(); }

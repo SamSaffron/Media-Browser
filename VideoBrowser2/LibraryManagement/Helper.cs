@@ -6,9 +6,15 @@ using System.IO;
 using System.Security.Cryptography;
 using Microsoft.MediaCenter.UI;
 using Microsoft.Win32;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
+    using Image = Microsoft.MediaCenter.UI.Image;
+    using System.Drawing.Drawing2D;
+    using System.Diagnostics;
+
     public static class Helper
     {
         private static MD5CryptoServiceProvider CryptoService = new MD5CryptoServiceProvider();
@@ -205,6 +211,24 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     _app_cache_path = e;
                 }
                 return _app_cache_path;
+            }
+        }
+
+        static string _app_poster_thumb_path = null;
+        public static string AppPosterThumbPath
+        {
+            get
+            {
+                if (_app_poster_thumb_path == null)
+                {
+                    var e = Path.Combine(AppCachePath, "PosterThumb");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _app_poster_thumb_path = e;
+                }
+                return _app_poster_thumb_path;
             }
         }
 
@@ -420,7 +444,34 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        internal static Image GetMCMLThumb(string path, bool isVideo)
+
+        internal static void ResizeImage(string source, string destination, int width, int height)
+        {
+            try
+            {
+                System.Drawing.Image image = System.Drawing.Image.FromFile(source);
+                System.Drawing.Image thumbnail = new Bitmap(width, height);
+                Graphics graphic = Graphics.FromImage(thumbnail);
+
+                graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphic.SmoothingMode = SmoothingMode.HighQuality;
+                graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphic.CompositingQuality = CompositingQuality.HighQuality;
+
+                graphic.DrawImage(image, 0, 0, width, height);
+
+                thumbnail.Save(destination, ImageFormat.Png);
+
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to resize image: " + e.ToString());
+            }
+ 
+        }
+
+
+        internal static Microsoft.MediaCenter.UI.Image GetMCMLThumb(string path, bool isVideo)
         {
             string resource;
             bool isEmpty = true;
@@ -466,7 +517,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return retval;
         }
 
-        internal static Image GetMCMLBanner(string path)
+        internal static Microsoft.MediaCenter.UI.Image GetMCMLBanner(string path)
         {
             if (!String.IsNullOrEmpty(path))
             {

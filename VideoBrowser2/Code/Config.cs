@@ -135,6 +135,10 @@ namespace SamSoft.VideoBrowser
         allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."	)]
 		public string SortReplaceWords = "the|a|an";
 
+        [Comment(@"The height all poster are sized to in poster view, the higher the number the better the quality and slower the performance")]
+        public int MaximumPosterHeight = 200;
+
+
 		/* End of app specific settings*/
 
 		private string[] _SortRemoveCharactersArray = null;

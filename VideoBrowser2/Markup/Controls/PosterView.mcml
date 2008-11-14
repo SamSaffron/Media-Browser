@@ -311,7 +311,7 @@
 			<lib:IFolderItem Name="ModelFast" IFolderItem="$Required"/>
 		</Properties>
 		<Rules>
-			<Binding Source="[Model.MCMLThumb]" Target="[Thumb.Content]" />
+			<Binding Source="[Model.PosterViewThumb]" Target="[Thumb.Content]" />
 		</Rules>
 		<Content>
 			<Panel Layout="Form">
@@ -790,7 +790,7 @@
 
 
 			<!-- part of an experimental fix -->
-			<Binding Source="[Model.MCMLThumb]" Target="[BoxArt.Content]"/>
+			<Binding Source="[Model.PosterViewThumb]" Target="[BoxArt.Content]"/>
 			<Binding Source="[Model.HaveWatched]" Target="[TickIndicator.Visible]" />
 			<!-- Accessibility 
 			  <Binding Target="[Accessible.IsPressed]"            Source="[Clicker.Clicking]"/>
@@ -858,7 +858,7 @@
 											<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
 										</Layout>
 										<Children>
-											<Graphic  Name="BoxArt" Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint" Content="[Model.MCMLThumb]" MaintainAspectRatio="true" >
+											<Graphic  Name="BoxArt" Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint" Content="[Model.PosterViewThumb]" MaintainAspectRatio="true" >
 												<LayoutInput>
 													<AnchorLayoutInput Horizontal="Center"/>
 												</LayoutInput>

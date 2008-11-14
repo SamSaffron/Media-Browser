@@ -227,7 +227,8 @@ namespace SamSoft.VideoBrowser
 
         public Application(MyHistoryOrientedPageSession session, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
-            //Debugger.Break();
+            
+            //Debugger.Launch();
             //Thread.Sleep(20000);
 
             this.session = session;

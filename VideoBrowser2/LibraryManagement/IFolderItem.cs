@@ -11,7 +11,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     public interface IFolderItem
     {
         Image MCMLThumb { get; }
-
+        Image PosterViewThumb { get; }
         /// <summary>
         /// A globally unique ID for the file (based off Guid)
         /// </summary>

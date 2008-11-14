@@ -98,7 +98,62 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         Image image = null;
+        Image poster_image = null; 
 
+        [MarkupVisible]
+        public Image PosterViewThumb
+        {
+            get
+            {
+                // only speed up cached folders
+                if (this is FolderItem)
+                {
+                    return MCMLThumb;
+                }
+
+                if (poster_image == null)
+                {
+                    if (!File.Exists(PosterViewThumbPath))
+                    {
+                        if (File.Exists(ThumbPath))
+                        {
+                            System.Drawing.Image image = new System.Drawing.Bitmap(ThumbPath);
+                            var aspect = ((float)image.Width) / ((float)image.Height) ;
+
+                            int desired_height = Config.Instance.MaximumPosterHeight;
+                            if (desired_height > image.Height)
+                            {
+                                desired_height = image.Height;
+                            }
+
+                            int desired_width = (int)(desired_height * aspect);
+
+                            // movie poster
+                            if (aspect > 0.65 && aspect < 0.75)
+                            {
+                                desired_width = (int)(desired_height * 0.7);
+                            }
+
+                            Helper.ResizeImage(ThumbPath, PosterViewThumbPath, desired_width, desired_height);
+                        }
+                    }
+
+                    poster_image = Helper.GetMCMLThumb(PosterViewThumbPath, IsVideo);
+                }
+
+                return poster_image;
+ 
+            } 
+        }
+
+        public string PosterViewThumbPath
+        {
+            get
+            {
+                return Path.Combine(Helper.AppPosterThumbPath, Key + ".png"); 
+ 
+            } 
+        }
 
         [MarkupVisible]
         public Image MCMLThumb
