@@ -186,6 +186,20 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap DecrementFocused {
+            get {
+                object obj = ResourceManager.GetObject("DecrementFocused", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DecrementNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("DecrementNoFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] DetailsPageButton {
             get {
                 object obj = ResourceManager.GetObject("DetailsPageButton", resourceCulture);
@@ -227,6 +241,20 @@ namespace SamSoft.VideoBrowser {
             get {
                 object obj = ResourceManager.GetObject("Images", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IncrementFocused {
+            get {
+                object obj = ResourceManager.GetObject("IncrementFocused", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IncrementNoFocus {
+            get {
+                object obj = ResourceManager.GetObject("IncrementNoFocus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

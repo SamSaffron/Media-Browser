@@ -22,6 +22,11 @@
 	<Image Name="RadioSelectNoFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RadioSelectNoFocus"  />
 	<Image Name="RadioSelectFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/RadioSelectFocus"  />
 
+	<Image Name="IncrementFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/IncrementFocused"  />
+	<Image Name="IncrementNoFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/IncrementNoFocus"  />
+	<Image Name="DecrementFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/DecrementFocused"  />
+	<Image Name="DecrementNoFocus"         Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/DecrementNoFocus"  />
+
 	<Color Name="MediumBlue" Color="255, 2, 166, 212"/>
 	<Color Name="ZoomBackgroundBlue" Color="255, 32, 83, 136"/>
 	<Color Name="LightBlue"               Color="255, 151, 217, 255"/>

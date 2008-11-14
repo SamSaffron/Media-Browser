@@ -40,6 +40,38 @@
 		</Content>
 	</UI>
 
+	<UI Name="ImageBtn">
+		<Properties>
+			<Image Name="Focused" Image="$Required"/>
+			<Image Name="NonFocused" Image="$Required"/>
+			<ICommand Name="Command" ICommand="$Required"/>
+		</Properties>
+		<Locals>
+			<ClickHandler Name="Clicker" Command="[Command]"/>
+		</Locals>
+		<Rules>
+			<Default Target="[Input.KeyInteractive]" Value="true" />
+			<Condition Source="[Input.KeyFocus]"  SourceValue="true">
+				<Actions>
+					<Set Target="[Label.Content]" Value="[Focused]" />
+				</Actions>
+			</Condition>
+			<Condition Source="[Input.KeyFocus]"  SourceValue="false">
+				<Actions>
+					<Set Target="[Label.Content]" Value="[NonFocused]" />
+				</Actions>
+			</Condition>
+		</Rules>
+		<Content>
+			<Panel>
+				<Children>
+					<Graphic Name="Label" Content="[NonFocused]" MaximumSize="34,34"/>
+				</Children>
+			</Panel>
+
+		</Content>
+	</UI>
+
 
 	<UI Name="ViewsButton">
 		<Properties>
@@ -102,15 +134,29 @@
 		</Properties>
 		<Locals>
 			<ShortcutHandler Name="BackHandler"  Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[Close]"/>
+			<Command Name="Increase" />
+			<Command Name="Decrease"/>
 		</Locals>
 		<Rules>
 			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
 			<Default Target="[Input.KeyInteractive]" Value="true" />
 			<Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="false" />
-			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="true" />
+			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="false" />
+			<Changed Source="[Increase.Invoked]">
+				<Actions>
+					<Invoke Target="[Prefs.IncreaseThumbSize]"/>
+				</Actions>
+			</Changed>
+			<Changed Source="[Decrease.Invoked]">
+				<Actions>
+					<Invoke Target="[Prefs.DecreaseThumbSize]"/>
+				</Actions>
+			</Changed>
 		</Rules>
 		<Content>
 			<ColorFill Name="Main" Content="color://i:ZoomBackgroundBlue"  Navigation="ContainAll,Group" Padding="-3,-3,-3,-3">
@@ -124,10 +170,21 @@
 								<Layout>
 									<FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
 								</Layout>
-								<Children>									
+								<Children>
 									<rg:RadioGroup Model="[Prefs.ViewTypeChoice]" />
 									<cb:CheckBox Name="ShowLabels" Checked="[Prefs.ShowLabelsChoice]" Label="Show Labels" />
 									<cb:CheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScrollChoice]" Label="Vertical Scroll"/>
+									<Panel Name="ThumbSize" >
+										<Layout>
+											<FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+										</Layout>
+										<Children>
+											<Text Content="Thumb Size" Color="color://s:LightBlue" Font="Segoe Media Center Semibold,16"/>
+											<me:ImageBtn Focused="image://i:DecrementFocus" NonFocused="image://i:DecrementNoFocus" Command="[Decrease]"/>
+											<me:ImageBtn Focused="image://i:IncrementFocus" NonFocused="image://i:IncrementNoFocus" Command="[Increase]"/>
+										</Children>
+									</Panel>
+
 								</Children>
 							</Panel>
 							<Panel >

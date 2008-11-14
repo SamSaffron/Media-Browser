@@ -101,6 +101,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             VerticalScroll = (bool.Parse(node.InnerText));
                     }
                     catch { }
+                    node = doc.SelectSingleNode("Prefs/ThumbConstraint");
+                    try
+                    {
+                        if (node != null)
+                        {
+                            string[] sz = node.InnerText.Split(',');
+                            Size s = new Size(Int32.Parse(sz[0]), Int32.Parse(sz[1]));
+                            this.ThumbConstraint.Value = s;
+                        }
+                    }
+                    catch { }
                 }
             }
             catch(Exception ex)
@@ -112,6 +123,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             viewType.ChosenChanged += new EventHandler(viewType_ChosenChanged);
             showLabels.ChosenChanged += new EventHandler(showLabels_ChosenChanged);
             verticalScroll.ChosenChanged += new EventHandler(verticalScroll_ChosenChanged);
+            thumbConstraint.PropertyChanged += new PropertyChangedEventHandler(thumbConstraint_PropertyChanged);
+        }
+
+        void thumbConstraint_PropertyChanged(IPropertyObject sender, string property)
+        {
+            Save();
+            FirePropertyChanged("ThumbConstraint");
         }
 
         void showLabels_ChosenChanged(object sender, EventArgs e)
@@ -178,6 +196,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (this.showLabels.Value != value)
                     this.showLabels.Value = value;
+                
             }
         }
 
@@ -218,8 +237,36 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     FirePropertyChanged("SortOrder");
                 }
             }
-        } 
-       
+        }
+
+        SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
+        public SizeRef ThumbConstraint
+        {
+            get
+            {
+                return this.thumbConstraint;
+            }
+        }
+
+        public void IncreaseThumbSize()
+        {
+            Size s = this.ThumbConstraint.Value;
+            s.Height += 20;
+            s.Width += 20;
+            this.ThumbConstraint.Value = s;
+        }
+
+        public void DecreaseThumbSize()
+        {
+            Size s = this.ThumbConstraint.Value;
+            s.Height -= 20;
+            s.Width -= 20;
+            if (s.Height < 60)
+                s.Height = 60;
+            if (s.Width < 60)
+                s.Width = 60;
+            this.ThumbConstraint.Value = s;
+        }
          
         public void Save() 
         {
@@ -239,15 +286,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     writer.WriteElementString("ViewType", ViewType.ToString());
                     writer.WriteElementString("ShowLabels", ShowLabels.ToString());
                     writer.WriteElementString("VerticalScroll", VerticalScroll.ToString());
+                    Size s = this.ThumbConstraint.Value;
+                    writer.WriteElementString("ThumbConstraint", s.Width.ToString() + "," + s.Height.ToString());
                     writer.WriteEndElement();
                     writer.Close();
                     ms.Flush();
                     File.WriteAllBytes(filename, ms.ToArray());
                 }
-                catch
+                catch(Exception ex)
                 {
                     // not a huge deal, prefs did not save. 
-                    Trace.WriteLine("Error saving pref file");
+                    Trace.WriteLine("Error saving pref file.\n" + ex.ToString());
                 }
             }
             catch (Exception ex)

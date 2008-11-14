@@ -55,7 +55,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             selectedIndex.MinValue = -1;
             selectedIndex.MaxValue = 20000;
             selectedIndex.Value = -1;
-
+            
             //VisualReleaseBehavior = ReleaseBehavior.Dispose;
             
             // TODO : decide if it makes sense to discard of screen visuals, will require 
@@ -67,6 +67,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             //  mce does not allow cross thread signalling
             //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
         }
+
+        
 
         public IFolderItem SelectedItem
         {
@@ -112,6 +114,32 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        SizeRef actualThumbSize = new SizeRef(new Size(10, 10));
+        public SizeRef ActualThumbSize
+        {
+            get
+            {
+                return actualThumbSize;
+            }
+        }
+
+        void ThumbConstraint_PropertyChanged(IPropertyObject sender, string property)
+        {
+            UpdateActualThumbSize();
+        }
+
+        private void UpdateActualThumbSize()
+        {
+            Size s = folderItems.Prefs.ThumbConstraint.Value;
+            float f = this.ThumbAspectRatio;
+            float maxAspect = s.Height / s.Width;
+            if (f > maxAspect)
+                s.Width = (int)(s.Height / f);
+            else
+                s.Height = (int)(s.Width * f);
+            this.ActualThumbSize.Value = s;
+        }
+
         // Cause its easier to do this in code than transformers, guess the height between 0.27 and 0.9
         public float GuessHeight
         {
@@ -133,6 +161,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             try
             {
+                UpdateActualThumbSize();
                 this.Count = 0;
                 this.Count = folderItems.Count;
             }
@@ -141,17 +170,31 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 // fall through, we may need to ensure we are on the UI thread
             }
         }
-       
+
+        private void InitailzeThumbSizing()
+        {
+            folderItems.Prefs.ThumbConstraint.PropertyChanged += new PropertyChangedEventHandler(ThumbConstraint_PropertyChanged);
+            UpdateActualThumbSize();
+        }
         internal void Navigate(List<IFolderItem> items)
         {
             folderItems.Navigate(items);
             Count = folderItems.Count;
+            InitailzeThumbSizing();
         }
 
         internal void Navigate(string path)
         {
             folderItems.Navigate(path);
             Count = folderItems.Count;
+            InitailzeThumbSizing();
+        }
+
+        internal void Navigate(VirtualFolder virtualFolder)
+        {
+            folderItems.Navigate(virtualFolder);
+            Count = folderItems.Count;
+            InitailzeThumbSizing();
         }
 
         internal void CacheMetadata()
@@ -170,11 +213,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             this.folderItems.RefreshSortOrder();
         }
 
-        internal void Navigate(VirtualFolder virtualFolder)
-        {
-            folderItems.Navigate(virtualFolder);
-            Count = folderItems.Count;
-        }
+        
 
         #region Speed optimisations for poster view
 

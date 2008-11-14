@@ -6,8 +6,10 @@ using System.IO;
 using System.Security.Cryptography;
 using Microsoft.MediaCenter.UI;
 using Microsoft.Win32;
+using System.Reflection;
 using System.Drawing;
 using System.Drawing.Imaging;
+
 
 namespace SamSoft.VideoBrowser.LibraryManagement
 {
@@ -417,7 +419,9 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        
 
+        /*
         internal static void ResizeImage(string source, string destination, int width, int height)
         {
             try
@@ -441,54 +445,42 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 Trace.WriteLine("Failed to resize image: " + e.ToString());
             }
  
-        }
+        }*/
 
-
+        static Image defImage = null;
         internal static Microsoft.MediaCenter.UI.Image GetMCMLThumb(string path, bool isVideo)
         {
-            string resource;
-            bool isEmpty = true;
-
-            Image retval = null;
-
             // Do we have a thumbnail path?
             if (!String.IsNullOrEmpty(path))
             {
                 // yes, so lets say the string is not empty and construct the resource
                 // to build the image from.
-                isEmpty = false;
-                resource = "file://" + path;
                 try
                 {
                     // This throws an exception is the file does not exist (and possibly
                     // if the file is not an image?)
-                    retval = new Image(resource);
+                    return new Image("file://" + path);
                 }
                 catch (Exception)
                 {
-                    // If that failed, treat the rest of the function as if the path was 
-                    // empty.
-                    isEmpty = true;
+                    // If that failed, treat the rest of the function as if the path was empty.
                 }
             }
             
-            if (isEmpty)   
+            if (isVideo)
             {
-                if (isVideo)
-                {
-                    resource = "res://ehres!MOVIE.ICON.DEFAULT.PNG";
-                }
-                else
-                {
-                    return null;
-                    //resource = "resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder";
-                }
-
-                retval = new Image(resource);
+                if (defImage==null)
+                    lock(typeof(Helper))
+                        if (defImage == null)
+                           defImage = new Image("res://ehres!MOVIE.ICON.DEFAULT.PNG");
+                return defImage;
+                //resource = "res://ehres!MOVIE.ICON.DEFAULT.PNG";
             }
-
-            return retval;
+            else
+                return null;
         }
+
+        
 
         internal static Microsoft.MediaCenter.UI.Image GetMCMLBanner(string path)
         {

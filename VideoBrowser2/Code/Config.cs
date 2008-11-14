@@ -49,7 +49,9 @@ namespace SamSoft.VideoBrowser
         [Comment(@"Enables the writing of trace log files in a production environment to assist with problem solving")]
         public bool EnableTraceLogging = false;
 
-       
+        [Comment(@"The default size of posters before change are made to the view settings")]
+        public Size DefaultPosterSize = new Size(220, 220);
+       /*
         [Comment(@"The maximum size of the poster images in poster view")]
         public Size MaximumPosterSize = new Size(200, 230);
         public Size MaximumPosterSizeMcml
@@ -60,7 +62,7 @@ namespace SamSoft.VideoBrowser
         {
             get { return (float)this.MaximumPosterSize.Height / (float)this.MaximumPosterSize.Width; }
         }
-
+        */
         [Comment(@"Enable transcode 360 support on extenders")]
         public bool EnableTranscode360 = true;
         [Comment(@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")]
@@ -135,9 +137,10 @@ namespace SamSoft.VideoBrowser
         allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."	)]
 		public string SortReplaceWords = "the|a|an";
 
+        /*
         [Comment(@"The height all poster are sized to in poster view, the higher the number the better the quality and slower the performance")]
         public int MaximumPosterHeight = 200;
-
+        */
 
 		/* End of app specific settings*/
 
@@ -397,7 +400,6 @@ namespace SamSoft.VideoBrowser
         /// </summary>
         public void Write()
         {
-         
             XmlDocument dom = new XmlDocument();
             dom.Load(filename); 
 

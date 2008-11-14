@@ -21,8 +21,13 @@
 			<a:ListPage Name="Model" ListPage="$Required"/>
 			<lib:FolderItemListMCE Name="FolderItems" FolderItemListMCE="$Required"/>
 		</Properties>
-		
+
+		<Locals>
+			<lib:IFolderItem Name="SelectedItem" IFolderItem="[FolderItems.SelectedItem]"/>
+		</Locals>
+
 		<Rules>
+			
 			<Changed Source="[FolderItems.SelectedIndex.Value]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[FolderItems.SelectedIndex.Value]" Value="-1"></Equality>
@@ -32,23 +37,29 @@
 				</Actions>
 			</Changed>
 
-      <Changed Source="[InfoTimer.Tick]">
-        <Actions>
-          <Set Target="[InfoTimer.Enabled]" Value="false"/>
-					<Set Target="[Preview.Visible]" Value="true"/>
-          <Set Target="[Preview.Content]" Value="[FolderItems.SelectedItem.MCMLThumb]"/>
-          <Set Target="[StarRating.Value]" Value="[FolderItems.SelectedItem.IMDBRating]" />
-					<Set Target="[TxtRuntime.Content]" Value="[FolderItems.SelectedItem.RunningTimeString]"/>
-          <Set Target="[GenreRepeater.Visible]" Value="true"/>
-					<Set Target="[GenreRepeater.Source]" Value="[FolderItems.SelectedItem.Genres]"/>
-          <Set Target="[Title1.Content]" Value="[FolderItems.SelectedItem.Title1]"/>
-          <Set Target="[Title2.Content]" Value="[FolderItems.SelectedItem.Title2]"/>
-          <Set Target="[Summary.Text]" Value="[FolderItems.SelectedItem.Overview]"/> 
-          <Set Target="[LastWatched.Content]" Value="[FolderItems.SelectedItem.LastWatched]"/>
-					<Set Target="[LastWatched.Visible]" Value="[FolderItems.SelectedItem.HaveWatched]"/>		
+			<Changed Source="[InfoTimer.Tick]">
+				<Actions>
+					<Set Target="[SelectedItem]" Value="[FolderItems.SelectedItem]" />
 				</Actions>
 			</Changed>
 
+			<Changed Source="[SelectedItem]">
+				<Actions>
+					<Set Target="[InfoTimer.Enabled]" Value="false"/>
+					<Set Target="[Preview.Visible]" Value="true"/>
+					<Set Target="[GenreRepeater.Visible]" Value="true"/>
+				</Actions>
+			</Changed>
+
+			<Binding Target="[Preview.Content]" Source="[SelectedItem.MCMLThumb]"/>
+			<Binding Target="[StarRating.Value]" Source="[SelectedItem.IMDBRating]" />
+			<Binding Target="[TxtRuntime.Content]" Source="[SelectedItem.RunningTimeString]"/>
+			<Binding Target="[GenreRepeater.Source]" Source="[SelectedItem.Genres]"/>
+			<Binding Target="[Title1.Content]" Source="[SelectedItem.Title1]"/>
+			<Binding Target="[Title2.Content]" Source="[SelectedItem.Title2]"/>
+			<Binding Target="[Summary.Text]" Source="[SelectedItem.Overview]"/>
+			<Binding Target="[LastWatched.Content]" Source="[SelectedItem.LastWatched]"/>
+			<Binding Target="[LastWatched.Visible]" Source="[SelectedItem.HaveWatched]"/>
 		</Rules>
 
 		<Content>
@@ -60,7 +71,7 @@
 							<FormLayoutInput Left="Parent,0,30" Top="Parent,0.04" Right="Parent,.5,-20" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>
 					</lv:ListView>
-					
+
 					<Panel Name="DetailsSection" MouseInteractive="true" Padding="5,5,0,0" >
 						<LayoutInput>
 							<FormLayoutInput Left="Parent, .5" Right="Parent,1,-30" Top="Parent,0.04" />
@@ -108,13 +119,13 @@
 												</Layout>
 												<Children>
 													<Graphic Name="Preview" MaintainAspectRatio="true"  SizingPolicy="SizeToConstraint">
-													</Graphic>		
+													</Graphic>
 												</Children>
 											</Panel>
-											
+
 										</Children>
 									</Panel>
-									
+
 								</Children>
 							</Panel>
 							<Text Name="Title1" Color="White" Font="Segoe Media Center Semibold,20"/>
@@ -150,6 +161,6 @@
 		</Content>
 	</UI>
 
-	
+
 
 </Mcml>

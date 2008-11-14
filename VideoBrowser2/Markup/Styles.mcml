@@ -38,7 +38,7 @@
   <Image Name="ButtonSelection" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ButtonSelection" NineGrid="12,12,12,12"/>
   <Image Name="ButtonSelection2" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ButtonSelection2" NineGrid="12,12,12,12"/>
   <Image Name="ZoomPane" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
-	<Image Name="Folder" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder" NineGrid="10,20,5,5"/>
+	<Image Name="Folder" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/folder" NineGrid="15,25,10,10"/>
   <Image Name="Tick" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Tick" />
 	<Image Name="TickPoster" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/TickPoster" />
   <Image Name="Lines" Source="resx://SamSoft.VideoBrowser/SamSoft.VideoBrowser.Resources/Lines"/>

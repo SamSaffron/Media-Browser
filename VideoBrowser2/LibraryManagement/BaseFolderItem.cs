@@ -98,6 +98,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         Image image = null;
+        /*
         Image poster_image = null; 
 
         [MarkupVisible]
@@ -120,7 +121,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             System.Drawing.Image image = new System.Drawing.Bitmap(ThumbPath);
                             var aspect = ((float)image.Width) / ((float)image.Height) ;
 
-                            int desired_height = Config.Instance.MaximumPosterHeight;
+                            int desired_height =200;
                             if (desired_height > image.Height)
                             {
                                 desired_height = image.Height;
@@ -154,13 +155,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
  
             } 
         }
+         */
 
         [MarkupVisible]
         public Image MCMLThumb
         {
             get
             {
-                bool enableExperimentalPosterFix = false;
+                if (image != null)
+                    return image;
+                bool enableExperimentalPosterFix = true;
 
                 bool loadImage = false;
 
@@ -193,7 +197,136 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        
+        Size smallThumbSize = new Size(1,1);// Config.Instance.MaximumPosterSize;
+        bool forceSmallThumbLoad = false;
+        public Size SmallThumbSize
+        {
+            get
+            {
+                return this.smallThumbSize;
+            }
+            set
+            {
+                if (this.smallThumbSize != value)
+                {
+                    this.smallThumbSize = value;
+                    lock(this)
+                        if (smallImage != null)
+                        {
+                            forceSmallThumbLoad = true;
+                            FirePropertyChanged("MCMLSmallThumb"); // defer the regeneration to next time it is needed on screen
+                        }
+                    FirePropertyChanged("SmallThumbSize");
+                    FirePropertyChanged("LabelConstraint");
+                }
+            }
+        }
+
+        public Size LabelConstraint
+        {
+            get
+            {
+                Size s = this.SmallThumbSize;
+                s.Height = 33; // warning increasing this number causes some strange effects in the poster view when the first item is focused
+                return s;
+            }
+        }
+
+        Image smallImage = null;
+
+        [MarkupVisible]
+        public Image MCMLSmallThumb
+        {
+            get
+            {
+                if ((smallImage != null) && !forceSmallThumbLoad)
+                    return smallImage;
+                string path = this.ThumbPath;
+                if ((path == null) || (path.Length == 0))
+                    return null;
+                Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadSmallImage, SmallImageLoaded,path);
+                return smallImage;
+            }
+        }
+
+        public void SmallImageLoaded(object nothing)
+        {
+            FirePropertyChanged("MCMLSmallThumb");
+        }
+
+        public void LoadSmallImage(object pathString)
+        {
+            string path = (string)pathString;
+            lock (this)
+            {
+                if ((smallImage == null) || (forceSmallThumbLoad))
+                {
+                    forceSmallThumbLoad = false;
+                    Size maxSz = this.SmallThumbSize;
+                    if (maxSz.Width == 1)
+                        return; // the size has not been set yet
+                    Trace.TraceInformation("Generating small image for " + this.ThumbPath + ": " + maxSz.ToString());
+                    System.Drawing.Size newSize = new System.Drawing.Size(maxSz.Width, maxSz.Height);
+                    using (System.Drawing.Bitmap bmp = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path))
+                    {
+                        System.Drawing.Size s = bmp.Size;
+                        double constraintAspect = (double)maxSz.Width / (double)maxSz.Height;
+                        double aspect = (double)s.Width / (double)s.Height;
+                        if (Math.Abs(aspect - constraintAspect) < 0.05)
+                        {
+                            newSize.Width = maxSz.Width; // if the aspect is close to what we want the stretch it to match
+                            newSize.Height = maxSz.Height;
+                        }
+                        // movie poster
+                        else if (aspect > 0.65 && aspect < 0.75)
+                        {
+                            newSize.Height = maxSz.Height;
+                            newSize.Width = (int)((double)newSize.Height * 0.7);
+                            if (newSize.Width > maxSz.Width)
+                            {
+                                newSize.Width = maxSz.Width;
+                                newSize.Height = (int)((double)newSize.Width / 0.7);
+                            }
+                        }
+                        else
+                        {
+                            double xratio = (double)newSize.Width / (double)s.Width;
+                            double yratio = (double)newSize.Height / (double)s.Height;
+                            double ratio = Math.Min(xratio, yratio);
+                            newSize.Width = (int)((double)s.Width * ratio);
+                            newSize.Height = (int)((double)s.Height * ratio);
+                        }
+                        using (System.Drawing.Bitmap newBmp = new System.Drawing.Bitmap(newSize.Width, newSize.Height))
+                        {
+                            using (System.Drawing.Graphics graphic = System.Drawing.Graphics.FromImage(newBmp))
+                            {
+                                /*
+                                graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                                graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                                graphic.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                                graphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                                 */
+                                graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Default;
+                                graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+                                graphic.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
+                                graphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                                graphic.DrawImage(bmp, 0, 0, newSize.Width, newSize.Height);
+                            }
+                            MemoryStream ms = new MemoryStream();
+                            newBmp.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                            ms.Seek(0, SeekOrigin.Begin);
+                            MethodInfo mi = typeof(Image).GetMethod("FromStream", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic, null, new Type[] { typeof(string), typeof(Stream) }, null);
+                            smallImage = (Image)mi.Invoke(null, new object[] { null, ms });
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool HasThumb
+        {
+            get { return ((this.ThumbPath != null) && (this.ThumbPath.Length > 0)); }
+        }
 
         private static Image ImageFromStream(Stream stream)
         {

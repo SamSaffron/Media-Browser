@@ -208,8 +208,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-         
-
         public void Navigate(VirtualFolder virtualFolder)
         {
             //List<FolderItem> items = GetCache(virtualFolder.Path.ToLower());

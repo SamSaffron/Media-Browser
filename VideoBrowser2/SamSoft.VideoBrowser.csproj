@@ -79,6 +79,7 @@
     <Compile Include="LibraryManagement\PlaybackController.cs" />
     <Compile Include="LibraryManagement\PlayState.cs" />
     <Compile Include="LibraryManagement\Scanner.cs" />
+    <Compile Include="LibraryManagement\SizeRef.cs" />
     <Compile Include="LibraryManagement\SortedCache.cs" />
     <Compile Include="LibraryManagement\SortOrderEnum.cs" />
     <Compile Include="LibraryManagement\SpecialFolderItem.cs" />
@@ -113,6 +114,10 @@
     <Content Include="Images\CheckBoxCheckedNoFocus.png" />
     <Content Include="Images\CheckBoxUncheckedFocus.png" />
     <Content Include="Images\CheckBoxUncheckedNoFocus.png" />
+    <Content Include="Images\DecrementFocused.png" />
+    <Content Include="Images\DecrementNoFocus.png" />
+    <Content Include="Images\IncrementNoFocus.png" />
+    <Content Include="Images\IncrementFocused.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\RadioFocus.png" />
     <Content Include="Images\RadioNoFocus.png" />

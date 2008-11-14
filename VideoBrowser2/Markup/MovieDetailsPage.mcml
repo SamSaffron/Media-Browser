@@ -35,7 +35,7 @@
 
       <Default Target="[ScrollingHandler.ScrollingData]" Value="[MovieScrollingData]"/>
       <Default Target="[IMDBRating.Content]" Value="[FolderItem.IMDBRatingString]" />
-
+		<Binding Source="[FolderItem.MCMLThumb]" Target="[Preview.Content]" />
       <Changed Source="[PlayMovieCommand.Invoked]">
         <Actions>
           <Invoke Target="[FolderItem.Play]"/>
@@ -85,6 +85,7 @@
           <Set Target="[ResumeMovieButton.Text]" Value="Play Movie"/>
           <Set Target="[ResumeMovieButton.Command]" Value="[PlayMovieCommand]"/>
         </Actions>
+		  
       </Rule>
       
     </Rules>
