@@ -178,111 +178,84 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         #endregion 
 
-        static string _app_config_path = null; 
+        static Dictionary<string, string> PathMap; 
+
+        static Helper() 
+        {
+            PathMap = new Dictionary<string, string>();
+            PathMap["app_data"] = System.Environment.GetFolderPath(
+                        System.Environment.SpecialFolder.CommonApplicationData
+                    );
+            
+            string[,] tree = { 
+                    { "AppConfigPath", "app_data", "VideoBrowser"}, 
+                    { "AppPrefsPath", "AppConfigPath", "Prefs" },
+                    { "AppPlayStatePath", "AppConfigPath", "PlayState" },
+                    { "AppCachePath", "AppConfigPath", "Cache" },
+                    { "AppPosterThumbPath", "AppCachePath", "PosterThumb" },
+                    { "AutoPlaylistPath", "AppCachePath", "AutoPlaylists" }
+            };
+
+            for (int i = 0; i <= tree.GetUpperBound(0); i++)
+            {
+                var e = Path.Combine(PathMap[tree[i, 1]], tree[i, 2]);
+                if (!Directory.Exists(e))
+                {
+                    Directory.CreateDirectory(e);
+                }
+                PathMap[tree[i, 0]] = e; 
+            }
+        }
+
+
         public static string AppConfigPath
         {
             get 
             {
-                if (_app_config_path == null)
-                {
-                    var e = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "VideoBrowser");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _app_config_path = e;
-                }
-                return _app_config_path;
+                return PathMap["AppConfigPath"];
             }
         }
 
-        static string _app_cache_path = null;
         public static string AppCachePath
         {
             get
             {
-                if (_app_cache_path == null)
-                {
-                    var e = Path.Combine(AppConfigPath, "Cache");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _app_cache_path = e;
-                }
-                return _app_cache_path;
+                return PathMap["AppCachePath"];  
             }
         }
 
-        static string _app_poster_thumb_path = null;
+
         public static string AppPosterThumbPath
         {
             get
             {
-                if (_app_poster_thumb_path == null)
-                {
-                    var e = Path.Combine(AppCachePath, "PosterThumb");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _app_poster_thumb_path = e;
-                }
-                return _app_poster_thumb_path;
+                return PathMap["AppPosterThumbPath"];    
             }
         }
 
-        static string _app_prefs_path = null;
         public static string AppPrefsPath
         {
             get
             {
-                if (_app_prefs_path == null)
-                {
-                    var e = Path.Combine(AppConfigPath, "Prefs");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _app_prefs_path = e;
-                }
-                return _app_prefs_path;
+                return PathMap["AppPrefsPath"];
             }
         }
 
-        static string _app_playstate_path = null;
+       
         public static string AppPlayStatePath
         {
             get
             {
-                if (_app_playstate_path == null)
-                {
-                    var e = Path.Combine(AppConfigPath, "PlayState");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _app_playstate_path = e;
-                }
-                return _app_playstate_path;
+                return PathMap["AppPlayStatePath"];
             }
         }
 
-        static string _auto_playlist_path = null;
+     
         public static string AutoPlaylistPath
         {
             get
             {
-                if (_auto_playlist_path == null)
-                {
-                    var e = Path.Combine(AppCachePath, "AutoPlaylists");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _auto_playlist_path = e;
-                }
-                return _auto_playlist_path;
+               return PathMap["AppPlayStatePath"];  
             }
         }
 
