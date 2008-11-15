@@ -229,7 +229,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get
             {
-                float z = (float)((-0.006 * this.SmallThumbSize.Height) + 2.5);
+                float x = Math.Max(this.SmallThumbSize.Height, this.SmallThumbSize.Width);
+                float z = (float)((-0.006 * x) + 2.5);
                 if (z < 1.15)
                     z = 1.15F;
                 if (z > 1.9F)
