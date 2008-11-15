@@ -2,8 +2,8 @@
 
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
-<?define Property_ProductVersion = "1.3.1.0" ?>
-<?define Property_ProductCode = "3EC6A63A-0C96-4745-80A7-661757D0DAB1" ?>
+<?define Property_ProductVersion = "1.3.2.0" ?>
+<?define Property_ProductCode = "C704736F-45F7-46ff-943E-7D24C2FB33C2" ?>
 <?define Property_UpgradeCode = "4eef1a79-7822-421d-912e-004d2e6676d7" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
