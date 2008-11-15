@@ -24,8 +24,8 @@ namespace SamSoft.VideoBrowser
         public string Comment { get; private set; }
     }
 
-    
-    public class Config 
+
+    public class Config
     {
 
         /* All app settings go here, they must all have defaults or they will not work properly */
@@ -59,18 +59,6 @@ namespace SamSoft.VideoBrowser
             get { return this.GridSpacing; }
         }
 
-       /*
-        [Comment(@"The maximum size of the poster images in poster view")]
-        public Size MaximumPosterSize = new Size(200, 230);
-        public Size MaximumPosterSizeMcml
-        {
-            get { return this.MaximumPosterSize; }
-        }
-        public float MaximumPosterAspectMcml
-        {
-            get { return (float)this.MaximumPosterSize.Height / (float)this.MaximumPosterSize.Width; }
-        }
-        */
         [Comment(@"Enable transcode 360 support on extenders")]
         public bool EnableTranscode360 = true;
         [Comment(@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")]
@@ -79,7 +67,7 @@ namespace SamSoft.VideoBrowser
         [Comment("TransparentBackground [Default Value - False]\n\tTrue: Enables transparent background.\n\tFalse: Use default Video Browser background.")]
         public bool TransparentBackground = false;
 
-        [Comment("Example. If set to true the following will be treated as a movie and an automatic playlist will be created.\n\tIndiana Jones / Disc 1 / a.avi\n\tIndiana Jones / Disc 2 / b.avi")] 
+        [Comment("Example. If set to true the following will be treated as a movie and an automatic playlist will be created.\n\tIndiana Jones / Disc 1 / a.avi\n\tIndiana Jones / Disc 2 / b.avi")]
         public bool EnableNestedMovieFolders = true;
 
         [Comment("Example. If set to true the following will be treated as a movie and an automatic playlist will be created.\n\tIndiana Jones / a.avi\n\tIndiana Jones / b.avi (This only works for 2 videos (no more))\n**Setting this to false will override EnableNestedMovieFolders if that is enabled.**")]
@@ -100,8 +88,8 @@ namespace SamSoft.VideoBrowser
         [Comment(@"The drive letter of the Daemon Tools virtual drive.")]
         public string DaemonToolsDrive = "E";
 
-		[Comment("Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.\nNote that the sorting algorithm is case insensitive."	)]
-		public bool EnableAlphanumericSorting = true;
+        [Comment("Flag for alphanumeric sorting.  True will use alphanumeric sorting, false will use alphabetic sorting.\nNote that the sorting algorithm is case insensitive.")]
+        public bool EnableAlphanumericSorting = true;
 
         [Comment(@"Enables the showing of tick in the list view for files that have been watched")]
         public bool EnableListViewTicks = false;
@@ -129,72 +117,68 @@ namespace SamSoft.VideoBrowser
         [Comment(@"Limits the number of levels shown by the breadcrumbs.")]
         public int BreadcrumbCountLimit = 2;
 
-		[Comment("List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted."	)]
-		public string SortRemoveCharacters = ",|&|-";
+        [Comment("List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted.")]
+        public string SortRemoveCharacters = ",|&|-";
 
-		[Comment("List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted.")]
-		public string SortReplaceCharacters = ".|+|%";
+        [Comment("List of characters to replace with a ' ' in titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like 'Iron.Man.REPACK.720p.BluRay.x264-SEPTiC.mkv' to be properly sorted.")]
+        public string SortReplaceCharacters = ".|+|%";
 
-		// TODO: Might need REAL "replacers", i.e. replace & with "and" and replace % with "percent"
-		//       Could do Roman Numerals here as well
+        // TODO: Might need REAL "replacers", i.e. replace & with "and" and replace % with "percent"
+        //       Could do Roman Numerals here as well
 
-		[Comment(@"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
+        [Comment(@"List of words to remove from alphanumeric sorting.  Separate each word with a '|'.  Note that the
         algorithm appends a ' ' to the end of each word during the search which means words found at the end
         of each title will not be removed.  This is generally not an issue since most people will only want
         articles removed and articles are rarely found at the end of media titles.  This, combined with SortReplaceCharacters,
-        allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted."	)]
-		public string SortReplaceWords = "the|a|an";
+        allows titles like 'The.Adventures.Of.Baron.Munchausen.1988.720p.BluRay.x264-SiNNERS.mkv' to be properly sorted.")]
+        public string SortReplaceWords = "the|a|an";
 
-        /*
-        [Comment(@"The height all poster are sized to in poster view, the higher the number the better the quality and slower the performance")]
-        public int MaximumPosterHeight = 200;
-        */
 
-		/* End of app specific settings*/
+        /* End of app specific settings*/
 
-		private string[] _SortRemoveCharactersArray = null;
-		public string[] SortRemoveCharactersArray
-		{
-			get
-			{
-				_SortRemoveCharactersArray = _SortRemoveCharactersArray ?? SortRemoveCharacters.Split('|');
-				return _SortRemoveCharactersArray;
-			}
-		}
+        private string[] _SortRemoveCharactersArray = null;
+        public string[] SortRemoveCharactersArray
+        {
+            get
+            {
+                _SortRemoveCharactersArray = _SortRemoveCharactersArray ?? SortRemoveCharacters.Split('|');
+                return _SortRemoveCharactersArray;
+            }
+        }
 
-		private string[] _SortReplaceCharactersArray = null;
-		public string[] SortReplaceCharactersArray
-		{
-			get
-			{
-				_SortReplaceCharactersArray = _SortReplaceCharactersArray ?? SortReplaceCharacters.Split('|');
-				return _SortReplaceCharactersArray;
-			}
-		}
+        private string[] _SortReplaceCharactersArray = null;
+        public string[] SortReplaceCharactersArray
+        {
+            get
+            {
+                _SortReplaceCharactersArray = _SortReplaceCharactersArray ?? SortReplaceCharacters.Split('|');
+                return _SortReplaceCharactersArray;
+            }
+        }
 
-		private string[] _SortReplaceWordsArray = null;
-		public string[] SortReplaceWordsArray
-		{
-			get
-			{
-				_SortReplaceWordsArray = _SortReplaceWordsArray ?? SortReplaceWords.Split('|');
-				return _SortReplaceWordsArray;
-			}
-		}
+        private string[] _SortReplaceWordsArray = null;
+        public string[] SortReplaceWordsArray
+        {
+            get
+            {
+                _SortReplaceWordsArray = _SortReplaceWordsArray ?? SortReplaceWords.Split('|');
+                return _SortReplaceWordsArray;
+            }
+        }
 
         // so we can access settings from mcml 
         [MarkupVisible]
         public bool TransparentBackgroundMCML
         {
-            get 
+            get
             {
-                return TransparentBackground; 
+                return TransparentBackground;
             }
         }
 
 
-        private static object _syncobj = new object(); 
-        private static Config _instance = null; 
+        private static object _syncobj = new object();
+        private static Config _instance = null;
         public static Config Instance
         {
             get
@@ -215,34 +199,34 @@ namespace SamSoft.VideoBrowser
 
         string filename;
 
-        private Dictionary<string, object> defaults = new Dictionary<string, object>(); 
+        private Dictionary<string, object> defaults = new Dictionary<string, object>();
 
-        private Config ()
-	    {
+        private Config()
+        {
 
             // store the defaults so we can later recover them if needed
             foreach (FieldInfo field in SettingFields)
             {
-                defaults[field.Name] = field.GetValue(this);  
+                defaults[field.Name] = field.GetValue(this);
             }
 
             var path = Helper.AppConfigPath;
             if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path); 
+                Directory.CreateDirectory(path);
             }
 
             filename = Path.Combine(path, "VideoBrowser.config");
             try
             {
-                Read(); 
+                Read();
             }
             catch
             {
                 File.WriteAllText(filename, "<Settings></Settings>");
                 Write();
             }
-	    }
+        }
 
 
         private List<FieldInfo> SettingFields
@@ -252,11 +236,11 @@ namespace SamSoft.VideoBrowser
                 // todo: cache this, not really important 
                 List<FieldInfo> fields = new List<FieldInfo>();
                 foreach (MemberInfo mi in this.GetType().GetMembers(
-                       BindingFlags.Public | BindingFlags.Instance ))
+                       BindingFlags.Public | BindingFlags.Instance))
                 {
                     if (IsSettingField(mi))
                     {
-                        fields.Add((FieldInfo)mi); 
+                        fields.Add((FieldInfo)mi);
                     }
                 }
                 return fields;
@@ -292,7 +276,7 @@ namespace SamSoft.VideoBrowser
 
                 if (field.FieldType == typeof(string))
                 {
-                    field.SetValue(this, value); 
+                    field.SetValue(this, value);
                 }
                 else if (field.FieldType == typeof(bool))
                 {
@@ -357,7 +341,7 @@ namespace SamSoft.VideoBrowser
                     }
                     catch
                     {
-                        
+
                     }
                 }
                 else if (field.FieldType == typeof(Vector3))
@@ -393,7 +377,7 @@ namespace SamSoft.VideoBrowser
             {
                 Write();
             }
-      }
+        }
 
 
         private static XmlNode GetSettingsNode(XmlDocument dom)
@@ -401,15 +385,15 @@ namespace SamSoft.VideoBrowser
             return dom.SelectSingleNode("/Settings");
         }
 
-
-
         /// <summary>
         /// Write current config to file
         /// </summary>
         public void Write()
         {
             XmlDocument dom = new XmlDocument();
-            dom.Load(filename); 
+            dom.Load(filename);
+            var settingsNode = GetSettingsNode(dom);
+            settingsNode.RemoveAll();
 
             foreach (FieldInfo field in SettingFields)
             {
@@ -441,16 +425,9 @@ namespace SamSoft.VideoBrowser
                         value = v.ToString();
                 }
 
-                var settingsNode = GetSettingsNode(dom);
-
-                XmlNode node = settingsNode.SelectSingleNode(field.Name);
-
-                if (node == null)
-                {
-                    settingsNode.AppendChild(dom.CreateComment(GetComment(field)));
-                    node = dom.CreateNode(XmlNodeType.Element,field.Name, null);
-                    settingsNode.AppendChild(node);
-                }
+                settingsNode.AppendChild(dom.CreateComment(GetComment(field)));
+                XmlNode node = dom.CreateNode(XmlNodeType.Element, field.Name, null);
+                settingsNode.AppendChild(node);
                 node.InnerText = value;
             } // for each
             dom.Save(filename);
