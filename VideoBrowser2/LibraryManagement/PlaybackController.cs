@@ -32,7 +32,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             //Trace.TraceInformation("PlayState: " + mce.Transport.PlayState.ToString());
                             //Trace.TraceInformation("Position: " + mce.Transport.Position.ToString());
                             string title = null;
-                            string currentItem = Path.GetFileNameWithoutExtension(currentPlaybackController.folderItem.Filename);
+                            string currentItem = Path.GetFileNameWithoutExtension(currentPlaybackController.VideoFilename);
                             try
                             {
                                 title = mce.MediaMetadata["Title"] as string;

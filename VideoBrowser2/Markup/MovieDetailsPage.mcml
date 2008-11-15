@@ -111,7 +111,7 @@
           <!-- Play Movie Button-->
           <Panel Name="PlayMovie" FocusOrder="0" Layout="VerticalFlow">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.68"  Right="Parent,.23" Bottom="Parent,.78"/>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.68"  Right="Parent,.23" Bottom="Parent,.75"/>
             </LayoutInput>
             <Children>
               <me:SimpleButton Text="Play Movie" Command="[PlayMovieCommand]"/>

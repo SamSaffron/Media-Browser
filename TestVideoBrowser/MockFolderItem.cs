@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using SamSoft.VideoBrowser.LibraryManagement;
+using Microsoft.MediaCenter.UI;
 
 namespace TestVideoBrowser
 {
     class MockFolderItem : IFolderItem
     {
         #region IFolderItem Members
+
+        public Vector3 PosterZoom { get{throw new NotImplementedException();} }
 
         public Microsoft.MediaCenter.UI.Image MCMLSmallThumb
         {
