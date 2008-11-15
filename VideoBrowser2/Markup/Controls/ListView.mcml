@@ -87,9 +87,8 @@
           <Equality Source="[Application.NavigatingForward]" Value="true"/>
           <Equality Source="[FolderItems.Count]" ConditionOp="GreaterThan" Value="0" />
         </Conditions>
-
         <Actions>
-          <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
+          <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="[FolderItems.SelectedIndex.Value]"/>
         </Actions>
       </Rule>
       

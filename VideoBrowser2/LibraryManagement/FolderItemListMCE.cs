@@ -192,11 +192,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             if (property == "ShowLabels")
                 FirePropertyChanged("ReferenceSize");
         }
+        
+        private void SetSelectedItem()
+        {
+            this.SelectedIndex.Value = 0;
+            if (Config.Instance.DefaultToFirstUnwatched)
+            {
+                for (int i = 0; i < this.folderItems.Count; ++i)
+                    if (!folderItems[i].HaveWatched)
+                    {
+                        this.SelectedIndex.Value = i;
+                        break;
+                    }
+            }
+        }
+
         internal void Navigate(List<IFolderItem> items)
         {
             folderItems.Navigate(items);
             Count = folderItems.Count;
             InitializePrefListening();
+            SetSelectedItem();
         }
 
         internal void Navigate(string path)
@@ -204,6 +220,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             folderItems.Navigate(path);
             Count = folderItems.Count;
             InitializePrefListening();
+            SetSelectedItem();
         }
 
         internal void Navigate(VirtualFolder virtualFolder)
@@ -211,6 +228,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             folderItems.Navigate(virtualFolder);
             Count = folderItems.Count;
             InitializePrefListening();
+            SetSelectedItem();
         }
 
         internal void CacheMetadata()

@@ -102,6 +102,9 @@ namespace SamSoft.VideoBrowser
             get { return new Color(this.ListViewWatchedColor); }
         }
 
+        [Comment("Enables the views to default to the first unwatched item in a folder of movies or tv shows")]
+        public bool DefaultToFirstUnwatched = false;
+
         [Comment(@"Indicates that files with a date stamp before this date should be assumed to have been watched for the purpose of ticking them off.")]
         public DateTime AssumeWatchedBefore = DateTime.MinValue;
 

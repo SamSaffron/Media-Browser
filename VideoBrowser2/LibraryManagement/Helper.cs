@@ -419,69 +419,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        
-
-        /*
-        internal static void ResizeImage(string source, string destination, int width, int height)
-        {
-            try
-            {
-                System.Drawing.Image image = System.Drawing.Image.FromFile(source);
-                System.Drawing.Image thumbnail = new Bitmap(width, height);
-                Graphics graphic = Graphics.FromImage(thumbnail);
-
-                graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphic.SmoothingMode = SmoothingMode.HighQuality;
-                graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                graphic.CompositingQuality = CompositingQuality.HighQuality;
-
-                graphic.DrawImage(image, 0, 0, width, height);
-
-                thumbnail.Save(destination, ImageFormat.Png);
-
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine("Failed to resize image: " + e.ToString());
-            }
- 
-        }*/
-
-        static Image defImage = null;
-        internal static Microsoft.MediaCenter.UI.Image GetMCMLThumb(string path, bool isVideo)
-        {
-            // Do we have a thumbnail path?
-            if (!String.IsNullOrEmpty(path))
-            {
-                // yes, so lets say the string is not empty and construct the resource
-                // to build the image from.
-                try
-                {
-                    // This throws an exception is the file does not exist (and possibly
-                    // if the file is not an image?)
-                    return new Image("file://" + path);
-                }
-                catch (Exception)
-                {
-                    // If that failed, treat the rest of the function as if the path was empty.
-                }
-            }
-            
-            if (isVideo)
-            {
-                if (defImage==null)
-                    lock(typeof(Helper))
-                        if (defImage == null)
-                           defImage = new Image("res://ehres!MOVIE.ICON.DEFAULT.PNG");
-                return defImage;
-                //resource = "res://ehres!MOVIE.ICON.DEFAULT.PNG";
-            }
-            else
-                return null;
-        }
-
-        
-
         internal static Microsoft.MediaCenter.UI.Image GetMCMLBanner(string path)
         {
             if (!String.IsNullOrEmpty(path))

@@ -11,13 +11,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 {
     public abstract class BaseFolderItem : Command, IFolderItem 
     {
-
-        static MethodInfo fromStreamMethodInfo = null;
-        static object syncObj = new object();
-        static Thread imageLoaderThread = null;
-        static Queue<BaseFolderItem> loadItemQueue = new Queue<BaseFolderItem>(); 
-
-
+        static Image defImage = LoadDefault();
+        Image image = null;
+        Size smallThumbSize = new Size(1, 1);// Config.Instance.MaximumPosterSize;
+        bool forceSmallThumbLoad = false;
+        Image smallImage = null;
+        private PlaybackController playbackController;
+        private PlayState playState;
 
         // we need a base for mcml 
         public BaseFolderItem()
@@ -25,138 +25,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             
         }
 
-        #region Background image loading support
-
-        private static Queue<BaseFolderItem> GetPendingItems()
+        private static Image LoadDefault()
         {
-            Queue<BaseFolderItem> items = new Queue<BaseFolderItem>(); 
-
-            lock (syncObj)
-            {
-                while (loadItemQueue.Count > 0)
-                {
-                    items.Enqueue(loadItemQueue.Dequeue()); 
-                }
-            }
-            return items;
+            return new Image("res://ehres!MOVIE.ICON.DEFAULT.PNG");
         }
 
-        private static void ProcessQueue()
-        {
-            var pending = GetPendingItems();
-            while (pending.Count > 0)
-            {
-                var item = pending.Dequeue();
-
-                try
-                {
-                    // load it ... and notify 
-                    var image = ImageFromStream(new MemoryStream(File.ReadAllBytes(item.ThumbPath)));
-
-                    lock (item)
-                    {
-                        item.image = image;
-                    }
-                    Microsoft.MediaCenter.UI.Application.DeferredInvoke(item.NewThumbnailGenerated);
-                }
-                catch
-                {
-                    Trace.TraceInformation("Failed to load item");
-                    // fall through 
-                }
-
-                if (pending.Count == 0)
-                {
-                    lock (syncObj)
-                    {
-                        pending = GetPendingItems();
-                        if (pending.Count == 0)
-                        {
-                            // finish with this thread 
-                            imageLoaderThread = null;
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void StartProcessingQueue()
-        {
-            lock (syncObj)
-            {
-                if (imageLoaderThread == null)
-                {
-                    imageLoaderThread = new Thread(new ThreadStart(ProcessQueue));
-                    imageLoaderThread.Start();
-                }
-            }
-        }
-
-        private void NewThumbnailGenerated(object state)
-        {
-            this.FirePropertyChanged("MCMLThumb"); 
-        }
-
-        Image image = null;
-        /*
-        Image poster_image = null; 
-
-        [MarkupVisible]
-        public Image PosterViewThumb
-        {
-            get
-            {
-                // only speed up cached folders
-                if (this is FolderItem)
-                {
-                    return MCMLThumb;
-                }
-
-                if (poster_image == null)
-                {
-                    if (!File.Exists(PosterViewThumbPath))
-                    {
-                        if (File.Exists(ThumbPath))
-                        {
-                            System.Drawing.Image image = new System.Drawing.Bitmap(ThumbPath);
-                            var aspect = ((float)image.Width) / ((float)image.Height) ;
-
-                            int desired_height =200;
-                            if (desired_height > image.Height)
-                            {
-                                desired_height = image.Height;
-                            }
-
-                            int desired_width = (int)(desired_height * aspect);
-
-                            // movie poster
-                            if (aspect > 0.65 && aspect < 0.75)
-                            {
-                                desired_width = (int)(desired_height * 0.7);
-                            }
-
-                            Helper.ResizeImage(ThumbPath, PosterViewThumbPath, desired_width, desired_height);
-                        }
-                    }
-
-                    poster_image = Helper.GetMCMLThumb(PosterViewThumbPath, IsVideo);
-                }
-
-                return poster_image;
- 
-            } 
-        }
-
-        public string PosterViewThumbPath
-        {
-            get
-            {
-                return Path.Combine(Helper.AppPosterThumbPath, Key + ".png"); 
- 
-            } 
-        }
-         */
-
+        
+        
         [MarkupVisible]
         public Image MCMLThumb
         {
@@ -164,41 +39,30 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (image != null)
                     return image;
-                bool enableExperimentalPosterFix = true;
-
-                bool loadImage = false;
-
-                lock (this)
+                else if (IsVideo)    
+                    image = defImage;
+                if (!string.IsNullOrEmpty(ThumbPath))
                 {
-                    if (image == null)
-                    {
-                        if (enableExperimentalPosterFix)
-                        {
-                            loadImage = true;
-                            image = Helper.GetMCMLThumb("", IsVideo);
-                        }
-                        else
-                        {
-                            image = Helper.GetMCMLThumb(ThumbPath, IsVideo);
-                        }
-                    }
-                }
-                
-                if (!string.IsNullOrEmpty(ThumbPath) && loadImage)
-                {
-                    // start a background load 
-                    lock (syncObj)
-                    {
-                        loadItemQueue.Enqueue(this);
-                        StartProcessingQueue(); 
-                    }
+                    //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadImage, ImageLoaded, ThumbPath);
+                    LoadImage(this.ThumbPath);  // now we only use this for the selected items don't lazy load it any more - looks odd that the focused item takes too long to load otherwise
+                    ImageLoaded(null);
                 }
                 return image;
             }
         }
 
-        Size smallThumbSize = new Size(1,1);// Config.Instance.MaximumPosterSize;
-        bool forceSmallThumbLoad = false;
+        private void LoadImage(object pathString)
+        {
+            if ((image==null) || (image==defImage))
+                this.image = new Image("file://" + (string)pathString);   
+        }
+
+        private void ImageLoaded(object nothing)
+        {
+            FirePropertyChanged("MCMLThumb");
+        }
+
+        
         public Size SmallThumbSize
         {
             get
@@ -222,8 +86,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
         }
-
-       
+             
 
         public Vector3 PosterZoom
         {
@@ -239,7 +102,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        Image smallImage = null;
+        
 
         [MarkupVisible]
         public Image MCMLSmallThumb
@@ -250,18 +113,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     return smallImage;
                 string path = this.ThumbPath;
                 if ((path == null) || (path.Length == 0))
-                    return null;
+                {
+                    if (this.IsVideo)
+                    {
+                        smallImage = defImage;
+                        return smallImage;
+                    }
+                    else
+                        return null;
+                }
                 Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadSmallImage, SmallImageLoaded,path);
                 return smallImage;
             }
         }
 
-        public void SmallImageLoaded(object nothing)
+        private void SmallImageLoaded(object nothing)
         {
             FirePropertyChanged("MCMLSmallThumb");
         }
 
-        public void LoadSmallImage(object pathString)
+        private void LoadSmallImage(object pathString)
         {
             string path = (string)pathString;
             lock (this)
@@ -335,38 +206,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get { return ((this.ThumbPath != null) && (this.ThumbPath.Length > 0)); }
         }
 
-        private static Image ImageFromStream(Stream stream)
-        {
-            if (fromStreamMethodInfo == null)
-            {
-                lock (syncObj)
-                {
-                    MethodInfo[] mis = typeof(Image).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
-
-                    foreach (MethodInfo mi in mis)
-                    {
-                        ParameterInfo[] pis = mi.GetParameters();
-                        if (mi.Name == "FromStream" && pis.Length == 2)
-                        {
-                            if (pis[0].ParameterType == typeof(String) &&
-                                pis[1].ParameterType == typeof(Stream))
-                            {
-                                fromStreamMethodInfo = mi;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return (Image)fromStreamMethodInfo.Invoke(null, new object[] { null, stream });
-        }
-
-
-        #endregion 
+      
 
         #region Playback control, a bunch of shadow methods 
 
-        private PlaybackController playbackController;
+        
         public PlaybackController PlaybackController 
         {
             get
@@ -387,7 +231,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private PlayState playState;
+        
         public PlayState PlayState
         {
             get

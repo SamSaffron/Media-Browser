@@ -493,7 +493,6 @@
 				</Actions>
 			</Changed>
 
-			<!-- Fix up the navigation so always the first item is selected-->
 			<Rule ConditionLogicalOp="And">
 				<Conditions>
 					<Modified Source="[Application]" InitialEvaluate="true"/>
@@ -502,7 +501,7 @@
 				</Conditions>
 
 				<Actions>
-					<Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="0"/>
+					<Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="[FolderItems.SelectedIndex.Value]"/>
 				</Actions>
 			</Rule>
 
