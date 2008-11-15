@@ -78,6 +78,7 @@
 				</Conditions>
 				<Actions>
 					<Set Target="[BreadCrumbs.Font]" Value="Segoe Media Center Light, 36" />
+					<Set Target="[BreadCrumbs.Margins]" Value="0,20,0,0" />
 				</Actions>
 			</Rule>
 
