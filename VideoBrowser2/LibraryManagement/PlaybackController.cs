@@ -126,7 +126,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 Thread.Sleep(100);
             }
             mce.MediaExperience.Transport.Position = folderItem.PlayState.Position;
-            
+            folderItem.PlayState.LastPlayed = DateTime.Now;
+            folderItem.PlayState.PlayCount = folderItem.PlayState.PlayCount + 1;
         } 
 
         public void Play()

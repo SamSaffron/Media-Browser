@@ -440,6 +440,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public void ClearWatched()
         {
             this.playState.PlayCount = 0;
+            this.playState.Position = new TimeSpan(0);
             FirePropertyChanged("HaveWatched");
         }
 
