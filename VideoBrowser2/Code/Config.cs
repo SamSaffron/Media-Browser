@@ -51,6 +51,14 @@ namespace SamSoft.VideoBrowser
 
         [Comment(@"The default size of posters before change are made to the view settings")]
         public Size DefaultPosterSize = new Size(220, 220);
+
+        [Comment("Controls the space between items in the poster and thumb strip views")]
+        public Size GridSpacing = new Size(0, 0);
+        public Size GridSpacingMcml
+        {
+            get { return this.GridSpacing; }
+        }
+
        /*
         [Comment(@"The maximum size of the poster images in poster view")]
         public Size MaximumPosterSize = new Size(200, 230);

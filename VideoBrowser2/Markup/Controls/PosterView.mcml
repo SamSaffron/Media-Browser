@@ -381,7 +381,7 @@
 			<Environment Name="Environment" />
 
 			<GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="[RowLimit]" Columns="0" 
-						AllowWrap="true" Spacing="0,0" MinorAlignment="Center" MajorAlignment="Center" />
+						AllowWrap="true" Spacing="[Application.Config.GridSpacingMcml]" MinorAlignment="Center" MajorAlignment="Center" />
 
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled"/>
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled"/>
