@@ -12,7 +12,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     {
         Image MCMLThumb { get; }
         Image MCMLSmallThumb { get; }
-        //Image PosterViewThumb { get; }
+        Vector3 PosterZoom { get; }
         /// <summary>
         /// A globally unique ID for the file (based off Guid)
         /// </summary>

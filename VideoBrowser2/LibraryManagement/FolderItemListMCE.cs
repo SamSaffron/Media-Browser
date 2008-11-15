@@ -55,6 +55,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             selectedIndex.MinValue = -1;
             selectedIndex.MaxValue = 20000;
             selectedIndex.Value = -1;
+            selectedIndex.PropertyChanged += new PropertyChangedEventHandler(selectedIndex_PropertyChanged);
             
             //VisualReleaseBehavior = ReleaseBehavior.Dispose;
             
@@ -66,6 +67,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
             //  mce does not allow cross thread signalling
             //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
+        }
+
+        void selectedIndex_PropertyChanged(IPropertyObject sender, string property)
+        {
+            FirePropertyChanged("SelectedItem");
         }
 
         
@@ -123,9 +129,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        /// <summary>
+        /// Determines the size the grid layout gives to each item, without this it bases it off the first item.
+        /// We need this as without it under some circustance when labels are showing and the first item is in 
+        /// focus things get upset and all the other posters dissappear
+        /// It seems to be something todo with what happens when the text box gets scaled
+        /// </summary>
+        public Size ReferenceSize
+        {
+            get
+            {
+                Size s = this.ActualThumbSize.Value;
+                if (this.folderItems.Prefs.ShowLabels)
+                    s.Height += 40;
+                return s;
+            }
+        }
+
         void ThumbConstraint_PropertyChanged(IPropertyObject sender, string property)
         {
             UpdateActualThumbSize();
+            FirePropertyChanged("ReferenceSize");
         }
 
         private void UpdateActualThumbSize()
@@ -140,22 +164,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             this.ActualThumbSize.Value = s;
         }
 
-        // Cause its easier to do this in code than transformers, guess the height between 0.27 and 0.9
-        public float GuessHeight
-        {
-            get
-            {
-                float f = ThumbAspectRatio / (float)2.1;
-                f += (float)0.27;
-
-                if (f > 0.9)
-                {
-                    f = (float)0.9; 
-                }
-                return f;
-            }
-        }
-
+        
 
         void InternalListChanged()
         {
@@ -171,30 +180,37 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private void InitailzeThumbSizing()
+        private void InitializePrefListening()
         {
             folderItems.Prefs.ThumbConstraint.PropertyChanged += new PropertyChangedEventHandler(ThumbConstraint_PropertyChanged);
+            folderItems.Prefs.PropertyChanged += new PropertyChangedEventHandler(Prefs_PropertyChanged);
             UpdateActualThumbSize();
+        }
+
+        void Prefs_PropertyChanged(IPropertyObject sender, string property)
+        {
+            if (property == "ShowLabels")
+                FirePropertyChanged("ReferenceSize");
         }
         internal void Navigate(List<IFolderItem> items)
         {
             folderItems.Navigate(items);
             Count = folderItems.Count;
-            InitailzeThumbSizing();
+            InitializePrefListening();
         }
 
         internal void Navigate(string path)
         {
             folderItems.Navigate(path);
             Count = folderItems.Count;
-            InitailzeThumbSizing();
+            InitializePrefListening();
         }
 
         internal void Navigate(VirtualFolder virtualFolder)
         {
             folderItems.Navigate(virtualFolder);
             Count = folderItems.Count;
-            InitailzeThumbSizing();
+            InitializePrefListening();
         }
 
         internal void CacheMetadata()

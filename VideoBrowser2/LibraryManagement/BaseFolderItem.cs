@@ -218,17 +218,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         }
                     FirePropertyChanged("SmallThumbSize");
                     FirePropertyChanged("LabelConstraint");
+                    FirePropertyChanged("PosterZoom");
                 }
             }
         }
 
-        public Size LabelConstraint
+       
+
+        public Vector3 PosterZoom
         {
             get
             {
-                Size s = this.SmallThumbSize;
-                s.Height = 33; // warning increasing this number causes some strange effects in the poster view when the first item is focused
-                return s;
+                float z = (float)((-0.006 * this.SmallThumbSize.Height) + 2.5);
+                if (z < 1.15)
+                    z = 1.15F;
+                if (z > 1.9F)
+                    z = 1.9F; // above this the navigation arrows start going in strange directions!
+                return new Vector3(z,z,1);
             }
         }
 
@@ -265,7 +271,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     Size maxSz = this.SmallThumbSize;
                     if (maxSz.Width == 1)
                         return; // the size has not been set yet
-                    Trace.TraceInformation("Generating small image for " + this.ThumbPath + ": " + maxSz.ToString());
+                    //Trace.TraceInformation("Generating small image for " + this.ThumbPath + ": " + maxSz.ToString());
                     System.Drawing.Size newSize = new System.Drawing.Size(maxSz.Width, maxSz.Height);
                     using (System.Drawing.Bitmap bmp = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path))
                     {

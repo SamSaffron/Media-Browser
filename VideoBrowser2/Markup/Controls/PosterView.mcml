@@ -380,10 +380,9 @@
 
 			<Environment Name="Environment" />
 
-			<GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="[RowLimit]" Columns="0" AllowWrap="true" Spacing="0,0" MinorAlignment="Center" MajorAlignment="Center" />
+			<GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="[RowLimit]" Columns="0" 
+						AllowWrap="true" Spacing="0,0" MinorAlignment="Center" MajorAlignment="Center" />
 
-			<MathTransformer Name="Mult" Multiply="[FolderItems.ThumbAspectRatio]"/>
-			<MathTransformer Name="Div" Divide="[FolderItems.ThumbAspectRatio]"/>
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled"/>
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled"/>
 			<IntRangedValue Name="NavCount" Value="0" />
@@ -399,7 +398,9 @@
 			<FormLayoutInput Name="VLayout" Horizontal="Center" Vertical="Fill"/>
 		</Locals>
 
+
 		<Rules>
+			<Binding Source="[FolderItems.ReferenceSize]" Target="[MyLayout.ReferenceSize]"/>
 			<Condition Source="[VerticalScroll.Value]" SourceValue="true">
 				<Actions>
 					<Set Target="[Scroller.Orientation]" Value="Vertical" />
@@ -534,15 +535,22 @@
 			<Binding Target="[Scroller.ScrollingData]" Source="[ScrollingData]" />
 			<!-- Give Repeater to ScrollingData. -->
 			<Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
+			<Default Target="[FocusRect.Scaling]" Value="[FolderItems.SelectedItem.PosterZoom]" />
+			<Binding Target="[FocusRect.Scaling]" Source="[FolderItems.SelectedItem.PosterZoom]" />
+			<Changed Source="[FolderItems.SelectedItem]">
+				<Actions>
+					<Set Target="[FocusRect.Scaling]" Value="[FolderItems.SelectedItem.PosterZoom]" />
+				</Actions>
+			</Changed>
 		</Rules>
 
 		<Content>
-			<Panel Name="ItemPanel" Layout="Form" Navigation="ContainHorizontal">
+			<Panel Name="ItemPanel" Layout="Form" Navigation="ContainHorizontal" >
 				<Children>
-					<me:FocusSelector>
+					<me:FocusSelector Name="FocusRect">
 						<LayoutInput>
-							<FormLayoutInput Left="Focus,-0.075,-3" Right="Focus,1.075,3"
-											 Top="Focus,-0.075,-3" Bottom="Focus,1.075,3"
+							<FormLayoutInput Left="Focus,0,-3" Right="Focus,1,3"
+											 Top="Focus,0,-3" Bottom="Focus,1,3"
 											 ContributesToHeight="false"
 											 ContributesToWidth="false"/>
 						</LayoutInput>
@@ -642,9 +650,13 @@
 	<UI Name="FocusSelector">
 		<Properties>
 			<Image Name="FocusImage" Image="image://s:ZoomPane"/>
+			<Vector3 Name="Scaling" Vector3="1,1,1"/>
 		</Properties>
+		<Rules>
+			<Binding Source="[Scaling]" Target="[Graphic.Scale]" />
+		</Rules>
 		<Content>
-			<Graphic Content="[FocusImage]" Scale="1.0,1.0,1.0" MaintainAspectRatio="true" >
+			<Graphic Name="Graphic" Content="[FocusImage]" MaintainAspectRatio="true" CenterPointPercent="0.5,0.5,0.5" >
 			</Graphic>
 		</Content>
 	</UI>
@@ -677,8 +689,6 @@
 			<Binding Source="[Model]" Target="[Clicker.Command]"/>
 			<Binding Source="[ImageSize.Value]" Target="[Model.SmallThumbSize]" />
 			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
-			<Binding Source="[Model.LabelConstraint]" Target="[BelowLabelPanel.MaximumSize]" />
-
 
 			<Default Target="[LabelPanel.Visible]" Value="true">
 				<Conditions>
@@ -704,7 +714,7 @@
 			
 			<Condition Source="[InFocus.Value]" SourceValue="true">
 				<Actions>
-					<Set Target="[MainPanel.Scale]" Value="1.15,1.15,1.0"/>
+					<Set Target="[MainPanel.Scale]" Value="[Model.PosterZoom]"/>
 					<Set Target="[BoxItem.Alpha]" Value="1"/>
 					<Set Target="[BelowLabelPanel.Alpha]" Value="1" />
 					<Set Target="[BoxItem.Content]" Value="color://me:ZoomBackgroundBlue"/>
@@ -767,6 +777,7 @@
 			  <Default Target="[Accessible.Role]"                 Value="PushButton"/>-->
 
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MaximumSize]" />
+			<Binding Source="[ImageSize.Value]" Target="[BelowLabelPanel.MaximumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MinimumSize]" />
 		</Rules>
 
@@ -818,9 +829,8 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
 								</Layout>
 								<Children>
-									<Text Name="BelowLabelPanel" MaximumSize="10,10" Margins="0,5,0,-3" Alpha="0.7" Color="White"  Font="Segoe Media Center Semibold, 16" Content="[Model.Description]" WordWrap="false" HorizontalAlignment="Near">
+									<Text Name="BelowLabelPanel" Margins="0,5,0,-3" Alpha="0.7" Color="White"  Font="Segoe Media Center Semibold, 16" Content="[Model.Description]" WordWrap="false" HorizontalAlignment="Near">
 									</Text>
-									
 									<Panel Name="ConstraintPanel" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" >
 										<Layout>
 											<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
