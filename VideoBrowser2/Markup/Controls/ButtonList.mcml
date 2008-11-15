@@ -31,13 +31,22 @@
 		<Locals>
 			<ClickHandler Name="Clicker" />
 			<Image Name="Tick" Image="image://s:Tick"/>
+			<ShortcutHandler Name="ClearBtn" Handle="true" Shortcut="Clear" HandlerStage="Bubbled" />
 		</Locals>
 
 		<Rules>
 
+			<Rule>
+				<Conditions>
+					<Modified Source="[ClearBtn.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[Model.ClearWatched]"/>
+				</Actions>
+			</Rule>
+			
 			<!-- Bind the button's label and command-->
 			<Binding Source="[Model.Description]" Target="[Label.Content]"/>
-
 			<Binding Source="[Model.HaveWatched]" Target="[TickIndicator.Visible]" />
 			
 

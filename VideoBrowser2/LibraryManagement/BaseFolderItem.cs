@@ -437,6 +437,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        public void ClearWatched()
+        {
+            this.playState.PlayCount = 0;
+            FirePropertyChanged("HaveWatched");
+        }
+
         [MarkupVisible]
         public bool HaveWatched
         {

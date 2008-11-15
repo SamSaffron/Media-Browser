@@ -682,9 +682,20 @@
 			<ClickHandler Name="Clicker"/>
 			<Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
 			<BooleanChoice Name="InFocus" Value="false" />
+			<ShortcutHandler Name="ClearBtn" Handle="true" Shortcut="Clear" HandlerStage="Bubbled" />
 		</Locals>
 
 		<Rules>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[ClearBtn.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[Model.ClearWatched]"/>
+				</Actions>
+			</Rule>
+			
 			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
 			<Binding Source="[Model]" Target="[Clicker.Command]"/>
 			<Binding Source="[ImageSize.Value]" Target="[Model.SmallThumbSize]" />
