@@ -168,9 +168,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             try
             {
-                UpdateActualThumbSize();
                 this.Count = 0;
                 this.Count = folderItems.Count;
+                UpdateActualThumbSize();
+                SetSelectedItem();
             }
             catch
             {
@@ -195,16 +196,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         
         private void SetSelectedItem()
         {
-            this.SelectedIndex.Value = 0;
             if (Config.Instance.DefaultToFirstUnwatched)
             {
                 for (int i = 0; i < this.folderItems.Count; ++i)
                     if (!folderItems[i].HaveWatched)
                     {
                         this.SelectedIndex.Value = i;
-                        break;
+                        return;
                     }
             }
+            this.SelectedIndex.Value = 0;
         }
 
         internal void Navigate(List<IFolderItem> items)
