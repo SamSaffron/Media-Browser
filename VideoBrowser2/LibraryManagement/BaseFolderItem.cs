@@ -91,6 +91,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get
             {
                 float x = Math.Max(this.SmallThumbSize.Height, this.SmallThumbSize.Width);
+                if (x == 1)
+                    return new Vector3(1.15F, 1.15F, 1); // default if we haven't be set yet
                 float z = (float)((-0.007 * x) + 2.5);
                 if (z < 1.15)
                     z = 1.15F;

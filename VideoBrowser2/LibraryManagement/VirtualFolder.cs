@@ -21,6 +21,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     // TODO: test if it is a valid image
 					string thumbPath = line.Substring(6).Trim();
+                    if ((thumbPath.StartsWith(@".\")) || (thumbPath.StartsWith(@"..\")))
+                    {
+                        thumbPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), thumbPath);
+                        thumbPath = System.IO.Path.GetFullPath(thumbPath);
+                    }
 					if (!IsValidPath(thumbPath) || !File.Exists(thumbPath))
 					{
 						Application.DialogBoxViaReflection("Invalid virtual folder thumbnail path: " + thumbPath);

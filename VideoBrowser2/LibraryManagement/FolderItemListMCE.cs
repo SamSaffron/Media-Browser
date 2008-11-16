@@ -196,6 +196,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         
         private void SetSelectedItem()
         {
+            this.selectedIndex.Value = -1;
             if (Config.Instance.DefaultToFirstUnwatched)
             {
                 for (int i = 0; i < this.folderItems.Count; ++i)
