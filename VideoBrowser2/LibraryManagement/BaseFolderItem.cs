@@ -150,7 +150,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         System.Drawing.Size s = bmp.Size;
                         double constraintAspect = (double)maxSz.Width / (double)maxSz.Height;
                         double aspect = (double)s.Width / (double)s.Height;
-                        if (Math.Abs(aspect - constraintAspect) < 0.05)
+                        if (Math.Abs(aspect - constraintAspect) < Config.Instance.MaximumAspectRatioDistortion)
                         {
                             newSize.Width = maxSz.Width; // if the aspect is close to what we want the stretch it to match
                             newSize.Height = maxSz.Height;

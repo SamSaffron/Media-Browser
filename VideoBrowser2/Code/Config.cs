@@ -59,6 +59,11 @@ namespace SamSoft.VideoBrowser
             get { return this.GridSpacing; }
         }
 
+        [Comment(@"Controls the maximum difference between the actual aspect ration of a poster image and the thumbnails being displayed to allow the application to stretch the image non-proportionally.
+            x = Abs( (image width/ image height) - (display width / display height) )
+            if x is less than the configured value the imae will be stretched non-proportionally to fit the display size")]
+        public float MaximumAspectRatioDistortion = 0.05F;
+
         [Comment(@"Enable transcode 360 support on extenders")]
         public bool EnableTranscode360 = true;
         [Comment(@"A lower case comma delimited list of types the extender supports natively. Example: .dvr-ms,.wmv")]
@@ -274,7 +279,6 @@ namespace SamSoft.VideoBrowser
                     node.InnerText = Default(field).ToString();
                     stuff_changed = true;
                 }
-
                 string value = node.InnerText;
 
                 if (field.FieldType == typeof(string))
@@ -305,6 +309,14 @@ namespace SamSoft.VideoBrowser
                 {
                     int x;
                     if (Int32.TryParse(value, out x))
+                        field.SetValue(this, x);
+                    else
+                        stuff_changed = true;
+                }
+                else if (field.FieldType == typeof(float))
+                {
+                    float x;
+                    if (float.TryParse(value, out x))
                         field.SetValue(this, x);
                     else
                         stuff_changed = true;
@@ -343,9 +355,7 @@ namespace SamSoft.VideoBrowser
                         field.SetValue(this, c);
                     }
                     catch
-                    {
-
-                    }
+                    {}
                 }
                 else if (field.FieldType == typeof(Vector3))
                 {
@@ -365,14 +375,12 @@ namespace SamSoft.VideoBrowser
                         field.SetValue(this, c);
                     }
                     catch
-                    {
-
-                    }
+                    {}
                 }
                 else
                 {
                     // only supporting above types for now
-                    return;
+                    //return;
                 }
             }
 

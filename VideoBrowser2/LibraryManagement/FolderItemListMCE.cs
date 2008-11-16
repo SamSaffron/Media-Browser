@@ -13,6 +13,34 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         internal FolderItemList folderItems;
         private FolderItemListMCE parent;
         string breadcrumb;
+        static FolderItem blank = new FolderItem("", true);
+        IntRangedValue selectedIndex;
+        SizeRef actualThumbSize = new SizeRef(new Size(10, 10));
+
+       
+        public FolderItemListMCE(FolderItemListMCE parent, string breadcrumb)
+        {
+            this.parent = parent;
+            this.breadcrumb = breadcrumb;
+            folderItems = new FolderItemList();
+            folderItems.OnChanged += new FolderItemListModifiedDelegate(InternalListChanged);
+            selectedIndex = new IntRangedValue();
+            selectedIndex.MinValue = -1;
+            selectedIndex.MaxValue = 20000;
+            selectedIndex.Value = -1;
+            selectedIndex.PropertyChanged += new PropertyChangedEventHandler(selectedIndex_PropertyChanged);
+            
+            //VisualReleaseBehavior = ReleaseBehavior.Dispose;
+            
+            // TODO : decide if it makes sense to discard of screen visuals, will require 
+            // DiscardOffscreenVisuals="true" in the repeater 
+            
+            //EnableSlowDataRequests = true;
+
+
+            
+        }
+
 
         public string Breadcrumb
         {
@@ -41,41 +69,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
 
                 return String.Join(" | ", breadcrumbs.ToArray());
-                
+
             }
         }
+
        
-        public FolderItemListMCE(FolderItemListMCE parent, string breadcrumb)
-        {
-            this.parent = parent;
-            this.breadcrumb = breadcrumb;
-            folderItems = new FolderItemList();
-            folderItems.OnChanged += new FolderItemListModifiedDelegate(InternalListChanged);
-            selectedIndex = new IntRangedValue();
-            selectedIndex.MinValue = -1;
-            selectedIndex.MaxValue = 20000;
-            selectedIndex.Value = -1;
-            selectedIndex.PropertyChanged += new PropertyChangedEventHandler(selectedIndex_PropertyChanged);
-            
-            //VisualReleaseBehavior = ReleaseBehavior.Dispose;
-            
-            // TODO : decide if it makes sense to discard of screen visuals, will require 
-            // DiscardOffscreenVisuals="true" in the repeater 
-            
-            //EnableSlowDataRequests = true;
-
-
-            //  mce does not allow cross thread signalling
-            //  folderItems.OnSortOrdersChanged += new SortOrdersModifiedDelegate(SortOrderChanged);
-        }
-
-        void selectedIndex_PropertyChanged(IPropertyObject sender, string property)
-        {
-            FirePropertyChanged("SelectedItem");
-        }
-
-        
-
         public IFolderItem SelectedItem
         {
             get
@@ -97,19 +95,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        static FolderItem blank = new FolderItem("",true);
         public IFolderItem BlankItem
         {
             get { return blank; }
         }
 
-        IntRangedValue selectedIndex;
+        
         public IntRangedValue SelectedIndex
         {
             get
             {
                 return selectedIndex;
             }
+        }
+
+        void selectedIndex_PropertyChanged(IPropertyObject sender, string property)
+        {
+            FirePropertyChanged("SelectedItem");
         }
 
         public float ThumbAspectRatio
@@ -119,8 +121,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 return folderItems.ThumbAspectRatio;
             }
         }
-
-        SizeRef actualThumbSize = new SizeRef(new Size(10, 10));
+        
         public SizeRef ActualThumbSize
         {
             get
@@ -180,11 +181,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private void InitializePrefListening()
+        private void FinishNavigate()
         {
+            this.Count = folderItems.Count;
             folderItems.Prefs.ThumbConstraint.PropertyChanged += new PropertyChangedEventHandler(ThumbConstraint_PropertyChanged);
             folderItems.Prefs.PropertyChanged += new PropertyChangedEventHandler(Prefs_PropertyChanged);
             UpdateActualThumbSize();
+            SetSelectedItem();
         }
 
         void Prefs_PropertyChanged(IPropertyObject sender, string property)
@@ -210,25 +213,19 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         internal void Navigate(List<IFolderItem> items)
         {
             folderItems.Navigate(items);
-            Count = folderItems.Count;
-            InitializePrefListening();
-            SetSelectedItem();
+            FinishNavigate();
         }
 
         internal void Navigate(string path)
         {
             folderItems.Navigate(path);
-            Count = folderItems.Count;
-            InitializePrefListening();
-            SetSelectedItem();
+            FinishNavigate();
         }
 
         internal void Navigate(VirtualFolder virtualFolder)
         {
             folderItems.Navigate(virtualFolder);
-            Count = folderItems.Count;
-            InitializePrefListening();
-            SetSelectedItem();
+            FinishNavigate();
         }
 
         internal void CacheMetadata()
@@ -248,7 +245,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         
-
+        
         #region Speed optimisations for poster view
 
         protected override void OnRequestItem(int index, ItemRequestCallback callback)
@@ -276,5 +273,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         }
 
         #endregion 
+         
     }
 }
