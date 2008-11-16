@@ -36,6 +36,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     if ((folderPath.StartsWith(@".\")) || (folderPath.StartsWith(@"..\")))
                     {
                         folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), folderPath);
+                        folderPath = System.IO.Path.GetFullPath(folderPath);
                     }
 
 					if (!IsValidPath(folderPath) || !Directory.Exists(folderPath))
