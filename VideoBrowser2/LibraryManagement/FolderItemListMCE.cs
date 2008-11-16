@@ -35,10 +35,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             // TODO : decide if it makes sense to discard of screen visuals, will require 
             // DiscardOffscreenVisuals="true" in the repeater 
             
-            //EnableSlowDataRequests = true;
-
-
-            
+            //EnableSlowDataRequests = true;           
         }
 
 

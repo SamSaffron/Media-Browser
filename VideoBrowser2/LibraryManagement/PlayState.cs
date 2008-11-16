@@ -32,7 +32,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
         }
 
-
         public struct PlayStateData
         {
             [XmlElement]
@@ -59,7 +58,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private PlayState(IFolderItem folderItem)
         {
-            filename = Path.Combine(Helper.AppPlayStatePath,folderItem.Key + ".xml"); 
+            filename = Path.Combine(Helper.AppPlayStatePath, folderItem.Key + ".xml"); ;   
             Load(); 
         }
 
@@ -72,10 +71,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if (File.Exists(filename))
                 {
-                    using (FileStream fs = new FileStream(filename, FileMode.Open))
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         XmlSerializer xs = GetSerializer();
                         playstate = (PlayStateData)xs.Deserialize(fs);
+                        fs.Close();
                     }
                 }
             }
@@ -119,7 +119,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public int PlaylistPosition
         {
             get { return playstate.PlaylistPosition; }
-            set { playstate.PlaylistPosition = value; Save(); } 
+            set 
+            {
+                if (playstate.PlaylistPosition != value)
+                {
+                    playstate.PlaylistPosition = value;
+                    Save();
+                }
+            } 
         }
 
         /// <summary>
@@ -128,7 +135,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         public int PlayCount
         {
             get { return playstate.PlayCount; }
-            set { playstate.PlayCount = value; Save(); } 
+            set 
+            {
+                if (playstate.PlayCount != value)
+                {
+                    playstate.PlayCount = value;
+                    Save();
+                }
+            } 
         }
 
         public TimeSpan Position 
@@ -136,10 +150,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get { return playstate.Position;  }
             set 
             {
-                bool save = (value.Subtract(playstate.Position).TotalSeconds > 10);
-                playstate.Position = value; 
-                if (save) // trim down saving the position to once every 10 seconds while playing
-                    Save(); 
+                if (playstate.Position != value)
+                {
+                    bool save = (value.Subtract(playstate.Position).TotalSeconds > 10);
+                    playstate.Position = value;
+                    if (save) // trim down saving the position to once every 10 seconds while playing
+                        Save();
+                }
             } 
         }
 

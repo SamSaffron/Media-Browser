@@ -33,6 +33,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 else if (line.StartsWith("folder:"))
                 { 
 					string folderPath = line.Substring(7).Trim();
+                    if ((folderPath.StartsWith(@".\")) || (folderPath.StartsWith(@"..\")))
+                    {
+                        folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), folderPath);
+                    }
+
 					if (!IsValidPath(folderPath) || !Directory.Exists(folderPath))
 					{
 						Application.DialogBoxViaReflection("Invalid virtual folder path: " + folderPath);

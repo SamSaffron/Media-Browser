@@ -522,7 +522,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     this.Sort(new FolderItemSorter(sortOrderEnum));
                 }
 
-
             }
 
             InvokeChanged();

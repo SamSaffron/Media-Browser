@@ -185,17 +185,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         static Helper() 
         {
             PathMap = new Dictionary<string, string>();
-            PathMap["app_data"] = System.Environment.GetFolderPath(
-                        System.Environment.SpecialFolder.CommonApplicationData
-                    );
+            PathMap["app_data"] = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
             
             string[,] tree = { 
-                    { "AppConfigPath", "app_data", "VideoBrowser"}, 
-                    { "AppPrefsPath", "AppConfigPath", "Prefs" },
-                    { "AppPlayStatePath", "AppConfigPath", "PlayState" },
-                    { "AppCachePath", "AppConfigPath", "Cache" },
-                    { "AppPosterThumbPath", "AppCachePath", "PosterThumb" },
-                    { "AutoPlaylistPath", "AppCachePath", "AutoPlaylists" }
+                    { "AppConfigPath",      "app_data",         "VideoBrowser"  }, 
+                    { "AppPrefsPath",       "AppConfigPath",    "Prefs"         },
+                    { "AppPlayStatePath",   "AppConfigPath",    "PlayState"     },
+                    { "AppCachePath",       "AppConfigPath",    "Cache"         },
+                    { "AppPosterThumbPath", "AppCachePath",     "PosterThumb"   },
+                    { "AutoPlaylistPath",   "AppCachePath",     "AutoPlaylists" }
             };
 
             for (int i = 0; i <= tree.GetUpperBound(0); i++)
