@@ -160,9 +160,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             else
                 s.Height = (int)(s.Width * f);
             this.ActualThumbSize.Value = s;
+            FirePropertyChanged("ReferenceSize");
         }
-
-        
 
         void InternalListChanged()
         {
