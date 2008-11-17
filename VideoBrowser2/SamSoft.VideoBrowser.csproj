@@ -94,6 +94,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Singleton.cs" />
+    <Compile Include="Util\ThumbCreator.cs" />
     <Compile Include="Util\Timer.cs" />
     <Compile Include="Util\Updater.cs" />
   </ItemGroup>
