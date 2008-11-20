@@ -30,14 +30,25 @@ namespace SamSoft.VideoBrowser
         internal EditableText JILtext
         {
             get { return _JILtext; }
-            set { if (_JILtext != value) { _JILtext = value; base.FirePropertyChanged("JILtext"); } }
+            set
+			{
+				if (_JILtext != value)
+				{
+					_JILtext = value;
+					base.FirePropertyChanged("JILtext");
+				}
+			}
         }
 
         [MarkupVisible]
         internal Int32 JILindex
         {
             get { return _JILindex; }
-            set { _JILindex = value; base.FirePropertyChanged("JILindex"); }
+            set
+			{
+				_JILindex = value;
+				base.FirePropertyChanged("JILindex");
+			}
         }
 
         string _findText = ""; 
@@ -55,11 +66,7 @@ namespace SamSoft.VideoBrowser
 
         public Config Config
         {
-            get
-            {
-                return Config.Instance;
-                
-            }
+            get { return Config.Instance; }
         }
 
         public int CurrentIndex { get; set; }
@@ -156,7 +163,7 @@ namespace SamSoft.VideoBrowser
             }
 
             // navigate to letters first then numbers
-            count = (count+1) % found_letters.Count; 
+			//count = (count+1) % found_letters.Count; 
             foreach (var item in found_letters)
 	        {
 		        if (count == 0) 
@@ -197,14 +204,14 @@ namespace SamSoft.VideoBrowser
         static Application()
         {
             // init the letter map for JIL list 
-            AddLetterMapping('2',"abc2");
-            AddLetterMapping('3',"def3");
-            AddLetterMapping('4',"ghi4");
-            AddLetterMapping('5',"jkl5");
-            AddLetterMapping('6',"mno6");
-            AddLetterMapping('7',"pqrs7");
+            AddLetterMapping('2', "abc2");
+            AddLetterMapping('3', "def3");
+            AddLetterMapping('4', "ghi4");
+            AddLetterMapping('5', "jkl5");
+            AddLetterMapping('6', "mno6");
+            AddLetterMapping('7', "pqrs7");
             AddLetterMapping('8', "tuv8");
-            AddLetterMapping('9',"wxyz9");
+            AddLetterMapping('9', "wxyz9");
         }
 
         private static void AddLetterMapping(char letter, string letters)

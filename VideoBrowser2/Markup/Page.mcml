@@ -174,7 +174,8 @@
 										<Children>
 											<Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://me:LightBlue"  />
 											<!-- Shadow - Confirmed text (opaque) -->
-											<Text Name="ShadowLabel" Content="Fred" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
+											<!--<Text Name="ShadowLabel" Content="Fred" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">-->
+											<Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
 												<LayoutInput>
 													<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
 												</LayoutInput>
