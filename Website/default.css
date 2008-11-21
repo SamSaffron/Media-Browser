@@ -22,8 +22,8 @@ line-height: 18px;
 
 a
 {
-color: #FF7800;
-text-decoration: underline;
+	color: #000066;
+	text-decoration: underline;
 }
 
 a:hover
@@ -140,7 +140,7 @@ font-weight: normal;
 #header h1
 {
 	position: absolute;
-	font-size: 23px;
+	font-size: 24px;
 	letter-spacing: -1px;
 	top: 25px;
 	height: 47px;
@@ -349,13 +349,12 @@ background-image: url('images/a38.gif');
 
 #footer
 {
-position: relative;
-clear: both;
-height: 66px;
-text-align: center;
-line-height: 66px;
-background-image: url('images/a50.gif');
-color: #A8A88D;
+	position: relative;
+	clear: both;
+	height: 66px;
+	text-align: center;
+	line-height: 66px;
+	color: #A8A88D;
 }
 
 #footer a
