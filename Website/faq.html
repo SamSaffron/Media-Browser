@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title>Video Browser</title>
+    <title>Video Browser - FAQ</title>
     <link rel="stylesheet" href="style.css" type="text/css" media="screen">
     <script type="text/javascript" src="javascript/jquery-1.2.6.min.js"></script>
     <script type="text/javascript" src="javascript/jquery.easing.min.js"></script>
@@ -34,18 +34,134 @@
 	</div>
 	
 	<div id="content">
-		<h3>How do I add my video folders to VB?</h3>
-		<p>VB expects all your video files to be in your user account's "My Videos" directory. If you do not want to keep your files there, the easiest way is to create a link to your directory.</p>
+	
+		<h2>FAQ</h2>
+		<ul>
+			<li><a href="#AddVideoFolders">How do I add my video folders to VideoBrowser?</a></li>
+			<li><a href="#MultipleDirectories">How do I get VideoBrowser to show the contents of multiple directories?</a></li>
+			<li><a href="#IndividualVideoFiles">Why doesn't VideoBrowser allow me to select individual video files in a directory?</a></li>
+			<li><a href="#Metadata">Where do I get metadata?</a></li>
+			<li><a href="#ShowGenreImages">How do I get VideoBrowser to show images for the genre folders?</a></li>
+			<li><a href="#ForceCacheUpdate">How can I manually force VideoBrowser to update it's cache?</a></li>
+			<li><a href="#NotCovered">Where do I ask questions not covered by this FAQ?</a></li>
+		</ul>
+		
+		<h3><a name="AddVideoFolders">How do I add my video folders to VideoBrowser?</a></h3>
+		<p>By default, VideoBrowser expects all your video files to be in your Window's user account's <em>"My Videos"</em> directory. If you do not want to keep your files there, the easiest way is to create a link to your directory.</p>
 			
 		<strong>Alternatives</strong><br />
 		
 		<ul>
-			<li><a name="Alternatives">Virtual folders, see </a><a href="http://code.google.com/p/videobrowser/wiki/FAQ#How_do_I_get_VB_to_show_the_contents_of_multiple_directories?" rel="nofollow">How do I get VB to show the contents of multiple directories?</a> </li>
-			<li>Set your accounts video directory to a different path. You can do that manually by using regedit and modify the following key <tt>"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\My Video"</tt> (if it doesn't exist yet, create it with the type <tt>REG_EXPAND_SZ</tt>). If you don't want to do that manually, <a href="http://code.google.com/p/videobrowser/wiki/FAQ#Where_do_I_get_metadata_for_movies?" rel="nofollow">SMO</a> has a GUI for it located in the "extras" menu. </li></ul>
-			<h3><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?">How do I get VB to show the contents of multiple directories?</a></h3><p><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?">VB supports virtual folders. Create a new textfile on your videos directory with the ending  <tt>.vf</tt> (not <tt>.vf.txt</tt>!), for example: <tt>Movies.vf</tt> </a></p><p><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?">Inside this textfile, add one line for each directory you want to add using the <tt>folder: </tt> statement: </a></p><pre class="prettyprint"><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?"><span class="pln">folder</span><span class="pun">:</span><span class="pln"> d</span><span class="pun">:\</span><span class="pln">movies</span><span class="pun">\</span><span class="pln"><br>folder</span><span class="pun">:</span><span class="pln"> e</span><span class="pun">:\</span><span class="pln">other movies</span><span class="pun">\</span></a></pre><p><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?">When you start VB, the file <tt>Movies.vf</tt> will show up like a regular directory. If you open it, you will see all the movies that are present in the two specified locations. </a></p><p><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?">To get VB to display an folder icon, you'll have to tell it manually using the <tt>image: </tt> statement: </a></p><pre class="prettyprint"><a name="How_do_I_get_VB_to_show_the_contents_of_multiple_directories?"><span class="pln">image</span><span class="pun">:</span><span class="pln"> d</span><span class="pun">:\</span><span class="pln">movies</span><span class="pun">\</span><span class="pln">folder</span><span class="pun">.</span><span class="pln">jpg<br>folder</span><span class="pun">:</span><span class="pln"> d</span><span class="pun">:\</span><span class="pln">movies</span><span class="pun">\</span><span class="pln"><br>folder</span><span class="pun">:</span><span class="pln"> e</span><span class="pun">:\</span><span class="pln">other movies</span><span class="pun">\</span></a></pre><h3><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">Why doesn't VB allow me to select individual video files in a directory?</a></h3><p><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">VB needs to have a separate directory for each movie. In some cases one movie might be split in two or more files, therefore VB automatically creates a playlist and plays all the files in a directory in sequence. If the files really are separate movies, you will have to put them in separate directories. </a></p><p><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">Examples: </a></p><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">d:\movies\First Movie (2007)\ </a></li><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">movie.avi </a></li></ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">d:\movies\Second Movie (2008)\ </a></li><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">bm-cd1.avi </a></li><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">bm-cd2.avi </a></li></ul></ul><p><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">In the case of tv shows, the files need to be grouped in a season folder inside the shows main folder: </a></p><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">d:\TV Shows\Great Show\Season 1\ </a></li><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">101 - Episode 1.avi </a></li><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">102 - Episode 2.avi </a></li></ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">d:\TV Shows\Great Show\Season 2\ </a></li><ul><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">201 - Episode 1.avi </a></li><li><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">202 - Episode 2.avi </a></li></ul></ul><p><a name="Why_doesn't_VB_allow_me_to_select_individual_video_files_in">See </a><a href="http://code.google.com/p/videobrowser/wiki/FAQ#Where_do_I_get_metadata_for_TV_shows?" rel="nofollow">Where do I get metadata for TV shows?</a> for getting metadata and naming your files correctly. </p><p>If you really want to disable the the playlist feature, put a textfile in the affected folder with the content <tt>noautoplaylist</tt> </p><h3><a name="Where_do_I_get_metadata_for_TV_shows?">Where do I get metadata for TV shows?</a></h3><p><a name="Where_do_I_get_metadata_for_TV_shows?">The official way would be the original ruby script, see </a><a href="http://www.samsaffron.com/downloads/2" rel="nofollow">this page</a> for detailed instructions. A GUI driven alternative is "TV Scout", available <a href="http://videobrowser.ch/viewtopic.php?f=7&amp;t=139&amp;st=0&amp;sk=t&amp;sd=a&amp;start=0" rel="nofollow">in the VB forum</a>. </p><h3><a name="Where_do_I_get_metadata_for_movies?">Where do I get metadata for movies?</a></h3><p><a name="Where_do_I_get_metadata_for_movies?">There are several tools available to get metadata for movies. VB was built to use the XML files created by </a><a href="http://www.mymovies.dk/" rel="nofollow">MyMovies</a>'s collection manager. Since this is only a small part of a huge software package, other solutions that are more lightweight and tailored specifically for VB are also available: </p><ul><li><a href="http://ornskov.dk/wordpress/metababel/" rel="nofollow">MetaBabel</a> (Source: <a href="http://www.dvdempire.com/" rel="nofollow">DVD Empire</a>) </li><li><a href="http://www.fladivision.com/index.php/projects/35-salamis-movie-organizer" rel="nofollow">salami's movie organizer</a> (Sources: <a href="http://www.imdb.com/" rel="nofollow">IMDb.com</a>, <a href="http://impawards.com/" rel="nofollow">impawards.com</a>, <a href="http://moviemeter.nl/" rel="nofollow">moviemeter.nl</a>) </li></ul><h3><a name="How_do_I_get_VB_to_show_images_for_the_genre_folders?">How do I get VB to show images for the genre folders?</a></h3><p><a name="How_do_I_get_VB_to_show_images_for_the_genre_folders?">VB is currently lacking good default genre images. If you have some artistic skills, please show us your work in the </a><a href="http://videobrowser.ch/" rel="nofollow">forum</a>! </p><p>To add the Images manually, you have to place them in the Directory: <tt>C:\Users\&lt;mce user name&gt;\AppData\Roaming\SamsVideoBrowser\Genres</tt> </p><p>Name those files <tt>&lt;genre&gt;.jpg</tt>, for example <tt>Action.jpg</tt> </p><h3><a name="How_can_I_manually_force_VB_to_update_it's_cache?">How can I manually force VB to update it's cache?</a></h3><p><a name="How_can_I_manually_force_VB_to_update_it's_cache?">VB uses a local cache to speed things up. This feature is very new and might not work perfectly yet, if your VB suddenly starts to stop displaying new information, simply delete all the contents in the folder: <tt>C:\Users\&lt;username&gt;\AppData\Roaming\SamsVideoBrowser</tt> (Cache has been moved to <tt>c:\ProgramData\VideoBrowser</tt> in v. 1.1.12.0 where the new config file is also located) </a></p><h3><a name="Where_do_I_ask_questions_not_covered_by_this_FAQ?">Where do I ask questions not covered by this FAQ?</a></h3><p><a name="Where_do_I_ask_questions_not_covered_by_this_FAQ?">The best way is to post your questions in the </a><a href="http://www.videobrowser.ch/" rel="nofollow">official forum</a>. </p>
+			<li>Modifying the VideoBrowser configuration file to point elsewhere. Open up <em>C:\ProgramData\VideoBrowser\VideoBrowser.config</em> and change the InitialFolder setting. ie, <em>&lt;InitialFolder&gt;\\AnotherComputer\Videos&lt;/InitialFolder&gt;</em></li>
+			<li>Virtual folders (see below)</li>
+			<li>Set your accounts video directory to a different path. You can do that manually by using regedit and modify the following key <tt>"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders\My Video"</tt> (if it doesn't exist yet, create it with the type <tt>REG_EXPAND_SZ</tt>). If you don't want to do that manually, <a href="http://code.google.com/p/videobrowser/wiki/FAQ#Where_do_I_get_metadata_for_movies?" rel="nofollow">SMO</a> has a GUI for it located in the "extras" menu. </li>
+		</ul>
+			
+		<h3><a name="MultipleDirectories">How do I get VideoBrowser to show the contents of multiple directories?</a></h3>
+		<p>VideoBrowser supports virtual folders. Create a new textfile on your videos directory with the ending <tt>.vf</tt> (not <tt>.vf.txt</tt>!), for example: <tt>Movies.vf</tt></p>
+		<p>Inside this textfile, add one line for each directory you want to add using the <tt>folder: </tt> statement.</p>
+		<pre class="prettyprint">
+folder: d:\movies\
+folder: e:\other movies\</pre>
+		
+		<p>When you start VideoBrowser, the file <tt>Movies.vf</tt> will show up like a regular directory. If you open it, you will see all the movies that are present in the two specified locations.</p>
+		
+		<p>To get VideoBrowser to display an folder icon, you'll have to tell it manually using the <tt>image: </tt> statement.</p>
+		<pre class="prettyprint">
+image: d:\movies\folder.jpg
+folder: d:\movies\
+folder: e:\other movies\</pre>
+
+	<h3><a name="IndividualVideoFiles">Why doesn't VideoBrowser allow me to select individual video files in a directory?</a></h3>
+	<p>VideoBrowser needs to have a separate directory for each movie. In some cases one movie might be split in two or more files, therefore VideoBrowser automatically creates a playlist and plays all the files in a directory in sequence. If the files really are separate movies, you will have to put them in separate directories.</p>
+	<p class="bold">Example</p>
+	<ul>
+		<li>D:\movies\First Movie (2007)\
+			<ul>
+				<li>movie.avi</li>
+			</ul>
+		</li>
+		<li>D:\movies\Second Movie (2008)\
+			<ul>
+				<li>bm-cd1.avi</li>
+				<li>bm-cd2.avi</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<p>In the case of tv shows, the files need to be grouped in a season folder inside the shows main folder</p>
+	<p class="bold">Example</p>
+	<ul>
+		<li>D:\TV Shows\Great Show\Season 1\
+			<ul>
+				<li>101 - Episode 1.avi</li>
+				<li>102 - Episode 2.avi</li>
+			</ul>
+		</li>
+		<li>D:\TV Shows\Great Show\Season 2\
+			<ul>
+				<li>201 - Episode 1.avi</li>
+				<li>202 - Episode 2.avi</li>
+			</ul>
+		</li>
+	</ul>
+		
+	<p>If you really want to disable the the playlist feature, put a textfile in the affected folder with the content <tt>noautoplaylist</tt> </p>
+	
+	<h3><a name="Metadata">Where do I get metadata?</a></h3>
+	<h4>For TV shows</h4>
+	<table>
+		<tr>
+			<td class="bold" style="width:200px;">Application</td>
+			<td class="bold">Metadata Source</td>
+		</tr>
+		<tr>
+			<td><a href="http://www.samsaffron.com/downloads/2" rel="nofollow">Official ruby script</a></td>
+			<td><a href="http://www.thetvdb.com">www.thetvdb.com</a></td>
+		</tr>
+		<tr>
+			<td><a href="http://www.codeplex.com/tvscout">TVScout</a></td>
+			<td><a href="http://www.thetvdb.com">www.thetvdb.com</a></td>
+		</tr>
+		<tr>
+			<td><a href="http://wmediacenter.com/?p=78">TV Meta Data Finder</a></td>
+			<td><a href="http://www.thetvdb.com">www.thetvdb.com</a></td>
+		</tr>
+	</table>
+	
+	<h4>For Movies</h4>
+	<p>There are several tools available to get metadata for movies. VideoBrowser was built to use the XML files created by <a href="http://www.mymovies.dk/" rel="nofollow">MyMovies</a>'s collection manager. Since this is only a small part of a huge software package, other solutions that are more lightweight and tailored specifically for VideoBrowser are also available: </p>
+	<table>
+		<tr>
+			<td class="bold" style="width:200px;">Application</td>
+			<td class="bold">Metadata Source</td>
+		</tr>
+		<tr>
+			<td><a href="http://ornskov.dk/wordpress/metababel/" rel="nofollow">MetaBabel</a></td>
+			<td><a href="http://www.dvdempire.com/" rel="nofollow">DVD Empire</a></td>
+		</tr>
+		<tr>
+			<td><a href="http://www.fladivision.com/index.php/projects/35-salamis-movie-organizer" rel="nofollow">salami's movie organizer</a></td>
+			<td><a href="http://www.imdb.com/" rel="nofollow">IMDb.com</a>, <a href="http://impawards.com/" rel="nofollow">impawards.com</a>, <a href="http://moviemeter.nl/" rel="nofollow">moviemeter.nl</a></td>
+		</tr>
+	</table>
+	
+	
+	<h3><a name="ShowGenreImages">How do I get VideoBrowser to show images for the genre folders?</a></h3>
+	<p>VideoBrowser is currently lacking good default genre images. If you have some artistic skills, please show us your work in the <a href="http://videobrowser.ch/" rel="nofollow">forum</a>! </p>
+	<p>To add the Images manually, you have to place them in the Directory: <tt>C:\Users\&lt;mce user name&gt;\AppData\Roaming\SamsVideoBrowser\Genres</tt> </p><p>Name those files <tt>&lt;genre&gt;.jpg</tt>, for example <tt>Action.jpg</tt> </p>
+	
+	<h3><a name="ForceCacheUpdate">How can I manually force VideoBrowser to update it's cache?</a></h3>
+	<p>VideoBrowser uses a local cache to speed things up. If your VideoBrowser suddenly starts to stop displaying new information, simply delete all the contents in the folder: <tt>C:\ProgramData\VideoBrowser</tt><br /><br />
+	
+	In versions prior to v1.1.12, the cache directory is <tt>C:\Users\&lt;username&gt;\AppData\Roaming\SamsVideoBrowser</tt> 
+	
+	<h3><a name="NotCovered">Where do I ask questions not covered by this FAQ?</a></h3>
+	<p>The best way is to post your questions in the </a><a href="http://www.videobrowser.ch/">official forum</a>.</p>
 	
 		</div>
 </div>
+<script src="http://videobrowser.uservoice.com/pages/general/widgets/tab.js?alignment=left&amp;color=0178B3" type="text/javascript"></script>
 </body>
 </html>
 

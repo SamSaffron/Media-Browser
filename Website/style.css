@@ -4,8 +4,10 @@ body {
 	font-size : 0.8em;
 	padding-top: 15px;
 }
-h2 { color : white; }
-
+#header h2 { color : white; }
+h2 { font-size : 1.8em;}
+h3 { font-size : 1.6em;}
+h4 { font-size : 1.3em; }
 #container 
 {
 	width : 900px; 
@@ -13,7 +15,14 @@ h2 { color : white; }
 	margin-right:auto;
 }
 #content { background : white; padding : 20px;}
+tt { font-size : 1.2em; font-weight : bold;}
+.bold { font-weight : bold; }
+.prettyprint {
+	font-size : 1.2em;
+	border-left : 3px solid #cacaca;
+	padding-left: 5px;
 
+}
 .lavaLampWithImage {
 	position: relative;
 	height: 64px;
