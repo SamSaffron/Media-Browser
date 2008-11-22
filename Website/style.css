@@ -4,6 +4,12 @@ body {
 	font-size : 0.8em;
 	padding-top: 15px;
 }
+table  { border-collapse:collapse;}
+td { 
+	border: 1px solid #cacaca;
+	vertical-align:top; 
+	padding : 5px;
+}
 #header h2 { color : white; }
 h2 { font-size : 1.8em;}
 h3 { font-size : 1.6em;}
