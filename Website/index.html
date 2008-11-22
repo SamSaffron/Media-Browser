@@ -1,77 +1,48 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Video Browser - Home page</title>
-<meta name="keywords" content="Media Center, Vista, MCE, VideoBrowser, Video, Browser" />
-<meta name="description" content="" />
-<link rel="stylesheet" type="text/css" href="default.css" />
+    <title>Video Browser</title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+    <script type="text/javascript" src="javascript/jquery-1.2.6.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.lavalamp.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#1").lavaLamp({
+                fx: "backout",
+                speed: 700,
+                click: function(event, menuItem) {
+                    return true;
+                }
+            });
+        });
+    </script>
 </head>
+
 <body>
-
-<div id="outer">
-
-	<div id="upbg"></div>
-
-	<div id="inner">
-
-		<div id="header">        
-        </div>
+<div id="container">
+	<div id="header">
+	<img src="images/logo.png" />
+	<h2>Navigation</h2>
+	<ul class="lavaLampWithImage" id="1">
+	    <li class="current"><a href="index.html">News</a></li>
+	    <li><a href="#">About</a></li>
+	    <li><a href="http://code.google.com/p/videobrowser/downloads/list">Downloads</a></li>
+	    <li><a href="faq.html">FAQ</a></li>
+		<li><a href="http://www.videobrowser.ch/">Community</a></li>
+	</ul>
+	</div>
 	
-      <div id="menu">
-          <ul>
-            <li class="first"><a href="#">About</a></li>
-            <li><a href="#">Downloads</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Development</a></li>
-            <li><a href="#">Community</a></li>
-          </ul>
-      </div>
-      
-<div id="primarycontent">
-		
-			<!-- primary content start -->
-		
-		
-			<div class="post">
-				<div class="header">
-					<h3>Welcome to Video Browsers home page</h3>
-				</div>
-				<div class="content">
-					<p>Video Browser is a plugin for Vista Media Center that allows for simple, fast and rich navigation of your Videos.</p>
-					<p><img src="images/thumbs_poster.jpg" alt="Poster View" width="588" height="344" /></p>
-					<p>&nbsp; </p>
-			  </div>			
-
-			</div>
-
-			<!-- primary content end -->
+	<div id="content">
 	
-		</div>
-		
-		<div id="secondarycontent">
-
-			<!-- secondary content start -->
-		
-			<h3>Downloads</h3>
-			<div class="content">
-				<p><strong>Version 1.1.3</strong>  <a href="#">Get It ...</a></p>
-			</div>
-			
-
-			<!-- secondary content end -->
-
-		</div>
-	
-		<div id="footer">
-		
-			&copy; Video Browser. All rights reserved. Design based off: <a href="http://www.nodethirtythree.com/">NodeThirtyThree</a>.
-		
-		</div>
 
 	</div>
-
 </div>
-
 </body>
 </html>
+
+
+
+
+
+
