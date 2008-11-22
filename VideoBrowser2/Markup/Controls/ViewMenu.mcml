@@ -146,6 +146,7 @@
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
+      <Condition Source="[Prefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Banner" Target="[VerticalScroll.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="false" />
 			<Changed Source="[Increase.Invoked]">
 				<Actions>

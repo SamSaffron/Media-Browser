@@ -525,7 +525,7 @@ namespace SamSoft.VideoBrowser
             // we need to upgrade
             if (item is CachedFolderItem)
             {
-                fi = new FolderItem(item.Filename, item.IsFolder, item.Description);
+                fi = new FolderItem(item.Filename, item.IsFolder, item.Description, item.UseBanners);
                 if (Helper.IsVirtualFolder(item.Filename))
                 {
                     fi.VirtualFolder = new VirtualFolder(item.Filename);

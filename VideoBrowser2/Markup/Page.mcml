@@ -275,6 +275,8 @@
 			<Condition Source="[Model.FolderPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[PosterView.Visible]" Value="false" />
 			<Condition Source="[Model.FolderPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="true" />
 			<Condition Source="[Model.FolderPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="false" />
+      <Condition Source="[Model.FolderPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Banner" Target="[BannerView.Visible]" Value="true" />
+      <Condition Source="[Model.FolderPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Banner" Target="[BannerView.Visible]" Value="false" />
 		</Rules>
 
 		<Content>
@@ -300,6 +302,12 @@
 							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,.95" Right="Parent,1"/>
 						</LayoutInput>
 					</me:ThumbDetailsView>
+
+          <me:PosterView Name="BannerView" Visible="true" Application="[Application]" FolderItems="[FolderItems]" Prefs="[Model.FolderPrefs]" >
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </me:PosterView>
 				</Children>
 
 			</Panel>

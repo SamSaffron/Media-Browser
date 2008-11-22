@@ -264,10 +264,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             if (isFolder)
             {
-                string[] paths = new string[] { 
-                System.IO.Path.Combine(path, "folder.jpg"), 
-                System.IO.Path.Combine(path, "folder.jpeg") 
-            };
+                string[] paths;
+
+                paths = new string[] { 
+                    System.IO.Path.Combine(path, "folder.jpg"), 
+                    System.IO.Path.Combine(path, "folder.jpeg")};
 
                 foreach (string thumb in paths)
                 {
@@ -281,6 +282,32 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 // TODO: Possibly allow for filename.jpg
             } 
+
+            return null;
+        }
+
+        public static string GetBanner(string path, bool isFolder)
+        {
+            if (isFolder)
+            {
+                string[] paths;
+
+                paths = new string[] { 
+                    System.IO.Path.Combine(path, "banner.jpg"), 
+                    System.IO.Path.Combine(path, "banner.jpeg")};
+
+                foreach (string thumb in paths)
+                {
+                    if (File.Exists(thumb))
+                    {
+                        return thumb;
+                    }
+                }
+            }
+            else
+            {
+                // TODO: Possibly allow for filename.jpg
+            }
 
             return null;
         }

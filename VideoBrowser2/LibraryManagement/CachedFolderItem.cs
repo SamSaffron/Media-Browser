@@ -78,6 +78,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     writer.WriteElementString("ThumbHash", item.ThumbHash);
                 }
+                if (item is CachedFolderItem || !String.IsNullOrEmpty(((FolderItem)item).BannerPath))
+                {
+                    writer.WriteElementString("BannerHash", item.BannerHash);
+                }
                 writer.WriteElementString("Title1", item.Title1);
                 writer.WriteElementString("Title2", item.Title2);
                 writer.WriteElementString("Overview", item.Overview);
@@ -121,11 +125,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             if ((sortableDescription == null) || (sortableDescription.Length == 0))
                 sortableDescription = FolderItem.GetSortableDescription(this.Description);
 			thumbHash = elem.SafeGetString("ThumbHash");
+            bannerHash = elem.SafeGetString("BannerHash");
             title1 = elem.SafeGetString("Title1");
             title2 = elem.SafeGetString("Title2");
             isFolder = Boolean.Parse(elem.SafeGetString("IsFolder"));
             isVideo = Boolean.Parse(elem.SafeGetString("IsVideo"));
             isMovie = Boolean.Parse(elem.SafeGetString("IsMovie"));
+            UseBanners = Boolean.Parse(elem.SafeGetString("UseBanners"));
             overview = elem.SafeGetString("Overview");
             createdDate = DateTime.Parse(elem.SafeGetString("CreatedDate"));
             modifiedDate = DateTime.Parse(elem.SafeGetString("ModifiedDate"));
@@ -199,12 +205,15 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         private bool isFolder;
         public override bool IsFolder { get { return isFolder; } }
-        
+
         private string filename;
         public override string Filename { get {return filename;} }
         
         private string thumbHash;
         public override string ThumbHash { get { return thumbHash; } }
+
+        private string bannerHash;
+        public override string BannerHash { get { return bannerHash; } }
 
         private string title1;
         public override string Title1 { get { return title1; } }
@@ -291,7 +300,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         if (!File.Exists(path))
                         {
                             parent.DestroyCache();
-                            var realItem = new FolderItem(Filename, IsFolder, Description);
+                            var realItem = new FolderItem(Filename, IsFolder, Description, UseBanners);
                             path = realItem.ThumbPath;
                         }
 
@@ -299,6 +308,37 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                 }
                 return _thumbPath;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        private string _bannerPath = null;
+        public override string BannerPath
+        {
+            get
+            {
+                if (_bannerPath == null)
+                {
+                    string path = "";
+                    if (!string.IsNullOrEmpty(BannerHash))
+                    {
+                        path = System.IO.Path.Combine(Helper.AppCachePath, folderHash);
+                        path = System.IO.Path.Combine(path, BannerHash);
+                        if (!File.Exists(path))
+                        {
+                            parent.DestroyCache();
+                            var realItem = new FolderItem(Filename, IsFolder, Description, UseBanners);
+                            path = realItem.BannerPath;
+                        }
+
+                        _bannerPath = path;
+                    }
+                }
+                return _bannerPath;
             }
             set
             {

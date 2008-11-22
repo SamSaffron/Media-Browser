@@ -32,6 +32,8 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         string IMDBRatingString { get; }
         string Filename { get; }
         string ThumbPath { get; set; }
+        string BannerPath { get; set; }
+        bool UseBanners { get; set; }
 
         string Description { get; }
         string Title1 { get; }

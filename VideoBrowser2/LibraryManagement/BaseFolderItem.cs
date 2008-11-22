@@ -15,6 +15,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         Image image = null;
         Size smallThumbSize = new Size(1, 1);// Config.Instance.MaximumPosterSize;
         bool forceSmallThumbLoad = false;
+        public bool useBanners = false;
         Image smallImage = null;
         private PlaybackController playbackController;
         private PlayState playState;
@@ -39,11 +40,23 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     return image;
                 else if (IsVideo)    
                     image = defImage;
-                if (!string.IsNullOrEmpty(ThumbPath))
+                if (UseBanners)
                 {
-                    //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadImage, ImageLoaded, ThumbPath);
-                    LoadImage(this.ThumbPath);  // now we only use this for the selected items don't lazy load it any more - looks odd that the focused item takes too long to load otherwise
-                    ImageLoaded(null);
+                    if (!string.IsNullOrEmpty(BannerPath))
+                    {
+                        //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadImage, ImageLoaded, ThumbPath);
+                        LoadImage(this.BannerPath);  // now we only use this for the selected items don't lazy load it any more - looks odd that the focused item takes too long to load otherwise
+                        ImageLoaded(null);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(ThumbPath))
+                    {
+                        //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadImage, ImageLoaded, ThumbPath);
+                        LoadImage(this.ThumbPath);  // now we only use this for the selected items don't lazy load it any more - looks odd that the focused item takes too long to load otherwise
+                        ImageLoaded(null);
+                    }
                 }
                 return image;
             }
@@ -84,7 +97,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
             }
         }
-             
+
+        public bool UseBanners
+        {
+            get
+            {
+                return this.useBanners;
+            }
+            set
+            {
+                if (this.useBanners != value)
+                {
+                    this.useBanners = value;
+                    lock (this)
+
+                    forceSmallThumbLoad = true;
+                    image = null;
+                    smallImage = null;
+                }
+            }
+        }
 
         public Vector3 PosterZoom
         {
@@ -111,7 +143,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 if ((smallImage != null) && !forceSmallThumbLoad)
                     return smallImage;
-                string path = this.ThumbPath;
+                string path;
+                if (useBanners)
+                {
+                    path = this.BannerPath;
+                }
+                else
+                {
+                    path = this.ThumbPath;
+                }
+
                 if ((path == null) || (path.Length == 0))
                 {
                     if (this.IsVideo)
@@ -203,7 +244,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         public bool HasThumb
         {
-            get { return ((this.ThumbPath != null) && (this.ThumbPath.Length > 0)); }
+            get 
+            {
+                if(this.useBanners)
+                    return ((this.BannerPath != null) && (this.BannerPath.Length > 0)); 
+                else
+                    return ((this.ThumbPath != null) && (this.ThumbPath.Length > 0)); 
+            }
         }
 
       
@@ -221,7 +268,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     var folderItem = this as FolderItem;
                     if (folderItem == null)
                     {
-                        folderItem = new FolderItem(this.Filename, this.IsFolder);
+                        folderItem = new FolderItem(this.Filename, this.IsFolder, this.UseBanners);
                     }
 
                     playbackController = new PlaybackController(folderItem);
@@ -394,6 +441,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             get;
         }
 
+        public abstract string BannerHash
+        {
+            get;
+        }
+
         public abstract List<String> Genres
         {
             get;
@@ -405,6 +457,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             set;
         }
 
+        public abstract string BannerPath
+        {
+            get;
+            set;
+        }
 
         public abstract string GenresString
         {

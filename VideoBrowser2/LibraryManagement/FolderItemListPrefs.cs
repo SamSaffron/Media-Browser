@@ -19,6 +19,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         Choice viewType;
         BooleanChoice showLabels;
         BooleanChoice verticalScroll;
+        bool banners;
 
         public FolderItemListPrefs(string key)
         {
@@ -34,6 +35,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             
             verticalScroll = new BooleanChoice();
             verticalScroll.Value = Config.Instance.DefaultVerticalScroll;
+
+            if (this.ViewType == ViewType.Detail)
+                banners = Config.Instance.DefaultVerticalScroll;
+            else
+                banners = false;
+
             try
             {
                 filename = System.IO.Path.Combine(Helper.AppPrefsPath, key + ".prefs.xml");
@@ -85,6 +92,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     {
                         if (node!=null)
                             ViewType = (ViewType)(Enum.Parse(typeof(ViewType), node.InnerText));
+                        if (viewType.Chosen == "Banner")
+                            banners = true;
+                        else if (viewType.Chosen == "Detail")
+                            banners = Config.Instance.DefaultBanners;
+                        else
+                            banners = false;
                     }
                     catch { }
                     node = doc.SelectSingleNode("Prefs/ShowLabels");
@@ -146,9 +159,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
         void viewType_ChosenChanged(object sender, EventArgs e)
         {
+            if (viewType.Chosen == "Banner")
+                banners = true;
+            else if (viewType.Chosen == "Detail")
+                banners = Config.Instance.DefaultBanners;
+            else
+                banners = false;
             Save();
             FirePropertyChanged("ViewType");
             FirePropertyChanged("ViewTypeString");
+            FirePropertyChanged("Banners");
         }
 
         
@@ -219,7 +239,25 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     this.verticalScroll.Value = value;
             }
         }
-        
+
+        [XmlElement]
+        public bool Banners
+        {
+            get
+            {
+                return this.banners;
+            }
+            set
+            {
+                if (this.banners != value)
+                {
+                    this.banners = value;
+                    Save();
+                    FirePropertyChanged("Banners");
+                }
+            }
+        }
+
 
         SortOrderEnum sortOrder = SortOrderEnum.Name; 
         public SortOrderEnum SortOrder
@@ -311,12 +349,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     {
         Detail,
         Poster,
-        Thumb
+        Thumb,
+        Banner
     }
 
     public class ViewTypeNames
     {
-        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip"};
+        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip", "Banner"};
 
         public static string GetName(ViewType type)
         {

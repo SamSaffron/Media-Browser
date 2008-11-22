@@ -117,6 +117,7 @@
     <Content Include="Images\CheckBoxUncheckedNoFocus.png" />
     <Content Include="Images\DecrementFocused.png" />
     <Content Include="Images\DecrementNoFocus.png" />
+    <None Include="Images\FolderBanner.png" />
     <Content Include="Images\IncrementNoFocus.png" />
     <Content Include="Images\IncrementFocused.png" />
     <Content Include="Images\Logo.png" />

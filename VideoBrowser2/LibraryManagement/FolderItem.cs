@@ -19,13 +19,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             // we need this so we can construct these puppies for mcml params 
             thumbPath = "";
+            bannerPath = "";
         }
 
-        public FolderItem(string filename, bool isFolder)
+        public FolderItem(string filename, bool isFolder, bool useBanners)
             : this (filename, isFolder, 
                 isFolder ? 
-                    System.IO.Path.GetFileName(filename) : 
-                    System.IO.Path.GetFileNameWithoutExtension(filename))
+                    System.IO.Path.GetFileName(filename) :
+                    System.IO.Path.GetFileNameWithoutExtension(filename), useBanners)
         {
         }
 
@@ -61,11 +62,12 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return sortableDescription;
         }
 
-        public FolderItem(string filename, bool isFolder, string description)
+        public FolderItem(string filename, bool isFolder, string description, bool useBanners)
         {
             this.filename = filename;
             this.isFolder = isFolder;
 			this.Description = description;
+            this.UseBanners = useBanners;
 
 			// Sanitize description (for sorting)
 
@@ -86,6 +88,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         VirtualFolder virtualFolder = null;
         private string path = null;
         bool thumbLoaded = false;
+        bool bannerLoaded = false;
         bool metadataLoaded = false;
         DateTime createdDate = DateTime.MinValue;
         DateTime modifiedDate = DateTime.MinValue;
@@ -93,9 +96,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         string filename;
         bool isFolder;
         string thumbPath;
+        string bannerPath;
         TVShow _tvshow;
         TVSeries _tvSeries;
         DateTime thumbDate = DateTime.MinValue;
+        DateTime bannerDate = DateTime.MinValue;
         Movie _movie = null;
         string title2;
         string overview;
@@ -114,6 +119,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 if (value.ThumbPath != null)
                 {
                    ThumbPath = value.ThumbPath;
+                   BannerPath = value.ThumbPath;
                 }
                 virtualFolder = value;
             } 
@@ -303,6 +309,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             } 
         }
 
+        public override string BannerHash
+        {
+            get
+            {
+                string key = BannerPath;
+                key += BannerDate.ToString();
+                key = Helper.HashString(key) + System.IO.Path.GetExtension(BannerPath);
+                return key;
+            }
+        }
+
         public override List<string> Genres
         {
             get 
@@ -389,6 +406,27 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 }
                 return thumbDate.ToBinary();
             } 
+        }
+
+        public long BannerDate
+        {
+            get
+            {
+                if (bannerDate == DateTime.MinValue)
+                {
+
+                    try
+                    {
+                        DirectoryInfo di = new DirectoryInfo(BannerPath);
+                        bannerDate = di.LastWriteTime;
+                    }
+                    catch
+                    {
+                        bannerDate = DateTime.MaxValue;
+                    }
+                }
+                return bannerDate.ToBinary();
+            }
         } 
 
         public override string ThumbPath 
@@ -429,6 +467,47 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 } 
 
                 return thumbPath; 
+            }
+        }
+
+        public override string BannerPath
+        {
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    bannerPath = value;
+                    bannerLoaded = true;
+                }
+                else
+                {
+                    bannerLoaded = false;
+                    bannerPath = "";
+                }
+            }
+            get
+            {
+                if (filename == null)
+                {
+                    return null;
+                }
+
+                if (!bannerLoaded)
+                {
+                    var tp = Helper.GetBanner(filename, IsFolder);
+                    bannerLoaded = true;
+                    if (!string.IsNullOrEmpty(tp))
+                    {
+                        bannerPath = tp;
+                    }
+                }
+
+                if (bannerPath == null && !metadataLoaded)
+                {
+                    LoadMetadata();
+                }
+
+                return bannerPath;
             }
         }
 
@@ -609,6 +688,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 sb.Append(this.IsFolder.ToString());
                 sb.Append(this.IsVideo.ToString());
                 sb.Append(this.ThumbPath == null ? "<null>" : this.thumbPath);
+                sb.Append(this.BannerPath == null ? "<null>" : this.bannerPath);
                 sb.Append(this.filename);
                 sb.Append(this.Path);
 
@@ -833,6 +913,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 if (string.IsNullOrEmpty(thumbPath))
                 {
                     thumbPath = _tvshow.ThumbPath;
+                    bannerPath = _tvshow.ThumbPath;
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         internal FolderItemList folderItems;
         private FolderItemListMCE parent;
         string breadcrumb;
-        static FolderItem blank = new FolderItem("", true);
+        static FolderItem blank = new FolderItem("", true, false);
         IntRangedValue selectedIndex;
         SizeRef actualThumbSize = new SizeRef(new Size(10, 10));
 
@@ -144,6 +144,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
+        public bool UseBanners
+        {
+            get
+            {
+                return folderItems.Prefs.Banners;
+            }
+        }
+
         void ThumbConstraint_PropertyChanged(IPropertyObject sender, string property)
         {
             UpdateActualThumbSize();
@@ -191,8 +199,17 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             if (property == "ShowLabels")
                 FirePropertyChanged("ReferenceSize");
+            if (property == "Banners")
+            {
+                for (int i = 0; i < this.folderItems.Count; ++i)
+                {
+                    folderItems[i].UseBanners = folderItems.Prefs.Banners;
+                }
+                FirePropertyChanged("Banners");
+                RedrawPage();
+            }
         }
-        
+
         private void SetSelectedItem()
         {
             this.selectedIndex.Value = -1;
@@ -217,6 +234,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         internal void Navigate(string path)
         {
             folderItems.Navigate(path);
+            FinishNavigate();
+        }
+
+        //Is there a better way?  
+        public void RedrawPage()
+        {
+            folderItems.InvokeChanged();
             FinishNavigate();
         }
 

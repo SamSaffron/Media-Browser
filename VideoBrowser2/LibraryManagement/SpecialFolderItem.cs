@@ -11,13 +11,13 @@ namespace SamSoft.VideoBrowser.LibraryManagement
     public class SpecialFolderItem : FolderItem
     {
 
-         public SpecialFolderItem(string filename, bool isFolder)
-            : this(filename, isFolder, System.IO.Path.GetFileName(filename))
+         public SpecialFolderItem(string filename, bool isFolder, bool useBanners)
+            : this(filename, isFolder, System.IO.Path.GetFileName(filename), useBanners)
         { 
         }
 
-        public SpecialFolderItem(string filename, bool isFolder, string description)
-             : base(filename, isFolder, description)
+        public SpecialFolderItem(string filename, bool isFolder, string description, bool useBanners)
+             : base(filename, isFolder, description, useBanners)
         {
             
         }

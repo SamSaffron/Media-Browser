@@ -66,7 +66,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 foreach (string filename in Directory.GetDirectories(path))
                 {
-                    rval.Add(new FolderItem(filename, true));
+                    rval.Add(new FolderItem(filename, true, false));
                 }
 
 
@@ -74,14 +74,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 {
                     if (Helper.IsShortcut(filename))
                     {
-                        FolderItem fi = new FolderItem(Helper.ResolveShortcut(filename), true, System.IO.Path.GetFileNameWithoutExtension(filename));
+                        FolderItem fi = new FolderItem(Helper.ResolveShortcut(filename), true, System.IO.Path.GetFileNameWithoutExtension(filename), false);
                         fi.Path = path;
                         rval.Add(fi);
                     }
 
                     if (Helper.IsVideo(filename))
                     {
-                        rval.Add(new FolderItem(filename, false));
+                        rval.Add(new FolderItem(filename, false, false));
                     }
                 }
             }

@@ -670,11 +670,14 @@
 			<Index Name="Index" Index="$Required"/>
 			<Image Name="FocusImage" Image="image://s:ZoomPane"/>
 			<Image Name="FolderImage" Image="image://s:Folder"/>
+      <Image Name="FolderBannerImage" Image="image://s:FolderBanner"/>
 			<Image Name="Tick" Image="image://s:TickPoster"/>
 			<Image Name="BlankImage" Image="null"/>
 			<Size Name="MinSize" />
 			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
 			<cor:Int32 Name="AnimDelay" Int32="1000" />
+      <Inset Name="TextFolderMargins" Inset="0,10,0,0"/>
+      <Inset Name="TextBannerMargins" Inset="0,0,0,0"/>
 		</Properties>
 
 		<Locals>
@@ -682,6 +685,7 @@
 			<Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
 			<BooleanChoice Name="InFocus" Value="false" />
 			<ShortcutHandler Name="ClearBtn" Handle="true" Shortcut="Clear" HandlerStage="Bubbled" />
+      <Inset Name="TextMargins" Inset="[TextFolderMargins]"/>
 		</Locals>
 
 		<Rules>
@@ -699,6 +703,7 @@
 			<Binding Source="[Model]" Target="[Clicker.Command]"/>
 			<Binding Source="[ImageSize.Value]" Target="[Model.SmallThumbSize]" />
 			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
+      <Binding Source="[FolderItems.UseBanners]" Target="[Model.UseBanners]" />
 
 			<Default Target="[LabelPanel.Visible]" Value="true">
 				<Conditions>
@@ -711,17 +716,44 @@
 				<Conditions >
 					<Equality Source="[Model.IsFolder]" ConditionOp="Equals" Value="True"/>
 					<Equality Source="[Model.HasThumb]" ConditionOp="Equals" Value="false" />
+          <Equality Source="[Model.UseBanners]" ConditionOp="Equals" Value="false" />
 				</Conditions>
 			</Default>
 
+      <Default Target="[BoxArt.Content]" Value="[FolderBannerImage]">
+        <Conditions >
+          <Equality Source="[Model.IsFolder]" ConditionOp="Equals" Value="True"/>
+          <Equality Source="[Model.HasThumb]" ConditionOp="Equals" Value="false" />
+          <Equality Source="[Model.UseBanners]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+      </Default>
+      
+      <Default Target="[BoxArt.MaintainAspectRatio]" Value="false">
+        <Conditions >
+          <Equality Source="[Model.IsFolder]" ConditionOp="Equals" Value="True"/>
+          <Equality Source="[Model.HasThumb]" ConditionOp="Equals" Value="false" />
+        </Conditions>
+      </Default>
+      
 			<Changed Source="[Clicker.Invoked]">
 				<Actions>
 					<Invoke Target="[Application.Navigate]" item="[Model]"/>
 					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
 				</Actions>
 			</Changed>
-			
-			
+
+      <Default Target="[LabelPanel.Padding]" Value="[TextFolderMargins]">
+        <Conditions >
+          <Equality Source="[Model.UseBanners]" ConditionOp="Equals" Value="false"/>
+        </Conditions>
+      </Default>
+
+      <Default Target="[LabelPanel.Padding]" Value="[TextBannerMargins]">
+        <Conditions >
+          <Equality Source="[Model.UseBanners]" ConditionOp="Equals" Value="true"/>
+        </Conditions>
+      </Default>
+      
 			<Condition Source="[InFocus.Value]" SourceValue="true">
 				<Actions>
 					<Set Target="[MainPanel.Scale]" Value="[Model.PosterZoom]"/>
@@ -853,7 +885,7 @@
 												<Children>
 													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" MaximumSize="30,30" Alpha="0.8" Visible="[Model.HaveWatched]">
 													</Graphic>
-													<Panel Name="LabelPanel" Visible="false" Layout="Anchor" Padding="0,10,0,0">
+													<Panel Name="LabelPanel" Visible="false" Layout="Anchor" Padding="[TextMargins]">
 														<Children>
 															<Text Alpha="1" Name="Label" Color="White" Font="Segoe Media Center, 20, Bold"
 																Content="[Model.Description]"  WordWrap="true" Margins="5,5,5,5"  HorizontalAlignment="Center">

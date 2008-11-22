@@ -232,7 +232,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     Clear();
                     foreach (var item in virtualFolder.Folders)
                     {
-                        AddRange(GetFolderDetails(item).ToArray());
+                        if (this.Prefs != null)
+                        {
+                            AddRange(GetFolderDetails(item, this.Prefs.Banners).ToArray());
+                        }
+                        else
+                        {
+                            AddRange(GetFolderDetails(item, false).ToArray());
+                        }
                     }
                 }
             }
@@ -277,7 +284,14 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     }
                     else
                     {
-                        AddRange(GetFolderDetails(path).ToArray());
+                        if (this.Prefs != null)
+                        {
+                            AddRange(GetFolderDetails(path, this.Prefs.Banners).ToArray());
+                        }
+                        else
+                        {
+                            AddRange(GetFolderDetails(path, false).ToArray());
+                        }
                     }
                 }
             }
@@ -294,30 +308,33 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             string description;
             public string ThumbPath;
             public VirtualFolder VirtualFolder;
-            public string Path; 
+            public string Path;
+            public bool useBanners;
 
-            public NonCommandFolderItem(string filename, bool isFolder)
+            public NonCommandFolderItem(string filename, bool isFolder, bool useBanners)
             : this (filename, isFolder, 
                 isFolder ? 
                     System.IO.Path.GetFileName(filename) : 
-                    System.IO.Path.GetFileNameWithoutExtension(filename))
+                    System.IO.Path.GetFileNameWithoutExtension(filename), useBanners)
             {
             }
 
 
-            public NonCommandFolderItem(string filename, bool isFolder, string description)
+            public NonCommandFolderItem(string filename, bool isFolder, string description, bool useBanners)
             {
                 this.filename = filename;
                 this.isFolder = isFolder;
                 this.description = description;
+                this.useBanners = useBanners;
             }
 
             public FolderItem Upgrade()
             {
-                FolderItem fi = new FolderItem(filename, isFolder, description);
+                FolderItem fi = new FolderItem(filename, isFolder, description, useBanners);
                 if (ThumbPath != null)
                 {
-                    fi.ThumbPath = ThumbPath; 
+                    fi.ThumbPath = ThumbPath;
+                    fi.BannerPath = ThumbPath;
                 }
                 if (VirtualFolder != null)
                 {
@@ -332,10 +349,10 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private static List<FolderItem> GetFolderDetails(string path)
+        private static List<FolderItem> GetFolderDetails(string path, bool useBanners)
         {
             List<FolderItem> rval = new List<FolderItem>();
-            var items = GetNonCommandFolderDetails(path);
+            var items = GetNonCommandFolderDetails(path, useBanners);
             foreach (var item in items)
             {
                 rval.Add(item.Upgrade()); 
@@ -343,7 +360,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             return rval;
         }
 
-        private static List<NonCommandFolderItem> GetNonCommandFolderDetails(string path)
+        private static List<NonCommandFolderItem> GetNonCommandFolderDetails(string path, bool useBanners)
         {
 
             List<NonCommandFolderItem> rval = new List<NonCommandFolderItem>();
@@ -362,7 +379,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         continue;
                     }
 
-                    rval.Add(new NonCommandFolderItem(filename, true));
+                    rval.Add(new NonCommandFolderItem(filename, true, useBanners));
                 }
 
                 Dictionary<string, NonCommandFolderItem> thumbMap = new Dictionary<string, NonCommandFolderItem>(); 
@@ -374,7 +391,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     {
                         // extract the thumb for this virtual folder
                         VirtualFolder vf = new VirtualFolder(filename);
-                        NonCommandFolderItem fi = new NonCommandFolderItem(filename, true, System.IO.Path.GetFileNameWithoutExtension(filename));
+                        NonCommandFolderItem fi = new NonCommandFolderItem(filename, true, System.IO.Path.GetFileNameWithoutExtension(filename), false);
                         fi.VirtualFolder = vf;
                         rval.Add(fi); 
                     }
@@ -383,7 +400,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         var shortcut_path = Helper.ResolveShortcut(filename);
                         if (Directory.Exists(shortcut_path))
                         {
-                            NonCommandFolderItem fi = new NonCommandFolderItem(shortcut_path, true, System.IO.Path.GetFileNameWithoutExtension(filename));
+                            NonCommandFolderItem fi = new NonCommandFolderItem(shortcut_path, true, System.IO.Path.GetFileNameWithoutExtension(filename), false);
                             fi.Path = path;
                             rval.Add(fi);
                         }
@@ -393,7 +410,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                             if (Helper.IsVideo(shortcut_path))
                             {
                                 // refactor
-                                NonCommandFolderItem item = new NonCommandFolderItem(shortcut_path, false);
+                                NonCommandFolderItem item = new NonCommandFolderItem(shortcut_path, false, false);
                                 rval.Add(item);
                                 thumbMap[System.IO.Path.GetFileNameWithoutExtension(shortcut_path)] = item;
                             }
@@ -402,7 +419,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
 
                     if (Helper.IsVideo(filename))
                     {
-                        NonCommandFolderItem item = new NonCommandFolderItem(filename, false);
+                        NonCommandFolderItem item = new NonCommandFolderItem(filename, false, false);
                         rval.Add(item);
                         thumbMap[System.IO.Path.GetFileNameWithoutExtension(filename)] = item;
                     }
@@ -418,7 +435,6 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         {
                             item.ThumbPath = filename;
                         }
-
                     } 
                 }
             }
@@ -562,7 +578,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             foreach (var item in items)
             {
-                FolderItem fi = new FolderItem(FolderItem.DUMMY_DIR, true, item.Key);
+                FolderItem fi = new FolderItem(FolderItem.DUMMY_DIR, true, item.Key, false);
                 fi.Contents = item.Value;
                 var movieText = " movie";
                 if (item.Value.Count > 1)
@@ -673,10 +689,21 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             {
                 foreach (BaseFolderItem item in ActualItems)
                 {
-                    if (!string.IsNullOrEmpty(item.ThumbPath))
+                    if (this.Prefs != null && this.Prefs.Banners)
                     {
-                        System.Drawing.Image image = new Bitmap(item.ThumbPath);
-                        return ((float)image.Height) / ((float)image.Width);
+                        if (!string.IsNullOrEmpty(item.BannerPath))
+                        {
+                            System.Drawing.Image image = new Bitmap(item.BannerPath);
+                            return ((float)image.Height) / ((float)image.Width);
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(item.ThumbPath))
+                        {
+                            System.Drawing.Image image = new Bitmap(item.ThumbPath);
+                            return ((float)image.Height) / ((float)image.Width);
+                        }
                     }
                 }
                 return 1; 
@@ -890,7 +917,7 @@ namespace SamSoft.VideoBrowser.LibraryManagement
             }
         }
 
-        private void InvokeChanged()
+        public void InvokeChanged()
         {
             Microsoft.MediaCenter.UI.Application.DeferredInvoke(ChangedForInvoke); 
         }
@@ -951,6 +978,16 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                         }
                         cachedImages[key] = true;
                     }
+                    if (!String.IsNullOrEmpty(item.BannerPath))
+                    {
+                        string key = item.BannerHash;
+
+                        if (!cachedImages.ContainsKey(key))
+                        {
+                            System.IO.File.Copy(item.BannerPath, System.IO.Path.Combine(imagePath, key));
+                        }
+                        cachedImages[key] = true;
+                    }
                 }
 
                 CachedFolderItem ci = o as CachedFolderItem;
@@ -959,6 +996,11 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                     if (!String.IsNullOrEmpty(ci.ThumbPath))
                     {
                         string key = ci.ThumbHash;
+                        cachedImages[key] = true;
+                    }
+                    if (!String.IsNullOrEmpty(ci.BannerPath))
+                    {
+                        string key = ci.BannerHash;
                         cachedImages[key] = true;
                     }
                 }
@@ -994,12 +1036,26 @@ namespace SamSoft.VideoBrowser.LibraryManagement
                 rval = new List<NonCommandFolderItem>(); 
                 foreach (var item in _virtualFolder.Folders)
                 {
-                    rval.AddRange(GetNonCommandFolderDetails(item).ToArray());
+                    if (this.Prefs != null)
+                    {
+                        rval.AddRange(GetNonCommandFolderDetails(item, this.Prefs.Banners).ToArray());
+                    }
+                    else
+                    {
+                        rval.AddRange(GetNonCommandFolderDetails(item, false).ToArray());
+                    }
                 }
             }
             else
             {
-                rval = GetNonCommandFolderDetails(_path);
+                if (this.Prefs != null)
+                {
+                    rval = GetNonCommandFolderDetails(_path, this.Prefs.Banners);
+                }
+                else
+                {
+                    rval = GetNonCommandFolderDetails(_path, false);
+                }
             }
             return rval;
         }

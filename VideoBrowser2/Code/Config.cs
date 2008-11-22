@@ -116,11 +116,14 @@ namespace SamSoft.VideoBrowser
         [Comment("Changes the default view index for folders that have not yet been visited.\n\t[Detail|Poster|Thumb]")]
         public ViewType DefaultViewType = ViewType.Detail;
 
-        [Comment("Specifies whether the default Poster and Thumb views show labels")]
+        [Comment("Specifies whether the default Poster, Thumb and Banner views show labels")]
         public bool DefaultShowLabels = false;
 
-        [Comment("Specifies is the default for the Poster view is vertical scrolling")]
+        [Comment("Specifies is the default for the Poster and Banner views is vertical scrolling")]
         public bool DefaultVerticalScroll = false;
+
+        [Comment("Specifies is the default for the Detail view is Banners")]
+        public bool DefaultBanners = false;
 
         [Comment(@"Limits the number of levels shown by the breadcrumbs.")]
         public int BreadcrumbCountLimit = 2;

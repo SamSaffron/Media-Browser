@@ -230,6 +230,13 @@ namespace SamSoft.VideoBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap FolderBanner {
+            get {
+                object obj = ResourceManager.GetObject("FolderBanner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] GraphicButton {
             get {
                 object obj = ResourceManager.GetObject("GraphicButton", resourceCulture);
