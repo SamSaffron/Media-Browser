@@ -246,10 +246,20 @@ namespace SamSoft.VideoBrowser.LibraryManagement
         {
             get 
             {
-                if(this.useBanners)
-                    return ((this.BannerPath != null) && (this.BannerPath.Length > 0)); 
+                if (this.useBanners)
+                {
+                    if ((this.BannerPath == null) || (this.BannerPath.Length == 0))
+                        return false;
+                    FileInfo ImgFileInfo = new FileInfo(this.BannerPath);
+                    return ((File.Exists(this.BannerPath)) && (ImgFileInfo.Length != 0));
+                }
                 else
-                    return ((this.ThumbPath != null) && (this.ThumbPath.Length > 0)); 
+                {
+                    if ((this.ThumbPath == null) || (this.ThumbPath.Length == 0))
+                        return false;
+                    FileInfo ImgFileInfo = new FileInfo(this.ThumbPath);
+                    return ((File.Exists(this.ThumbPath)) && (ImgFileInfo.Length != 0));
+                }
             }
         }
 
