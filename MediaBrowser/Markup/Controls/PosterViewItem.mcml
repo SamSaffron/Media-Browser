@@ -258,7 +258,7 @@
 													<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
 												</LayoutInput>
 												<Children>
-													<Graphic Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="30,30" Alpha="0.8" Visible="[Item.HaveWatched]">
+													<Graphic Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="30,30" Alpha="0.8" >
 														<LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>
