@@ -1,0 +1,31 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  >
+
+	<UI Name="Directors">
+
+		<Properties>
+			<lib:Item Name="Item" Item="$Required"/>
+		</Properties>
+
+		
+
+		<Rules>
+			<Binding Source="[Item.Metadata.DirectorString]" Target="[Director.Content]"/>
+			<Condition Source="[Item.Metadata.Directors.Count]" ConditionOp="GreaterThan" SourceValue="0" Target="[DirectedByPanel.Visible]" Value="true"  />
+		</Rules>
+
+		<Content>
+			<Panel Name="DirectedByPanel" Layout="HorizontalFlow" Visible="false">
+				<Children>
+					<Text Font="font://s:DirectorTitleFont" Color="color://s:DirectorColor" Content="Directed By: "/>
+					<Text Name="Director" Font="font://s:DirectorFont" WordWrap="true" Color="color://s:DirectorColor" Content="[Item.Metadata.DirectorString]"/>
+				</Children>
+			</Panel>
+		</Content>
+
+	</UI>
+
+</Mcml>

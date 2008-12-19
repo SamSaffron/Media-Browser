@@ -1,0 +1,247 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MediaBrowser</RootNamespace>
+    <AssemblyName>MediaBrowser</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <AssemblyOriginatorKeyFile>MediaBrowser.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Debug</FullyQualifiedOutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Release</FullyQualifiedOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <StartWorkingDirectory>$(windir)\eHome</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+    <StartArguments>/entrypoint:{CE32C570-4BEC-4aeb-AD1D-CF47B91DE0B2}\{FC9ABCCC-36CB-47ac-8BAB-03E8EF5F6F22}</StartArguments>
+    <StartProgram>C:\Windows\ehome\ehshell.exe</StartProgram>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.MediaCenter" />
+    <Reference Include="Microsoft.MediaCenter.UI" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\ConfigData.cs" />
+    <Compile Include="Library\BackgroundProcessor.cs" />
+    <Compile Include="Code\Application.cs" />
+    <Compile Include="Code\Config.cs" />
+    <Compile Include="Code\Launch.cs" />
+    <Compile Include="Code\MyHistoryOrientedPageSession.cs" />
+    <Compile Include="LibraryManagement\Helper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Library\BinaryWriterExtensions.cs" />
+    <Compile Include="Library\ImageSource.cs" />
+    <Compile Include="Library\IMetadataProvider.cs" />
+    <Compile Include="Library\ItemFactory.cs" />
+    <Compile Include="Library\MediaMetadataFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Library\MediaMetadataStore.cs" />
+    <Compile Include="Library\DefaultCacheProvider.cs" />
+    <Compile Include="Library\DisplayPreferences.cs" />
+    <Compile Include="Library\Item.cs" />
+    <Compile Include="Library\ItemCache.cs" />
+    <Compile Include="Library\IItemCacheProvider.cs" />
+    <Compile Include="Library\ItemIndex.cs" />
+    <Compile Include="Library\ItemSource.cs" />
+    <Compile Include="Library\LibraryImage.cs" />
+    <Compile Include="Library\MediaMetadata.cs" />
+    <Compile Include="Library\MetaDataSource.cs" />
+    <Compile Include="Library\PlayableItem.cs" />
+    <Compile Include="Library\Playables\PlayableDvd.cs" />
+    <Compile Include="Library\Playables\PlayableFolder.cs" />
+    <Compile Include="Library\Playables\PlayableIso.cs" />
+    <Compile Include="Library\Playables\PlayableVideoFile.cs" />
+    <Compile Include="Library\PlayState.cs" />
+    <Compile Include="Library\PlayStateFactory.cs" />
+    <Compile Include="Library\Providers\FrameGrabProvider.cs" />
+    <Compile Include="Library\Providers\ImageFromMediaLocationProvider.cs" />
+    <Compile Include="Library\Providers\ImageByNameProvider.cs" />
+    <Compile Include="Library\Providers\MovieDbProvider.cs" />
+    <Compile Include="Library\Providers\MovieProviderFromXml.cs" />
+    <Compile Include="Library\Providers\NndbPeopleProvider.cs" />
+    <Compile Include="Library\Providers\TvDbProvider.cs" />
+    <Compile Include="Library\Providers\TVProviderFromXmlFiles.cs" />
+    <Compile Include="Library\Providers\VirtualFolderProvider.cs" />
+    <Compile Include="Library\SizeRef.cs" />
+    <Compile Include="Library\Sources\DummyDeleteItemSource.cs" />
+    <Compile Include="Library\Sources\EmptyItemSource.cs" />
+    <Compile Include="Library\Sources\ExistingItemSource.cs" />
+    <Compile Include="Library\Sources\FileSystemSource.cs" />
+    <Compile Include="Library\Sources\IndexingSource.cs" />
+    <Compile Include="Library\Sources\ShortcutSource.cs" />
+    <Compile Include="Library\Sources\VirtualFolderSource.cs" />
+    <Compile Include="Library\StringRef.cs" />
+    <Compile Include="Library\ThreadPoolSizes.cs" />
+    <Compile Include="Library\Transcode.cs" />
+    <Compile Include="Library\UniqueName.cs" />
+    <Compile Include="Library\XmlExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Util\Profiler.cs" />
+    <Compile Include="Util\ThumbCreator.cs" />
+    <Compile Include="Util\Updater.cs" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DevInstall.cmd" />
+    <None Include="MediaBrowser.snk" />
+    <None Include="Setup\Build.bat" />
+    <None Include="Setup\License.rtf" />
+    <None Include="Setup\Setup-en-us.wxl" />
+    <None Include="Setup\Setup.wxs" />
+    <None Include="Readme.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Background.png" />
+    <Content Include="Images\BackShadow.png" />
+    <Content Include="Images\CheckBoxCheckedFocus.png" />
+    <Content Include="Images\CheckBoxCheckedNoFocus.png" />
+    <Content Include="Images\CheckBoxUncheckedFocus.png" />
+    <Content Include="Images\CheckBoxUncheckedNoFocus.png" />
+    <Content Include="Images\Config.png" />
+    <Content Include="Images\DecrementFocused.png" />
+    <Content Include="Images\DecrementNoFocus.png" />
+    <Content Include="Images\IncrementNoFocus.png" />
+    <Content Include="Images\IncrementFocused.png" />
+    <Content Include="Images\Index.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\RadioFocus.png" />
+    <Content Include="Images\RadioNoFocus.png" />
+    <Content Include="Images\RadioSelectFocus.png" />
+    <Content Include="Images\RadioSelectNoFocus.png" />
+    <Content Include="Images\Ratings\Rated-G.gif" />
+    <Content Include="Images\Ratings\Rated-NC-17.gif" />
+    <Content Include="Images\Ratings\Rated-NR.gif" />
+    <Content Include="Images\Ratings\Rated-PG-13.gif" />
+    <Content Include="Images\Ratings\Rated-PG.gif" />
+    <Content Include="Images\Ratings\Rated-R.gif" />
+    <Content Include="Images\Ratings\Rated-Unrated.gif" />
+    <Content Include="Images\Ratings\TV-14.png" />
+    <Content Include="Images\Ratings\TV-G.png" />
+    <Content Include="Images\Ratings\TV-MA.png" />
+    <Content Include="Images\Ratings\TV-PG.png" />
+    <Content Include="Images\Ratings\TV-Y.png" />
+    <Content Include="Images\Ratings\TV-Y7-FV.png" />
+    <Content Include="Images\Ratings\TV-Y7.png" />
+    <Content Include="Images\Sort.png" />
+    <Content Include="Images\Star\Star_Full.png" />
+    <Content Include="Images\Star\Star_Empty.png" />
+    <Content Include="Images\Star\Star_Half.png" />
+    <Content Include="Images\Tick.png" />
+    <Content Include="Images\TickPoster.png" />
+    <Content Include="Images\Unwatched.png" />
+    <Content Include="Images\zoompane.png" />
+    <Content Include="Markup\Base\Sounds.mcml" />
+    <Content Include="Images\ApplicationInactive.png" />
+    <Content Include="Images\Button\ButtonDisabled.png" />
+    <Content Include="Images\Button\ButtonDormant.png" />
+    <Content Include="Images\Button\ButtonLeftFocus.png" />
+    <Content Include="Images\Button\ButtonLeftFocusOverlay.png" />
+    <Content Include="Images\Button\ButtonNoFocus.png" />
+    <Content Include="Images\ButtonSelection.png" />
+    <None Include="Images\Down.png" />
+    <None Include="Images\ButtonSelection2.png" />
+    <Content Include="Images\folder.png" />
+    <None Include="Images\Up.png" />
+    <None Include="Images\lines.png" />
+    <Content Include="Markup\Base\Animations.mcml" />
+    <Content Include="Markup\Base\Images.mcml" />
+    <Content Include="Markup\ConfigPage.mcml" />
+    <Content Include="Markup\Controls\Backdrop.mcml" />
+    <Content Include="Markup\Controls\CheckBox.mcml" />
+    <Content Include="Images\Application.png" />
+    <Content Include="Markup\Controls\Writers.mcml" />
+    <Content Include="Markup\Controls\Directors.mcml" />
+    <Content Include="Markup\Controls\ListButton.mcml" />
+    <Content Include="Markup\Controls\FocusSelector.mcml" />
+    <Content Include="Markup\Controls\GenreList.mcml" />
+    <Content Include="Markup\Controls\ItemPoster.mcml" />
+    <Content Include="Markup\Controls\LastWatched.mcml" />
+    <Content Include="Markup\Controls\PageDetailArea.mcml" />
+    <Content Include="Markup\Controls\PosterItemTitle.mcml" />
+    <Content Include="Markup\Controls\ListView.mcml" />
+    <Content Include="Markup\Controls\PosterScroller.mcml" />
+    <Content Include="Markup\Controls\PosterViewItem.mcml" />
+    <Content Include="Markup\Controls\MPAARating.mcml" />
+    <Content Include="Markup\Controls\RadioGroup.mcml" />
+    <Content Include="Markup\Controls\ScrollableText.mcml" />
+    <Content Include="Markup\Controls\ShadowedText.mcml" />
+    <Content Include="Markup\Controls\SimpleButton.mcml" />
+    <Content Include="Markup\Controls\StarRating.mcml" />
+    <Content Include="Markup\Controls\Summary.mcml" />
+    <Content Include="Markup\Controls\TextEdit.mcml" />
+    <Content Include="Markup\Controls\ThumbDetailsView.mcml" />
+    <Content Include="Markup\Controls\TitleSet.mcml" />
+    <Content Include="Markup\Controls\ViewDetails.mcml" />
+    <Content Include="Markup\Controls\ViewMenu.mcml" />
+    <Content Include="Markup\Controls\MovieInfo.mcml" />
+    <Content Include="Markup\Page.mcml" />
+    <Content Include="Markup\MovieDetailsPage.mcml" />
+    <Content Include="Markup\Controls\NowPlayingViewport.mcml" />
+    <Content Include="Markup\Controls\PosterView.mcml" />
+    <Content Include="Markup\Styles.mcml" />
+    <Content Include="Registration.xml" />
+    <Content Include="Setup\info.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
+cd "$(ProjectDir)"
+"$(ProjectDir)DevInstall.cmd" /$(ConfigurationName)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

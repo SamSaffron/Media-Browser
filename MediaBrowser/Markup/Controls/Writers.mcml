@@ -1,0 +1,31 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  >
+
+	<UI Name="Writers">
+
+		<Properties>
+			<lib:Item Name="Item" Item="$Required"/>
+		</Properties>
+
+		
+
+		<Rules>
+			<Binding Source="[Item.Metadata.WritersString]" Target="[Writers.Content]"/>
+			<Condition Source="[Item.Metadata.Writers.Count]" ConditionOp="GreaterThan" SourceValue="0" Target="[MainPanel.Visible]" Value="true"  />
+		</Rules>
+
+		<Content>
+			<Panel Name="MainPanel" Layout="HorizontalFlow"  Visible="false">
+				<Children>
+					<Text Font="font://s:WriterTitleFont" Color="color://s:WriterColor" Content="Written By: "/>
+					<Text Name="Writers" Font="font://s:WriterFont" WordWrap="true" Color="color://s:WriterColor" Content="[Item.Metadata.DirectorString]"/>
+				</Children>
+			</Panel>
+		</Content>
+
+	</UI>
+
+</Mcml>

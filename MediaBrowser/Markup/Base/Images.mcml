@@ -1,0 +1,63 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      >
+
+	<Image Name="Background" Source="resx://MediaBrowser/MediaBrowser.Resources/Background" />
+	<Image Name="Logo" Source="resx://MediaBrowser/MediaBrowser.Resources/Logo" />
+
+	<Image Name="Star" Source="resx://MediaBrowser/MediaBrowser.Resources/star"/>
+	<Image Name="ButtonSelection" Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonSelection" NineGrid="12,12,12,12"/>
+	<Image Name="ButtonSelection2" Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonSelection2" NineGrid="12,12,12,12"/>
+	<Image Name="ZoomPane" Source="resx://MediaBrowser/MediaBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
+	<Image Name="TextEditBorder" Source="resx://MediaBrowser/MediaBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
+	<Image Name="Folder" Source="resx://MediaBrowser/MediaBrowser.Resources/folder" NineGrid="15,25,10,10"/>
+	<Image Name="Tick" Source="resx://MediaBrowser/MediaBrowser.Resources/Tick" />
+	<Image Name="TickPoster" Source="resx://MediaBrowser/MediaBrowser.Resources/TickPoster" />
+	<Image Name="Unwatched" Source="resx://MediaBrowser/MediaBrowser.Resources/Unwatched" />
+	<Image Name="Lines" Source="resx://MediaBrowser/MediaBrowser.Resources/Lines"/>
+	<Image Name="ConfigImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Config"/>
+	<Image Name="SortImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Sort"/>
+	<Image Name="IndexImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Index"/>
+  <Image Name="BackShadow" Source="resx://MediaBrowser/MediaBrowser.Resources/BackShadow" NineGrid="65,65,65,65"/>
+	
+	<Image Name="StarEmpty" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Empty" />
+	<Image Name="StarFull" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Full" />
+	<Image Name="StarHalf" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Half" />
+	<Image Name="RatedG" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_G" />
+	<Image Name="RatedNC17" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_NC_17" />
+	<Image Name="RatedPG13" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_PG_13" />
+	<Image Name="RatedPG" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_PG" />
+	<Image Name="RatedR" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_R" />
+	<Image Name="Unrated" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_Unrated" />
+	<Image Name="RatedNR" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_NR" />
+	<Image Name="TV-G" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_G" />
+	<Image Name="TV-MA" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_MA" />
+	<Image Name="TV-Y7" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_Y7" />
+	<Image Name="TV-Y" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_Y" />
+	<Image Name="TV-14" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_14" />
+	<Image Name="TV-PG" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_PG" />
+	<Image Name="TV-V7-FV" Source="resx://MediaBrowser/MediaBrowser.Resources/TV_V7_FV" />
+	
+	<Image Name="RadioButtonOn" Source="resx://MediaBrowser/MediaBrowser.Resources/RadioButtonOn" />
+	<Image Name="RadioButtonOff" Source="resx://MediaBrowser/MediaBrowser.Resources/RadioButtonOff" />
+	<Image Name="ButtonLeftFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
+	<Image Name="BlankImage" Image="null"/>
+	
+	<Image Name="CheckBoxCheckedFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/CheckBoxCheckedFocus"  />
+	<Image Name="CheckBoxCheckedNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/CheckBoxCheckedNoFocus"  />
+	<Image Name="CheckBoxUncheckedFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/CheckBoxUncheckedFocus"  />
+	<Image Name="CheckBoxUncheckedNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/CheckBoxUncheckedNoFocus"  />
+
+	<Image Name="RadioFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/RadioFocus"  />
+	<Image Name="RadioNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/RadioNoFocus"  />
+	<Image Name="RadioSelectNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/RadioSelectNoFocus"  />
+	<Image Name="RadioSelectFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/RadioSelectFocus"  />
+
+	<Image Name="IncrementFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/IncrementFocused"  />
+	<Image Name="IncrementNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/IncrementNoFocus"  />
+	<Image Name="DecrementFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/DecrementFocused"  />
+	<Image Name="DecrementNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/DecrementNoFocus"  />
+
+	
+
+
+</Mcml>

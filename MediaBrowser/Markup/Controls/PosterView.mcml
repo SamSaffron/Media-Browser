@@ -1,0 +1,75 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:me="Me"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:pit="resx://MediaBrowser/MediaBrowser.Resources/PosterItemTitle"
+	  xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
+	  xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MovieInfo"
+	  xmlns:lw="resx://MediaBrowser/MediaBrowser.Resources/LastWatched"
+	  xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
+	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
+	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+	  
+	  xmlns:ui="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.UI"
+	  
+	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	  xmlns:shell="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.Shell"
+	  xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+  >
+
+	<Aggregate Source="resx://MediaBrowser/MediaBrowser.Resources/StarRating"/>
+
+	<UI Name="PosterView">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:Item Name="Item" Item="$Required"/>
+		</Properties>
+
+		<Locals>
+			<FormLayoutInput Name="TitleLayout" Top="ItemPanel,1"  Left="Focus,0,20"/>
+		</Locals>
+		<Rules>
+			<Condition Source="[Item.DisplayPrefs.VerticalScroll.Value]" SourceValue="true" Target="[TitleLayout.Left]" Value="Parent,0,300" />
+			<Condition Source="[Item.DisplayPrefs.VerticalScroll.Value]" SourceValue="false" Target="[TitleLayout.Left]" Value="Focus,0,20" />
+			<Binding Source="[Item.Metadata.HasBackdropImage]" Target="[BackdropImg.Visible]" />
+			<Binding Source="[Item.Metadata.BackdropImage.Image]" Target="[BackdropImg.Image]" />
+		</Rules>
+		<Content>
+			<Panel Layout="Form">
+				<Children>
+					<ps:PosterScroller Name="ItemPanel" Application="[Application]"
+									   Item="[Item]" >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
+						</LayoutInput>
+					</ps:PosterScroller>
+					<bd:Backdrop Name="BackdropImg" Image="[Item.Metadata.BackdropImage.Image]" >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
+						</LayoutInput>
+					</bd:Backdrop>
+					<ColorFill Content="White" Alpha="0.1">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
+						</LayoutInput>
+					</ColorFill>
+
+					<pit:PosterItemTitle Item="[Item]" LayoutInput="[TitleLayout]">
+						<Animations>
+							<Animation Type="Move">
+								<Keyframes>
+									<PositionKeyframe Time="0" RelativeTo="Current"/>
+									<PositionKeyframe Time="0.3" RelativeTo="Final"/>
+								</Keyframes>
+							</Animation>
+						</Animations>
+					</pit:PosterItemTitle>
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+
+	
+</Mcml>

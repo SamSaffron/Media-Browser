@@ -1,0 +1,40 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  >
+	
+	<UI Name="LastWatched">
+		<Properties>
+			<lib:Item Name="Model" Item="$Required"/>
+			<lib:Item Name="ModelFast" Item="$Required"/>
+		</Properties>
+		<Rules>
+			<Binding Target="[LastWatched.Content]" Source="[Model.PlayState.LastPlayedString]"/>
+			<Changed Source="[Model]">
+				<Conditions>
+					<Equality Source="[Model.PlayState.LastPlayedString.Length]" ConditionOp="Equals" Value="0"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[LastWatched.Visible]" Value="false" />
+				</Actions>
+			</Changed>
+			<Changed Source="[Model]">
+				<Conditions>
+					<Equality Source="[Model.PlayState.LastPlayedString.Length]" ConditionOp="GreaterThan" Value="0"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[LastWatched.Visible]" Value="true" />
+				</Actions>
+			</Changed>
+		</Rules>
+		<Content>
+			<Panel>
+				<Children>
+					<Text Name="LastWatched" Color="color://s:LastWatchedColor" Font="font://s:LastWatchedFont"></Text>
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+
+</Mcml>
