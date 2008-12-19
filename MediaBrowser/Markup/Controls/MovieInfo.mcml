@@ -22,6 +22,12 @@
 			<Binding Target="[Writers.Item]" Source="[Model]"/>
 			<Binding Target="[ProductionYear.Content]" Source="[Model.Metadata.ProductionYearString]"/>
 			<Binding Target="[MPAARating.Value]" Source="[Model.Metadata.MpaaRating]"/>
+			<Changed Source="[Model.Metadata.MediaInfo]" InitialEvaluate="true">
+				<Actions>
+					<Set Target="[MediaInfo.Content]" Value="[Model.Metadata.MediaInfo.CombinedInfo]"/>
+				</Actions>
+			</Changed>
+			<Binding Target="[MediaInfo.Visible]" Source="[Model.Metadata.HasMediaInfo]" />
 		</Rules>
 		<Content>
 			<Panel Name="MainPanel">
@@ -50,6 +56,7 @@
 					<gl:GenreList Name="Genres" SourceData="[Model.Metadata.Genres]"/>
 					<d:Directors Name="Directors" Item="[Model]"/>
 					<w:Writers Name="Writers" Item="[Model]"/>
+					<Text Name="MediaInfo" Font="Segoe Media Center Semibold,14" Color="White" />
 				</Children>
 			</Panel>
 		</Content>

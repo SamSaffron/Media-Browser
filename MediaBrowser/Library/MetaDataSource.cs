@@ -22,6 +22,7 @@ namespace MediaBrowser.Library
             //providers.Add(new NndbPeopleProvider());
             providers.Add(new VirtualFolderProvider());
             providers.Add(new FrameGrabProvider());
+            providers.Add(new MediaInfoProvider());
         }
 
         private static volatile MetaDataSource instance;

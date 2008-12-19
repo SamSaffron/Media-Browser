@@ -190,6 +190,7 @@
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MaximumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[BelowLabelPanel.MaximumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MinimumSize]" />
+			<Binding Source="[Item.Metadata.IsHD]" Target="[HDIndicator.Visible]" />
 		</Rules>
 
 		<Content>
@@ -249,6 +250,18 @@
 																</LayoutInput>
 															</Text>
 														</Children>
+													</Graphic>
+												</Children>
+											</Panel>
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Visible="false" Name="HDIndicator">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
+												</LayoutInput>
+												<Children>
+													<Graphic Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="30,30" Alpha="0.8" Visible="[Item.HaveWatched]">
+														<LayoutInput>
+															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+														</LayoutInput>
 													</Graphic>
 												</Children>
 											</Panel>

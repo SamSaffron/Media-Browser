@@ -18,6 +18,8 @@
 	<Image Name="SortImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Sort"/>
 	<Image Name="IndexImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Index"/>
   <Image Name="BackShadow" Source="resx://MediaBrowser/MediaBrowser.Resources/BackShadow" NineGrid="65,65,65,65"/>
+
+	<Image Name="HDLogo" Source="resx://MediaBrowser/MediaBrowser.Resources/HD" />
 	
 	<Image Name="StarEmpty" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Empty" />
 	<Image Name="StarFull" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Full" />

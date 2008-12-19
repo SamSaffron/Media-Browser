@@ -59,7 +59,7 @@ namespace MediaBrowser.Library
     {
 
 
-        private static readonly byte Version = 2;
+        private static readonly byte Version = 3;
         public MediaMetadataStore(UniqueName ownerName)
         {
             this.OwnerName = ownerName;
@@ -121,6 +121,9 @@ namespace MediaBrowser.Library
             WriteImageSource(bw, this.BackdropImage);
             bw.SafeWriteString(this.MpaaRating);
             WriteList(bw, this.Writers);
+            bw.Write(this.MediaInfo != null);
+            if (this.MediaInfo != null)
+                this.MediaInfo.Write(bw);
         }
 
         private static void WriteImageSource(BinaryWriter bw, ImageSource imageSource)
@@ -189,6 +192,11 @@ namespace MediaBrowser.Library
             store.MpaaRating = br.SafeReadString();
             if (v >=2)
                 store.Writers = ReadList(br);
+            if (v >= 3)
+            {
+                if (br.ReadBoolean())
+                    store.MediaInfo = MediaInfoData.FromStream(br);
+            }
             return store;
         }
 
@@ -272,7 +280,8 @@ namespace MediaBrowser.Library
                 this.DataSource = data.DataSource;
             if (this.MpaaRating == null)
                 this.MpaaRating = data.MpaaRating;
-
+            if (this.MediaInfo == null)
+                this.MediaInfo = data.MediaInfo;
 
             foreach (KeyValuePair<string, string> kv in data.ProviderData)
                 lock (this.ProviderData)
@@ -303,10 +312,61 @@ namespace MediaBrowser.Library
         public ImageSource BannerImage { get; set; }
         public ImageSource BackdropImage { get; set; }
         public string MpaaRating { get; set; }
+        public MediaInfoData MediaInfo { get; set; }
         /// <summary>
         /// data that can be stored by the provider of the data to assist it with refreshing / updating
         /// </summary>
 
+    }
+
+    public class MediaInfoData
+    {
+        public readonly static MediaInfoData Empty = new MediaInfoData { AudioFormat = "", VideoCodec = "" };
+
+        private static byte Version = 1;
+        public int Height;
+        public int Width;
+        public string VideoCodec;
+        public string AudioFormat;
+        public int VideoBitRate;
+        public int AudioBitRate;
+
+        public string CombinedInfo
+        {
+            get 
+            { 
+                if (this!=Empty)
+                    return string.Format("{0}x{1}, {2} {3}kbps, {4} {5}kbps", this.Width, this.Height, this.VideoCodec, this.VideoBitRate/1000, this.AudioFormat, this.AudioBitRate/1000); 
+                else 
+                    return "";
+            }
+        }
+
+        public void Write(BinaryWriter bw)
+        {
+            bw.Write(Version);
+            bw.Write(Height);
+            bw.Write(Width);
+            bw.SafeWriteString(VideoCodec);
+            bw.SafeWriteString(AudioFormat);
+            bw.Write(VideoBitRate);
+            bw.Write(AudioBitRate);
+            
+        }
+
+        public static MediaInfoData FromStream(BinaryReader br)
+        {
+            byte v = br.ReadByte();
+            return new MediaInfoData
+            {
+                Height = br.ReadInt32(),
+                Width = br.ReadInt32(),
+                VideoCodec = br.SafeReadString(),
+                AudioFormat = br.SafeReadString(),
+                VideoBitRate = br.ReadInt32(),
+                AudioBitRate = br.ReadInt32()
+            };
+        }
     }
 
 

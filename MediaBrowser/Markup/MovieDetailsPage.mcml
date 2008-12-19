@@ -363,6 +363,12 @@
       <Binding Source="[Item.Metadata.DirectorString]" Target="[Director.Content]"/>
       <Condition Source="[Item.Metadata.ImdbRating]" ConditionOp="GreaterThanOrEquals" SourceValue="0" Target="[IMDBRatingPanel.Visible]" Value="true"  />
       <Condition Source="[Item.Metadata.Directors.Count]" ConditionOp="GreaterThan" SourceValue="0" Target="[DirectedByPanel.Visible]" Value="true"  />
+		<Changed Source="[Item.Metadata.MediaInfo]" InitialEvaluate="true">
+			<Actions>
+				<Set Target="[MediaInfo.Content]" Value="[Item.Metadata.MediaInfo.CombinedInfo]"/>
+			</Actions>
+		</Changed>
+		<Binding Target="[MediaInfo.Visible]" Source="[Item.Metadata.HasMediaInfo]" />
     </Rules>
     <Content>
       <Panel  Layout="Form" Margins="0,0,0,0">
@@ -418,6 +424,17 @@
                   </TransformAnimation>
                 </Animations>
               </Text>
+				<Text Name="MediaInfo" Font="Segoe Media Center Semibold,14" Color="White" >
+					<Animations>
+						<TransformAnimation Delay="0.9">
+							<Source>
+								<Animation Animation="animation://an:SlideUpFade" />
+							</Source>
+						</TransformAnimation>
+					</Animations>
+				</Text>
+					
+					
             </Children>
           </Panel>
 

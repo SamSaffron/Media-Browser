@@ -430,6 +430,22 @@ namespace MediaBrowser.Library
             set { if (this.store.UtcDataTimestamp != value) { this.store.UtcDataTimestamp = value; FirePropertyChanged("DataTimestamp"); Save(); } }
         }
 
+        public MediaInfoData MediaInfo
+        {
+            get { return this.store.MediaInfo == null ? MediaInfoData.Empty : this.store.MediaInfo; }
+            set { if (this.store.MediaInfo != value) { this.store.MediaInfo = value; FirePropertyChanged("MediaInfo"); FirePropertyChanged("HasMediaInfo"); FirePropertyChanged("IsHD"); Save(); } }
+        }
+
+        public bool HasMediaInfo
+        {
+            get { return this.store.MediaInfo != null; }
+        }
+
+        public bool IsHD
+        {
+            get { return (this.MediaInfo.Height >= 720); }
+        }
+
         public string DataSource
         {
             get { return this.store.DataSource; }
@@ -557,6 +573,7 @@ namespace MediaBrowser.Library
                 this.Genres = data.Genres;
                 this.DataTimestamp = data.UtcDataTimestamp;
                 this.DataSource = data.DataSource;
+                this.MediaInfo = data.MediaInfo;
                 this.store.ProviderData = data.ProviderData;
                 /*
                 if (data.ProviderData!=null)
