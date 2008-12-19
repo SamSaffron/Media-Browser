@@ -481,6 +481,11 @@ namespace MediaBrowser.LibraryManagement
             }
         }
 
+        public static bool IsFolder(FileSystemInfo fsi)
+        {
+            return ((fsi.Attributes & FileAttributes.Directory) == FileAttributes.Directory);
+        }
+
         /// <summary>
         /// 
         /// </summary>

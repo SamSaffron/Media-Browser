@@ -41,11 +41,15 @@ namespace MediaBrowser.Library.Sources
             this.uniqueName = UniqueName.Fetch("FSS:" + path, true);
         }
 
+       
+
         public override void PrepareToConstruct()
         {
             ResolveItemType();
-            var fi = new FileInfo(path);
-            this.createdDate = GetDate(fi);
+            if (Helper.IsFolder(path))
+                this.createdDate = GetDate(new DirectoryInfo(path));
+            else
+                this.createdDate = GetDate(new FileInfo(path));
         }
 
         public override void ValidateItemType()
@@ -82,15 +86,30 @@ namespace MediaBrowser.Library.Sources
                 if (Helper.IsFolder(path) && !IsPlayable)
                 {
                     InitializeWatcher();
-                    string[] folders = Directory.GetDirectories(path);
-                    if (folders != null)
-                        foreach (string f in folders)
+                    /* this slowed down verification ofr season folers dramatically, so for files we will stick with just getting names not full info back
+                    FileSystemInfo[] infos = new DirectoryInfo(path).GetFileSystemInfos();
+                    if (infos!=null)
+                        foreach (FileSystemInfo f in infos)
                         {
-                            ItemSource s = GetChildSource(f, true);
-                            if (s != null)
-                                yield return s;
+                            if ((f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                            {
+                                ItemSource s = GetChildSource(f.FullName, Helper.IsFolder(f));
+                                if (s != null)
+                                    yield return s;
+                            }
                         }
-
+                    */
+                    DirectoryInfo[] folders = new DirectoryInfo(path).GetDirectories();
+                    if (folders != null)
+                        foreach (DirectoryInfo f in folders)
+                        {
+                            if ((f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                            {
+                                ItemSource s = GetChildSource(f.FullName, true);
+                                if (s != null)
+                                    yield return s;
+                            }
+                        }
                     string[] files = Directory.GetFiles(path);
                     if (files != null)
                         foreach (string file in files)
@@ -172,31 +191,36 @@ namespace MediaBrowser.Library.Sources
             return GetDate(new FileInfo(path));
         }
 
-        private static DateTime GetDate(FileInfo fi)
+        private static DateTime GetDate(FileSystemInfo fi)
         {
-            bool isFolder = (fi.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+            bool isFolder = Helper.IsFolder(fi);
             if (!isFolder && (!fi.Exists))
                 return DateTime.Today;
             if (!isFolder)
-                return fi.CreationTime;
+                return fi.CreationTimeUtc;
             else
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(fi.FullName);
+                    DirectoryInfo di = fi as DirectoryInfo;
+                    if (di == null)
+                        di = new DirectoryInfo(fi.FullName);
+                    
+                    FileInfo[] files = di.GetFiles();
+                    //string[] files = Directory.GetFiles(fi.FullName);
                     if ((files != null) && (files.Length > 0))
                     {
                         DateTime oldest = DateTime.MaxValue;
-                        foreach (string f in files)
+                        foreach (FileInfo f in files)
                         {
-                            DateTime dt = new FileInfo(f).CreationTime;
+                            DateTime dt = f.CreationTimeUtc;
                             if (dt < oldest)
                                 oldest = dt;
                         }
                         return oldest;
                     }
                     else
-                        return fi.CreationTime;
+                        return fi.CreationTimeUtc; 
                 }
                 catch
                 {
