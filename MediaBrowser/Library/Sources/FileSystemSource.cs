@@ -141,9 +141,8 @@ namespace MediaBrowser.Library.Sources
                     {
                         if (Helper.IsVirtualFolder(path))
                             return new VirtualFolderSource(path);
-                        else
-                            if (Helper.IsVideo(path))
-                                return new FileSystemSource(path);
+                        else if (Helper.IsVideo(path) || Helper.IsIso(path))
+                            return new FileSystemSource(path);
                     }
                 }
                 return null;
@@ -417,8 +416,6 @@ namespace MediaBrowser.Library.Sources
                 }
             }
         }
-
-
 
         void watcher_Deleted(object sender, FileSystemEventArgs e)
         {

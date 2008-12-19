@@ -302,7 +302,7 @@ namespace MediaBrowser.LibraryManagement
                     case ".mp4":
                     case ".mkv":
                     case ".divx":
-                    //case ".iso":
+                    //case ".iso": // these are not directly playable and need to be handled differently
                     case ".dvr-ms":
                     case ".ogm":
                         return true;
@@ -695,7 +695,7 @@ namespace MediaBrowser.LibraryManagement
 
         private static string EpisodeNumberFromFile(string fullPath, bool isInSeason)
         {
-            if (!IsVideo(fullPath))
+            if (! (IsVideo(fullPath) || IsIso(fullPath)))
                 return null;
             string fl = fullPath.ToLower();
             if (isInSeason)
@@ -796,7 +796,7 @@ namespace MediaBrowser.LibraryManagement
                     files = Directory.GetFiles(path);
                 foreach (string file in files)
                 {
-                    if (Helper.IsVideo(file) && (EpisodeNumberFromFile(file, false) != null))
+                    if (EpisodeNumberFromFile(file, false) != null)
                         return true;
                 }
                 return false;
