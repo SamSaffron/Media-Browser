@@ -1,9 +1,0 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>/entrypoint:{97a99e2f-2c25-427d-ad18-0262045a7377}\{547c16aa-6ec4-41a3-953e-242333b60df0}</StartArguments>
-    <StartProgram>C:\Windows\ehome\ehshell.exe</StartProgram>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ProjectView>ProjectFiles</ProjectView>
-  </PropertyGroup>
-</Project>
