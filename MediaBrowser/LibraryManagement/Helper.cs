@@ -500,7 +500,7 @@ namespace MediaBrowser.LibraryManagement
                 if (folders == null)
                     folders = Directory.GetDirectories(path);
                 foreach (string f in folders)
-                    if (f.ToUpper() == "VIDEO_TS")
+                    if (f.ToUpper().EndsWith("VIDEO_TS"))
                         return true;
                 return false;
                 /*
