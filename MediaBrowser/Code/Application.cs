@@ -457,40 +457,48 @@ namespace MediaBrowser
         // Entry point for the app
         public void GoToMenu()
         {
-            if (Config.IsFirstRun)
+            try
             {
-                OpenConfiguration(false);
-                MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                ev.Dialog("As this is the first time you have run Media Browser please setup the inital configuration", "Configure", DialogButtons.Ok, 60, true);
-            }
-            else
-            {
-                // We check config here instead of in the Updater class because the Config class 
-                // CANNOT be instantiated outside of the application thread.
-                if (Config.EnableUpdates)
+                if (Config.IsFirstRun)
                 {
-                    Updater update = new Updater(this);
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(update.checkUpdate));
-                }
-                if (!CheckInitialSource())
-                {
-                    MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                    ev.Dialog("Initial folder: " + Config.Instance.InitialFolder + " cannot be found, please check configuration.", "Error", DialogButtons.Ok, 60, true);
-                    Config.IsFirstRun = true;
                     OpenConfiguration(false);
-                    return;
-                }
-
-                ItemSource initial = this.InitialSource;
-                Item item = ItemCache.Instance.Retrieve(initial.UniqueName);
-                if (item == null)
-                {
                     MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                    ev.Dialog("Media Browser will now perform an initial scan of your configured folders, you may continue to use Media Browser but it may take a few moments for all your content to appear.", "Initial Cache Population", DialogButtons.Ok, 60, true);
-                    item = initial.ConstructItem();
-                    ItemCache.Instance.SaveSource(item.Source);
+                    ev.Dialog("As this is the first time you have run Media Browser please setup the inital configuration", "Configure", DialogButtons.Ok, 60, true);
                 }
-                OpenPage(item);
+                else
+                {
+                    // We check config here instead of in the Updater class because the Config class 
+                    // CANNOT be instantiated outside of the application thread.
+                    if (Config.EnableUpdates)
+                    {
+                        Updater update = new Updater(this);
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(update.checkUpdate));
+                    }
+                    if (!CheckInitialSource())
+                    {
+                        MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                        ev.Dialog("Initial folder: " + Config.Instance.InitialFolder + " cannot be found, please check configuration.", "Error", DialogButtons.Ok, 60, true);
+                        Config.IsFirstRun = true;
+                        OpenConfiguration(false);
+                        return;
+                    }
+
+                    ItemSource initial = this.InitialSource;
+                    Item item = ItemCache.Instance.Retrieve(initial.UniqueName);
+                    if (item == null)
+                    {
+                        MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                        ev.Dialog("Media Browser will now perform an initial scan of your configured folders, you may continue to use Media Browser but it may take a few moments for all your content to appear.", "Initial Cache Population", DialogButtons.Ok, 60, true);
+                        item = initial.ConstructItem();
+                        ItemCache.Instance.SaveSource(item.Source);
+                    }
+                    OpenPage(item);
+                }
+            }
+            catch (Exception e)
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog("Media Browser encountered a critical error and had to shut down: " + e.ToString() + " " + e.StackTrace.ToString(), "Critical Error", DialogButtons.Ok, 60, true);
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
             }
         }
 
