@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading;
 using MediaBrowser.Util;
 using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace MediaBrowser.Library
 {
@@ -23,7 +24,8 @@ namespace MediaBrowser.Library
                 bool cn;
                 MutexSecurity mSec = new MutexSecurity();
 
-                MutexAccessRule rule = new MutexAccessRule("Everyone", MutexRights.FullControl, AccessControlType.Allow);
+                SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+                MutexAccessRule rule = new MutexAccessRule(sid, MutexRights.FullControl, AccessControlType.Allow);
                 mSec.AddAccessRule(rule);
                 cacheMutex = new Mutex(false, MUTEX_NAME, out cn, mSec);
             }
