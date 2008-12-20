@@ -12,7 +12,7 @@ namespace MediaBrowser.Library.Playables
     {
         string path;
         string playListFile;
-        string[] filenames;
+        List<string> videoFiles;
         int offset = 0;
 
         public PlayableFolder(string path)
@@ -27,8 +27,37 @@ namespace MediaBrowser.Library.Playables
                 playListFile = path;
             else
             {
-                filenames = Directory.GetFiles(path);
+                videoFiles = new List<string>(Helper.EnumerateVideoFiles(path,null,null,Config.Instance.EnableNestedMovieFolders));
+                if (videoFiles.Count==1)
+                {
+                    playListFile = videoFiles[0];
+                }
+                else
+                {
+                    videoFiles.Sort();
+                    int pos = 0;
+                    if (resume)
+                        pos = PlayState.PlaylistPosition;
+                    
 
+                    playListFile = Path.Combine(Helper.AutoPlaylistPath, Path.GetFileName(path) + ".wpl");
+                    StringBuilder contents = new StringBuilder(@"<?wpl version=""1.0""?><smil><body><seq>");
+                    foreach (string file in videoFiles)
+                    {
+                        if (pos>0)
+                            pos--;
+                        else
+                        {
+                            contents.Append(@"<media src=""");
+                            contents.Append(file);
+                            contents.AppendLine(@"""/>");
+                        }
+                    }
+                    contents.Append(@"</seq></body></smil>");
+                    System.IO.File.WriteAllText(playListFile, contents.ToString());
+                }
+                /*
+                filenames = Directory.GetFiles(path);
                 if (filenames != null)
                 {
                     List<string> videoFiles = new List<string>();
@@ -36,7 +65,6 @@ namespace MediaBrowser.Library.Playables
                         if (Helper.IsVideo(f))
                             videoFiles.Add(f);
                     videoFiles.Sort();
-
                     if (resume)
                     {
                         offset = PlayState.PlaylistPosition;
@@ -63,6 +91,7 @@ namespace MediaBrowser.Library.Playables
                     contents.Append(@"</seq></body></smil>");
                     System.IO.File.WriteAllText(playListFile, contents.ToString());
                 }
+                 */
             }
         }
 
@@ -74,11 +103,11 @@ namespace MediaBrowser.Library.Playables
 
         public override bool UpdatePosition(string title, long positionTicks)
         {
-            if (title == null || filenames == null) 
+            if (title == null || videoFiles == null) 
                 return false; 
             
-            int i = offset;
-            foreach (var filename in filenames)
+            int i = 0;
+            foreach (var filename in videoFiles)
 	        {
                 if (title.StartsWith(Path.GetFileNameWithoutExtension(filename)))
                 {

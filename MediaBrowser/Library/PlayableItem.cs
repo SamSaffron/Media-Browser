@@ -120,12 +120,12 @@ namespace MediaBrowser.Library
                 return;
             }
             eventHandler = new Microsoft.MediaCenter.UI.PropertyChangedEventHandler(Transport_PropertyChanged);
-            Application.CurrentInstance.ShowNowPlaying = true;
             mce.MediaExperience.GoToFullScreen();
             this.PlayState.LastPlayed = DateTime.Now;
             this.PlayState.PlayCount = this.PlayState.PlayCount + 1;
             AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PropertyChanged += eventHandler;
             previousPlayable = this;
+            Application.CurrentInstance.ShowNowPlaying = true;
         }
 
         public virtual bool UpdatePosition(string title, long positionTicks)

@@ -854,12 +854,10 @@ namespace MediaBrowser.Library
         private bool VerifyChildren()
         {
             // todo should also verify on navigate into folder
-            Debug.WriteLine("verifying children:" + this.source.RawName);
+            Debug.WriteLine("Verifying children:" + this.source.RawName);
             //using (new Profiler(this.source.RawName))
             {
                 bool changed = false;
-
-
                 Item[] clist;
                 lock (this.children)
                     clist = this.children.ToArray();
@@ -876,13 +874,12 @@ namespace MediaBrowser.Library
                         if (!itemsToRemove.ContainsKey(s.UniqueName))
                         {
                             // add new item
-
+                            Trace.TraceInformation("New item found: " + s.Location);
                             if (childrenToAdd == null)
                                 childrenToAdd = new List<ItemSource>();
                             s.PrepareToConstruct();
                             childrenToAdd.Add(s);
                             changed = true;
-
                         }
                         else
                         {
