@@ -15,6 +15,7 @@ namespace MediaBrowser.Library
         readonly Choice sortOrders = new Choice();
         readonly Choice indexBy = new Choice();
         readonly BooleanChoice useBanner;
+        SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
 
         public DisplayPreferences(UniqueName ownerName)
         {
@@ -188,7 +189,7 @@ namespace MediaBrowser.Library
         }
 
 
-        SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
+        
         public SizeRef ThumbConstraint
         {
             get

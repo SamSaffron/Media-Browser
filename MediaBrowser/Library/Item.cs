@@ -51,6 +51,7 @@ namespace MediaBrowser.Library
         }
         #endregion
 
+
         public UniqueName UniqueName { get { return this.source.UniqueName; } }
 
         public void NavigatingInto()
@@ -1032,7 +1033,7 @@ namespace MediaBrowser.Library
             {
                 dp = new DisplayPreferences(this.UniqueName);
                 dp.LoadDefaults();
-                if (this.PhysicalParent != null)
+                if ((this.PhysicalParent != null) && (Config.Instance.InheritDefaultView))
                 {
                     // inherit some of the display properties from our parent the first time we are visited
                     DisplayPreferences pt = this.PhysicalParent.DisplayPrefs;

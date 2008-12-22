@@ -270,6 +270,12 @@ namespace MediaBrowser
             this.AssumeWatchedBefore = this.AssumeWatchedBefore.AddMonths(-1);
         }
 
+        public bool InheritDefaultView
+        {
+            get { return this.data.InheritDefaultView; }
+            set { if (this.data.InheritDefaultView != value) { this.data.InheritDefaultView = value; Save(); FirePropertyChanged("InheritDefaultView"); } }
+        }
+
         [Comment("Changes the default view index for folders that have not yet been visited.\n\t[Detail|Poster|Thumb]")]
         public ViewTypes DefaultViewType
         {

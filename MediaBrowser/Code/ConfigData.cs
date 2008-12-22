@@ -44,6 +44,7 @@ namespace MediaBrowser
         public bool DefaultToFirstUnwatched = false;
         public bool AutoEnterSingleDirs = false; 
         public DateTime AssumeWatchedBefore = DateTime.Today.AddYears(-2).AddDays(1-DateTime.Today.Day);
+        public bool InheritDefaultView = true;
         public ViewTypes DefaultViewType = ViewTypes.Poster;
         public bool DefaultShowLabels = true;
         public bool DefaultVerticalScroll = false;
