@@ -64,7 +64,23 @@ namespace MediaBrowser.Library.Providers
 
         private void FetchMovieData(Item item, MediaMetadataStore store)
         {
-            string name = item.Source.Name.Trim();
+            if (item.Metadata.ProviderData.ContainsKey(ProviderName + ":id"))
+                FetchMovieData(item.Metadata.ProviderData[ProviderName + ":id"], item, store);
+            else
+            {
+                string id;
+                string matchedName;
+                string[] possibles;
+                id = FindId(item.Source.Name, out matchedName, out possibles);
+                if (id!=null)
+                    FetchMovieData(id, item, store); 
+            }
+        }
+
+        public static string FindId(string name, out string matchedName, out string[] possibles)
+        {
+            name = name.Replace(".", " ");
+            name = name.Replace("  ", " ");
             string year = null;
             foreach (Regex re in nameMatches)
             {
@@ -72,81 +88,83 @@ namespace MediaBrowser.Library.Providers
                 if (m.Success)
                 {
                     name = m.Groups["name"].Value.Trim();
-                    year = m.Groups["year"]!=null ? m.Groups["year"].Value : null ;
+                    year = m.Groups["year"] != null ? m.Groups["year"].Value : null;
                     break;
                 }
             }
-            if (year=="")
+            if (year == "")
                 year = null;
-            Trace.TraceInformation("MovieDbProvider: Fetching movie data: " + name);
-            
-            if (item.Metadata.ProviderData.ContainsKey(ProviderName + ":id"))
-                FetchMovieData(item.Metadata.ProviderData[ProviderName + ":id"], item, store);
-            else
+            //Trace.TraceInformation("MovieDbProvider: Finding id for movie data: " + name);
+
+            string id = null;
+            matchedName = null;
+            string url = string.Format(search, HttpUtility.UrlEncode(name).Replace("'","%27"), ApiKey);
+            XmlDocument doc = Fetch(url);
+            possibles = null;
+            if (doc != null)
             {
-                string url = string.Format(search, HttpUtility.UrlEncode(name), ApiKey);
-                XmlDocument doc = Fetch(url);
-                if (doc != null)
+                XmlNodeList nodes = doc.SelectNodes("//movie");
+                foreach (XmlNode node in nodes)
                 {
-                    XmlNodeList nodes = doc.SelectNodes("//movie");
-                    foreach (XmlNode node in nodes)
+                    List<string> titles = new List<string>();
+                    XmlNode n = node.SelectSingleNode("./title");
+                    if (n != null)
                     {
-                        List<string> titles = new List<string>();
-                        XmlNode n = node.SelectSingleNode("./title");
-                        if (n != null)
+                        titles.Add(n.InnerText);
+                    }
+                    var alt_titles = node.SelectNodes("./alternative_title");
+                    {
+                        foreach (XmlNode title in alt_titles)
                         {
-                            titles.Add(n.InnerText);
+                            titles.Add(title.InnerText);
                         }
-                        var alt_titles = node.SelectNodes("./alternative_title");
-                        {
-                            foreach (XmlNode title in alt_titles)
-                            {
-                                titles.Add(title.InnerText);  
-                            } 
-                        }
+                    }
 
-                        if (titles.Count > 0)
+                    if (titles.Count > 0)
+                    {
+
+                        var comparable_name = GetComparableName(name);
+                        foreach (var title in titles)
                         {
-                            string matched_title = null;
-                            var comparable_name = GetComparableName(name); 
-                            foreach (var title in titles)
+                            if (GetComparableName(title) == comparable_name)
                             {
-                                if (GetComparableName(title) == comparable_name)
-                                {
-                                    matched_title = title;
-                                    break;
-                                }
+                                matchedName = title;
+                                break;
                             }
+                        }
 
-                            if (matched_title != null)
+                        if (matchedName != null)
+                        {
+                            //Trace.TraceInformation("Match " + matchedName + " for " + name);
+                            if (year != null)
                             {
-                                Trace.TraceInformation("Match " + matched_title + " for " + name);
-                                if (year != null)
+                                string r = node.SafeGetString("release");
+                                if (r != null)
                                 {
-                                    string r = node.SafeGetString("release");
-                                    if (r != null)
+                                    if (!r.StartsWith(year))
                                     {
-                                        if (!r.StartsWith(year))
-                                        {
-                                            Trace.TraceInformation("Result " + matched_title + " release on " + r + " did not match year " + year);
-                                            continue;
-                                        }
+                                        //Trace.TraceInformation("Result " + matchedName + " release on " + r + " did not match year " + year);
+                                        continue;
                                     }
                                 }
-                                string id = node.SafeGetString("./id");
-                                FetchMovieData(id, item, store); // merge all the good results together
                             }
-                            else
+                            id = node.SafeGetString("./id");
+                            
+                        }
+                        else
+                        {
+                            List<string> l = new List<string>();
+                            foreach (var title in titles)
                             {
-                                foreach (var title in titles)
-                                {
-                                    Trace.TraceInformation("Result " + title + " did not match " + name);
-                                }
+                                l.Add(title);
+                                //Trace.TraceInformation("Result " + title + " did not match " + name);
                             }
+                            possibles = l.ToArray();
                         }
                     }
                 }
             }
+            return id;
         }
 
         void FetchMovieData(string id, Item item, MediaMetadataStore store)
@@ -230,11 +248,10 @@ namespace MediaBrowser.Library.Providers
 
         static string remove = "\"'!`?";
         // "Face/Off" support.
-        static string spacers = "/,.:;\\(){}[]+-_=";
+        static string spacers = "/,.:;\\(){}[]+-_=–";  // (there are not actually two - in the they are different char codes)
  
         internal static string GetComparableName(string name)
         {
-
             name = name.ToLower();
             name = name.Normalize(NormalizationForm.FormKD);
             StringBuilder sb = new StringBuilder();
@@ -274,7 +291,7 @@ namespace MediaBrowser.Library.Providers
             return name.Trim();
         }
 
-        private XmlDocument Fetch(string url)
+        private static XmlDocument Fetch(string url)
         {
             
             int attempt = 0;
