@@ -863,6 +863,7 @@ namespace MediaBrowser.Library
                     clist = this.children.ToArray();
                 if (clist.Length > 0)
                 {
+					// TODO: Deal with network shares that have gone online/offline since last session
                     Dictionary<UniqueName, Item> itemsToRemove = new Dictionary<UniqueName, Item>();
                     foreach (Item i in clist)
                     {
@@ -878,9 +879,11 @@ namespace MediaBrowser.Library
                             if (childrenToAdd == null)
                                 childrenToAdd = new List<ItemSource>();
                             s.PrepareToConstruct();
-                            childrenToAdd.Add(s);
-                            changed = true;
-                        }
+							// Skip ItemType.Other since we can't do anything with it
+							if (s.ItemType != ItemType.Other)
+								childrenToAdd.Add(s);
+							changed = true;
+						}
                         else
                         {
                             // revalidation of type only happens on navigation
@@ -908,9 +911,11 @@ namespace MediaBrowser.Library
                         if (childrenToAdd == null)
                             childrenToAdd = new List<ItemSource>();
                         s.PrepareToConstruct();
-                        childrenToAdd.Add(s);
-                        changed = true;
-                    }
+						// Skip ItemType.Other since we can't do anything with it
+						if (s.ItemType != ItemType.Other)
+							childrenToAdd.Add(s);
+						changed = true;
+					}
                 }
                 return changed;
             }
