@@ -136,7 +136,12 @@ namespace MediaBrowser.Library.Sources
                 else
                 {
                     if (Helper.IsShortcut(path))
-                        return new ShortcutSource(path);
+                    {
+                        ShortcutSource ss = new ShortcutSource(path);
+                        string location = ss.Location;
+                        if (Directory.Exists(location) || File.Exists(location))
+                            return ss;
+                    }
                     else if (Array.IndexOf<string>(ignore, Path.GetFileName(path).ToLower()) < 0)
                     {
                         if (Helper.IsVirtualFolder(path))
