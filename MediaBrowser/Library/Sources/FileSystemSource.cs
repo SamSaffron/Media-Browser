@@ -46,9 +46,7 @@ namespace MediaBrowser.Library.Sources
         public override void PrepareToConstruct()
         {
             ResolveItemType();
-			// If network share is down (aka ItemType is Other), FileSystemInfo throws an exception
-			if (itemType == ItemType.Other) return;
-            if (Helper.IsFolder(path))
+			if (Helper.IsFolder(path))
                 this.createdDate = GetDate(new DirectoryInfo(path));
             else
                 this.createdDate = GetDate(new FileInfo(path));
@@ -289,7 +287,7 @@ namespace MediaBrowser.Library.Sources
 
         private bool ResolveItemType()
         {
-            Debug.WriteLine("Resolving type of " + this.path);
+            // Debug.WriteLine("Resolving type of " + this.path);
             //using (Profiler prof = new Profiler(this.path))
             {
                 bool isFolder = Helper.IsFolder(this.path);
@@ -343,7 +341,7 @@ namespace MediaBrowser.Library.Sources
                     else
                         itemType = ItemType.Other;
                 }
-				Debug.WriteLine(this.path + " is item type: " + itemType.ToString());
+				//Debug.WriteLine(this.path + " is item type: " + itemType.ToString());
                 return itemType != old;
             }
         }
