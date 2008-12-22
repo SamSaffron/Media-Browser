@@ -176,7 +176,7 @@ namespace MediaBrowser.Library
             if (File.Exists(sourcePath))
             {
                 if (Helper.IsVideo(sourcePath))
-                    ThumbCreator.CreateThumb(sourcePath, localPath, 0.08);
+                    ThumbCreator.CreateThumb(sourcePath, localPath, 0.2);
                 
             }
         }
@@ -444,6 +444,7 @@ namespace MediaBrowser.Library
                                 newSize.Height = maxSz.Height;
                             }
                             // movie poster
+                             
                             else if (aspect > 0.65 && aspect < 0.75)
                             {
                                 newSize.Height = maxSz.Height;
