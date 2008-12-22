@@ -909,9 +909,7 @@ namespace MediaBrowser.Library
                         if (childrenToAdd == null)
                             childrenToAdd = new List<ItemSource>();
                         s.PrepareToConstruct();
-						// Skip ItemType.Other since we can't do anything with it
-						if (s.ItemType != ItemType.Other)
-							childrenToAdd.Add(s);
+						childrenToAdd.Add(s);
 						changed = true;
 					}
                 }
