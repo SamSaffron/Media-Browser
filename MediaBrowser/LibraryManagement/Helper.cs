@@ -657,7 +657,7 @@ namespace MediaBrowser.LibraryManagement
                          new Regex(@".*\\[s|S]?(?<seasonnumber>\d{1,2})[x|X](?<epnumber>\d{1,2})[^\\]*$"),   // 01x02 blah.avi S01x01 balh.avi
                         new Regex(@".*\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,2})[^\\]*$"), // S01E02 blah.avi, S01xE01 blah.avi
                         new Regex(@".*\\(?<seriesname>[^\\]*)[s|S]?(?<seasonnumber>\d{1,2})[x|X](?<epnumber>\d{1,2})[^\\]*$"),   // 01x02 blah.avi S01x01 balh.avi
-                        new Regex(@".*\\(?<seriesname>[^\\]*)[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,2})[^\\]*$") // S01E02 blah.avi, S01xE01 blah.avi
+                        new Regex(@".*\\(?<seriesname>[^\\]*)[s|S](?<seasonnumber>\d{1,2})[x|X|\.]?[e|E](?<epnumber>\d{1,2})[^\\]*$") // S01E02 blah.avi, S01xE01 blah.avi
         };
         /// <summary>
         /// To avoid the following matching moview they are only valid when contained in a folder which has been matched as a being season

@@ -94,7 +94,7 @@ namespace MediaBrowser.Library.Providers
             }
             if (year == "")
                 year = null;
-            //Trace.TraceInformation("MovieDbProvider: Finding id for movie data: " + name);
+            Trace.TraceInformation("MovieDbProvider: Finding id for movie data: " + name);
 
             string id = null;
             matchedName = null;
@@ -135,7 +135,7 @@ namespace MediaBrowser.Library.Providers
 
                         if (matchedName != null)
                         {
-                            //Trace.TraceInformation("Match " + matchedName + " for " + name);
+                            Trace.TraceInformation("Match " + matchedName + " for " + name);
                             if (year != null)
                             {
                                 string r = node.SafeGetString("release");
@@ -143,7 +143,7 @@ namespace MediaBrowser.Library.Providers
                                 {
                                     if (!r.StartsWith(year))
                                     {
-                                        //Trace.TraceInformation("Result " + matchedName + " release on " + r + " did not match year " + year);
+                                        Trace.TraceInformation("Result " + matchedName + " release on " + r + " did not match year " + year);
                                         continue;
                                     }
                                 }
@@ -157,7 +157,7 @@ namespace MediaBrowser.Library.Providers
                             foreach (var title in titles)
                             {
                                 l.Add(title);
-                                //Trace.TraceInformation("Result " + title + " did not match " + name);
+                                Trace.TraceInformation("Result " + title + " did not match " + name);
                             }
                             possibles = l.ToArray();
                         }
