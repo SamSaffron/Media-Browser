@@ -277,10 +277,11 @@ namespace MediaBrowser.Library.Providers
                     return;
                 }
                 XmlNodeList nodes = doc.SelectNodes("//Series");
+                string comparableName = GetComparableName(name);
                 foreach (XmlNode node in nodes)
                 {
                     XmlNode n = node.SelectSingleNode("./SeriesName");
-                    if ((n.InnerText.ToLower() == name.ToLower()) || (n.InnerText.ToLower().Replace(":", "") == name.ToLower()))
+                    if (GetComparableName(n.InnerText) == comparableName)
                     {
                         if (store.Name == null)
                             store.Name = n.InnerText;
@@ -377,7 +378,49 @@ namespace MediaBrowser.Library.Providers
             }
         }
 
+        static string remove = "\"'!`?";
+        static string spacers = "/,.:;\\(){}[]+-_=–";  // (there are not actually two - in the they are different char codes)
 
+        internal static string GetComparableName(string name)
+        {
+            name = name.ToLower();
+            name = name.Normalize(NormalizationForm.FormKD);
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in name)
+            {
+                if ((int)c >= 0x2B0 && (int)c <= 0x0333)
+                {
+                    // skip char modifier and diacritics 
+                }
+                else if (remove.IndexOf(c) > -1)
+                {
+                    // skip chars we are removing
+                }
+                else if (spacers.IndexOf(c) > -1)
+                {
+                    sb.Append(" ");
+                }
+                else if (c == '&')
+                {
+                    sb.Append(" and ");
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            name = sb.ToString();
+            name = name.Replace("the", " ");
+
+            string prev_name;
+            do
+            {
+                prev_name = name;
+                name = name.Replace("  ", " ");
+            } while (name.Length != prev_name.Length);
+
+            return name.Trim();
+        }
 
         private XmlDocument Fetch(string url)
         {
