@@ -79,8 +79,6 @@ namespace MediaBrowser.Library.Providers
 
         public static string FindId(string name, out string matchedName, out string[] possibles)
         {
-            name = name.Replace(".", " ");
-            name = name.Replace("  ", " ");
             string year = null;
             foreach (Regex re in nameMatches)
             {
@@ -95,6 +93,22 @@ namespace MediaBrowser.Library.Providers
             if (year == "")
                 year = null;
             Trace.TraceInformation("MovieDbProvider: Finding id for movie data: " + name);
+            string id = AttemptFindId(name, year, out matchedName, out possibles);
+            if (id == null)
+            {
+                // try with dot turned to space
+                name = name.Replace(".", " ");
+                name = name.Replace("  ", " ");
+                matchedName = null;
+                possibles = null;
+                return AttemptFindId(name, year, out matchedName, out possibles);
+            }
+            else
+                return id;
+        }
+
+        private static string AttemptFindId(string name, string year, out string matchedName, out string[] possibles)
+        {
 
             string id = null;
             string url = string.Format(search, HttpUtility.UrlEncode(name).Replace("'", "%27"), ApiKey);
@@ -143,12 +157,20 @@ namespace MediaBrowser.Library.Providers
                             if (year != null)
                             {
                                 string r = node.SafeGetString("release");
-                                if (r != null)
+                                if ((r != null) && r.Length>=4)
                                 {
-                                    if (!r.StartsWith(year))
+                                    int db;
+                                    if (Int32.TryParse(r.Substring(0, 4), out db))
                                     {
-                                        Trace.TraceInformation("Result " + matchedName + " release on " + r + " did not match year " + year);
-                                        continue;
+                                        int y;
+                                        if (Int32.TryParse(year, out y))
+                                        {
+                                            if (Math.Abs(db-y) > 1) // allow a 1 year tollerance on release date
+                                            {
+                                                Trace.TraceInformation("Result " + matchedName + " release on " + r + " did not match year " + year);
+                                                continue;
+                                            }
+                                        }
                                     }
                                 }
                             }
