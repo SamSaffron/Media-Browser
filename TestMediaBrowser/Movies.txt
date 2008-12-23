@@ -1,0 +1,155 @@
+\\mediaserver\jon\Alive
+\\mediaserver\jon\The Dark Knight
+\\mediaserver\jon\Babel
+\\mediaserver\jon\Bean
+\\mediaserver\jon\Beowulf
+\\mediaserver\jon\Casino
+\\mediaserver\jon\Commando
+\\mediaserver\jon\Conspiracy
+\\mediaserver\jon\Daredevil
+\\mediaserver\jon\Deception
+\\mediaserver\jon\Dragonheart
+\\mediaserver\jon\E.T. The Extra-Terrestrial
+\\mediaserver\jon\Face Off
+\\mediaserver\media\movies\A.I. Artificial Intelligence
+\\mediaserver\media\movies\Captain Corelli's Mandolin
+\\mediaserver\media\movies\Finding Nemo (2003)
+\\mediaserver\media\movies\Ghandi
+\\mediaserver\media\movies\Legally Blonde 2 Red White and Blonde
+\\mediaserver\media\movies\Minority Report
+\\mediaserver\media\movies\Out Of Time
+\\mediaserver\media\movies\The Girl Next Door (2004)
+\\mediaserver\media\movies\Vanilla Sky
+\\mediaserver\media\movies\13 Going On 30 (2004)
+\\mediaserver\media\movies\A Beautiful Mind (2001)
+\\mediaserver\media\movies\An Inconvenient Truth (2006)
+\\mediaserver\media\movies\Atonement (2007)
+\\mediaserver\media\movies\Brick (2005)
+\\mediaserver\media\movies\Brokeback Mountain (2005)
+\\mediaserver\media\movies\Casino Royale (2006)
+\\mediaserver\media\movies\Charlotte's Web (2006)
+\\mediaserver\media\movies\Chicken Little (2005)
+\\mediaserver\media\movies\Crash (2004)
+\\mediaserver\media\movies\Crouching Tiger Hidden Dragon
+\\mediaserver\media\movies\Definitely Maybe (2008)
+\\mediaserver\media\movies\Deja Vu
+\\mediaserver\media\movies\Derailed (2006)
+\\mediaserver\media\movies\Down With Love (2003)
+\\mediaserver\media\movies\Dream Girls (2006)
+\\mediaserver\media\movies\Event Horizon
+\\mediaserver\media\movies\Fargo (1996)
+\\mediaserver\media\movies\Firewall (2006)
+\\mediaserver\media\movies\Freaky Friday (2003)
+\\mediaserver\media\movies\Fun With Dick And Jane (2005)
+\\mediaserver\media\movies\Good Will Hunting (1998)
+\\mediaserver\media\movies\Honey (2003)
+\\mediaserver\media\movies\Inside Man (2006)
+\\mediaserver\media\movies\Just Friends (2005)
+\\mediaserver\media\movies\Just Like Heaven (2005)
+\\mediaserver\media\movies\Kill Bill Vol. 1 [Uncut] (2003)
+\\mediaserver\media\movies\Kill Bill Vol. 2 (2004)
+\\mediaserver\media\movies\Knocked Up (2006).HD
+\\mediaserver\media\movies\Layer Cake (2004)
+\\mediaserver\media\movies\Live Free or Die Hard (2007).BR
+\\mediaserver\media\movies\Lost In Translation (2003)
+\\mediaserver\media\movies\Matrix Revolutions (2003)
+\\mediaserver\media\movies\Mean Girls (2004)
+\\mediaserver\media\movies\Memoirs Of A Geisha (2005)
+\\mediaserver\media\movies\Mercury Rising
+\\mediaserver\media\movies\Miss Potter (2006)
+\\mediaserver\media\movies\Mona.Lisa.Smile (2003)
+\\mediaserver\media\movies\Mr and Mrs Smith (2005)
+\\mediaserver\media\movies\Ocean's Eleven (2001)
+\\mediaserver\media\movies\Ocean's Twelve (2004)
+\\mediaserver\media\movies\Poseidon (2006)
+\\mediaserver\media\movies\Proof (2005)
+\\mediaserver\media\movies\Ratatouille (2007).BR
+\\mediaserver\media\movies\Reservoir Dogs (1992)
+\\mediaserver\media\movies\Resident Evil
+\\mediaserver\media\movies\Saving Private Ryan
+\\mediaserver\media\movies\Scary Movie 3
+\\mediaserver\media\movies\Se7en (1995)
+\\mediaserver\media\movies\Serenity (2005)
+\\mediaserver\media\movies\She's The Man (2006)
+\\mediaserver\media\movies\Silent Hill (2006)
+\\mediaserver\media\movies\Sin City
+\\mediaserver\media\movies\Sixth Sense
+\\mediaserver\media\movies\Speed
+\\mediaserver\media\movies\Star Trek - Generations (1994)
+\\mediaserver\media\movies\Star Wars Episode I The Phantom Menace
+\\mediaserver\media\movies\Star Wars Episode II Attack Of The Clones
+\\mediaserver\media\movies\Star Wars Episode IV A New Hope
+\\mediaserver\media\movies\Star Wars Episode V The Empire Strikes Back
+\\mediaserver\media\movies\Star Wars Episode VI Return Of The Jedi
+\\mediaserver\media\movies\Taxi Driver (1976)
+\\mediaserver\media\movies\Terminator 2 Judgment Day
+\\mediaserver\media\movies\The Abyss
+\\mediaserver\media\movies\The Animatrix
+\\mediaserver\media\movies\The Assassination Of Jesse James By The Coward Robert Redford (2007).BR
+\\mediaserver\media\movies\The Bank Job (2008).BR
+\\mediaserver\media\movies\The Bourne Identity (2002)
+\\mediaserver\media\movies\The Bourne Identity (2002).HD
+\\mediaserver\media\movies\The Bourne Supremacy (2004)
+\\mediaserver\media\movies\The Bourne Ultimatum (2007)
+\\mediaserver\media\movies\The Da Vinci Code (2006)
+\\mediaserver\media\movies\The Day After Tomorrow
+\\mediaserver\media\movies\The Devil Wears Prada (2006)
+\\mediaserver\media\movies\The History Boys (2006)
+\\mediaserver\media\movies\The Incredibles (2004)
+\\mediaserver\media\movies\The Incredibles (2004).HD
+\\mediaserver\media\movies\The Lake House (2006)
+\\mediaserver\media\movies\The Last Emperor
+\\mediaserver\media\movies\The Last Samurai (2003)
+\\mediaserver\media\movies\The Matrix
+\\mediaserver\media\movies\The Matrix Reloaded
+\\mediaserver\media\movies\The Pursuit of Happyness(2006)
+\\mediaserver\media\movies\The Queen (2006)
+\\mediaserver\media\movies\The Savages (2007)
+\\mediaserver\media\movies\The Sentinel (2006)
+\\mediaserver\media\movies\The Simpsons Movie (2007)
+\\mediaserver\media\movies\There Will Be Blood (2007).BR
+\\mediaserver\media\movies\Titanic (1997)
+\\mediaserver\media\movies\V For Vendetta (2005)
+\\mediaserver\media\movies\Vanilla Sky (2001)
+\\mediaserver\media\movies\Wedding Crashers (2005)
+\\mediaserver\media\movies\X-Men The Last Stand (2006)
+\\mediaserver\media\movies\Yours Mine And Ours (2005)
+\\mediaserver\media\movies\American Pie 2
+\\mediaserver\media\movies\Bridget Jones's Diary
+\\mediaserver\media\movies\Bruce Almighty
+\\mediaserver\media\movies\Charlie's Angels
+\\mediaserver\media\movies\Chasing Amy
+\\mediaserver\media\movies\Chicken Run
+\\mediaserver\media\movies\Crazy Beautiful
+\\mediaserver\media\movies\Cruel Intentions
+\\mediaserver\media\movies\Embrace of the Vampire
+\\mediaserver\media\movies\Entrapment
+\\mediaserver\media\movies\Fast and the Furious
+\\mediaserver\media\movies\Final Fantasy
+\\mediaserver\media\movies\Gone in sixty seconds
+\\mediaserver\media\movies\Hannibal
+\\mediaserver\media\movies\Harry Potter
+\\mediaserver\media\movies\Heartbreakers
+\\mediaserver\media\movies\Legally Blonde
+\\mediaserver\media\movies\Legally Blonde 2 Red, White and Blonde(2003)
+\\mediaserver\media\movies\Miss Congeniality
+\\mediaserver\media\movies\Moulin Rouge
+\\mediaserver\media\movies\Not Another Teen Movie
+\\mediaserver\media\movies\One Night At McCool's
+\\mediaserver\media\movies\Planet of the Apes (2001)
+\\mediaserver\media\movies\Rush Hour 2
+\\mediaserver\media\movies\Scooby-Doo (2002)
+\\mediaserver\media\movies\Serendipity
+\\mediaserver\media\movies\Shrek
+\\mediaserver\media\movies\Shrek 2
+\\mediaserver\media\movies\Spiderman (2002)
+\\mediaserver\media\movies\The Emperor's New Groove
+\\mediaserver\media\movies\The Gift
+\\mediaserver\media\movies\The Mummy Returns
+\\mediaserver\media\movies\The One
+\\mediaserver\media\movies\The Usual Suspects
+\\mediaserver\media\movies\The Way Of The Gun
+\\mediaserver\media\movies\There's Something About Mary
+\\mediaserver\media\movies\Toy story 2
+\\mediaserver\media\movies\What Women Want
+\\mediaserver\media\movies\X-Men

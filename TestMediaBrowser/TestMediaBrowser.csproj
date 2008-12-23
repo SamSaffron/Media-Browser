@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8312AF5D-16DD-41C4-8323-BD0CCFBE1F12}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -53,6 +53,7 @@
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
     <None Include="SampleMedia\TV\South Park\Season 1\02.mkv" />
+    <Content Include="Movies.txt" />
     <Content Include="SampleMedia\TV\South Park\Season 1\03.mpg" />
     <Content Include="SampleMedia\TV\South Park\Season 1\South.Park.S01E08.JUNK.avi" />
   </ItemGroup>
