@@ -48,6 +48,8 @@ namespace MediaBrowserTest
         [TestMethod]
         public void TestEpisodeNumberFromFile()
         {
+            Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\somefolder\Season 1\1x02 BFOD.avi"));
+            Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\somefolder\1x02 BFOD.avi"));
             Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\somefolder\South.Park.s01e02 BFOD.avi"));
             Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\somefolder\South.Park.s01.e02 BFOD.avi"));
             Assert.AreEqual("05", Helper.EpisodeNumberFromFile(@"c:\somefolder\South.Park.01x05 BFOD.avi"));
@@ -59,9 +61,6 @@ namespace MediaBrowserTest
             Assert.AreEqual("2", Helper.EpisodeNumberFromFile(@"c:\someseries\Temporada 1\2 - 22 Balloon.avi"));
             Assert.AreEqual("2", Helper.EpisodeNumberFromFile(@"c:\someseries\Sæson 1\2 - 22 Balloon.avi"));
             Assert.AreEqual("03", Helper.EpisodeNumberFromFile(@"c:\someseries\Season1\103 BFOD.avi"));
-
-            Assert.AreEqual("01", Helper.EpisodeNumberFromFile(@"c:\Flight.of.the.Conchords.S01E01.WS.PDTV.XviD-LOL.avi"));
-
             Assert.AreEqual("01", Helper.EpisodeNumberFromFile(@"c:\Flight.of.the.Conchords.S01E01.WS.PDTV.XviD-LOL.avi"));
             Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\Flight.of.the.Conchords.S01E02.PDTV.XviD-NoTV.avi"));
             Assert.AreEqual("03", Helper.EpisodeNumberFromFile(@"c:\Flight.of.the.Conchords.S01E03.PDTV.XviD-NoTV.avi"));
