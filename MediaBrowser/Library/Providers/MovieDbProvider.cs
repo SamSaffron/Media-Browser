@@ -59,7 +59,7 @@ namespace MediaBrowser.Library.Providers
                     throw new NotSupportedException();
             }
             store.ProviderData[ProviderName + ":Date"] = DateTime.Today.ToString("yyyyMMdd");
-            
+
         }
 
         private void FetchMovieData(Item item, MediaMetadataStore store)
@@ -72,8 +72,8 @@ namespace MediaBrowser.Library.Providers
                 string matchedName;
                 string[] possibles;
                 id = FindId(item.Source.Name, out matchedName, out possibles);
-                if (id!=null)
-                    FetchMovieData(id, item, store); 
+                if (id != null)
+                    FetchMovieData(id, item, store);
             }
         }
 
@@ -97,21 +97,25 @@ namespace MediaBrowser.Library.Providers
             Trace.TraceInformation("MovieDbProvider: Finding id for movie data: " + name);
 
             string id = null;
-            matchedName = null;
-            string url = string.Format(search, HttpUtility.UrlEncode(name).Replace("'","%27"), ApiKey);
+            string url = string.Format(search, HttpUtility.UrlEncode(name).Replace("'", "%27"), ApiKey);
             XmlDocument doc = Fetch(url);
-            possibles = null;
+            List<string> possibleTitles = new List<string>();
             if (doc != null)
             {
                 XmlNodeList nodes = doc.SelectNodes("//movie");
                 foreach (XmlNode node in nodes)
                 {
+                    matchedName = null;
+                    id = null;
                     List<string> titles = new List<string>();
+                    string mainTitle = null;
                     XmlNode n = node.SelectSingleNode("./title");
                     if (n != null)
                     {
                         titles.Add(n.InnerText);
+                        mainTitle = n.InnerText;
                     }
+
                     var alt_titles = node.SelectNodes("./alternative_title");
                     {
                         foreach (XmlNode title in alt_titles)
@@ -128,7 +132,7 @@ namespace MediaBrowser.Library.Providers
                         {
                             if (GetComparableName(title) == comparable_name)
                             {
-                                matchedName = title;
+                                matchedName = mainTitle;
                                 break;
                             }
                         }
@@ -149,22 +153,24 @@ namespace MediaBrowser.Library.Providers
                                 }
                             }
                             id = node.SafeGetString("./id");
-                            
+                            possibles = null;
+                            return id;
+
                         }
                         else
                         {
-                            List<string> l = new List<string>();
                             foreach (var title in titles)
                             {
-                                l.Add(title);
+                                possibleTitles.Add(title);
                                 Trace.TraceInformation("Result " + title + " did not match " + name);
                             }
-                            possibles = l.ToArray();
                         }
                     }
                 }
             }
-            return id;
+            possibles = possibleTitles.ToArray();
+            matchedName = null;
+            return null;
         }
 
         void FetchMovieData(string id, Item item, MediaMetadataStore store)
@@ -174,7 +180,7 @@ namespace MediaBrowser.Library.Providers
             if (doc != null)
             {
                 store.ProviderData[ProviderName + ":id"] = id;
-                if (store.Name==null)
+                if (store.Name == null)
                     store.Name = doc.SafeGetString("//movie/title");
                 if (store.Overview == null)
                 {
@@ -182,17 +188,17 @@ namespace MediaBrowser.Library.Providers
                     if (store.Overview != null)
                         store.Overview = store.Overview.Replace("\n\n", "\n");
                 }
-                if (store.ImdbRating==-1.0)
-                    store.ImdbRating = doc.SafeGetFloat("//movie/rating",-1,10);
+                if (store.ImdbRating == -1.0)
+                    store.ImdbRating = doc.SafeGetFloat("//movie/rating", -1, 10);
                 if (store.ProductionYear == null)
                 {
                     string release = doc.SafeGetString("//movie/release");
                     if (!string.IsNullOrEmpty(release))
                         store.ProductionYear = Int32.Parse(release.Substring(0, 4));
                 }
-                if (store.RunningTime==null)
+                if (store.RunningTime == null)
                     store.RunningTime = doc.SafeGetInt("//movie/runtime");
-                
+
                 if (store.Directors == null)
                 {
                     foreach (XmlNode n in doc.SelectNodes("//people/person[@job='director']/name"))
@@ -226,7 +232,7 @@ namespace MediaBrowser.Library.Providers
                             store.Actors.Add(new Actor { Name = name });
                     }
                 }
-                
+
                 if (store.PrimaryImage == null)
                 {
                     string img = doc.SafeGetString("//movie/poster[@size='original']");
@@ -239,17 +245,101 @@ namespace MediaBrowser.Library.Providers
                     if (bd != null)
                         store.BackdropImage = new ImageSource { OriginalSource = bd };
                 }
-                
+                if (store.Genres == null)
+                {
+                    XmlNodeList nodes = doc.SelectNodes("//category/name");
+                    List<string> genres = new List<string>();
+                    foreach (XmlNode node in nodes)
+                    {
+                        string n = MapGenre(node.InnerText);
+                        if ((!string.IsNullOrEmpty(n)) && (!genres.Contains(n)))
+                            genres.Add(n);
+                    }
+                    store.Genres = genres;
+                }
+
                 return;
             }
         }
 
         #endregion
 
+        private static readonly Dictionary<string, string> genreMap = CreateGenreMap();
+
+        private static Dictionary<string, string> CreateGenreMap()
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            // some of the genres in the moviedb may be deamed too specific/detailed
+            // they certainly don't align to those of other sources 
+            // this collection will let us map them to alternative names or "" to ignore them
+            /* these are the imdb genres that should probably be our common targets
+                Action
+                Adventure
+                Animation
+                Biography
+                Comedy
+                Crime
+                Documentary
+                Drama
+                Family Fantasy
+                Film-Noir
+                Game-Show 
+                History
+                Horror
+                Music
+                Musical 
+                Mystery
+                News
+                Reality-TV
+                Romance 
+                Sci-Fi
+                Short
+                Sport
+                Talk-Show 
+                Thriller
+                War
+                Western
+             */
+            ret.Add("Action Film"       , "Action");
+            ret.Add("Adventure Film"    , "Adventure");
+            ret.Add("Animation Film"    , "Animation");
+            ret.Add("Comedy"            , "Comedy");
+            ret.Add("Crime Film"        , "Crime");
+            ret.Add("Disaster Film"     , "Disaster");
+            ret.Add("Documentary Film"  , "Documentary");
+            ret.Add("Drama Film"        , "Drama");
+            ret.Add("Eastern"           , "Eastern");
+            ret.Add("Environmental"     , "Environmental");
+            ret.Add("Erotic Film"       , "Erotic");
+            ret.Add("Fantasy Film"      , "Family Fantasy");
+            ret.Add("Historical Film"   , "History");
+            ret.Add("Horror Film"       , "Horror");
+            ret.Add("Musical Film"      , "Musical ");
+            ret.Add("Mystery"           , "Mystery");
+            ret.Add("Mystery Film"      , "Mystery");
+            ret.Add("Road Movie"        , "Road Movie");
+            ret.Add("Science Fiction Film", "Sci-Fi");
+            ret.Add("Thriller"          , "Thriller");
+            ret.Add("Western"           , "Western ");
+
+            return ret;
+        }
+
+        private string MapGenre(string g)
+        {
+            if (genreMap.ContainsKey(g))
+                return genreMap[g];
+            else
+            {
+                Trace.WriteLine("Tmdb category not mapped to genre: " + g);
+                return "";
+            }
+        }
+
         static string remove = "\"'!`?";
         // "Face/Off" support.
         static string spacers = "/,.:;\\(){}[]+-_=–";  // (there are not actually two - in the they are different char codes)
- 
+
         internal static string GetComparableName(string name)
         {
             name = name.ToLower();
@@ -276,7 +366,7 @@ namespace MediaBrowser.Library.Providers
                 else
                 {
                     sb.Append(c);
-                } 
+                }
             }
             name = sb.ToString();
             name = name.Replace("the", " ");
@@ -287,13 +377,13 @@ namespace MediaBrowser.Library.Providers
                 prev_name = name;
                 name = name.Replace("  ", " ");
             } while (name.Length != prev_name.Length);
-         
+
             return name.Trim();
         }
 
         private static XmlDocument Fetch(string url)
         {
-            
+
             int attempt = 0;
             while (attempt < 2)
             {
@@ -328,7 +418,7 @@ namespace MediaBrowser.Library.Providers
                     Trace.TraceWarning("Error requesting: " + url + "\n" + ex.ToString());
                 }
             }
-        
+
             return null;
         }
 
