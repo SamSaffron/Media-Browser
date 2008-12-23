@@ -698,6 +698,12 @@ namespace MediaBrowser.LibraryManagement
             if (! (IsVideo(fullPath) || IsIso(fullPath)))
                 return null;
             string fl = fullPath.ToLower();
+            foreach (Regex r in episodeExpressions)
+            {
+                Match m = r.Match(fl);
+                if (m.Success)
+                    return m.Groups["epnumber"].Value;
+            }
             if (isInSeason)
             {
                 foreach (Regex r in episodeExpressionsInASeasonFolder)
@@ -707,12 +713,7 @@ namespace MediaBrowser.LibraryManagement
                         return m.Groups["epnumber"].Value;
                 }
             }
-            foreach (Regex r in episodeExpressions)
-            {
-                Match m = r.Match(fl);
-                if (m.Success)
-                    return m.Groups["epnumber"].Value;
-            }
+            
 
             return null;
         }
