@@ -443,7 +443,7 @@ namespace MediaBrowser.Library
 
         public bool IsHD
         {
-            get { return (this.MediaInfo.Width >= 1280); }
+            get { return ((this.MediaInfo.Width >= 1280) || (this.MediaInfo.Height >=720)); }
         }
 
         public string DataSource
