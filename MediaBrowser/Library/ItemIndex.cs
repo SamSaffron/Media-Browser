@@ -316,7 +316,18 @@ namespace MediaBrowser.Library
                         return compare;
                     return x.Metadata.RunningTime.Value.CompareTo(y.Metadata.RunningTime.Value);
                 case SortOrder.Unwatched:
-                    return -x.UnwatchedCount.CompareTo(y.UnwatchedCount);
+                    int i = -x.UnwatchedCount.CompareTo(y.UnwatchedCount);
+                    if (i != 0)
+                        return i;
+                    else
+                    {
+                        if (NullCompare(x.Metadata.Name, y.Metadata.Name, out compare))
+                            return compare;
+                        if (Config.Instance.EnableAlphanumericSorting)
+                            return AlphaNumericCompare(x.Metadata.SortableName, y.Metadata.SortableName);
+                        else
+                            return x.Metadata.SortableName.CompareTo(y.Metadata.SortableName);
+                    }
                 default:
                     return 0;
             }
