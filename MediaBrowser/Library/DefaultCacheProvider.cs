@@ -320,27 +320,24 @@ namespace MediaBrowser.Library
                     {
                         if (File.Exists(file))
                             bytes = File.ReadAllBytes(file);
-                        /*
-                        if (File.Exists(file))
-                        {
-                            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                MediaMetadataStore dp = MediaMetadataStore.ReadFromStream(ownerName, new BinaryReader(fs));
-                                fs.Close();
-                                metadataCache[ownerName.Value] = dp;
-                                return dp;
-                            }
-                        }*/
                     }
                     if (bytes != null)
                     {
-                        using (MemoryStream ms = new MemoryStream(bytes))
+                        try
                         {
-                            // need to do this outside of the mutex in case otherwise it can deadlock with the IncreaseBuffer call in the factory
-                            // which needs to callback onto the UI thread which could be waiting on the mutex
-                            MediaMetadataStore dp = MediaMetadataStore.ReadFromStream(ownerName, new BinaryReader(ms));
-                            metadataCache[ownerName.Value] = dp;
-                            return dp;
+                            using (MemoryStream ms = new MemoryStream(bytes))
+                            {
+                                // need to do this outside of the mutex in case otherwise it can deadlock with the IncreaseBuffer call in the factory
+                                // which needs to callback onto the UI thread which could be waiting on the mutex
+                                MediaMetadataStore dp = MediaMetadataStore.ReadFromStream(ownerName, new BinaryReader(ms));
+                                metadataCache[ownerName.Value] = dp;
+                                return dp;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.TraceError("Error loading metadata.\n" + ex.ToString());
+                            return null;
                         }
                     }
                 }
@@ -646,7 +643,7 @@ namespace MediaBrowser.Library
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "metadata"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "images"));
                 //success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "playstate")); // this is probably not desirable, means not clearing unique names as well
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "display"));
+                //success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "display"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "autoplaylists"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "children"));
                 try

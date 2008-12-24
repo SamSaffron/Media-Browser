@@ -13,13 +13,13 @@ namespace MediaBrowser.Library.Providers
 {
     class TvDbProvider : IMetadataProvider
     {
-        private string apiKey = "B89CE93890E9419B";
-        private string roolUrl = "http://www.thetvdb.com/api/";
-        private string bannerUrl = "http://www.thetvdb.com/banners/";
-        private string seriesQuery = "GetSeries.php?seriesname={0}";
-        private string seriesGet = "http://www.thetvdb.com/api/{0}/series/{1}/en.xml";
-        private string episodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/en.xml";
-        static readonly string ProviderName = "TvDbProvider";
+        private static readonly string apiKey = "B89CE93890E9419B";
+        private static readonly string roolUrl = "http://www.thetvdb.com/api/";
+        private static readonly string bannerUrl = "http://www.thetvdb.com/banners/";
+        private static readonly string seriesQuery = "GetSeries.php?seriesname={0}";
+        private static readonly string seriesGet = "http://www.thetvdb.com/api/{0}/series/{1}/en.xml";
+        private static readonly string episodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/en.xml";
+        private static readonly string ProviderName = "TvDbProvider";
 
         #region IMetadataProvider Members
 
@@ -64,15 +64,22 @@ namespace MediaBrowser.Library.Providers
                     return item.Metadata.ProviderData["TvDb:SeriesId"];
                 else
                 {
-                    if (item.PhysicalParent == null)
-                        return "";
-                    item.PhysicalParent.EnsureMetadataLoaded();
-                    if ((item.PhysicalParent != null) && (item.PhysicalParent.Metadata.ProviderData.ContainsKey("TvDb:SeriesId")))
-                        return item.PhysicalParent.Metadata.ProviderData["TvDb:SeriesId"];
-                    else
-                        return "";
+                    Item parent = item.PhysicalParent;
+                    while (parent != null)
+                    {
+                        parent.EnsureMetadataLoaded();
+                        if (parent.Metadata.ProviderData.ContainsKey("TvDb:SeriesId"))
+                            return parent.Metadata.ProviderData["TvDb:SeriesId"];
+                        parent = parent.PhysicalParent;
+                    }
                 }
             }
+            Item p = item.PhysicalParent;
+            while ((p != null) && (p.Source.ItemType != ItemType.Series))
+                p = p.PhysicalParent;
+            if (p != null)
+                return FindSeries(p.Source.Name);
+            return null;
         }      
 
         public void Fetch(Item item, ItemType type, MediaMetadataStore store, bool fastOnly)
@@ -96,10 +103,10 @@ namespace MediaBrowser.Library.Providers
                     FetchSeriesData(item, store, ref seriesId);
                     break;
                 case ItemType.Season:
-                    FetchSeasonData(item, store, ref seriesId);
+                    FetchSeasonData(item, store, seriesId);
                     break;
                 case ItemType.Episode:
-                    FetchEpisodeData(item, store, ref seriesId);
+                    FetchEpisodeData(item, store, seriesId);
                     break;
                 default:
                     return;
@@ -109,7 +116,7 @@ namespace MediaBrowser.Library.Providers
             store.ProviderData["TvDb:SeriesId"] = seriesId;
         }
 
-        private void FetchEpisodeData(Item item, MediaMetadataStore store, ref string seriesId)
+        private void FetchEpisodeData(Item item, MediaMetadataStore store, string seriesId)
         {
             string name = item.Source.Name;
             string location = item.Source.Location;
@@ -119,7 +126,7 @@ namespace MediaBrowser.Library.Providers
                 return;
             int episodeNumber = Int32.Parse(epNum);
             
-            if (seriesId.Length > 0)
+            if (!string.IsNullOrEmpty(seriesId))
             {
                 string seasonNumber = item.PhysicalParent.Metadata.SeasonNumber;
                 if (string.IsNullOrEmpty(seasonNumber))
@@ -191,7 +198,7 @@ namespace MediaBrowser.Library.Providers
         }
 
         
-        private void FetchSeasonData(Item item, MediaMetadataStore store, ref string seriesId)
+        private void FetchSeasonData(Item item, MediaMetadataStore store, string seriesId)
         {
             string name = item.Source.Name;
             Trace.TraceInformation("TvDbProvider: Fetching season data: " + name);
@@ -204,8 +211,7 @@ namespace MediaBrowser.Library.Providers
                 store.SeasonNumber = seasonNumber.ToString();
             if (item.PhysicalParent == null)
                 return;
-            item.PhysicalParent.EnsureMetadataLoaded();
-            if (seriesId.Length > 0)
+            if (!string.IsNullOrEmpty(seriesId))
             {
                 if ((store.PrimaryImage == null) || (store.BannerImage==null) || (store.BackdropImage==null))
                 {
@@ -262,46 +268,21 @@ namespace MediaBrowser.Library.Providers
         {
             string name = item.Source.Name;
             Trace.TraceInformation("TvDbProvider: Fetching series data: " + name);
-            XmlDocument doc;
             
             if (string.IsNullOrEmpty(seriesId))
             {
-                string url = string.Format(roolUrl + seriesQuery, HttpUtility.UrlEncode(name));
-                doc = Fetch(url);
-
-                if (doc == null)
-                {
-                    if (store.Name == null)
-                        store.Name = item.Source.Name;
-                    
-                    return;
-                }
-                XmlNodeList nodes = doc.SelectNodes("//Series");
-                string comparableName = GetComparableName(name);
-                foreach (XmlNode node in nodes)
-                {
-                    XmlNode n = node.SelectSingleNode("./SeriesName");
-                    if (GetComparableName(n.InnerText) == comparableName)
-                    {
-                        if (store.Name == null)
-                            store.Name = n.InnerText;
-                        n = node.SelectSingleNode("./seriesid");
-                        if (n != null)
-                            seriesId = n.InnerText;
-
-                        Trace.TraceInformation("TvDbProvider: Success");
-                        break;
-                    }
-                }
+                seriesId = FindSeries(name);
+                if (seriesId!=null)
+                    Trace.TraceInformation("TvDbProvider: Success");
             }
-            if (seriesId.Length > 0)
+            if (!string.IsNullOrEmpty(seriesId))
             {
-                if ((store.BannerImage == null) || (store.ImdbRating == null) 
-                    || (store.Overview == null) || (store.Name == null) || (store.Actors==null)
-                    || (store.Genres==null) || (store.MpaaRating==null))
+                if ((store.BannerImage == null) || (store.ImdbRating == null)
+                    || (store.Overview == null) || (store.Name == null) || (store.Actors == null)
+                    || (store.Genres == null) || (store.MpaaRating == null))
                 {
                     string url = string.Format(seriesGet, apiKey, seriesId);
-                    doc = Fetch(url);
+                    XmlDocument doc = Fetch(url);
                     if (doc != null)
                     {
                         if (store.Name == null)
@@ -326,19 +307,19 @@ namespace MediaBrowser.Library.Providers
                                 {
                                     if (store.Actors == null)
                                         store.Actors = new List<Actor>();
-                                    store.Actors.Add(new Actor{ Name=actor });
+                                    store.Actors.Add(new Actor { Name = actor });
                                 }
                             }
                         }
-                        if (store.MpaaRating==null)
+                        if (store.MpaaRating == null)
                             store.MpaaRating = doc.SafeGetString("//ContentRating");
-                        if (store.Genres==null)
+                        if (store.Genres == null)
                         {
                             string g = doc.SafeGetString("//Genre");
-                            if (g!=null)
+                            if (g != null)
                             {
                                 string[] genres = g.Trim('|').Split('|');
-                                if (g.Length>0)
+                                if (g.Length > 0)
                                 {
                                     store.Genres = new List<string>();
                                     store.Genres.AddRange(genres);
@@ -348,7 +329,7 @@ namespace MediaBrowser.Library.Providers
                     }
                 }
             }
-            if ((seriesId.Length > 0) && ((store.PrimaryImage == null) || (store.BackdropImage == null)))
+            if ((!string.IsNullOrEmpty(seriesId)) && ((store.PrimaryImage == null) || (store.BackdropImage == null)))
             {
                 XmlDocument banners = Fetch(string.Format("http://www.thetvdb.com/api/" + apiKey + "/series/{0}/banners.xml", seriesId));
                 if (banners != null)
@@ -376,6 +357,25 @@ namespace MediaBrowser.Library.Providers
                     }
                 }
             }
+        }
+
+        public static string FindSeries(string name)
+        {
+            string url = string.Format(roolUrl + seriesQuery, HttpUtility.UrlEncode(name));
+            XmlDocument doc = Fetch(url);
+            XmlNodeList nodes = doc.SelectNodes("//Series");
+            string comparableName = GetComparableName(name);
+            foreach (XmlNode node in nodes)
+            {
+                XmlNode n = node.SelectSingleNode("./SeriesName");
+                if (GetComparableName(n.InnerText) == comparableName)
+                {
+                    n = node.SelectSingleNode("./seriesid");
+                    if (n != null)
+                         return n.InnerText;
+                }
+            }
+            return "";
         }
 
         static string remove = "\"'!`?";
@@ -422,7 +422,7 @@ namespace MediaBrowser.Library.Providers
             return name.Trim();
         }
 
-        private XmlDocument Fetch(string url)
+        private static XmlDocument Fetch(string url)
         {
             int attempt = 0;
             while (attempt < 2)
