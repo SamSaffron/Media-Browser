@@ -28,7 +28,7 @@ namespace MediaBrowser.Library.Providers
             string mfile = XmlLocation(item, type);
             if (!File.Exists(mfile))
                 mfile = null;
-            if (lastFile != mfile)
+            if (lastFile!=mfile)
                 return true;
             if ((mfile == null) && (lastFile == null))
                 return false;
@@ -52,7 +52,7 @@ namespace MediaBrowser.Library.Providers
                 case ItemType.Series:
                     return Path.Combine(location, "series.xml");
                 case ItemType.Season:
-                    return Path.Combine(location, "folder.jpg");
+                    return Path.Combine(location, "series.xml");
                 case ItemType.Episode:
                     string metadataFolder = Path.Combine(Path.GetDirectoryName(location), "metadata");
                     string file = Path.GetFileNameWithoutExtension(location);
@@ -118,22 +118,14 @@ namespace MediaBrowser.Library.Providers
 
         private void SeasonData(Item item, MediaMetadataStore store)
         {
-            string image = Path.Combine(item.Source.Location, "folder.jpg");
             string seasonNum = Helper.SeasonNumberFromFolderName(item.Source.Location);
-            if (File.Exists(image))
+            SeriesData(item, store);
+            if (!string.IsNullOrEmpty(seasonNum))
             {
-                store.ProviderData[ProviderName + ":ModTime"] = new FileInfo(image).LastWriteTimeUtc.Ticks.ToString();
-                store.ProviderData[ProviderName + ":File"] = image;
-
                 if (store.SeasonNumber == null)
                     store.SeasonNumber = seasonNum;
                 if (store.Name == null)
                     store.Name = "Season " + seasonNum;
-                if (store.PrimaryImage == null)
-                {
-                    if (File.Exists(image))
-                        store.PrimaryImage = new ImageSource { OriginalSource = image };
-                }
             }
         }
 
