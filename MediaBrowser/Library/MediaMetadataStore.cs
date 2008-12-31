@@ -59,7 +59,7 @@ namespace MediaBrowser.Library
     {
 
 
-        private static readonly byte Version = 3;
+        private static readonly byte Version = 4;
         public MediaMetadataStore(UniqueName ownerName)
         {
             this.OwnerName = ownerName;
@@ -109,7 +109,7 @@ namespace MediaBrowser.Library
                 foreach (KeyValuePair<string, string> kv in this.ProviderData)
                 {
                     bw.Write(kv.Key);
-                    bw.Write(kv.Value);
+                    bw.SafeWriteString(kv.Value);
                 }
             }
             WriteList(bw, this.Directors);
@@ -139,7 +139,7 @@ namespace MediaBrowser.Library
             {
                 bw.Write(data.Count);
                 foreach (string s in data)
-                    bw.Write(s);
+                    bw.SafeWriteString(s);
             }
             else
                 bw.Write((int)0);
@@ -181,7 +181,7 @@ namespace MediaBrowser.Library
             store.DataSource = br.SafeReadString();
             int count = br.ReadInt32();
             for (int i = 0; i < count; ++i)
-                store.ProviderData[br.ReadString()] = br.ReadString();
+                store.ProviderData[br.ReadString()] = br.SafeReadString();
             store.Directors = ReadList(br);
             store.Actors = ReadActorList(br);
             store.Genres = ReadList(br);
@@ -190,13 +190,9 @@ namespace MediaBrowser.Library
             store.BannerImage = ReadImageSource(br);
             store.BackdropImage = ReadImageSource(br);
             store.MpaaRating = br.SafeReadString();
-            if (v >=2)
-                store.Writers = ReadList(br);
-            if (v >= 3)
-            {
-                if (br.ReadBoolean())
-                    store.MediaInfo = MediaInfoData.FromStream(br);
-            }
+            store.Writers = ReadList(br);
+            if (br.ReadBoolean())
+                store.MediaInfo = MediaInfoData.FromStream(br);
             return store;
         }
 
@@ -216,7 +212,7 @@ namespace MediaBrowser.Library
             {
                 List<string> ret = new List<string>();
                 for (int i = 0; i < len; ++i)
-                    ret.Add(br.ReadString());
+                    ret.Add(br.SafeReadString());
                 return ret;
             }
             return null;
