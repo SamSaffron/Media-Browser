@@ -275,7 +275,7 @@ namespace MediaBrowser
                     if (pi != null)
                     {
                         HostControl hc = (HostControl)pi.GetValue(ah2, null);
-                        hc.Dialog(message, "Video Browser", 1, 120, true);
+                        hc.Dialog(message, "Media Browser", 1, 120, true);
                     }
                 }
             }

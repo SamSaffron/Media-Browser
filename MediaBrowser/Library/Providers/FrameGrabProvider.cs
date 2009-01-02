@@ -15,7 +15,7 @@ namespace MediaBrowser.Library.Providers
 
         public void Fetch(Item item, ItemType type, MediaMetadataStore store, bool fastOnly)
         {
-            if (store.PrimaryImage==null)
+            if ((!fastOnly) && (store.PrimaryImage==null))
                 store.PrimaryImage = new ImageSource { OriginalSource = "grab://" + item.Source.PlayableItem.Filename };
         }
 
