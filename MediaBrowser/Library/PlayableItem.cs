@@ -142,10 +142,20 @@ namespace MediaBrowser.Library
             }
         }
 
+        long previousCall = DateTime.MinValue.Ticks;
         void Transport_PropertyChanged(Microsoft.MediaCenter.UI.IPropertyObject sender, string property)
         {
             if (property == "Position")
             {
+                // Do work the maximum of once a second. 
+                // This method seems to be called more aggresively in windows 7 
+                long currentCall = DateTime.Now.Ticks / 10000000L;
+                if (currentCall == previousCall)
+                {
+                    return;
+                }
+                previousCall = currentCall;
+
                 try
                 {
                     var mce = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
