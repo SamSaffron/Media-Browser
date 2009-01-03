@@ -13,8 +13,7 @@ namespace MediaBrowser.Library.Playables
         string path;
         string playListFile;
         List<string> videoFiles;
-        int offset = 0;
-
+        
         public PlayableFolder(string path)
             : base()
         {

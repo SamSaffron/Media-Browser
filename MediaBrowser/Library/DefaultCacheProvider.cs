@@ -683,7 +683,7 @@ namespace MediaBrowser.Library
                 Directory.Delete(p, true);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

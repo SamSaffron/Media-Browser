@@ -21,7 +21,11 @@ namespace MediaBrowser.Library
         private static Item blank = new EmptyItemSource().ConstructItem();
         private object lck = new object();
         private List<Item> children;
+        volatile bool childIndexCreated = false;
         volatile bool childrenLoaded = false;
+        volatile bool childLoadPending = false;
+        volatile bool childrenLoading = false;
+
         private ItemIndex itemIndex;
         private MediaMetadata metadata;
         private PlayState playstate;
@@ -64,6 +68,7 @@ namespace MediaBrowser.Library
                 childVerificationProcessor.PullToFront(this);
             else if (!Config.Instance.EnableFileWatching) // if we aren't doing file watching then verify the children when we navigate forwards into an item
                 this.VerifyChildrenAsync();
+            this.Metadata.RefreshToFront();
         }
 
         #region Metadata
@@ -667,9 +672,9 @@ namespace MediaBrowser.Library
 
         private void CreateChildIndex()
         {
-            if (this.itemIndex == null)
+            if (!childIndexCreated)
                 lock (lck)
-                    if (this.itemIndex == null)
+                    if (!childIndexCreated)
                     {
                         this.children = new List<Item>();
                         itemIndex = new ItemIndex(children);
@@ -678,43 +683,36 @@ namespace MediaBrowser.Library
                             itemIndex.SortBy = this.DisplayPrefs.SortOrder;
                             itemIndex.IndexBy = this.DisplayPrefs.IndexBy;
                         }
+                        childIndexCreated = true;
                     }
         }
 
         public void EnsureChildrenLoaded(bool allowAsync)
         {
-            if (this.source.IsPlayable)
-                return;
-            if (childLoadPending && allowAsync)
-                return;
-            if (!childrenLoaded)
-                lock (lck)
+            lock (lck)
+            {
+                if (childrenLoaded)
+                    return;
+                if (this.source.IsPlayable)
+                    return;
+                CreateChildIndex();
+                if (allowAsync)
                 {
-                    if (!childrenLoaded)
+                    if (!(childLoadPending || childrenLoading))
                     {
+                        childLoadPending = true;
                         if (allowAsync)
-                        {
-                            if (!childLoadPending)
-                            {
-                                childLoadPending = true;
-                                if (allowAsync)
-                                    childRetrievalProcessor.Inject(this);
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("Sync child collection create:" + this.source.Location);
-                            CreateChildIndex();
-                            childrenLoaded = true;
-                            if (!childLoadPending)
-                                childLoadPending = true;
-                        }
+                            childRetrievalProcessor.Inject(this);
                     }
                 }
-            if ((!allowAsync) && childLoadPending)
-            {
-                Debug.WriteLine("Sync retrieve children:" + this.source.RawName);
-                RetrieveChildren();
+                else
+                {
+                    if (!childrenLoading)
+                    {
+                        childLoadPending = true;
+                        RetrieveChildren();
+                    }
+                }
             }
         }
 
@@ -723,25 +721,21 @@ namespace MediaBrowser.Library
             itm.RetrieveChildren();
         }
 
-        private volatile bool childLoadPending = false;
-        Item[] pendingChildren = null;
 
         private void RetrieveChildren()
         {
             Debug.WriteLine("Retrieving Children:" + this.source.Location);
-
             lock (lck)
-                if (!childrenLoaded)
-                {
-                    Debug.WriteLine("Async child collection create:" + this.source.Location);
-                    CreateChildIndex();
-                    childrenLoaded = true;
-                }
-            lock (lck)
+            {
+                if (childrenLoaded)
+                    return;
                 if (!childLoadPending)
                     return;
-                else
-                    childLoadPending = false;
+                childLoadPending = false;
+                childrenLoading = true;
+            }
+
+            Item[] pendingChildren = null;
             if (!(this.Source is IndexingSource))
                 pendingChildren = ItemCache.Instance.RetrieveChildren(this.UniqueName);
             else
@@ -755,6 +749,16 @@ namespace MediaBrowser.Library
                     if (i.PhysicalParent == null)
                         i.PhysicalParent = this;
                 }
+           
+                lock (this.children)
+                    children.AddRange(pendingChildren);
+                pendingChildren = null;
+                itemIndex.FlagUnsorted();
+            }
+            lock (lck)
+            {
+                childrenLoaded = true;
+                childrenLoading = false;
             }
             if (Microsoft.MediaCenter.UI.Application.IsApplicationThread)
                 RetrieveChildrenFinished(null);
@@ -764,13 +768,6 @@ namespace MediaBrowser.Library
 
         private void RetrieveChildrenFinished(object nothing)
         {
-            if (pendingChildren != null)
-            {
-                lock (this.children)
-                    children.AddRange(pendingChildren);
-                pendingChildren = null;
-                itemIndex.FlagUnsorted();
-            }
             FireChildrenChangedEvents();
             VerifyChildrenAsync();
         }
@@ -780,7 +777,7 @@ namespace MediaBrowser.Library
 
         void source_NewItem(ItemSource newItem)
         {
-            if (childrenLoaded)
+            if (childIndexCreated)
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke(AddChild, newItem);
         }
 
@@ -800,7 +797,7 @@ namespace MediaBrowser.Library
 
         void source_RemoveItem(ItemSource newItem)
         {
-            if (childrenLoaded)
+            if (childIndexCreated)
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke(RemoveChild, newItem);
         }
 

@@ -22,7 +22,7 @@ namespace MediaBrowser.Library
         private string sortableName = null;
         private bool preferBanner = false;
         object refreshLock = new object();
-        bool refreshPending = false;
+        RefreshObj refreshPending = null;
         private MediaMetadataStore intermediateStore = null;
 
         public MediaMetadata()
@@ -521,21 +521,31 @@ namespace MediaBrowser.Library
         
         internal void RefreshAsync(Item item, bool force, bool fastFirst)
         {
-            if (!refreshPending)
+            if (refreshPending==null)
                 lock (refreshLock)
-                    if (!refreshPending)
-                        processor.Inject(new RefreshObj { Metadata = this, Item = item, Force = force, FastFirst = fastFirst });
+                    if (refreshPending == null)
+                    {
+                        refreshPending = new RefreshObj { Metadata = this, Item = item, Force = force, FastFirst = fastFirst };
+                        processor.Inject(refreshPending);
+                    }
             //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(RefreshMetadata, RefreshMetadataDone, new RefreshObj { Item = item, Force = force });
         }
 
+        internal void RefreshToFront()
+        {
+            if (refreshPending!=null)
+                lock (refreshLock)
+                    if (refreshPending!=null)
+                        processor.PullToFront(refreshPending);
+        }
         
 
         private void RefreshMetadata(object obj)
         {
-            lock (refreshLock)
-                refreshPending = false;
             RefreshObj r = (RefreshObj)obj;
             intermediateStore = MetaDataSource.Instance.RefreshMetadata(r.Item, r.Force, r.FastFirst);
+            lock (refreshLock)
+                refreshPending = null;
         }
 
         private void RefreshMetadataDone(object nothing)
