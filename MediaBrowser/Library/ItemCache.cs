@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediaBrowser.Library
 {
-    class ItemCache
+    public class ItemCache
     {
         private ItemCache()
         {

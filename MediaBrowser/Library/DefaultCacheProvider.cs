@@ -233,6 +233,20 @@ namespace MediaBrowser.Library
             return null;
         }
 
+        public ItemSource RetrieveSource(UniqueName uniqueName)
+        {
+            if (uniqueName == null)
+                return null;
+            lock (this.sources)
+                if (sources.ContainsKey(uniqueName))
+                    return sources[uniqueName];
+            if (VerifySources())
+                lock (this.sources)
+                    if (sources.ContainsKey(uniqueName))
+                        return sources[uniqueName];
+            return null;
+        }
+
         public Item[] RetrieveChildren(UniqueName ownerName)
         {
             if (ownerName == null)
@@ -375,7 +389,13 @@ namespace MediaBrowser.Library
                                         }
                                     }
                                     catch
-                                    { // ignore bad data
+                                    {
+                                        try
+                                        {
+                                            Trace.WriteLine("Deleting corrupt metadata file " + file);
+                                            File.Delete(file);
+                                        }
+                                        catch { }
                                     }
                                 }
                             }
@@ -514,7 +534,7 @@ namespace MediaBrowser.Library
                 using (new MutexWrapper(this.cacheMutex))
                 {
                     VerifyUniqueNames();
-                    lock(this.uniqueNames)
+                    lock (this.uniqueNames)
                         if (uniqueNames.ContainsKey(name))
                             return uniqueNames[name];
                     UniqueName n = new UniqueName(Guid.NewGuid().ToString("d"));
@@ -523,9 +543,13 @@ namespace MediaBrowser.Library
                     return n;
                 }
             }
-            else 
-                return null;
-            
+            else
+                return null;            
+        }
+
+        public Dictionary<string, UniqueName> UniqueNames
+        {
+            get { return this.uniqueNames; }
         }
 
         private void SaveUniqueNameIndex()

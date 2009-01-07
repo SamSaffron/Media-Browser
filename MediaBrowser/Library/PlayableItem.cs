@@ -182,7 +182,7 @@ namespace MediaBrowser.Library
                             return;
                         }
 
-                        Trace.WriteLine("Update Postion for : " + title);
+                        Debug.WriteLine("Update Postion for : " + title);
                         if (!UpdatePosition(title, mce.Transport.Position.Ticks))
                             AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PropertyChanged -= eventHandler;
                     }
