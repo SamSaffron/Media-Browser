@@ -223,14 +223,27 @@ namespace MediaBrowser.Library
         {
             if (uniqueName == null)
                 return null;
+
+            ItemSource source = null; 
+
             lock (this.sources)
+            {
                 if (sources.ContainsKey(uniqueName))
-                    return sources[uniqueName].ConstructItem();
-            if (VerifySources())
+                {
+                    source = sources[uniqueName];
+                }
+            } 
+
+            if (source == null && VerifySources())
+            {
                 lock (this.sources)
                     if (sources.ContainsKey(uniqueName))
-                        return sources[uniqueName].ConstructItem();
-            return null;
+                        source = sources[uniqueName];
+            }
+
+            // it is critical to call construct item out of the lock. 
+            // overwise you can get deadlocked against the mutex.
+            return source==null?null:source.ConstructItem();
         }
 
         public ItemSource RetrieveSource(UniqueName uniqueName)
