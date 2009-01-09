@@ -33,6 +33,8 @@ namespace MediaBrowser.Library
         private DisplayPreferences prefs;
         SizeRef actualThumbSize = new SizeRef(new Size(1, 1));
 
+        public event PropertyChangedEventHandler MetadataPropertyChanged;
+
         public Item PhysicalParent { get; private set; }
 
         #region Item Construction
@@ -121,6 +123,8 @@ namespace MediaBrowser.Library
                 FirePropertyChanged("HasBackdropImage");
             if (property == "Overview")
                 FirePropertyChanged("Overview");
+            if (MetadataPropertyChanged != null)
+                MetadataPropertyChanged(sender, property);
         }
 
         /// <summary>
@@ -746,6 +750,7 @@ namespace MediaBrowser.Library
                 {
                     i.LoadPlayState();
                     i.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
+                    i.MetadataPropertyChanged += new PropertyChangedEventHandler(child_MetadataPropertyChanged);
                     if (i.PhysicalParent == null)
                         i.PhysicalParent = this;
                 }
@@ -764,6 +769,34 @@ namespace MediaBrowser.Library
                 RetrieveChildrenFinished(null);
             else
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke(RetrieveChildrenFinished);
+        }
+
+        void child_MetadataPropertyChanged(IPropertyObject sender, string property)
+        {
+            if (this.prefs != null)
+            {
+                switch (this.prefs.SortOrder)
+                {
+                    case SortOrder.Year:
+                        if (property != "ProductionYear")
+                            return;
+                        break;
+                    case SortOrder.Name:
+                        if (property != "Name")
+                            return;
+                        break;
+                    case SortOrder.Rating:
+                        if (property != "ImdbRating")
+                            return;
+                        break;
+                    case SortOrder.Runtime:
+                        if (property != "RunningTime")
+                            return;
+                        break;
+                }
+            }
+            itemIndex.FlagUnsorted();
+            this.FirePropertyChanged("Children");
         }
 
         private void RetrieveChildrenFinished(object nothing)
@@ -893,6 +926,7 @@ namespace MediaBrowser.Library
                         {
                             this.children.Remove(i);
                             i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
+                            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
                             if (i.PhysicalParent == this)
                                 i.PhysicalParent = null;
                         }
@@ -927,6 +961,7 @@ namespace MediaBrowser.Library
                     lock (this.children)
                         this.children.Add(itm);
                     itm.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
+                    itm.MetadataPropertyChanged +=new PropertyChangedEventHandler(child_MetadataPropertyChanged);
                     if (itm.PhysicalParent == null)
                         itm.PhysicalParent = this;
                 }
@@ -1065,6 +1100,7 @@ namespace MediaBrowser.Library
                     foreach (Item i in this.children)
                     {
                         i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
+                        i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
                         if (i.PhysicalParent == this)
                             i.PhysicalParent = null;
                     }

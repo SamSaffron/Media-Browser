@@ -305,7 +305,12 @@ namespace MediaBrowser.Library
                   
                 case SortOrder.Date:
                     return -x.Source.CreatedDate.CompareTo(y.Source.CreatedDate);
-                    
+                
+                case SortOrder.Year:
+                    if (NullCompare(x.Metadata.ProductionYear, y.Metadata.ProductionYear, out compare))
+                        return compare;
+                    return -x.Metadata.ProductionYear.Value.CompareTo(y.Metadata.ProductionYear.Value);
+
                 case SortOrder.Rating:
                     if (NullCompare(x.Metadata.ImdbRating, y.Metadata.ImdbRating, out compare))
                         return compare;

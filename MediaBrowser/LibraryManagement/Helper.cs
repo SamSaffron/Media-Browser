@@ -731,7 +731,7 @@ namespace MediaBrowser.LibraryManagement
             //using (new Profiler(path))
             {
                 foreach (Regex r in seasonPathExpressions)
-                    if (r.IsMatch(path))
+                    if (r.IsMatch(path.ToLower()))
                         return true;
                 return false;
             }
@@ -744,10 +744,10 @@ namespace MediaBrowser.LibraryManagement
         /// <returns></returns>
         public static string SeasonNumberFromFolderName(string fullpath)
         {
-
+            string p = fullpath.ToLower();
             foreach (Regex r in seasonPathExpressions)
             {
-                Match m = r.Match(fullpath);
+                Match m = r.Match(p);
                 if (m.Success)
                     return m.Groups["seasonnumber"].Value;
             }

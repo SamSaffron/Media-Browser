@@ -239,7 +239,8 @@ namespace MediaBrowser.Library
         Date,
         Rating,
         Runtime,
-        Unwatched
+        Unwatched,
+        Year
     }
 
     public enum IndexType
@@ -275,7 +276,7 @@ namespace MediaBrowser.Library
 
     public class SortOrderNames
     {
-        private static readonly string[] Names = { "name", "date", "rating", "runtime", "unwatched"};
+        private static readonly string[] Names = { "name", "date", "rating", "runtime", "unwatched", "year"};
 
         public static string GetName(SortOrder order)
         {

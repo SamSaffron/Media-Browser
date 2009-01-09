@@ -7,9 +7,39 @@ using Microsoft.MediaCenter;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using Microsoft.MediaCenter.UI;
 
 namespace MediaBrowser.Library
 {
+
+    internal abstract class TransportProxy
+    {
+        static MediaTransport transport = null;
+        public static void CheckAttached()
+        {
+            MediaTransport current = AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport;
+            if (current != transport)
+            {
+                if (transport != null)
+                    transport.PropertyChanged -= new PropertyChangedEventHandler(transport_PropertyChanged);
+                transport = current;
+                transport.PropertyChanged += new PropertyChangedEventHandler(transport_PropertyChanged);
+            }
+        }
+
+        static void transport_PropertyChanged(IPropertyObject sender, string property)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(sender, property);
+        }
+
+        public static void ClearHandler()
+        {
+            PropertyChanged = null;
+        }
+
+        public static event PropertyChangedEventHandler PropertyChanged;
+    }
     /// <summary>
     /// Encapsulates play back of different types of item. Builds playlists, mounts iso etc. where appropriate
     /// </summary>
@@ -123,7 +153,9 @@ namespace MediaBrowser.Library
             mce.MediaExperience.GoToFullScreen();
             this.PlayState.LastPlayed = DateTime.Now;
             this.PlayState.PlayCount = this.PlayState.PlayCount + 1;
-            AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PropertyChanged += eventHandler;
+            TransportProxy.ClearHandler(); // ensure we will be the only one getting the events
+            TransportProxy.PropertyChanged += eventHandler;
+            TransportProxy.CheckAttached();
             previousPlayable = this;
             Application.CurrentInstance.ShowNowPlaying = true;
         }
@@ -184,7 +216,7 @@ namespace MediaBrowser.Library
 
                         Debug.WriteLine("Update Postion for : " + title);
                         if (!UpdatePosition(title, mce.Transport.Position.Ticks))
-                            AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PropertyChanged -= eventHandler;
+                            TransportProxy.PropertyChanged -= eventHandler;
                     }
                 }
                 catch (Exception ex)
