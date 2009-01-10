@@ -360,7 +360,7 @@ namespace MediaBrowser.Library.Providers
 
         static string remove = "\"'!`?";
         // "Face/Off" support.
-        static string spacers = "/,.:;\\(){}[]+-_=–";  // (there are not actually two - in the they are different char codes)
+        static string spacers = "/,.:;\\(){}[]+-_=–*";  // (there are not actually two - in the they are different char codes)
 
         internal static string GetComparableName(string name)
         {

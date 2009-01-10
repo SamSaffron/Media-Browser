@@ -12,7 +12,7 @@ namespace MediaBrowser.Library.Providers
     class MediaInfoProvider : IMetadataProvider
     {
         private static readonly string Version="1";
-        static readonly string ProviderName = "MovieDbProvider";
+        static readonly string ProviderName = "MediaInfoProvider";
         #region IMetadataProvider Members
         private static bool enabled = CheckForLib();
 
@@ -39,7 +39,6 @@ namespace MediaBrowser.Library.Providers
             if (!NeedsRefresh(item, type))
             {
                 store.MediaInfo = item.Metadata.MediaInfo;
-                store.ProviderData[ProviderName + ":V"] = Version;
             }
             else
             {
@@ -60,8 +59,8 @@ namespace MediaBrowser.Library.Providers
                     mi = GetMediaInfo(location);
                 }
                 store.MediaInfo = mi;
-                store.ProviderData[ProviderName + ":V"] = Version;
             }
+            store.ProviderData[ProviderName + ":V"] = Version;
         }
 
         private MediaInfoData GetMediaInfo(string location)
@@ -103,7 +102,7 @@ namespace MediaBrowser.Library.Providers
         public bool NeedsRefresh(Item item, ItemType type)
         {
             if (item.Metadata.ProviderData.ContainsKey(ProviderName + ":V"))
-                return item.Metadata.ProviderData[ProviderName + ":V"] == Version;
+                return item.Metadata.ProviderData[ProviderName + ":V"] != Version;
             else
                 return enabled && (item.Metadata.MediaInfo==MediaInfoData.Empty);
         }

@@ -723,6 +723,7 @@ namespace MediaBrowser.LibraryManagement
                         new Regex(@".+\\[s|S]æson\s?(?<seasonnumber>\d{1,2})$"),
                         new Regex(@".+\\[t|T]emporada\s?(?<seasonnumber>\d{1,2})$"),
                         new Regex(@".+\\[s|S]aison\s?(?<seasonnumber>\d{1,2})$"),
+                        new Regex(@".+\\[s|S]taffel\s?(?<seasonnumber>\d{1,2})$"),
                         new Regex(@".+\\[s|S](?<seasonnumber>\d{1,2})$")
         };
 

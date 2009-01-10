@@ -335,6 +335,12 @@ namespace MediaBrowser
             set { if (this.data.SortReplaceWords != value) { this.data.SortReplaceWords = value; Save(); FirePropertyChanged("SortReplaceWords"); } }
         }
 
+        public string PreferredMetaDataLanguage
+        {
+            get { return this.data.PreferredMetaDataLanguage; }
+            set { if (this.data.PreferredMetaDataLanguage != value) { this.data.PreferredMetaDataLanguage = value; Save(); FirePropertyChanged("PreferredMetaDataLanguage"); } }
+        }
+
         /* End of app specific settings*/
 
         private string[] _SortRemoveCharactersArray = null;

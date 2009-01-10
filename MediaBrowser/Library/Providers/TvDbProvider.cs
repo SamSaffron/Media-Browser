@@ -17,8 +17,8 @@ namespace MediaBrowser.Library.Providers
         private static readonly string roolUrl = "http://www.thetvdb.com/api/";
         private static readonly string bannerUrl = "http://www.thetvdb.com/banners/";
         private static readonly string seriesQuery = "GetSeries.php?seriesname={0}";
-        private static readonly string seriesGet = "http://www.thetvdb.com/api/{0}/series/{1}/en.xml";
-        private static readonly string episodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/en.xml";
+        private static readonly string seriesGet = "http://www.thetvdb.com/api/{0}/series/{1}/{2}.xml";
+        private static readonly string episodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/{4}.xml";
         private static readonly string ProviderName = "TvDbProvider";
 
         #region IMetadataProvider Members
@@ -133,7 +133,7 @@ namespace MediaBrowser.Library.Providers
                     seasonNumber = Helper.SeasonNumberFromEpisodeFile(location); // try and extract the season number from the file name for S1E1, 1x04 etc.
                 if (!string.IsNullOrEmpty(seasonNumber))
                 {
-                    XmlDocument doc = Fetch(string.Format(episodeQuery, apiKey, seriesId, seasonNumber, episodeNumber));
+                    XmlDocument doc = Fetch(string.Format(episodeQuery, apiKey, seriesId, seasonNumber, episodeNumber, Config.Instance.PreferredMetaDataLanguage));
                     if (doc != null)
                     {
                         if (store.PrimaryImage == null)
@@ -281,7 +281,7 @@ namespace MediaBrowser.Library.Providers
                     || (store.Overview == null) || (store.Name == null) || (store.Actors == null)
                     || (store.Genres == null) || (store.MpaaRating == null))
                 {
-                    string url = string.Format(seriesGet, apiKey, seriesId);
+                    string url = string.Format(seriesGet, apiKey, seriesId, Config.Instance.PreferredMetaDataLanguage);
                     XmlDocument doc = Fetch(url);
                     if (doc != null)
                     {
@@ -379,7 +379,7 @@ namespace MediaBrowser.Library.Providers
         }
 
         static string remove = "\"'!`?";
-        static string spacers = "/,.:;\\(){}[]+-_=–";  // (there are not actually two - in the they are different char codes)
+        static string spacers = "/,.:;\\(){}[]+-_=–*";  // (there are not actually two - in the they are different char codes)
 
         internal static string GetComparableName(string name)
         {
