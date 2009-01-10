@@ -340,6 +340,26 @@ namespace MediaBrowser
             get { return this.data.PreferredMetaDataLanguage; }
             set { if (this.data.PreferredMetaDataLanguage != value) { this.data.PreferredMetaDataLanguage = value; Save(); FirePropertyChanged("PreferredMetaDataLanguage"); } }
         }
+        [Comment(@"Display Movie overview always fully open.")]
+        public bool DefaultMaximizeMovieOverview
+        {
+            get { return this.data.DefaultMaximizeMovieOverview; }
+            set { if (this.data.DefaultMaximizeMovieOverview != value) { this.data.DefaultMaximizeMovieOverview = value; Save(); FirePropertyChanged("DefaultMaximizeMovieOverview"); } }
+        }
+
+        [Comment(@"Display Movie overview always fully open.")]
+        public bool DefaultMaximizeMovieActor
+        {
+            get { return this.data.DefaultMaximizeMovieActor; }
+            set { if (this.data.DefaultMaximizeMovieActor != value) { this.data.DefaultMaximizeMovieActor = value; Save(); FirePropertyChanged("DefaultMaximizeMovieActor"); } }
+        }
+
+        [Comment(@"Enable Movie Backdrop Filter to be shown.")]
+        public bool EnableMovieBackdropFilter
+        {
+            get { return this.data.EnableMovieBackdropFilter; }
+            set { if (this.data.EnableMovieBackdropFilter != value) { this.data.EnableMovieBackdropFilter = value; Save(); FirePropertyChanged("EnableMovieBackdropFilter"); } }
+        }
 
         /* End of app specific settings*/
 

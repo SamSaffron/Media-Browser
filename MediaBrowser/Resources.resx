@@ -382,4 +382,28 @@
   <data name="HD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\hd.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BlackBtnAlpha50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\blackbtnalpha50.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BlackBtnAlpha65" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\blackbtnalpha65.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pivot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\pivot.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PivotArrowLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\pivot\pivotarrowleft.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PivotArrowLeftNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\pivot\pivotarrowleftnofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PivotArrowRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\pivot\pivotarrowright.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PivotArrowRightNoFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\pivot\pivotarrowrightnofocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PivotItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\pivotitem.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

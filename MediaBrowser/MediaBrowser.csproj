@@ -136,6 +136,8 @@
   <ItemGroup>
     <Content Include="Images\Background.png" />
     <Content Include="Images\BackShadow.png" />
+    <Content Include="Images\BlackBtnAlpha50.png" />
+    <Content Include="Images\BlackBtnAlpha65.png" />
     <Content Include="Images\CheckBoxCheckedFocus.png" />
     <Content Include="Images\CheckBoxCheckedNoFocus.png" />
     <Content Include="Images\CheckBoxUncheckedFocus.png" />
@@ -148,6 +150,10 @@
     <Content Include="Images\IncrementFocused.png" />
     <Content Include="Images\Index.png" />
     <Content Include="Images\Logo.png" />
+    <Content Include="Images\Pivot\PivotArrowLeft.png" />
+    <Content Include="Images\Pivot\PivotArrowLeftNoFocus.png" />
+    <Content Include="Images\Pivot\PivotArrowRight.png" />
+    <Content Include="Images\Pivot\PivotArrowRightNoFocus.png" />
     <Content Include="Images\RadioFocus.png" />
     <Content Include="Images\RadioNoFocus.png" />
     <Content Include="Images\RadioSelectFocus.png" />
@@ -193,6 +199,8 @@
     <Content Include="Markup\Controls\Backdrop.mcml" />
     <Content Include="Markup\Controls\CheckBox.mcml" />
     <Content Include="Images\Application.png" />
+    <Content Include="Markup\Controls\Pivot.mcml" />
+    <Content Include="Markup\Controls\PivotItem.mcml" />
     <Content Include="Markup\Controls\Writers.mcml" />
     <Content Include="Markup\Controls\Directors.mcml" />
     <Content Include="Markup\Controls\ListButton.mcml" />

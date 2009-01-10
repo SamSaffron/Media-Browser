@@ -8,320 +8,502 @@
 	  xmlns:te="resx://MediaBrowser/MediaBrowser.Resources/TextEdit"
 	  xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"
 	  xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
-	  
+    xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
+	  xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+    xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/Pivot"
 	  xmlns:me="Me"
 	  >
 
-	<UI Name="ConfigPage">
+  <UI Name="ConfigPage">
 
-		<Properties>
-			<a:Application Name="Application" Application="$Required"/>
-			<cor:Boolean Name="ShowFull" Boolean="true" />
-		</Properties>
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <cor:Boolean Name="ShowFull" Boolean="true" />
+    </Properties>
 
-		<Locals>
-			<Size Name="LabelSize1" Size="250,0" />
-			<a:Config Name="Config" Config="[Application.Config]"/>
-			<Command Name="Close" />
-			<Command Name="Back" />
-			<Command Name="ClearCache" />
-			<Command Name="ResetConfig" />
-			<BooleanChoice Name="EnableTraceLogging" Value="[Application.Config.EnableTraceLogging]" />
-			<BooleanChoice Name="EnableTranscode360" Value="[Application.Config.EnableTranscode360]" />
-			<BooleanChoice Name="TransparentBackground" Value="[Application.Config.TransparentBackground]" />
-			<BooleanChoice Name="EnableNestedMovieFolders" Value="[Application.Config.EnableNestedMovieFolders]" />
-			<BooleanChoice Name="EnableMoviePlaylists" Value="[Application.Config.EnableMoviePlaylists]" />
-			<BooleanChoice Name="EnableUpdates" Value="[Application.Config.EnableUpdates]" />
-			<BooleanChoice Name="EnableBetas" Value="[Application.Config.EnableBetas]" />
-			<BooleanChoice Name="EnableAlphanumericSorting" Value="[Application.Config.EnableAlphanumericSorting]" />
-			<BooleanChoice Name="EnableListViewTicks" Value="[Application.Config.EnableListViewTicks]" />
-			<BooleanChoice Name="ShowUnwatchedCount" Value="[Application.Config.ShowUnwatchedCount]" />
-			<BooleanChoice Name="ShowWatchedTickOnFolders" Value="[Application.Config.ShowWatchedTickOnFolders]" />
-			<BooleanChoice Name="ShowWatchTickInPosterView" Value="[Application.Config.ShowWatchTickInPosterView]" />
-			<BooleanChoice Name="AllowInternetMetadataProviders" Value="[Application.Config.AllowInternetMetadataProviders]" />
-			<BooleanChoice Name="EnableFileWatching" Value="[Application.Config.EnableFileWatching]" /> 
-			<BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
-			<BooleanChoice Name="InheritDefaultView" Value="[Application.Config.InheritDefaultView]" />
-			
-
-			<BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
-			<BooleanChoice Name="AutoEnterSingleDirs" Value="[Application.Config.AutoEnterSingleDirs]" />
-			<BooleanChoice Name="DefaultShowLabels" Value="[Application.Config.DefaultShowLabels]" />
-			<BooleanChoice Name="DefaultVerticalScroll" Value="[Application.Config.DefaultVerticalScroll]" />
-			<EditableText Name="InitialFolder" Value="[Application.Config.InitialFolder]" />
-			<EditableText Name="ImageByNameLocation" Value="[Application.Config.ImageByNameLocation]" />
-			<EditableText Name="ExtenderNativeTypes" Value="[Application.Config.ExtenderNativeTypes]" />
-			<EditableText Name="DaemonToolsLocation" Value="[Application.Config.DaemonToolsLocation]" />
-			<EditableText Name="DaemonToolsDrive" Value="[Application.Config.DaemonToolsDrive]" />
-			<EditableText Name="SortRemoveCharacters" Value="[Application.Config.SortRemoveCharacters]" />
-			<EditableText Name="SortReplaceCharacters" Value="[Application.Config.SortReplaceCharacters]" />
-			<EditableText Name="SortReplaceWords" Value="[Application.Config.SortReplaceWords]" />
-
-			<IntRangedValue Name="PlaylistLimit" Value="[Application.Config.PlaylistLimit]" MaxValue="100" MinValue="0" Step="1" />
-			<IntRangedValue Name="BreadcrumbCount" Value="[Application.Config.BreadcrumbCountLimit]" MaxValue="10" MinValue="1" Step="1"/>
-			<IntRangedValue Name="GridSpacing" Value="[Application.Config.GridSpacingCfg]" MaxValue="50" MinValue="0" Step="2"/>
-			<IntRangedValue Name="DefaultPosterSize" Value="[Application.Config.DefaultPosterSizeCfg]" MaxValue="1000" MinValue="60" Step="10" />
-			<IntRangedValue Name="ThumbStripPosterWidth" Value="[Application.Config.ThumbStripPosterWidth]" MaxValue="1200" MinValue="200" Step="10" />
-		</Locals>
-
-		<Rules>
-			<Changed Source="[Close.Invoked]">
-				<Actions>
-					<Invoke Target="[Application.FinishInitialConfig]" />
-				</Actions>
-			</Changed>
-			<Changed Source="[Back.Invoked]">
-				<Actions>
-					<Invoke Target="[Application.Back]" />
-				</Actions>
-			</Changed>
-			<Changed Source="[ClearCache.Invoked]">
-				<Actions>
-					<Invoke Target="[Application.ClearCache]" />
-				</Actions>
-			</Changed>
-			<Changed Source="[ResetConfig.Invoked]">
-				<Actions>
-					<Invoke Target="[Application.ResetConfig]" />
-				</Actions>
-			</Changed>
-			<Condition Source="[Config.IsFirstRun]" SourceValue="true">
-				<Actions>
-					<Set Target="[ContinueBtn.Visible]" Value="true"/>
-					<Set Target="[BackBtn.Visible]" Value="false"/>
-					<Set Target="[Config.IsFirstRun]" Value="false" />
-					<Set Target="[ClearCacheBtn.Visible]" Value="false"/>
-					<Set Target="[ResetConfigBtn.Visible]" Value="false"/>
-				</Actions>
-			</Condition>
-			<Binding Source="[EnableTraceLogging.Value]" Target="[Config.EnableTraceLogging]" />
-			<Binding Source="[EnableTranscode360.Value]" Target="[Config.EnableTranscode360]" />
-			<Binding Source="[TransparentBackground.Value]" Target="[Config.TransparentBackground]" />
-			<Binding Source="[EnableNestedMovieFolders.Value]" Target="[Config.EnableNestedMovieFolders]" />
-			<Binding Source="[EnableMoviePlaylists.Value]" Target="[Config.EnableMoviePlaylists]" />
-			<Binding Source="[EnableUpdates.Value]" Target="[Config.EnableUpdates]" />
-			<Binding Source="[EnableBetas.Value]" Target="[Config.EnableBetas]" />
-			<Binding Source="[EnableAlphanumericSorting.Value]" Target="[Config.EnableAlphanumericSorting]" />
-			<Binding Source="[EnableListViewTicks.Value]" Target="[Config.EnableListViewTicks]" />
-			<Binding Source="[ShowUnwatchedCount.Value]" Target="[Config.ShowUnwatchedCount]" />
-			<Binding Source="[ShowWatchedTickOnFolders.Value]" Target="[Config.ShowWatchedTickOnFolders]" />
-			<Binding Source="[ShowWatchTickInPosterView.Value]" Target="[Config.ShowWatchTickInPosterView]" />
-			<Binding Source="[AllowInternetMetadataProviders.Value]" Target="[Config.AllowInternetMetadataProviders]" />
-			<Binding Source="[EnableFileWatching.Value]" Target="[Config.EnableFileWatching]" /> 
-			<Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
-			<Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
-			
-			<Binding Source="[DefaultToFirstUnwatched.Value]" Target="[Config.DefaultToFirstUnwatched]" />
-			<Binding Source="[AutoEnterSingleDirs.Value]" Target="[Config.AutoEnterSingleDirs]" />
-			<Binding Source="[DefaultShowLabels.Value]" Target="[Config.DefaultShowLabels]" />
-			<Binding Source="[DefaultVerticalScroll.Value]" Target="[Config.DefaultVerticalScroll]" />
-			<Binding Source="[InitialFolder.Value]" Target="[Config.InitialFolder]" />
-			<Binding Source="[ImageByNameLocation.Value]" Target="[Config.ImageByNameLocation]" />
-			<Binding Source="[ExtenderNativeTypes.Value]" Target="[Config.ExtenderNativeTypes]" />
-			<Binding Source="[DaemonToolsLocation.Value]" Target="[Config.DaemonToolsLocation]" />
-			<Binding Source="[DaemonToolsDrive.Value]" Target="[Config.DaemonToolsDrive]" />
-			<Binding Source="[SortRemoveCharacters.Value]" Target="[Config.SortRemoveCharacters]" />
-			<Binding Source="[SortReplaceCharacters.Value]" Target="[Config.SortReplaceCharacters]" />
-			<Binding Source="[SortReplaceWords.Value]" Target="[Config.SortReplaceWords]" />
-
-			<Binding Source="[PlaylistLimit.Value]" Target="[Config.PlaylistLimit]" />
-			<Binding Source="[BreadcrumbCount.Value]" Target="[Config.BreadcrumbCountLimit]" />
-			<Binding Source="[GridSpacing.Value]" Target="[Config.GridSpacingCfg]" />
-			<Binding Source="[DefaultPosterSize.Value]" Target="[Config.DefaultPosterSizeCfg]" />
-			<Binding Source="[ThumbStripPosterWidth.Value]" Target="[Config.ThumbStripPosterWidth]" />
-
-			<Condition Source="[ShowFull]" ConditionOp="Equals"  SourceValue="true" >
-				<Actions>
-					<Set Target="[InitialConfig.Visible]" Value="false" />
-					<Set Target="[FullConfig.Visible]" Value="true" />
-				</Actions>
-			</Condition>
-			<Condition Source="[ShowFull]" ConditionOp="Equals" SourceValue="false">
-				<Actions>
-					<Set Target="[InitialConfig.Visible]" Value="true" />
-					<Set Target="[FullConfig.Visible]" Value="false" />
-				</Actions>
-			</Condition>
-			<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
-				<Transformer>
-					<BooleanTransformer Inverse="true"/>
-				</Transformer>
-			</Binding>
-		</Rules>
-
-		<Content>
-			<Panel Layout="Center">
-				<Children>
-					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
-						<Children>
-							<Clip Name="Title" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
-								<LayoutInput>
-									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
-								</LayoutInput>
-								<Children>
-									<Text Content="Configuration" Font="Segoe Media Center Light, 36" Color="color://s:MediumBlue">
-									</Text>
-								</Children>
-							</Clip>
-							<Panel Layout="Center">
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,0.05" Right="Parent,0.95" Top="Parent,0,80" Bottom="Parent,1,-100"  />
-								</LayoutInput>
-								<Children>
-									<Panel Name="InitialConfig" Layout="VerticalFlow" Navigation="Column">
-										<Children>
-											<Text Content="General" Font="font://s:ConfigTitleFont" Color="White"/>
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" />
-
-											<Text Content="Tracking" Font="font://s:ConfigTitleFont" Color="White"/>
-											<me:AssumeWatchedEdit Label="Assume Watched If Older Than" Config="[Application.Config]" />
-
-											<Text Content="Metadata" Font="font://s:ConfigTitleFont" Color="White"  />
-											<cb:CheckBox Label="Allow Internet Based Providers" Checked="[AllowInternetMetadataProviders]"  />
-
-											<Text Content="Updates" Font="font://s:ConfigTitleFont" Color="White"/>
-											<cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" />
-
-											<Text Content="ISO Playback" Font="font://s:ConfigTitleFont" Color="White"/>
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Location" EditableText="[DaemonToolsLocation]" />
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Drive" EditableText="[DaemonToolsDrive]" MaxChars="1"/>
-
-										</Children>
-									</Panel>
-									<Panel Name="FullConfig" Layout="Anchor">
-										<Children>
-											<Panel Navigation="Column" Layout="VerticalFlow" FocusOrder="0">
-												<LayoutInput>
-													<AnchorLayoutInput Left="Parent,0.02" Right="Parent,0.48"/>
-												</LayoutInput>
-												<Children>
-													<Text Content="General" Font="font://s:ConfigTitleFont" Color="White"/>
-													<cb:CheckBox Label="Transparent Background" Checked="[TransparentBackground]"  />
-													<cb:CheckBox Label="Logging" Checked="[EnableTraceLogging]"  />
-													<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" />
-													<!--<te:TextEdit LabelSize="[LabelSize1]" Label="Image By Name Location" EditableText="[ImageByNameLocation]" />-->
-
-													<Text Content="Behavior" Font="font://s:ConfigTitleFont" Color="White" />
-													<cb:CheckBox Label="Allow Nested Movie Folders" Checked="[EnableNestedMovieFolders]"  />
-													<cb:CheckBox Label="Movie Playlists" Checked="[EnableMoviePlaylists]"  />
-													<cb:CheckBox Label="Auto Enter Single Folder Items" Checked="[AutoEnterSingleDirs]"  />
-													<vm:IntSpin Label="Playlist Size Limit" Int="[PlaylistLimit]"  />
-													<vm:IntSpin Label="Breadcrumb Count" Int="[BreadcrumbCount]"  />
-<!--													<cb:CheckBox Label="Enable File System Watching" Checked="[EnableFileWatching]"  /> -->
-
-													<Text Content="Tracking" Font="font://s:ConfigTitleFont" Color="White"/>
-													<!-- <me:AssumeWatchedEdit Label="Assume Watched Date" Config="[Application.Config]" /> This cannot be changed without clearing the cache-->
-													<cb:CheckBox Label="Show Unwatched Count" Checked="[ShowUnwatchedCount]"  />
-													<cb:CheckBox Label="Watched Indicator on Folders" Checked="[ShowWatchedTickOnFolders]"  />
-													<cb:CheckBox Label="Watched Indicator on Videos" Checked="[ShowWatchTickInPosterView]"  />
-													<cb:CheckBox Label="Watched Indicator in Detail View" Checked="[EnableListViewTicks]"  />
-													<cb:CheckBox Label="Default To First Unwatched Item" Checked="[DefaultToFirstUnwatched]"  />
+    <Locals>
+      <Size Name="LabelSize1" Size="250,0" />
+      <a:Config Name="Config" Config="[Application.Config]"/>
+      <Command Name="Close" />
+      <Command Name="Back" />
+      <Command Name="ClearCache" />
+      <Command Name="ResetConfig" />
+      <BooleanChoice Name="EnableTraceLogging" Value="[Application.Config.EnableTraceLogging]" />
+      <BooleanChoice Name="EnableTranscode360" Value="[Application.Config.EnableTranscode360]" />
+      <BooleanChoice Name="TransparentBackground" Value="[Application.Config.TransparentBackground]" />
+      <BooleanChoice Name="EnableNestedMovieFolders" Value="[Application.Config.EnableNestedMovieFolders]" />
+      <BooleanChoice Name="EnableMoviePlaylists" Value="[Application.Config.EnableMoviePlaylists]" />
+      <BooleanChoice Name="EnableUpdates" Value="[Application.Config.EnableUpdates]" />
+      <BooleanChoice Name="EnableBetas" Value="[Application.Config.EnableBetas]" />
+      <BooleanChoice Name="EnableAlphanumericSorting" Value="[Application.Config.EnableAlphanumericSorting]" />
+      <BooleanChoice Name="EnableListViewTicks" Value="[Application.Config.EnableListViewTicks]" />
+      <BooleanChoice Name="ShowUnwatchedCount" Value="[Application.Config.ShowUnwatchedCount]" />
+      <BooleanChoice Name="ShowWatchedTickOnFolders" Value="[Application.Config.ShowWatchedTickOnFolders]" />
+      <BooleanChoice Name="ShowWatchTickInPosterView" Value="[Application.Config.ShowWatchTickInPosterView]" />
+      <BooleanChoice Name="AllowInternetMetadataProviders" Value="[Application.Config.AllowInternetMetadataProviders]" />
+      <BooleanChoice Name="EnableFileWatching" Value="[Application.Config.EnableFileWatching]" />
+      <BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
+      <BooleanChoice Name="InheritDefaultView" Value="[Application.Config.InheritDefaultView]" />
+      <BooleanChoice Name="DefaultMaximizeMovieOverview" Value="[Application.Config.DefaultMaximizeMovieOverview]" />
+      <BooleanChoice Name="DefaultMaximizeMovieActor" Value="[Application.Config.DefaultMaximizeMovieActor]" />
+      <BooleanChoice Name="EnableMovieBackdropFilter" Value="[Application.Config.EnableMovieBackdropFilter]" />
 
 
-												</Children>
-											</Panel>
-											<Panel Navigation="Column" Layout="VerticalFlow">
-												<LayoutInput>
-													<AnchorLayoutInput  Left="Parent,0.52" Right="Parent,0.98"/>
-												</LayoutInput>
-												<Children>
 
-													<Text Content="Metadata" Font="font://s:ConfigTitleFont" Color="White"  />
-													<cb:CheckBox Label="Allow Internet Based Providers" Checked="[AllowInternetMetadataProviders]"  />
-													
-													<Text Content="View" Font="font://s:ConfigTitleFont" Color="White"  />
-													<vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]"  />
-													<!--
-													<cb:CheckBox Label="Inherit Defaults From Parent" Checked="[InheritDefaultView]"  />
-													<vm:IntSpin Label="Default Poster Size" Int="[DefaultPosterSize]"  />
-													<cb:CheckBox Label="Show Labels" Checked="[DefaultShowLabels]"  />
-													<cb:CheckBox Label="Vertical Scroll" Checked="[DefaultVerticalScroll]"  />
-													-->
-													<vm:IntSpin Label="Thumbstrip split size" Int="[ThumbStripPosterWidth]"  />
-													<cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" />
-													<!--
-											<Text Content="Sorting" Font="font://s:ConfigTitleFont" Color="White"/>
-											<cb:CheckBox Label="Alphanumeric Sorting" Checked="[EnableAlphanumericSorting]" />
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Remove Characters" EditableText="[SortRemoveCharacters]" />
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Replace Characters" EditableText="[SortReplaceCharacters]" />
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Replace Words (| sep.)" EditableText="[SortReplaceWords]" />
-											-->
-													<Text Content="Updates" Font="font://s:ConfigTitleFont" Color="White"/>
-													<cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" />
-													<cb:CheckBox Label="Beta Updates" Checked="[EnableBetas]"  />
+      <BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
+      <BooleanChoice Name="AutoEnterSingleDirs" Value="[Application.Config.AutoEnterSingleDirs]" />
+      <BooleanChoice Name="DefaultShowLabels" Value="[Application.Config.DefaultShowLabels]" />
+      <BooleanChoice Name="DefaultVerticalScroll" Value="[Application.Config.DefaultVerticalScroll]" />
+      <EditableText Name="InitialFolder" Value="[Application.Config.InitialFolder]" />
+      <EditableText Name="ImageByNameLocation" Value="[Application.Config.ImageByNameLocation]" />
+      <EditableText Name="ExtenderNativeTypes" Value="[Application.Config.ExtenderNativeTypes]" />
+      <EditableText Name="DaemonToolsLocation" Value="[Application.Config.DaemonToolsLocation]" />
+      <EditableText Name="DaemonToolsDrive" Value="[Application.Config.DaemonToolsDrive]" />
+      <EditableText Name="SortRemoveCharacters" Value="[Application.Config.SortRemoveCharacters]" />
+      <EditableText Name="SortReplaceCharacters" Value="[Application.Config.SortReplaceCharacters]" />
+      <EditableText Name="SortReplaceWords" Value="[Application.Config.SortReplaceWords]" />
 
-													<Text Content="Extenders" Font="font://s:ConfigTitleFont" Color="White" />
-													<cb:CheckBox Label="Transcode360" Checked="[EnableTranscode360]"  />
-													<te:TextEdit LabelSize="[LabelSize1]" Label="Extender Native Types" EditableText="[ExtenderNativeTypes]"  />
+      <IntRangedValue Name="PlaylistLimit" Value="[Application.Config.PlaylistLimit]" MaxValue="100" MinValue="0" Step="1" />
+      <IntRangedValue Name="BreadcrumbCount" Value="[Application.Config.BreadcrumbCountLimit]" MaxValue="10" MinValue="1" Step="1"/>
+      <IntRangedValue Name="GridSpacing" Value="[Application.Config.GridSpacingCfg]" MaxValue="50" MinValue="0" Step="2"/>
+      <IntRangedValue Name="DefaultPosterSize" Value="[Application.Config.DefaultPosterSizeCfg]" MaxValue="1000" MinValue="60" Step="10" />
+      <IntRangedValue Name="ThumbStripPosterWidth" Value="[Application.Config.ThumbStripPosterWidth]" MaxValue="1200" MinValue="200" Step="10" />
 
-													<Text Content="ISO Playback, Daemon Tools" Font="font://s:ConfigTitleFont" Color="White"/>
-													<te:TextEdit LabelSize="[LabelSize1]" Label="Location" EditableText="[DaemonToolsLocation]" EditSize="150,0"/>
-													<te:TextEdit LabelSize="[LabelSize1]" Label="Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" EditSize="50,0"/>
-												</Children>
-											</Panel>
-										</Children>
-									</Panel>
-								</Children>
-							</Panel>
+      <ScrollingData Name="SD" BeginPadding="150" EndPadding="150"/>
+      <Inset Name="SMargin" Inset="10,0,0,0" />
+      <Inset Name="CMargin" Inset="25,0,0,0" />
+      <Choice Name="Model">
+        <Options>
+          <cor:String String="General" />
+          <cor:String String="Behavior" />
+          <cor:String String="Media Tracking" />
+          <cor:String String="Display" />
+          <cor:String String="Other" />
+        </Options>
+      </Choice>
 
-							<Panel Layout="HorizontalFlow">
-								<LayoutInput>
-									<FormLayoutInput Right="Parent,1,-40" Bottom="Parent,1,-40"  />
-								</LayoutInput>
-								<Children>
-									<sb:SimpleButton  Name="ContinueBtn" Text="Continue" Command="[Close]" Visible="false" Size="200,50"/>
-									<sb:SimpleButton FocusOrder="1" Name="BackBtn" Text="Continue" Command="[Back]" Visible="true" Size="200,50"/>
-									<sb:SimpleButton Name="ResetConfigBtn" Text="Reset Defaults" Command="[ResetConfig]" Visible="true" Size="200,50"/>
-									<sb:SimpleButton Name="ClearCacheBtn" Text="Clear Cache" Command="[ClearCache]" Visible="true" Size="200,50"/>
-									
-								</Children>
-							</Panel>
-							
-							<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
-						
-					</Children>
-					</Clip>
-					
-				</Children>
-			</Panel>
+    </Locals>
 
-		</Content>
+    <Rules>
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="true"/>
+          <Set Target="[Panel2.Visible]" Value="false"/>
+          <Set Target="[Panel3.Visible]" Value="false"/>
+          <Set Target="[Panel4.Visible]" Value="false"/>
+          <Set Target="[Panel5.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="1"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="false"/>
+          <Set Target="[Panel2.Visible]" Value="true"/>
+          <Set Target="[Panel3.Visible]" Value="false"/>
+          <Set Target="[Panel4.Visible]" Value="false"/>
+          <Set Target="[Panel5.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="2"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="false"/>
+          <Set Target="[Panel2.Visible]" Value="false"/>
+          <Set Target="[Panel3.Visible]" Value="true"/>
+          <Set Target="[Panel4.Visible]" Value="false"/>
+          <Set Target="[Panel5.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="3"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="false"/>
+          <Set Target="[Panel2.Visible]" Value="false"/>
+          <Set Target="[Panel3.Visible]" Value="false"/>
+          <Set Target="[Panel4.Visible]" Value="true"/>
+          <Set Target="[Panel5.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="4"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="false"/>
+          <Set Target="[Panel2.Visible]" Value="false"/>
+          <Set Target="[Panel3.Visible]" Value="false"/>
+          <Set Target="[Panel4.Visible]" Value="false"/>
+          <Set Target="[Panel5.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
 
-	</UI>
 
-	<UI Name="AssumeWatchedEdit">
-		<Properties>
-			<cor:String Name="Label" String=""/>
-			<a:Config Name="Config" Config="$Required"/>
-		</Properties>
-		<Locals>
-			<Command Name="Increase" />
-			<Command Name="Decrease"/>
-		</Locals>
-		<Rules>
-			<Binding Target="[DateLbl.Content]" Source="[Config.AssumeWatchedBeforeStr]" />
-			<Binding Source="[Label]" Target="[Lbl.Content]" />
-			<Changed Source="[Increase.Invoked]">
-				<Actions>
-					<Invoke Target="[Config.IncrementAssumeWatched]" />
-				</Actions>
-			</Changed>
-			<Changed Source="[Decrease.Invoked]">
-				<Actions>
-					<Invoke Target="[Config.DecrementAssumeWatched]" />
-				</Actions>
-			</Changed>
-		</Rules>
-		<Content>
-			<Panel Layout="HorizontalFlow" Navigation="Row">
-				<Children>
-					<Text Name="Lbl" Color="color://s:OurLightBlue" Font="Segoe Media Center Semibold,16" />
-					<vm:ImageBtn Focused="image://i:DecrementFocus" NonFocused="image://i:DecrementNoFocus" Command="[Decrease]"/>
-					<Text Name="DateLbl" Color="White" Font="Segoe Media Center Semibold,16" />
-					<vm:ImageBtn Focused="image://i:IncrementFocus" NonFocused="image://i:IncrementNoFocus" Command="[Increase]"/>
-				</Children>
-			</Panel>
-		</Content>
-	</UI>
+      <Changed Source="[Close.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.FinishInitialConfig]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Back.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.Back]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[ClearCache.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.ClearCache]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[ResetConfig.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.ResetConfig]" />
+        </Actions>
+      </Changed>
+      <Condition Source="[Config.IsFirstRun]" SourceValue="true">
+        <Actions>
+          <Set Target="[ContinueBtn.Visible]" Value="true"/>
+          <Set Target="[BackBtn.Visible]" Value="false"/>
+          <Set Target="[Config.IsFirstRun]" Value="false" />
+          <Set Target="[ClearCacheBtn.Visible]" Value="false"/>
+          <Set Target="[ResetConfigBtn.Visible]" Value="false"/>
+        </Actions>
+      </Condition>
+      <Binding Source="[EnableTraceLogging.Value]" Target="[Config.EnableTraceLogging]" />
+      <Binding Source="[EnableTranscode360.Value]" Target="[Config.EnableTranscode360]" />
+      <Binding Source="[TransparentBackground.Value]" Target="[Config.TransparentBackground]" />
+      <Binding Source="[EnableNestedMovieFolders.Value]" Target="[Config.EnableNestedMovieFolders]" />
+      <Binding Source="[EnableMoviePlaylists.Value]" Target="[Config.EnableMoviePlaylists]" />
+      <Binding Source="[EnableUpdates.Value]" Target="[Config.EnableUpdates]" />
+      <Binding Source="[EnableBetas.Value]" Target="[Config.EnableBetas]" />
+      <Binding Source="[EnableAlphanumericSorting.Value]" Target="[Config.EnableAlphanumericSorting]" />
+      <Binding Source="[EnableListViewTicks.Value]" Target="[Config.EnableListViewTicks]" />
+      <Binding Source="[ShowUnwatchedCount.Value]" Target="[Config.ShowUnwatchedCount]" />
+      <Binding Source="[ShowWatchedTickOnFolders.Value]" Target="[Config.ShowWatchedTickOnFolders]" />
+      <Binding Source="[ShowWatchTickInPosterView.Value]" Target="[Config.ShowWatchTickInPosterView]" />
+      <Binding Source="[AllowInternetMetadataProviders.Value]" Target="[Config.AllowInternetMetadataProviders]" />
+      <Binding Source="[EnableFileWatching.Value]" Target="[Config.EnableFileWatching]" />
+      <Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
+      <Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
+      <Binding Source="[DefaultMaximizeMovieOverview.Value]" Target="[Config.DefaultMaximizeMovieOverview]" />
+      <Binding Source="[DefaultMaximizeMovieActor.Value]" Target="[Config.DefaultMaximizeMovieActor]" />
+      <Binding Source="[EnableMovieBackdropFilter.Value]" Target="[Config.EnableMovieBackdropFilter]" />
 
+      <Binding Source="[DefaultToFirstUnwatched.Value]" Target="[Config.DefaultToFirstUnwatched]" />
+      <Binding Source="[AutoEnterSingleDirs.Value]" Target="[Config.AutoEnterSingleDirs]" />
+      <Binding Source="[DefaultShowLabels.Value]" Target="[Config.DefaultShowLabels]" />
+      <Binding Source="[DefaultVerticalScroll.Value]" Target="[Config.DefaultVerticalScroll]" />
+      <Binding Source="[InitialFolder.Value]" Target="[Config.InitialFolder]" />
+      <Binding Source="[ImageByNameLocation.Value]" Target="[Config.ImageByNameLocation]" />
+      <Binding Source="[ExtenderNativeTypes.Value]" Target="[Config.ExtenderNativeTypes]" />
+      <Binding Source="[DaemonToolsLocation.Value]" Target="[Config.DaemonToolsLocation]" />
+      <Binding Source="[DaemonToolsDrive.Value]" Target="[Config.DaemonToolsDrive]" />
+      <Binding Source="[SortRemoveCharacters.Value]" Target="[Config.SortRemoveCharacters]" />
+      <Binding Source="[SortReplaceCharacters.Value]" Target="[Config.SortReplaceCharacters]" />
+      <Binding Source="[SortReplaceWords.Value]" Target="[Config.SortReplaceWords]" />
+
+      <Binding Source="[PlaylistLimit.Value]" Target="[Config.PlaylistLimit]" />
+      <Binding Source="[BreadcrumbCount.Value]" Target="[Config.BreadcrumbCountLimit]" />
+      <Binding Source="[GridSpacing.Value]" Target="[Config.GridSpacingCfg]" />
+      <Binding Source="[DefaultPosterSize.Value]" Target="[Config.DefaultPosterSizeCfg]" />
+      <Binding Source="[ThumbStripPosterWidth.Value]" Target="[Config.ThumbStripPosterWidth]" />
+
+      <Condition Source="[ShowFull]" ConditionOp="Equals"  SourceValue="true" >
+        <Actions>
+          <Set Target="[InitialConfig.Visible]" Value="false" />
+          <Set Target="[FullConfig.Visible]" Value="true" />
+          <Set Target="[FullConfigNav.Visible]" Value="true" />
+          <Invoke Target="[FullConfigNav.NavigateInto]" />
+        </Actions>
+      </Condition>
+      <Condition Source="[ShowFull]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Set Target="[InitialConfig.Visible]" Value="true" />
+          <Set Target="[FullConfig.Visible]" Value="false" />
+          <Set Target="[FullConfigNav.Visible]" Value="false" />
+        </Actions>
+      </Condition>
+      <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
+        <Transformer>
+          <BooleanTransformer Inverse="true"/>
+        </Transformer>
+      </Binding>
+
+    </Rules>
+
+    <Content>
+      <Panel Layout="Form">
+        <Children>
+          <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
+            <Children>
+              <Clip Name="Title" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
+                </LayoutInput>
+                <Children>
+                  <Text Content="Configuration" Font="Segoe Media Center Light, 36" Color="color://s:MediumBlue">
+                  </Text>
+                </Children>
+              </Clip>
+              <Panel Name="MainPanel" Layout="Center">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,0.05" Right="Parent,0.95" Top="Parent,0,80" Bottom="Parent,1,-100"  />
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="InitialConfig" Content="image://me:50AlphaBg" Navigation="Column" Layout="VerticalFlow" MinimumSize="500,500" MaximumSize="500,0" Padding="[SMargin]">
+
+                    <Children>
+                      <me:TextHeader Text="General" />
+                      <te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" />
+
+                      <me:TextHeader Text="Tracking" />
+                      <me:AssumeWatchedEdit Label="Assume Watched If Older Than" Config="[Application.Config]" Margins="[CMargin]" />
+
+                      <me:TextHeader Text="Metadata" />
+                      <cb:CheckBox Label="Allow Internet Based Providers" Checked="[AllowInternetMetadataProviders]" Margins="[CMargin]"  />
+
+                      <me:TextHeader Text="Updates" />
+                      <cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" Margins="[CMargin]" />
+
+                      <me:TextHeader Text="ISO Playback" />
+                      <te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Location" EditableText="[DaemonToolsLocation]" Margins="[CMargin]" />
+                      <te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" Margins="[CMargin]"/>
+
+                    </Children>
+                  </Graphic>
+
+
+                  <!-- Background brightening (creates the darker strips on top/bottom -->
+                  <ColorFill Content="White" Alpha="0.1">
+                    <LayoutInput>
+                      <FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
+                    </LayoutInput>
+                  </ColorFill>
+                </Children>
+              </Panel>
+
+              <Panel Layout="HorizontalFlow">
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,1,-40" Bottom="Parent,1,-40"  />
+                </LayoutInput>
+                <Children>
+                  <sb:SimpleButton  Name="ContinueBtn" Text="Continue" Command="[Close]" Visible="false" Size="200,50"/>
+                  <sb:SimpleButton FocusOrder="1" Name="BackBtn" Text="Continue" Command="[Back]" Visible="true" Size="200,50"/>
+                  <sb:SimpleButton Name="ResetConfigBtn" Text="Reset Defaults" Command="[ResetConfig]" Visible="true" Size="200,50"/>
+                  <sb:SimpleButton Name="ClearCacheBtn" Text="Clear Cache" Command="[ClearCache]" Visible="true" Size="200,50"/>
+
+                </Children>
+              </Panel>
+
+            </Children>
+          </Clip>
+
+          <!-- Configuration Options selector -->          
+          <pv:Pivot Model="[Model]" Name="FullConfigNav">
+            <LayoutInput>
+              <FormLayoutInput Horizontal="Near" Top="Parent,0.15" />
+            </LayoutInput>
+          </pv:Pivot>
+
+          <Panel Name="FullConfig" Layout="Anchor">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0.1" Top="Parent,0.15,100" />
+            </LayoutInput>
+            <Children>
+
+              <Graphic Name="Panel1" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="General" />
+                  <cb:CheckBox Label="Transparent Background" Checked="[TransparentBackground]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Logging" Checked="[EnableTraceLogging]"  Margins="[CMargin]" />
+                  <te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" />
+                  <me:TextHeader Text="Metadata" />
+                  <cb:CheckBox Label="Allow Internet Based Providers" Checked="[AllowInternetMetadataProviders]" Margins="[CMargin]"  />
+                  <me:TextHeader Text="Updates" />
+                  <cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" Margins="[CMargin]" />
+                  <cb:CheckBox Label="Beta Updates" Checked="[EnableBetas]" Margins="[CMargin]"  />
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Panel2" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="Behavior" />
+                  <cb:CheckBox Label="Allow Nested Movie Folders" Checked="[EnableNestedMovieFolders]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Movie Playlists" Checked="[EnableMoviePlaylists]"  Margins="[CMargin]" />
+                  <cb:CheckBox Label="Auto Enter Single Folder Items" Checked="[AutoEnterSingleDirs]" Margins="[CMargin]"  />
+                  <vm:IntSpin Label="Playlist Size Limit" Int="[PlaylistLimit]" Margins="[CMargin]"  />
+                  <vm:IntSpin Label="Breadcrumb Count" Int="[BreadcrumbCount]" Margins="[CMargin]"  />
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Panel3" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="Media Tracking" />
+                  <cb:CheckBox Label="Show Unwatched Count" Checked="[ShowUnwatchedCount]" Margins="[CMargin]" />
+                  <cb:CheckBox Label="Watched Indicator on Folders" Checked="[ShowWatchedTickOnFolders]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Watched Indicator on Videos" Checked="[ShowWatchTickInPosterView]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Watched Indicator in Detail View" Checked="[EnableListViewTicks]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Default To First Unwatched Item" Checked="[DefaultToFirstUnwatched]" Margins="[CMargin]"  />
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Panel4" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="Display" />
+                  <vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
+                  <vm:IntSpin Label="Thumbstrip split size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" Margins="[CMargin]" />
+                  <me:TextHeader Text="Movie Details View" />
+                  <cb:CheckBox Label="Always Maximize Movie Overview" Checked="[DefaultMaximizeMovieOverview]" Margins="[CMargin]" />
+                  <cb:CheckBox Label="Always Maximize Movie Actor" Checked="[DefaultMaximizeMovieActor]" Margins="[CMargin]" />
+                  <cb:CheckBox Label="Movie Page Backdrop Filter" Checked="[EnableMovieBackdropFilter]" Margins="[CMargin]" />
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Panel5" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="Extenders" />
+                  <cb:CheckBox Label="Transcode360" Checked="[EnableTranscode360]" Margins="[CMargin]"  />
+                  <te:TextEdit LabelSize="[LabelSize1]" Label="Extender Native Types" EditableText="[ExtenderNativeTypes]" Margins="[CMargin]" />
+                  <me:TextHeader Text="ISO Playback, Daemon Tools" />
+                  <te:TextEdit LabelSize="[LabelSize1]" Label="Location" EditableText="[DaemonToolsLocation]" EditSize="150,0" Margins="[CMargin]"/>
+                  <te:TextEdit LabelSize="[LabelSize1]" Label="Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" EditSize="50,0" Margins="[CMargin]"/>
+                </Children>
+              </Graphic>
+
+            </Children>
+          </Panel>
+
+          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+
+        </Children>
+      </Panel>
+
+    </Content>
+
+  </UI>
+
+  <UI Name="AssumeWatchedEdit">
+    <Properties>
+      <cor:String Name="Label" String=""/>
+      <a:Config Name="Config" Config="$Required"/>
+    </Properties>
+    <Locals>
+      <Command Name="Increase" />
+      <Command Name="Decrease"/>
+    </Locals>
+    <Rules>
+      <Binding Target="[DateLbl.Content]" Source="[Config.AssumeWatchedBeforeStr]" />
+      <Binding Source="[Label]" Target="[Lbl.Content]" />
+      <Changed Source="[Increase.Invoked]">
+        <Actions>
+          <Invoke Target="[Config.IncrementAssumeWatched]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Decrease.Invoked]">
+        <Actions>
+          <Invoke Target="[Config.DecrementAssumeWatched]" />
+        </Actions>
+      </Changed>
+    </Rules>
+    <Content>
+      <Panel Layout="HorizontalFlow" Navigation="Row">
+        <Children>
+          <Text Name="Lbl" Color="color://s:OurLightBlue" Font="Segoe Media Center Semibold,16" />
+          <vm:ImageBtn Focused="image://i:DecrementFocus" NonFocused="image://i:DecrementNoFocus" Command="[Decrease]"/>
+          <Text Name="DateLbl" Color="White" Font="Segoe Media Center Semibold,16" />
+          <vm:ImageBtn Focused="image://i:IncrementFocus" NonFocused="image://i:IncrementNoFocus" Command="[Increase]"/>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <UI Name="TextHeader">
+    <Properties>
+      <cor:String Name="Text" String="$Required" />
+      <Color Name="Color" Color="White" />
+      <Font Name="Font" Font="Segoe UI Semibold, 20" />
+      <Inset Name="Margin" Inset="10,15,10,15"/>
+    </Properties>
+    <Content>
+      <Text Color="[Color]" Content="[Text]" Font="[Font]" Margins="[Margin]" />
+    </Content>
+  </UI>
+
+
+  <UI Name="SectionHeading">
+
+    <Properties>
+      <cor:String Name="Text" String="" />
+      <Size Name="Size" Size="0,0" />
+      <Color Name="Color" Color="White"/>
+      <Font Name="Font" Font="Segoe UI Semibold, 20" />
+      <Choice Name="Model" Choice="$Required"/>
+      <cor:Int32 Name="Index" />
+    </Properties>
+
+    <Rules>
+
+      <Binding Source="[Text]" Target="[Label.Content]" />
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Model.ChosenIndex]" Value="[Index]"/>
+        </Actions>
+      </Condition>
+
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="[Index]"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Fill.Content]" Value="LightBlue"/>
+        </Actions>
+      </Changed>
+      
+    </Rules>
+
+    <Content>
+
+      <Panel>
+        <Children>
+          <ColorFill Name="Stuff"
+                   Content="Transparent"
+                   Padding="12,7,12,7"
+                   MouseInteractive="true"
+                   MinimumSize="[Size]"
+                   MaximumSize="[Size]"
+				   Layout="HorizontalFlow"
+                   >
+            <Children>
+              <Text Name="Label" Color="[Color]" Margins="0,0,0,0" Font="[Font]" HorizontalAlignment="Near" />
+            </Children>
+          </ColorFill>
+
+
+          <ColorFill Name="Fill"
+                   Content="Transparent"
+                   Padding="12,7,12,7"
+                   MinimumSize="[Size]"
+                   MaximumSize="[Size]"
+                     Alpha="0.4"
+                   />
+          
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+
+
+  <Image Name="50AlphaBg" Source="resx://MediaBrowser/MediaBrowser.Resources/BlackBtnAlpha50" NineGrid="10,10,10,10" />
 </Mcml>

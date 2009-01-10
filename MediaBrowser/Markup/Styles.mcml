@@ -39,7 +39,7 @@
 	<Color Name="MediumBlue" Color="255, 2, 166, 212"/>
 	<Color Name="ZoomBackgroundBlue" Color="255, 32, 83, 136"/>
 	<Color Name="OurLightBlue" Color="255, 151, 217, 255"/>
-
+  <Color Name="CustomLightBlue" Color="255, 95, 196, 255"/>
 
 	<Font Name="CheckBoxFont" Font="Segoe Media Center Semibold,16" />
 	<Color Name="CheckBoxColor" Color="255, 151, 217, 255"/>
