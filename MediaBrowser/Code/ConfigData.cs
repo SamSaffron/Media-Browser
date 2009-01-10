@@ -59,9 +59,6 @@ namespace MediaBrowser
         public bool ShowIndexWarning = true;
         public double IndexWarningThreshold = 0.1;
         public string PreferredMetaDataLanguage = "en";
-        public bool DefaultMaximizeMovieOverview = true;
-        public bool DefaultMaximizeMovieActor = false;
-        public bool EnableMovieBackdropFilter = true;
 
         public ConfigData()
         {
