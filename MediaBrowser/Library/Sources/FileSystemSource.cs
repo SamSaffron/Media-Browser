@@ -41,7 +41,10 @@ namespace MediaBrowser.Library.Sources
             this.uniqueName = UniqueName.Fetch("FSS:" + path, true);
         }
 
-       
+        public string Path
+        {
+            get { return this.path; }
+        }
 
         public override void PrepareToConstruct()
         {
@@ -128,7 +131,7 @@ namespace MediaBrowser.Library.Sources
             {
                 if (isFolder)
                 {
-                    if (Array.IndexOf<string>(ignore, Path.GetFileName(path).ToLower()) < 0)
+                    if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
                         return new FileSystemSource(path);
                     else
                         return null;
@@ -142,7 +145,7 @@ namespace MediaBrowser.Library.Sources
                         if (Directory.Exists(location) || File.Exists(location))
                             return ss;
                     }
-                    else if (Array.IndexOf<string>(ignore, Path.GetFileName(path).ToLower()) < 0)
+                    else if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
                     {
                         if (Helper.IsVirtualFolder(path))
                             return new VirtualFolderSource(path);
@@ -158,7 +161,7 @@ namespace MediaBrowser.Library.Sources
         {
             if (Helper.IsShortcut(path))
                 return new ShortcutSource(path);
-            else if (Array.IndexOf<string>(ignore, Path.GetFileName(path).ToLower()) < 0)
+            else if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
             {
                 if (Helper.IsVirtualFolder(path))
                     return new VirtualFolderSource(path);
@@ -177,9 +180,9 @@ namespace MediaBrowser.Library.Sources
             get
             {
                 if (Helper.IsFolder(path))
-                    return Path.GetFileName(path);
+                    return System.IO.Path.GetFileName(path);
                 else
-                    return Path.GetFileNameWithoutExtension(path);
+                    return System.IO.Path.GetFileNameWithoutExtension(path);
             }
         }
         public override DateTime CreatedDate

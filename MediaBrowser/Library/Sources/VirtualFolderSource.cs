@@ -25,51 +25,84 @@ namespace MediaBrowser.Library.Sources
         {
             this.vfFile = vfFile;
             this.uniqueName = UniqueName.Fetch("VFF:" + vfFile, true);
-            var fileInfo = new FileInfo(this.vfFile);
-            createdDate = fileInfo.CreationTime;
-            foreach (var line in File.ReadAllLines(vfFile))
-            {
-                if (line.StartsWith("image:"))
-                {
-                    // TODO: test if it is a valid image
-                    string thumbPath = line.Substring(6).Trim();
-                    if ((thumbPath.StartsWith(@".\")) || (thumbPath.StartsWith(@"..\")))
-                    {
-                        thumbPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(vfFile), thumbPath);
-                        thumbPath = System.IO.Path.GetFullPath(thumbPath);
-                    }
-                    if (!IsValidPath(thumbPath) || !File.Exists(thumbPath))
-                    {
-                        Application.DialogBoxViaReflection("Invalid virtual folder thumbnail path: " + thumbPath);
-                    }
-                    else
-                    {
-                        this.thumbPath = thumbPath;
-                    }
-                }
-                else if (line.StartsWith("folder:"))
-                {
-                    string folderPath = line.Substring(7).Trim();
-                    if ((folderPath.StartsWith(@".\")) || (folderPath.StartsWith(@"..\")))
-                    {
-                        folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(vfFile), folderPath);
-                        folderPath = System.IO.Path.GetFullPath(folderPath);
-                    }
+            LoadVfFile(vfFile);
+        }
 
-                    if (!IsValidPath(folderPath) || !Directory.Exists(folderPath))
+        private void LoadVfFile(string vfFile)
+        {
+            var fileInfo = new FileInfo(this.vfFile);
+            DateTime dt = fileInfo.LastWriteTimeUtc;
+            if (createdDate != dt)
+            {
+                createdDate = dt;
+                lock (sources)
+                {
+                    List<string> foundPaths = new List<string>();
+                    foreach (var line in File.ReadAllLines(vfFile))
                     {
-                        Application.DialogBoxViaReflection("Invalid virtual folder path: " + folderPath);
+                        if (line.StartsWith("image:"))
+                        {
+                            // TODO: test if it is a valid image
+                            string thumbPath = line.Substring(6).Trim();
+                            if ((thumbPath.StartsWith(@".\")) || (thumbPath.StartsWith(@"..\")))
+                            {
+                                thumbPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(vfFile), thumbPath);
+                                thumbPath = System.IO.Path.GetFullPath(thumbPath);
+                            }
+                            if (!IsValidPath(thumbPath) || !File.Exists(thumbPath))
+                            {
+                                Application.DialogBoxViaReflection("Invalid virtual folder thumbnail path: " + thumbPath);
+                            }
+                            else
+                            {
+                                this.thumbPath = thumbPath;
+                            }
+                        }
+                        else if (line.StartsWith("folder:"))
+                        {
+                            string folderPath = line.Substring(7).Trim();
+                            if ((folderPath.StartsWith(@".\")) || (folderPath.StartsWith(@"..\")))
+                            {
+                                folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(vfFile), folderPath);
+                                folderPath = System.IO.Path.GetFullPath(folderPath);
+                            }
+
+                            if (!IsValidPath(folderPath) || !Directory.Exists(folderPath))
+                            {
+                                Application.DialogBoxViaReflection("Invalid virtual folder path: " + folderPath);
+                            }
+                            else
+                            {
+
+                                foundPaths.Add(folderPath);
+                                if (!paths.Contains(folderPath))
+                                {
+                                    paths.Add(folderPath);
+                                    FileSystemSource s = new FileSystemSource(folderPath);
+                                    s.NewItem += new NewItemHandler(s_NewItem);
+                                    s.RemoveItem += new RemoveItemHandler(s_RemoveItem);
+                                    sources.Add(s);
+                                }
+                            }
+                        }
                     }
-                    else
+                    for (int i = 0 ; i < paths.Count ; ++i)
                     {
-                        
-                        paths.Add(folderPath);
-                        FileSystemSource s = new FileSystemSource(folderPath);
-                        s.NewItem += new NewItemHandler(s_NewItem);
-                        s.RemoveItem += new RemoveItemHandler(s_RemoveItem);
-                        sources.Add(s);
+                        if (!foundPaths.Contains(paths[i]))
+                        {
+                            string path = paths[i];
+                            paths.RemoveAt(i);
+                            i--;
+                            for (int j = 0 ; j < this.sources.Count ; ++j)
+                                if (this.sources[j].Path == path)
+                                {
+                                    sources.RemoveAt(j);
+                                    break;
+                                }
+                        }
                     }
                 }
+                ItemCache.Instance.SaveSource(this);
             }
         }
 
@@ -116,6 +149,7 @@ namespace MediaBrowser.Library.Sources
             {
                 lock (sources)
                 {
+                    LoadVfFile(this.vfFile);
                     if (sources.Count == 0)
                         foreach (string path in paths)
                             sources.Add(new FileSystemSource(path, ItemType.Folder));

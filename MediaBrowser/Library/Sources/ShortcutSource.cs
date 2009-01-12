@@ -28,7 +28,7 @@ namespace MediaBrowser.Library.Sources
         {
             get
             {
-                return Path.GetFileNameWithoutExtension(this.path);
+                return System.IO.Path.GetFileNameWithoutExtension(this.path);
             }
         }
         protected override void WriteStream(BinaryWriter bw)
