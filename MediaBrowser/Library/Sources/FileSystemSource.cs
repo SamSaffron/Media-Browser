@@ -253,7 +253,9 @@ namespace MediaBrowser.Library.Sources
                     lock (this)
                         if (playable == null)
                         {
-                            if (PlayableVideoFile.CanPlay(this.path))
+                            if (PlayableExternal.CanPlay(this.path))
+                                playable = new PlayableExternal(this.path);
+                            else if (PlayableVideoFile.CanPlay(this.path))
                                 playable = new PlayableVideoFile(this.path);
                             else if (PlayableFolder.CanPlay(this.path))
                                 playable = new PlayableFolder(this.path);

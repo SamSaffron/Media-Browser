@@ -43,7 +43,7 @@ namespace MediaBrowser.Library
     /// <summary>
     /// Encapsulates play back of different types of item. Builds playlists, mounts iso etc. where appropriate
     /// </summary>
-    abstract class PlayableItem
+    public abstract class PlayableItem
     {
         static PlayableItem previousPlayable;
 

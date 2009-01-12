@@ -260,10 +260,11 @@ namespace MediaBrowser.Library
                 if (this.Source.IsPlayable)
                     this.Source.PlayableItem.Play(this.PlayState, true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
                 ev.Dialog("There was a problem playing the content. Check location exists\n" + this.source.Location, "Content Error", DialogButtons.Ok, 60, true);
+                Trace.TraceError("Error resuming: " + this.Source.Name + "\n" + ex.ToString());
             }
         }
 

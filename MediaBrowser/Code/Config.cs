@@ -311,7 +311,13 @@ namespace MediaBrowser
             get { return this.data.EnableFileWatching; }
             set { if (this.data.EnableFileWatching != value) { this.data.EnableFileWatching = value; Save(); FirePropertyChanged("EnableFileWatching"); } }
         }
-        
+
+        internal List<ConfigData.ExternalPlayer> ExternalPlayers
+        {
+            get { return this.data.ExternalPlayers; }
+            //set { if (this.data.ExternalPlayers != value) { this.data.ExternalPlayers = value; Save(); FirePropertyChanged("ExternalPlayers"); } }
+        }
+
         [Comment("List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted.")]
         public string SortRemoveCharacters
         {

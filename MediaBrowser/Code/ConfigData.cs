@@ -10,6 +10,7 @@ using Microsoft.MediaCenter.UI;
 using MediaBrowser.Library;
 using MediaBrowser.LibraryManagement;
 using System.Xml.Serialization;
+using MediaBrowser.Library.Playables;
 
 namespace MediaBrowser
 {
@@ -59,6 +60,14 @@ namespace MediaBrowser
         public bool ShowIndexWarning = true;
         public double IndexWarningThreshold = 0.1;
         public string PreferredMetaDataLanguage = "en";
+        public List<ExternalPlayer> ExternalPlayers = new List<ExternalPlayer>();
+
+        public class ExternalPlayer
+        {
+            public PlayableExternal.MediaTypes MediaType { get; set; }
+            public string Command { get; set; }
+            public string Args { get; set; }
+        }
 
         public ConfigData()
         {
