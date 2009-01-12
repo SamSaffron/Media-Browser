@@ -131,6 +131,7 @@ namespace MediaBrowser.Library.Providers
                 string seasonNumber = item.PhysicalParent.Metadata.SeasonNumber;
                 if (string.IsNullOrEmpty(seasonNumber))
                     seasonNumber = Helper.SeasonNumberFromEpisodeFile(location); // try and extract the season number from the file name for S1E1, 1x04 etc.
+                seasonNumber = seasonNumber.TrimStart('0');
                 if (!string.IsNullOrEmpty(seasonNumber))
                 {
                     XmlDocument doc = Fetch(string.Format(episodeQuery, apiKey, seriesId, seasonNumber, episodeNumber, Config.Instance.PreferredMetaDataLanguage));
