@@ -235,7 +235,7 @@ namespace MediaBrowser.Library
             }
         }
 
-        private static bool RunningOnExtender
+        protected static bool RunningOnExtender
         {
             get
             {

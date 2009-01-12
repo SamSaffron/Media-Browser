@@ -43,6 +43,8 @@ namespace MediaBrowser.Library.Playables
 
         public static bool CanPlay(string path)
         {
+            if (RunningOnExtender)
+                return false;
             if (configuredPlayers==null)
                 lock(lck)
                     if (configuredPlayers==null)
