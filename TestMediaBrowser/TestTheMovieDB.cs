@@ -145,7 +145,7 @@ namespace TestMediaBrowser
         [TestMethod]
         public void TestSpecificMovieMatch()
         {
-            string name = "E.T. The Extra-Terrestrial";
+            string name = "Flight of the Phoenix (2004)";
             string match;
             string[] possibles;
             MovieDbProvider.FindId(name, out match, out possibles);

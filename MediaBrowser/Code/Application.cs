@@ -191,7 +191,6 @@ namespace MediaBrowser
         }
 
         private static Application singleApplicationInstance;
-        //private static AddInHost host;
         private MyHistoryOrientedPageSession session;
 
         private static object syncObj = new object();
@@ -207,20 +206,8 @@ namespace MediaBrowser
         private static Dictionary<char, List<char>> letterMap = new Dictionary<char, List<char>>();
         static Application()
         {
-            // init the letter map for JIL list 
-            /*
-            AddLetterMapping('2',"abc2");
-            AddLetterMapping('3',"def3");
-            AddLetterMapping('4',"ghi4");
-            AddLetterMapping('5',"jkl5");
-            AddLetterMapping('6',"mno6");
-            AddLetterMapping('7',"pqrs7");
-            AddLetterMapping('8', "tuv8");
-            AddLetterMapping('9',"wxyz9");
-             */
+            
         }
-
-
 
 
 
@@ -230,27 +217,16 @@ namespace MediaBrowser
 
         }
 
-        // System.Threading.Timer keepAliveTimer;
-
+        
         public Application(MyHistoryOrientedPageSession session, Microsoft.MediaCenter.Hosting.AddInHost host)
         {
-
-            //Debugger.Launch();
-            //Thread.Sleep(20000);
 
             this.session = session;
             if (session != null)
             {
                 this.session.Application = this;
             }
-            //Application.host = host;
             singleApplicationInstance = this;
-            /*
-            _JILtext = new EditableText(this.Owner, "JIL");
-            JILtext.Value = "";
-            JILtext.Submitted += new EventHandler(JILtext_Activity);
-             */
-            //keepAliveTimer = new System.Threading.Timer(new TimerCallback(KeepAlive), null, 10000, 60000);
             Debug.WriteLine("Started");
         }
 
