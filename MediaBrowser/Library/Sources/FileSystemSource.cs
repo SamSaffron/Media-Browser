@@ -330,6 +330,10 @@ namespace MediaBrowser.Library.Sources
                                 itemType = ItemType.Movie;
                             else if (Helper.IsDvDFolder(path, files, folders))
                                 itemType = ItemType.Movie;
+                            else if (Helper.IsHDDVDFolder(path, folders))
+                                itemType = ItemType.Movie;
+                            else if (Helper.IsBluRayFolder(path, folders))
+                                itemType = ItemType.Movie;
                             else if (Helper.ContainsSingleMovie(path, files, folders))
                                 itemType = ItemType.Movie;
                             else if (files.Length + folders.Length > 0)

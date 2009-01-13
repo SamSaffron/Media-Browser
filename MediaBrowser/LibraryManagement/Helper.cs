@@ -517,6 +517,32 @@ namespace MediaBrowser.LibraryManagement
             }
         }
 
+        public static bool IsBluRayFolder(string path, string[] folders)
+        {
+            //using (new Profiler(path))
+            {
+                if (folders == null)
+                    folders = Directory.GetDirectories(path);
+                foreach (string f in folders)
+                    if (f.ToUpper().EndsWith("BDMV"))
+                        return true;
+                return false;
+            }
+        }
+
+        public static bool IsHDDVDFolder(string path,  string[] folders)
+        {
+            //using (new Profiler(path))
+            {
+                if (folders == null)
+                    folders = Directory.GetDirectories(path);
+                foreach (string f in folders)
+                    if (f.ToUpper().EndsWith("HVDVD_TS"))
+                        return true;
+                return false;
+            }
+        }
+
         public static int IsoCount(string path, string[] files)
         {
             //using (new Profiler(path))
@@ -586,6 +612,10 @@ namespace MediaBrowser.LibraryManagement
                 if (folders == null)
                     folders = Directory.GetDirectories(path);
                 if (IsDvDFolder(path, files, folders))
+                    return true;
+                if (IsBluRayFolder(path,  folders))
+                    return true;
+                if (IsHDDVDFolder(path, folders))
                     return true;
                 
                 foreach (string f in folders)
