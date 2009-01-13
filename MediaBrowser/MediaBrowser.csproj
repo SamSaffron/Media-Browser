@@ -147,6 +147,8 @@
     <Content Include="Images\DecrementFocused.png" />
     <Content Include="Images\DecrementNoFocus.png" />
     <Content Include="Images\HD.png" />
+    <Content Include="Images\hd1080.png" />
+    <Content Include="Images\hd720.png" />
     <Content Include="Images\IncrementNoFocus.png" />
     <Content Include="Images\IncrementFocused.png" />
     <Content Include="Images\Index.png" />

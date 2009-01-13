@@ -20,6 +20,8 @@
   <Image Name="BackShadow" Source="resx://MediaBrowser/MediaBrowser.Resources/BackShadow" NineGrid="65,65,65,65"/>
 
 	<Image Name="HDLogo" Source="resx://MediaBrowser/MediaBrowser.Resources/HD" />
+	<Image Name="HDLogo1080" Source="resx://MediaBrowser/MediaBrowser.Resources/hd1080" />
+	<Image Name="HDLogo720" Source="resx://MediaBrowser/MediaBrowser.Resources/hd720" />
 	
 	<Image Name="StarEmpty" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Empty" />
 	<Image Name="StarFull" Source="resx://MediaBrowser/MediaBrowser.Resources/Star_Full" />
