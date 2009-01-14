@@ -348,7 +348,8 @@ namespace MediaBrowser.Library
                     IndexByChoice_ChosenChanged(null, null);
                     SortOrders_ChosenChanged(null, null);
                     ShowLabels_PropertyChanged(null, null);
-                    ThumbConstraint_PropertyChanged(null, null);
+					if (this.actualThumbSize.Value.Height!=1)
+						ThumbConstraint_PropertyChanged(null, null);
                 }
                 FirePropertyChanged("DisplayPrefs");
             }
@@ -992,6 +993,8 @@ namespace MediaBrowser.Library
             FirePropertyChanged("UnwatchedCount");
             FirePropertyChanged("ShowUnwatched");
             FirePropertyChanged("UnwatchedCountSting");
+			if (this.prefs != null)
+                UpdateActualThumbSize();
         }
 
         #region Metadata loading and refresh
