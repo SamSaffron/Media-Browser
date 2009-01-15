@@ -19,7 +19,6 @@
   <Color Name="Accent.A" Color="255,255,255"/>
   <Color Name="Accent.B" Color="182,206,0"/>
 
-  <Color Name="OurLightBlue" Color="255, 151, 217, 255"/>
   <!-- Fonts -->
 
   <Font Name="MainMenuSectionTitle" Font="Calibri Bold,48"/>

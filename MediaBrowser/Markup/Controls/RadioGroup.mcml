@@ -31,6 +31,8 @@
 
 		<Properties>
 			<Choice Name="Model" Choice="$Required" />
+      <Size Name="BoxSize" Size="34,34"/>
+      <Font Name="RadioFont" Font="font://s:RadioFont"/>
 		</Properties>
 
 		<Rules>
@@ -50,7 +52,8 @@
 				</Panel>
 		</Content>
 		<Content Name="RadioButton">
-			<me:SimpleRadioButton Model="[Model]" Option="[RepeatedItem!cor:String]" />
+			<me:SimpleRadioButton Model="[Model]" Option="[RepeatedItem!cor:String]" 
+                            BoxSize="[BoxSize]" RadioFont="[RadioFont]" />
 		</Content>
 	</UI>
 
@@ -60,6 +63,7 @@
 			<Choice       Name="Model" Choice="$Required"/>
 			<cor:String   Name="Option" String="$Required"/>
 			<Size Name="BoxSize" Size="34,34"/>
+      <Font Name="RadioFont" Font="font://s:RadioFont"/>
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" HandleEnterSpaceKeys ="true" HandlePrimaryMouseButton ="true" HandlerStage="Bubbled"/>
@@ -186,7 +190,7 @@
 				<Children>
 
 					<Graphic Content="image://i:RadioNoFocus" Name="BoxImage" MinimumSize="[BoxSize]" MaximumSize="[BoxSize]" />
-					<Text Name="OptionLabel" Content="[Option]" Color="color://s:RadioColor" Font="font://s:RadioFont"/>
+					<Text Name="OptionLabel" Content="[Option]" Color="color://s:RadioColor" Font="[RadioFont]"/>
 
 				</Children>
 			</Panel>

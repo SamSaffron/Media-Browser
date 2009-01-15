@@ -359,7 +359,7 @@ namespace MediaBrowser.Library
 
         public string ImdbRatingString
         {
-            get { return (ImdbRating / 2).Value.ToString("0.##"); }
+            get { return (ImdbRating).Value.ToString("0.##"); }
         }
 
         public string MpaaRating

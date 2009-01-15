@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -176,6 +176,12 @@
     <Content Include="Images\Ratings\TV-Y7-FV.png" />
     <Content Include="Images\Ratings\TV-Y7.png" />
     <Content Include="Images\Sort.png" />
+    <Content Include="Images\Special\FilmScreen.png" />
+    <Content Include="Images\Special\Header.png" />
+    <Content Include="Images\Special\Header2.png" />
+    <Content Include="Images\Special\LogoBg.png" />
+    <Content Include="Images\Special\Reel.png" />
+    <Content Include="Images\Special\Ring.png" />
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
@@ -202,6 +208,12 @@
     <Content Include="Markup\Controls\Backdrop.mcml" />
     <Content Include="Markup\Controls\CheckBox.mcml" />
     <Content Include="Images\Application.png" />
+    <Content Include="Markup\Controls\AutoScroller.mcml" />
+    <Content Include="Markup\Controls\GenreButton.mcml" />
+    <Content Include="Markup\Controls\TabItem.mcml" />
+    <Content Include="Markup\Controls\Tab.mcml" />
+    <Content Include="Markup\Views\ViewMovieDefault.mcml" />
+    <Content Include="Markup\Views\ViewMovieMinimal.mcml" />
     <Content Include="Markup\Controls\Pivot.mcml" />
     <Content Include="Markup\Controls\PivotItem.mcml" />
     <Content Include="Markup\Controls\Writers.mcml" />
@@ -235,6 +247,7 @@
     <Content Include="Markup\Controls\PosterView.mcml" />
     <Content Include="Markup\Styles.mcml" />
     <Content Include="Registration.xml" />
+    <Content Include="Setup\info.xml" />
     <Content Include="Setup\mbinfo.xml" />
   </ItemGroup>
   <ItemGroup>

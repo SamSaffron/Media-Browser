@@ -191,6 +191,7 @@
 			<Binding Target="[Summary.Text]" Source="[SelectedItem.Overview]"/>
 			<Binding Target="[LastWatched.Content]" Source="[SelectedItem.PlayState.LastPlayedString]"/>
 			<Binding Target="[LastWatched.Visible]" Source="[SelectedItem.HaveWatched]"/>
+      <Binding Target="[Backdrop.Image]" Source="[SelectedItem.BackdropImage.Image]" />
 		</Rules>
 
 		<Content>
@@ -274,6 +275,12 @@
 						</Children>
 					</Panel>
 
+          <bd:Backdrop2 Name="Backdrop" Image="[Item.BackdropImage.Image]">
+            <LayoutInput>
+              <FormLayoutInput Top="Parent,0" Bottom="Parent,1" Right="Parent,1,0" />
+            </LayoutInput>
+          </bd:Backdrop2>
+
 					<ColorFill Content="White" Alpha="0.1">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.0" Top="Parent,0.0" Bottom="Parent,1" Right="Parent,1"/>
@@ -286,7 +293,7 @@
 		</Content>
 
 		<Content Name="Divider">
-			<Text Content="●" Font="Segoe Media Center,14" WordWrap="false" Color="White" Alpha="0.6" MinimumSize="25,0" />
+			<Text Content="●" Font="Segoe Media Center,14" WordWrap="false" Color="White" Alpha="0.8" MinimumSize="25,0" />
 		</Content>
 	</UI>
 	

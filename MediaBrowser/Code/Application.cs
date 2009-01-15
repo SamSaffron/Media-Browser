@@ -575,6 +575,43 @@ namespace MediaBrowser
             }
         }
 
+        public void NavigateToActor(Actor actor, Item currentMovie)
+        {
+            NavigateToParentItem(currentMovie,
+                item => (item.Metadata.Actors.Find(a => a.Name == actor.Name) != null),
+                IndexType.Actor,
+                actor.Name
+            );
+        }
+
+        
+
+        public void NavigateToGenre(string genre, Item currentMovie)
+        {
+            NavigateToParentItem(currentMovie,
+                item => item.Metadata.Genres.Contains(genre),
+                IndexType.Genre,
+                genre
+            );
+        }
+
+        public void NavigateToParentItem(Item childItem, Predicate<Item> finder, IndexType indexType, string sourceName)
+        {
+            Item i = childItem.PhysicalParent;
+
+            List<Item> movies = new List<Item>();
+            foreach (var item in i.UnsortedChildren)
+            {
+                if (item.Source.ItemType != ItemType.Movie) continue;
+                if (item.Metadata == null) continue;
+
+                if (finder(item)) movies.Add(item); 
+            }
+
+            IndexingSource source = new IndexingSource(sourceName, movies, IndexType.Genre);
+            Navigate(source.ConstructItem());
+        }
+
         public void Navigate(Item item)
         {
             item.Source.ValidateItemType();

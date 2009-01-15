@@ -59,6 +59,7 @@ namespace MediaBrowser
         public bool RememberIndexing = false;
         public bool ShowIndexWarning = true;
         public double IndexWarningThreshold = 0.1;
+        public bool EnableMinimalMovieView = false;
         public string PreferredMetaDataLanguage = "en";
         public List<ExternalPlayer> ExternalPlayers = new List<ExternalPlayer>();
 

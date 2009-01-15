@@ -10,7 +10,7 @@
 	  xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
     xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
 	  xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
-    xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/Pivot"
+      xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/Pivot"
 	  xmlns:me="Me"
 	  >
 
@@ -44,7 +44,7 @@
       <BooleanChoice Name="EnableFileWatching" Value="[Application.Config.EnableFileWatching]" />
       <BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
       <BooleanChoice Name="InheritDefaultView" Value="[Application.Config.InheritDefaultView]" />
-
+      <BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />
 
 
       <BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
@@ -75,6 +75,7 @@
           <cor:String String="Behavior" />
           <cor:String String="Display" />
           <cor:String String="Media Tracking" />          
+          <cor:String String="Themes" />
           <cor:String String="Other" />
         </Options>
       </Choice>
@@ -92,6 +93,7 @@
           <Set Target="[Panel3.Visible]" Value="false"/>
           <Set Target="[Panel4.Visible]" Value="false"/>
           <Set Target="[Panel5.Visible]" Value="false"/>
+          <Set Target="[Panel6.Visible]" Value="false"/>
         </Actions>
       </Changed>
       <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
@@ -104,6 +106,7 @@
           <Set Target="[Panel3.Visible]" Value="false"/>
           <Set Target="[Panel4.Visible]" Value="false"/>
           <Set Target="[Panel5.Visible]" Value="false"/>
+          <Set Target="[Panel6.Visible]" Value="false"/>
         </Actions>
       </Changed>
       <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
@@ -116,6 +119,7 @@
           <Set Target="[Panel3.Visible]" Value="true"/>
           <Set Target="[Panel4.Visible]" Value="false"/>
           <Set Target="[Panel5.Visible]" Value="false"/>
+          <Set Target="[Panel6.Visible]" Value="false"/>
         </Actions>
       </Changed>
       <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
@@ -128,6 +132,7 @@
           <Set Target="[Panel3.Visible]" Value="false"/>
           <Set Target="[Panel4.Visible]" Value="true"/>
           <Set Target="[Panel5.Visible]" Value="false"/>
+          <Set Target="[Panel6.Visible]" Value="false"/>
         </Actions>
       </Changed>
       <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
@@ -140,9 +145,22 @@
           <Set Target="[Panel3.Visible]" Value="false"/>
           <Set Target="[Panel4.Visible]" Value="false"/>
           <Set Target="[Panel5.Visible]" Value="true"/>
+          <Set Target="[Panel6.Visible]" Value="false"/>
         </Actions>
       </Changed>
-
+      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="5"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Panel1.Visible]" Value="false"/>
+          <Set Target="[Panel2.Visible]" Value="false"/>
+          <Set Target="[Panel3.Visible]" Value="false"/>
+          <Set Target="[Panel4.Visible]" Value="false"/>
+          <Set Target="[Panel5.Visible]" Value="false"/>
+          <Set Target="[Panel6.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
 
       <Changed Source="[Close.Invoked]">
         <Actions>
@@ -189,6 +207,7 @@
       <Binding Source="[EnableFileWatching.Value]" Target="[Config.EnableFileWatching]" />
       <Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
       <Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
+      <Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />
 
       <Binding Source="[DefaultToFirstUnwatched.Value]" Target="[Config.DefaultToFirstUnwatched]" />
       <Binding Source="[AutoEnterSingleDirs.Value]" Target="[Config.AutoEnterSingleDirs]" />
@@ -342,10 +361,10 @@
                   <me:TextHeader Text="Display" />
                   <vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
                   <vm:IntSpin Label="Thumbstrip split size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
-                  <cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" Margins="[CMargin]" />
+                  <cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" Margins="[CMargin]" />                  
                 </Children>
               </Graphic>
-              
+
               <Graphic Name="Panel4" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
                 <Children>
                   <me:TextHeader Text="Media Tracking" />
@@ -355,9 +374,16 @@
                   <cb:CheckBox Label="Watched Indicator in Detail View" Checked="[EnableListViewTicks]" Margins="[CMargin]"  />
                   <cb:CheckBox Label="Default To First Unwatched Item" Checked="[DefaultToFirstUnwatched]" Margins="[CMargin]"  />
                 </Children>
-              </Graphic>              
+              </Graphic>
 
               <Graphic Name="Panel5" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
+                <Children>
+                  <me:TextHeader Text="Movie Details" />
+                  <cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]" />
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Panel6" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]">
                 <Children>
                   <me:TextHeader Text="Extenders" />
                   <cb:CheckBox Label="Transcode360" Checked="[EnableTranscode360]" Margins="[CMargin]"  />

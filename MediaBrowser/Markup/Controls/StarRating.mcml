@@ -189,11 +189,11 @@
                   <FlowLayout Spacing="2,2" Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <Graphic Name="Star1"  />
-                  <Graphic Name="Star2"  />
-                  <Graphic Name="Star3"  />
-                  <Graphic Name="Star4"  />
-                  <Graphic Name="Star5" />
+                  <Graphic Name="Star1" ColorFilter="Yellow" />
+                  <Graphic Name="Star2" ColorFilter="Yellow" />
+                  <Graphic Name="Star3" ColorFilter="Yellow" />
+                  <Graphic Name="Star4" ColorFilter="Yellow" />
+                  <Graphic Name="Star5" ColorFilter="Yellow" />
                 </Children>
               </Panel>
             </Children>

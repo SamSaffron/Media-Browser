@@ -1,0 +1,88 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	    xmlns:cor="assembly://MSCorLib/System"
+      xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+      xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:me="Me"
+      >
+
+  
+
+  <UI Name="TabItem">
+
+    <Properties>
+
+      <cor:String Name="Label" cor:String="$Required"/>
+      <Choice Name="Model" Choice="$Required"/>
+      <Index Name="Index" Index="$Required"/>
+
+    </Properties>
+
+    <Rules>
+
+      <Default Target="[Input.KeyInteractive]" Value="true"/>
+      <Default Target="[Input.KeyFocusOnMouseEnter]" Value="false"/>
+
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Equality Source="[Input.MouseFocus]" Value="true"/>
+          <Equality Source="[Input.KeyFocus]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Name.Color]" Value="White"/>
+          <Set Target="[Underline.Content]" Value="White"/>
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Model.ChosenIndex]" Value="[Index.Value]"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
+        <Actions>
+          <Set Target="[Underline.Content]" Value="White"/>
+          <Set Target="[Underline.Visible]" Value="true" />
+          <Set Target="[Name.Color]" Value="LightBlue"/>
+          <Set Target="[PivotPanel.Alpha]" Value="1" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Model.ChosenIndex]" ConditionOp="NotEquals" SourceValue="[Index.Value]">
+        <Actions>
+          <Set Target="[Underline.Visible]" Value="false" />
+          <Set Target="[PivotPanel.Alpha]" Value="0.75" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel Layout="VerticalFlow" Name="PivotPanel" Alpha="0.75" CenterPointPercent="0.5,0.5,0.5">
+        
+        <Animations>
+          <Animation Animation="animation://anim:RegularFastScale" />
+          <Animation Animation="animation://anim:RegularFastFade" />
+        </Animations>
+        
+        <Children>
+          
+          <Text Name="Name" Font="font://me:Font" Color="color://s:MediumBlue" Content="[Label]" MinimumSize="150,40" />
+          <ColorFill Name="Underline" Content="White" Alpha="0.9" MinimumSize="125,3" Margins="0,0,0,10" />
+          
+        </Children>
+        
+      </Panel>
+
+    </Content>
+
+  </UI>
+
+  <Font Name="Font"                     FontName="Segoe UI" FontSize="20" />
+  <Image Name="PivotArrowLeft"          Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeft"/>
+  <Image Name="PivotArrowLeftNoFocus"   Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeftNoFocus"/>
+  <Image Name="PivotArrowRight"         Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowRight"/>
+  <Image Name="PivotArrowRightNoFocus"  Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowRightNoFocus"/>
+
+</Mcml>

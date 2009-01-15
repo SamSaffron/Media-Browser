@@ -341,6 +341,13 @@ namespace MediaBrowser
             set { if (this.data.SortReplaceWords != value) { this.data.SortReplaceWords = value; Save(); FirePropertyChanged("SortReplaceWords"); } }
         }
 
+        [Comment(@"Enable new movie detail layout.")]
+        public bool EnableMinimalMovieView
+        {
+            get { return this.data.EnableMinimalMovieView; }
+            set { if (this.data.EnableMinimalMovieView != value) { this.data.EnableMinimalMovieView = value; Save(); FirePropertyChanged("EnableMinimalMovieView"); } }
+        }
+
         public string PreferredMetaDataLanguage
         {
             get { return this.data.PreferredMetaDataLanguage; }

@@ -51,7 +51,7 @@
 							<FormLayoutInput Vertical="Fill" Horizontal="Far"/>
 						</LayoutInput>
 						<Children>-->
-							<Clip Name="Clip" Orientation="Horizontal" FadeSize="300" ShowFar="false" Alpha="1" FadeAmount="1" Layout="Anchor"  >
+							<Clip Name="Clip" Orientation="Horizontal" FadeSize="200" ShowFar="false" Alpha="1" FadeAmount="1" Layout="Anchor"  >
 								<LayoutInput>
 									<FormLayoutInput Vertical="Fill" Horizontal="Far"/>
 								</LayoutInput>
@@ -67,5 +67,42 @@
 			</Panel>
 		</Content>
 	</UI>
+
+
+  <UI Name="Backdrop3">
+    <Properties>
+      <Image Name="Image" Image="$Required"/>
+    </Properties>
+    <Rules>
+      <Binding Source="[Image]" Target="[Backdrop.Content]" />
+    </Rules>
+    <Content>
+      <!--- Backdrop support -->
+      <Panel Layout="Fill">
+        <Children>
+
+
+          <!--<Clip Name="VertClip" Orientation="Vertical" FadeAmount="1" FadeSize="200" ShowFar="false" Layout="Anchor" >
+
+						<LayoutInput>
+							<FormLayoutInput Vertical="Fill" Horizontal="Far"/>
+						</LayoutInput>
+						<Children>-->
+          <Clip Name="Clip" Orientation="Vertical" FadeSize="50" ShowNear="false" Alpha="1" FadeAmount="0.5" Layout="Anchor"  >
+            <LayoutInput>
+              <FormLayoutInput Vertical="Fill" Horizontal="Fill" />
+            </LayoutInput>
+            <Children>
+              <Graphic Name="Backdrop" SizingPolicy="SizeToConstraint" Content="[Image]" CenterPointPercent="1,0,1" />
+            </Children>
+          </Clip>
+          <!--	</Children>
+					</Clip>-->
+
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
 
 </Mcml>

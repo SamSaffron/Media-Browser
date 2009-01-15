@@ -18,7 +18,7 @@ namespace MediaBrowser.Library
                 if (string.IsNullOrEmpty(this.Role))
                     return Name;
                 else
-                    return Name + " as";
+                    return Name ;
             }
         }
 

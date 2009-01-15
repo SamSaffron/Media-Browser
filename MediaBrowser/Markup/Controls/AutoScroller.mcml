@@ -5,25 +5,41 @@
 	  xmlns:me="Me">
 
 
-	<UI Name="ScrollableText">
+	<UI Name="AutoScroller">
 
 		<Properties>
 			<cor:String Name="Text" String="" />
-			<Font Name="Font" Font="$Required"/>
+			<Font Name="Font" Font="Segoe Media Center Semibold,16"/>
 			<Color Name="Color" Color="LightBlue"/>
 			<Color Name="FocusColor" Color="White"/>
 			<Inset Name="ImagePadding" Inset="0,0,0,0"/>
 			<Image Name="FocusImage" Image="image://i:BlankImage"/>
 		</Properties>
 		<Locals>
-			<ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true"/>
+			<ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true" />
 			<ScrollingData Name="ScrollingData" />
 			<Command Name="ScrollUpCommand" />
 			<Command Name="ScrollDownCommand" />
+      <cor:Single Name="Pages" Single="1" />
 		</Locals>
 
 		<Rules>
-
+      <!-- Defaults and Bindings-->      
+			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
+      
+      <Binding Source="[Text]" Target="[TextVal.Content]" />
+      <!--<Binding Source="[ScrollingData.CurrentPage]" Target="[CurrentPage.Content]">
+        <Transformer>
+          <FormatTransformer Format="{0:F0}"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[ScrollingData.TotalPages]" Target="[TotalPages.Content]">
+        <Transformer>
+          <FormatTransformer Format="{0:F0}"/>
+        </Transformer>
+      </Binding>-->
+      
+      <!-- Detect if Text property has no value -->
 			<Changed Source="[Text]" InitialEvaluate="true">
 				<Conditions>
 					<Equality Source="[Text.Length]" ConditionOp="Equals" Value="0"/>
@@ -33,6 +49,7 @@
 				</Actions>
 			</Changed>
 
+      <!-- Detect if Text property has a value -->
 			<Changed Source="[Text]" InitialEvaluate="true">
 				<Conditions>
 					<Equality Source="[Text.Length]" ConditionOp="NotEquals" Value="0"/>
@@ -42,16 +59,24 @@
 				</Actions>
 			</Changed>
 
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[TextVal.Color]" Value="[FocusColor]" />
+          <Set Target="[ImagePanel.Content]" Value="[FocusImage]" />          
+        </Actions>
+      </Condition>
 
-			<Binding Source="[Text]" Target="[TextVal.Content]" />
-			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
-
-			<Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[TextVal.Color]" Value="[FocusColor]"/>
-
-			<Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[ImagePanel.Content]" Value="[FocusImage]"/>
-
-
-
+      <!--<Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions >
+          <Equality Source="[ScrollingData.TotalPages]" ConditionOp="GreaterThan" Value="1" />
+        </Conditions>
+        <Actions>
+          <Set Target="[]" />
+          <PlayAnimation
+        </Actions>
+      </Condition>-->
+      
+      
 			<Changed Source="[ScrollUpCommand.Invoked]">
 				<Actions>
 					<Invoke Target="[ScrollingData.ScrollUp]"/>
@@ -61,19 +86,7 @@
 				<Actions>
 					<Invoke Target="[ScrollingData.ScrollDown]"/>
 				</Actions>
-			</Changed>
-
-			<Binding Source="[ScrollingData.CurrentPage]" Target="[CurrentPage.Content]">
-				<Transformer>
-					<FormatTransformer Format="{0:F0}"/>
-				</Transformer>
-			</Binding>
-
-			<Binding Source="[ScrollingData.TotalPages]" Target="[TotalPages.Content]">
-				<Transformer>
-					<FormatTransformer Format="{0:F0}"/>
-				</Transformer>
-			</Binding>
+			</Changed>	
 
 			<Rule>
 				<Conditions>
@@ -99,36 +112,42 @@
 									<AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" />
 								</LayoutInput>
 								<Children>
-									<Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]"
-                        Padding="0,0,0,50">
-										<Animations>
-											<Animation Type="Move">
-												<Keyframes>
-													<PositionKeyframe Time="0" Value="0,0,0" RelativeTo="Current" Interpolation="Exp"/>
-													<PositionKeyframe Time=".1" Value="0,0,0"/>
-												</Keyframes>
-											</Animation>
-										</Animations>
-									</Text>
-                  
+                  <Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]"
+                    Padding="0,0,0,10">  
+                  </Text>
 								</Children>
 							</Scroller>
 						</Children>
 					</Graphic>
+          
 					<Panel Name="ScrollInfo" Visible="true"  >
 						<LayoutInput>
-							<DockLayoutInput Position="Bottom" Alignment="Far" />
+							<DockLayoutInput Position="Right"/>
 						</LayoutInput>
 						<Children>
-							<Panel Layout="HorizontalFlow" Margins="0,5,0,0">
-								<Children>
-									<Text Content="˄" Font="[Font]" Color="[Color]" />
-									<Text Content="˅" Font="[Font]" Color="[Color]" />
-									<Text Name="CurrentPage" Font="[Font]" Color="[Color]" />
-									<Text Content="|" Font="[Font]" Color="[Color]" />
-									<Text Name="TotalPages"  Font="[Font]" Color="[Color]" />
-								</Children>
-							</Panel>
+              <ColorFill Name="Sidebar" Content="DimGray" Alpha="0.7" Layout="Dock" MaximumSize="16,0">
+                
+                <Children>
+                  <ColorFill Content="DarkSlateGray" MinimumSize="15,30">
+                    <LayoutInput>
+                      <DockLayoutInput Position="Top"/>
+                    </LayoutInput>
+                    <Children>
+                      <Text Content="˄" Font="[Font]" Color="[Color]" />
+                      
+                    </Children>
+                  </ColorFill>
+                  <ColorFill Content="DarkSlateGray" MinimumSize="15,30">
+                    <LayoutInput>
+                      <DockLayoutInput Position="Bottom"/>
+                    </LayoutInput>
+                    <Children>
+                      <Text Content="˅" Font="[Font]" Color="[Color]" />
+                    </Children>
+                  </ColorFill>
+                </Children>
+              </ColorFill>
+						
 
 						</Children>
 					</Panel>

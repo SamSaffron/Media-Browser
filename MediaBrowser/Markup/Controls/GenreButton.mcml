@@ -1,0 +1,35 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System" 
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+      xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+	    xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
+      xmlns:me="Me">
+
+  
+
+  <UI Name="GenreButton" BaseUI="sb:SimpleButton">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <cor:String Name="GenreCategory" String="$Required" />      
+      <lib:Item Name="Item" Item="$Required"/>
+    </Properties>
+    
+    <Rules>
+     
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="true" />
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Select" />
+          <Invoke Target="[Application.NavigateToGenre]"  genre="[GenreCategory]" currentMovie="[Item]"/>
+        </Actions>
+      </Rule>
+
+    </Rules>
+  
+  </UI>
+  
+</Mcml>

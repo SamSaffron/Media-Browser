@@ -13,9 +13,11 @@
 
       <ICommand Name="Command" ICommand="$Required" />
       <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <cor:Boolean Name="LeftAlign" Boolean="false" />
       <cor:String Name="Text" String="" />
       <Size Name="Size" Size="0,0" />
       <Font Name="Font" Font="font://me:Font" />
+      <Color Name="Color" Color="White"/>
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
       <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
@@ -94,6 +96,13 @@
         </Actions>
       </Condition>
 
+      <Condition Source="[LeftAlign]" ConditionOp="Equals" SourceValue="true">
+        <Actions>
+          <Set Target="[imgButton.Layout]" Value="HorizontalFlow" />
+          <Set Target="[Label.HorizontalAlignment]" Value="Near" />
+        </Actions>
+      </Condition>
+
     </Rules>
 
     <Content>
@@ -111,7 +120,8 @@
 				   Layout="Center"
                    >
             <Children>
-              <Text Name="Label" Color="White" Margins="0,0,0,0" Font="[Font]" HorizontalAlignment="Center" />
+              <Text Name="Label" Color="[Color]" Margins="0,0,0,0" Font="[Font]" HorizontalAlignment="Center" />
+            
             </Children>
           </Graphic>
 
