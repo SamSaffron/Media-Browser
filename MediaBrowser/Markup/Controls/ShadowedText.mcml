@@ -1,0 +1,68 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System">
+
+	<UI Name="ShadowedText">
+		<Properties>
+			<cor:String Name="Content" String=""/>
+			<Font Name="Font" Font="Segoe Media Center, 20, Bold"/>
+			<Color Name="Color" Color="White"/>
+			<Color Name="BorderColor" Color="Black"/>
+		</Properties>
+		<Rules>
+			<Binding Source="[Content]" Target="[Label.Content]"/>
+			<Binding Source="[Content]" Target="[Label1.Content]"/>
+			<Binding Source="[Content]" Target="[Label2.Content]"/>
+			<Binding Source="[Content]" Target="[Label3.Content]"/>
+			<Binding Source="[Content]" Target="[Label4.Content]"/>
+
+			<Binding Source="[Color]" Target="[Label.Color]"/>
+			<Binding Source="[BorderColor]" Target="[Label1.Color]"/>
+			<Binding Source="[BorderColor]" Target="[Label2.Color]"/>
+			<Binding Source="[BorderColor]" Target="[Label3.Color]"/>
+			<Binding Source="[BorderColor]" Target="[Label4.Color]"/>
+
+			<Binding Source="[Font]" Target="[Label.Font]"/>
+			<Binding Source="[Font]" Target="[Label1.Font]"/>
+			<Binding Source="[Font]" Target="[Label2.Font]"/>
+			<Binding Source="[Font]" Target="[Label3.Font]"/>
+			<Binding Source="[Font]" Target="[Label4.Font]"/>
+
+
+		</Rules>
+		<Content>
+			<Panel Layout="Anchor" Margins="0,0,0,-2">
+				<Children>
+					<Text Alpha="1" Name="Label" WordWrap="true" HorizontalAlignment="Center"></Text>
+
+					<Text Name="Label1" WordWrap="true" Color="White" HorizontalAlignment="Center">
+						<LayoutInput>
+							<AnchorLayoutInput Top="Label, 0, 1" Left="Label, 0, 1"/>
+						</LayoutInput>
+					</Text>
+					<Text Name="Label2"  WordWrap="true" Color="Blue"  HorizontalAlignment="Center">
+						<LayoutInput>
+							<AnchorLayoutInput Top="Label, 0, 1" Left="Label, 0, -1"/>
+						</LayoutInput>
+					</Text>
+					<Text Name="Label3"  WordWrap="true" Color="Red"  HorizontalAlignment="Center">
+						<LayoutInput>
+							<AnchorLayoutInput Top="Label, 0, -1" Left="Label, 0, 1"/>
+						</LayoutInput>
+					</Text>
+					<Text Name="Label4" WordWrap="true" Color="Green"  HorizontalAlignment="Center">
+						<LayoutInput>
+							<AnchorLayoutInput Top="Label, 0, -1" Left="Label, 0, -1"/>
+						</LayoutInput>
+					</Text>
+					<ColorFill Content="Black" Alpha="0.7">
+						<LayoutInput>
+							<AnchorLayoutInput Top="Label, 0, -2" Left="Label, 0,-2" Bottom="Label,1,-1" Right="Label,1,2"/>
+						</LayoutInput>
+					</ColorFill>
+				</Children>
+			</Panel>
+
+		</Content>
+	</UI>
+
+</Mcml>

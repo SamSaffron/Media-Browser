@@ -1,0 +1,300 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	  >
+
+	<UI Name="PosterViewItem">
+		<Properties>
+			<lib:Item Name="ParentItem" Item="$Required"/>
+			<lib:Item Name="Item" Item="$Required"/>
+			<a:Application Name="Application" Application="$Required"/>
+			<BooleanChoice Name="ShowLabels" BooleanChoice="$Required" />
+			<lib:SizeRef Name="ImageSize" SizeRef="$Required"/>
+			<Index Name="Index" Index="$Required"/>
+			<Image Name="FocusImage" Image="image://i:ZoomPane"/>
+			<Image Name="FolderImage" Image="image://i:Folder"/>
+			<Image Name="Tick" Image="image://i:TickPoster"/>
+			<Image Name="Unwatched" Image="image://i:Unwatched"/>
+			<Image Name="BlankImage" Image="null"/>
+			<Size Name="MinSize" />
+			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
+			<cor:Int32 Name="AnimDelay" Int32="1000" />
+		</Properties>
+
+		<Locals>
+			<ClickHandler Name="Clicker"/>
+			<Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
+			<BooleanChoice Name="InFocus" Value="false" />
+			<ShortcutHandler Name="ClearBtn" Handle="true" Shortcut="Clear" HandlerStage="Bubbled" />
+			<ShortcutHandler Name="PlayBtn" Handle="true" Shortcut="Play" HandlerStage="Bubbled"/>
+			<ShortcutHandler Name="RecordBtn" Handle="true" Shortcut="Record" HandlerStage="Bubbled"/>
+		</Locals>
+
+		<Rules>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[ClearBtn.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<Invoke Target="[Item.ToggleWatched]"/>
+				</Actions>
+			</Rule>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[PlayBtn.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[Application.Play]" item="[Item]"/>
+				</Actions>
+			</Rule>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[RecordBtn.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<Invoke Target="[Item.RefreshMetadata]"/>
+				</Actions>
+			</Rule>
+
+			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+			<Binding Source="[Item.Command]" Target="[Clicker.Command]"/>
+			<Binding Source="[ParentItem.DisplayPrefs.UseBanner.Value]" Target="[Item.Metadata.PreferBanner]" />
+			<Binding Source="[ImageSize.Value]" Target="[Item.Metadata.PreferredImage.SmallSize]" />
+			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
+			<Binding Source="[Item.Metadata.PreferredImage.SmallImage]" Target="[BoxArt.Content]"/>
+			<Binding Source="[Item.HaveWatched]" Target="[TickIndicator.Visible]" />
+			<Binding Source="[Item.UnwatchedCountString]" Target="[UnwatchedCount.Content]" />
+			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedGraphic.Visible]" />
+			<Binding Source="[Item.Metadata.Name]" Target="[BelowLabelPanel.Content]" />
+			<Binding Source="[Item.Metadata.Name]" Target="[Label.Content]" />
+			<Binding Source="[Application.Config.ShowUnwatchedCount]" Target="[UnwatchedIndicator.Visible]" />
+
+			<Changed Source="[Application.Config.ShowWatchedTickOnFolders]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.Source.IsPlayable]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[TickIndicatorPanel.Visible]" Value="[Application.Config.ShowWatchedTickOnFolders]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Application.Config.ShowWatchTickInPosterView]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.Source.IsPlayable]" Value="true" />
+				</Conditions>
+				<Actions>
+					<Set Target="[TickIndicatorPanel.Visible]" Value="[Application.Config.ShowWatchTickInPosterView]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Item.ShowUnwatched]">
+				<Actions>
+					<Set Target="[UnwatchedCount.Content]" Value="[Item.UnwatchedCountString]" />
+				</Actions>
+			</Changed>
+			<Default Target="[Label.Visible]" Value="true">
+				<Conditions>
+					<Equality Source="[Item.Metadata.HasPreferredImage]" ConditionOp="Equals" Value="false" />
+					<Equality Source="[ShowLabels.Value]" ConditionOp="Equals" Value="false" />
+				</Conditions>
+			</Default>
+			<Changed Source="[Item.Metadata.HasPreferredImage]">
+				<Conditions>
+					<Equality Source="[ShowLabels.Value]" ConditionOp="Equals" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[Label.Visible]" Value="[Item.Metadata.HasPreferredImage]">
+						<Transformer>
+							<BooleanTransformer Inverse="true"/>
+						</Transformer>
+					</Set>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Clicker.Invoked]">
+				<Actions>
+					<Invoke Target="[Application.Navigate]" item="[Item]"/>
+					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+				</Actions>
+			</Changed>
+
+
+			<Condition Source="[InFocus.Value]" SourceValue="true">
+				<Actions>
+					<Set Target="[MainPanel.Scale]" Value="[ParentItem.PosterZoom]"/>
+					<Set Target="[BoxItem.Alpha]" Value="1"/>
+					<!--<Set Target="[BelowLabelPanel.Alpha]" Value="1" />-->
+					<Set Target="[BoxItem.Content]" Value="color://s:ZoomBackgroundBlue"/>
+					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.Image]"/>
+					<Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
+				</Actions>
+			</Condition>
+
+			<Condition Source="[InFocus.Value]" SourceValue="false">
+				<Actions>
+					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.SmallImage]"/>
+				</Actions>
+			</Condition>
+
+
+			<Changed Source="[Input.KeyFocus]" >
+				<Conditions>
+					<Equality Source="[Input.KeyFocus]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[AnimTimer.Stop]" />
+					<Set Target="[NavCount.Value]" Value="[NavCount.Value]" ExclusiveApply="false">
+						<Transformer>
+							<MathTransformer Add="1"/>
+						</Transformer>
+					</Set>
+					<Set Target="[InFocus.Value]" Value="false"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Input.KeyFocus]" >
+				<Conditions>
+					<Equality Source="[Input.KeyFocus]" Value="true" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[AnimTimer.Start]" />
+					<Set Target="[ParentItem.SelectedChildIndex]" Value="[Index.SourceValue]"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[AnimTimer.Tick]">
+				<Actions>
+					<Set Target="[InFocus.Value]" Value="true"/>
+					<Set Target="[NavCount.Value]" Value="0" ExclusiveApply="false"/>
+				</Actions>
+			</Changed>
+
+
+			<!-- Accessibility 
+			  <Binding Target="[Accessible.IsPressed]"            Source="[Clicker.Clicking]"/>
+			  <Binding Target="[Accessible.IsFocusable]"          Source="[Input.KeyInteractive]"/>
+			  <Binding Target="[Accessible.IsFocused]"            Source="[Input.KeyFocus]"/>
+			  <Binding Target="[Accessible.Name]"                 Source="[Model.Description]"/>
+			  <Default Target="[Accessible.DefaultActionCommand]" Value="[Model]"/>
+			  <Default Target="[Accessible.DefaultAction]"        Value="Press"/>
+			  <Default Target="[Accessible.Role]"                 Value="PushButton"/>-->
+
+			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MaximumSize]" />
+			<Binding Source="[ImageSize.Value]" Target="[BelowLabelPanel.MaximumSize]" />
+			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel.MinimumSize]" />
+			<Binding Source="[Item.Metadata.IsHD]" Target="[HDIndicator.Visible]" />
+			<Condition Source="[Item.Metadata.HDType]" ConditionOp="Equals" SourceValue="720" Target="[HDImage.Content]" Value="image://i:HDLogo720" />
+			<Condition Source="[Item.Metadata.HDType]" ConditionOp="Equals" SourceValue="1080" Target="[HDImage.Content]" Value="image://i:HDLogo1080" />
+		</Rules>
+
+		<Content>
+
+			<Graphic Name="MainPanel" Content="[BlankImage]" Scale="1.0,1.0,1.0" SizingPolicy="SizeToChildren">
+				<Animations>
+					<Animation Loop="0" CenterPointPercent="0.5,0.5,1.0" Type="Scale">
+						<Keyframes>
+							<ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="EaseOut"/>
+							<ScaleKeyframe Time="0.15" RelativeTo="Final"/>
+						</Keyframes>
+					</Animation>
+				</Animations>
+				<Children>
+					<ColorFill Name="BoxItem" Content="Transparent" Alpha="1" Padding="0,0,0,0" >
+						<Layout>
+							<AnchorLayout SizeToHorizontalChildren="true" SizeToVerticalChildren="true"/>
+						</Layout>
+						<Children>
+							<ColorFill Content="Transparent" >
+								<LayoutInput>
+									<AnchorLayoutInput Horizontal="Center" ContributesToWidth="true"/>
+								</LayoutInput>
+								<Layout>
+									<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+								</Layout>
+								<Children>
+									<Text Name="BelowLabelPanel" Margins="0,5,0,-3" Alpha="1" Color="color://s:PosterTopLabelColor"  Font="font://s:PosterTopLabelFont" Content="[Item.Metadata.Name]" WordWrap="false" HorizontalAlignment="Near">
+									</Text>
+									<Panel Name="ConstraintPanel" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
+										<Layout>
+											<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
+										</Layout>
+										<Children>
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Name="TickIndicatorPanel">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+												</LayoutInput>
+												<Children>
+													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" MaximumSize="30,30" Alpha="0.8" Visible="[Item.HaveWatched]">
+														<LayoutInput>
+															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+														</LayoutInput>
+													</Graphic>
+												</Children>
+											</Panel>
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Name="UnwatchedIndicator">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+												</LayoutInput>
+												<Children>
+													<Graphic Name="UnwatchedGraphic" Content="[Unwatched]" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45" Alpha="1" MaintainAspectRatio="true" Layout="Center" Visible="false">
+														<Children>
+															<Text Name="UnwatchedCount" Content="" Color="color://s:PosterLabelColor" Font="font://s:UnwatchedCountFont" Margins="0,0,-3,-10">
+																<LayoutInput>
+																	<AnchorLayoutInput Horizontal="Center" Vertical="Center"/>
+																</LayoutInput>
+															</Text>
+														</Children>
+													</Graphic>
+												</Children>
+											</Panel>
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Visible="false" Name="HDIndicator">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
+												</LayoutInput>
+												<Children>
+													<Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="35,35" Alpha="0.8" >
+														<LayoutInput>
+															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+														</LayoutInput>
+													</Graphic>
+												</Children>
+											</Panel>
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
+												</LayoutInput>
+												<Children>
+													<Text Alpha="1" Name="Label" Visible="false" Color="White" Font="font://s:PosterLabelFont"
+														Content="[Item.Metadata.Name]"  WordWrap="true" Margins="5,5,5,5"  HorizontalAlignment="Center">
+
+													</Text>
+												</Children>
+											</Panel>
+											
+											<Graphic  Name="BoxArt"  Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint"  MaintainAspectRatio="true" >
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Center"/>
+												</LayoutInput>
+											</Graphic>
+										</Children>
+									</Panel>
+								</Children>
+
+							</ColorFill>
+
+						</Children>
+					</ColorFill>
+
+				</Children>
+			</Graphic>
+		</Content>
+	</UI>
+</Mcml>

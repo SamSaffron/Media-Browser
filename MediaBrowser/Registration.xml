@@ -1,0 +1,10 @@
+﻿<application title="media browser" id="{CE32C570-4BEC-4aeb-AD1D-CF47B91DE0B2}">
+	<entrypoint id="{FC9ABCCC-36CB-47ac-8BAB-03E8EF5F6F22}"
+				addin="MediaBrowser.MyAddIn, MediaBrowser,Culture=Neutral,Version=2.0.5.0,PublicKeyToken=59fc04479785fd64"
+				title="media browser"
+				description="Browse your media"
+      ImageUrl=".\Application.png"
+      inactiveImageURL=".\ApplicationInactive.png">
+      <category category="Services\Movies"/>
+	</entrypoint>
+</application>

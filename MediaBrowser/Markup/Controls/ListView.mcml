@@ -1,0 +1,128 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:lb="resx://MediaBrowser/MediaBrowser.Resources/ListButton"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+      >
+
+	<UI Name="ListView">
+
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:Item Name="Item" Item="$Required"/>
+		</Properties>
+
+		<Locals>
+			<!-- Use the MouseWheel handler to handle the mouse wheel.  -->
+			<ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
+							  HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollingHandler"/>
+
+			<ScrollingData Name="ScrollingData" />
+			<cor:Int32 Name="CounterValue" Int32="0" />
+			<IntRangedValue Name="SelectedIndex" Value="0"/>
+		</Locals>
+
+		<Rules>
+
+			<Binding Source="[SelectedIndex.Value]" Target="[Item.SelectedChildIndex]" />
+			<!-- Give ScrollingData to ScrollingHandler. -->
+			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
+
+			<!-- Give Repeater to ScrollingData. -->
+			<Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
+
+			<Binding Source="[SelectedIndex.Value]" Target="[CounterValue]" >
+				<Transformer>
+					<MathTransformer Add="1" />
+				</Transformer>
+			</Binding>
+			<Binding Source="[CounterValue]" Target="[List_Counter.Content]" >
+				<Transformer>
+					<FormatTransformer Format="{0} "/>
+				</Transformer>
+			</Binding>
+
+			<!--`Bind the current number of Folder Items to the List Total -->
+			<Binding Source="[Item.Children.Count]" Target="[List_Total.Content]" >
+				<Transformer>
+					<FormatTransformer Format="| {0}" />
+				</Transformer>
+			</Binding>
+
+			<Binding Source="[Item.Children]" Target="[MyRepeater.Source]"/>
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Modified Source="[Application]" InitialEvaluate="true"/>
+					<Equality Source="[Application.NavigatingForward]" Value="true"/>
+					<Equality Source="[Item.Children.Count]" ConditionOp="GreaterThan" Value="0" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="[Item.FirstUnwatchedIndex]"/>
+				</Actions>
+			</Rule>
+			<Changed Source="[Item.JILShift]">
+				<Actions>
+					<Invoke Target="[ScrollingData.Scroll]"  amount="[Item.JILShift]"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Application]" InitialEvaluate="true">
+				<Actions>
+					<Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val ="50" />
+				</Actions>
+			</Changed>
+
+		</Rules>
+
+		<Content>
+			<Panel Layout="Dock">
+				<Children>
+
+					<!-- Spacer -->
+					<Panel>
+						<LayoutInput>
+							<DockLayoutInput Position="Left" Alignment="Near"  />
+						</LayoutInput>
+						<Children>
+							<ColorFill Content="Transparent" Alpha=".8" MinimumSize="1,440" Margins="15,10,5,10" />
+						</Children>
+					</Panel>
+
+					<!-- List Counter -->
+					<Panel>
+						<LayoutInput>
+							<DockLayoutInput Alignment="Far" Position="Bottom"  />
+						</LayoutInput>
+						<Children>
+							<Panel Layout="HorizontalFlow" Margins="0,15,0,0" >
+								<Children>
+									<Text Name="List_Counter" Content="0" Color="color://s:CounterColor" Font="font://s:CounterFont" />
+									<Text Name="List_Total" Content="0" Color="color://s:CounterTotalColor" Font="font://s:CounterFont" Margins="0,0,60,0" />
+								</Children>
+							</Panel>
+						</Children>
+					</Panel>
+
+					<!-- List Repeater -->
+					<Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,20" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
+						<LayoutInput>
+							<DockLayoutInput Alignment="Fill"  Position="Client"  />
+						</LayoutInput>
+						<Children>
+							<Repeater Source="[Item.Children]" Layout="Fill" Name="MyRepeater" ContentName="BaseItem">
+								<Layout>
+									<FlowLayout Orientation="Vertical"  ItemAlignment="Center" Spacing="4,0"/>
+								</Layout>
+							</Repeater>
+						</Children>
+					</Scroller>
+				</Children>
+			</Panel>
+		</Content>
+		<Content Name="BaseItem">
+			<lb:ListButton Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" SelectedIndex="[SelectedIndex]"/>
+		</Content>
+	</UI>
+
+</Mcml>
