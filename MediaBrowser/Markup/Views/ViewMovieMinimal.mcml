@@ -31,7 +31,7 @@
       <Command Name="PlayMovieCommand" />
       <Command Name="ResumeMovieCommand" />
       <Command Name="ActorCommand" />
-      
+      <a:Clock Name="Clock"/>
       <Choice Name="Model">
         <Options>
           <cor:String String="General" />
@@ -44,6 +44,7 @@
       <Binding Source="[Item.PlayState.CanResume]" Target="[ResumeMovieButton.Visible]" />
       <Binding Source="[Item.Overview]" Target="[Overview.Text]" />
       <Binding Source="[Item.BackdropImage.Image]" Target="[Backdrop.Image]" />
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[Item.Metadata.Name]" Target="[TitleName.Content]" >
         <Transformer>
           <FormatTransformer Format="{0}" ToUpper="true" />
@@ -105,67 +106,40 @@
       <ColorFill Content="Transparent" Layout="Form">
         <Children>
 
-          <!-- Movie Title -->          
-          <Graphic Content="image://me:Header" SizingPolicy="SizeToContent" Name="TitlePanel" >
+          <!-- Movie Title -->        
+          <Graphic Name="TitlePanel" Content="image://me:Header" SizingPolicy="SizeToContent">
             <Layout>
               <AnchorLayout SizeToHorizontalChildren="true"/>
             </Layout>
             <LayoutInput>
-              <AnchorLayoutInput Right="BitPanel,0,35" Top="Parent,0,25" Horizontal="Far" />
+              <AnchorLayoutInput Top="Parent,0,25"  Right="Parent,1" />
             </LayoutInput>
             <Children>
               <Panel Layout="HorizontalFlow">
                 <Children>
                   <Text Name="TitleName" Content=""
-                      Font="Segoe Media Center, 24" Color="color://s:CustomLightBlue"
-                        Margins="50,0,0,0" />
-                    <Text Name="ProductionYear" Content=""
-                          Font="Segoe Media Center,24" Color="color://s:CustomLightBlue" Margins="15,0,50,0" />  
+                      Font="Segoe Media Center, 24" Color="color://s:CustomLightBlue" Margins="50,0,0,0" />
+                  <Text Name="ProductionYear" Content=""
+                         Font="Segoe Media Center,24" Color="color://s:CustomLightBlue" Margins="10,0,25,0" />
                 </Children>
-              </Panel>              
+              </Panel>
             </Children>
           </Graphic>
-          
-          <!-- Rotating Movie Reel -->
-          <Graphic Content="resx://MediaBrowser/MediaBrowser.Resources/LogoBg" SizingPolicy="SizeToContent" 
-                   Name="MovieReelPanel" Layout="Center" MaximumSize="70,70" Alpha=".9">            
-            <LayoutInput>
-              <AnchorLayoutInput Right="BitPanel,1,-45" Top="Parent,0,15" Horizontal="Far" />
-            </LayoutInput>
-            <Children>
-              <Graphic Content="resx://MediaBrowser/MediaBrowser.Resources/Reel"
-                    Name="LogoPanel" MaximumSize="50,50" CenterPointPercent="0.5,0.5,0.5">
-                <Animations>
-                  <Animation Type="Idle" Loop="1">
-                    <Keyframes>
-                      <RotateKeyframe Time="0" Value="0deg;0,0,0.5"/>
-                      <RotateKeyframe Time="2" Value="360deg;0,0,0.5"/>
-                    </Keyframes>
-                  </Animation>
-                </Animations>
-              </Graphic>
-            </Children>
-          </Graphic>
-          
-          <!-- Top Right Bit Panel -->
-          <Graphic Content="image://me:Header" SizingPolicy="SizeToContent" Name="BitPanel">
+
+          <!-- Time Panel -->
+          <Graphic Name="TimePanel" Content="image://me:65AlphaBg" SizingPolicy="SizeToContent">
             <Layout>
               <AnchorLayout SizeToHorizontalChildren="true"/>
             </Layout>
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0,25" Left="Parent,1,-200" Right="Parent,1,-40" />
+              <AnchorLayoutInput Top="TitlePanel,1,5"  Right="Parent,1,-5" />
             </LayoutInput>
             <Children>
               <Panel Layout="HorizontalFlow">
                 <Children>
-                  <Text Name="TitleName2" Content=" "
-                      Font="Segoe Media Center, 24" Color="White"
-                        Margins="50,0,0,0" />
-                  <Text Name="ProductionYear2" Content=" "
-                        Font="Segoe Media Center,24" Color="Yellow" Margins="15,0,50,0" />
+                  <Text Name="TimeDate" Font="Segoe Media Center Semibold,16" Color="White" Margins="25,0,25,0" />
                 </Children>
               </Panel>
-
             </Children>
           </Graphic>
 
@@ -199,7 +173,7 @@
               <AnchorLayoutInput Bottom="ScreenBox, 0" Left="Parent,0" />
             </LayoutInput>
             <Children>
-              <Panel Layout="HorizontalFlow" Margins="50,0,45,0">
+              <Panel Layout="HorizontalFlow" Margins="50,0,45,0" Navigation="ContainHorizontal">
                 <Children>
                   <ta:Tab Model="[Model]" Name="FullConfigNav" />
                 </Children>
@@ -285,7 +259,7 @@
           <!-- Movie Backdrop -->
           <bd:Backdrop3 Name="Backdrop" Image="[Item.BackdropImage.Image]">
             <LayoutInput>
-              <FormLayoutInput Top="Parent,0" Bottom="Parent,1" Right="Parent,1,0" />
+              <FormLayoutInput Top="Parent,0,-10" Left="Parent,0,-10" Bottom="Parent,1,10" Right="Parent,1,10" />
             </LayoutInput>
           </bd:Backdrop3>
 
@@ -701,7 +675,7 @@
   <Image Name="50AlphaBg" Image="null" NineGrid="7,7,7,7" />
   <Image Name="65AlphaBg" Source="resx://MediaBrowser/MediaBrowser.Resources/BlackBtnAlpha65" NineGrid="7,7,7,7" />
 
-  <Image Name="Header" Source="resx://MediaBrowser/MediaBrowser.Resources/Header" NineGrid="50,0,50,0" />
+  <Image Name="Header" Source="resx://MediaBrowser/MediaBrowser.Resources/Header3" NineGrid="50,0,0,0" />
   <Image Name="Header2" Source="resx://MediaBrowser/MediaBrowser.Resources/Header2" NineGrid="50,0,50,0" />
 
 
