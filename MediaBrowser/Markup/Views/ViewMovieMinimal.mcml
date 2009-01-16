@@ -154,7 +154,7 @@
             <Children>
               <Graphic Content="image://me:65AlphaBg" Name="RoundBox4"
                    HorizontalAlignment="Fill"  SizingPolicy="SizeToChildren"
-                   Layout="VerticalFlow" Padding="5,5,5,5" >
+                   Layout="VerticalFlow" Padding="5,5,5,5" Navigation="ContainHorizontal" >
                 <Children>
                   <sb:SimpleButton Name="ResumeMovieButton" Text="Resume" Command="[ResumeMovieCommand]" Size="235,50" />
                   <sb:SimpleButton Name="PlayMovieButton" Text="Play" Command="[PlayMovieCommand]" Size="235,50" />
