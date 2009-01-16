@@ -795,6 +795,13 @@ namespace MediaBrowser.Library
                         if (property != "RunningTime")
                             return;
                         break;
+                    case SortOrder.Date:
+                        // date sorting is not affected by metadata
+                        return; 
+                    case SortOrder.Unwatched:
+                        if (property != "Name")
+                            return;
+                        break;
                 }
             }
             itemIndex.FlagUnsorted();
