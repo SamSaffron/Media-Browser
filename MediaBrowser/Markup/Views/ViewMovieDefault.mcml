@@ -11,6 +11,7 @@
 	  xmlns:mp="resx://MediaBrowser/MediaBrowser.Resources/MPAARating"
 	  xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
 	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+    xmlns:gb="resx://MediaBrowser/MediaBrowser.Resources/GenreButton"
     xmlns:me="Me"
     >
 
@@ -146,7 +147,7 @@
               <FormLayoutInput Left="PosterPanel,1,20" Top="Parent,0,140" Right="Parent,.97" Bottom="Parent,.35"></FormLayoutInput>
             </LayoutInput>
             <Children>
-              <me:InfoBlock Name="Info" Item="[Item]" >
+              <me:InfoBlock Name="Info" Application="[Application]" Item="[Item]" >
                 <LayoutInput>
                   <AnchorLayoutInput Top="Parent,0" Left="Parent,0"  />
                 </LayoutInput>
@@ -350,8 +351,12 @@
   <UI Name="InfoBlock">
 
     <Properties>
+      <a:Application Name="Application" Application="$Required"/>
       <lib:Item Name="Item" Item="$Required"/>
     </Properties>
+    <Locals>
+      <Command Name="NullCommand"/>
+    </Locals>
 
     <Rules>
       <Binding Source="[Item.Metadata.ImdbRatingString]" Target="[IMDBRating.Content]" />
@@ -458,12 +463,18 @@
                 </Animations>
               </Panel>
 
-              <Repeater Name="GenreRepeater" Source="[Item.Metadata.Genres]" Margins="0,5,0,0" DividerName="Divider" >
+              <Repeater Name="GenreRepeater" Source="[Item.Metadata.Genres]" Margins="0,5,0,0" >
                 <Layout>
                   <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
                 </Layout>
                 <Content>
-                  <Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White" Margins="0,0,10,0"/>
+                  <!--<Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White" Margins="0,0,10,0"/>-->
+                  <gb:GenreButton Text="[RepeatedItem!cor:String]"
+                                  Application="[Application]" Item="[Item]"
+                                  GenreCategory="[RepeatedItem!cor:String]"
+                                  Font="Segoe Media Center,16" Color="LightBlue"
+                                  Command="[NullCommand]" IsNavigatingCommand="true"
+                                  Size="135,40" Margins="0,0,10,0"/>
                 </Content>
                 <Animations>
                   <TransformAnimation Delay="1">
