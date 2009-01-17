@@ -78,7 +78,7 @@
             </Animations>
 
             <Layout>
-              <FlowLayout Repeat="Never" RepeatGap="100,0" Spacing="50,0" ItemAlignment="Near"/>
+              <FlowLayout Repeat="Never" RepeatGap="100,0" Spacing="0,0" ItemAlignment="Near"/>
             </Layout>
 
             <Content>

@@ -451,4 +451,10 @@
   <data name="Header3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\special\header3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="TabHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\special\tabheader.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TabHeader2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\special\tabheader2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

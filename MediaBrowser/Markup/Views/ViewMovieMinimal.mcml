@@ -46,9 +46,6 @@
       <Binding Source="[Item.BackdropImage.Image]" Target="[Backdrop.Image]" />
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[Item.Metadata.Name]" Target="[TitleName.Content]" >
-        <Transformer>
-          <FormatTransformer Format="{0}" ToUpper="true" />
-        </Transformer>
       </Binding>
       <Binding Source="[Item.Metadata.ProductionYearString]" Target="[ProductionYear.Content]" >
         <Transformer>
@@ -118,9 +115,9 @@
               <Panel Layout="HorizontalFlow">
                 <Children>
                   <Text Name="TitleName" Content=""
-                      Font="Segoe Media Center, 24" Color="color://s:CustomLightBlue" Margins="50,0,0,0" />
+                      Font="Segoe Media Center Light, 24" Color="color://s:CustomLightBlue" Margins="50,-5,0,5" />
                   <Text Name="ProductionYear" Content=""
-                         Font="Segoe Media Center,24" Color="color://s:CustomLightBlue" Margins="10,0,25,0" />
+                      Font="Segoe Media Center Light, 24" Color="color://s:CustomLightBlue" Margins="10,-5,25,5" />
                 </Children>
               </Panel>
             </Children>
@@ -165,7 +162,7 @@
           </Panel>
 
           <!-- Selector buttons-->
-          <Graphic Name="SelectorPanel" Content="image://me:Header2" SizingPolicy="SizeToContent" >
+          <Graphic Name="SelectorPanel" Content="null" SizingPolicy="SizeToContent" >
             <Layout>
               <AnchorLayout SizeToHorizontalChildren="true"/>
             </Layout>
