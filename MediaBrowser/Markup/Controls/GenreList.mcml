@@ -1,13 +1,14 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:col="assembly://MSCorLib/System.Collections"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  >
 
 
 	<UI Name="GenreList">
 		<Properties>
 			<col:IList Name="SourceData" IList="$Required" />
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Rules>
 			<Binding Target="[GenreRepeater.Source]" Source="[SourceData]"/>
@@ -18,10 +19,10 @@
 					<FlowLayout Orientation="Horizontal" AllowWrap="true" Spacing="25,0"/>
 				</Layout>
 				<Divider>
-					<Text Content="●" Font="font://s:GenreFont" Color="color://s:GenreColor" Alpha="0.6"  />
+					<Text Content="●" Font="[Font]" Color="color://s:FontColorMedium" Alpha="0.6"  />
 				</Divider>
 				<Content>
-					<Text Content="[RepeatedItem!cor:String]" Font="font://s:GenreFont" Color="color://s:GenreColor" />
+					<Text Content="[RepeatedItem!cor:String]" Font="[Font]" Color="color://s:FontColorMedium" />
 				</Content>
 			</Repeater>
 		</Content>

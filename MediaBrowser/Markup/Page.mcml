@@ -2,7 +2,8 @@
       xmlns:cor="assembly://MsCorLib/System"
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 		xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"  
 	  xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
@@ -38,9 +39,16 @@
 			<Command Name="ShowIndexConfiguration" />
 			<Command Name="CloseIndexConfiguration" />
 			<Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="100" /> <!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
-		</Locals>
+      <a:Clock Name="Clock"/>
+    </Locals>
+    
 		<Rules>
-			
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]">
+        <Conditions>
+          <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+      </Binding>
+      
 			<Changed Source="[RefocusViewTimer.Tick]">
 				<Actions>
 					<Invoke Target="[ViewConfig.NavigateInto]" />
@@ -137,7 +145,7 @@
 					<Equality Source="[Item.HasBannerImage]" ConditionOp="Equals" Value="false" />
 				</Conditions>
 				<Actions>
-					<Set Target="[BreadCrumbs.Font]" Value="Segoe Media Center Light, 36" />
+					<Set Target="[BreadCrumbs.Font]" Value="font://f:P_BreadcrumbFont" />
 					<Set Target="[BreadCrumbs.Margins]" Value="0,20,0,0" />
 				</Actions>
 			</Rule>
@@ -149,7 +157,7 @@
 				</Conditions>
 				<Actions>
 					<Set Target="[BreadCrumbs.Content]" Value="video library" />
-					<Set Target="[BreadCrumbs.Font]" Value="Segoe Media Center Light, 36" />
+					<Set Target="[BreadCrumbs.Font]" Value="font://f:P_BreadcrumbFont" />
 				</Actions>
 			</Rule>
 			
@@ -190,15 +198,22 @@
 				<Children>
 					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
 						<Children>
+              <Text Name="TimeDate" Font="font://f:P_ClockFont" Color="White" 
+                    Visible="[Application.Config.ShowClock]">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,0,50" Bottom="ViewPanel,0,-10"/>
+                </LayoutInput>
+              </Text>
+              
 							<vm:CfgButton Name="ConfigBtn" Command="[Configure]" >
 								<LayoutInput>
-									<FormLayoutInput Left="Parent,0,50" Bottom="ViewPanel,0,-10" />
+									<FormLayoutInput Left="Parent,0,130" Bottom="ViewPanel,0,-10" />
 								</LayoutInput>
 							</vm:CfgButton>
 							
-							<vm:ViewsButton Name="ViewsBtn" Command="[ShowViewConfiguration]">
+							<vm:ViewsButton Name="ViewsBtn" Command="[ShowViewConfiguration]" Font="font://f:P_ConfigButtons">
 								<LayoutInput>
-									<FormLayoutInput Left="Parent,0,95" Bottom="ViewPanel,0,-10"/>
+									<FormLayoutInput Left="Parent,0,180" Bottom="ViewPanel,0,-10"/>
 								</LayoutInput>
 							</vm:ViewsButton>
 
@@ -208,7 +223,7 @@
 								</LayoutInput>
 							</vm:ViewConfiguration>
 
-							<vm:ImgButton Name="SortOrdersBtn" Enabled="true" Command="[ShowSortConfiguration]" Image="image://i:SortImg">
+							<vm:ImgButton Name="SortOrdersBtn" Enabled="true" Command="[ShowSortConfiguration]" Image="image://i:SortImg" Font="font://f:P_ConfigButtons">
 								<LayoutInput>
 									<FormLayoutInput Left="ViewsBtn,1,0" Bottom="ViewsBtn,1"/>
 								</LayoutInput>
@@ -220,7 +235,7 @@
 								</LayoutInput>
 							</vm:RadioConfiguration>
 
-							<vm:ImgButton Name="IndexesBtn" Command="[ShowIndexConfiguration]" Image="image://i:IndexImg">
+							<vm:ImgButton Name="IndexesBtn" Command="[ShowIndexConfiguration]" Image="image://i:IndexImg" Font="font://f:P_ConfigButtons">
 								<LayoutInput>
 									<FormLayoutInput Left="SortOrdersBtn,1" Bottom="ViewsBtn,1"/>
 								</LayoutInput>
@@ -243,8 +258,8 @@
 								<Children>
 									<ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
 										<Children>
-											<Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://s:MediumBlue"  />
-											<Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
+											<Text Name="FindAsYouType" Font="font://f:P_FindAsYouTypeFont" Content="" Color="color://s:FontColorMedium"  />
+											<Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="font://f:P_FindAsYouTypeFont">
 												<LayoutInput>
 													<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
 												</LayoutInput>
@@ -277,7 +292,7 @@
 									</Graphic>
 									<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
 										<Children>
-											<Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" Font="Segoe Media Center Light, 16" Color="color://s:MediumBlue">
+											<Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" Font="font://f:P_BreadcrumbSmallFont" Color="color://s:FontColorMedium">
 											</Text>
 										</Children>
 									</Clip>
@@ -306,9 +321,21 @@
 						</Children>
 					</Clip>
 
-					
 
+					<Panel Name="MainBG" Layout="Fill" Margins="-50,-20,-150,-20" >
+						<Children>
+							<Clip FadeSize="360" Orientation="Vertical" FadeAmount="1" CenterPointPercent="0.5,0.5,0.5" FarOffset="50" NearOffset="50" >
+								<Children>
+									<ColorFill Content="color://s:BackgroundColor1" Layout="Fill"/>
+								</Children>
+							</Clip>
+							<ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>		
+						</Children>
+					</Panel>
+					
+					<!--
 					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+					-->
 				</Children>
 			</Panel>
 		</Content>

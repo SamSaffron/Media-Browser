@@ -1,5 +1,6 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  >
 
@@ -20,7 +21,7 @@
 						</LayoutInput>
 
 						<Children>
-							<Graphic Name="MainBG" Alpha="1" ColorFilter="40,80,130" Content="[Image]" MaintainAspectRatio="true" >
+							<Graphic Name="MainBG" Alpha="1" ColorFilter="color://s:BackdropFilter" Content="[Image]" MaintainAspectRatio="true" >
 							</Graphic>		
 						</Children>
 					</Clip>
@@ -56,7 +57,7 @@
 									<FormLayoutInput Vertical="Fill" Horizontal="Far"/>
 								</LayoutInput>
 								<Children>
-									<Graphic Name="Backdrop" ColorFilter="40,80,130" Content="[Image]" MaintainAspectRatio="true" CenterPointPercent="1,0,1" />
+									<Graphic Name="Backdrop" ColorFilter="color://s:BackdropFilter" Content="[Image]" MaintainAspectRatio="true" CenterPointPercent="1,0,1" />
 								</Children>
 							</Clip>
 					<!--	</Children>

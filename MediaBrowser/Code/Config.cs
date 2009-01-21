@@ -353,7 +353,37 @@ namespace MediaBrowser
             get { return this.data.PreferredMetaDataLanguage; }
             set { if (this.data.PreferredMetaDataLanguage != value) { this.data.PreferredMetaDataLanguage = value; Save(); FirePropertyChanged("PreferredMetaDataLanguage"); } }
         }
-       
+
+        public string CentralisedCache
+        {
+            get { return this.data.CentralisedCache; }
+            set { if (this.data.CentralisedCache != value) { this.data.CentralisedCache = value; Save(); FirePropertyChanged("CentralisedCache"); } }
+        }
+
+        public Color MinimalMovieThemeColor
+        {
+            get { return this.data.MinimalMovieThemeColor; }
+            set { if (this.data.MinimalMovieThemeColor != value) { this.data.MinimalMovieThemeColor = value; Save(); FirePropertyChanged("MinimalMovieThemeColor"); } }
+        }
+
+        public string Theme
+        {
+            get { return this.data.Theme; }
+            set { if (this.data.Theme != value) { this.data.Theme = value; Save(); FirePropertyChanged("Theme"); } }
+        }
+
+        public string FontTheme
+        {
+            get { return this.data.FontTheme; }
+            set { if (this.data.FontTheme != value) { this.data.FontTheme = value; Save(); FirePropertyChanged("FontTheme"); } }
+        }
+
+        [Comment(@"Enable clock onscreen.")]
+        public bool ShowClock
+        {
+            get { return this.data.ShowClock; }
+            set { if (this.data.ShowClock != value) { this.data.ShowClock = value; Save(); FirePropertyChanged("ShowClock"); } }
+        }
         /* End of app specific settings*/
 
         private string[] _SortRemoveCharactersArray = null;

@@ -4,7 +4,7 @@
 	<UI Name="ShadowedText">
 		<Properties>
 			<cor:String Name="Content" String=""/>
-			<Font Name="Font" Font="Segoe Media Center, 20, Bold"/>
+			<Font Name="Font" Font="$Required"/>
 			<Color Name="Color" Color="White"/>
 			<Color Name="BorderColor" Color="Black"/>
 		</Properties>

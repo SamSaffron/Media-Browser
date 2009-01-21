@@ -1,15 +1,14 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:cb="resx://MediaBrowser/MediaBrowser.Resources/CheckBox"
 	  xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
 	  xmlns:me="Me"
 	  >
 
-	<Color Name="BoxImageBlue" Color="255, 32, 83, 136"/>
-	<Color Name="LightBlue" Color="255, 151, 217, 255"/>
 	<Image Name="Border" Source="resx://MediaBrowser/MediaBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
 
 
@@ -17,6 +16,7 @@
 		<Properties>
 			<cor:String Name="LabelText" String="$Required" />
 			<ICommand Name="Command" ICommand="$Required"/>
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" Command="[Command]"/>
@@ -26,17 +26,17 @@
 			<Default Target="[Input.KeyInteractive]" Value="true" />
 			<Condition Source="[Input.KeyFocus]"  SourceValue="true">
 				<Actions>
-					<Set Target="[Label.Color]" Value="White" />
+					<Set Target="[Label.Color]" Value="color://s:FontColorLight" />
 				</Actions>
 			</Condition>
 			<Condition Source="[Input.KeyFocus]"  SourceValue="false">
 				<Actions>
-					<Set Target="[Label.Color]" Value="LightBlue" />
+					<Set Target="[Label.Color]" Value="color://s:FontColorMedium" />
 				</Actions>
 			</Condition>
 		</Rules>
 		<Content>
-			<Text Name="Label" Content="[LabelText]" Font="Segoe Media Center Semibold,18" Color="LightBlue" />
+			<Text Name="Label" Content="[LabelText]" Font="[Font]" Color="color://s:FontColorMedium" />
 		</Content>
 	</UI>
 
@@ -77,6 +77,7 @@
 	<UI Name="ViewsButton">
 		<Properties>
 			<ICommand Name="Command" ICommand="$Required"/>
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" Command="[Command]"/>
@@ -96,7 +97,7 @@
 			<Condition Source="[Input.KeyFocus]" SourceValue="true">
 				<Actions>
 					<Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
-					<Set Target="[Label.Color]" Value="White"/>
+					<Set Target="[Label.Color]" Value="color://s:FontColorLight"/>
 				</Actions>
 			</Condition>
 
@@ -112,7 +113,7 @@
 					<Panel Layout="HorizontalFlow">
 						<Children>
 							<Graphic Content="image://i:Lines" Margins="0,9,5,0" MaximumSize="15,15"></Graphic>
-							<Text Name="Label" Content="view" Color="color://s:MediumBlue" Font="Segoe Media Center Semibold,18"/>
+							<Text Name="Label" Content="view" Color="color://s:FontColorDark" Font="[Font]"/>
 						</Children>
 					</Panel>
 				</Children>
@@ -161,7 +162,7 @@
 			</Changed>
 		</Rules>
 		<Content>
-			<ColorFill Name="Main" Content="color://s:ZoomBackgroundBlue"  Navigation="ContainAll,Group" Padding="-3,-3,-3,-3">
+			<ColorFill Name="Main" Content="color://s:PosterZoomBackground"  Navigation="ContainAll,Group" Padding="-3,-3,-3,-3">
 				<Children>
 					<Graphic Content="image://i:ZoomPane"  SizingPolicy="SizeToChildren"  Padding="10,10,10,10" MaintainAspectRatio="false">
 						<Layout>
@@ -173,16 +174,16 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
 								</Layout>
 								<Children>
-									<rg:RadioGroup Model="[Prefs.ViewType]" />
-									<cb:CheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Label="Show Labels" />
-									<cb:CheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Label="Vertical Scroll"/>
-									<cb:CheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Label="Use Banners"/>
+									<rg:RadioGroup Model="[Prefs.ViewType]" Font="font://f:VM_ConfigItemFont" />
+									<cb:CheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Label="Show Labels"  Font="font://f:VM_ConfigItemFont"/>
+									<cb:CheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Label="Vertical Scroll"  Font="font://f:VM_ConfigItemFont"/>
+									<cb:CheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Label="Use Banners"  Font="font://f:VM_ConfigItemFont"/>
 									<Panel Name="ThumbSize" >
 										<Layout>
 											<FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
 										</Layout>
 										<Children>
-											<Text Content="Thumb Size" Color="color://s:OurLightBlue" Font="Segoe Media Center Semibold,16"/>
+											<Text Content="Thumb Size" Color="color://s:FontColorMedium" Font="font://f:VM_ConfigItemFont"/>
 											<me:ImageBtn Focused="image://i:DecrementFocus" NonFocused="image://i:DecrementNoFocus" Command="[Decrease]"/>
 											<me:ImageBtn Focused="image://i:IncrementFocus" NonFocused="image://i:IncrementNoFocus" Command="[Increase]"/>
 										</Children>
@@ -195,7 +196,7 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Fill"/>
 								</Layout>
 								<Children>
-									<me:BaseBtn LabelText="Close" Command="[Close]" />
+									<me:BaseBtn LabelText="Close" Command="[Close]" Font="font://f:VM_ConfigItemFont" />
 								</Children>
 							</Panel>
 						</Children>
@@ -243,9 +244,9 @@
 		<Content>
 			<Panel Layout="HorizontalFlow" Navigation="Row">
 				<Children>
-					<Text Name="Lbl" Color="color://s:OurLightBlue" Font="Segoe Media Center Semibold,16" />
+					<Text Name="Lbl" Color="color://s:FontColorMedium" Font="font://f:VM_ConfigItemFont" />
 					<me:ImageBtn Focused="image://i:DecrementFocus" NonFocused="image://i:DecrementNoFocus" Command="[Decrease]"/>
-					<Text Name="Text" Color="White" Font="Segoe Media Center Semibold,16" />
+					<Text Name="Text" Color="color://s:FontColorLight" Font="font://f:VM_ConfigItemFont" />
 					<me:ImageBtn Focused="image://i:IncrementFocus" NonFocused="image://i:IncrementNoFocus" Command="[Increase]"/>
 				</Children>
 			</Panel>
@@ -258,6 +259,7 @@
 			<cor:String Name="Content" String=""/>
 			<Image Name="Image" Image="image://i:Lines"/>
 			<cor:Boolean Name="Enabled" Boolean="true" />
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" Command="[Command]"/>
@@ -281,7 +283,7 @@
 			<Condition Source="[Input.KeyFocus]" SourceValue="true">
 				<Actions>
 					<Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
-					<Set Target="[Label.Color]" Value="White"/>
+					<Set Target="[Label.Color]" Value="color://s:FontColorLight"/>
 				</Actions>
 			</Condition>
 
@@ -298,7 +300,7 @@
 					<Panel Layout="HorizontalFlow">
 						<Children>
 							<Graphic Content="[Image]" Margins="0,6,5,0" MaximumSize="0,20" MinimumSize="0,20" MaintainAspectRatio="true"></Graphic>
-							<Text Name="Label"  Color="color://s:MediumBlue" Font="Segoe Media Center Semibold,18"/>
+							<Text Name="Label"  Color="color://s:FontColorDark" Font="[Font]"/>
 						</Children>
 					</Panel>
 				</Children>
@@ -365,7 +367,7 @@
 			<Default Target="[Input.CreateInterestOnFocus]" Value="true" />
 		</Rules>
 		<Content>
-			<ColorFill Name="Main" Content="color://s:ZoomBackgroundBlue"  Navigation="ContainAll,Group" Padding="-3,-3,-3,-3">
+			<ColorFill Name="Main" Content="color://s:PosterZoomBackground"  Navigation="ContainAll,Group" Padding="-3,-3,-3,-3">
 				<Children>
 					<Graphic Content="image://i:ZoomPane"  SizingPolicy="SizeToChildren"  Padding="10,10,10,10" MaintainAspectRatio="false">
 						<Layout>
@@ -377,7 +379,7 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
 								</Layout>
 								<Children>
-									<rg:RadioGroup Model="[Choice]" />
+									<rg:RadioGroup Model="[Choice]" Font="font://f:VM_ConfigItemFont"/>
 								</Children>
 							</Panel>
 							<Panel >
@@ -385,7 +387,7 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Fill"/>
 								</Layout>
 								<Children>
-									<me:BaseBtn LabelText="Close" Command="[Close]" />
+									<me:BaseBtn LabelText="Close" Command="[Close]" Font="font://f:VM_ConfigItemFont" />
 								</Children>
 							</Panel>
 						</Children>

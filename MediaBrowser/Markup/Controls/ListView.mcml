@@ -3,7 +3,7 @@
     xmlns:lb="resx://MediaBrowser/MediaBrowser.Resources/ListButton"
     xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
       >
 
 	<UI Name="ListView">
@@ -11,6 +11,7 @@
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:Item Name="Item" Item="$Required"/>
+			<Font Name="Font" Font="$Required" />
 		</Properties>
 
 		<Locals>
@@ -97,8 +98,8 @@
 						<Children>
 							<Panel Layout="HorizontalFlow" Margins="0,15,0,0" >
 								<Children>
-									<Text Name="List_Counter" Content="0" Color="color://s:CounterColor" Font="font://s:CounterFont" />
-									<Text Name="List_Total" Content="0" Color="color://s:CounterTotalColor" Font="font://s:CounterFont" Margins="0,0,60,0" />
+									<Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="[Font]" />
+									<Text Name="List_Total" Content="0" Color="color://s:FontColorMedium" Font="[Font]" Margins="0,0,60,0" />
 								</Children>
 							</Panel>
 						</Children>
@@ -121,7 +122,7 @@
 			</Panel>
 		</Content>
 		<Content Name="BaseItem">
-			<lb:ListButton Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" SelectedIndex="[SelectedIndex]"/>
+			<lb:ListButton Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" SelectedIndex="[SelectedIndex]" Font="[Font]"/>
 		</Content>
 	</UI>
 

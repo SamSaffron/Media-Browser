@@ -12,7 +12,9 @@
 	<Image Name="Folder" Source="resx://MediaBrowser/MediaBrowser.Resources/folder" NineGrid="15,25,10,10"/>
 	<Image Name="Tick" Source="resx://MediaBrowser/MediaBrowser.Resources/Tick" />
 	<Image Name="TickPoster" Source="resx://MediaBrowser/MediaBrowser.Resources/TickPoster" />
+	<Image Name="TickPosterBase" Source="resx://MediaBrowser/MediaBrowser.Resources/TickPosterBase" />
 	<Image Name="Unwatched" Source="resx://MediaBrowser/MediaBrowser.Resources/Unwatched" />
+	<Image Name="UnwatchedBase" Source="resx://MediaBrowser/MediaBrowser.Resources/UnwatchedBase" />
 	<Image Name="Lines" Source="resx://MediaBrowser/MediaBrowser.Resources/Lines"/>
 	<Image Name="ConfigImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Config"/>
 	<Image Name="SortImg" Source="resx://MediaBrowser/MediaBrowser.Resources/Sort"/>
@@ -61,7 +63,7 @@
 	<Image Name="DecrementFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/DecrementFocused"  />
 	<Image Name="DecrementNoFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/DecrementNoFocus"  />
 
-	
+	<Image Name="Underline" Source="resx://MediaBrowser/MediaBrowser.Resources/Underline" NineGrid="0,0,0,2"/>
 
 
 </Mcml>

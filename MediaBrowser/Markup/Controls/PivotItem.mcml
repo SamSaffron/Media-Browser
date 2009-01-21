@@ -1,6 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+      xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
       xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
       xmlns:me="Me"
       >
@@ -28,9 +29,11 @@
           <Equality Source="[Input.KeyFocus]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[Name.Color]" Value="White"/>
-          <Set Target="[ArrowLeft.Content]" Value="image://me:PivotArrowLeft"/>
-          <Set Target="[ArrowRight.Content]" Value="image://me:PivotArrowRight"/>
+          <Set Target="[Name.Color]" Value="color://s:FontColorLight"/>
+          <!--<Set Target="[ArrowLeft.Content]" Value="image://me:PivotArrowLeft"/>
+          <Set Target="[ArrowRight.Content]" Value="image://me:PivotArrowRight"/>-->
+			<Set Target="[ArrowLeft.ColorFilter]" Value="255,255,255" />
+			<Set Target="[ArrowRight.ColorFilter]" Value="255,255,255" />
         </Actions>
       </Rule>
 
@@ -42,12 +45,14 @@
 
       <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
         <Actions>
-          <Set Target="[ArrowLeft.Content]" Value="image://me:PivotArrowLeftNoFocus"/>
-          <Set Target="[ArrowRight.Content]" Value="image://me:PivotArrowRightNoFocus"/>
+          <!--<Set Target="[ArrowLeft.Content]" Value="image://me:PivotArrowLeftNoFocus"/>
+          <Set Target="[ArrowRight.Content]" Value="image://me:PivotArrowRightNoFocus"/>-->
+			<Set Target="[ArrowLeft.ColorFilter]" Value="color://s:FontColorDark" />
+			<Set Target="[ArrowRight.ColorFilter]" Value="color://s:FontColorDark" />
           <Set Target="[ArrowLeft.Visible]" Value="true" />
           <Set Target="[ArrowRight.Visible]" Value="true" />
-          <Set Target="[Name.Font]" Value="Segoe UI,20" />
-          <Set Target="[Name.Color]" Value="color://s:MediumBlue"/>
+          <Set Target="[Name.Font]" Value="font://f:PivotItemFocusFont" />
+          <Set Target="[Name.Color]" Value="color://s:FontColorDark"/>
           <Set Target="[PivotPanel.Scale]" Value="1.1,1.1,1.1" />
           <Set Target="[PivotPanel.Alpha]" Value="1" />
         </Actions>
@@ -75,9 +80,9 @@
         
         <Children>
           
-          <Graphic Name="ArrowLeft" Content="image://me:PivotArrowLeftNoFocus" Margins="0,15,6,0" />
-          <Text Name="Name" Font="font://me:Font" Color="color://s:MediumBlue" Content="[Label]" />
-          <Graphic Name="ArrowRight" Content="image://me:PivotArrowRightNoFocus" Margins="6,15,0,0" />
+          <Graphic Name="ArrowLeft" Content="image://me:PivotArrowLeft" Margins="0,15,6,0" />
+          <Text Name="Name" Font="font://f:PivotItemFont" Color="color://s:FontColorDark" Content="[Label]" />
+          <Graphic Name="ArrowRight" Content="image://me:PivotArrowRight" Margins="6,15,0,0" />
           
         </Children>
         
@@ -87,7 +92,6 @@
 
   </UI>
 
-  <Font Name="Font"                     FontName="Segoe UI SemiBold" FontSize="19" />
   <Image Name="PivotArrowLeft"          Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeft"/>
   <Image Name="PivotArrowLeftNoFocus"   Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeftNoFocus"/>
   <Image Name="PivotArrowRight"         Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowRight"/>

@@ -2,7 +2,7 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  >
 
@@ -16,12 +16,13 @@
 			<Index Name="Index" Index="$Required"/>
 			<Image Name="FocusImage" Image="image://i:ZoomPane"/>
 			<Image Name="FolderImage" Image="image://i:Folder"/>
-			<Image Name="Tick" Image="image://i:TickPoster"/>
-			<Image Name="Unwatched" Image="image://i:Unwatched"/>
 			<Image Name="BlankImage" Image="null"/>
 			<Size Name="MinSize" />
 			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
 			<cor:Int32 Name="AnimDelay" Int32="1000" />
+			<Font Name="TopLabelFont" Font="$Required"/>
+			<Font Name="LabelFont" Font="$Required"/>
+			<Font Name="UnwatchedCountFont" Font="$Required"/>
 		</Properties>
 
 		<Locals>
@@ -70,9 +71,9 @@
 			<Binding Source="[ImageSize.Value]" Target="[Item.Metadata.PreferredImage.SmallSize]" />
 			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
 			<Binding Source="[Item.Metadata.PreferredImage.SmallImage]" Target="[BoxArt.Content]"/>
-			<Binding Source="[Item.HaveWatched]" Target="[TickIndicator.Visible]" />
+			<Binding Source="[Item.HaveWatched]" Target="[TickIndicatorPanel.Visible]" />
 			<Binding Source="[Item.UnwatchedCountString]" Target="[UnwatchedCount.Content]" />
-			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedGraphic.Visible]" />
+			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedIndicator.Visible]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[BelowLabelPanel.Content]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[Label.Content]" />
 			<Binding Source="[Application.Config.ShowUnwatchedCount]" Target="[UnwatchedIndicator.Visible]" />
@@ -132,7 +133,7 @@
 					<Set Target="[MainPanel.Scale]" Value="[ParentItem.PosterZoom]"/>
 					<Set Target="[BoxItem.Alpha]" Value="1"/>
 					<!--<Set Target="[BelowLabelPanel.Alpha]" Value="1" />-->
-					<Set Target="[BoxItem.Content]" Value="color://s:ZoomBackgroundBlue"/>
+					<Set Target="[BoxItem.Content]" Value="color://s:PosterZoomBackground"/>
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.Image]"/>
 					<Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
 				</Actions>
@@ -220,19 +221,24 @@
 									<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
 								</Layout>
 								<Children>
-									<Text Name="BelowLabelPanel" Margins="0,5,0,-3" Alpha="1" Color="color://s:PosterTopLabelColor"  Font="font://s:PosterTopLabelFont" Content="[Item.Metadata.Name]" WordWrap="false" HorizontalAlignment="Near">
+									<Text Name="BelowLabelPanel" Margins="0,5,0,-3" Alpha="1" Color="color://s:FontColorLight"  Font="[TopLabelFont]" Content="[Item.Metadata.Name]" WordWrap="false" HorizontalAlignment="Near">
 									</Text>
 									<Panel Name="ConstraintPanel" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
 										<Layout>
 											<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
 										</Layout>
 										<Children>
-											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Name="TickIndicatorPanel">
+											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Alpha="0.8" Name="TickIndicatorPanel">
 												<LayoutInput>
 													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 												</LayoutInput>
 												<Children>
-													<Graphic Name="TickIndicator" Content="[Tick]" Margins="5,5,0,0" MaximumSize="30,30" Alpha="0.8" Visible="[Item.HaveWatched]">
+													<Graphic Content="image://i:TickPoster" Margins="5,5,0,0" MaximumSize="30,30"  Visible="[Item.HaveWatched]">
+														<LayoutInput>
+															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+														</LayoutInput>
+													</Graphic>
+													<Graphic Content="image://i:TickPosterBase" ColorFilter="color://s:FilterColor" Margins="5,5,0,0" MaximumSize="30,30" Visible="[Item.HaveWatched]">
 														<LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>
@@ -244,14 +250,16 @@
 													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 												</LayoutInput>
 												<Children>
-													<Graphic Name="UnwatchedGraphic" Content="[Unwatched]" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45" Alpha="1" MaintainAspectRatio="true" Layout="Center" Visible="false">
+													<Graphic Content="image://i:Unwatched" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45" MaintainAspectRatio="true" Layout="Center" >
 														<Children>
-															<Text Name="UnwatchedCount" Content="" Color="color://s:PosterLabelColor" Font="font://s:UnwatchedCountFont" Margins="0,0,-3,-10">
+															<Text Name="UnwatchedCount" Content="" Color="color://s:FontColorLight" Font="[UnwatchedCountFont]" Margins="0,0,-3,-10">
 																<LayoutInput>
 																	<AnchorLayoutInput Horizontal="Center" Vertical="Center"/>
 																</LayoutInput>
 															</Text>
 														</Children>
+													</Graphic>
+													<Graphic Visible="true" ColorFilter="color://s:FilterColor" Content="image://i:UnwatchedBase" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45"  MaintainAspectRatio="true" Layout="Center" >
 													</Graphic>
 												</Children>
 											</Panel>
@@ -272,7 +280,7 @@
 													<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
 												</LayoutInput>
 												<Children>
-													<Text Alpha="1" Name="Label" Visible="false" Color="White" Font="font://s:PosterLabelFont"
+													<Text Alpha="1" Name="Label" Visible="false" Color="color://s:FontColorLight" Font="[LabelFont]"
 														Content="[Item.Metadata.Name]"  WordWrap="true" Margins="5,5,5,5"  HorizontalAlignment="Center">
 
 													</Text>

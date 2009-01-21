@@ -3,10 +3,10 @@
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:me="Me"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:pit="resx://MediaBrowser/MediaBrowser.Resources/PosterItemTitle"
 	  xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
-	  xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MovieInfo"
 	  xmlns:lw="resx://MediaBrowser/MediaBrowser.Resources/LastWatched"
 	  xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
 	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
@@ -40,7 +40,7 @@
 			<Panel Layout="Form">
 				<Children>
 					<ps:PosterScroller Name="ItemPanel" Application="[Application]"
-									   Item="[Item]" >
+									   Item="[Item]" TopLabelFont="font://f:PV_PosterTopLabelFont" LabelFont="font://f:PV_PosterLabelFont" UnwatchedCountFont="font://f:PV_UnwatchedCountFont">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
 						</LayoutInput>
@@ -56,7 +56,7 @@
 						</LayoutInput>
 					</ColorFill>
 
-					<pit:PosterItemTitle Item="[Item]" LayoutInput="[TitleLayout]">
+					<pit:PosterItemTitle Item="[Item]" LayoutInput="[TitleLayout]" Font="font://f:PV_TitleFont" RuntimeFont="font://f:PV_RuntimeFont">
 						<Animations>
 							<Animation Type="Move">
 								<Keyframes>

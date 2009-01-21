@@ -2,16 +2,16 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  >
 
 	<UI Name="Summary">
 		<Properties>
 			<lib:Item Name="Model" Item="$Required"/>
 			<lib:Item Name="ModelFast" Item="$Required"/>
-			<Color Name="Color" Color="color://s:SummaryColor" />
-			<Color Name="FocusColor" Color="color://s:SummaryFocusColor"/>
-			<Font Name="Font" Font="font://s:SummaryFont"/>
+			<Color Name="Color" Color="color://s:FontColorMedium" />
+			<Color Name="FocusColor" Color="color://s:FontColorLight"/>
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Rules>
 			<Binding Source="[Model.Overview]" Target="[Summary.Text]" />
@@ -46,9 +46,9 @@
 		<Properties>
 			<lib:Item Name="Model" Item="$Required"/>
 			<lib:Item Name="ModelFast" Item="$Required"/>
-			<Color Name="Color" Color="color://s:SummaryColor" />
-			<Color Name="FocusColor" Color="color://s:SummaryFocusColor"/>
-			<Font Name="Font" Font="font://s:SummaryFont"/>
+			<Color Name="Color" Color="color://s:FontColorMedium" />
+			<Color Name="FocusColor" Color="color://s:FontColorLight"/>
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Rules>
 			<Binding Source="[Model.Overview]" Target="[Summary.Content]" />

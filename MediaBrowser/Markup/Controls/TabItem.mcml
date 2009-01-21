@@ -1,6 +1,6 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+      xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
       xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
       xmlns:me="Me"
       >
@@ -10,11 +10,11 @@
   <UI Name="TabItem">
 
     <Properties>
-
       <cor:String Name="Label" cor:String="$Required"/>
       <Choice Name="Model" Choice="$Required"/>
       <Index Name="Index" Index="$Required"/>
-
+      <Color Name="FilterColor" Color="Black" />
+		<Font Name="Font" Font="$Required"/>
     </Properties>
 
     <Rules>
@@ -28,9 +28,10 @@
           <Equality Source="[Input.KeyFocus]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[Name.Color]" Value="White"/>
-          <Set Target="[Underline.Content]" Value="White"/>
-          <Set Target="[PivotPanel.Content]" Value="image://me:TabHeader2" />
+          <Set Target="[Name.Color]" Value="color://s:FontColorLight"/>
+          <Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>
+          <Set Target="[PivotBack.Alpha]" Value="1" />
+			<Set Target="[FocusHighlight.Visible]" Value="true" />
         </Actions>
       </Rule>
 
@@ -42,10 +43,10 @@
 
       <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
         <Actions>
-          <Set Target="[Underline.Content]" Value="White"/>
+          <Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>
           <Set Target="[Underline.Visible]" Value="true" />
-          <Set Target="[Name.Color]" Value="LightBlue"/>
-          <Set Target="[PivotPanel.Alpha]" Value="1" />
+          <Set Target="[Name.Color]" Value="color://s:FontColorMedium"/>
+          <Set Target="[PivotBack.Alpha]" Value="1" />
           <Set Target="[PivotPanel.Scale]" Value="1.2,1.2,1" />
         </Actions>
       </Condition>
@@ -53,7 +54,7 @@
       <Condition Source="[Model.ChosenIndex]" ConditionOp="NotEquals" SourceValue="[Index.Value]">
         <Actions>
           <Set Target="[Underline.Visible]" Value="false" />
-          <Set Target="[PivotPanel.Alpha]" Value="0.75" />
+          <Set Target="[PivotBack.Alpha]" Value="global://s:FilterAlpha" />
           <Set Target="[PivotPanel.Scale]" Value="1,1,1" />
         </Actions>
       </Condition>
@@ -62,29 +63,41 @@
 
     <Content>
 
-      <Graphic Name="PivotPanel" Alpha="0.8" CenterPointPercent=".5,1,0.5"
-               Content="image://me:TabHeader" Layout="VerticalFlow" Margins="0,0,20,0" >
-        
-        <Animations>
-          <Animation Animation="animation://anim:RegularFastFade" />
-        </Animations>
-        
-        <Children>
-          
-          <Text Name="Name" Font="font://me:Font" Color="color://s:MediumBlue" Content="[Label]" MinimumSize="150,40" Margins="10,0,0,0" />
-          <ColorFill Name="Underline" Content="White" Alpha="0.9" MaximumSize="0,3" Margins="0,0,0,10" >
-            
-          </ColorFill>
-          
-        </Children>
-        
-      </Graphic>
+		<Panel Layout="Anchor" Name="PivotPanel" MaximumSize="160,40" Margins="8,0,8,0" Scale="1,1,1" CenterPointPercent=".5,1,0.5">
+			<Children>
+				<Graphic Name="FocusHighlight" Visible="false" ColorFilter="200,200,200" Content="image://me:TabHeader2" >
+					<LayoutInput>
+						<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
+					</LayoutInput>
+				</Graphic>
+				<Panel>
+					<LayoutInput>
+						<AnchorLayoutInput Horizontal="Center"/>
+					</LayoutInput>
+					<Layout>
+						<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+					</Layout>
+					<Children>
+						<Text Name="Name" Font="[Font]" Color="color://s:FontColorMedium" Content="[Label]" MinimumSize="150,40" Margins="10,0,0,0" />
+						<ColorFill Name="Underline" Content="color://s:FontColorLight" Alpha="0.9" MaximumSize="0,3" Margins="0,0,0,10" MinimumSize="100,3" />
+					</Children>
+				</Panel>
+				<Graphic Name="PivotBack" ColorFilter="[FilterColor]" Alpha="global://s:FilterAlpha"  Content="image://me:TabHeader" >
+					<LayoutInput>
+						<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
+					</LayoutInput>
+				</Graphic>
+			</Children>
+			<Animations>
+				<Animation Animation="animation://anim:RegularFastFade" />
+			</Animations>
+		</Panel>
+
 
     </Content>
 
   </UI>
 
-  <Font Name="Font"                     FontName="Segoe UI" FontSize="20" />
   <Image Name="PivotArrowLeft"          Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeft"/>
   <Image Name="PivotArrowLeftNoFocus"   Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowLeftNoFocus"/>
   <Image Name="PivotArrowRight"         Source="resx://MediaBrowser/MediaBrowser.Resources/PivotArrowRight"/>

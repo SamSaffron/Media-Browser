@@ -10,11 +10,12 @@
 	  xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
 	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"  
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"  
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"  
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	  >
 
-	
+	<!--
 	<UI Name="ThumbDetailsView">
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
@@ -126,7 +127,7 @@
 							<FormLayoutInput Left="Parent,.05" Top="ItemPanel,1,10" Bottom="Parent,0.95" Right="Parent,0.95"/>
 						</LayoutInput>
 						<Children>
-							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]">
+							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_TitleFont" SubFont="font://f:TD_SubTitleFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0" Top="Parent,0.0" Right="Parent,0.6"/>
 								</LayoutInput>
@@ -136,13 +137,13 @@
 									<FormLayoutInput Top="Parent,0.0" Right="Parent,1"/>
 								</LayoutInput>
 								<Children>
-									<Text Content="-1" Name="CurrentItem" Color="color://s:CounterColor" Font="font://s:CounterFont"></Text>
-									<Text Content=" | " Color="color://s:CounterColor" Font="font://s:CounterFont"></Text>
-									<Text Content="-1" Name="TotalItems" Color="color://s:CounterTotalColor" Font="font://s:CounterFont"></Text>
+									<Text Content="-1" Name="CurrentItem" Color="color://s:FontColorLight" Font="font://f:TD_CounterFont"></Text>
+									<Text Content=" | " Color="color://s:FontColorLight" Font="font://f:TD_CounterFont"></Text>
+									<Text Content="-1" Name="TotalItems" Color="color://s:FontColorMedium" Font="font://f:TD_CounterFont"></Text>
 								</Children>
 							</Panel>
 
-							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]">
+							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_LastWatchedFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0" Top="TitleSet,1.0" Right="Parent,0.3"/>
 								</LayoutInput>
@@ -153,7 +154,7 @@
 								</LayoutInput>
 							</ip:ItemPoster>
 
-							<sy:Summary Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]">
+							<sy:Summary Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Font="font://f:TD_SummaryFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Poster,1,10" Top="TitleSet,1" Right="MovieInfo,0,-14" Bottom="Parent,1"></FormLayoutInput>
 								</LayoutInput>
@@ -174,7 +175,7 @@
 			</Panel>
 		</Content>
 	</UI>
-
+-->
 
 	<UI Name="ThumbDetailsView2">
 		<Properties>
@@ -241,7 +242,8 @@
 				<Children>
 					
 					<ps:PosterScroller Name="MyItems" Application="[Application]"
-									   Item="[Item]" NoEndPadding="true" LayoutInput="[Split]">
+									   Item="[Item]" NoEndPadding="true" LayoutInput="[Split]"
+									   TopLabelFont="font://f:TD_PosterTopLabelFont" LabelFont="font://f:TD_PosterLabelFont" UnwatchedCountFont="font://f:TD_UnwatchedCountFont">
 						
 					</ps:PosterScroller>
 
@@ -253,13 +255,13 @@
 							<FlowLayout Orientation="Vertical" Spacing="0,0"/>
 						</Layout>
 						<Children>
-							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" />
+							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_TitleFont" SubFont="font://f:TD_SubTitleFont"/>
 							<mi:MovieInfo Name="MovieInfo" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" />
-							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]"/>
+							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_LastWatchedFont"/>
 						</Children>
 					</Panel>
 
-					<sy:SummaryNonScrolling Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Color="White" Font="Segoe Media Center Semibold,16">
+					<sy:SummaryNonScrolling Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Color="color://s:FontColorLight" Font="font://f:TD_SummaryFont">
 						<LayoutInput>
 							<FormLayoutInput Left="DetailsSection,0" Top="DetailsSection,1" Right="DetailsSection,1" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>

@@ -1,7 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor ="assembly://MsCorLib/System"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:me="Me"
 	  >
 
@@ -10,7 +10,7 @@
 			<BooleanChoice Name="Bool" Value="true" />
 		</Locals>
 		<Content>
-			<me:CheckBox Checked="[Bool]" Label="Check Test" />
+			<me:CheckBox Checked="[Bool]" Label="Check Test" Font="Courier,12"/>
 		</Content>
 	</UI>
 
@@ -19,6 +19,7 @@
 		<Properties>
 			<BooleanChoice Name="Checked" BooleanChoice="$Required" />
 			<cor:String Name="Label" String="$Required" />
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 
 		<Locals>
@@ -113,7 +114,7 @@
 				</Layout>
 				<Children>
 					<Graphic Name="BoxImage" Content="image://i:CheckBoxUncheckedNoFocus" MaximumSize="34,34" />
-					<Text Name="Lbl" Color="color://s:CheckBoxColor" Font="font://s:CheckBoxFont" Margins="5,0,0,0" />
+					<Text Name="Lbl" Color="color://s:FontColorMedium" Font="[Font]" Margins="5,0,0,0" />
 				</Children>
 			</Panel>
 		</Content>

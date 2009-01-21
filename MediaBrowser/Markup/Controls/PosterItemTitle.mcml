@@ -2,12 +2,14 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  >
 
 	<UI Name="PosterItemTitle">
 		<Properties>
 			<lib:Item Name="Item" Item="$Required"/>
+			<Font Name="Font" Font="$Required"/>
+			<Font Name="RuntimeFont" Font="$Required"/>
 		</Properties>
 
 		<Locals>
@@ -32,13 +34,13 @@
 							<FlowLayout Orientation="Vertical" Spacing="0,0"/>
 						</Layout>
 						<Children>
-							<Text Name="Name" Content="" Color="color://s:PosterViewTitleColor" Font="font://s:PosterViewTitleFont"></Text>
+							<Text Name="Name" Content="" Color="color://s:FontColorLight" Font="[Font]"></Text>
 							<Panel>
 								<Layout>
 									<FlowLayout Orientation="Horizontal" Spacing="15,0"/>
 								</Layout>
 								<Children>
-									<Text Name="Runtime" Content="" Color="color://s:RuntimeColor" Font="font://s:RuntimeFont" Margins="0,-10,0,0"></Text>
+									<Text Name="Runtime" Content="" Color="color://s:FontColorLight" Font="[RuntimeFont]" Margins="0,-10,0,0"></Text>
 									<sr:StarRating Name="StarRating" Value="-1" Margins="0,-5,0,0"/>
 								</Children>
 							</Panel>

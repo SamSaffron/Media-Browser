@@ -2,7 +2,8 @@
 	  xmlns:cor="assembly://MSCorLib/System"
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:lv="resx://MediaBrowser/MediaBrowser.Resources/ListView"
 	  xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
 	  xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MovieInfo"
@@ -198,7 +199,7 @@
 			<Panel Name="MainPanel" Layout="Form" Navigation="Group">
 				<Children>
 
-					<lv:ListView Visible="true" Application="[Application]" Item="[Item]" Name="MyItems">
+					<lv:ListView Visible="true" Application="[Application]" Item="[Item]" Name="MyItems" Font="font://f:DV_ListButtonFont">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,0,30" Top="Parent,0.04" Right="Parent,.5,-20" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>
@@ -226,13 +227,13 @@
 										</Layout>
 										<Children>
 											<sr:StarRating Name="StarRating" />
-											<Text Name="TxtRuntime" Color="color://s:MediumBlue" WordWrap="true" Font="Segoe Media Center,14" Margins="0,0,0,0"/>
+											<Text Name="TxtRuntime" Color="color://s:FontColorDark" WordWrap="true" Font="font://f:DV_RuntimeFont" Margins="0,0,0,0"/>
 											<Repeater Name="GenreRepeater" Source="[Item.SelectedChild.Metadata.Genres]" DividerName="Divider"   >
 												<Layout>
 													<FlowLayout Orientation="Horizontal" AllowWrap="true"/>
 												</Layout>
 												<Content>
-													<Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White" Margins="0,0,10,0"/>
+													<Text Content="[RepeatedItem!cor:String]" Font="font://f:DV_GenreFont" Color="color://s:FontColorLight" Margins="0,0,10,0"/>
 												</Content>
 											</Repeater>
 										</Children>
@@ -260,9 +261,9 @@
 
 								</Children>
 							</Panel>
-							<Text Name="Title1" Color="White" Font="Segoe Media Center Semibold,20"/>
-							<Text Name="Title2" Color="White" Font="Segoe Media Center, 18" Margins="0,-5,0,0"/>
-							<Text Name="LastWatched" Color="White" Font="Segoe Media Center,14"/>
+							<Text Name="Title1" Color="color://s:FontColorLight" Font="font://f:DV_TitleFont"/>
+							<Text Name="Title2" Color="color://s:FontColorLight" Font="font://f:DV_SubTitleFont" Margins="0,-5,0,0"/>
+							<Text Name="LastWatched" Color="color://s:FontColorLight" Font="font://f:DV_LastWatchedFont"/>
 						</Children>
 					</Panel>
 
@@ -271,7 +272,7 @@
 							<FormLayoutInput Left="DetailsSection,0" Top="DetailsSection,1" Right="DetailsSection,1" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>
 						<Children>
-							<st:ScrollableText Name="Summary" Font="Segoe Media Center,16" Color="color://s:OurLightBlue" FocusColor="White"/>
+							<st:ScrollableText Name="Summary" Font="font://f:DV_SummaryFont" Color="color://s:FontColorMedium" FocusColor="color://s:FontColorLight"/>
 						</Children>
 					</Panel>
 
@@ -293,7 +294,7 @@
 		</Content>
 
 		<Content Name="Divider">
-			<Text Content="●" Font="Segoe Media Center,14" WordWrap="false" Color="White" Alpha="0.8" MinimumSize="25,0" />
+			<Text Content="●" Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight" Alpha="0.8" MinimumSize="25,0" />
 		</Content>
 	</UI>
 	

@@ -1,160 +1,161 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  xmlns:me="Me">
 
 
-	<UI Name="AutoScroller">
+  <UI Name="AutoScroller">
 
-		<Properties>
-			<cor:String Name="Text" String="" />
-			<Font Name="Font" Font="Segoe Media Center Semibold,16"/>
-			<Color Name="Color" Color="LightBlue"/>
-			<Color Name="FocusColor" Color="White"/>
-			<Inset Name="ImagePadding" Inset="0,0,0,0"/>
-			<Image Name="FocusImage" Image="image://i:BlankImage"/>
-		</Properties>
-		<Locals>
-			<ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true" />
-			<ScrollingData Name="ScrollingData" />
-			<Command Name="ScrollUpCommand" />
-			<Command Name="ScrollDownCommand" />
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <cor:String Name="Text" String="" />
+      <Font Name="Font" Font="$Required"/>
+      <Color Name="Color" Color="color://s:FontColorMedium"/>
+      <Color Name="FocusColor" Color="color://s:FontColorLight"/>
+      <Inset Name="ImagePadding" Inset="0,0,0,0"/>
+      <Image Name="FocusImage" Image="image://i:BlankImage"/>
+      <Size Name="IndicatorSize" Size="10,20"/>
+    </Properties>
+    <Locals>
+      <ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true" />
+      <ScrollingData Name="ScrollingData" />
+      <Command Name="ScrollUpCommand" />
+      <Command Name="ScrollDownCommand" />
       <cor:Single Name="Pages" Single="1" />
-		</Locals>
+      <a:Scroller Name="Scroller"/>
+    </Locals>
 
-		<Rules>
-      <!-- Defaults and Bindings-->      
-			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
-      
+    <Rules>
+      <!-- Defaults and Bindings-->
+      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
+
       <Binding Source="[Text]" Target="[TextVal.Content]" />
-      <!--<Binding Source="[ScrollingData.CurrentPage]" Target="[CurrentPage.Content]">
-        <Transformer>
-          <FormatTransformer Format="{0:F0}"/>
-        </Transformer>
-      </Binding>
-      <Binding Source="[ScrollingData.TotalPages]" Target="[TotalPages.Content]">
-        <Transformer>
-          <FormatTransformer Format="{0:F0}"/>
-        </Transformer>
-      </Binding>-->
       
+      <Changed Source="[ScrollingData.CurrentPage]" >
+        <Actions>
+          <Invoke Target="[Scroller.ComputeSize]" ResultTarget="[Indicator.MinimumSize]"
+                  ExclusiveApply="false" InvokePolicy="AsynchronousNormal">
+            <size>
+              <Size Size="[Sidebar.MaximumSize]" />
+            </size>
+            <currentPage>
+              <cor:Single Single="[ScrollingData.CurrentPage]" />
+            </currentPage>
+            <totalPages>
+              <cor:Single Single="[ScrollingData.TotalPages]" />
+            </totalPages> 
+          </Invoke>
+        </Actions>
+      </Changed>
+
       <!-- Detect if Text property has no value -->
-			<Changed Source="[Text]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Text.Length]" ConditionOp="Equals" Value="0"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[MainPanel.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
+      <Changed Source="[Text]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Text.Length]" ConditionOp="Equals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainPanel.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
 
       <!-- Detect if Text property has a value -->
-			<Changed Source="[Text]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Text.Length]" ConditionOp="NotEquals" Value="0"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[MainPanel.Visible]" Value="true"/>
-				</Actions>
-			</Changed>
+      <Changed Source="[Text]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Text.Length]" ConditionOp="NotEquals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainPanel.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
 
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[TextVal.Color]" Value="[FocusColor]" />
-          <Set Target="[ImagePanel.Content]" Value="[FocusImage]" />          
+          <Set Target="[ImagePanel.Content]" Value="[FocusImage]" />
         </Actions>
       </Condition>
 
-      <!--<Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Conditions >
+      <Changed Source="[ScrollUpCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[ScrollingData.ScrollUp]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[ScrollDownCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[ScrollingData.ScrollDown]"/>
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[ScrollingData.TotalPages]" ConditionOp="LessThanOrEquals" Value="1" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ScrollInfo.Visible]" Value="false" />
+          <Set Target="[ImagePanel.MouseInteractive]" Value="false" />
+          <Set Target="[Input.KeyInteractive]" Value="false" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
           <Equality Source="[ScrollingData.TotalPages]" ConditionOp="GreaterThan" Value="1" />
         </Conditions>
         <Actions>
-          <Set Target="[]" />
-          <PlayAnimation
+          <Set Target="[ScrollInfo.Visible]" Value="true" />
+          <Set Target="[ImagePanel.MouseInteractive]" Value="true" />
+          <Set Target="[Input.KeyInteractive]" Value="true" />
         </Actions>
-      </Condition>-->
-      
-      
-			<Changed Source="[ScrollUpCommand.Invoked]">
-				<Actions>
-					<Invoke Target="[ScrollingData.ScrollUp]"/>
-				</Actions>
-			</Changed>
-			<Changed Source="[ScrollDownCommand.Invoked]">
-				<Actions>
-					<Invoke Target="[ScrollingData.ScrollDown]"/>
-				</Actions>
-			</Changed>	
+      </Rule>
 
-			<Rule>
-				<Conditions>
-					<Equality Source="[ScrollingData.TotalPages]" ConditionOp="LessThanOrEquals" Value="1" />
-				</Conditions>
-				<Actions>
-					<Set Target="[ScrollInfo.Visible]" Value="false" />
-				</Actions>
-			</Rule>
+    </Rules>
 
-		</Rules>
-
-		<Content>
-			<Panel Name="MainPanel" Layout="Dock" >
-				<Children>
-					<Graphic Content="image://i:BlankImage" Name="ImagePanel" MouseInteractive="true" Layout="Form" Padding="[ImagePadding]" >
-						<LayoutInput>
-							<DockLayoutInput Position="Client"/>
-						</LayoutInput>
-						<Children>
-							<Scroller Orientation="Vertical" FadeSize="-5"  ScrollingData="[ScrollingData]" >
-								<LayoutInput>
-									<AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" />
-								</LayoutInput>
-								<Children>
-                  <Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]"
-                    Padding="0,0,0,10">  
-                  </Text>
-								</Children>
-							</Scroller>
-						</Children>
-					</Graphic>
-          
-					<Panel Name="ScrollInfo" Visible="true"  >
-						<LayoutInput>
-							<DockLayoutInput Position="Right"/>
-						</LayoutInput>
-						<Children>
-              <ColorFill Name="Sidebar" Content="DimGray" Alpha="0.7" Layout="Dock" MaximumSize="16,0">
-                
+    <Content>
+      <Panel Name="MainPanel" Layout="Dock" >
+        <Children>
+          <Graphic Content="image://i:BlankImage" Name="ImagePanel" MouseInteractive="true" Layout="Form" Padding="[ImagePadding]" >
+            <LayoutInput>
+              <DockLayoutInput Position="Client"/>
+            </LayoutInput>
+            <Children>
+              <Scroller Orientation="Vertical" FadeSize="-5"  ScrollingData="[ScrollingData]" >
+                <LayoutInput>
+                  <AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" />
+                </LayoutInput>
                 <Children>
-                  <ColorFill Content="DarkSlateGray" MinimumSize="15,30">
+                  <Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]"
+                    Padding="0,0,0,10">
+                  </Text>
+                </Children>
+              </Scroller>
+            </Children>
+          </Graphic>
+
+          <Panel Name="ScrollInfo" Visible="true"  >
+            <LayoutInput>
+              <DockLayoutInput Position="Right"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Name="Sidebar" Content="DimGray" Alpha="0.7" Layout="Dock" MaximumSize="10,225">
+
+                <Children>
+                  <ColorFill Name="Indicator" Content="White" MinimumSize="10,20">
                     <LayoutInput>
                       <DockLayoutInput Position="Top"/>
                     </LayoutInput>
-                    <Children>
-                      <Text Content="˄" Font="[Font]" Color="[Color]" />
-                      
-                    </Children>
-                  </ColorFill>
-                  <ColorFill Content="DarkSlateGray" MinimumSize="15,30">
-                    <LayoutInput>
-                      <DockLayoutInput Position="Bottom"/>
-                    </LayoutInput>
-                    <Children>
-                      <Text Content="˅" Font="[Font]" Color="[Color]" />
-                    </Children>
                   </ColorFill>
                 </Children>
               </ColorFill>
-						
 
-						</Children>
-					</Panel>
-				</Children>
-			</Panel>
-		</Content>
-	</UI>
+
+            </Children>
+          </Panel>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
 
   <UI Name="ScrollableMovieText">
 
@@ -321,5 +322,5 @@
       </Panel>
     </Content>
   </UI>
-  <Image Name="50AlphaBg" Source="resx://MediaBrowser/MediaBrowser.Resources/BlackBtnAlpha50" NineGrid="10,10,10,10" />
+ 
 </Mcml>

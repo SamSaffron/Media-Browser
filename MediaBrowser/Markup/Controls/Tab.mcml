@@ -4,96 +4,75 @@
       xmlns:me="Me"
       >
 
-  <Aggregate Source="resx://MediaBrowser/MediaBrowser.Resources/TabItem" />
+	<Aggregate Source="resx://MediaBrowser/MediaBrowser.Resources/TabItem" />
 
-  <UI Name="Tab">
+	<UI Name="Tab">
 
-    <Properties>
+		<Properties>
+			<Choice Name="Model" Choice="$Required"/>
+      <Color Name="FilterColor" Color="Black"/>
+			<Font Name="Font" Font="$Required"/>
+		</Properties>
 
-      <Choice Name="Model" Choice="$Required"/>
+		<Locals>
 
-    </Properties>
+			<ScrollingHandler Name="ScrollingHandler" HandlerStage="Bubbled" />
+			<ScrollingData Name="ScrollingData" />
 
-    <Locals>
+		</Locals>
 
-      <ScrollingHandler Name="ScrollingHandler" HandlerStage="Bubbled" />
-      <ScrollingData Name="ScrollingData" />
+		<Rules>
 
-    </Locals>
+			<Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]" />
+			<Default Target="[ScrollingData.Repeater]" Value="[ButtonRepeater]" />
 
-    <Rules>
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Equality Source="[Input.DeepMouseFocus]" Value="true"/>
+					<Equality Source="[Input.DeepKeyFocus]" Value="false"/>
+					<Equality Source="[Model.Description]" Value=""/>
+				</Conditions>
+				<Actions>
+					<Set Target="[Model.Description]" Value="Active"/>
+				</Actions>
+			</Rule>
 
-      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]" />
-      <Default Target="[ScrollingData.Repeater]" Value="[ButtonRepeater]" />
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Equality Source="[Input.DeepMouseFocus]" Value="false"/>
+					<Equality Source="[Input.DeepKeyFocus]" Value="true"/>
+					<Equality Source="[Model.Description]" Value=""/>
+				</Conditions>
+				<Actions>
+					<Set Target="[Model.Description]" Value="Active"/>
+				</Actions>
+			</Rule>
 
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.DeepMouseFocus]" Value="true"/>
-          <Equality Source="[Input.DeepKeyFocus]" Value="false"/>
-          <Equality Source="[Model.Description]" Value=""/>
-        </Conditions>
-        <Actions>
-          <Set Target="[Model.Description]" Value="Active"/>
-        </Actions>
-      </Rule>
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Equality Source="[Input.DeepMouseFocus]" Value="false"/>
+					<Equality Source="[Input.DeepKeyFocus]" Value="false"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[Model.Description]" Value=""/>
+				</Actions>
+			</Rule>
+		</Rules>
 
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.DeepMouseFocus]" Value="false"/>
-          <Equality Source="[Input.DeepKeyFocus]" Value="true"/>
-          <Equality Source="[Model.Description]" Value=""/>
-        </Conditions>
-        <Actions>
-          <Set Target="[Model.Description]" Value="Active"/>
-        </Actions>
-      </Rule>
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.DeepMouseFocus]" Value="false"/>
-          <Equality Source="[Input.DeepKeyFocus]" Value="false"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[Model.Description]" Value=""/>
-        </Actions>
-      </Rule>
-
-    </Rules>
-
-    <Content>
-
-      <Scroller Name="Scroller"
-                Orientation="Horizontal"
-                FocusPadding="100"
-                Navigation="RememberFocus"
-                ScrollingData="[ScrollingData]"
-                CenterPointPercent="0.75,0.5,0.5"
-                >
-        <Children>
-
-          <Repeater Source="[Model.Options]" Layout="HorizontalFlow" Name="ButtonRepeater">
-
-            <Animations>
-              <Animation Animation="animation://anim:ScrollerMoveItemSmooth"/>
-            </Animations>
-
-            <Layout>
-              <FlowLayout Repeat="Never" RepeatGap="100,0" Spacing="0,0" ItemAlignment="Near"/>
-            </Layout>
-
-            <Content>
-              <me:TabItem Label="[RepeatedItem.ToString]"
-                            Index="[RepeatedItemIndex]"
-                            Model="[Model]"
-                            />
-            </Content>
-
-          </Repeater>
-
-        </Children>
-      </Scroller>
-
-    </Content>
-  </UI>
+		<Content>
+			<Repeater Source="[Model.Options]" Layout="HorizontalFlow" Name="ButtonRepeater" Navigation="RememberFocus">
+				<Animations>
+					<Animation Animation="animation://anim:ScrollerMoveItemSmooth"/>
+				</Animations>
+				<Layout>
+					<FlowLayout Repeat="Never" RepeatGap="100,0" Spacing="5,0" ItemAlignment="Near"/>
+				</Layout>
+				<Content>
+					<me:TabItem Label="[RepeatedItem.ToString]" FilterColor="[FilterColor]" 
+                      Index="[RepeatedItemIndex]" Model="[Model]" Font="[Font]"/>
+				</Content>
+			</Repeater>
+		</Content>
+	</UI>
 
 </Mcml>

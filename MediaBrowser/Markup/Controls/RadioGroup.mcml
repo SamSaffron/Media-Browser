@@ -1,7 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:me="Me"
 	  >
 
@@ -21,7 +21,7 @@
 		<Content>
 			<Panel>
 				<Children>
-				<me:RadioGroup Model="[choices]" />
+				<me:RadioGroup Model="[choices]" Font="Courier ,10" />
 				</Children>
 			</Panel>
 		</Content>
@@ -32,7 +32,7 @@
 		<Properties>
 			<Choice Name="Model" Choice="$Required" />
       <Size Name="BoxSize" Size="34,34"/>
-      <Font Name="RadioFont" Font="font://s:RadioFont"/>
+      <Font Name="Font" Font="$Required"/>
 		</Properties>
 
 		<Rules>
@@ -53,7 +53,7 @@
 		</Content>
 		<Content Name="RadioButton">
 			<me:SimpleRadioButton Model="[Model]" Option="[RepeatedItem!cor:String]" 
-                            BoxSize="[BoxSize]" RadioFont="[RadioFont]" />
+                            BoxSize="[BoxSize]" Font="[Font]" />
 		</Content>
 	</UI>
 
@@ -63,7 +63,7 @@
 			<Choice       Name="Model" Choice="$Required"/>
 			<cor:String   Name="Option" String="$Required"/>
 			<Size Name="BoxSize" Size="34,34"/>
-      <Font Name="RadioFont" Font="font://s:RadioFont"/>
+      <Font Name="Font" Font="$Required"/>
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" HandleEnterSpaceKeys ="true" HandlePrimaryMouseButton ="true" HandlerStage="Bubbled"/>
@@ -190,7 +190,7 @@
 				<Children>
 
 					<Graphic Content="image://i:RadioNoFocus" Name="BoxImage" MinimumSize="[BoxSize]" MaximumSize="[BoxSize]" />
-					<Text Name="OptionLabel" Content="[Option]" Color="color://s:RadioColor" Font="[RadioFont]"/>
+					<Text Name="OptionLabel" Content="[Option]" Color="color://s:FontColorMedium" Font="[Font]"/>
 
 				</Children>
 			</Panel>

@@ -62,6 +62,12 @@ namespace MediaBrowser
         public bool EnableMinimalMovieView = false;
         public string PreferredMetaDataLanguage = "en";
         public List<ExternalPlayer> ExternalPlayers = new List<ExternalPlayer>();
+        public Color MinimalMovieThemeColor = new Color(Colors.Black);
+        public string Theme = "Default";
+        public string FontTheme = "Default";
+        public bool ShowClock = false;
+
+        public string CentralisedCache = null;
 
         public class ExternalPlayer
         {

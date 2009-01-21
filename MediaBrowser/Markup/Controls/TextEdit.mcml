@@ -1,7 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  >
 
@@ -20,9 +20,9 @@
 
 			
 			<!-- Label color. -->
-			<Color Name="LabelColor" Color="White"/>
-			<Color Name="LabelFocusedColor" Color="White"/>
-
+			<Color Name="LabelColor" Color="color://s:FontColorLight"/>
+			<Color Name="LabelFocusedColor" Color="color://s:FontColorLight"/>
+			<Font Name="Font" Font="$Required"/>
 		</Properties>
 
 		<Locals>
@@ -72,12 +72,12 @@
 					<FlowLayout Orientation="Horizontal" FillStrip="true" ItemAlignment="Center" />
 				</Layout>
 				<Children>
-					<Text Name="Lbl" Color="color://s:TextEditLabelColor" Font="font://s:TextEditFont" Margins="5,0,0,0" ></Text>
+					<Text Name="Lbl" Color="color://s:FontColorMedium" Font="[Font]" Margins="5,0,0,0" ></Text>
 					<!-- Solid background color. -->
 					<Graphic Name="Image" Content="image://i:BlankImage" MouseInteractive="true" Padding="4,4,4,4" Layout="Anchor" MinimumSize="100,34">
 						<Children>
 							<!-- Display the current value. -->
-							<Text Name="DisplayText" Color="[LabelColor]" Font="font://s:TextEditFont" HorizontalAlignment="Near" Margins="0,0,10,-2" MinimumSize="0,34" />
+							<Text Name="DisplayText" Color="[LabelColor]" Font="[Font]" HorizontalAlignment="Near" Margins="0,0,10,-2" MinimumSize="0,34" />
 							<!-- Display the caret. -->
 							<ColorFill Name="Caret" Content="[LabelColor]" Visible="false" MinimumSize="12,4">
 								<LayoutInput>

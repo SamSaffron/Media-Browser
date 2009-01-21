@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -55,8 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
+    <Compile Include="Code\Utilities.cs" />
     <Compile Include="Library\BackgroundProcessor.cs" />
     <Compile Include="Code\Application.cs" />
     <Compile Include="Code\Config.cs" />
@@ -186,12 +186,15 @@
     <Content Include="Images\Special\Reel.png" />
     <Content Include="Images\Special\Ring.png" />
     <Content Include="Images\Special\TabHeader2.png" />
+    <Content Include="Images\Special\Underline.png" />
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
     <Content Include="Images\Tick.png" />
     <Content Include="Images\TickPoster.png" />
+    <Content Include="Images\TickPosterBase.png" />
     <Content Include="Images\Unwatched.png" />
+    <Content Include="Images\UnwatchedBase.png" />
     <Content Include="Images\zoompane.png" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
@@ -213,9 +216,15 @@
     <Content Include="Markup\Controls\CheckBox.mcml" />
     <Content Include="Images\Application.png" />
     <Content Include="Markup\Controls\AutoScroller.mcml" />
+    <Content Include="Markup\Controls\ColorSpinner.mcml" />
+    <Content Include="Markup\Controls\SpinnerText.mcml" />
     <Content Include="Markup\Controls\GenreButton.mcml" />
+    <Content Include="Markup\Controls\SimpleSpinner.mcml" />
     <Content Include="Markup\Controls\TabItem.mcml" />
     <Content Include="Markup\Controls\Tab.mcml" />
+    <Content Include="Markup\FontsSmall.mcml" />
+    <Content Include="Markup\FontsDefault.mcml" />
+    <Content Include="Markup\StylesBlack.mcml" />
     <Content Include="Markup\Views\ViewMovieDefault.mcml" />
     <Content Include="Markup\Views\ViewMovieMinimal.mcml" />
     <Content Include="Markup\Controls\Pivot.mcml" />
@@ -249,7 +258,7 @@
     <Content Include="Markup\MovieDetailsPage.mcml" />
     <Content Include="Markup\Controls\NowPlayingViewport.mcml" />
     <Content Include="Markup\Controls\PosterView.mcml" />
-    <Content Include="Markup\Styles.mcml" />
+    <Content Include="Markup\StylesDefault.mcml" />
     <Content Include="Registration.xml" />
     <Content Include="Setup\info.xml" />
     <Content Include="Setup\mbinfo.xml" />
@@ -263,7 +272,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
+    <PostBuildEvent>copy "$(ProjectDir)Markup\StylesDefault.mcml" c:\programdata\mediabrowser\Styles_DoNotEdit.mcml
+copy "$(ProjectDir)Markup\FontsDefault.mcml" c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml
+%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
 cd "$(ProjectDir)"
 "$(ProjectDir)DevInstall.cmd" /$(ConfigurationName)</PostBuildEvent>
   </PropertyGroup>

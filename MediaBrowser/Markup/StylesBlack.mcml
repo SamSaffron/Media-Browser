@@ -1,0 +1,18 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MsCorLib/System"
+	  xmlns:me="Me"
+	  >
+
+	<Color Name="PosterZoomBackground" Color="128,128,128"/>
+	<Color Name="FontColorLight" Color="255,255,255"/>
+	<Color Name="FontColorMedium" Color="190,190,190"/>
+	<Color Name="FontColorDark" Color="130,130,130"/>
+
+	<Color Name="FilterColor" Color="0,0,0"/>
+	<Color Name="BackdropFilter" Color="92,92,92"/>
+	<Color Name="BackgroundColor1" Color="160,160,160" />
+	<Color Name="BackgroundColor2" Color="0,0,0" />
+
+	<cor:Single Name="FilterAlpha" Single="0.71" />
+	
+</Mcml>

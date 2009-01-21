@@ -4,6 +4,7 @@
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:fs="resx://MediaBrowser/MediaBrowser.Resources/FocusSelector"
 	  xmlns:pvi="resx://MediaBrowser/MediaBrowser.Resources/PosterViewItem"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  >
 
 	<UI Name="PosterScroller">
@@ -13,6 +14,9 @@
 			<lib:Item Name="Item" Item="$Required"/>
 			<cor:Int32 Name="RowLimit"  />
 			<cor:Boolean Name="NoEndPadding" Boolean="false" />
+			<Font Name="TopLabelFont" Font="$Required"/>
+			<Font Name="LabelFont" Font="$Required"/>
+			<Font Name="UnwatchedCountFont" Font="$Required"/>
 		</Properties>
 		<Locals>
 
@@ -205,7 +209,7 @@
 			</Panel>
 		</Content>
 		<Content Name="BaseItem">
-			<pvi:PosterViewItem ImageSize="[Item.ActualThumbSize]" AnimDelay="[AnimDelay]" NavCount="[NavCount]" ShowLabels="[Item.DisplayPrefs.ShowLabels]" Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" ParentItem="[Item]">
+			<pvi:PosterViewItem ImageSize="[Item.ActualThumbSize]" AnimDelay="[AnimDelay]" NavCount="[NavCount]" ShowLabels="[Item.DisplayPrefs.ShowLabels]" Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" ParentItem="[Item]" TopLabelFont="[TopLabelFont]" LabelFont="[LabelFont]" UnwatchedCountFont="[UnwatchedCountFont]">
 			</pvi:PosterViewItem >
 
 		</Content>

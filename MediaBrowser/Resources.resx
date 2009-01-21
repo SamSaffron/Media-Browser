@@ -136,9 +136,6 @@
   <data name="Page" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\page.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Styles" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\styles.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ButtonSelection2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Images\ButtonSelection2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -456,5 +453,35 @@
   </data>
   <data name="TabHeader2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\special\tabheader2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\special\underline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColorSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\colorspinner.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SimpleSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\simplespinner.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StylesBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\stylesblack.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StylesDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\stylesdefault.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TickPosterBase" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\tickposterbase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnwatchedBase" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\unwatchedbase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpinnerText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\controls\spinnertext.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FontsDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\fontsdefault.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FontsSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\fontssmall.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

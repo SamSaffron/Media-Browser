@@ -2,11 +2,12 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
 	  xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
 	  xmlns:d="resx://MediaBrowser/MediaBrowser.Resources/Directors"
 	  xmlns:w="resx://MediaBrowser/MediaBrowser.Resources/Writers"
 	  xmlns:mp="resx://MediaBrowser/MediaBrowser.Resources/MPAARating"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  >
 
 	<UI Name="MovieInfo">
@@ -40,8 +41,8 @@
 							<FlowLayout Orientation="Horizontal" Spacing="10,0"/>
 						</Layout>
 						<Children>
-							<Text Name="ProductionYear" Content=""  Font="Segoe Media Center Semibold,16" Color="White"/>
-							<Text Name="TxtRuntime" Color="color://s:RuntimeColor" WordWrap="true" Font="font://s:RuntimeFont" Margins="0,0,0,0"/>
+							<Text Name="ProductionYear" Content=""  Font="font://f:TD_MI_ProductionYearFont" Color="color://s:FontColorLight"/>
+							<Text Name="TxtRuntime" Color="color://s:FontColorLight" WordWrap="true" Font="font://f:TD_MI_RuntimeFont" Margins="0,0,0,0"/>
 						</Children>
 					</Panel>
 					<Panel>
@@ -53,10 +54,10 @@
 							<mp:MPAARating Name="MPAARating" MaximumSize="0,30"/>
 						</Children>
 					</Panel>
-					<gl:GenreList Name="Genres" SourceData="[Model.Metadata.Genres]"/>
-					<d:Directors Name="Directors" Item="[Model]"/>
-					<w:Writers Name="Writers" Item="[Model]"/>
-					<Text Name="MediaInfo" Font="Segoe Media Center Semibold,14" Color="White" />
+					<gl:GenreList Name="Genres" SourceData="[Model.Metadata.Genres]" Font="font://f:TD_MI_GenreFont"/>
+					<d:Directors Name="Directors" Item="[Model]" TitleFont="font://f:TD_MI_DirectorTitleFont" Font="font://f:TD_MI_DirectorFont"/>
+					<w:Writers Name="Writers" Item="[Model]" TitleFont="font://f:TD_MI_WriterTitleFont" Font="font://f:TD_MI_WriterFont"/>
+					<Text Name="MediaInfo" Font="font://f:TD_MI_MediaInfoFont" Color="color://s:FontColorLight" />
 				</Children>
 			</Panel>
 		</Content>

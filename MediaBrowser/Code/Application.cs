@@ -672,6 +672,11 @@ namespace MediaBrowser
             }
         }
 
+        public string AppVersion
+        {
+            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+        }
+
 
         #region IDisposable Members
 

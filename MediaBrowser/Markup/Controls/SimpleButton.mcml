@@ -3,6 +3,7 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
 	  xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
 	  xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
       xmlns:me="Me">
 
   
@@ -16,8 +17,8 @@
       <cor:Boolean Name="LeftAlign" Boolean="false" />
       <cor:String Name="Text" String="" />
       <Size Name="Size" Size="0,0" />
-      <Font Name="Font" Font="font://me:Font" />
-      <Color Name="Color" Color="White"/>
+      <Font Name="Font" Font="$Required" />
+      <Color Name="Color" Color="color://s:FontColorLight"/>
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
       <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
@@ -142,7 +143,6 @@
     </Content>
   </UI>
 
-  <Font Name="Font"                     FontName="Segoe Media Center"  FontSize="20" />
   <Image Name="ButtonDisabled"          Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
   <Image Name="ButtonDormant"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
   <Image Name="ButtonLeftFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />

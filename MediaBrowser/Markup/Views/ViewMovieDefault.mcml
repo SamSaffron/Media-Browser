@@ -2,7 +2,8 @@
     xmlns:cor="assembly://MsCorLib/System"
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="resx://MediaBrowser/MediaBrowser.Resources/Styles"
+	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
 	  xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
@@ -78,7 +79,7 @@
             <Children>
               <Panel Layout="Scale">
                 <Children>
-                  <Text Name="TitleName" Content="" HorizontalAlignment="Far" Font="Segoe Media Center Light, 46" Color="color://s:MediumBlue"></Text>
+                  <Text Name="TitleName" Content="" HorizontalAlignment="Far" Font="font://f:MD_TitleFont" Color="color://s:FontColorDark"></Text>
                 </Children>
               </Panel>
             </Children>
@@ -104,8 +105,8 @@
               <FormLayoutInput Left="PosterPanel,0" Right="PosterPanel,1" Top="PosterPanel,1,15"/>
             </LayoutInput>
             <Children>
-              <sb:SimpleButton Name="ResumeMovieButton" Text="Resume" Command="[ResumeMovieCommand]" Size="125,50" />
-              <sb:SimpleButton Name="PlayMovieButton" Text="Play" Command="[PlayMovieCommand]" Size="125,50" />
+              <sb:SimpleButton Name="ResumeMovieButton" Text="Resume" Command="[ResumeMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont"/>
+              <sb:SimpleButton Name="PlayMovieButton" Text="Play" Command="[PlayMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont" />
               <!-- <vm:ImgButton Name="PlayBtn" Command="[PlayMovieCommand]" Content="Play" Image="image://i:PlayImg" /> -->
             </Children>
           </Panel>
@@ -119,8 +120,8 @@
 					-->
 
           <!-- Description field -->
-          <st:ScrollableText Name="Overview" Text="" Font="Segoe Media Center Semibold,18" Color="color://s:OurLightBlue" 
-									FocusColor="White" FocusImage="image://me:ButtonLeftFocus" ImagePadding="10,20,10,20" >
+          <st:ScrollableText Name="Overview" Text="" Font="font://f:MD_SummaryFont" Color="color://s:FontColorMedium" 
+									FocusColor="color://s:FontColorLight" FocusImage="image://me:ButtonLeftFocus" ImagePadding="10,20,10,20" >
             <LayoutInput>
               <FormLayoutInput Left="PosterPanel,1,20" Top="TopBlock,1,5" Right="Parent,.715" Bottom="Parent,1,-83" />
             </LayoutInput>
@@ -135,7 +136,7 @@
           </ColorFill> 
          
 
-          <me:ActorList Name="ActorScroller" Item="[Item]" Font="Segoe Media Center,18" ActorFont="Segoe Media Center Semibold,16" >
+          <me:ActorList Name="ActorScroller" Item="[Item]"  >
             <LayoutInput>
               <AnchorLayoutInput Top="TopBlock,1,5" Left="Parent,0.74" Right="Parent,0.97" Bottom="Parent,1,-83" />         
             </LayoutInput>
@@ -182,8 +183,7 @@
   <UI Name="ActorList">
     <Properties>
       <lib:Item Name="Item" Item="$Required"/>
-      <Font Name="Font" Font="$Required" />
-      <Font Name="ActorFont" Font="$Required" />
+      
     </Properties>
     <Locals>
       <ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true"/>
@@ -271,7 +271,7 @@
                       <FlowLayout Orientation="Vertical"  />
                     </Layout>
                     <Content>
-                      <me:Actor actor="[RepeatedItem!lib:Actor]" Font="[ActorFont]"/>
+                      <me:Actor actor="[RepeatedItem!lib:Actor]" Font="font://f:MD_ActorFont"/>
                     </Content>
                   </Repeater>
                 </Children>
@@ -294,11 +294,11 @@
             <Children>
               <Panel Layout="HorizontalFlow" Margins="0,5,0,0">
                 <Children>
-                  <Text Content="˄" Font="[Font]" Color="color://s:OurLightBlue" />
-                  <Text Content="˅" Font="[Font]" Color="color://s:OurLightBlue" />
-                  <Text Name="CurrentPage" Font="[Font]" Color="color://s:OurLightBlue" />
-                  <Text Content="|" Font="[Font]" Color="color://s:OurLightBlue" />
-                  <Text Name="TotalPages"  Font="[Font]" Color="color://s:OurLightBlue" />
+                  <Text Content="˄" Font="font://f:MD_ActorFont" Color="color://s:FontColorMedium" />
+                  <Text Content="˅" Font="font://f:MD_ActorFont" Color="color://s:FontColorMedium" />
+                  <Text Name="CurrentPage" Font="font://f:MD_ActorFont" Color="color://s:FontColorMedium" />
+                  <Text Content="|" Font="font://f:MD_ActorFont" Color="color://s:FontColorMedium" />
+                  <Text Name="TotalPages"  Font="font://f:MD_ActorFont" Color="color://s:FontColorMedium" />
                 </Children>
               </Panel>
 
@@ -340,8 +340,8 @@
 
       <Panel Layout="VerticalFlow" Margins="0,5,0,0">
         <Children>
-          <Text Font="[Font]" Color="White" Content="[actor.DisplayName]"/>
-          <Text Name="ActorRole" Font="[Font]" Color="color://s:OurLightBlue" Content="[actor.DisplayRole]" Margins="10,-5,0,0"/>
+          <Text Font="[Font]" Color="color://s:FontColorLight" Content="[actor.DisplayName]"/>
+          <Text Name="ActorRole" Font="[Font]" Color="color://s:FontColorMedium" Content="[actor.DisplayRole]" Margins="10,-5,0,0"/>
         </Children>
       </Panel>
 
@@ -389,7 +389,7 @@
                   <FlowLayout Orientation="Horizontal" Spacing="10,0"/>
                 </Layout>
                 <Children>
-                  <Text Name="ProductionYear" Content=""  Font="Verdana,18,Bold" Color="White"/>
+                  <Text Name="ProductionYear" Content=""  Font="Verdana,18,Bold" Color="color://s:FontColorLight"/>
                   <sr:StarRating Name="StarRating" Value="[Item.Metadata.ImdbRating.Value]" Margins="0,5,0,0" />
                   <mp:MPAARating Name="MPAARating" Value="[Item.Metadata.MpaaRating]" Margins="10,0,0,0" MaximumSize="0,30"/>
                 </Children>
@@ -407,9 +407,9 @@
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <Text Font="Segoe Media Center,14" Color="White" Content="IMDB Rating:  "/>
-                  <Text Name="IMDBRating" Content="" Color="White" Font="Segoe Media Center Semibold,14"/>
-                  <Text Font="Segoe Media Center,14" Color="White" Content=" out of 5 "/>
+                  <Text Font="font://f:MD_ImdbRatingFont" Color="color://s:FontColorLight" Content="IMDB Rating:  "/>
+                  <Text Name="IMDBRating" Content="" Color="color://s:FontColorLight" Font="font://f:MD_ImdbRatingFont"/>
+                  <Text Font="font://f:MD_ImdbRatingFont" Color="color://s:FontColorLight" Content=" out of 5 "/>
                 </Children>
                 <Animations>
                   <TransformAnimation Delay="0.6">
@@ -420,7 +420,7 @@
                 </Animations>
               </Panel>
 
-              <Text Name="Runtime" Content="[Item.Metadata.RunningTimeString]"  Font="Segoe Media Center,14" Color="White">
+              <Text Name="Runtime" Content="[Item.Metadata.RunningTimeString]"  Font="font://f:MD_RuntimeFont" Color="color://s:FontColorLight">
                 <Animations>
                   <TransformAnimation Delay="0.8">
                     <Source>
@@ -429,7 +429,7 @@
                   </TransformAnimation>
                 </Animations>
               </Text>
-				<Text Name="MediaInfo" Font="Segoe Media Center Semibold,14" Color="White" >
+				<Text Name="MediaInfo" Font="font://f:MD_MediaInfoFont" Color="color://s:FontColorLight" >
 					<Animations>
 						<TransformAnimation Delay="0.9">
 							<Source>
@@ -451,8 +451,8 @@
             <Children>
               <Panel Name="DirectedByPanel" Layout="HorizontalFlow" Margins="0,0,0,0" Visible="false">
                 <Children>
-                  <Text Font="Segoe Media Center,16" Color="White" Content="Directed By: "/>
-                  <Text Name="Director" Font="Segoe Media Center Semibold,16" WordWrap="true" Color="White" Content="[Item.Metadata.DirectorString]"/>
+                  <Text Font="font://f:MD_DirectorTitleFont" Color="color://s:FontColorLight" Content="Directed By: "/>
+                  <Text Name="Director" Font="font://f:MD_DirectorFont" WordWrap="true" Color="color://s:FontColorLight" Content="[Item.Metadata.DirectorString]"/>
                 </Children>
                 <Animations>
                   <TransformAnimation Delay="1.2">
@@ -468,13 +468,11 @@
                   <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
                 </Layout>
                 <Content>
-                  <!--<Text Content="[RepeatedItem!cor:String]" Font="Segoe Media Center,14" Color="White" Margins="0,0,10,0"/>-->
                   <gb:GenreButton Text="[RepeatedItem!cor:String]"
                                   Application="[Application]" Item="[Item]"
                                   GenreCategory="[RepeatedItem!cor:String]"
-                                  Font="Segoe Media Center,16" Color="LightBlue"
-                                  Command="[NullCommand]" IsNavigatingCommand="true"
-                                  Size="135,40" Margins="0,0,10,0"/>
+                                  Font="font://f:MD_GenreFont" Color="color://s:FontColorMedium"
+                                  />
                 </Content>
                 <Animations>
                   <TransformAnimation Delay="1">
@@ -492,7 +490,7 @@
       </Panel>
     </Content>
     <Content Name="Divider">
-      <Text Content=", " Font="Segoe Media Center,14" WordWrap="false" Color="White" Margins="5,0,5,0" Alpha="0.6" MinimumSize="25,0" />
+      <Text Content=", " Font="font://f:MD_GenreFont" WordWrap="false" Color="color://s:FontColorLight" Margins="5,0,5,0" Alpha="0.6" MinimumSize="25,0" />
     </Content>
 
   </UI>

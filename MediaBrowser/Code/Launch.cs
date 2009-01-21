@@ -40,9 +40,74 @@ namespace MediaBrowser
                 Trace.AutoFlush = true;
                 Trace.Listeners.Add(t);
             }
+            SetupStylesMcml();
+            SetupFontsMcml();
 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
+        }
+
+        private void SetupFontsMcml()
+        {
+            try
+            {
+                string file = Path.Combine(Helper.AppDataPath, "Fonts_DoNotEdit.mcml");
+                string custom = Path.Combine(Helper.AppDataPath, "CustomFonts.mcml");
+                if (File.Exists(custom))
+                {
+                    Trace.TraceInformation("Using custom fonts mcml");
+                    File.Copy(custom, file);
+                }
+                else
+                {
+                    switch (Config.Instance.FontTheme)
+                    {
+                        case "Small":
+                            File.WriteAllBytes(file, Resources.FontsSmall);
+                            break;
+                        case "Default":
+                        default:
+                            File.WriteAllBytes(file, Resources.FontsDefault);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error creating Fonts_DoNotEdit.mcml\n" + ex.ToString());
+            }
+        }
+
+        private void SetupStylesMcml()
+        {
+            try
+            {
+                string file = Path.Combine(Helper.AppDataPath, "Styles_DoNotEdit.mcml");
+                string custom = Path.Combine(Helper.AppDataPath, "CustomStyles.mcml");
+                if (File.Exists(custom))
+                {
+                    Trace.TraceInformation("Using custom styles mcml");
+                    File.Copy(custom, file);
+                }
+                else
+                {
+                    switch (Config.Instance.Theme)
+                    {
+                        case "Black":
+                            File.WriteAllBytes(file, Resources.StylesBlack);
+                            break;
+                        case "Default":
+                        default:
+                            File.WriteAllBytes(file, Resources.StylesDefault);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error creating Styles_DoNotEdit.mcml\n" + ex.ToString());
+            }
+
         }
     }
 }
