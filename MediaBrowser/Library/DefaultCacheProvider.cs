@@ -57,6 +57,7 @@ namespace MediaBrowser.Library
                 }
                 catch (AbandonedMutexException)
                 { }
+                /* this isn't ready yet 
                 if (centralisedCache)
                 {
                     while (true)
@@ -71,6 +72,7 @@ namespace MediaBrowser.Library
                         }
                     }
                 }
+                 */
             }
 
             #region IDisposable Members
@@ -92,7 +94,11 @@ namespace MediaBrowser.Library
 
         private bool CentralisedCache
         {
-            get { return Config.Instance.CentralisedCache!=null; }
+            get 
+            { 
+                return false; 
+                // return Config.Instance.CentralisedCache != null; 
+            }
         }
 
         private bool CentralisedSources
