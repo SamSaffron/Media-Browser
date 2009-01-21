@@ -10,7 +10,7 @@
 
 	<Color Name="FilterColor" Color="0,0,0"/>
 	<Color Name="BackdropFilter" Color="92,92,92"/>
-	<Color Name="BackgroundColor1" Color="160,160,160" />
+	<Color Name="BackgroundColor1" Color="60,60,60" />
 	<Color Name="BackgroundColor2" Color="0,0,0" />
 
 	<cor:Single Name="FilterAlpha" Single="0.71" />
