@@ -39,6 +39,7 @@ namespace MediaBrowser.Library.Playables
             ConfigData.ExternalPlayer p = configuredPlayers[type];
             string args = string.Format(p.Args, this.path);
             Process.Start(p.Command, args);
+            MarkWatched();
         }
 
         public static bool CanPlay(string path)

@@ -151,13 +151,18 @@ namespace MediaBrowser.Library
             }
             eventHandler = new Microsoft.MediaCenter.UI.PropertyChangedEventHandler(Transport_PropertyChanged);
             mce.MediaExperience.GoToFullScreen();
-            this.PlayState.LastPlayed = DateTime.Now;
-            this.PlayState.PlayCount = this.PlayState.PlayCount + 1;
+            MarkWatched();
             TransportProxy.ClearHandler(); // ensure we will be the only one getting the events
             TransportProxy.PropertyChanged += eventHandler;
             TransportProxy.CheckAttached();
             previousPlayable = this;
             Application.CurrentInstance.ShowNowPlaying = true;
+        }
+
+        protected void MarkWatched()
+        {
+            this.PlayState.LastPlayed = DateTime.Now;
+            this.PlayState.PlayCount = this.PlayState.PlayCount + 1;
         }
 
         public virtual bool UpdatePosition(string title, long positionTicks)
