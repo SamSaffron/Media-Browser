@@ -201,7 +201,7 @@
               <Text Name="TimeDate" Font="font://f:P_ClockFont" Color="White" 
                     Visible="[Application.Config.ShowClock]">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0,50" Bottom="ViewPanel,0,-10"/>
+                  <FormLayoutInput Left="Parent,0,40" Bottom="ViewPanel,0,-10"/>
                 </LayoutInput>
               </Text>
               

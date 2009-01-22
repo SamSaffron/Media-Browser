@@ -8,7 +8,7 @@
 	<Font Name="P_BreadcrumbSmallFont" Font="Segoe Media Center Light, 16"/>
 	<Font Name="P_ConfigButtons" Font="Segoe Media Center Semibold,18"/>
 	<Font Name="P_FindAsYouTypeFont" Font="Segoe Media Center Semibold,150"/>
-	<Font Name="P_ClockFont" Font="Segoe Media Center Semibold,18"/>
+	<Font Name="P_ClockFont" Font="Segoe Media Center Semibold,17"/>
 	
 	<!-- Config Page -->
 	<Font Name="CP_ConfigTitleFont" Font="Segoe Media Center Light, 36"/>
