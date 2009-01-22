@@ -45,7 +45,6 @@
 
 		<Rules>
 			<Binding Source="[Item.PlayState.CanResume]" Target="[ResumeMovieButton.Visible]" />
-			<Binding Source="[Item.Overview]" Target="[Overview.Text]" />
 			<Binding Source="[Item.BackdropImage.Image]" Target="[Backdrop.Image]" />
 			<!--<Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />-->
 			<Binding Source="[Item.Metadata.Name]" Target="[TitleName.Content]" />
@@ -214,21 +213,7 @@
 						</Children>
 					</Panel>
 
-					<!-- Description field with collapsable states -->
-					<Panel Name="DescriptionPane"  Padding="5,5,5,5" Visible="false">
-						<Layout>
-							<AnchorLayout SizeToVerticalChildren="true"/>
-						</Layout>
-						<LayoutInput>
-							<AnchorLayoutInput Bottom="DetailBox, 1" Top="DetailBox, 0" Left="DetailBox, 0" Right="DetailBox,1" />
-						</LayoutInput>
-						<Children>
-							<st:ScrollableText Name="Overview" Text="abcdefghijkl" Font="font://f:MM_SummaryFont" Color="color://s:FontColorMedium"
-								   FocusColor="color://s:FontColorLight" FocusImage="image://me:ButtonLeftFocus" ImagePadding="10,20,10,20" >
-							</st:ScrollableText>
-						</Children>
-					</Panel>
-
+					
 					<!-- Actor Role panel-->
 					<Panel Name="ActorPane" Layout="Anchor" CenterPointPercent="0.5,0.5,0.5" Visible="false">
 						<LayoutInput>
@@ -486,6 +471,7 @@
 			<Binding Source="[Item.Metadata.RunningTimeString]" Target="[Runtime.Content]" />
 			<Binding Source="[Item.Metadata.Genres]" Target="[GenreRepeater.Source]" />
 			<Binding Source="[Item.Metadata.DirectorString]" Target="[Director.Content]"/>
+			<Binding Source="[Item.Overview]" Target="[Overview.Text]" />
 			<Condition Source="[Item.Metadata.ImdbRating]" ConditionOp="GreaterThanOrEquals" SourceValue="0" Target="[IMDBRatingPanel.Visible]" Value="true"  />
 			<Condition Source="[Item.Metadata.Directors.Count]" ConditionOp="GreaterThan" SourceValue="0" Target="[DirectedByPanel.Visible]" Value="true"  />
 			<Changed Source="[Item.Metadata.MediaInfo]" InitialEvaluate="true">
@@ -587,6 +573,7 @@
 					</Panel>
 
 					<!-- Column 3 (Overview)-->
+					
 					<Panel Layout="VerticalFlow" Margins="10,0,0,0" >
 						<LayoutInput>
 							<AnchorLayoutInput Left="Parent,0.0" Right="Parent,.39" Top="Parent,0"/>
@@ -598,7 +585,7 @@
 									<FlowLayout Orientation="Horizontal"/>
 								</Layout>
 								<Children>
-									<as:AutoScroller Text="[Item.Overview]" Application="[Application]" Font="font://f:MM_SummaryFont"/>
+									<as:AutoScroller Name="Overview" Text="[Item.Overview]" Application="[Application]" Font="font://f:MM_SummaryFont"/>
 								</Children>
 							</Panel>
 						</Children>

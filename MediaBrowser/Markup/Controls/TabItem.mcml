@@ -29,7 +29,7 @@
         </Conditions>
         <Actions>
           <Set Target="[Name.Color]" Value="color://s:FontColorLight"/>
-          <Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>
+          <!--<Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>-->
           <Set Target="[PivotBack.Alpha]" Value="1" />
 			<Set Target="[FocusHighlight.Visible]" Value="true" />
         </Actions>
@@ -43,8 +43,8 @@
 
       <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
         <Actions>
-          <Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>
-          <Set Target="[Underline.Visible]" Value="true" />
+          <!--<Set Target="[Underline.Content]" Value="color://s:FontColorLight"/>
+          <Set Target="[Underline.Visible]" Value="true" />-->
           <Set Target="[Name.Color]" Value="color://s:FontColorMedium"/>
           <Set Target="[PivotBack.Alpha]" Value="1" />
           <Set Target="[PivotPanel.Scale]" Value="1.2,1.2,1" />
@@ -53,7 +53,7 @@
 
       <Condition Source="[Model.ChosenIndex]" ConditionOp="NotEquals" SourceValue="[Index.Value]">
         <Actions>
-          <Set Target="[Underline.Visible]" Value="false" />
+<!--          <Set Target="[Underline.Visible]" Value="false" />-->
           <Set Target="[PivotBack.Alpha]" Value="global://s:FilterAlpha" />
           <Set Target="[PivotPanel.Scale]" Value="1,1,1" />
         </Actions>
@@ -70,18 +70,24 @@
 						<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
 					</LayoutInput>
 				</Graphic>
-				<Panel>
+				<Text Name="Name" Font="[Font]" Color="color://s:FontColorMedium" Content="[Label]" Margins="5,5,5,-5" >
 					<LayoutInput>
 						<AnchorLayoutInput Horizontal="Center"/>
 					</LayoutInput>
+				</Text>
+				<!--
+				<Panel>
+					<LayoutInput>
+						<AnchorLayoutInput Horizontal="Fill"/>
+					</LayoutInput>
 					<Layout>
-						<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+						<FlowLayout Orientation="Vertical" ItemAlignment="Center" StripAlignment="Center"/>
 					</Layout>
 					<Children>
-						<Text Name="Name" Font="[Font]" Color="color://s:FontColorMedium" Content="[Label]" MinimumSize="150,40" Margins="10,0,0,0" />
+						<Text Name="Name" Font="[Font]" Color="color://s:FontColorMedium" Content="[Label]" Margins="10,5,0,-5" />
 						<ColorFill Name="Underline" Content="color://s:FontColorLight" Alpha="0.9" MaximumSize="0,3" Margins="0,0,0,10" MinimumSize="100,3" />
 					</Children>
-				</Panel>
+				</Panel>-->
 				<Graphic Name="PivotBack" ColorFilter="[FilterColor]" Alpha="global://s:FilterAlpha"  Content="image://me:TabHeader" >
 					<LayoutInput>
 						<AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/>
