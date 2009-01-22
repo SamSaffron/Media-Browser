@@ -22,8 +22,8 @@
 	<Color Name="BackdropFilter" Color="92,92,92"/>
 	
 	<!-- Background is faded vertically from color1 in the middle to color2 top and bottom-->
-	<Color Name="BackgroundColor1" Color="30,90,160" />
-	<Color Name="BackgroundColor2" Color="6,31,84" />
+	<Color Name="BackgroundColor1" Color="4,28,71" />
+	<Color Name="BackgroundColor2" Color="7,24,60" />
 
 	
 
