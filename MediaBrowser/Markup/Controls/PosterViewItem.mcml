@@ -71,13 +71,13 @@
 			<Binding Source="[ImageSize.Value]" Target="[Item.Metadata.PreferredImage.SmallSize]" />
 			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
 			<Binding Source="[Item.Metadata.PreferredImage.SmallImage]" Target="[BoxArt.Content]"/>
-			<Binding Source="[Item.HaveWatched]" Target="[TickIndicatorPanel.Visible]" />
+			<Binding Source="[Item.HaveWatched]" Target="[TickPart1.Visible]" />
+			<Binding Source="[Item.HaveWatched]" Target="[TickPart2.Visible]" />
 			<Binding Source="[Item.UnwatchedCountString]" Target="[UnwatchedCount.Content]" />
 			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedIndicator.Visible]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[BelowLabelPanel.Content]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[Label.Content]" />
-			<Binding Source="[Application.Config.ShowUnwatchedCount]" Target="[UnwatchedIndicator.Visible]" />
-
+			
 			<Changed Source="[Application.Config.ShowWatchedTickOnFolders]" InitialEvaluate="true">
 				<Conditions>
 					<Equality Source="[Item.Source.IsPlayable]" Value="false" />
@@ -233,12 +233,12 @@
 													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 												</LayoutInput>
 												<Children>
-													<Graphic Content="image://i:TickPoster" Margins="5,5,0,0" MaximumSize="30,30"  Visible="[Item.HaveWatched]">
+													<Graphic Name="TickPart1" Content="image://i:TickPoster" Margins="5,5,0,0" MaximumSize="30,30"  Visible="[Item.HaveWatched]">
 														<LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>
 													</Graphic>
-													<Graphic Content="image://i:TickPosterBase" ColorFilter="color://s:FilterColor" Margins="5,5,0,0" MaximumSize="30,30" Visible="[Item.HaveWatched]">
+													<Graphic Name="TickPart2" Content="image://i:TickPosterBase" ColorFilter="color://s:FilterColor" Margins="5,5,0,0" MaximumSize="30,30" Visible="[Item.HaveWatched]">
 														<LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>

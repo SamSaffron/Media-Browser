@@ -489,7 +489,7 @@ namespace MediaBrowser.Library
 
         public bool ShowUnwatched
         {
-            get { return this.UnwatchedCountString.Length > 0; }
+            get { return ((Config.Instance.ShowUnwatchedCount) && (this.UnwatchedCountString.Length > 0)); }
         }
 
         public string UnwatchedCountString
