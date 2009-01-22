@@ -409,7 +409,7 @@
                 <Children>
                   <Text Font="font://f:MD_ImdbRatingFont" Color="color://s:FontColorLight" Content="IMDB Rating:  "/>
                   <Text Name="IMDBRating" Content="" Color="color://s:FontColorLight" Font="font://f:MD_ImdbRatingFont"/>
-                  <Text Font="font://f:MD_ImdbRatingFont" Color="color://s:FontColorLight" Content=" out of 5 "/>
+                  <Text Font="font://f:MD_ImdbRatingFont" Color="color://s:FontColorLight" Content=" out of 10 "/>
                 </Children>
                 <Animations>
                   <TransformAnimation Delay="0.6">
