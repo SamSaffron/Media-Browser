@@ -105,6 +105,8 @@ namespace MediaBrowser.Library.Providers
                 return item.Metadata.ProviderData[ProviderName + ":V"] != Version;
             else
                 return enabled && (item.Metadata.MediaInfo==MediaInfoData.Empty);
+
+            //todo store filename and timestamp when we get the data and check it here for changes
         }
 
         public bool UsesInternet

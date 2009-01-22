@@ -53,6 +53,14 @@ namespace MediaBrowser
             {
                 string file = Path.Combine(Helper.AppDataPath, "Fonts_DoNotEdit.mcml");
                 string custom = Path.Combine(Helper.AppDataPath, "CustomFonts.mcml");
+                if (File.Exists(file))
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch { }
+                }
                 if (File.Exists(custom))
                 {
                     Trace.TraceInformation("Using custom fonts mcml");
@@ -84,6 +92,14 @@ namespace MediaBrowser
             {
                 string file = Path.Combine(Helper.AppDataPath, "Styles_DoNotEdit.mcml");
                 string custom = Path.Combine(Helper.AppDataPath, "CustomStyles.mcml");
+                if (File.Exists(file))
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch { }
+                }
                 if (File.Exists(custom))
                 {
                     Trace.TraceInformation("Using custom styles mcml");
