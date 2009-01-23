@@ -28,6 +28,7 @@ namespace MediaBrowser
         public bool EnableTranscode360 = true;
         public string ExtenderNativeTypes = ".dvr-ms,.wmv";
         public bool TransparentBackground = false;
+        public bool DimUnselectedPosters = true;
         public bool EnableNestedMovieFolders = true;
         public bool EnableMoviePlaylists = true;
         public int PlaylistLimit = 2;

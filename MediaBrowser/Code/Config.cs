@@ -37,6 +37,13 @@ namespace MediaBrowser
             set { if (this.data.IsFirstRun != value) { this.data.IsFirstRun = value; Save(); FirePropertyChanged("HasBeenConfigured"); } }
         }
 
+        [Comment("Dim all unselected posters in poster and thumbstrib views")]
+        public bool DimUnselectedPosters
+        {
+            get { return this.data.DimUnselectedPosters; }
+            set { if (this.data.DimUnselectedPosters != value) { this.data.DimUnselectedPosters = value; Save(); FirePropertyChanged("DimUnselectedPosters"); } }
+        }
+
 
         [Comment(@"Location of images to match to items by name.
             Can be used to provide images for indexing folders - genres, actors, directors etc.

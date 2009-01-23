@@ -139,6 +139,16 @@
 				</Actions>
 			</Condition>
 
+      <Changed Source="[Application.Config.DimUnselectedPosters]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Application.Config.DimUnselectedPosters]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
+        </Actions>
+      </Changed>
+      
+
 			<Condition Source="[InFocus.Value]" SourceValue="false">
 				<Actions>
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.SmallImage]"/>

@@ -43,6 +43,7 @@
       <BooleanChoice Name="ShowUnwatchedCount" Value="[Application.Config.ShowUnwatchedCount]" />
       <BooleanChoice Name="ShowWatchedTickOnFolders" Value="[Application.Config.ShowWatchedTickOnFolders]" />
       <BooleanChoice Name="ShowWatchTickInPosterView" Value="[Application.Config.ShowWatchTickInPosterView]" />
+      <BooleanChoice Name="DimUnselectedPosters" Value="[Application.Config.DimUnselectedPosters]" />
       <BooleanChoice Name="AllowInternetMetadataProviders" Value="[Application.Config.AllowInternetMetadataProviders]" />
       <BooleanChoice Name="EnableFileWatching" Value="[Application.Config.EnableFileWatching]" />
       <BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
@@ -250,6 +251,7 @@
       <Binding Source="[ShowUnwatchedCount.Value]" Target="[Config.ShowUnwatchedCount]" />
       <Binding Source="[ShowWatchedTickOnFolders.Value]" Target="[Config.ShowWatchedTickOnFolders]" />
       <Binding Source="[ShowWatchTickInPosterView.Value]" Target="[Config.ShowWatchTickInPosterView]" />
+      <Binding Source="[DimUnselectedPosters.Value]" Target="[Config.DimUnselectedPosters]" />
       <Binding Source="[AllowInternetMetadataProviders.Value]" Target="[Config.AllowInternetMetadataProviders]" />
       <Binding Source="[EnableFileWatching.Value]" Target="[Config.EnableFileWatching]" />
       <Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
@@ -431,7 +433,7 @@
                   <vm:IntSpin Label="Thumbstrip split size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
                   <cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
                   <cb:CheckBox Label="Show Clock" Checked="[ShowClock]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-                  
+                  <cb:CheckBox Label="Dim posters when not selected" Checked="[DimUnselectedPosters]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
                 </Children>
               </Graphic>
 
