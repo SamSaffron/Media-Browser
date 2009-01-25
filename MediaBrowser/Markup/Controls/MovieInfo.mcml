@@ -2,12 +2,12 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
 	  xmlns:d="resx://MediaBrowser/MediaBrowser.Resources/Directors"
 	  xmlns:w="resx://MediaBrowser/MediaBrowser.Resources/Writers"
 	  xmlns:mp="resx://MediaBrowser/MediaBrowser.Resources/MPAARating"
-	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
 	  >
 
 	<UI Name="MovieInfo">

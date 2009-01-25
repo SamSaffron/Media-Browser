@@ -4,7 +4,7 @@
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:fs="resx://MediaBrowser/MediaBrowser.Resources/FocusSelector"
 	  xmlns:pvi="resx://MediaBrowser/MediaBrowser.Resources/PosterViewItem"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  >
 
 	<UI Name="PosterScroller">

@@ -35,7 +35,7 @@ namespace MediaBrowser
         public string InitialFolder = Helper.MY_VIDEOS;
         public bool EnableUpdates = true;
         public bool EnableBetas = false;
-        public string DaemonToolsLocation = "C:\\Program Files\\DAEMON Tools Lite\\daemon.exe";
+        public string DaemonToolsLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"DAEMON Tools Lite\\daemon.exe");
         public string DaemonToolsDrive = "E";
         public bool EnableAlphanumericSorting = true;
         public bool EnableListViewTicks = false;

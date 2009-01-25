@@ -40,6 +40,7 @@ namespace MediaBrowser
                 Trace.AutoFlush = true;
                 Trace.Listeners.Add(t);
             }
+            Environment.CurrentDirectory = Helper.AppDataPath;
             SetupStylesMcml();
             SetupFontsMcml();
 

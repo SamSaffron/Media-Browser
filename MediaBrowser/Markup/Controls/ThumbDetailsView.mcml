@@ -10,8 +10,8 @@
 	  xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
 	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"  
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"  
-	  xmlns:f="file://c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"  
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
 	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	  >
 

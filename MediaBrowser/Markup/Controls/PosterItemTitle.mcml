@@ -2,7 +2,7 @@
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  >
 
 	<UI Name="PosterItemTitle">

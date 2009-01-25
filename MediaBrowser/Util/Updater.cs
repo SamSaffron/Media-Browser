@@ -188,7 +188,8 @@ namespace MediaBrowser.Util
             
             // put together a batch file to execute the installer in silent mode and restart VB.
             string updateBat = "msiexec.exe /qb /i \"" + localFile + "\"\n";
-            updateBat += "C:\\windows\\ehome\\ehshell /entrypoint:{CE32C570-4BEC-4aeb-AD1D-CF47B91DE0B2}\\{FC9ABCCC-36CB-47ac-8BAB-03E8EF5F6F22}";
+            string windir = Environment.GetEnvironmentVariable("windir");
+            updateBat += Path.Combine(windir, "ehome\\ehshell /entrypoint:{CE32C570-4BEC-4aeb-AD1D-CF47B91DE0B2}\\{FC9ABCCC-36CB-47ac-8BAB-03E8EF5F6F22}");
             string filename = System.IO.Path.GetTempFileName();
             filename += ".bat";
             System.IO.File.WriteAllText(filename, updateBat);

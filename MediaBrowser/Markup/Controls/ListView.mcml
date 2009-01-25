@@ -3,7 +3,7 @@
     xmlns:lb="resx://MediaBrowser/MediaBrowser.Resources/ListButton"
     xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
       >
 
 	<UI Name="ListView">

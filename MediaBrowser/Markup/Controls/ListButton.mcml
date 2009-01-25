@@ -3,7 +3,7 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:me="Me"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	  xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"

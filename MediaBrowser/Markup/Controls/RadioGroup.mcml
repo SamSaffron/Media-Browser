@@ -1,7 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="file://c:\programdata\mediabrowser\Styles_DoNotEdit.mcml"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:me="Me"
 	  >
 

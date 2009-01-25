@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaBrowser", "MediaBrowse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMediaBrowser", "TestMediaBrowser\TestMediaBrowser.csproj", "{8312AF5D-16DD-41C4-8323-BD0CCFBE1F12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaBrowserCacheExplorer", "MediaBrowserCacheExplorer\MediaBrowserCacheExplorer.csproj", "{27D140A9-E7DB-4A30-92CA-6716D586DEEC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +19,6 @@ Global
 		{8312AF5D-16DD-41C4-8323-BD0CCFBE1F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8312AF5D-16DD-41C4-8323-BD0CCFBE1F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8312AF5D-16DD-41C4-8323-BD0CCFBE1F12}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27D140A9-E7DB-4A30-92CA-6716D586DEEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27D140A9-E7DB-4A30-92CA-6716D586DEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27D140A9-E7DB-4A30-92CA-6716D586DEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27D140A9-E7DB-4A30-92CA-6716D586DEEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
