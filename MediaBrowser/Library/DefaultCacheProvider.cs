@@ -8,6 +8,7 @@ using System.Threading;
 using MediaBrowser.Util;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using System.Security.Cryptography;
 
 namespace MediaBrowser.Library
 {
@@ -607,7 +608,23 @@ namespace MediaBrowser.Library
                     lock (this.uniqueNames)
                         if (uniqueNames.ContainsKey(name))
                             return uniqueNames[name];
-                    UniqueName n = new UniqueName(Guid.NewGuid().ToString("d"));
+                    //Use the SHA1 hash of the string, and in the horribly unlikely event of a conflict,
+                    //use a GUID.  Doing this allows parts of the meta data to persist, 
+                    //namely the played state, even if the rest is deleted.
+                    SHA1 newSHA1 = new SHA1CryptoServiceProvider();
+                    UnicodeEncoding ByteMaker = new UnicodeEncoding();
+                    StringBuilder Digest = new StringBuilder();
+
+                    Byte[] ByteString = ByteMaker.GetBytes(name);
+                    Byte[] SHA1Hash = newSHA1.ComputeHash(ByteString);
+                    
+                    foreach(byte nchar in SHA1Hash)
+                        Digest.Append(nchar.ToString("x2"));
+                    UniqueName n = new UniqueName(Digest.ToString());
+
+                    if(uniqueNames.ContainsValue(n))
+                        n = new UniqueName(Guid.NewGuid().ToString("d"));
+
                     uniqueNames[name] = n;
                     AppendUniqueName(name, n);
                     return n;
