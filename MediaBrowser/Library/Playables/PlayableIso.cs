@@ -34,7 +34,10 @@ namespace MediaBrowser.Library.Playables
             {
                 // Create the process start information.
                 Process process = new Process();
-                process.StartInfo.Arguments = "-mount 0,\"" + this.file + "\"";
+                if (Config.Instance.DaemonToolsLocation.ToLower().EndsWith("vcdmount.exe"))
+                    process.StartInfo.Arguments = "-mount \"" + this.file + "\"";
+                else
+                    process.StartInfo.Arguments = "-mount 0,\"" + this.file + "\"";
                 process.StartInfo.FileName = Config.Instance.DaemonToolsLocation;
                 process.StartInfo.ErrorDialog = false;
                 process.StartInfo.CreateNoWindow = true;
