@@ -19,6 +19,7 @@ namespace MediaBrowser.Library.Providers
         private static readonly string seriesQuery = "GetSeries.php?seriesname={0}";
         private static readonly string seriesGet = "http://www.thetvdb.com/api/{0}/series/{1}/{2}.xml";
         private static readonly string episodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/{4}.xml";
+        private static readonly string absEpisodeQuery = "http://www.thetvdb.com/api/{0}/series/{1}/absolute/{3}/{4}.xml";
         private static readonly string ProviderName = "TvDbProvider";
 
         #region IMetadataProvider Members
@@ -125,7 +126,8 @@ namespace MediaBrowser.Library.Providers
             if (epNum == null)
                 return;
             int episodeNumber = Int32.Parse(epNum);
-            
+            bool UsingAbsoluteData = false;
+
             if (!string.IsNullOrEmpty(seriesId))
             {
                 string seasonNumber = item.PhysicalParent.Metadata.SeasonNumber;
@@ -135,6 +137,14 @@ namespace MediaBrowser.Library.Providers
                 if (!string.IsNullOrEmpty(seasonNumber))
                 {
                     XmlDocument doc = Fetch(string.Format(episodeQuery, apiKey, seriesId, seasonNumber, episodeNumber, Config.Instance.PreferredMetaDataLanguage));
+                    //episode does not exist under this season, try absolute numbering.
+                    //still assuming it's numbered as 1x01
+                    //this is basicly just for anime.
+                    if (doc == null && Int32.Parse(seasonNumber) == 1)
+                    {
+                        doc = Fetch(string.Format(absEpisodeQuery, apiKey, seriesId, seasonNumber, episodeNumber, Config.Instance.PreferredMetaDataLanguage));
+                        UsingAbsoluteData = true;
+                    }
                     if (doc != null)
                     {
                         if (store.PrimaryImage == null)
@@ -145,6 +155,8 @@ namespace MediaBrowser.Library.Providers
                         }
                         if (store.Overview == null)
                             store.Overview = doc.SafeGetString("//Overview");
+                        if (store.EpisodeNumber == null && UsingAbsoluteData)
+                            store.EpisodeNumber = doc.SafeGetString("//absolute_number");
                         if (store.EpisodeNumber == null)
                             store.EpisodeNumber = doc.SafeGetString("//EpisodeNumber");
                         if (store.Name == null)
