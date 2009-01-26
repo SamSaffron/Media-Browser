@@ -8,7 +8,7 @@ namespace MediaBrowser.Library.Playables
 {
     public class PlayableExternal : PlayableItem
     {
-        public enum MediaTypes { Unknown, Avi, Mkv, DVD, BluRay, HDDVD }
+        public enum MediaTypes { Unknown, Mpg, Avi, Mkv, DVD, BluRay, HDDVD }
 
         private static object lck = new object();
         private static Dictionary<MediaTypes, ConfigData.ExternalPlayer> configuredPlayers = null;
@@ -33,7 +33,7 @@ namespace MediaBrowser.Library.Playables
             
         }
 
-        public override void Play(PlayState playstate, bool resume)
+        protected override void PlayInternal( bool resume)
         {
             MediaTypes type  = DetermineType(this.path);
             ConfigData.ExternalPlayer p = configuredPlayers[type];
@@ -72,6 +72,8 @@ namespace MediaBrowser.Library.Playables
                 return MediaTypes.DVD;
             if (path.EndsWith(".avi"))
                 return MediaTypes.Avi;
+            if (path.EndsWith(".mpg"))
+                return MediaTypes.Mpg;
             if (path.EndsWith(".mkv"))
                 return MediaTypes.Mkv;
             if (path.Contains("bdmv"))

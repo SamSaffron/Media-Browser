@@ -5,6 +5,7 @@ using MediaBrowser.Library.Sources;
 using System.Collections;
 using MediaBrowser.Util;
 using Microsoft.MediaCenter;
+using System.IO;
 
 namespace MediaBrowser.Library
 {
@@ -302,7 +303,13 @@ namespace MediaBrowser.Library
                         return AlphaNumericCompare(x.Metadata.SortableName, y.Metadata.SortableName);
                     else
                         return x.Metadata.SortableName.CompareTo(y.Metadata.SortableName);
-                  
+                case SortOrder.NameOnDisk:
+                    string xn = Path.GetFileNameWithoutExtension(x.Source.Location);
+                    string yn = Path.GetFileNameWithoutExtension(y.Source.Location);
+                    if (Config.Instance.EnableAlphanumericSorting)
+                        return AlphaNumericCompare(xn, yn);
+                    else
+                        return xn.CompareTo(yn);
                 case SortOrder.Date:
                     return -x.Source.CreatedDate.CompareTo(y.Source.CreatedDate);
                 

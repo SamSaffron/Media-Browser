@@ -58,12 +58,18 @@ namespace MediaBrowser.Library
         public abstract void Prepare(bool resume);
         public abstract string Filename { get; }
 
-        public virtual void Play(PlayState playstate, bool resume)
+        public void Play(PlayState playstate, bool resume)
+        {
+            this.PlayState = playstate;
+            this.Prepare(resume);
+            this.PlayInternal(resume);
+        }
+
+        protected virtual void PlayInternal(bool resume)
         {
             try
             {
-                this.PlayState = playstate;
-                this.Prepare(resume);
+                
                 if (!RunningOnExtender || !Config.Instance.EnableTranscode360 || Helper.IsExtenderNativeVideo(this.Filename))
                     Play(this.Filename);
                 else

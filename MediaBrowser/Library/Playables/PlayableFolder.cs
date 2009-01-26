@@ -94,11 +94,7 @@ namespace MediaBrowser.Library.Playables
             }
         }
 
-        public override void Play(PlayState playstate, bool resume)
-        {
-            base.Play(playstate, resume);
-        }
-
+        
 
         public override bool UpdatePosition(string title, long positionTicks)
         {
