@@ -117,9 +117,11 @@ namespace MediaBrowser.Library.Providers
                 string file = FindImage(location, name);
                 if (lastFile != file)
                     return true;
+                /* this is checked by the LibraryImage class, no need to cause a full metadata refresh
                 DateTime dt = new DateTime(long.Parse(store[ProviderName + ":" + name + ":mod"]));
                 if (dt != new FileInfo(file).LastWriteTimeUtc)
                     return true;
+                 * */
             }
             else
             {

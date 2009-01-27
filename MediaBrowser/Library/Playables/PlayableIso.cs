@@ -18,8 +18,8 @@ namespace MediaBrowser.Library.Playables
         {
             if ((new FileInfo(file).Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                string[] files = Directory.GetFiles(file, "*.iso");
-                if (file.Length > 0)
+                List<string> files = Helper.GetIsoFiles(file);
+                if (files.Count > 0)
                     this.file = files[0];
                 else
                     throw new NotSupportedException(file + " does not contain any iso files");

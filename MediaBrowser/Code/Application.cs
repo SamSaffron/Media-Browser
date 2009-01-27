@@ -499,7 +499,8 @@ namespace MediaBrowser
         public bool ShowNowPlaying
         {
             get { return this.showNowPlaying; }
-            set { if (this.showNowPlaying != value) { this.showNowPlaying = value; FirePropertyChanged("ShowNowPlaying"); } }
+            set { //if (this.showNowPlaying != value) { this.showNowPlaying = value; FirePropertyChanged("ShowNowPlaying"); } 
+            }
         }
 
 

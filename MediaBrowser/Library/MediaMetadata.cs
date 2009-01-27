@@ -105,7 +105,7 @@ namespace MediaBrowser.Library
             set
             {
                 if ((this.store.PrimaryImage != value)
-                    && ((this.store.PrimaryImage == null ? null : this.store.PrimaryImage.OriginalSource) != (value == null ? null : value.OriginalSource))
+                    && ((this.store.PrimaryImage == null ? null : this.store.PrimaryImage.OriginalSource) != (value == null ? null : value.OriginalSource)) // ensure we don't try to recache the same image and waste time
                     )
                 {
                     this.store.PrimaryImage = value;
@@ -177,7 +177,7 @@ namespace MediaBrowser.Library
             set
             {
                 if ((this.store.SecondaryImage != value)
-                    && ((this.store.SecondaryImage == null ? null : this.store.SecondaryImage.OriginalSource) != (value == null ? null : value.OriginalSource))
+                    && ((this.store.SecondaryImage == null ? null : this.store.SecondaryImage.OriginalSource) != (value == null ? null : value.OriginalSource))// ensure we don't try to recache the same image and waste time
                     )
                 {
                     this.store.SecondaryImage = value;
@@ -232,7 +232,7 @@ namespace MediaBrowser.Library
             set
             {
                 if ((this.store.BannerImage != value)
-                    && ((this.store.BannerImage == null ? null : this.store.BannerImage.OriginalSource) != (value == null ? null : value.OriginalSource))
+                    && ((this.store.BannerImage == null ? null : this.store.BannerImage.OriginalSource) != (value == null ? null : value.OriginalSource))// ensure we don't try to recache the same image and waste time
                     )
                 {
                     this.store.BannerImage = value;
@@ -277,7 +277,7 @@ namespace MediaBrowser.Library
             set
             {
                 if ((this.store.BackdropImage != value)
-                    && ((this.store.BackdropImage == null ? null : this.store.BackdropImage.OriginalSource) != (value == null ? null : value.OriginalSource))
+                    && ((this.store.BackdropImage == null ? null : this.store.BackdropImage.OriginalSource) != (value == null ? null : value.OriginalSource))// ensure we don't try to recache the same image and waste time
                     )
                 {
                     this.store.BackdropImage = value;

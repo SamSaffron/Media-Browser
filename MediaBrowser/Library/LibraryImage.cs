@@ -16,11 +16,13 @@ namespace MediaBrowser.Library
     {
         private static BackgroundProcessor<LibraryImage> backgroundProcessor = new BackgroundProcessor<LibraryImage>(ThreadPoolSizes.IMAGE_CACHING_THREADS, LibraryImage.ProcessorCallback, "ImageCaching");
         private static BackgroundProcessor<LibraryImage> imageScalingProcessor = new BackgroundProcessor<LibraryImage>(ThreadPoolSizes.IMAGE_RESIZE_THREADS, LibraryImage.ImageLoadCallback, "SmallImageGeneration");
+        private static BackgroundProcessor<LibraryImage> imageUpdateChecker = new BackgroundProcessor<LibraryImage>(1, LibraryImage.CheckImageUpdates, "CheckImageUpdates");
         private static Dictionary<string, Image> resourceCache = new Dictionary<string, Image>();
 
         Image image = null;
         Image smallImage = null;
         bool forceSmallThumbLoad = false;
+        
 
         public LibraryImage(ImageSource source)
         {
@@ -34,6 +36,30 @@ namespace MediaBrowser.Library
                 {
                     if (!IsValidLocalSource)
                         source.LocalSource = null;
+                    imageUpdateChecker.Enqueue(this);
+                }
+            }
+        }
+        
+        private static void CheckImageUpdates(LibraryImage image)
+        {
+            image.CheckUpdate();
+        }
+
+        private void CheckUpdate()
+        {
+            Trace.WriteLine("Checking image:" + this.Source.OriginalSource);
+            if (this.Source.SourceTimestamp == DateTime.MinValue)
+                return;
+            // files cached from sources other than the file system will not have timestamps set
+            if (File.Exists(this.source.OriginalSource))
+            {
+                DateTime ts = File.GetLastWriteTimeUtc(this.source.OriginalSource);
+                if (this.source.SourceTimestamp != ts)
+                {
+                    Trace.WriteLine("Recache image:" + this.Source.OriginalSource);
+                    this.Source.LocalSource = null;
+                    CacheImageAsync();
                 }
             }
         }
@@ -100,7 +126,7 @@ namespace MediaBrowser.Library
                 cachePending = true;
             }
             backgroundProcessor.Inject(this);
-            //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheImage, CacheImageDone, null);
+            Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(CacheImage, CacheImageDone, null);
         }
 
         private void CacheImageDone(object nothing)
@@ -148,16 +174,19 @@ namespace MediaBrowser.Library
                             {
                                 localPath = Path.Combine(localPath, name.Value + Path.GetExtension(sourcePath));
                                 CacheHttpImage(sourcePath, localPath);
+                                source.SourceTimestamp = DateTime.MinValue;
                             }
                             else if (sourcePath.StartsWith("grab://"))
                             {
                                 localPath = Path.Combine(localPath, name.Value + ".png");
                                 CacheGrabImage(sourcePath, localPath);
+                                source.SourceTimestamp = DateTime.MinValue;
                             }
                             else
                             {
                                 localPath = Path.Combine(localPath, name.Value + Path.GetExtension(sourcePath));
-                                CachLocalFileImage(localPath);
+                                CacheLocalFileImage(localPath);
+                                this.Source.SourceTimestamp = File.GetLastWriteTimeUtc(this.Source.OriginalSource);
                             }
                             this.source.LocalSource = localPath;
                         }
@@ -181,7 +210,7 @@ namespace MediaBrowser.Library
             }
         }
 
-        private void CachLocalFileImage(string localPath)
+        private void CacheLocalFileImage(string localPath)
         {
             if (File.Exists(this.source.OriginalSource))
             {

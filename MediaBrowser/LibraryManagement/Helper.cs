@@ -24,6 +24,7 @@ namespace MediaBrowser.LibraryManagement
         public static Dictionary<string, bool> perceivedTypeCache = new Dictionary<string, bool>();
         //private static MD5CryptoServiceProvider CryptoService = new MD5CryptoServiceProvider();
 
+        static readonly string[] IsoExtensions = { "iso", "img" };
         #region Signitures imported from http://pinvoke.net
 
         [DllImport("shfolder.dll", CharSet = CharSet.Auto)]
@@ -275,7 +276,18 @@ namespace MediaBrowser.LibraryManagement
         public static bool IsIso(string filename)
         {
             string extension = System.IO.Path.GetExtension(filename).ToLower();
-            return extension == ".iso";
+            foreach (string e in IsoExtensions)
+                if (extension == "." + e)
+                    return true;
+            return false;
+        }
+
+        public static List<string> GetIsoFiles(string path)
+        {
+            List<string> files = new List<string>();
+            foreach(string ext in IsoExtensions)
+                files.AddRange(Directory.GetFiles(path, "*." + ext));
+            return files;
         }
 
         // I left the hardcoded list, cause the failure mode is better, at least it will show
@@ -550,7 +562,9 @@ namespace MediaBrowser.LibraryManagement
                 if (files == null)
                 {
                     if (Directory.Exists(path))
-                        return Directory.GetFiles(path, "*.iso").Length;
+                    {
+                        return GetIsoFiles(path).Count;
+                    }
                     else
                         return 0;
                 }
@@ -558,8 +572,16 @@ namespace MediaBrowser.LibraryManagement
                 {
                     int i = 0;
                     foreach (string f in files)
-                        if ((f.Length > 4) && (f.Substring(f.Length - 4).ToLower() == ".iso"))
-                            i++;
+                        if (f.Length > 4)
+                        {
+                            string ext = f.Substring(f.Length - 4).ToLower();
+                            foreach(string e in IsoExtensions)
+                                if (ext == "." + e)
+                                {
+                                    i++;
+                                    break;
+                                }
+                        }
                     return i;
                 }
             }
