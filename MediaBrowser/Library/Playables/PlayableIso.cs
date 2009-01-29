@@ -13,6 +13,8 @@ namespace MediaBrowser.Library.Playables
     {
         string file;
         string mountedFilename;
+        PlayableExternal playableExternal = null;
+
         public PlayableIso(string file)
             : base()
         {
@@ -48,6 +50,8 @@ namespace MediaBrowser.Library.Playables
 
                 // Play the DVD video that was mounted.
                 this.mountedFilename = Config.Instance.DaemonToolsDrive + ":\\";
+                if (PlayableExternal.CanPlay(this.mountedFilename))
+                    this.playableExternal = new PlayableExternal(this.mountedFilename);
             }
             catch (Exception)
             {
@@ -69,6 +73,14 @@ namespace MediaBrowser.Library.Playables
             if (Helper.IsoCount(path,null) == 1)
                 return true;
             return false;
+        }
+
+        protected override void PlayInternal(bool resume)
+        {
+            if (this.playableExternal != null)
+                this.playableExternal.Play(this.PlayState, resume);
+            else
+                base.PlayInternal(resume);
         }
     }
 }
