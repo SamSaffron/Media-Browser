@@ -50,8 +50,9 @@ namespace MediaBrowser.Library.Playables
 
                 // Play the DVD video that was mounted.
                 this.mountedFilename = Config.Instance.DaemonToolsDrive + ":\\";
-                if (PlayableExternal.CanPlay(this.mountedFilename))
-                    this.playableExternal = new PlayableExternal(this.mountedFilename);
+                if (!Config.Instance.UseAutoPlayForIso)
+                    if (PlayableExternal.CanPlay(this.mountedFilename))
+                        this.playableExternal = new PlayableExternal(this.mountedFilename);
             }
             catch (Exception)
             {
@@ -77,10 +78,13 @@ namespace MediaBrowser.Library.Playables
 
         protected override void PlayInternal(bool resume)
         {
-            if (this.playableExternal != null)
-                this.playableExternal.Play(this.PlayState, resume);
-            else
-                base.PlayInternal(resume);
+            if (!Config.Instance.UseAutoPlayForIso)
+            {
+                if (this.playableExternal != null)
+                    this.playableExternal.Play(this.PlayState, resume);
+                else
+                    base.PlayInternal(resume);
+            }
         }
     }
 }

@@ -325,6 +325,12 @@ namespace MediaBrowser
             //set { if (this.data.ExternalPlayers != value) { this.data.ExternalPlayers = value; Save(); FirePropertyChanged("ExternalPlayers"); } }
         }
 
+        public bool UseAutoPlayForIso
+        {
+            get { return this.data.UseAutoPlayForIso; }
+            set { if (this.data.UseAutoPlayForIso != value) { this.data.UseAutoPlayForIso = value; Save(); FirePropertyChanged("UseAutoPlayForIso"); } }
+        }
+
         [Comment("List of characters to remove from titles for alphanumeric sorting.  Separate each character with a '|'.\nThis allows titles like '10,000.BC.2008.720p.BluRay.DTS.x264-hV.mkv' to be properly sorted.")]
         public string SortRemoveCharacters
         {
