@@ -85,6 +85,7 @@
 					<cor:String String="Media Tracking" />
 					<cor:String String="Themes" />
 					<cor:String String="Other" />
+					<cor:String String="Test" />
 				</Options>
 			</Choice>
 
@@ -129,87 +130,13 @@
 				</Actions>
 			</Default>
 
-
-
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="0"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="true"/>
-					<Set Target="[Panel2.Visible]" Value="false"/>
-					<Set Target="[Panel3.Visible]" Value="false"/>
-					<Set Target="[Panel4.Visible]" Value="false"/>
-					<Set Target="[Panel5.Visible]" Value="false"/>
-					<Set Target="[Panel6.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
-
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="1"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="false"/>
-					<Set Target="[Panel2.Visible]" Value="true"/>
-					<Set Target="[Panel3.Visible]" Value="false"/>
-					<Set Target="[Panel4.Visible]" Value="false"/>
-					<Set Target="[Panel5.Visible]" Value="false"/>
-					<Set Target="[Panel6.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="2"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="false"/>
-					<Set Target="[Panel2.Visible]" Value="false"/>
-					<Set Target="[Panel3.Visible]" Value="true"/>
-					<Set Target="[Panel4.Visible]" Value="false"/>
-					<Set Target="[Panel5.Visible]" Value="false"/>
-					<Set Target="[Panel6.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="3"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="false"/>
-					<Set Target="[Panel2.Visible]" Value="false"/>
-					<Set Target="[Panel3.Visible]" Value="false"/>
-					<Set Target="[Panel4.Visible]" Value="true"/>
-					<Set Target="[Panel5.Visible]" Value="false"/>
-					<Set Target="[Panel6.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="4"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="false"/>
-					<Set Target="[Panel2.Visible]" Value="false"/>
-					<Set Target="[Panel3.Visible]" Value="false"/>
-					<Set Target="[Panel4.Visible]" Value="false"/>
-					<Set Target="[Panel5.Visible]" Value="true"/>
-					<Set Target="[Panel6.Visible]" Value="false"/>
-				</Actions>
-			</Changed>
-			<Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="5"/>
-				</Conditions>
-				<Actions>
-					<Set Target="[Panel1.Visible]" Value="false"/>
-					<Set Target="[Panel2.Visible]" Value="false"/>
-					<Set Target="[Panel3.Visible]" Value="false"/>
-					<Set Target="[Panel4.Visible]" Value="false"/>
-					<Set Target="[Panel5.Visible]" Value="false"/>
-					<Set Target="[Panel6.Visible]" Value="true"/>
-				</Actions>
-			</Changed>
+			<Condition Source="[Model.ChosenIndex]" SourceValue="0" ConditionOp="Equals" Target="[Panel1.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="1" ConditionOp="Equals" Target="[Panel2.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="2" ConditionOp="Equals" Target="[Panel3.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="3" ConditionOp="Equals" Target="[Panel4.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="4" ConditionOp="Equals" Target="[Panel5.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="5" ConditionOp="Equals" Target="[Panel6.Visible]" Value="true" />
+			<Condition Source="[Model.ChosenIndex]" SourceValue="6" ConditionOp="Equals" Target="[Panel7.Visible]" Value="true" />
 
 			<Changed Source="[Close.Invoked]">
 				<Actions>
@@ -403,7 +330,7 @@
 						</LayoutInput>
 						<Children>
 
-							<Graphic Name="Panel1" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel1" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="General" />
 									<cb:CheckBox Label="Transparent Background" Checked="[TransparentBackground]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -417,7 +344,7 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel2" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel2" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Behavior" />
 									<cb:CheckBox Label="Allow Nested Movie Folders" Checked="[EnableNestedMovieFolders]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -428,7 +355,7 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel3" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel3" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Display" />
 									<vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
@@ -439,7 +366,7 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel4" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel4" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Media Tracking" />
 									<cb:CheckBox Label="Show Unwatched Count" Checked="[ShowUnwatchedCount]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
@@ -450,7 +377,7 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel5" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel5" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Media Browser Theme" />
 									<st:SpinnerText Name="Spinner" Model="[ThemeModel]" Label="Select Theme * " Color="color://s:FontColorMedium" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont" Margins="[CMargin]" DefaultString="[ThemeInitial]" />
@@ -464,7 +391,7 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel6" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel6" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Extenders" />
 									<cb:CheckBox Label="Transcode360" Checked="[EnableTranscode360]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -473,6 +400,18 @@
 									<te:TextEdit LabelSize="[LabelSize1]" Label="Location" EditableText="[DaemonToolsLocation]" EditSize="150,0" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 									<te:TextEdit LabelSize="[LabelSize1]" Label="Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" EditSize="50,0" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Use Autoplay" Checked="[UseAutoPlayForIso]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+								</Children>
+							</Graphic>
+
+							<Graphic Name="Panel7" Visible="false" Content="image://me:50AlphaBg" Layout="Center" MinimumSize="500,200" MaximumSize="500,200" Padding="[SMargin]" Navigation="Column">
+								<Children>
+									<Panel Layout="VerticalFlow" MinimumSize="400,200" MaximumSize="400,200">
+										<Children>
+											<Text Content="Can you see text below here?" Color="0,128,0"  WordWrap="true"/>
+											<Text Content="If you can see this colorFilters work." Color="Red"  WordWrap="true"/>
+										</Children>
+									</Panel>
+									<ColorFill Content="Red" ColorFilter="128,0,0" MinimumSize="400,200" MaximumSize="400,200"/>
 								</Children>
 							</Graphic>
 
