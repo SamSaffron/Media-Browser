@@ -127,7 +127,8 @@
 				</Actions>
 			</Changed>
 
-
+			<Condition Source="[Application.Config.DimUnselectedPosters]" ConditionOp="Equals" SourceValue="false" Target="[ConstraintPanel.ColorFilter]" Value="White" />
+			
 			<Condition Source="[InFocus.Value]" SourceValue="true">
 				<Actions>
 					<Set Target="[MainPanel.Scale]" Value="[ParentItem.PosterZoom]"/>
@@ -137,18 +138,8 @@
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.Image]"/>
 					<Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
 				</Actions>
-			</Condition>
-
-      <Changed Source="[Application.Config.DimUnselectedPosters]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Application.Config.DimUnselectedPosters]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
-        </Actions>
-      </Changed>
+			</Condition>		
       
-
 			<Condition Source="[InFocus.Value]" SourceValue="false">
 				<Actions>
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.SmallImage]"/>
