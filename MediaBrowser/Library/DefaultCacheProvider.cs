@@ -49,7 +49,7 @@ namespace MediaBrowser.Library
         {
             Mutex m;
             private FileStream fileLock = null;
-            public MutexWrapper(Mutex m, bool centralisedCache)
+            public MutexWrapper(Mutex m)
             {
                 this.m = m;
                 try
@@ -58,22 +58,6 @@ namespace MediaBrowser.Library
                 }
                 catch (AbandonedMutexException)
                 { }
-                /* this isn't ready yet 
-                if (centralisedCache)
-                {
-                    while (true)
-                    {
-                        try
-                        {
-                            fileLock = new FileStream(Path.Combine(Config.Instance.CentralisedCache, "lock"), FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-                        }
-                        catch (IOException)
-                        {
-                            Thread.Sleep(10);
-                        }
-                    }
-                }
-                 */
             }
 
             #region IDisposable Members
@@ -93,14 +77,6 @@ namespace MediaBrowser.Library
             #endregion
         }
 
-        private bool CentralisedCache
-        {
-            get 
-            { 
-                return false; 
-                // return Config.Instance.CentralisedCache != null; 
-            }
-        }
 
         private bool CentralisedSources
         {
@@ -129,7 +105,7 @@ namespace MediaBrowser.Library
 
         private bool CentralisedPlaystate
         {
-            get { return false; }
+            get { return Config.Instance.CentralisedCache != null; }
         }
 
 
@@ -137,7 +113,7 @@ namespace MediaBrowser.Library
         {
             if ((source != null) && (source.UniqueName == null))
                 return;
-            using (new MutexWrapper(cacheMutex, false))
+            using (new MutexWrapper(cacheMutex))
             {
                 lock (this.sources)
                     if (!sources.ContainsKey(source.UniqueName))
@@ -155,7 +131,7 @@ namespace MediaBrowser.Library
 
         private void SaveSources()
         {
-            using (new MutexWrapper(cacheMutex, false))
+            using (new MutexWrapper(cacheMutex))
             {
                 VerifySources();
                 if (!Directory.Exists(rootPath))
@@ -181,7 +157,7 @@ namespace MediaBrowser.Library
 
         private void AppendSource(UniqueName name, ItemSource source)
         {
-            using (new MutexWrapper(cacheMutex, false))
+            using (new MutexWrapper(cacheMutex))
             {
                 VerifySources();
                 if (!Directory.Exists(rootPath))
@@ -204,7 +180,7 @@ namespace MediaBrowser.Library
         {
             string file = Path.Combine(rootPath, "sources");
             if (this.sourcesDate != new FileInfo(file).LastWriteTimeUtc)
-                using (new MutexWrapper(cacheMutex, false))
+                using (new MutexWrapper(cacheMutex))
                 {
                     LoadSources();
                     return true;
@@ -214,7 +190,7 @@ namespace MediaBrowser.Library
 
         private void LoadSources()
         {
-            using (new MutexWrapper(cacheMutex, false))
+            using (new MutexWrapper(cacheMutex))
             {
                 try
                 {
@@ -267,7 +243,7 @@ namespace MediaBrowser.Library
         {
             if ((source != null) && (source.UniqueName == null))
                 return;
-            using (new MutexWrapper(cacheMutex, false))
+            using (new MutexWrapper(cacheMutex))
             {
                 lock (this.sources)
                     if (sources.ContainsKey(source.UniqueName))
@@ -334,7 +310,7 @@ namespace MediaBrowser.Library
 
             List<UniqueName> itemsToRetrieve = null;  
             
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 if (File.Exists(file))
                 {
@@ -381,7 +357,7 @@ namespace MediaBrowser.Library
             if (ownerName == null)
                 return;
             string file = GetFile("children", ownerName);
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
@@ -409,7 +385,7 @@ namespace MediaBrowser.Library
                 else
                 {
                     string file = GetFile("metadata", ownerName);
-                    using (new MutexWrapper(this.cacheMutex, false))
+                    using (new MutexWrapper(this.cacheMutex))
                     {
                         if (File.Exists(file))
                             bytes = File.ReadAllBytes(file);
@@ -448,7 +424,7 @@ namespace MediaBrowser.Library
                 if (Directory.Exists(folder))
                 {
                     string[] files = Directory.GetFiles(folder);
-                    using (new MutexWrapper(this.cacheMutex, false))
+                    using (new MutexWrapper(this.cacheMutex))
                     {
                         foreach (string file in files)
                         {
@@ -490,11 +466,24 @@ namespace MediaBrowser.Library
                 return null;
             string file = GetFile("playstate", ownerName);
             byte[] bytes = null;
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 if (File.Exists(file))
                 {
-                    bytes = File.ReadAllBytes(file);
+                    int attempt = 0;
+                    while (attempt < 2)
+                    {
+                        try
+                        {
+                            attempt++;
+                            bytes = File.ReadAllBytes(file);
+                        }
+                        catch (IOException ex)
+                        {
+                            Thread.Sleep(200);
+                            Trace.TraceWarning("Failed to read " + file + "\n" + ex.ToString());
+                        }
+                    }
                 }
             }
             if (bytes != null)
@@ -515,7 +504,7 @@ namespace MediaBrowser.Library
             if (ownerName == null)
                 return null;
             string file = GetFile("display", ownerName);
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 if (File.Exists(file))
                 {
@@ -535,7 +524,7 @@ namespace MediaBrowser.Library
             if (metadata.OwnerName == null)
                 return;
             string file = GetFile("metadata", metadata.OwnerName);
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
@@ -552,12 +541,19 @@ namespace MediaBrowser.Library
             if (playState.OwnerName == null)
                 return;
             string file = GetFile("playstate", playState.OwnerName);
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
-                using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
+                try
                 {
-                    playState.WriteToStream(new BinaryWriter(fs));
-                    fs.Close();
+                    using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
+                    {
+                        playState.WriteToStream(new BinaryWriter(fs));
+                        fs.Close();
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Trace.TraceWarning("Failed to write " + file + "\n" + ex.ToString());
                 }
             }
         }
@@ -568,7 +564,7 @@ namespace MediaBrowser.Library
                 return;
 
             string file = GetFile("display", prefs.OwnerName);
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
@@ -602,7 +598,7 @@ namespace MediaBrowser.Library
                     return uniqueNames[name];
             if (allowCreate)
             {
-                using (new MutexWrapper(this.cacheMutex, this.CentralisedCache))
+                using (new MutexWrapper(this.cacheMutex))
                 {
                     VerifyUniqueNames();
                     lock (this.uniqueNames)
@@ -641,11 +637,9 @@ namespace MediaBrowser.Library
 
         private void SaveUniqueNameIndex()
         {
-            using (new MutexWrapper(this.cacheMutex, this.CentralisedCache))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 string p = rootPath;
-                if (this.CentralisedCache)
-                    p = Config.Instance.CentralisedCache;
                 if (!Directory.Exists(p))
                     Directory.CreateDirectory(p);
                 string file = Path.Combine(p, "uniqueNames");
@@ -669,11 +663,9 @@ namespace MediaBrowser.Library
 
         private void AppendUniqueName(string key, UniqueName name)
         {
-            using (new MutexWrapper(this.cacheMutex, this.CentralisedCache))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 string p = rootPath;
-                if (this.CentralisedCache)
-                    p = Config.Instance.CentralisedCache;
                 if (!Directory.Exists(p))
                     Directory.CreateDirectory(p);
                 string file = Path.Combine(p, "uniqueNames");
@@ -694,11 +686,9 @@ namespace MediaBrowser.Library
         private bool VerifyUniqueNames()
         {
             string p = rootPath;
-            if (this.CentralisedCache)
-                p = Config.Instance.CentralisedCache;
             string file = Path.Combine(p, "uniqueNames");
             if (this.uniqueNamesDate != new FileInfo(file).LastWriteTimeUtc)
-                using (new MutexWrapper(cacheMutex, false))
+                using (new MutexWrapper(cacheMutex))
                 {
                     LoadUniqueNameIndex();
                     return true;
@@ -709,14 +699,12 @@ namespace MediaBrowser.Library
         private void LoadUniqueNameIndex()
         {
             Debug.WriteLine("Loading UniqueNames");
-            using (new MutexWrapper(this.cacheMutex, this.CentralisedCache))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 lock (this.uniqueNames)
                 {
                     this.uniqueNames.Clear();
                     string p = rootPath;
-                    if (this.CentralisedCache)
-                        p = Config.Instance.CentralisedCache;
                     if (!Directory.Exists(p))
                         Directory.CreateDirectory(p);
                     string file = Path.Combine(p, "uniqueNames");
@@ -750,7 +738,15 @@ namespace MediaBrowser.Library
 
         private string GetFile(string type, UniqueName ownerName)
         {
-            string path = Path.Combine(rootPath, type);
+            string root = this.rootPath;
+            switch (type)
+            {
+                case "playstate":
+                    if (this.CentralisedPlaystate)
+                        root = Config.Instance.CentralisedCache;
+                    break;
+            }
+            string path = Path.Combine(root, type);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return Path.Combine(path, ownerName.Value);
@@ -760,7 +756,7 @@ namespace MediaBrowser.Library
 
         public bool ClearEntireCache()
         {
-            using (new MutexWrapper(this.cacheMutex, false))
+            using (new MutexWrapper(this.cacheMutex))
             {
                 bool success = true;
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "metadata"));
