@@ -49,8 +49,6 @@
 			<BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
 			<BooleanChoice Name="InheritDefaultView" Value="[Application.Config.InheritDefaultView]" />
 			<BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />
-			<Color Name="MinimalMovieThemeColor" Color="[Application.Config.MinimalMovieThemeColor]" />
-			<Color Name="MinimalMovieThemeColorInitial" Color="[Application.Config.MinimalMovieThemeColor]" />
 			<BooleanChoice Name="ShowClock" Value="[Application.Config.ShowClock]" />
 			<cor:String Name="ThemeInitial" String="[Application.Config.Theme]" />
 
@@ -124,12 +122,7 @@
 					<Set Target="[ThemeLoaded.Value]" Value="true" />
 				</Actions>
 			</Default>
-			<Default Target="[MinimalMovieThemeColorInitial]" Value="[Application.Config.MinimalMovieThemeColor]" >
-				<Actions>
-					<Set Target="[ColorLoaded.Value]" Value="true" />
-				</Actions>
-			</Default>
-
+			
 			<Condition Source="[Model.ChosenIndex]" SourceValue="0" ConditionOp="Equals" Target="[Panel1.Visible]" Value="true" />
 			<Condition Source="[Model.ChosenIndex]" SourceValue="1" ConditionOp="Equals" Target="[Panel2.Visible]" Value="true" />
 			<Condition Source="[Model.ChosenIndex]" SourceValue="2" ConditionOp="Equals" Target="[Panel3.Visible]" Value="true" />
@@ -186,11 +179,6 @@
 			<Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
 			<Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
 			<Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />
-			<Binding Source="[ColorModel.Chosen!Color]" Target="[Config.MinimalMovieThemeColor]" >
-				<Conditions>
-					<Equality Source="[ColorLoaded.Value]" ConditionOp="Equals" Value="true" />
-				</Conditions>
-			</Binding>
 			<Binding Source="[ShowClock.Value]" Target="[Config.ShowClock]" />
 			<Binding Source="[ThemeModel.Chosen!cor:String]" Target="[Config.Theme]" >
 				<Conditions>
@@ -386,8 +374,6 @@
 
 									<me:TextHeader Text="Movie Details" />
 									<cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-									<!--<me:ColorFilter Label="Alternate Theme Color" SpinnerColor="[MinimalMovieThemeColorInitial]" Model="[ColorModel]" Margins="[CMargin]" />-->
-
 								</Children>
 							</Graphic>
 

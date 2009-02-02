@@ -19,7 +19,7 @@ namespace MediaBrowser.Library.Providers
         {
             get { return "ImageFromMediaLocation"; }
         }
-
+            
         protected virtual string GetLocation(Item item)
         {
             return item.Source.Location;

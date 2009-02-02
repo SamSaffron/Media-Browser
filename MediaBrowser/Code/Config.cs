@@ -373,12 +373,6 @@ namespace MediaBrowser
             set { if (this.data.CentralisedCache != value) { this.data.CentralisedCache = value; Save(); FirePropertyChanged("CentralisedCache"); } }
         }
 
-        public Color MinimalMovieThemeColor
-        {
-            get { return this.data.MinimalMovieThemeColor; }
-            set { if (this.data.MinimalMovieThemeColor != value) { this.data.MinimalMovieThemeColor = value; Save(); FirePropertyChanged("MinimalMovieThemeColor"); } }
-        }
-
         public string Theme
         {
             get { return this.data.Theme; }
