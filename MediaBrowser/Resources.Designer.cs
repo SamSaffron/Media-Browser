@@ -221,6 +221,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] CoverflowView {
+            get {
+                object obj = ResourceManager.GetObject("CoverflowView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DecrementFocused {
             get {
                 object obj = ResourceManager.GetObject("DecrementFocused", resourceCulture);

@@ -257,12 +257,13 @@ namespace MediaBrowser.Library
     {
         Detail,
         Poster,
-        Thumb
+        Thumb,
+        CoverFlow
     }
 
     public class ViewTypeNames
     {
-        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip" };
+        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip", "Cover Flow" };
 
         public static string GetName(ViewTypes type)
         {

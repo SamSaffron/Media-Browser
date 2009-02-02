@@ -585,7 +585,7 @@
 									<FlowLayout Orientation="Horizontal"/>
 								</Layout>
 								<Children>
-									<as:AutoScroller Name="Overview" Text="[Item.Overview]" Application="[Application]" Font="font://f:MM_SummaryFont"/>
+									<as:AutoScroller Name="Overview" Text="[Item.Overview]" Font="font://f:MM_SummaryFont"/>
 								</Children>
 							</Panel>
 						</Children>

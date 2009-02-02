@@ -9,7 +9,6 @@
 	<UI Name="AutoScroller">
 
 		<Properties>
-			<a:Application Name="Application" Application="$Required"/>
 			<cor:String Name="Text" String="" />
 			<Font Name="Font" Font="$Required"/>
 			<Color Name="Color" Color="color://s:FontColorMedium"/>

@@ -4,7 +4,8 @@
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/PosterView"
 	  xmlns:tdv="resx://MediaBrowser/MediaBrowser.Resources/ThumbDetailsView"
-	  xmlns:vd="resx://MediaBrowser/MediaBrowser.Resources/ViewDetails">
+	  xmlns:vd="resx://MediaBrowser/MediaBrowser.Resources/ViewDetails"
+	xmlns:cfv="resx://MediaBrowser/MediaBrowser.Resources/CoverflowView">
 
 	<UI Name="PageDetailArea">
 		<Properties>
@@ -32,11 +33,13 @@
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[PosterView.Visible]" Value="false" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="true" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="false" />
 
 		</Rules>
 
 		<Content>
-			<Panel Name="MainPanel" Layout="Anchor">
+			<Panel Name="MainPanel" Layout="Form">
 				<Animations>
 					<Animation Name="AlphaAnimation" Type="Alpha">
 						<Keyframes>
@@ -49,21 +52,27 @@
 
 					<vd:ViewDetails Name="DetailsView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
-							<AnchorLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,0.9"/>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
 						</LayoutInput>
 					</vd:ViewDetails>
 
 					<pv:PosterView Name="PosterView" Visible="true" Application="[Application]" Item="[Item]"  >
 						<LayoutInput>
-							<AnchorLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1" Right="Parent,1"/>
 						</LayoutInput>
 					</pv:PosterView>
 
 					<tdv:ThumbDetailsView2 Name="ThumbView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
-							<AnchorLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,0.9"/>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
 						</LayoutInput>
 					</tdv:ThumbDetailsView2>
+
+					<cfv:CoverflowView Name="CoverFlow" Visible="true" Item="[Item]" Application="[Application]" >
+						<LayoutInput>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,1"/>
+						</LayoutInput>
+					</cfv:CoverflowView>
 					<!--
 					<tdv:ThumbDetailsView Name="ThumbView" Visible="true" Application="[Application]" Item="[Item]">
 						<LayoutInput>

@@ -218,6 +218,7 @@
     <Content Include="Images\Application.png" />
     <Content Include="Markup\Controls\AutoScroller.mcml" />
     <Content Include="Markup\Controls\ColorSpinner.mcml" />
+    <Content Include="Markup\Controls\CoverflowView.mcml" />
     <Content Include="Markup\Controls\SpinnerText.mcml" />
     <Content Include="Markup\Controls\GenreButton.mcml" />
     <Content Include="Markup\Controls\SimpleSpinner.mcml" />
@@ -273,11 +274,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)Markup\StylesDefault.mcml" c:\programdata\mediabrowser\Styles_DoNotEdit.mcml
-copy "$(ProjectDir)Markup\FontsDefault.mcml" c:\programdata\mediabrowser\Fonts_DoNotEdit.mcml
-%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)Markup"
 cd "$(ProjectDir)"
 "$(ProjectDir)DevInstall.cmd" /$(ConfigurationName)</PostBuildEvent>
+    <PreBuildEvent>copy "$(ProjectDir)Markup\StylesDefault.mcml" $(TargetDir)\Styles_DoNotEdit.mcml
+copy "$(ProjectDir)Markup\FontsDefault.mcml" $(TargetDir)\Fonts_DoNotEdit.mcml</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
