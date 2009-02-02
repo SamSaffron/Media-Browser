@@ -95,6 +95,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap Banner {
+            get {
+                object obj = ResourceManager.GetObject("Banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap BlackBtnAlpha50 {
             get {
                 object obj = ResourceManager.GetObject("BlackBtnAlpha50", resourceCulture);

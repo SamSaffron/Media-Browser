@@ -225,7 +225,7 @@ namespace MediaBrowser.Library
                         case ItemType.Other:
                             return null;
                         default:
-                            return new ImageSource { OriginalSource = "resx://MediaBrowser/MediaBrowser.Resources/folder", LocalSource = "resx://MediaBrowser/MediaBrowser.Resources/folder" };
+                            return new ImageSource { OriginalSource = "resx://MediaBrowser/MediaBrowser.Resources/Banner", LocalSource = "resx://MediaBrowser/MediaBrowser.Resources/Banner" };
                     }
                 }
             }

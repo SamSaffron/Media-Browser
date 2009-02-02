@@ -138,6 +138,7 @@
   <ItemGroup>
     <Content Include="Images\Background.png" />
     <Content Include="Images\BackShadow.png" />
+    <Content Include="Images\banner.png" />
     <Content Include="Images\BlackBtnAlpha50.png" />
     <Content Include="Images\BlackBtnAlpha65.png" />
     <Content Include="Images\CheckBoxCheckedFocus.png" />
