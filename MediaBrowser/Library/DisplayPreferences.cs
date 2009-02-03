@@ -86,6 +86,15 @@ namespace MediaBrowser.Library
 
         void viewType_ChosenChanged(object sender, EventArgs e)
         {
+            switch (ViewTypeNames.GetEnum((string)this.viewType.Chosen))
+            {
+                case ViewTypes.Thumb:
+                    if (this.VerticalScroll.Value)
+                        this.VerticalScroll.Chosen = false;
+                    if (this.ThumbConstraint.Value.Height > 220)
+                        this.ThumbConstraint.Value = new Size(220, 220);
+                    break;
+            }
             FirePropertyChanged("ViewTypeString");
             Save();
         }
@@ -119,7 +128,14 @@ namespace MediaBrowser.Library
             DisplayPreferences dp = new DisplayPreferences(ownerName);
             dp.saveEnabled = false;
             byte version = br.ReadByte();
-            dp.viewType.Chosen = ViewTypeNames.GetName((ViewTypes)Enum.Parse(typeof(ViewTypes), br.SafeReadString()));
+            try
+            {
+                dp.viewType.Chosen = ViewTypeNames.GetName((ViewTypes)Enum.Parse(typeof(ViewTypes), br.SafeReadString()));
+            }
+            catch
+            {
+                dp.viewType.Chosen = ViewTypeNames.GetName(ViewTypes.Poster);
+            }
             dp.showLabels.Value = br.ReadBoolean();
             dp.verticalScroll.Value = br.ReadBoolean();
             dp.SortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), br.SafeReadString());
@@ -257,13 +273,13 @@ namespace MediaBrowser.Library
     {
         Detail,
         Poster,
-        Thumb,
-        CoverFlow
+        PosterDetail,
+        Thumb
     }
 
     public class ViewTypeNames
     {
-        private static readonly string[] Names = { "Detail", "Poster", "Thumb Strip", "Cover Flow" };
+        private static readonly string[] Names = { "Detail", "Poster", "Poster Detail", "Strip Detail" };
 
         public static string GetName(ViewTypes type)
         {

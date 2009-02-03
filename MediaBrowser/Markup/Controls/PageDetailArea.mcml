@@ -31,10 +31,10 @@
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[DetailsView.Visible]" Value="false" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[PosterView.Visible]" Value="true" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[PosterView.Visible]" Value="false" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="true" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="false" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="true" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="PosterDetails" Target="[PosterDetails.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="PosterDetail" Target="[PosterDetails.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[Thumb.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[Thumb.Visible]" Value="false" />
 
 		</Rules>
 
@@ -62,13 +62,13 @@
 						</LayoutInput>
 					</pv:PosterView>
 
-					<tdv:ThumbDetailsView2 Name="ThumbView" Visible="true" Item="[Item]" Application="[Application]" >
+					<tdv:ThumbDetailsView2 Name="PosterDetails" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
 						</LayoutInput>
 					</tdv:ThumbDetailsView2>
 
-					<cfv:CoverflowView Name="CoverFlow" Visible="true" Item="[Item]" Application="[Application]" >
+					<cfv:CoverflowView Name="Thumb" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,1"/>
 						</LayoutInput>
