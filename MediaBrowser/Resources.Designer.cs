@@ -221,13 +221,6 @@ namespace MediaBrowser {
             }
         }
         
-        internal static byte[] CoverflowView {
-            get {
-                object obj = ResourceManager.GetObject("CoverflowView", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap DecrementFocused {
             get {
                 object obj = ResourceManager.GetObject("DecrementFocused", resourceCulture);
@@ -517,6 +510,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] PosterDetailView {
+            get {
+                object obj = ResourceManager.GetObject("PosterDetailView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] PosterItemTitle {
             get {
                 object obj = ResourceManager.GetObject("PosterItemTitle", resourceCulture);
@@ -720,6 +720,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] StripView {
+            get {
+                object obj = ResourceManager.GetObject("StripView", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] StylesBlack {
             get {
                 object obj = ResourceManager.GetObject("StylesBlack", resourceCulture);
@@ -772,13 +779,6 @@ namespace MediaBrowser {
         internal static byte[] TextEdit {
             get {
                 object obj = ResourceManager.GetObject("TextEdit", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        internal static byte[] ThumbDetailsView {
-            get {
-                object obj = ResourceManager.GetObject("ThumbDetailsView", resourceCulture);
                 return ((byte[])(obj));
             }
         }

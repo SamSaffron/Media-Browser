@@ -218,7 +218,7 @@
     <Content Include="Images\Application.png" />
     <Content Include="Markup\Controls\AutoScroller.mcml" />
     <Content Include="Markup\Controls\ColorSpinner.mcml" />
-    <Content Include="Markup\Controls\CoverflowView.mcml" />
+    <Content Include="Markup\Controls\StripView.mcml" />
     <Content Include="Markup\Controls\SpinnerText.mcml" />
     <Content Include="Markup\Controls\GenreButton.mcml" />
     <Content Include="Markup\Controls\SimpleSpinner.mcml" />
@@ -251,7 +251,7 @@
     <Content Include="Markup\Controls\StarRating.mcml" />
     <Content Include="Markup\Controls\Summary.mcml" />
     <Content Include="Markup\Controls\TextEdit.mcml" />
-    <Content Include="Markup\Controls\ThumbDetailsView.mcml" />
+    <Content Include="Markup\Controls\PosterDetailView.mcml" />
     <Content Include="Markup\Controls\TitleSet.mcml" />
     <Content Include="Markup\Controls\ViewDetails.mcml" />
     <Content Include="Markup\Controls\ViewMenu.mcml" />

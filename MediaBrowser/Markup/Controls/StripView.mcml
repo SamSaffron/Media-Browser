@@ -16,7 +16,7 @@
 	  >
 
 	
-	<UI Name="CoverflowView">
+	<UI Name="StripView">
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:Item Name="Item" Item="$Required"/>
