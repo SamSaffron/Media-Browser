@@ -64,6 +64,7 @@ namespace MediaBrowser.Library.Providers
 
         private void FetchMovieData(Item item, MediaMetadataStore store)
         {
+            // We need to consider an id refresh so people dont have to dump all thier metadata ... 
             if (item.Metadata.ProviderData.ContainsKey(ProviderName + ":id"))
                 FetchMovieData(item.Metadata.ProviderData[ProviderName + ":id"], item, store);
             else
@@ -72,8 +73,11 @@ namespace MediaBrowser.Library.Providers
                 string matchedName;
                 string[] possibles;
                 id = FindId(item.Source.Name, out matchedName, out possibles);
-                if (id != null)
+                if (id != null) 
+                {
+                    store.Name = matchedName;
                     FetchMovieData(id, item, store);
+                }
             }
         }
 
@@ -107,7 +111,7 @@ namespace MediaBrowser.Library.Providers
                 return id;
         }
 
-        private static string AttemptFindId(string name, string year, out string matchedName, out string[] possibles)
+        public static string AttemptFindId(string name, string year, out string matchedName, out string[] possibles)
         {
 
             string id = null;
@@ -146,7 +150,7 @@ namespace MediaBrowser.Library.Providers
                         {
                             if (GetComparableName(title) == comparable_name)
                             {
-                                matchedName = mainTitle;
+                                matchedName = title;
                                 break;
                             }
                         }
@@ -202,8 +206,9 @@ namespace MediaBrowser.Library.Providers
             if (doc != null)
             {
                 store.ProviderData[ProviderName + ":id"] = id;
-                if (store.Name == null)
-                    store.Name = doc.SafeGetString("//movie/title");
+                // This is problamatic for forign films we want to keep the alt title. 
+                //if (store.Name == null)
+                //    store.Name = doc.SafeGetString("//movie/title");
                 if (store.Overview == null)
                 {
                     store.Overview = doc.SafeGetString("//movie/short_overview");

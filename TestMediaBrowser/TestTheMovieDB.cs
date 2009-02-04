@@ -89,6 +89,16 @@ namespace TestMediaBrowser
         }
 
         [TestMethod]
+        public void TestCorrectMovieTitleIsFetched() 
+        { 
+            string matchedName; 
+            string[] possibles;
+            MovieDbProvider.AttemptFindId("City Of Men", "", out matchedName, out possibles);
+
+            Assert.AreEqual("City Of Men".ToLower(), matchedName.ToLower()); 
+        }
+
+        [TestMethod]
         public void TestFetching()
         {
             int count = 0;
