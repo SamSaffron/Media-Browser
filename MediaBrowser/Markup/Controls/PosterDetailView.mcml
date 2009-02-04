@@ -127,7 +127,7 @@
 							<FormLayoutInput Left="Parent,.05" Top="ItemPanel,1,10" Bottom="Parent,0.95" Right="Parent,0.95"/>
 						</LayoutInput>
 						<Children>
-							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_TitleFont" SubFont="font://f:TD_SubTitleFont">
+							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0" Top="Parent,0.0" Right="Parent,0.6"/>
 								</LayoutInput>
@@ -137,13 +137,13 @@
 									<FormLayoutInput Top="Parent,0.0" Right="Parent,1"/>
 								</LayoutInput>
 								<Children>
-									<Text Content="-1" Name="CurrentItem" Color="color://s:FontColorLight" Font="font://f:TD_CounterFont"></Text>
-									<Text Content=" | " Color="color://s:FontColorLight" Font="font://f:TD_CounterFont"></Text>
-									<Text Content="-1" Name="TotalItems" Color="color://s:FontColorMedium" Font="font://f:TD_CounterFont"></Text>
+									<Text Content="-1" Name="CurrentItem" Color="color://s:FontColorLight" Font="font://f:PD_CounterFont"></Text>
+									<Text Content=" | " Color="color://s:FontColorLight" Font="font://f:PD_CounterFont"></Text>
+									<Text Content="-1" Name="TotalItems" Color="color://s:FontColorMedium" Font="font://f:PD_CounterFont"></Text>
 								</Children>
 							</Panel>
 
-							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_LastWatchedFont">
+							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:PD_LastWatchedFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0" Top="TitleSet,1.0" Right="Parent,0.3"/>
 								</LayoutInput>
@@ -154,7 +154,7 @@
 								</LayoutInput>
 							</ip:ItemPoster>
 
-							<sy:Summary Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Font="font://f:TD_SummaryFont">
+							<sy:Summary Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Font="font://f:PD_SummaryFont">
 								<LayoutInput>
 									<FormLayoutInput Left="Poster,1,10" Top="TitleSet,1" Right="MovieInfo,0,-14" Bottom="Parent,1"></FormLayoutInput>
 								</LayoutInput>
@@ -243,7 +243,7 @@
 					
 					<ps:PosterScroller Name="MyItems" Application="[Application]"
 									   Item="[Item]" NoEndPadding="true" LayoutInput="[Split]"
-									   TopLabelFont="font://f:TD_PosterTopLabelFont" LabelFont="font://f:TD_PosterLabelFont" UnwatchedCountFont="font://f:TD_UnwatchedCountFont">
+									   TopLabelFont="font://f:PD_PosterTopLabelFont" LabelFont="font://f:PD_PosterLabelFont" UnwatchedCountFont="font://f:PD_UnwatchedCountFont">
 						
 					</ps:PosterScroller>
 
@@ -255,13 +255,13 @@
 							<FlowLayout Orientation="Vertical" Spacing="0,0"/>
 						</Layout>
 						<Children>
-							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_TitleFont" SubFont="font://f:TD_SubTitleFont"/>
+							<ts:TitleSet Name="TitleSet" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
 							<mi:MovieInfo Name="MovieInfo" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" />
-							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:TD_LastWatchedFont"/>
+							<lw:LastWatched Name="LastWatched" Model="[SelectedItem]" ModelFast="[PreSelectedItem]" Font="font://f:PD_LastWatchedFont"/>
 						</Children>
 					</Panel>
 
-					<sy:SummaryNonScrolling Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Color="color://s:FontColorLight" Font="font://f:TD_SummaryFont">
+					<sy:SummaryNonScrolling Name="Summary" Model="[SelectedItem]"  ModelFast="[PreSelectedItem]" Color="color://s:FontColorLight" Font="font://f:PD_SummaryFont">
 						<LayoutInput>
 							<FormLayoutInput Left="DetailsSection,0" Top="DetailsSection,1" Right="DetailsSection,1" Bottom="Parent,1"></FormLayoutInput>
 						</LayoutInput>

@@ -43,14 +43,14 @@
 	<Font Name="MD_GenreFont" Font="Segoe Media Center,16"/>
 	
 	<!-- Thumb Details-->
-	<Font Name="TD_TitleFont" Font="Segoe Media Center Semibold, 20"/>
-	<Font Name="TD_SubTitleFont" Font="Segoe Media Center, 18"/>
-	<Font Name="TD_CounterFont" Font="Segoe Media Center, 18"/>
-	<Font Name="TD_LastWatchedFont" Font="Segoe Media Center,14"/>
-	<Font Name="TD_SummaryFont" Font="Segoe Media Center,16"/>
-	<Font Name="TD_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
-	<Font Name="TD_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
-	<Font Name="TD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
+	<Font Name="PD_TitleFont" Font="Segoe Media Center Semibold, 20"/>
+	<Font Name="PD_SubTitleFont" Font="Segoe Media Center, 18"/>
+	<Font Name="PD_CounterFont" Font="Segoe Media Center, 18"/>
+	<Font Name="PD_LastWatchedFont" Font="Segoe Media Center,14"/>
+	<Font Name="PD_SummaryFont" Font="Segoe Media Center,16"/>
+	<Font Name="PD_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
+	<Font Name="PD_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
+	<Font Name="PD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
 
 	<!-- Thumb Details Movie Info control -->
 	<Font Name="TD_MI_DirectorTitleFont" Font="Segoe Media Center,16"/>
@@ -62,6 +62,15 @@
 	<Font Name="TD_MI_ProductionYearFont" Font="Segoe Media Center Semibold,16"/>
 	<Font Name="TD_MI_MediaInfoFont" Font="Segoe Media Center Semibold,14"/>
 
+	<!-- Strip View -->
+	<Font Name="SV_TitleFont" Font="Segoe Media Center Semibold, 20"/>
+	<Font Name="SV_SubTitleFont" Font="Segoe Media Center, 18"/>
+	<Font Name="SV_CounterFont" Font="Segoe Media Center, 18"/>
+	<Font Name="SV_LastWatchedFont" Font="Segoe Media Center,14"/>
+	<Font Name="SV_SummaryFont" Font="Segoe Media Center,16"/>
+	<Font Name="SV_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
+	<Font Name="SV_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
+	<Font Name="SV_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
 
 	<!-- Details View -->
 	<Font Name="DV_ListButtonFont" FontName="Segoe Media Center" FontSize="20" />
