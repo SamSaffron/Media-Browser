@@ -71,11 +71,34 @@ namespace MediaBrowser.Library
         {
             get 
             {
+                // if a value exists for SortName, use it for the sortable name
+                if (this.SortName != null)
+                    return this.SortName;
+
                 if (this.sortableName == null)
                     lock (this)
                         if (this.sortableName == null)
                             this.sortableName = GetSortableName(this.Name);
                 return sortableName; 
+            }
+        }
+
+        /// <summary>
+        /// Created to support mymovies.xml SortTitle entity.
+        /// </summary>
+        public string SortName
+        {
+            get { return this.store.SortName; }
+            set
+            {
+                if (this.store.SortName != value) {
+                    this.store.SortName = value;
+                    lock (this)
+                        this.sortableName = null;
+                    FirePropertyChanged("SortName");
+                    FirePropertyChanged("SortableName");
+                    Save();
+                }
             }
         }
 
@@ -581,6 +604,7 @@ namespace MediaBrowser.Library
             try
             {
                 this.Name = data.Name;
+                this.SortName = data.SortName;
                 this.SubName = data.SubName;
                 this.Overview = data.Overview;
                 this.PrimaryImageSource = data.PrimaryImage;

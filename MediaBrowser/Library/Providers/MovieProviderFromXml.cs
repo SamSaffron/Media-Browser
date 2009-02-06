@@ -70,6 +70,10 @@ namespace MediaBrowser.Library.Providers
                         s = doc.SafeGetString("Title/OriginalTitle");
                     store.Name = s;
                 }
+                if (store.SortName == null)
+                {
+                    store.SortName = doc.SafeGetString("Title/SortTitle");
+                }
                 if (store.Overview == null)
                 {
                     store.Overview = doc.SafeGetString("Title/Description");

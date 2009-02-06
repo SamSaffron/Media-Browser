@@ -59,7 +59,7 @@ namespace MediaBrowser.Library
     {
 
 
-        private static readonly byte Version = 4;
+        private static readonly byte Version = 5;
         public MediaMetadataStore(UniqueName ownerName)
         {
             this.OwnerName = ownerName;
@@ -124,6 +124,7 @@ namespace MediaBrowser.Library
             bw.Write(this.MediaInfo != null);
             if (this.MediaInfo != null)
                 this.MediaInfo.Write(bw);
+            bw.SafeWriteString(this.SortName);
         }
 
         private static void WriteImageSource(BinaryWriter bw, ImageSource imageSource)
@@ -193,6 +194,8 @@ namespace MediaBrowser.Library
             store.Writers = ReadList(br);
             if (br.ReadBoolean())
                 store.MediaInfo = MediaInfoData.FromStream(br);
+            if (v > 4)
+                store.SortName = br.SafeReadString();
             return store;
         }
 
@@ -240,6 +243,8 @@ namespace MediaBrowser.Library
         {
             if (this.Name == null)
                 this.Name = data.Name;
+            if (this.SortName == null)
+                this.SortName = data.SortName;
             if (this.SubName == null)
                 this.SubName = data.SubName;
             if (this.Overview == null)
@@ -287,6 +292,7 @@ namespace MediaBrowser.Library
 
         public UniqueName OwnerName { get; set; }
         public string Name { get; set; }
+        public string SortName { get; set; }
         public string SubName { get; set; }
         public string Overview { get; set; }
         public string SeasonNumber { get; set; }
