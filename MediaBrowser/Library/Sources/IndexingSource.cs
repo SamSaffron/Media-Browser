@@ -69,9 +69,7 @@ namespace MediaBrowser.Library.Sources
 
         public override Item ConstructItem()
         {
-            MediaMetadata md = MediaMetadataFactory.Instance.Create((UniqueName)null, this.ItemType);
-            md.Name = this.name;
-            return ItemFactory.Instance.Create(this, md);
+            return ItemFactory.Instance.Create(this);
         }
 
         internal override PlayableItem PlayableItem

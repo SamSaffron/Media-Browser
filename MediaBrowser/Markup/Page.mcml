@@ -5,20 +5,20 @@
 	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:f="file://Fonts_DoNotEdit.mcml"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-		xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"
+		xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"  
 	  xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
 	  
 	  xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailArea"
     xmlns:me="Me"
       >
-
+	
 
 	<UI Name="Page">
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:Item Name="Item" Item="$Required"/>
 			<IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
-
+			
 		</Properties>
 
 		<Locals>
@@ -27,7 +27,7 @@
 					<EditableText Value="" />
 				</EditableText>
 			</TypingHandler>
-
+				
 			<cor:Boolean Name="CanPlay" Boolean="false" />
 			<Timer Name="HideFindAsYouType" Interval="3000" AutoRepeat="false"/>
 			<!--<Timer Name="BGTimer" Interval="100" Enabled="false"/>-->
@@ -38,18 +38,28 @@
 			<Command Name="CloseSortConfiguration" />
 			<Command Name="ShowIndexConfiguration" />
 			<Command Name="CloseIndexConfiguration" />
-			<Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="100" />
-			<!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
-			<a:Clock Name="Clock"/>
-		</Locals>
-
+			<Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="250" /> <!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
+      <a:Clock Name="Clock"/>
+      <KeyHandler Name="SwitchKey" Key="D8" Handle="false" Modifiers="Shift" HandlerStage="Bubbled"/>
+    </Locals>
+    
 		<Rules>
-			<Binding Source="[Clock.Time]" Target="[TimeDate.Content]">
-				<Conditions>
-					<Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
-				</Conditions>
-			</Binding>
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]">
+        <Conditions>
+          <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+      </Binding>
 
+      <Rule>
+        <Conditions>
+          <Modified Source="[SwitchKey.Invoked]" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[Item.DisplayPrefs.ToggleViewTypes]" />
+        </Actions>
+      </Rule>
+      
+      
 			<Changed Source="[RefocusViewTimer.Tick]">
 				<Actions>
 					<Invoke Target="[ViewConfig.NavigateInto]" />
@@ -74,13 +84,13 @@
 					<Invoke Target="[ViewPanel.NavigateInto]" />
 				</Actions>
 			</Changed>
-
+			
 			<Changed Source="[Item.DisplayPrefs.ViewType.Chosen]" >
 				<Conditions>
 					<Equality Source="[ViewConfig.Visible]" Value="true" />
 				</Conditions>
 				<Actions>
-					<Invoke Target="[RefocusViewTimer.Start]" />
+					<Invoke Target="[RefocusViewTimer.Start]" /> 
 				</Actions>
 			</Changed>
 
@@ -92,7 +102,7 @@
 					<Invoke Target="[SortConfig.NavigateInto]" />
 				</Actions>
 			</Changed>
-
+			
 			<Changed Source="[CloseSortConfiguration.Invoked]">
 				<Actions>
 					<Set Target="[SortConfig.Visible]" Value="false"/>
@@ -130,10 +140,10 @@
 				</Actions>
 			</Changed>
 
-			<Binding Source="[Item.Source.IsRoot]" Target="[ConfigBtn.Visible]"/>
+      <Binding Source="[Item.Source.IsRoot]" Target="[ConfigBtn.Visible]"/>
 
-
-			<!--
+			
+<!--
 			<Rule>
 				<Actions>
 					<Set Target="[BGTimer.Enabled]" Value="true" />
@@ -161,7 +171,7 @@
 					<Set Target="[BreadCrumbs.Font]" Value="font://f:P_BreadcrumbFont" />
 				</Actions>
 			</Rule>
-
+			
 			<Binding Source="[Item.BannerImage.Image]" Target="[BannerGraphic.Content]" />
 			<Binding Source="[Item.DisplayPrefs.SortOrders.Chosen!cor:String]" Target="[SortOrdersBtn.Content]" />
 			<Binding Source="[Item.DisplayPrefs.IndexByChoice.Chosen!cor:String]" Target="[IndexesBtn.Content]" />
@@ -169,7 +179,7 @@
 			<Binding Source="[FindAsYouType.Content]" Target="[ShadowLabel.Content]" />
 			<Binding Source="[TypingHandler.DisplayValue]" Target="[FindAsYouType.Content]" />
 			<Binding Source="[TypingHandler.DisplayValue]" Target="[Item.TripleTapSelect]" />
-
+			
 			<Changed Source="[TypingHandler.DisplayValue]">
 				<Conditions>
 					<Equality Source="[TypingHandler.DisplayValue]" ConditionOp="NotEquals" Value="" />
@@ -178,7 +188,7 @@
 					<Invoke Target="[HideFindAsYouType.Start]" />
 				</Actions>
 			</Changed>
-
+			
 			<Changed Source="[HideFindAsYouType.Tick]">
 				<Actions>
 					<Set Target="[TypingHandler.EditableText.Value]" Value="" />
@@ -192,26 +202,38 @@
 			<Binding Source="[Application.ShowNowPlaying]" Target="[NowPlaying.Visible]" />
 			<Condition Source="[Item.DisplayPrefs.IndexByChoice.Chosen!cor:String]" ConditionOp="Equals" SourceValue="none" Target="[SortOrdersBtn.Enabled]" Value="true"/>
 			<Condition Source="[Item.DisplayPrefs.IndexByChoice.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="none" Target="[SortOrdersBtn.Enabled]" Value="false"/>
-		</Rules>
+
+    </Rules>
 
 		<Content>
 			<Panel Layout="Center">
 				<Children>
 					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
 						<Children>
-							<Text Name="TimeDate" Font="font://f:P_ClockFont" Color="White"
-								  Visible="[Application.Config.ShowClock]">
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,0,40" Bottom="Parent,0,120"/>
-								</LayoutInput>
-							</Text>
 
+              <Panel>
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                </Layout>
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0,50" Bottom="ViewPanel,0,-10" Right="Parent,0,125" Horizontal="Center"/>
+                </LayoutInput>
+                <Children>
+                  <Panel Layout="Scale">
+                    <Children>
+                      <Text Name="TimeDate" Font="font://f:P_ClockFont"  Color="White"
+                            Visible="[Application.Config.ShowClock]" />
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+              
 							<vm:CfgButton Name="ConfigBtn" Command="[Configure]" >
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0,130" Bottom="Parent,0,120" />
 								</LayoutInput>
 							</vm:CfgButton>
-
+							
 							<vm:ViewsButton Name="ViewsBtn" Command="[ShowViewConfiguration]" Font="font://f:P_ConfigButtons">
 								<LayoutInput>
 									<FormLayoutInput Left="Parent,0,180" Bottom="Parent,0,120"/>
@@ -247,7 +269,7 @@
 									<FormLayoutInput Left="IndexesBtn,0,0" Top="IndexesBtn,1"/>
 								</LayoutInput>
 							</vm:RadioConfiguration>
-
+							
 							<!-- find in list panel - highest Z-Order -->
 							<Panel Name="FindAsYouTypePanel" >
 								<LayoutInput>
@@ -269,8 +291,8 @@
 									</ColorFill>
 								</Children>
 							</Panel>
-
-
+							
+							
 							<!-- Black Overlay to Fade Out contents -->
 							<!--
 							<Panel Name="FadeOutPanel" Visible="false">
@@ -302,7 +324,7 @@
 									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
 								</LayoutInput>
 							</Panel>
-
+						
 							<!--  View Details-->
 							<pda:PageDetailArea Name="ViewPanel" Item="[Item]" Application="[Application]"  >
 								<LayoutInput>
@@ -316,9 +338,9 @@
 									<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,20" />
 								</LayoutInput>
 							</np:NowPlayingViewport>
-
-
-
+							
+									
+							
 						</Children>
 					</Clip>
 
@@ -330,10 +352,10 @@
 									<ColorFill Content="color://s:BackgroundColor1" Layout="Fill"/>
 								</Children>
 							</Clip>
-							<ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>
+							<ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>		
 						</Children>
 					</Panel>
-
+					
 					<!--
 					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
 					-->
@@ -342,6 +364,6 @@
 		</Content>
 	</UI>
 
-
-
+	
+	
 </Mcml>

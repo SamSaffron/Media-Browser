@@ -75,6 +75,30 @@ namespace MediaBrowser.Library
 
         #region Metadata
 
+        public List<ActorItemWrapper> ActorItems
+        {
+            get
+            {
+                List<ActorItemWrapper> result = new List<ActorItemWrapper>();
+                foreach (Actor a in this.metadata.Actors)
+                    result.Add(new ActorItemWrapper(a, this.PhysicalParent));
+                result.Sort(delegate(ActorItemWrapper a, ActorItemWrapper b) { return a.Actor.Name.CompareTo(b.Actor.Name); });
+                return result;
+            }
+        }
+
+        public List<DirectorItemWrapper> DirectorItems
+        {
+            get
+            {
+                List<DirectorItemWrapper> result = new List<DirectorItemWrapper>();
+                foreach (string d in this.metadata.Directors)
+                    result.Add(new DirectorItemWrapper(d, this.PhysicalParent));
+                result.Sort(delegate(DirectorItemWrapper a, DirectorItemWrapper b) { return a.Director.CompareTo(b.Director); });
+                return result;
+            }
+        }
+
         public MediaMetadata Metadata
         {
             get

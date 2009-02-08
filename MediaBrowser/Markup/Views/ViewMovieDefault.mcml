@@ -157,7 +157,7 @@
             </Children>
           </Panel>
 
-			<bd:Backdrop2 Name="Backdrop" Image="[Item.BackdropImage.Image]">
+			<bd:Backdrop2 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage.Image]">
 				<LayoutInput>
 					<FormLayoutInput Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1,0" />
 				</LayoutInput>

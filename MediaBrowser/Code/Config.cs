@@ -391,6 +391,22 @@ namespace MediaBrowser
             get { return this.data.ShowClock; }
             set { if (this.data.ShowClock != value) { this.data.ShowClock = value; Save(); FirePropertyChanged("ShowClock"); } }
         }
+
+        [Comment(@"Enable more advanced movie commands.")]
+        public bool EnableMoreMovieCmds
+        {
+            get { return this.data.EnableMoreMovieCmds; }
+            set { if (this.data.EnableMoreMovieCmds != value) { this.data.EnableMoreMovieCmds = value; Save(); FirePropertyChanged("EnableMoreMovieCmds"); } }
+        }
+
+        [Comment(@"Show backdrop on main views.")]
+        public bool ShowBackdrop
+        {
+            get { return this.data.ShowBackdrop; }
+            set { if (this.data.ShowBackdrop != value) { this.data.ShowBackdrop = value; Save(); FirePropertyChanged("ShowBackdrop"); } }
+        }
+
+        
         /* End of app specific settings*/
 
         private string[] _SortRemoveCharactersArray = null;

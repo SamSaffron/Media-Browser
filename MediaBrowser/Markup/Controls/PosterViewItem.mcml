@@ -213,7 +213,9 @@
 						<Layout>
 							<AnchorLayout SizeToHorizontalChildren="true" SizeToVerticalChildren="true"/>
 						</Layout>
+            
 						<Children>
+              
 							<ColorFill Content="Transparent" >
 								<LayoutInput>
 									<AnchorLayoutInput Horizontal="Center" ContributesToWidth="true"/>
@@ -269,8 +271,8 @@
 													<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
 												</LayoutInput>
 												<Children>
-													<Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="35,35" Alpha="0.8" >
-														<LayoutInput>
+                          <Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="48,35" MaintainAspectRatio="true">
+                            <LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>
 													</Graphic>

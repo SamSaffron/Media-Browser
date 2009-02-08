@@ -44,14 +44,14 @@
 	<Font Name="MD_GenreFont" Font="Segoe Media Center,11"/>
 	
 	<!-- Thumb Details-->
-	<Font Name="TD_TitleFont" Font="Segoe Media Center Semibold, 14"/>
-	<Font Name="TD_SubTitleFont" Font="Segoe Media Center, 13"/>
-	<Font Name="TD_CounterFont" Font="Segoe Media Center, 13"/>
-	<Font Name="TD_LastWatchedFont" Font="Segoe Media Center,14"/>
-	<Font Name="TD_SummaryFont" Font="Segoe Media Center,11"/>
-	<Font Name="TD_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
-	<Font Name="TD_PosterLabelFont" Font="Segoe Media Center, 14, Bold"/>
-	<Font Name="TD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 11"/>
+	<Font Name="PD_TitleFont" Font="Segoe Media Center Semibold, 14"/>
+	<Font Name="PD_SubTitleFont" Font="Segoe Media Center, 13"/>
+	<Font Name="PD_CounterFont" Font="Segoe Media Center, 13"/>
+	<Font Name="PD_LastWatchedFont" Font="Segoe Media Center,14"/>
+	<Font Name="PD_SummaryFont" Font="Segoe Media Center,11"/>
+	<Font Name="PD_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
+	<Font Name="PD_PosterLabelFont" Font="Segoe Media Center, 14, Bold"/>
+	<Font Name="PD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 11"/>
 
 	<!-- Thumb Details Movie Info control -->
 	<Font Name="TD_MI_DirectorTitleFont" Font="Segoe Media Center,11"/>
@@ -87,6 +87,10 @@
 	<!-- General -->
 	<Font Name="PivotItemFont" Font="Segoe Media Center Semibold,13"/>
 	<Font Name="PivotItemFocusFont" Font="Segoe Media Center Semibold,14"/>
+
+  <!-- Cover Flow View -->
+  <Font Name="CV_TitleFont" Font="Segoe Media Center,14"/>
+  <Font Name="CV_SubTitleFont" Font="Segoe Media Center, 13"/>
 	
 	
 

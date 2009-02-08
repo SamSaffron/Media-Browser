@@ -15,6 +15,7 @@
 			<Color Name="FocusColor" Color="color://s:FontColorLight"/>
 			<Image Name="FocusImage" Image="image://i:BlankImage"/>
 			<Size Name="IndicatorSize" Size="10,20"/>
+      <Size Name="MaxSize" Size="10,200"/>
 		</Properties>
 		<Locals>
 			<ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true" />
@@ -36,7 +37,7 @@
 					<Invoke Target="[Scroller.ComputeSize]" ResultTarget="[Indicator.MinimumSize]"
 							ExclusiveApply="false" InvokePolicy="AsynchronousNormal">
 						<size>
-							<Size Size="[Sidebar.MaximumSize]" />
+							<Size Size="[MaxSize]" />
 						</size>
 						<currentPage>
 							<cor:Single Single="[ScrollingData.CurrentPage]" />
@@ -123,18 +124,21 @@
 									<AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" />
 								</LayoutInput>
 								<Children>
-									<Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]" Padding="0,0,0,10" />
+									<Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]" Margins="10,0,0,0" />
 								</Children>
 							</Scroller>
 						</Children>
 					</Graphic>
 
 					<Panel Name="ScrollInfo" Visible="true"  >
+            <Layout>
+              <FlowLayout HideOffscreenItems="false"/>
+            </Layout>
 						<LayoutInput>
-							<DockLayoutInput Position="Right"/>
+							<DockLayoutInput Position="Left"/>
 						</LayoutInput>
 						<Children>
-							<ColorFill Name="Sidebar" Content="DimGray" Alpha="0.7" Layout="Dock" MaximumSize="10,225">
+							<ColorFill Name="Sidebar" Content="DimGray" Alpha="0.7" Layout="Dock" MaximumSize="10,200">
 								<Children>
 									<ColorFill Name="Indicator" Content="White" MinimumSize="10,20">
 										<LayoutInput>

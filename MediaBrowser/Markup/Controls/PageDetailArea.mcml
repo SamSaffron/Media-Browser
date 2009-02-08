@@ -5,7 +5,8 @@
 	  xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/PosterView"
 	  xmlns:pdv="resx://MediaBrowser/MediaBrowser.Resources/PosterDetailView"
 	  xmlns:vd="resx://MediaBrowser/MediaBrowser.Resources/ViewDetails"
-	xmlns:sv="resx://MediaBrowser/MediaBrowser.Resources/StripView">
+	  xmlns:cfv="resx://MediaBrowser/MediaBrowser.Resources/CoverflowView"
+	  xmlns:sv="resx://MediaBrowser/MediaBrowser.Resources/StripView">
 
 	<UI Name="PageDetailArea">
 		<Properties>
@@ -35,6 +36,9 @@
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="PosterDetail" Target="[PosterDetails.Visible]" Value="false" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[StripView.Visible]" Value="true" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[StripView.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="false" />
+
 
 		</Rules>
 
@@ -67,6 +71,13 @@
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
 						</LayoutInput>
 					</pdv:PosterDetailView>
+					
+
+					<cfv:CoverflowView Name="CoverFlow" Visible="true" Item="[Item]" Application="[Application]" >
+						<LayoutInput>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,1"/>
+						</LayoutInput>
+					</cfv:CoverflowView>
 
 					<sv:StripView Name="StripView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>

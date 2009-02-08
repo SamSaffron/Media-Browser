@@ -247,6 +247,12 @@ namespace MediaBrowser.Library
                 return;
             ItemCache.Instance.SaveDisplayPreferences(this);
         }
+        public void ToggleViewTypes()
+        {
+            this.ViewType.NextValue(true);
+            Save();
+            FirePropertyChanged("DisplayPrefs");
+        }
     }
 
     public enum SortOrder
@@ -271,6 +277,7 @@ namespace MediaBrowser.Library
 
     public enum ViewTypes
     {
+        CoverFlow,
         Detail,
         Poster,
         PosterDetail,
@@ -279,7 +286,7 @@ namespace MediaBrowser.Library
 
     public class ViewTypeNames
     {
-        private static readonly string[] Names = { "Detail", "Poster", "Poster Detail", "Strip Detail" };
+        private static readonly string[] Names = { "Cover Flow","Detail", "Poster", "Poster Detail", "Strip Detail"};
 
         public static string GetName(ViewTypes type)
         {

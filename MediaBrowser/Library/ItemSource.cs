@@ -27,6 +27,7 @@ namespace MediaBrowser.Library
         public event NewItemHandler NewItem;
         public event RemoveItemHandler RemoveItem;
         public string ItemTypeString { get { return this.ItemType.ToString(); } }
+        public string ItemMediaTypeString { get { return MediaType(this.Location); } }
 
         /// <summary>
         /// Does any caching not requiredfor item verification but that should be done async before
@@ -106,5 +107,45 @@ namespace MediaBrowser.Library
 
         protected abstract void WriteStream(BinaryWriter bw);
         protected abstract void ReadStream( BinaryReader br);
+
+
+        //HACK: This is a real hack job in order to get the Media Type of an item.
+        // It looks at the first file in the directory path, and uses that as the
+        // basis for the Item's MediaType.
+        private static string MediaType(string path)
+        {
+            
+            try
+            {
+                path = path.ToLower();
+                DirectoryInfo di = new DirectoryInfo(path);
+                FileInfo[] fi = di.GetFiles();
+                path = fi[0].ToString().ToLower();
+            }
+            catch(Exception)
+            {
+                return "unknown";
+            }
+            if (path.Contains("video_ts"))
+                return "DVD";
+            if (path.EndsWith(".avi"))
+                return "Avi";
+            if (path.EndsWith(".mpg"))
+                return "Mpg";
+            if (path.EndsWith(".mkv"))
+                return "Mkv";
+            if (path.Contains("bdmv"))
+                return "BluRay";
+            if (path.Contains("hvdvd_ts"))
+                return "HDDVD";
+            if (Directory.Exists(Path.Combine(path, "VIDEO_TS")))
+                return "DVD";
+            if (Directory.Exists(Path.Combine(path, "BDMV")))
+                return "BluRay";
+            if (Directory.Exists(Path.Combine(path, "HVDVD_TS")))
+                return "HDDVD";
+           
+            return "unknown";
+        }
     }
 }

@@ -26,6 +26,7 @@
 
 		<Locals>
 			<Size Name="LabelSize1" Size="250,0" />
+      <Size Name="PanelSize" Size="500,475" />
 			<a:Config Name="Config" Config="[Application.Config]"/>
 			<Command Name="Close" />
 			<Command Name="Back" />
@@ -51,8 +52,10 @@
 			<BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />
 			<BooleanChoice Name="ShowClock" Value="[Application.Config.ShowClock]" />
 			<cor:String Name="ThemeInitial" String="[Application.Config.Theme]" />
-
-			<BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
+      <!--<BooleanChoice Name="EnableMoreMovieCmds" Value="[Application.Config.EnableMoreMovieCmds]" />-->
+      <BooleanChoice Name="ShowBackdrop" Value="[Application.Config.ShowBackdrop]" />
+      
+      <BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
 			<BooleanChoice Name="AutoEnterSingleDirs" Value="[Application.Config.AutoEnterSingleDirs]" />
 			<BooleanChoice Name="DefaultShowLabels" Value="[Application.Config.DefaultShowLabels]" />
 			<BooleanChoice Name="DefaultVerticalScroll" Value="[Application.Config.DefaultVerticalScroll]" />
@@ -77,11 +80,11 @@
 			<Inset Name="CMargin" Inset="25,0,0,0" />
 			<Choice Name="Model">
 				<Options>
-					<cor:String String="General" />
-					<cor:String String="Behavior" />
-					<cor:String String="Display" />
-					<cor:String String="Media Tracking" />
+					<cor:String String="General" />					
+					<cor:String String="Display" />					
 					<cor:String String="Themes" />
+          <cor:String String="Behavior" />
+          <cor:String String="Media Tracking" />
 					<cor:String String="Other" />
 					<cor:String String="Test" />
 				</Options>
@@ -122,7 +125,7 @@
 					<Set Target="[ThemeLoaded.Value]" Value="true" />
 				</Actions>
 			</Default>
-			
+
 			<Condition Source="[Model.ChosenIndex]" SourceValue="0" ConditionOp="Equals" Target="[Panel1.Visible]" Value="true" />
 			<Condition Source="[Model.ChosenIndex]" SourceValue="1" ConditionOp="Equals" Target="[Panel2.Visible]" Value="true" />
 			<Condition Source="[Model.ChosenIndex]" SourceValue="2" ConditionOp="Equals" Target="[Panel3.Visible]" Value="true" />
@@ -180,7 +183,9 @@
 			<Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
 			<Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />
 			<Binding Source="[ShowClock.Value]" Target="[Config.ShowClock]" />
-			<Binding Source="[ThemeModel.Chosen!cor:String]" Target="[Config.Theme]" >
+      <!--<Binding Source="[EnableMoreMovieCmds.Value]" Target="[Config.EnableMoreMovieCmds]" />-->
+      <Binding Source="[ShowBackdrop.Value]" Target="[Config.ShowBackdrop]" />
+      <Binding Source="[ThemeModel.Chosen!cor:String]" Target="[Config.Theme]" >
 				<Conditions>
 					<Equality Source="[ThemeLoaded.Value]" ConditionOp="Equals" Value="true" />
 				</Conditions>
@@ -276,7 +281,8 @@
 											<te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Location" EditableText="[DaemonToolsLocation]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 											<te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 											<cb:CheckBox Label="Use Autoplay" Checked="[UseAutoPlayForIso]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-										</Children>
+											
+                    </Children>
 									</Graphic>
 
 
@@ -314,13 +320,13 @@
 
 					<Panel Name="FullConfig" Layout="Anchor">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,0.1" Top="Parent,0.15,100" />
+							<FormLayoutInput Left="Parent,0.1" Top="Parent,0.15,75" />
 						</LayoutInput>
 						<Children>
 
-							<Graphic Name="Panel1" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel1" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
-									<me:TextHeader Text="General" />
+                  <me:TextHeader Text=" " />
 									<cb:CheckBox Label="Transparent Background" Checked="[TransparentBackground]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Logging" Checked="[EnableTraceLogging]"  Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
 									<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
@@ -332,9 +338,9 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel2" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel4" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
-									<me:TextHeader Text="Behavior" />
+                  <me:TextHeader Text=" " />
 									<cb:CheckBox Label="Allow Nested Movie Folders" Checked="[EnableNestedMovieFolders]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Movie Playlists" Checked="[EnableMoviePlaylists]"  Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Auto Enter Single Folder Items" Checked="[AutoEnterSingleDirs]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -343,20 +349,27 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel3" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel2" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
-									<me:TextHeader Text="Display" />
-									<vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
-									<vm:IntSpin Label="Thumbstrip split size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
-									<cb:CheckBox Label="Remember Indexing" Checked="[RememberIndexing]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-									<cb:CheckBox Label="Show Clock" Checked="[ShowClock]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-									<cb:CheckBox Label="Dim posters when not selected" Checked="[DimUnselectedPosters]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-								</Children>
+									<me:TextHeader Text="Global" />
+                  <cb:CheckBox Label="Remember Index-By State" Checked="[RememberIndexing]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+                  <cb:CheckBox Label="Show Clock" Checked="[ShowClock]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+                  <cb:CheckBox Label="Dim Unselected Posters" Checked="[DimUnselectedPosters]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+                  <me:TextHeader Text="Views" />
+                  <vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
+                  <vm:IntSpin Label="Thumb Strip Split Size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
+                  <cb:CheckBox Label="Show Backdrop on Supported Views" Checked="[ShowBackdrop]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
+                  
+                  <me:TextHeader Text="Movie Details" />
+                  <cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+                  <!--<cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableMoreMovieCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>-->
+
+                </Children>
 							</Graphic>
 
-							<Graphic Name="Panel4" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel5" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
-									<me:TextHeader Text="Media Tracking" />
+                  <me:TextHeader Text=" " />
 									<cb:CheckBox Label="Show Unwatched Count" Checked="[ShowUnwatchedCount]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Watched Indicator on Folders" Checked="[ShowWatchedTickOnFolders]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Watched Indicator on Videos" Checked="[ShowWatchTickInPosterView]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -365,19 +378,18 @@
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel5" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel3" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Media Browser Theme" />
 									<st:SpinnerText Name="Spinner" Model="[ThemeModel]" Label="Select Theme * " Color="color://s:FontColorMedium" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont" Margins="[CMargin]" DefaultString="[ThemeInitial]" />
 									<st:SpinnerText Name="FontThemeSpinner" Model="[FontThemeModel]" Label="Select Font Theme * " Color="color://s:FontColorMedium" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont" Margins="[CMargin]" DefaultString="[FontThemeModel.Chosen!cor:String]" />
 									<me:TextLine Text="* Requires a restart to take effect." />
 
-									<me:TextHeader Text="Movie Details" />
-									<cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
+									
 								</Children>
 							</Graphic>
 
-							<Graphic Name="Panel6" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="500,400" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
+							<Graphic Name="Panel6" Visible="false" Content="image://me:50AlphaBg" Layout="VerticalFlow" MinimumSize="[PanelSize]" MaximumSize="500,0" Padding="[SMargin]" Navigation="Column">
 								<Children>
 									<me:TextHeader Text="Extenders" />
 									<cb:CheckBox Label="Transcode360" Checked="[EnableTranscode360]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
@@ -386,7 +398,7 @@
 									<te:TextEdit LabelSize="[LabelSize1]" Label="Location" EditableText="[DaemonToolsLocation]" EditSize="150,0" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 									<te:TextEdit LabelSize="[LabelSize1]" Label="Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" EditSize="50,0" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Use Autoplay" Checked="[UseAutoPlayForIso]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-								</Children>
+									</Children>
 							</Graphic>
 
 							<Graphic Name="Panel7" Visible="false" Content="image://me:50AlphaBg" Layout="Center" MinimumSize="500,200" MaximumSize="500,200" Padding="[SMargin]" Navigation="Column">
@@ -479,7 +491,7 @@
 		<Locals>
 			<Color Name="Color" Color="color://s:FontColorLight" />
 			<Font Name="Font" Font="font://f:CP_ConfigHeaderFont" />
-			<Inset Name="Margin" Inset="10,15,10,15"/>
+			<Inset Name="Margin" Inset="10,15,10,10"/>
 		</Locals>
 		<Content>
 			<Text Color="[Color]" Content="[Text]" Font="[Font]" Margins="[Margin]" />

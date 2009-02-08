@@ -250,13 +250,15 @@ namespace MediaBrowser.Library.Providers
                 }
                 if (store.Actors == null)
                 {
-                    foreach (XmlNode n in doc.SelectNodes("//people/person[@job='actor']/name"))
+                    foreach (XmlNode n in doc.SelectNodes("//people/person[@job='actor']"))
                     {
                         if (store.Actors == null)
                             store.Actors = new List<Actor>();
-                        string name = n.InnerText.Trim();
+                        string name = n.SafeGetString("name");
+                        string role = n.SafeGetString("role");
+                        //string name = n.InnerText.Trim();
                         if (!string.IsNullOrEmpty(name))
-                            store.Actors.Add(new Actor { Name = name });
+                            store.Actors.Add(new Actor { Name = name, Role=role });
                     }
                 }
 

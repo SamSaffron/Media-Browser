@@ -2,7 +2,6 @@
       >
 
 	<Image Name="Background" Source="resx://MediaBrowser/MediaBrowser.Resources/Background" />
-	<Image Name="Logo" Source="resx://MediaBrowser/MediaBrowser.Resources/Logo" />
 
 	<Image Name="Star" Source="resx://MediaBrowser/MediaBrowser.Resources/star"/>
 	<Image Name="ButtonSelection" Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonSelection" NineGrid="12,12,12,12"/>
@@ -65,5 +64,27 @@
 
 	<Image Name="Underline" Source="resx://MediaBrowser/MediaBrowser.Resources/Underline" NineGrid="0,0,0,2"/>
 
+  <Image Name="Xvid" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_xvid" />
+  <Image Name="Divx" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_divx" />
+  <Image Name="Ac3" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_ac3" />
+  <Image Name="Aac" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_aac" />
+  <Image Name="MpegAudio" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_mpegaudio" />
+  <Image Name="Dts" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_dts" />
+  <Image Name="H264" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_h264" />
+  <Image Name="Vc1" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_vc1" />
+  <Image Name="Wmv" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_wmv" />
+  <Image Name="Wma" Source="resx://MediaBrowser/MediaBrowser.Resources/codec_wma" />
 
+  <Image Name="Aspect_43" Source="resx://MediaBrowser/MediaBrowser.Resources/aspect_43" />
+  <Image Name="Aspect_32" Source="resx://MediaBrowser/MediaBrowser.Resources/aspect_32" />
+  <Image Name="Aspect_169" Source="resx://MediaBrowser/MediaBrowser.Resources/aspect_169" />
+  <Image Name="Aspect_1851" Source="resx://MediaBrowser/MediaBrowser.Resources/aspect_1851" />
+  <Image Name="Aspect_2391" Source="resx://MediaBrowser/MediaBrowser.Resources/aspect_2391" />
+
+  <Image Name="Media_Bluray" Source="resx://MediaBrowser/MediaBrowser.Resources/media_bluray" />
+  <Image Name="Media_Hddvd" Source="resx://MediaBrowser/MediaBrowser.Resources/media_hddvd" />
+  <Image Name="Media_Dvd" Source="resx://MediaBrowser/MediaBrowser.Resources/media_dvd" />
+
+  <Image Name="HDType_1080" Source="resx://MediaBrowser/MediaBrowser.Resources/hdtype_1080" />
+  <Image Name="HDType_720" Source="resx://MediaBrowser/MediaBrowser.Resources/hdtype_720" />
 </Mcml>

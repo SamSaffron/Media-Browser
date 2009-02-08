@@ -31,7 +31,7 @@
 			
 			<cor:Int32 Name="CurrentItemIndex" Int32="0"/>
 			<BooleanChoice Name="Vertical" Value="false" />
-			<FormLayoutInput Name="MyLayout" Left="Parent,0" Top="Parent,1,-300" Bottom="Parent,1" Right="Parent,1"/>
+			<FormLayoutInput Name="MyLayout" Left="Parent,0" Top="Parent,1,-300" Bottom="Parent,1" Right="Parent,1"/>			
 		
 			
 		</Locals>

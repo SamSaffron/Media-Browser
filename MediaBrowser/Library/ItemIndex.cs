@@ -32,7 +32,7 @@ namespace MediaBrowser.Library
         private List<Item> returnableData = new List<Item>();
         private List<TripleTapIndex> tripleTapCandidates = new List<TripleTapIndex>();
         
-        private bool sortRequired = false;
+        private bool sortRequired = true;
 
         private double percentageUnknown = 0;
 
@@ -40,7 +40,7 @@ namespace MediaBrowser.Library
         {
             this.rawData = items;
         }
-        private IndexType indexby;
+        private IndexType indexby = IndexType.None;
         public IndexType IndexBy
         {
             get { return this.indexby; }
@@ -53,7 +53,7 @@ namespace MediaBrowser.Library
                 }
             }
         }
-        private SortOrder order;
+        private SortOrder order = SortOrder.Name;
         public SortOrder SortBy 
         {
             get { return this.order; }

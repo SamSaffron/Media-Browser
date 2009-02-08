@@ -359,31 +359,30 @@ namespace MediaBrowser.Library
                     CacheImageAsync();
                     return smallImage;
                 }
-                if ((smallSize.Height != 1) || forceSmallThumbLoad)
+                if (IsResourceLocal) 
                 {
-                    if (IsResourceLocal)
+                    if (resourceCache.ContainsKey(this.source.LocalSource))
+                        smallImage = resourceCache[this.source.LocalSource];
+                    else
                     {
-                        if (resourceCache.ContainsKey(this.source.LocalSource))
-                            smallImage = resourceCache[this.source.LocalSource];
-                        else
+                        lock (resourceCache)
                         {
-                            lock (resourceCache)
+                            if (resourceCache.ContainsKey(this.source.LocalSource))
+                                smallImage = resourceCache[this.source.LocalSource];
+                            else
                             {
-                                if (resourceCache.ContainsKey(this.source.LocalSource))
-                                    smallImage = resourceCache[this.source.LocalSource];
-                                else
-                                {
-                                    smallImage = new Image(source.LocalSource);
-                                    resourceCache[this.source.LocalSource] = smallImage;
-                                }
+                                smallImage = new Image(source.LocalSource);
+                                resourceCache[this.source.LocalSource] = smallImage;
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.WriteLine("Requesting small image load");
-                        imageScalingProcessor.Inject(this);
-                    }
+                }
+                else //if ((smallSize.Height != 1) || forceSmallThumbLoad)
+                {
+                    
+                    Debug.WriteLine("Requesting small image load");
+                    imageScalingProcessor.Inject(this);
+                    
                     //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(LoadSmallImage, SmallImageLoaded, null);
                 }
                 return smallImage ?? BlankLibraryImage.Instance.SmallImage;
@@ -459,7 +458,8 @@ namespace MediaBrowser.Library
                         string path = (string)this.Source.LocalSource;
                         Size maxSz = this.SmallSize;
                         if (maxSz.Width == 1)
-                            return; // the size has not been set yet
+                            maxSz = new Size(200, 200);
+                            //return; // the size has not been set yet
                         //Debug.WriteLine("Generating small image for " + this.ThumbPath + ": " + maxSz.ToString());
                         System.Drawing.Size newSize = new System.Drawing.Size(maxSz.Width, maxSz.Height);
                         using (System.Drawing.Bitmap bmp = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path))

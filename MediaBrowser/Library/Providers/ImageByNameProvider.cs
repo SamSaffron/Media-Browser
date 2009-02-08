@@ -33,6 +33,8 @@ namespace MediaBrowser.Library.Providers
             foreach (char c in invalid)
                 name = name.Replace(c.ToString(), "");
             return Path.Combine(location, name);
-        } 
+        }
+
+        
     }
 }

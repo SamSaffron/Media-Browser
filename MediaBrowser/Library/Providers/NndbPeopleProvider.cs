@@ -38,10 +38,11 @@ namespace MediaBrowser.Library.Providers
                     {
                         Trace.TraceInformation("Got basic info url for:" + name);
                         url = m.Groups["fetchurl"].Value;
+                        Trace.WriteLine(url);
                         doc = Fetch(url);
                         if (doc != null)
                         {
-                            Regex imageExpr = new Regex("<img src=\"(?<imageurl>[^\"]*)\" .* alt=\"" + name + "\"");
+                            Regex imageExpr = new Regex("<img src=\"(?<imageurl>[^\"]*)\" [^>]* alt=\"" + name + "\"");
                             Match mi = imageExpr.Match(doc);
                             if (mi.Success)
                             {

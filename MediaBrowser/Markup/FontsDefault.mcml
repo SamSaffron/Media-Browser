@@ -8,7 +8,7 @@
 	<Font Name="P_BreadcrumbSmallFont" Font="Segoe Media Center Light, 16"/>
 	<Font Name="P_ConfigButtons" Font="Segoe Media Center Semibold,18"/>
 	<Font Name="P_FindAsYouTypeFont" Font="Segoe Media Center Semibold,150"/>
-	<Font Name="P_ClockFont" Font="Segoe Media Center Semibold,17"/>
+	<Font Name="P_ClockFont" Font="Segoe Media Center Semibold,18"/>
 	
 	<!-- Config Page -->
 	<Font Name="CP_ConfigTitleFont" Font="Segoe Media Center Light, 36"/>
@@ -52,6 +52,7 @@
 	<Font Name="PD_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
 	<Font Name="PD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
 
+    
 	<!-- Thumb Details Movie Info control -->
 	<Font Name="TD_MI_DirectorTitleFont" Font="Segoe Media Center,16"/>
 	<Font Name="TD_MI_DirectorFont" Font="Segoe Media Center Semibold,16"/>
@@ -91,11 +92,16 @@
 	<Font Name="PV_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
 	<Font Name="PV_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
 	<Font Name="PV_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
+    <Font Name="PV_CounterFont" Font="Segoe Media Center, 18"/>
 
 	<!-- General -->
 	<Font Name="PivotItemFont" Font="Segoe Media Center Semibold,19"/>
 	<Font Name="PivotItemFocusFont" Font="Segoe Media Center Semibold,20"/>
-	
+
+  <!-- Cover Flow View -->
+  <Font Name="CV_TitleFont" Font="Segoe Media Center,26"/>
+  <Font Name="CV_SubTitleFont" Font="Segoe Media Center, 18"/>
+<Font Name="CV_CounterFont" Font="Segoe Media Center, 18"/>	
 	
 
 </Mcml>

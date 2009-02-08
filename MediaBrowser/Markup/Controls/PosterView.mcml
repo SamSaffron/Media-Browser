@@ -28,23 +28,50 @@
 		</Properties>
 
 		<Locals>
-			<FormLayoutInput Name="TitleLayout" Top="ItemPanel,1"  Left="Focus,0,20"/>
+			<FormLayoutInput Name="TitleLayout" Top="ItemPanel,1"  Left="Parent,0.2" Right="Parent,.89"/>
+      <MathTransformer Name="Add1" AddInt="1"/>
 		</Locals>
 		<Rules>
-			<Condition Source="[Item.DisplayPrefs.VerticalScroll.Value]" SourceValue="true" Target="[TitleLayout.Left]" Value="Parent,0,300" />
-			<Condition Source="[Item.DisplayPrefs.VerticalScroll.Value]" SourceValue="false" Target="[TitleLayout.Left]" Value="Focus,0,20" />
 			<Binding Source="[Item.Metadata.HasBackdropImage]" Target="[BackdropImg.Visible]" />
 			<Binding Source="[Item.Metadata.BackdropImage.Image]" Target="[BackdropImg.Image]" />
+
+      <!-- Counter Bindings -->
+      <Binding Source="[Item.SelectedChildIndex!cor:String]" Transformer="[Add1]" Target="[List_Counter.Content]" />
+      <Binding Source="[Item.Children.Count]" Target="[List_Total.Content]" >
+        <Transformer>
+          <FormatTransformer Format=" | {0}" />
+        </Transformer>
+      </Binding>
+      
 		</Rules>
 		<Content>
 			<Panel Layout="Form">
 				<Children>
-					<ps:PosterScroller Name="ItemPanel" Application="[Application]"
-									   Item="[Item]" TopLabelFont="font://f:PV_PosterTopLabelFont" LabelFont="font://f:PV_PosterLabelFont" UnwatchedCountFont="font://f:PV_UnwatchedCountFont">
+					<ps:PosterScroller Name="ItemPanel" Application="[Application]" Item="[Item]" 
+                             TopLabelFont="font://f:PV_PosterTopLabelFont" 
+                             LabelFont="font://f:PV_PosterLabelFont" 
+                             UnwatchedCountFont="font://f:PV_UnwatchedCountFont">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.06" Top="Parent,0.0,10" Bottom="Parent,1,-80" Right="Parent,0.94"/>
 						</LayoutInput>
 					</ps:PosterScroller>
+
+          <!-- List Counter -->
+          <Panel Name="ListCounterPosition" Layout="HorizontalFlow">
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,.9" Top="ItemPanel,1" />
+            </LayoutInput>
+            <Children>
+              <Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="font://f:PV_CounterFont" />
+              <Text Name="List_Total" Content="0" Color="color://s:FontColorLight" Font="font://f:PV_CounterFont" />
+            </Children>
+          </Panel>
+
+          <!-- Item Title -->
+          <pit:PosterItemTitle Item="[Item]" LayoutInput="[TitleLayout]" Font="font://f:PV_TitleFont" RuntimeFont="font://f:PV_RuntimeFont">
+          </pit:PosterItemTitle>
+
+          <!-- Backdrop -->
 					<bd:Backdrop Name="BackdropImg" Image="[Item.Metadata.BackdropImage.Image]" >
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
@@ -55,17 +82,7 @@
 							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
 						</LayoutInput>
 					</ColorFill>
-
-					<pit:PosterItemTitle Item="[Item]" LayoutInput="[TitleLayout]" Font="font://f:PV_TitleFont" RuntimeFont="font://f:PV_RuntimeFont">
-						<Animations>
-							<Animation Type="Move">
-								<Keyframes>
-									<PositionKeyframe Time="0" RelativeTo="Current"/>
-									<PositionKeyframe Time="0.3" RelativeTo="Final"/>
-								</Keyframes>
-							</Animation>
-						</Animations>
-					</pit:PosterItemTitle>
+					
 				</Children>
 			</Panel>
 		</Content>

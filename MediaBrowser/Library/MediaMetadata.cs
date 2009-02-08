@@ -161,6 +161,8 @@ namespace MediaBrowser.Library
                         case ItemType.Episode:
                         case ItemType.Movie:
                             return new ImageSource { OriginalSource = "res://ehres!MOVIE.ICON.DEFAULT.PNG", LocalSource = "res://ehres!MOVIE.ICON.DEFAULT.PNG" };
+                        case ItemType.Actor:
+                            return new ImageSource { OriginalSource = "resx://MediaBrowser/MediaBrowser.Resources/MissingPerson", LocalSource = "resx://MediaBrowser/MediaBrowser.Resources/MissingPerson" };
                         case ItemType.Other:
                             return null;
                         default:

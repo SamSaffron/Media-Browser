@@ -344,6 +344,57 @@ namespace MediaBrowser.Library
             }
         }
 
+        public string AspectRatioString
+        {
+            get
+            {
+                if (this != Empty)
+                {
+                    Single width = (Single)this.Width;
+                    Single height = (Single)this.Height;
+                    Single temp = (width / height);
+
+                    if (temp < 1.4)
+                        return "4:3";
+                    else if (temp >= 1.4 && temp <= 1.55)
+                        return "3:2";
+                    else if (temp > 1.55 && temp <= 1.8)
+                        return "16:9";
+                    else if (temp > 1.8 && temp <= 2)
+                        return "1.85:1";
+                    else if (temp > 2 )
+                        return "2.39:1";
+                    else
+                        return "";
+                }
+                else
+                    return "";
+            }
+        }
+
+        public string AudioCodecString
+        {
+            get
+            {
+                if (this != Empty)
+                    return string.Format("{0}", this.AudioFormat);
+                else
+                    return "";
+            }
+        }
+
+        public string VideoCodecString
+        {
+            get
+            {
+                if (this != Empty)
+                    return string.Format("{0}", this.VideoCodec);
+                else
+                    return "";
+            }
+        }
+
+
         public void Write(BinaryWriter bw)
         {
             bw.Write(Version);
