@@ -41,13 +41,68 @@
 
 			<MathTransformer Name="Add1" AddInt="1"/>
 			<IntRangedValue Name="SelectRepeaterIndex"/>
+
+			<GridLayout Name="MyLayout" Orientation="Horizontal" AllowWrap="true" Spacing="-60,0"
+                  Repeat="WhenTooBig" RepeatGap="30" Rows="1" MinorAlignment="Center" />
+
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" />
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true"/>
-			<GridLayout Name="MyLayout" Orientation="Horizontal" AllowWrap="true" Spacing="-60,0" 
-                  Repeat="WhenTooBig" RepeatGap="30" Rows="1" MinorAlignment="Center" />
+			<IntRangedValue Name="NavCount" Value="0" />
+			<cor:UInt32 Name="NormalKeyRepeat" UInt32="250"/>
+			<!-- This must be less than anim delay -->
+
+			<cor:UInt32 Name="FastKeyRepeat" UInt32="150"/>
+
+			<cor:Int32 Name="AnimDelay" Int32="300" />
+			<!-- This must be greater than NormalKeyRepeat-->
+
+			<cor:Int32 Name="SpeedUpDelay" Int32="2"/>
 		</Locals>
 
 		<Rules>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[JumpForward.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[SD.PageDown]"/>
+				</Actions>
+			</Rule>
+
+			<Rule>
+				<Conditions>
+					<Modified Source="[JumpBack.Invoked]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[SD.PageUp]"/>
+				</Actions>
+			</Rule>
+
+			<Changed Source="[Application]" InitialEvaluate="true">
+				<Actions>
+					<Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val="[NormalKeyRepeat]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[NavCount.Value]">
+				<Conditions>
+					<Equality Source="[NavCount.Value]" ConditionOp="Equals" Value="[SpeedUpDelay]"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val="[FastKeyRepeat]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[NavCount.Value]">
+				<Conditions>
+					<Equality Source="[NavCount.Value]" ConditionOp="Equals" Value="0"/>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val="[NormalKeyRepeat]" />
+				</Actions>
+			</Changed>
+
 			<Default Target="[ScrollingHandler.ScrollingData]" Value="[SD]"/>
 			<Default Target="[SD.Repeater]" Value="[CoverRepeater]"/>
 
@@ -55,15 +110,15 @@
 			<Binding Source="[PreSelectedItem]" Target="[TitleSet.ModelFast]"/>
 			<Binding Source="[SelectedItem]" Target="[MovieInfo.Model]"/>
 			<Binding Source="[PreSelectedItem]" Target="[MovieInfo.ModelFast]"/>
-      <Binding Source="[MyLayout]" Target="[CoverRepeater.Layout]"/>      
-      
-      <!-- Update cover repeater on items change. -->
-      <Changed Source="[Item.Children]">
-        <Actions>
-          <Set Target="[CoverRepeater.Source]" Value="[Item.Children]" />
-          <Set  Target="[Item.SelectedChildIndex]" Value="-1"/>
-        </Actions>        
-      </Changed>
+			<Binding Source="[MyLayout]" Target="[CoverRepeater.Layout]"/>
+
+			<!-- Update cover repeater on items change. -->
+			<Changed Source="[Item.Children]">
+				<Actions>
+					<Set Target="[CoverRepeater.Source]" Value="[Item.Children]" />
+					<Set  Target="[Item.SelectedChildIndex]" Value="-1"/>
+				</Actions>
+			</Changed>
 
 			<Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
 				<Conditions>
@@ -111,7 +166,7 @@
 					<Invoke Target="[SD.PageUp]"/>
 				</Actions>
 			</Rule>
-			
+
 			<Changed Source="[Item.SelectedChildIndex]">
 				<Conditions>
 					<Equality ConditionOp="Equals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
@@ -137,31 +192,31 @@
 					<FormatTransformer Format=" | {0}" />
 				</Transformer>
 			</Binding>
-      
-      <!-- Cover width above 145px -->
+
+			<!-- Cover width above 145px -->
 			<Rule>
-        <Conditions>
-          <Equality Source="[Item.ActualThumbSize.Value.Width]" ConditionOp="GreaterThanOrEquals" Value="145"/>
-        </Conditions>
+				<Conditions>
+					<Equality Source="[Item.ActualThumbSize.Value.Width]" ConditionOp="GreaterThanOrEquals" Value="145"/>
+				</Conditions>
 				<Actions>
 					<Set Target="[MyLayout.Spacing.Width]" Value="[Item.ActualThumbSize.Value.Width]">
 						<Transformer>
 							<MathTransformer Multiply="-0.3"/>
 						</Transformer>
-					</Set>       
+					</Set>
 				</Actions>
 			</Rule>
-      <!-- Cover width below 145px -->
-      <Rule>
-        <Conditions>
-          <Equality Source="[Item.ActualThumbSize.Value.Width]" ConditionOp="LessThan" Value="145"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[MyLayout.Spacing]" Value="0,0" />
-        </Actions>
-      </Rule>
-    
-    </Rules>
+			<!-- Cover width below 145px -->
+			<Rule>
+				<Conditions>
+					<Equality Source="[Item.ActualThumbSize.Value.Width]" ConditionOp="LessThan" Value="145"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[MyLayout.Spacing]" Value="0,0" />
+				</Actions>
+			</Rule>
+
+		</Rules>
 
 		<Content>
 			<Panel Layout="Form">
@@ -195,7 +250,7 @@
 					</Panel>
 
 					<!-- Coverflow Scroller -->
-					<Scroller Orientation="Horizontal" FadeSize="-20" ScrollingData="[SD]" Navigation="RememberFocus" >
+					<Scroller Name="Scroller" Orientation="Horizontal" FadeSize="-20" ScrollingData="[SD]" Navigation="RememberFocus" >
 						<LayoutInput>
 							<AnchorLayoutInput Horizontal="Fill" Top="Parent, 0.1" Bottom="Parent, 1, 200" />
 						</LayoutInput>
@@ -206,11 +261,12 @@
 								<Content>
 									<me:CoverflowItem
 											  Application="[Application]"
-											  RootItem="[Item]"
+											  ParentItem="[Item]"
 											  ItemIndex="[RepeatedItemIndex]"
 											  Item="[RepeatedItem!lib:Item]"
 											  SelectRepeaterIndex="[SelectRepeaterIndex]"
-											  ImageSize="[Item.ActualThumbSize]"/>
+											  ImageSize="[Item.ActualThumbSize]"
+											  AnimDelay="[AnimDelay]" NavCount="[NavCount]" />
 								</Content>
 
 								<Animations>
@@ -251,22 +307,24 @@
 			<lib:Item Name="Item" Item="$Required"/>
 			<Image Name="Image" />
 			<cor:Int32 Name="AnimDelay" Int32="1000" />
-			<lib:Item Name="RootItem" Item="$Required"/>
+			<lib:Item Name="ParentItem" Item="$Required"/>
 			<Index Name="ItemIndex" Index="$Required"/>
 
 			<Rotation Name="LRotate" Rotation="60deg;0,1,0"/>
 			<Rotation Name="RRotate" Rotation="-60deg;0,1,0"/>
 			<IntRangedValue Name="SelectRepeaterIndex" IntRangedValue="$Required"/>
+			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
+
 
 		</Properties>
 
 		<Locals>
 			<ClickHandler Name="Clicker"/>
-			<Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
-			<BooleanChoice Name="InFocus" Value="false" />
 			<ShortcutHandler Name="ClearBtn" Handle="true" Shortcut="Clear" HandlerStage="Bubbled" />
 			<ShortcutHandler Name="PlayBtn" Handle="true" Shortcut="Play" HandlerStage="Bubbled"/>
 			<ShortcutHandler Name="RecordBtn" Handle="true" Shortcut="Record" HandlerStage="Bubbled"/>
+			<Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
+			<BooleanChoice Name="InFocus" Value="false" />
 		</Locals>
 		<Rules>
 			<Binding Source="[Item.Metadata.PreferredImage.SmallImage]" Target="[g1.Content]" />
@@ -277,7 +335,7 @@
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel1.MinimumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel2.MaximumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel2.MinimumSize]" />
-			
+
 			<!-- Set the UI to be mouse and keyboard interactive. -->
 			<Default Target="[Input.KeyInteractive]" Value="true"/>
 			<Rule>
@@ -319,30 +377,66 @@
 
 			<Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
 
-      <Default Target="[Label.Visible]" Value="true">
-        <Conditions>
-          <Equality Source="[Item.Metadata.HasPreferredImage]" ConditionOp="Equals" Value="false" />
-          <!--<Equality Source="[ShowLabels.Value]" ConditionOp="Equals" Value="false" />-->
-        </Conditions>
-      </Default>
-      
+			<Default Target="[Label.Visible]" Value="true">
+				<Conditions>
+					<Equality Source="[Item.Metadata.HasPreferredImage]" ConditionOp="Equals" Value="false" />
+					<!--<Equality Source="[ShowLabels.Value]" ConditionOp="Equals" Value="false" />-->
+				</Conditions>
+			</Default>
+
 			<!-- Selected state, true if item last had focus -->
-			<Condition Source="[RootItem.SelectedChildIndex]" ConditionOp="Equals" SourceValue="[ItemIndex.SourceValue]">
+
+			<Condition Source="[InFocus.Value]" ConditionOp="Equals" SourceValue="true">
 				<Actions>
 					<Set Target="[Main.Scale]" Value="1.2,1.2,1"/>
 					<Set Target="[Main.Rotation]" Value="0deg;0,1,0" />
-					<Set Target="[SelectRepeaterIndex.Value]" Value="[ItemIndex.Value]"/>
 					<Set Target="[FocusBg.Content]" Value="[FocusImage]" />
-          <Set Target="[ConstraintPanel1.ColorFilter]" Value="White" />
-        </Actions>
+					<Set Target="[ConstraintPanel1.ColorFilter]" Value="White" />
+				</Actions>
 			</Condition>
 
+			<Changed Source="[Input.KeyFocus]" >
+				<Conditions>
+					<Equality Source="[Input.KeyFocus]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[AnimTimer.Stop]" />
+					<Set Target="[NavCount.Value]" Value="[NavCount.Value]" ExclusiveApply="false">
+						<Transformer>
+							<MathTransformer Add="1"/>
+						</Transformer>
+					</Set>
+					<Set Target="[InFocus.Value]" Value="false"/>
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Input.KeyFocus]" >
+				<Conditions>
+					<Equality Source="[Input.KeyFocus]" Value="true" />
+				</Conditions>
+				<Actions>
+					<Set Target="[ParentItem.SelectedChildIndex]" Value="[ItemIndex.SourceValue]"/>
+					<Set Target="[SelectRepeaterIndex.Value]" Value="[ItemIndex.Value]"/>
+					<Invoke Target="[AnimTimer.Start]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[AnimTimer.Tick]">
+				<Actions>
+					<Set Target="[InFocus.Value]" Value="true"/>
+					<Set Target="[NavCount.Value]" Value="0" ExclusiveApply="false"/>
+				</Actions>
+			</Changed>
+
+
 			<!-- Focus and non-focused states. -->
+			<!--
 			<Condition Source="[Input.KeyFocus]" ConditionOp="Equals" SourceValue="true">
 				<Actions>
 					<Set Target="[RootItem.SelectedChildIndex]" Value="[ItemIndex.SourceValue]" />
 				</Actions>
 			</Condition>
+			-->
 			<Condition Source="[Input.KeyFocus]" ConditionOp="Equals" SourceValue="false">
 				<Actions>
 					<Set Target="[Main.Scale]" Value="1,1,1"/>
@@ -350,19 +444,15 @@
 			</Condition>
 
 			<!-- Set proper rotation. -->
-			<Changed Source="[SelectRepeaterIndex.Value]" InitialEvaluate="true">
-				<Conditions>
-					<Equality Source="[SelectRepeaterIndex.Value]" ConditionOp="GreaterThan" Value="[ItemIndex.Value]" />
-				</Conditions>
-				<Actions>
-					<Set Target="[Main.Rotation]" Value="[RRotate]" />
-				</Actions>
-			</Changed>
+
+			<Condition Source="[SelectRepeaterIndex.Value]" ConditionOp="LessThan" SourceValue="[ItemIndex.Value]" Target="[Main.Rotation]" Value="[LRotate]" />
+			<Condition Source="[SelectRepeaterIndex.Value]" ConditionOp="GreaterThan" SourceValue="[ItemIndex.Value]" Target="[Main.Rotation]" Value="[RRotate]" />
+
 
 		</Rules>
 
 		<Content>
-			<Graphic Name="Main" Content="[BlankImage]" CenterPointPercent="0.5,0.5,0.5" Rotation="[LRotate]" >
+			<Graphic Name="Main" Content="[BlankImage]" CenterPointPercent="0.5,0.5,0.5" >
 				<Layout>
 					<FlowLayout Orientation="Vertical" ItemAlignment="Center" Spacing="0,-5"/>
 				</Layout>
@@ -370,10 +460,9 @@
 					<!-- Focus Outline-->
 					<Graphic Name="FocusBg" Content="[BlankImage]" Padding="5,5,5,5" SizingPolicy="SizeToChildren">
 						<Children>
-							<Panel Name="ConstraintPanel1" CenterPointPercent="0.5,0.5,0.5" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" 
-                     MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
+							<Panel Name="ConstraintPanel1" CenterPointPercent="0.5,0.5,0.5" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
 								<Layout>
-                  <FlowLayout Orientation="Vertical" StripAlignment="Far"/>
+									<FlowLayout Orientation="Vertical" StripAlignment="Far"/>
 								</Layout>
 								<Children>
 									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true">
@@ -399,7 +488,7 @@
 						<Children>
 							<Panel Name="ConstraintPanel2" Padding="0,0,0,0" ColorFilter="150,150,150" CenterPointPercent="0.5,0.5,0.5" Rotation="180deg;1,0,0">
 								<Layout>
-                  <FlowLayout Orientation="Vertical" StripAlignment="Far"/>
+									<FlowLayout Orientation="Vertical" StripAlignment="Far"/>
 								</Layout>
 								<Children>
 									<Graphic Name="g2" ColorFilter="64,64,64" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" >
