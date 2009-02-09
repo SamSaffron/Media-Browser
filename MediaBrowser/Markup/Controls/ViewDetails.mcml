@@ -29,11 +29,11 @@
 
     <Locals>
       <lib:Item Name="SelectedItem" Item="[Item.SelectedChild]"/>
-      
+
       <!-- Layouts for Episodes -->
-      <AnchorLayoutInput Name="LayoutInfo" Top="Parent,0" Right="Parent, 1, -20"/>
-      <AnchorLayoutInput Name="LayoutInfo2" Left="MyItems,1, 10" Right="Parent,1,-20" Top="PosterPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
-      <AnchorLayoutInput Name="LayoutPoster" Top="InfoPanel,1,10" Bottom="InfoPanel,1,300" Left="MyItems,1, 10"  Right="Parent, 1, -20"  Horizontal="Far"/>
+      <AnchorLayoutInput Name="LayoutInfo" Top="Parent,0.05" Right="Parent, 1, -60"/>
+      <AnchorLayoutInput Name="LayoutInfo2" Left="MyItems,1, 10" Right="Parent,1,-60" Top="PosterPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
+      <AnchorLayoutInput Name="LayoutPoster" Top="InfoPanel,1,10" Bottom="InfoPanel,1,300" Left="MyItems,1, 10"  Right="Parent, 1, -60"  Horizontal="Far"/>
 
     </Locals>
 
@@ -85,7 +85,7 @@
       <Binding Target="[Summary.Text]" Source="[SelectedItem.Overview]"/>
       <Binding Target="[LastWatched.Content]" Source="[SelectedItem.PlayState.LastPlayedString]"/>
       <Binding Target="[LastWatched.Visible]" Source="[SelectedItem.HaveWatched]"/>
-      <!----><Binding Target="[Backdrop.Image]" Source="[SelectedItem.BackdropImage.Image]" />
+      <!--<Binding Target="[Backdrop.Image]" Source="[SelectedItem.BackdropImage.Image]" /> -->
       <Binding Target="[MPAARating.Value]" Source="[SelectedItem.Metadata.MpaaRating]" />
       <Binding Target="[MediaInfo.Item]" Source="[SelectedItem]" />
     </Rules>
@@ -104,7 +104,7 @@
           <!-- Title and details information -->
           <Panel Name="InfoPanel" >
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0"  Bottom="PosterPanel, 0, -10" Right="Parent, 1, -20"/>
+              <AnchorLayoutInput Top="Parent,0.05"  Bottom="PosterPanel, 0, -10" Right="Parent, 1, -60"/>
             </LayoutInput>
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="2,2"/>
@@ -144,7 +144,7 @@
           <!-- Last watched and summary -->
           <Panel Name="InfoPanel2" >
             <LayoutInput>
-              <AnchorLayoutInput Left="MyItems,1, 10" Right="PosterPanel,0,-20" Top="InfoPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
+              <AnchorLayoutInput Left="MyItems,1, 10" Right="PosterPanel,0,-60" Top="InfoPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
             </LayoutInput>
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="5,5"/>
@@ -163,20 +163,22 @@
               <FlowLayout ItemAlignment="Far" Orientation="Vertical" />
             </Layout>
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.4" Left="Parent,0.82" Bottom="Parent, 1" Right="Parent, 1, -20" Horizontal="Far"/>
+              <AnchorLayoutInput Top="Parent,0.35" Left="Parent,0.82" Bottom="Parent, 1" Right="Parent, 1, -60" Horizontal="Far"/>
             </LayoutInput>
             <Children>
               <Graphic Name="Preview" MaintainAspectRatio="true"  SizingPolicy="SizeToConstraint">
               </Graphic>
             </Children>
           </ColorFill>
-          
+
           <!-- Backdrop Image -->
+          <!--
           <bd:Backdrop Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage.Image]">
             <LayoutInput>
               <FormLayoutInput Top="Parent,0" Bottom="Parent,1" Left="Parent,0,0" />
             </LayoutInput>
           </bd:Backdrop>
+          -->
 
           <ColorFill Content="White" Alpha="0.1">
             <LayoutInput>
