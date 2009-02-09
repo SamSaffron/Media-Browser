@@ -819,7 +819,7 @@ namespace MediaBrowser.Library
                         if (property != "RunningTime")
                             return;
                         break;
-                    case SortOrder.NameOnDisk:
+                    
                     case SortOrder.Date:
                         // date sorting is not affected by metadata
                         return; 
