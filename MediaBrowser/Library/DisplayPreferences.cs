@@ -138,7 +138,11 @@ namespace MediaBrowser.Library
             }
             dp.showLabels.Value = br.ReadBoolean();
             dp.verticalScroll.Value = br.ReadBoolean();
-            dp.SortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), br.SafeReadString());
+            try
+            {
+                dp.SortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), br.SafeReadString());
+            }
+            catch { }
             dp.IndexBy = (IndexType)Enum.Parse(typeof(IndexType), br.SafeReadString());
             if (!Config.Instance.RememberIndexing)
                 dp.IndexBy = IndexType.None;
@@ -262,8 +266,7 @@ namespace MediaBrowser.Library
         Rating,
         Runtime,
         Unwatched,
-        Year,
-        NameOnDisk
+        Year
     }
 
     public enum IndexType
@@ -301,7 +304,7 @@ namespace MediaBrowser.Library
 
     public class SortOrderNames
     {
-        private static readonly string[] Names = { "name", "date", "rating", "runtime", "unwatched", "year", "name on disk"};
+        private static readonly string[] Names = { "name", "date", "rating", "runtime", "unwatched", "year"};
 
         public static string GetName(SortOrder order)
         {
