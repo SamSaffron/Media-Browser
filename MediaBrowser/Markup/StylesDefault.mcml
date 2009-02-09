@@ -18,7 +18,6 @@
 	<cor:Single Name="FilterAlpha" Single="0.8" />
 	
 	<!-- color filter applied to backdrops on thumbstrip view and detailed movie view-->
-	<!--<Color Name="BackdropFilter" Color="60,100,150"/>-->
 	<Color Name="BackdropFilter" Color="92,92,92"/>
 	
 	<!-- Background is faded vertically from color1 in the middle to color2 top and bottom-->
