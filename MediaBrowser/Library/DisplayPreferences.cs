@@ -88,7 +88,7 @@ namespace MediaBrowser.Library
         {
             switch (ViewTypeNames.GetEnum((string)this.viewType.Chosen))
             {
-                case ViewTypes.Thumb:
+                case ViewTypes.ThumbStrip:
                     if (this.VerticalScroll.Value)
                         this.VerticalScroll.Chosen = false;
                     if (this.ThumbConstraint.Value.Height > 220)
@@ -283,13 +283,13 @@ namespace MediaBrowser.Library
         CoverFlow,
         Detail,
         Poster,
-        PosterDetail,
-        Thumb
+        Thumb,
+        ThumbStrip
     }
 
     public class ViewTypeNames
     {
-        private static readonly string[] Names = { "Cover Flow","Detail", "Poster", "Poster Detail", "Strip Detail"};
+        private static readonly string[] Names = { "Cover Flow","Detail", "Poster", "Thumb", "Thumb Strip"};
 
         public static string GetName(ViewTypes type)
         {

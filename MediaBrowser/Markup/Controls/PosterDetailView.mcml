@@ -177,7 +177,7 @@
 	</UI>
 -->
 
-	<UI Name="PosterDetailView">
+	<UI Name="ThumbView">
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<Timer Name="InfoTimer" AutoRepeat="false" Interval="200" Enabled="false"/>

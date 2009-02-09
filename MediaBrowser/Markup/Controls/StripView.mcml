@@ -16,7 +16,7 @@
 	  >
 
 	
-	<UI Name="StripView">
+	<UI Name="ThumbStripView">
 		<Properties>
 			<a:Application Name="Application" Application="$Required"/>
 			<lib:Item Name="Item" Item="$Required"/>

@@ -32,10 +32,10 @@
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[DetailsView.Visible]" Value="false" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[PosterView.Visible]" Value="true" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[PosterView.Visible]" Value="false" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="PosterDetails" Target="[PosterDetails.Visible]" Value="true" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="PosterDetail" Target="[PosterDetails.Visible]" Value="false" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[StripView.Visible]" Value="true" />
-			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[StripView.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[ThumbView.Visible]" Value="false" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="ThumbStrip" Target="[ThumbStripView.Visible]" Value="true" />
+			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="ThumbStrip" Target="[ThumbStripView.Visible]" Value="false" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="true" />
 			<Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="CoverFlow" Target="[CoverFlow.Visible]" Value="false" />
 
@@ -66,24 +66,23 @@
 						</LayoutInput>
 					</pv:PosterView>
 
-					<pdv:PosterDetailView Name="PosterDetails" Visible="true" Item="[Item]" Application="[Application]" >
+					<pdv:ThumbView Name="ThumbView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
 						</LayoutInput>
-					</pdv:PosterDetailView>
+					</pdv:ThumbView>
 					
-
 					<cfv:CoverflowView Name="CoverFlow" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,1"/>
 						</LayoutInput>
 					</cfv:CoverflowView>
 
-					<sv:StripView Name="StripView" Visible="true" Item="[Item]" Application="[Application]" >
+					<sv:ThumbStripView Name="ThumbStripView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
 							<FormLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,1"/>
 						</LayoutInput>
-					</sv:StripView>
+					</sv:ThumbStripView>
 					
 				</Children>
 			</Panel>

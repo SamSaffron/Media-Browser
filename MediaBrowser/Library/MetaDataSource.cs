@@ -20,7 +20,7 @@ namespace MediaBrowser.Library
             providers.Add(new TVProviderFromXmlFiles());
             providers.Add(new TvDbProvider());
             //providers.Add(new NndbPeopleProvider());
-            //providers.Add(new MediaPersonProvider());
+            providers.Add(new MediaPersonProvider());
             providers.Add(new VirtualFolderProvider());
             providers.Add(new FrameGrabProvider());
             providers.Add(new MediaInfoProvider());

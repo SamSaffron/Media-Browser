@@ -147,10 +147,12 @@
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="true" />
+			
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
-            <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Poster Detail" Target="[VerticalScroll.Visible]" Value="true" />
-			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Strip Detail" Target="[VerticalScroll.Visible]" Value="false" />
-      <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[VerticalScroll.Visible]" Value="false" />
+            <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb" Target="[VerticalScroll.Visible]" Value="true" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb Strip" Target="[VerticalScroll.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[VerticalScroll.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[VerticalScroll.Visible]" Value="false" />
 			<Changed Source="[Increase.Invoked]">
 				<Actions>
 					<Invoke Target="[Prefs.IncreaseThumbSize]"/>
