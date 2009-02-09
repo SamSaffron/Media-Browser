@@ -43,7 +43,7 @@
 			<IntRangedValue Name="SelectRepeaterIndex"/>
 
 			<GridLayout Name="MyLayout" Orientation="Horizontal" AllowWrap="true" Spacing="-60,0"
-                  Repeat="WhenTooBig" RepeatGap="30" Rows="1" MinorAlignment="Center" />
+                  Repeat="WhenTooBig" RepeatGap="-60" Rows="1" MinorAlignment="Center" />
 
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" />
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true"/>
@@ -204,6 +204,11 @@
 							<MathTransformer Multiply="-0.3"/>
 						</Transformer>
 					</Set>
+					<Set Target="[MyLayout.RepeatGap]" Value="[Item.ActualThumbSize.Value.Width]">
+						<Transformer>
+							<MathTransformer Multiply="-0.3"/>
+						</Transformer>
+					</Set>
 				</Actions>
 			</Rule>
 			<!-- Cover width below 145px -->
@@ -214,7 +219,12 @@
 				<Actions>
 					<Set Target="[MyLayout.Spacing]" Value="0,0" />
 				</Actions>
+				<Actions>
+					<Set Target="[MyLayout.RepeatGap]" Value="0" />
+				</Actions>
 			</Rule>
+
+			
 
 		</Rules>
 
@@ -266,7 +276,8 @@
 											  Item="[RepeatedItem!lib:Item]"
 											  SelectRepeaterIndex="[SelectRepeaterIndex]"
 											  ImageSize="[Item.ActualThumbSize]"
-											  AnimDelay="[AnimDelay]" NavCount="[NavCount]" />
+											  AnimDelay="[AnimDelay]" NavCount="[NavCount]" 
+											  UnwatchedCountFont="font://f:CV_UnwatchedCountFont"/>
 								</Content>
 
 								<Animations>
@@ -314,7 +325,7 @@
 			<Rotation Name="RRotate" Rotation="-60deg;0,1,0"/>
 			<IntRangedValue Name="SelectRepeaterIndex" IntRangedValue="$Required"/>
 			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
-
+			<Font Name="UnwatchedCountFont" Font="$Required"/>
 
 		</Properties>
 
@@ -448,11 +459,43 @@
 			<Condition Source="[SelectRepeaterIndex.Value]" ConditionOp="LessThan" SourceValue="[ItemIndex.Value]" Target="[Main.Rotation]" Value="[LRotate]" />
 			<Condition Source="[SelectRepeaterIndex.Value]" ConditionOp="GreaterThan" SourceValue="[ItemIndex.Value]" Target="[Main.Rotation]" Value="[RRotate]" />
 
+			<Binding Source="[Item.Metadata.IsHD]" Target="[HDIndicator.Visible]" />
+			<Condition Source="[Item.Metadata.HDType]" ConditionOp="Equals" SourceValue="720" Target="[HDImage.Content]" Value="image://i:HDLogo720" />
+			<Condition Source="[Item.Metadata.HDType]" ConditionOp="Equals" SourceValue="1080" Target="[HDImage.Content]" Value="image://i:HDLogo1080" />
 
+			<Binding Source="[Item.HaveWatched]" Target="[TickPart1.Visible]" />
+			<Binding Source="[Item.HaveWatched]" Target="[TickPart2.Visible]" />
+			<Binding Source="[Item.UnwatchedCountString]" Target="[UnwatchedCount.Content]" />
+			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedIndicator.Visible]" />
+			
+			<Changed Source="[Application.Config.ShowWatchedTickOnFolders]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.Source.IsPlayable]" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[TickIndicatorPanel.Visible]" Value="[Application.Config.ShowWatchedTickOnFolders]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Application.Config.ShowWatchTickInPosterView]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.Source.IsPlayable]" Value="true" />
+				</Conditions>
+				<Actions>
+					<Set Target="[TickIndicatorPanel.Visible]" Value="[Application.Config.ShowWatchTickInPosterView]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Item.ShowUnwatched]">
+				<Actions>
+					<Set Target="[UnwatchedCount.Content]" Value="[Item.UnwatchedCountString]" />
+				</Actions>
+			</Changed>
+			
 		</Rules>
 
 		<Content>
-			<Graphic Name="Main" Content="[BlankImage]" CenterPointPercent="0.5,0.5,0.5" >
+			<Graphic Name="Main" Content="[BlankImage]" CenterPointPercent="0.5,0.5,0.5"  Rotation="0deg;0,1,0">
 				<Layout>
 					<FlowLayout Orientation="Vertical" ItemAlignment="Center" Spacing="0,-5"/>
 				</Layout>
@@ -462,9 +505,56 @@
 						<Children>
 							<Panel Name="ConstraintPanel1" CenterPointPercent="0.5,0.5,0.5" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
 								<Layout>
-									<FlowLayout Orientation="Vertical" StripAlignment="Far"/>
+									<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
 								</Layout>
 								<Children>
+									<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Alpha="0.8" Name="TickIndicatorPanel">
+										<LayoutInput>
+											<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+										</LayoutInput>
+										<Children>
+											<Graphic Name="TickPart1" Content="image://i:TickPoster" Margins="5,5,0,0" MaximumSize="30,30"  Visible="[Item.HaveWatched]">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+												</LayoutInput>
+											</Graphic>
+											<Graphic Name="TickPart2" Content="image://i:TickPosterBase" ColorFilter="color://s:FilterColor" Margins="5,5,0,0" MaximumSize="30,30" Visible="[Item.HaveWatched]">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+												</LayoutInput>
+											</Graphic>
+										</Children>
+									</Panel>
+									<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Name="UnwatchedIndicator">
+										<LayoutInput>
+											<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+										</LayoutInput>
+										<Children>
+											<Graphic Content="image://i:Unwatched" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45" MaintainAspectRatio="true" Layout="Center" >
+												<Children>
+													<Text Name="UnwatchedCount" Content="" Color="color://s:FontColorLight" Font="[UnwatchedCountFont]" Margins="0,0,-3,-10">
+														<LayoutInput>
+															<AnchorLayoutInput Horizontal="Center" Vertical="Center"/>
+														</LayoutInput>
+													</Text>
+												</Children>
+											</Graphic>
+											<Graphic Visible="true" ColorFilter="color://s:FilterColor" Content="image://i:UnwatchedBase" Margins="2,2,0,0" MinimumSize="45,45" MaximumSize="45,45"  MaintainAspectRatio="true" Layout="Center" >
+											</Graphic>
+										</Children>
+									</Panel>
+									<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Anchor" Visible="false" Name="HDIndicator">
+										<LayoutInput>
+											<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
+										</LayoutInput>
+										<Children>
+											<Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="48,35" MaintainAspectRatio="true">
+												<LayoutInput>
+													<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+												</LayoutInput>
+											</Graphic>
+										</Children>
+									</Panel>
 									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true">
 										<Children>
 											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center">

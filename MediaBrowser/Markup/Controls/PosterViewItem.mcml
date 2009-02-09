@@ -77,7 +77,7 @@
 			<Binding Source="[Item.ShowUnwatched]" Target="[UnwatchedIndicator.Visible]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[BelowLabelPanel.Content]" />
 			<Binding Source="[Item.Metadata.Name]" Target="[Label.Content]" />
-			
+
 			<Changed Source="[Application.Config.ShowWatchedTickOnFolders]" InitialEvaluate="true">
 				<Conditions>
 					<Equality Source="[Item.Source.IsPlayable]" Value="false" />
@@ -128,7 +128,7 @@
 			</Changed>
 
 			<Condition Source="[Application.Config.DimUnselectedPosters]" ConditionOp="Equals" SourceValue="false" Target="[ConstraintPanel.ColorFilter]" Value="White" />
-			
+
 			<Condition Source="[InFocus.Value]" SourceValue="true">
 				<Actions>
 					<Set Target="[MainPanel.Scale]" Value="[ParentItem.PosterZoom]"/>
@@ -138,8 +138,8 @@
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.Image]"/>
 					<Set Target="[ConstraintPanel.ColorFilter]" Value="White" />
 				</Actions>
-			</Condition>		
-      
+			</Condition>
+
 			<Condition Source="[InFocus.Value]" SourceValue="false">
 				<Actions>
 					<Set Target="[BoxArt.Content]" Value="[Item.Metadata.PreferredImage.SmallImage]"/>
@@ -213,9 +213,9 @@
 						<Layout>
 							<AnchorLayout SizeToHorizontalChildren="true" SizeToVerticalChildren="true"/>
 						</Layout>
-            
+
 						<Children>
-              
+
 							<ColorFill Content="Transparent" >
 								<LayoutInput>
 									<AnchorLayoutInput Horizontal="Center" ContributesToWidth="true"/>
@@ -271,8 +271,8 @@
 													<AnchorLayoutInput Horizontal="Far" Vertical="Far"/>
 												</LayoutInput>
 												<Children>
-                          <Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="48,35" MaintainAspectRatio="true">
-                            <LayoutInput>
+													<Graphic Name="HDImage" Content="image://i:HDLogo" Margins="0,0,5,5" MaximumSize="48,35" MaintainAspectRatio="true">
+														<LayoutInput>
 															<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
 														</LayoutInput>
 													</Graphic>
@@ -289,7 +289,7 @@
 													</Text>
 												</Children>
 											</Panel>
-											
+
 											<Graphic  Name="BoxArt"  Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint"  MaintainAspectRatio="true" >
 												<LayoutInput>
 													<AnchorLayoutInput Horizontal="Center"/>
