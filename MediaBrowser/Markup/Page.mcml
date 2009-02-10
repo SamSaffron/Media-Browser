@@ -216,7 +216,7 @@
                   <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                 </Layout>
                 <LayoutInput>
-                  <AnchorLayoutInput Left="Parent,0,50" Bottom="ViewPanel,0,-10" Right="Parent,0,125" Horizontal="Center"/>
+                  <AnchorLayoutInput Left="Parent,0,50" Bottom="ViewsBtn,1" Right="Parent,0,125" Horizontal="Center"/>
                 </LayoutInput>
                 <Children>
                   <Panel Layout="Scale">
