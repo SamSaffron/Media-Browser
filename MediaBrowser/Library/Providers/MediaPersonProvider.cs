@@ -23,26 +23,34 @@ namespace MediaBrowser.Library.Providers
 
         public void Fetch(Item item, ItemType type, MediaMetadataStore store, bool fastOnly)
         {
-            if (fastOnly)
-                return;
-            if (store.PrimaryImage == null)
+            try
             {
-                string name = item.Source.Name;
-
-                // Image locations
-                string url = "http://metadatafinder.com/services/MediaPerson/staticimages/" + HttpUtility.UrlEncode(name) + ".jpg";
-
-                // Does it exist?  Is it for real?
-                if (DoesWebObjectExist(url))
+                if (fastOnly)
+                    return;
+                if (store.PrimaryImage == null)
                 {
-                    store.PrimaryImage = new ImageSource { OriginalSource = url };
-                    Trace.TraceInformation("Got image for:" + name);
-                }
-                else
-                    Trace.TraceInformation("No match for imageurl for " + name);
-                
+                    string name = item.Source.Name;
 
-                store.ProviderData[ProviderName + ":Date"] = DateTime.Today.ToString("yyyyMMdd");
+                    // Image locations
+                    string url = "http://metadatafinder.com/services/MediaPerson/staticimages/" + name.Replace(" ","%20").Trim() +".jpg";
+
+                    // Does it exist?  Is it for real?
+                    if (DoesWebObjectExist(url))
+                    {
+                        store.PrimaryImage = new ImageSource { OriginalSource = url };
+                        Trace.TraceInformation("Got image for:" + name);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation("No match for imageurl for " + name);
+                    }
+
+                    store.ProviderData[ProviderName + ":Date"] = DateTime.Today.ToString("yyyyMMdd");
+                }
+            }
+            catch
+            {
+                // Do nothing...
             }
         }
 
