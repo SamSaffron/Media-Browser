@@ -228,7 +228,7 @@
 						</LayoutInput>
 					</Graphic>-->
 
-          <ColorFill Name="ScreenBox" Content="color://s:FillColor" Alpha="global://s:FilterAlpha">
+          <ColorFill Name="ScreenBox" Content="White" Alpha="global://s:FilterAlpha">
             <LayoutInput>
               <AnchorLayoutInput Bottom="DetailBox, 0" Top="DetailBox,0,-2" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
