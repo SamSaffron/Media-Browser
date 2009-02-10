@@ -146,7 +146,6 @@
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="false" />
-      <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[ShowLabels.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="true" />
 			
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
