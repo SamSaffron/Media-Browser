@@ -277,7 +277,9 @@
 											  SelectRepeaterIndex="[SelectRepeaterIndex]"
 											  ImageSize="[Item.ActualThumbSize]"
 											  AnimDelay="[AnimDelay]" NavCount="[NavCount]" 
-											  UnwatchedCountFont="font://f:CV_UnwatchedCountFont"/>
+											  UnwatchedCountFont="font://f:CV_UnwatchedCountFont"
+											  ShowLabels="[Item.DisplayPrefs.ShowLabels]" 
+											  TopLabelFont="font://f:CV_PosterTopLabelFont" />
 								</Content>
 
 								<Animations>
@@ -314,7 +316,7 @@
 			<Image Name="FocusImage" Image="image://i:ZoomPane"/>
 			<Image Name="FolderImage" Image="image://i:Folder"/>
 			<Image Name="BlankImage" Image="null"/>
-
+			<BooleanChoice Name="ShowLabels" BooleanChoice="$Required" />
 			<lib:Item Name="Item" Item="$Required"/>
 			<Image Name="Image" />
 			<cor:Int32 Name="AnimDelay" Int32="1000" />
@@ -326,6 +328,7 @@
 			<IntRangedValue Name="SelectRepeaterIndex" IntRangedValue="$Required"/>
 			<IntRangedValue Name="NavCount" IntRangedValue="$Required" />
 			<Font Name="UnwatchedCountFont" Font="$Required"/>
+			<Font Name="TopLabelFont" Font="$Required"/>
 
 		</Properties>
 
@@ -346,6 +349,7 @@
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel1.MinimumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel2.MaximumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel2.MinimumSize]" />
+			<Binding Source="[ImageSize.Value]" Target="[BelowLabelPanel.MaximumSize]" />
 
 			<!-- Set the UI to be mouse and keyboard interactive. -->
 			<Default Target="[Input.KeyInteractive]" Value="true"/>
@@ -494,7 +498,9 @@
 					<Set Target="[UnwatchedCount.Content]" Value="[Item.UnwatchedCountString]" />
 				</Actions>
 			</Changed>
-			
+
+			<Binding Source="[ShowLabels.Value]" Target="[BelowLabelPanel.Visible]" />
+			<Binding Source="[Item.Metadata.Name]" Target="[BelowLabelPanel.Content]" />
 		</Rules>
 
 		<Content>
@@ -504,8 +510,9 @@
 				</Layout>
 				<Children>
 					<!-- Focus Outline-->
-					<Graphic Name="FocusBg" Content="[BlankImage]" Padding="5,5,5,5" SizingPolicy="SizeToChildren">
+					<Graphic Name="FocusBg" Content="[BlankImage]" Padding="5,5,5,5" SizingPolicy="SizeToChildren" Layout="VerticalFlow">
 						<Children>
+							<Text Name="BelowLabelPanel" Margins="0,5,0,-3" Alpha="1" Color="color://s:FontColorLight"  Font="[TopLabelFont]" Content="[Item.Metadata.Name]" WordWrap="false" HorizontalAlignment="Near"></Text>
 							<Panel Name="ConstraintPanel1" CenterPointPercent="0.5,0.5,0.5" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
 								<Layout>
 									<AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>

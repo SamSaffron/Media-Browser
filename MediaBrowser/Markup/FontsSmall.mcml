@@ -93,6 +93,7 @@
 	<Font Name="CV_SubTitleFont" Font="Segoe Media Center, 13"/>
 	<Font Name="CV_CounterFont" Font="Segoe Media Center, 14"/>
 	<Font Name="CV_UnwatchedCountFont" Font="Segoe Media Center, 10, Bold"/>
+	<Font Name="CV_PosterTopLabelFont" Font="Segoe Media Center Semibold, 11"/>
 
 
 </Mcml>
