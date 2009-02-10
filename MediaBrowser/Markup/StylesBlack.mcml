@@ -10,6 +10,8 @@
 	<Color Name="FontColorLight" Color="255,255,255"/>
 	<Color Name="FontColorMedium" Color="190,190,190"/>
 	<Color Name="FontColorDark" Color="130,130,130"/>
+	<Color Name="TabFontColorLight" Color="255,255,255"/>
+	<Color Name="TabFontColorMedium" Color="190,190,190"/>
 
 	<!-- The color of the filter and associated alpha level used in the minimal movie page and also to define the color of the watch/unwatch markers in poster views-->
 	<Color Name="FilterColor" Color="0,0,0"/>
