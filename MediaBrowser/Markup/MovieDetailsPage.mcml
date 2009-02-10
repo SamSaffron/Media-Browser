@@ -25,7 +25,7 @@
       
       <!-- Configuration Checks & Display Setup -->      
 
-      <Rule>
+      <!--<Rule>
         <Conditions>
           <Equality Source="[Application.Config.EnableMinimalMovieView]" ConditionOp="Equals" Value="true" />
         </Conditions>
@@ -33,7 +33,7 @@
           <Set Target="[ViewMinimal.Visible]" Value="true" />
           <Set Target="[ViewDefault.Visible]" Value="false" />
         </Actions>
-      </Rule>
+      </Rule>-->
 
       <!-- END Configuration Checks & Display Setup -->
     </Rules>
@@ -43,13 +43,13 @@
         <Children>
 
           <!--  View Details-->
-          <vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
+          <!--<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
-          </vd:ViewMovieDefault>
+          </vd:ViewMovieDefault>-->
           
-          <vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="false" >
+          <vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
