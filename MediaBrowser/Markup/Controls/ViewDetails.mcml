@@ -104,7 +104,7 @@
           <!-- Title and details information -->
           <Panel Name="InfoPanel" >
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.05"  Bottom="PosterPanel, 0, -10" Right="Parent, 1, -60"/>
+              <AnchorLayoutInput Top="Parent,0.05"  Bottom="PosterPanel, 0, -10" Left="MyItems,1,10" Right="Parent, 1, -60"/>
             </LayoutInput>
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="2,2"/>
