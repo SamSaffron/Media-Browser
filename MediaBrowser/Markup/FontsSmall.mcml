@@ -83,6 +83,8 @@
 	<Font Name="PV_UnwatchedCountFont" Font="Segoe Media Center, 10, Bold"/>
 	<Font Name="PV_PosterLabelFont" Font="Segoe Media Center, 14, Bold"/>
 	<Font Name="PV_PosterTopLabelFont" Font="Segoe Media Center Semibold, 11"/>
+	<Font Name="PV_CounterFont" Font="Segoe Media Center, 13"/>
+	
 
 	<!-- General -->
 	<Font Name="PivotItemFont" Font="Segoe Media Center Semibold,13"/>
