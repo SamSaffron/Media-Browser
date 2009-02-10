@@ -115,6 +115,8 @@ namespace MediaBrowser.Library
         private static string MediaType(string path)
         {
             
+            if (path==null)
+                return "unknown";
             try
             {
                 path = path.ToLower();

@@ -48,6 +48,8 @@ namespace MediaBrowser.Library
 
         private void CheckUpdate()
         {
+            if (IsResource)
+                return;
             Trace.WriteLine("Checking image:" + this.Source.OriginalSource);
             if (this.Source.SourceTimestamp == DateTime.MinValue)
                 return;
@@ -88,7 +90,7 @@ namespace MediaBrowser.Library
             {
                 if (source.LocalSource != null)
                 {
-                    if (File.Exists(source.LocalSource)|| IsResource)
+                    if (IsResource || File.Exists(source.LocalSource))
                         return true;
                 }
                 return false;
@@ -346,7 +348,7 @@ namespace MediaBrowser.Library
                 if (this.source == null)
                     return null;
                 lock(this)
-                    if ((!forceSmallThumbLoad) && (File.Exists(this.SmallImageCacheFile)) && !cachePending)
+                    if ((!IsResource) && (!forceSmallThumbLoad) && (File.Exists(this.SmallImageCacheFile)) && !cachePending)
                     {
                         smallImage = new Image("file://" + this.SmallImageCacheFile);
                         return smallImage;
