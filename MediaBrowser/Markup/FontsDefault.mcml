@@ -2,7 +2,6 @@
 	  xmlns:cor="assembly://MsCorLib/System"
 	  xmlns:me="Me"
 	  >
-
 	<!-- Page -->
 	<Font Name="P_BreadcrumbFont" Font="Segoe Media Center Light, 36"/>
 	<Font Name="P_BreadcrumbSmallFont" Font="Segoe Media Center Light, 16"/>
@@ -52,7 +51,6 @@
 	<Font Name="PD_PosterLabelFont" Font="Segoe Media Center, 20, Bold"/>
 	<Font Name="PD_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
 
-
 	<!-- Thumb Details Movie Info control -->
 	<Font Name="TD_MI_DirectorTitleFont" Font="Segoe Media Center,16"/>
 	<Font Name="TD_MI_DirectorFont" Font="Segoe Media Center Semibold,16"/>
@@ -85,7 +83,6 @@
 	<!-- View Menu -->
 	<Font Name="VM_ConfigItemFont" Font="Segoe Media Center Semibold,16"/>
 
-
 	<!-- Poster View -->
 	<Font Name="PV_TitleFont" Font="Segoe Media Center,26"/>
 	<Font Name="PV_RuntimeFont" Font="Segoe Media Center,14"/>
@@ -104,6 +101,4 @@
 	<Font Name="CV_CounterFont" Font="Segoe Media Center, 18"/>
 	<Font Name="CV_UnwatchedCountFont" Font="Segoe Media Center, 14, Bold"/>
 	<Font Name="CV_PosterTopLabelFont" Font="Segoe Media Center Semibold, 16"/>
-
-
 </Mcml>
