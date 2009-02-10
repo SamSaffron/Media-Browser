@@ -97,14 +97,14 @@
           <!-- Details List -->
           <lv:ListView Visible="true" Application="[Application]" Item="[Item]" Name="MyItems" Font="font://f:DV_ListButtonFont">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0,15" Top="Parent,0.04" Right="Parent,.4" Bottom="Parent,1"></FormLayoutInput>
+              <FormLayoutInput Left="Parent,0,15" Top="Parent,0.04" Right="Parent,.4" Bottom="Parent,1" ></FormLayoutInput>
             </LayoutInput>
           </lv:ListView>
 
           <!-- Title and details information -->
           <Panel Name="InfoPanel" >
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.05"  Bottom="PosterPanel, 0, -10" Left="MyItems,1,10" Right="Parent, 1, -60"/>
+              <AnchorLayoutInput Top="Parent,0.05"  Bottom="PosterPanel, 0, -10" Left="Parent,.42" Right="Parent, 1, -60" Horizontal="Far"/>
             </LayoutInput>
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="2,2"/>
@@ -163,7 +163,7 @@
               <FlowLayout ItemAlignment="Far" Orientation="Vertical" />
             </Layout>
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.35" Left="Parent,0.82" Bottom="Parent, 1" Right="Parent, 1, -60" Horizontal="Far"/>
+              <AnchorLayoutInput Top="Parent,0.45" Left="Parent,0.82" Bottom="Parent, 1" Right="Parent, 1, -60" Horizontal="Far"/>
             </LayoutInput>
             <Children>
               <Graphic Name="Preview" MaintainAspectRatio="true"  SizingPolicy="SizeToConstraint">
