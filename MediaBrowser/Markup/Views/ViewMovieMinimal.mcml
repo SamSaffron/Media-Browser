@@ -122,23 +122,21 @@
               <AnchorLayoutInput Top="TitleText,0" Bottom="TitleText,1" Left="TitleText,0" Right="TitleText,1" />
             </LayoutInput>
             <Children>
-              <ColorFill Content="[FilterColor]" Alpha="global://s:FilterAlpha">
+              <ColorFill Content="color://s:FillColor" Alpha="global://s:FilterAlpha">
 
               </ColorFill>
             </Children>
           </Clip>
 
           <!-- Time Panel -->
-          <Clip Name="TimeText" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" FarOffset="25"
-              CenterPointPercent="100,100,0">
+          <Clip Name="TimeText" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" FarOffset="25" CenterPointPercent="100,100,0">
             <LayoutInput>
               <AnchorLayoutInput Bottom="TitleText,1"  Left="Parent,0" />
             </LayoutInput>
             <Children>
               <Panel  Layout="HorizontalFlow" Padding="20,0,100,0">
                 <Children>
-                  <Text Name="TimeDate" Content="" Font="font://f:MM_ClockFont" Color="color://s:FontColorMedium"
-                        MinimumSize="200,0"/>
+                  <Text Name="TimeDate" Content="" Font="font://f:MM_ClockFont" Color="color://s:FontColorMedium" MinimumSize="200,0"/>
                 </Children>
               </Panel>
             </Children>
@@ -148,7 +146,7 @@
               <AnchorLayoutInput Top="TimeText,0" Bottom="TimeText,1" Left="TimeText,0" Right="TimeText,1" />
             </LayoutInput>
             <Children>
-              <ColorFill Content="[FilterColor]" Alpha="global://s:FilterAlpha">
+              <ColorFill Content="color://s:FillColor" Alpha="global://s:FilterAlpha">
               </ColorFill>
             </Children>
           </Clip>
@@ -230,14 +228,14 @@
 						</LayoutInput>
 					</Graphic>-->
 
-          <ColorFill Name="ScreenBox" Content="White" Alpha="global://s:FilterAlpha">
+          <ColorFill Name="ScreenBox" Content="color://s:FillColor" Alpha="global://s:FilterAlpha">
             <LayoutInput>
               <AnchorLayoutInput Bottom="DetailBox, 0" Top="DetailBox,0,-2" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
           </ColorFill>
 
           <!-- Detail Box (Alpha Gradient Bottom of Screen)-->
-          <ColorFill Content="[FilterColor]" Name="DetailBox" Alpha="global://s:FilterAlpha">
+          <ColorFill Content="color://s:FillColor"  Name="DetailBox" Alpha="global://s:FilterAlpha">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,0.675" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
@@ -350,7 +348,7 @@
               <AnchorLayoutInput Top="PlayPanel,0" Bottom="PlayPanel,1" Left="PlayPanel,0" Right="PlayPanel,1" />
             </LayoutInput>
             <Children>
-              <ColorFill Content="[FilterColor]" Alpha="[Alpha]">
+              <ColorFill Content="color://s:FillColor" Alpha="[Alpha]">
               </ColorFill>
             </Children>
           </Clip>

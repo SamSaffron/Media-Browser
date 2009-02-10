@@ -258,6 +258,8 @@
     <Content Include="Markup\Controls\StripView.mcml" />
     <Content Include="Markup\Controls\TabItem.mcml" />
     <Content Include="Markup\Controls\Tab.mcml" />
+    <Content Include="Markup\StylesBlackExtender.mcml" />
+    <Content Include="Markup\StylesDefaultExtender.mcml" />
     <Content Include="Markup\FontsSmall.mcml" />
     <Content Include="Markup\FontsDefault.mcml" />
     <Content Include="Markup\StylesBlack.mcml" />

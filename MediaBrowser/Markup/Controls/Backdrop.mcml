@@ -21,7 +21,7 @@
 						</LayoutInput>
 
 						<Children>
-							<Graphic Name="MainBG" Alpha="1" ColorFilter="color://s:BackdropFilter" Content="[Image]" MaintainAspectRatio="true" >
+							<Graphic Name="MainBG" ColorFilter="color://s:BackdropFilter" Alpha="global://s:BackdropAlpha" Content="[Image]" MaintainAspectRatio="true" >
 							</Graphic>		
 						</Children>
 					</Clip>
@@ -49,7 +49,7 @@
 				<Children>
 					<Clip Name="Clip" Orientation="Horizontal" FadeSize="[FadeSize]" ShowFar="false" Alpha="1" FadeAmount="1" Layout="Anchor"  >
 								<Children>
-							<Graphic Name="Backdrop" ColorFilter="[ColorFilterForImage]" Content="[Image]" MaintainAspectRatio="true" CenterPointPercent="1,0,1" />
+							<Graphic Name="Backdrop" ColorFilter="[ColorFilterForImage]" Alpha="global://s:BackdropAlpha" Content="[Image]" MaintainAspectRatio="true" CenterPointPercent="1,0,1" />
 								</Children>
 							</Clip>
 				</Children>

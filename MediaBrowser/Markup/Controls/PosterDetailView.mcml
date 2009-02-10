@@ -267,7 +267,7 @@
 						</LayoutInput>
 					</sy:SummaryNonScrolling>
 
-					<bd:Backdrop2 Name="Backdrop" Image="[Item.BackdropImage.Image]">
+					<bd:Backdrop2 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage.Image]">
 						<LayoutInput>
 							<FormLayoutInput Top="Parent,0" Bottom="Parent,1" Right="Parent,1,0" />
 						</LayoutInput>

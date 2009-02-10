@@ -72,7 +72,7 @@
           </pit:PosterItemTitle>
 
           <!-- Backdrop -->
-					<bd:Backdrop Name="BackdropImg" Image="[Item.Metadata.BackdropImage.Image]" >
+					<bd:Backdrop Name="BackdropImg" Image="[Item.Metadata.BackdropImage.Image]" Visible="[Application.Config.ShowBackdrop]">
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
 						</LayoutInput>

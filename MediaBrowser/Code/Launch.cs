@@ -108,10 +108,17 @@ namespace MediaBrowser
                 }
                 else
                 {
+                    // new options must be added to the ThemeModel choice in configpage.mcml
                     switch (Config.Instance.Theme)
                     {
                         case "Black":
                             File.WriteAllBytes(file, Resources.StylesBlack);
+                            break;
+                        case "Extender Default":
+                            File.WriteAllBytes(file, Resources.StylesDefaultExtender);
+                            break;
+                        case "Extender Black":
+                            File.WriteAllBytes(file, Resources.StylesBlackExtender);
                             break;
                         case "Default":
                         default:
