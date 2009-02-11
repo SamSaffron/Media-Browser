@@ -47,7 +47,7 @@ namespace MediaBrowser
         public bool AutoEnterSingleDirs = false; 
         public DateTime AssumeWatchedBefore = DateTime.Today.AddYears(-2).AddDays(1-DateTime.Today.Day);
         public bool InheritDefaultView = true;
-        public ViewTypes DefaultViewType = ViewTypes.Poster;
+        public string DefaultViewType = ViewTypes.Poster.ToString();
         public bool DefaultShowLabels = true;
         public bool DefaultVerticalScroll = false;
         public int BreadcrumbCountLimit = 2;
