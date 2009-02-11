@@ -400,8 +400,7 @@
 			</Default>
 
 			<!-- Selected state, true if item last had focus -->
-
-			<Condition Source="[InFocus.Value]" ConditionOp="Equals" SourceValue="true">
+			<Condition Source="[ParentItem.SelectedChildIndex]" ConditionOp="Equals" SourceValue="[ItemIndex.SourceValue]">
 				<Actions>
 					<Set Target="[Main.Scale]" Value="1.2,1.2,1"/>
 					<Set Target="[Main.Rotation]" Value="0deg;0,1,0" />
@@ -411,10 +410,7 @@
 				</Actions>
 			</Condition>
 
-			<Changed Source="[Input.KeyFocus]" >
-				<Conditions>
-					<Equality Source="[Input.KeyFocus]" Value="false" />
-				</Conditions>
+      <Condition Source="[ParentItem.SelectedChildIndex]" ConditionOp="NotEquals" SourceValue="[ItemIndex.SourceValue]">
 				<Actions>
 					<Invoke Target="[AnimTimer.Stop]" />
 					<Set Target="[NavCount.Value]" Value="[NavCount.Value]" ExclusiveApply="false">
@@ -422,9 +418,8 @@
 							<MathTransformer Add="1"/>
 						</Transformer>
 					</Set>
-					<Set Target="[InFocus.Value]" Value="false"/>
 				</Actions>
-			</Changed>
+			</Condition>
 
 			<Changed Source="[Input.KeyFocus]" >
 				<Conditions>
