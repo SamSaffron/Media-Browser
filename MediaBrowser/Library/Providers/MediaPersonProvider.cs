@@ -32,7 +32,7 @@ namespace MediaBrowser.Library.Providers
                     string name = item.Source.Name;
 
                     // Image locations
-                    string url = "http://metadatafinder.com/services/MediaPerson/staticimages/" + name.Replace(" ","%20").Trim() +".jpg";
+                    string url = "http://services.tvmetadatafinder.com/services/MediaPerson/staticimages/" + name.Replace(" ","%20").Trim() +".jpg";
 
                     // Does it exist?  Is it for real?
                     if (DoesWebObjectExist(url))
