@@ -152,6 +152,7 @@
       <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb" Target="[VerticalScroll.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb Strip" Target="[VerticalScroll.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[VerticalScroll.Visible]" Value="false" />
+      <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[UseBanner.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[VerticalScroll.Visible]" Value="false" />
 			<Changed Source="[Increase.Invoked]">
 				<Actions>
