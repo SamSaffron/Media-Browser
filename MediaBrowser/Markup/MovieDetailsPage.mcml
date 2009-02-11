@@ -8,70 +8,70 @@
     xmlns:me="Me"
     >
 
-  <!-- Movie Details Page -->
-  <UI Name="MovieDetailsPage">
-    <Properties>
-      <a:Application Name="Application" Application="$Required"/>
-      <lib:Item Name="Item" Item="$Required"/>
-    </Properties>
+	<!-- Movie Details Page -->
+	<UI Name="MovieDetailsPage">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:Item Name="Item" Item="$Required"/>
+		</Properties>
 
-    <Rules>
-      <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
-        <Transformer>
-          <BooleanTransformer Inverse="true"/>
-        </Transformer>
-      </Binding>
+		<Rules>
+			<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
+				<Transformer>
+					<BooleanTransformer Inverse="true"/>
+				</Transformer>
+			</Binding>
 
-      
-      <!-- Configuration Checks & Display Setup -->      
 
-      <!--<Rule>
-        <Conditions>
-          <Equality Source="[Application.Config.EnableMinimalMovieView]" ConditionOp="Equals" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[ViewMinimal.Visible]" Value="true" />
-          <Set Target="[ViewDefault.Visible]" Value="false" />
-        </Actions>
-      </Rule>-->
+			<!-- Configuration Checks & Display Setup -->
 
-      <!-- END Configuration Checks & Display Setup -->
-    </Rules>
+			<Binding Source="[Application.Config.EnableMinimalMovieView]" Target="[ViewMinimal.Visible]" />
+			<Binding Source="[Application.Config.EnableMinimalMovieView]" Target="[ViewDefault.Visible]" >
+				<Transformer>
+					<BooleanTransformer Inverse="true"/>
+				</Transformer>
+			</Binding>
 
-    <Content>
-      <ColorFill Content="Transparent" Layout="Form">
-        <Children>
 
-          <!--  View Details-->
-          <!--<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-            </LayoutInput>
-          </vd:ViewMovieDefault>-->
-          
-          <vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-            </LayoutInput>
-          </vm:ViewMovieMinimal>
 
-          
-          
-          <!-- Background brightening (creates the darker strips on top/bottom -->
-          <ColorFill Content="White" Alpha="0.1">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
-            </LayoutInput>
-          </ColorFill>
+			<!-- END Configuration Checks & Display Setup -->
+		</Rules>
 
-          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+		<Content>
+			<ColorFill Content="Transparent" Layout="Form">
+				<Children>
 
-        </Children>
-      </ColorFill>
+					<!--  View Details-->
+					<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</vd:ViewMovieDefault>
 
-    </Content>
+					<vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</vm:ViewMovieMinimal>
 
-  </UI>
+
+
+					<!-- Background brightening (creates the darker strips on top/bottom -->
+
+					<ColorFill Content="White" Alpha="0.1">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
+						</LayoutInput>
+					</ColorFill>
+
+					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+
+				</Children>
+			</ColorFill>
+
+		</Content>
+
+	</UI>
 
 
 </Mcml>

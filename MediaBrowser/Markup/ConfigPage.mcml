@@ -49,10 +49,10 @@
 			<BooleanChoice Name="EnableFileWatching" Value="[Application.Config.EnableFileWatching]" />
 			<BooleanChoice Name="RememberIndexing" Value="[Application.Config.RememberIndexing]" />
 			<BooleanChoice Name="InheritDefaultView" Value="[Application.Config.InheritDefaultView]" />
-			<!--<BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />-->
+			<BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />
 			<BooleanChoice Name="ShowClock" Value="[Application.Config.ShowClock]" />
 			<cor:String Name="ThemeInitial" String="[Application.Config.Theme]" />
-      <!--<BooleanChoice Name="EnableMoreMovieCmds" Value="[Application.Config.EnableMoreMovieCmds]" />-->
+			<!--<BooleanChoice Name="EnableMoreMovieCmds" Value="[Application.Config.EnableMoreMovieCmds]" />-->
       <BooleanChoice Name="ShowBackdrop" Value="[Application.Config.ShowBackdrop]" />
       
       <BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
@@ -183,7 +183,7 @@
 			<Binding Source="[EnableFileWatching.Value]" Target="[Config.EnableFileWatching]" />
 			<Binding Source="[RememberIndexing.Value]" Target="[Config.RememberIndexing]" />
 			<Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
-			<!--<Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />-->
+			<Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />
 			<Binding Source="[ShowClock.Value]" Target="[Config.ShowClock]" />
       <!--<Binding Source="[EnableMoreMovieCmds.Value]" Target="[Config.EnableMoreMovieCmds]" />-->
       <Binding Source="[ShowBackdrop.Value]" Target="[Config.ShowBackdrop]" />
@@ -362,9 +362,9 @@
                   <vm:IntSpin Label="Thumb Strip Split Size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
                   <cb:CheckBox Label="Show Backdrop on Supported Views" Checked="[ShowBackdrop]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
                   
-                  <!--<me:TextHeader Text="Movie Details" />
+                  <me:TextHeader Text="Movie Details" />
                   <cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-                  <cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableMoreMovieCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>-->
+									<!--<cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableMoreMovieCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>-->
 
                 </Children>
 							</Graphic>
