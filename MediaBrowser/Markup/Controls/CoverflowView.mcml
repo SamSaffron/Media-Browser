@@ -238,7 +238,7 @@
 							<FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
 						</Layout>
 						<LayoutInput>
-							<AnchorLayoutInput Top="Parent, 0.8" Left="Parent, 0.5,-350" Right="Parent,.5,350"
+							<AnchorLayoutInput Top="Parent, 0.75" Left="Parent, 0.5,-350" Right="Parent,.5,350"
 											   Horizontal="Center"  />
 						</LayoutInput>
 						<Children>
@@ -262,7 +262,7 @@
 					<!-- Coverflow Scroller -->
 					<Scroller Name="Scroller" Orientation="Horizontal" FadeSize="-20" ScrollingData="[SD]" Navigation="RememberFocus" >
 						<LayoutInput>
-							<AnchorLayoutInput Horizontal="Fill" Top="Parent, 0.1" Bottom="Parent, 1, 200" />
+							<AnchorLayoutInput Horizontal="Fill" Top="Parent, 0" Bottom="Parent, 1, 175" />
 						</LayoutInput>
 
 						<Children>
@@ -548,7 +548,7 @@
 											</Graphic>
 										</Children>
 									</Panel>
-									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true">
+									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="false">
 										<Children>
 											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center">
 												<LayoutInput>
@@ -567,14 +567,17 @@
 						</Children>
 					</Graphic>
 
-					<Clip FadeAmount="1" FadeSize="50" NearOffset="100" Orientation="Vertical" ShowFar="false" Margins="0,-10,0,0">
+					<Clip FadeAmount="1" FadeSize="50" NearOffset="100" Padding="5,5,5,5" Orientation="Vertical" ShowFar="false" Margins="0,-10,0,0">
+            <Layout>
+              <FlowLayout Orientation="Vertical" ItemAlignment="Center" />
+            </Layout>
 						<Children>
-							<Panel Name="ConstraintPanel2" Padding="0,0,0,0" ColorFilter="color://s:MirrorFilter" Alpha="global://s:MirrorAlpha" CenterPointPercent="0.5,0.5,0.5" Rotation="180deg;1,0,0">
+							<Panel Name="ConstraintPanel2" ColorFilter="color://s:MirrorFilter" Alpha="global://s:MirrorAlpha" CenterPointPercent="0.5,0.5,0.5" Rotation="180deg;1,0,0">
 								<Layout>
-									<FlowLayout Orientation="Vertical" StripAlignment="Far"/>
+									<FlowLayout Orientation="Vertical" StripAlignment="Far" ItemAlignment="Center"/>
 								</Layout>
 								<Children>
-									<Graphic Name="g2" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" >
+									<Graphic Name="g2" SizingPolicy="SizeToConstraint" MaintainAspectRatio="false" >
 									</Graphic>
 								</Children>
 							</Panel>
