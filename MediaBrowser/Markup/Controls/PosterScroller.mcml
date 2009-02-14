@@ -17,6 +17,7 @@
 			<Font Name="TopLabelFont" Font="$Required"/>
 			<Font Name="LabelFont" Font="$Required"/>
 			<Font Name="UnwatchedCountFont" Font="$Required"/>
+			<cor:Boolean Name="CenterFocus" Boolean="false" />
 		</Properties>
 		<Locals>
 
@@ -26,6 +27,7 @@
 
 			<ScrollingData Name="VScrollingData" />
 			<ScrollingData Name="HScrollingData" EndPaddingRelativeTo="Far" EndPadding="400" BeginPadding="100" BeginPaddingRelativeTo="Near"/>
+			<ScrollingData Name="CenterScollingData" LockedAlignment="0.5" LockedPosition="0.5"/>
 			<ScrollingData Name="ScrollingData" />
 			
 			<Environment Name="Environment" />
@@ -81,9 +83,31 @@
 					<Set Target="[Scroller.LayoutInput]" Value="[HLayout]" />
 					<Set Target="[MyLayout.Repeat]" Value="WhenTooBig" />
 					<Set Target="[MyLayout.RepeatGap]" Value="100" />
-					<Set Target="[ScrollingData]" Value="[HScrollingData]" />
+					
 				</Actions>
 			</Condition>
+
+			<Changed Source="[Item.DisplayPrefs.VerticalScroll.Value]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.DisplayPrefs.VerticalScroll.Value]" Value="false" />	
+					<Equality Source="[CenterFocus]"  Value="false"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[ScrollingData]" Value="[HScrollingData]" />	
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Item.DisplayPrefs.VerticalScroll.Value]" InitialEvaluate="true">
+				<Conditions>
+					<Equality Source="[Item.DisplayPrefs.VerticalScroll.Value]" Value="false" />
+					<Equality Source="[CenterFocus]"  Value="true"/>
+				</Conditions>
+				<Actions>
+					<Set Target="[ScrollingData]" Value="[CenterScollingData]" />
+				</Actions>
+			</Changed>
+			
+		
 
 			<Rule>
 				<Conditions>
