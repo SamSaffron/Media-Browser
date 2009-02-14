@@ -7,6 +7,9 @@ using System;
 using System.Threading;
 using MediaBrowser.LibraryManagement;
 using System.Xml;
+using System.Reflection;
+using Microsoft.MediaCenter.UI;
+using System.Text;
 
 namespace MediaBrowser
 {
@@ -43,8 +46,17 @@ namespace MediaBrowser
                 Trace.Listeners.Add(t);
             }
             Environment.CurrentDirectory = Helper.AppDataPath;
-            SetupStylesMcml(host);
-            SetupFontsMcml(host);
+            try
+            {
+                SetupStylesMcml(host);
+                SetupFontsMcml(host);
+            }
+            catch (Exception ex)
+            {
+                host.MediaCenterEnvironment.Dialog(ex.Message, "Customisation Error", DialogButtons.Ok, 100, true);
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
+                return;
+            }
 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
             app.GoToMenu();
@@ -90,6 +102,7 @@ namespace MediaBrowser
             catch (Exception ex)
             {
                 Trace.TraceError("Error creating Fonts_DoNotEdit.mcml\n" + ex.ToString());
+                throw;
             }
         }
 
@@ -140,6 +153,7 @@ namespace MediaBrowser
             catch (Exception ex)
             {
                 Trace.TraceError("Error creating Styles_DoNotEdit.mcml\n" + ex.ToString());
+                throw;
             }
 
         }
@@ -148,7 +162,14 @@ namespace MediaBrowser
         private bool VerifyStylesXml(string filename, byte[] resource)
         {
             XmlDocument custom = new XmlDocument();
-            custom.Load(filename);
+            try
+            {
+                custom.Load(filename);
+            }
+            catch
+            {
+                throw new ApplicationException(filename + " is not well formed xml");
+            }
             XmlDocument def = new XmlDocument();
             using (MemoryStream ms = new MemoryStream(resource))
             {
@@ -169,6 +190,29 @@ namespace MediaBrowser
                 }
                 custom.Save(filename);
                 return false;
+            }
+            try
+            {
+                Type m = Type.GetType("Microsoft.MediaCenter.UI.Template.MarkupSystem,Microsoft.MediaCenter.UI");
+                MethodInfo mi = m.GetMethod("Load", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                object sys = Activator.CreateInstance(m);
+                object r = mi.Invoke(sys, new object[] { "file://" + filename });
+                LoadResult lr = (LoadResult)r;
+                if (lr.Status != LoadResultStatus.Success)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string s in lr.Errors)
+                        sb.AppendLine(s);
+                    throw new ApplicationException("Error loading " + filename + "\n" + sb.ToString());
+                }
+            }
+            catch (ApplicationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceWarning("Error attempting to verify custom mcml files. Microsoft may have changed the internals of Media Center.\n" + ex.ToString());
             }
             return true;
         }
