@@ -15,6 +15,7 @@ namespace MediaBrowser.Library
         readonly Choice sortOrders = new Choice();
         readonly Choice indexBy = new Choice();
         readonly BooleanChoice useBanner;
+        readonly BooleanChoice useCoverflow;
         SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
 
         public DisplayPreferences(UniqueName ownerName)
@@ -37,6 +38,9 @@ namespace MediaBrowser.Library
             useBanner = new BooleanChoice();
             useBanner.Value = false;
 
+            useCoverflow = new BooleanChoice();
+            useCoverflow.Value = false;
+
             ArrayList al = new ArrayList();
             foreach (SortOrder v in Enum.GetValues(typeof(SortOrder)))
                 al.Add(SortOrderNames.GetName(v));
@@ -54,7 +58,13 @@ namespace MediaBrowser.Library
             showLabels.ChosenChanged += new EventHandler(showLabels_ChosenChanged);
             verticalScroll.ChosenChanged += new EventHandler(verticalScroll_ChosenChanged);
             useBanner.ChosenChanged += new EventHandler(useBanner_ChosenChanged);
+            useCoverflow.ChosenChanged += new EventHandler(useCoverflow_ChosenChanged);
             thumbConstraint.PropertyChanged += new PropertyChangedEventHandler(thumbConstraint_PropertyChanged);
+        }
+
+        void useCoverflow_ChosenChanged(object sender, EventArgs e)
+        {
+            Save();
         }
 
         
@@ -109,7 +119,7 @@ namespace MediaBrowser.Library
 
         private bool saveEnabled = true;
         public UniqueName OwnerName { get; set; }
-        private static readonly byte Version = 1;
+        private static readonly byte Version = 2;
         public void WriteToStream(BinaryWriter bw)
         {
             bw.Write(Version);
@@ -121,6 +131,7 @@ namespace MediaBrowser.Library
             bw.Write(this.useBanner.Value);
             bw.Write(this.thumbConstraint.Value.Width);
             bw.Write(this.thumbConstraint.Value.Height);
+            bw.Write(this.useCoverflow.Value);
         }
 
         public static DisplayPreferences ReadFromStream(UniqueName ownerName, BinaryReader br)
@@ -148,6 +159,8 @@ namespace MediaBrowser.Library
                 dp.IndexBy = IndexType.None;
             dp.useBanner.Value = br.ReadBoolean();
             dp.thumbConstraint.Value = new Size(br.ReadInt32(), br.ReadInt32());
+            if (version >= 2)
+                dp.useCoverflow.Value = br.ReadBoolean();
             dp.saveEnabled = true;
             return dp;
         }
@@ -208,6 +221,10 @@ namespace MediaBrowser.Library
             get { return this.useBanner; }
         }
 
+        public BooleanChoice UseCoverflow
+        {
+            get { return this.useCoverflow; }
+        }
 
         
         public SizeRef ThumbConstraint

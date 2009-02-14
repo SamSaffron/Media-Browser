@@ -45,7 +45,7 @@
 			<Image Name="Focused" Image="$Required"/>
 			<Image Name="NonFocused" Image="$Required"/>
 			<ICommand Name="Command" ICommand="$Required"/>
-			
+
 		</Properties>
 		<Locals>
 			<ClickHandler Name="Clicker" Command="[Command]"/>
@@ -147,13 +147,15 @@
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ThumbSize.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Detail" Target="[ShowLabels.Visible]" Value="true" />
-			
+
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Poster" Target="[VerticalScroll.Visible]" Value="true" />
-      <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb" Target="[VerticalScroll.Visible]" Value="true" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb" Target="[VerticalScroll.Visible]" Value="true" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb Strip" Target="[VerticalScroll.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[VerticalScroll.Visible]" Value="false" />
-      <Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[UseBanner.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Cover Flow" Target="[UseBanner.Visible]" Value="false" />
 			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Detail" Target="[VerticalScroll.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="Thumb Strip" Target="[UseCoverflow.Visible]" Value="false" />
+			<Condition Source="[Prefs.ViewType.Chosen!cor:String]" ConditionOp="Equals" SourceValue="Thumb Strip" Target="[UseCoverflow.Visible]" Value="true" />
 			<Changed Source="[Increase.Invoked]">
 				<Actions>
 					<Invoke Target="[Prefs.IncreaseThumbSize]"/>
@@ -182,6 +184,7 @@
 									<cb:CheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Label="Show Labels"  Font="font://f:VM_ConfigItemFont"/>
 									<cb:CheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Label="Vertical Scroll"  Font="font://f:VM_ConfigItemFont"/>
 									<cb:CheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Label="Use Banners"  Font="font://f:VM_ConfigItemFont"/>
+									<cb:CheckBox Name="UseCoverflow" Checked="[Prefs.UseCoverflow]" Label="Use Coverflow Style"  Font="font://f:VM_ConfigItemFont"/>
 									<Panel Name="ThumbSize" >
 										<Layout>
 											<FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
@@ -274,7 +277,7 @@
 
 			<Binding Source="[Enabled]" Target="[Input.KeyInteractive]" />
 			<Condition Source="[Enabled]" ConditionOp="Equals" SourceValue="false" Target="[BoxImage.Alpha]" Value="0.3" />
-			
+
 			<Changed Source="[Clicker.Invoked]">
 				<Conditions>
 					<Equality Source="[Enabled]" Value="true" />
@@ -356,7 +359,7 @@
 			</Graphic>
 		</Content>
 	</UI>
-	
+
 	<UI Name="RadioConfiguration">
 		<Properties>
 			<Choice Name="Choice" Choice="$Required" />
