@@ -125,7 +125,7 @@
 					<!-- Coverflow Scroller -->
 					<me:CoverflowScroller Application="[Application]" Item="[Item]">
 						<LayoutInput>
-							<AnchorLayoutInput Horizontal="Fill" Top="Parent, 0" Bottom="Parent, 1, 175" />
+							<AnchorLayoutInput Horizontal="Fill" Top="Parent, 0" Bottom="Parent, 1, 125" />
 						</LayoutInput>
 					</me:CoverflowScroller>
 					
@@ -614,7 +614,7 @@
 						<Children>
 							<Panel Name="ConstraintPanel2" ColorFilter="color://s:MirrorFilter" Alpha="global://s:MirrorAlpha" CenterPointPercent="0.5,0.5,0.5" Rotation="180deg;1,0,0">
 								<Layout>
-									<FlowLayout Orientation="Vertical" StripAlignment="Far" ItemAlignment="Center"/>
+                  <AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
 								</Layout>
 								<Children>
 									<Graphic Name="g2" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" >

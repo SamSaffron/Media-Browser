@@ -28,7 +28,7 @@
 	<cor:Single Name="BackdropAlpha" Single="1" />
 	<cor:Single Name="PosterDimAlpha" Single="1" />
 	<cor:Boolean Name="ShowWatchedMarkerBackgrounds" Boolean="true" />
-	<Color Name="MirrorFilter" Color="37,37,37"/>
+	<Color Name="MirrorFilter" Color="50,50,50"/>
 	<cor:Single Name="MirrorAlpha" Single="1" />
 	<Color Name="DimPosterFilter" Color="150,150,150"/>
 	
