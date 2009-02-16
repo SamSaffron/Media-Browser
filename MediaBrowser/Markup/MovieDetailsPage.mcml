@@ -38,36 +38,39 @@
 		</Rules>
 
 		<Content>
-			<ColorFill Content="Transparent" Layout="Form">
+			<Panel Layout="Form">
 				<Children>
+					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
+						<Children>
+							<!--  View Details-->
+							<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+								</LayoutInput>
+							</vd:ViewMovieDefault>
 
-					<!--  View Details-->
-					<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-						</LayoutInput>
-					</vd:ViewMovieDefault>
-
-					<vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-						</LayoutInput>
-					</vm:ViewMovieMinimal>
+							<vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+								</LayoutInput>
+							</vm:ViewMovieMinimal>
 
 
 
-					<!-- Background brightening (creates the darker strips on top/bottom -->
+							<!-- Background brightening (creates the darker strips on top/bottom -->
 
-					<ColorFill Content="White" Alpha="0.1">
-						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
-						</LayoutInput>
-					</ColorFill>
+							<ColorFill Content="White" Alpha="0.1">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
+								</LayoutInput>
+							</ColorFill>
 
-					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+							<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
 
+						</Children>
+					</Clip>
 				</Children>
-			</ColorFill>
+			</Panel>
 
 		</Content>
 
