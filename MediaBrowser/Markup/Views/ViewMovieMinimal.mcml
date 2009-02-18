@@ -563,8 +563,6 @@
               <FormLayoutInput Left="Parent,0.75" Right="Parent,1" Top="Parent,0"/>
             </LayoutInput>
             <Children>
-              <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="GENRE" >
-              </Text>
               <Repeater Name="GenreRepeater" Source="[Item.Metadata.Genres]"  Margins="0,0,0,0" >
                 <Layout>
                   <FlowLayout Orientation="Horizontal" AllowWrap="true" Spacing="25,0"/>
@@ -580,13 +578,31 @@
 													/>
                 </Content>
               </Repeater>
+
+              <Panel Margins="0,0,0,0" Name="MediaInfoPane" >
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                </Layout>
+                <Children>
+                  <mip:MediaInfoPanel Name="MediaInfoPanel" Item="[Item]" />
+                  <Text Name="MediaInfo" Font="Arial, 12" Color="[ValueColor]" WordWrap="true" />
+                </Children>
+              </Panel>
+              
             </Children>
+            <Animations>
+              <TransformAnimation Delay="0.3">
+                <Source>
+                  <Animation Animation="animation://an:SlideUpFade" />
+                </Source>
+              </TransformAnimation>
+            </Animations>
           </Panel>
 
           <!-- Column 2 (IMDB, Director, Rating, Runtime)-->
           <Panel Layout="VerticalFlow" Margins="10,0,0,0" >
             <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.4" Right="Parent,.74" Top="Parent,0"/>
+              <AnchorLayoutInput Left="Parent,0.45" Right="Parent,.74" Top="Parent,0"/>
             </LayoutInput>
             <Children>
               <Panel>
@@ -597,6 +613,7 @@
                   <sr:StarRating Name="StarRating" Value="[Item.Metadata.ImdbRating.Value]" Margins="0,5,0,0" />
                   <mp:MPAARating Name="MPAARating" Value="[Item.Metadata.MpaaRating]" Margins="10,0,0,0" MaximumSize="0,30"/>
                 </Children>
+                
               </Panel>
 
               <Panel Margins="0,0,0,0" Name="IMDBRatingPanel" Visible="false">
@@ -628,26 +645,23 @@
                 </Children>
               </Panel>
 
-              <Panel Margins="0,-5,0,0" Name="MediaInfoPane" >
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
-                </Layout>
-                <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="MEDIA INFO" MinimumSize="150,0"/>
-                  <mip:MediaInfoPanel Name="MediaInfoPanel" Item="[Item]" />
-                  <Text Name="MediaInfo" Font="Arial, 12" Color="[ValueColor]" WordWrap="true" />
-
-                </Children>
-              </Panel>
+              
 
             </Children>
+            <Animations>
+              <TransformAnimation Delay="0.15">
+                <Source>
+                  <Animation Animation="animation://an:SlideUpFade" />
+                </Source>
+              </TransformAnimation>
+            </Animations>
           </Panel>
 
           <!-- Column 3 (Overview)-->
 
           <Panel Layout="VerticalFlow" Margins="10,0,0,0" >
             <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.0" Right="Parent,.39" Top="Parent,0"/>
+              <AnchorLayoutInput Left="Parent,0.0" Right="Parent,.44" Top="Parent,0"/>
             </LayoutInput>
             <Children>
 
@@ -660,16 +674,17 @@
                 </Children>
               </Panel>
             </Children>
+            <Animations>
+              <TransformAnimation Delay="0.0">
+                <Source>
+                  <Animation Animation="animation://an:SlideUpFade" />
+                </Source>
+              </TransformAnimation>
+            </Animations>
           </Panel>
         </Children>
 
-        <Animations>
-          <TransformAnimation Delay="0.1">
-            <Source>
-              <Animation Animation="animation://an:SlideUpFade" />
-            </Source>
-          </TransformAnimation>
-        </Animations>
+        
       </Panel>
     </Content>
   </UI>

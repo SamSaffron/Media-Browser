@@ -126,7 +126,18 @@
               </Graphic>
               <!-- The label to display. -->
               <Text Name="Label"  Color="[Color]" MinimumSize="0,30" Margins="4,3,0,0" Visible="false"
-                        FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]"/>
+                        FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]">
+                <Animations>
+                  <Animation Type="Show">
+                    <Keyframes>
+                      <PositionKeyframe Time="0" Value="-25,0,0"/>
+                      <PositionKeyframe Time="0.3" Value="0,0,0"/>
+                      <AlphaKeyframe Time="0" Value="0"/>
+                      <AlphaKeyframe Time="0.3" Value="1"/>
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Text>
             </Children>
           </Graphic>
           
