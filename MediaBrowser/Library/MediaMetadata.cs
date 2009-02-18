@@ -73,7 +73,7 @@ namespace MediaBrowser.Library
             {
                 // if a value exists for SortName, use it for the sortable name
                 if (this.SortName != null)
-                    return this.SortName;
+                    return GetSortableName(this.SortName);
 
                 if (this.sortableName == null)
                     lock (this)
