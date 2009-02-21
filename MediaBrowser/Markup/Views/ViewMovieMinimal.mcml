@@ -65,30 +65,23 @@
           <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
         </Conditions>
       </Binding>
+      <Rule >
+        <Conditions>
+          <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[TimeText.Visible]" Value="true" />
+          <Set Target="[TimeClip.Visible]" Value="true" />
+        </Actions>
+      </Rule>      
 
       <Condition Source="[Item.Metadata.Actors.Count]" ConditionOp="LessThan" SourceValue="1" Target="[ActorScroller.Visible]" Value="false" />
 
 
       <!-- Show and hide Selectors -->
-      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="0"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[InfoPane.Visible]" Value="true" />
-          <Set Target="[ActorPane.Visible]" Value="false" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Model.ChosenIndex]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Model.ChosenIndex]" ConditionOp="Equals" Value="1"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[InfoPane.Visible]" Value="false" />
-          <Set Target="[ActorPane.Visible]" Value="true" />
-        </Actions>
-      </Changed>
-
+      <Condition Source="[Model.ChosenIndex]" SourceValue="0" ConditionOp="Equals" Target="[Info.Visible]" Value="true" />
+      <Condition Source="[Model.ChosenIndex]" SourceValue="1" ConditionOp="Equals" Target="[ActorScroller.Visible]" Value="true" />
+      
     </Rules>
 
     <Content>
@@ -96,7 +89,6 @@
         <Children>
 
           <!-- Movie Title -->
-
           <Clip Name="TitleText" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25"
                 CenterPointPercent="-100,-100,0">
             <LayoutInput>
@@ -129,7 +121,7 @@
           </Clip>
 
           <!-- Time Panel -->
-          <Clip Name="TimeText" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" FarOffset="25" CenterPointPercent="100,100,0">
+          <Clip Name="TimeText" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" FarOffset="25" CenterPointPercent="100,100,0" Visible="false">
             <LayoutInput>
               <AnchorLayoutInput Bottom="TitleText,1"  Left="Parent,0" />
             </LayoutInput>
@@ -141,7 +133,7 @@
               </Panel>
             </Children>
           </Clip>
-          <Clip Name="TimeClip" FadeSize="100" Orientation="Horizontal" ShowNear="false" FadeAmount="1" FarOffset="-25" >
+          <Clip Name="TimeClip" FadeSize="100" Orientation="Horizontal" ShowNear="false" FadeAmount="1" FarOffset="-25" Visible="false" >
             <LayoutInput>
               <AnchorLayoutInput Top="TimeText,0" Bottom="TimeText,1" Left="TimeText,0" Right="TimeText,1" />
             </LayoutInput>
@@ -152,14 +144,12 @@
           </Clip>
 
           <!-- play/resume buttons-->
-
           <me:CommandButtons Application="[Application]" Item="[Item]" FilterColor="[FilterColor]"
                              Alpha="global://s:FilterAlpha">
             <LayoutInput>
               <AnchorLayoutInput Left="Parent,0,0" Top="TitleText,1,10" />
             </LayoutInput>
           </me:CommandButtons>
-
 
           <!-- Selector buttons-->
           <Panel Name="SelectorPanel">
@@ -187,46 +177,13 @@
               <AnchorLayout SizeToVerticalChildren="true"/>
             </Layout>
             <LayoutInput>
-              <AnchorLayoutInput Bottom="DetailBox, 1,-35" Top="DetailBox, 0" Left="DetailBox, 0" Right="DetailBox,1" />
+              <AnchorLayoutInput Bottom="DetailBox, 1, 0" Top="DetailBox, 0" Left="DetailBox, 0" Right="DetailBox,1" />
             </LayoutInput>
             <Children>
-              <me:InfoBlock Name="Info" Item="[Item]" Application="[Application]">
-              </me:InfoBlock>
-
+              <me:InfoBlock Name="Info" Item="[Item]" Application="[Application]" Padding="0,0,0,25" Visible="false" />
+              <me:ActorList Name="ActorScroller" Item="[Item]" Application="[Application]" Visible="false" />
             </Children>
           </Panel>
-
-
-          <!-- Actor Role panel-->
-          <Panel Name="ActorPane" Layout="Anchor" CenterPointPercent="0.5,0.5,0.5" Visible="false">
-            <LayoutInput>
-              <AnchorLayoutInput Bottom="DetailBox, 1" Top="DetailBox, 0" Left="DetailBox, 0" Right="DetailBox,1" />
-            </LayoutInput>
-            <Children>
-              <Panel Name="RoundBox3" Padding="5,5,5,5">
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" ItemAlignment="Near" Spacing="0,0"/>
-                </Layout>
-                <Children>
-                  <me:ActorList Name="ActorScroller" Item="[Item]" Application="[Application]" />
-                </Children>
-                <Animations>
-                  <Animation Type="Size"  >
-                    <Keyframes>
-                      <SizeKeyframe Time="0" RelativeTo="Current" Value="50,400,1" />
-                      <SizeKeyframe Time="0.4" RelativeTo="Final"/>
-                    </Keyframes>
-                  </Animation>
-                </Animations>
-              </Panel>
-            </Children>
-          </Panel>
-
-          <!--<Graphic Name="ScreenBox" ColorFilter="[FilterColor]" Content="resx://MediaBrowser/MediaBrowser.Resources/FilmScreen" MaintainAspectRatio="false" Alpha="global://s:FilterAlpha">
-						<LayoutInput>
-							<AnchorLayoutInput Bottom="DetailBox, 0" Left="Parent,0" Right="Parent,1"/>
-						</LayoutInput>
-					</Graphic>-->
 
           <ColorFill Name="ScreenBox" Content="White" Alpha="global://s:FilterAlpha">
             <LayoutInput>
@@ -558,15 +515,16 @@
         <Children>
 
           <!-- Column 1 (Genres)-->
-          <Panel Layout="VerticalFlow" Margins="10,0,0,0">
+          <Panel Layout="VerticalFlow" Margins="10,0,0,0" >
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0.75" Right="Parent,1" Top="Parent,0"/>
+              <FormLayoutInput Left="Parent,0.70" Right="Parent,1" Top="Parent,0" />
             </LayoutInput>
             <Children>
-              <Repeater Name="GenreRepeater" Source="[Item.Metadata.Genres]"  Margins="0,0,0,0" >
+              <Repeater Name="GenreRepeater" Source="[Item.Metadata.Genres]" Margins="0,0,0,0" MaximumSize="0,150" >
                 <Layout>
-                  <FlowLayout Orientation="Horizontal" AllowWrap="true" Spacing="25,0"/>
+                  <FlowLayout Orientation="Horizontal" AllowWrap="true"  Spacing="25,0"  />
                 </Layout>
+                
                 <Divider>
                   <Text Content="●" Font="font://f:MM_GenreFont" Color="color://s:FontColorMedium" Alpha="0.6"  />
                 </Divider>
@@ -600,9 +558,9 @@
           </Panel>
 
           <!-- Column 2 (IMDB, Director, Rating, Runtime)-->
-          <Panel Layout="VerticalFlow" Margins="10,0,0,0" >
+          <Panel Layout="VerticalFlow" Margins="0,0,0,0" >
             <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.45" Right="Parent,.74" Top="Parent,0"/>
+              <AnchorLayoutInput Left="Parent,0.45" Right="Parent,.71" Top="Parent,0"/>
             </LayoutInput>
             <Children>
               <Panel>
@@ -616,36 +574,34 @@
                 
               </Panel>
 
-              <Panel Margins="0,0,0,0" Name="IMDBRatingPanel" Visible="false">
+              <Panel Name="IMDBRatingPanel" Visible="false">
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="IMDB RATING"  MinimumSize="150,0"/>
+                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="IMDB RATING"  MinimumSize="140,0"/>
                   <Text Name="IMDBRating" Content="" Color="[ValueColor]" Font="font://f:MM_ItemFont"/>
                   <Text Font="font://f:MM_ItemFont" Color="[ValueColor]" Content=" out of 10"/>
                 </Children>
               </Panel>
 
-              <Panel Name="DirectedByPanel" Layout="HorizontalFlow" Margins="0,0,0,0" Visible="false">
+              <Panel Name="DirectedByPanel" Layout="HorizontalFlow" Visible="false">
                 <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="DIRECTOR" MinimumSize="150,0"/>
-                  <Text Name="Director" Font="font://f:MM_ItemFont" WordWrap="true" MaximumLines="2" Color="[ValueColor]" Content="[Item.Metadata.DirectorString]"/>
+                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="DIRECTOR" MinimumSize="140,0"/>
+                  <Text Name="Director" Font="font://f:MM_ItemFont" WordWrap="true" MaximumLines="3" Color="[ValueColor]" Content="[Item.Metadata.DirectorString]"/>
                 </Children>
               </Panel>
 
-              <Panel Margins="0,0,0,0" Name="RuntimePanel" >
+              <Panel Name="RuntimePanel" >
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="RUNTIME" MinimumSize="150,0"/>
+                  <Text Font="font://f:MM_ItemTitleFont" Color="[ItemColor]" Content="RUNTIME" MinimumSize="140,0"/>
                   <Text Name="Runtime" Content="[Item.Metadata.RunningTimeString]"
 										  Font="font://f:MM_ItemFont" Color="[ValueColor]" />
                 </Children>
               </Panel>
-
-              
 
             </Children>
             <Animations>
@@ -659,13 +615,13 @@
 
           <!-- Column 3 (Overview)-->
 
-          <Panel Layout="VerticalFlow" Margins="10,0,0,0" >
+          <Panel Layout="VerticalFlow" Margins="0,0,0,0" >
             <LayoutInput>
               <AnchorLayoutInput Left="Parent,0.0" Right="Parent,.44" Top="Parent,0"/>
             </LayoutInput>
             <Children>
 
-              <Panel Margins="0,0,0,0">
+              <Panel>
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>

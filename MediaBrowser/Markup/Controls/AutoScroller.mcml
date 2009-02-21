@@ -114,7 +114,7 @@
 		<Content>
 			<Panel Name="MainPanel" Layout="Dock" >
 				<Children>
-					<Graphic Content="image://i:BlankImage" Name="ImagePanel" MouseInteractive="true" Layout="Form" Padding="0,0,10,0" >
+					<Graphic Content="image://i:BlankImage" Name="ImagePanel" MouseInteractive="true" Layout="Form" >
 						<LayoutInput>
 							<DockLayoutInput Position="Client"/>
 						</LayoutInput>
