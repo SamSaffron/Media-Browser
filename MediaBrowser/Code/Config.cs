@@ -402,11 +402,11 @@ namespace MediaBrowser
             set { if (this.data.ShowClock != value) { this.data.ShowClock = value; Save(); FirePropertyChanged("ShowClock"); } }
         }
 
-        [Comment(@"Enable more advanced movie commands.")]
-        public bool EnableMoreMovieCmds
+        [Comment(@"Enable more advanced commands.")]
+        public bool EnableAdvancedCmds
         {
-            get { return this.data.EnableMoreMovieCmds; }
-            set { if (this.data.EnableMoreMovieCmds != value) { this.data.EnableMoreMovieCmds = value; Save(); FirePropertyChanged("EnableMoreMovieCmds"); } }
+            get { return this.data.EnableAdvancedCmds; }
+            set { if (this.data.EnableAdvancedCmds != value) { this.data.EnableAdvancedCmds = value; Save(); FirePropertyChanged("EnableAdvancedCmds"); } }
         }
 
         [Comment(@"Show backdrop on main views.")]

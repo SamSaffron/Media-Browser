@@ -52,7 +52,7 @@
 			<BooleanChoice Name="EnableMinimalMovieView" Value="[Application.Config.EnableMinimalMovieView]" />
 			<BooleanChoice Name="ShowClock" Value="[Application.Config.ShowClock]" />
 			<cor:String Name="ThemeInitial" String="[Application.Config.Theme]" />
-			<!--<BooleanChoice Name="EnableMoreMovieCmds" Value="[Application.Config.EnableMoreMovieCmds]" />-->
+			<BooleanChoice Name="EnableAdvancedCmds" Value="[Application.Config.EnableAdvancedCmds]" />
       <BooleanChoice Name="ShowBackdrop" Value="[Application.Config.ShowBackdrop]" />
       
       <BooleanChoice Name="DefaultToFirstUnwatched" Value="[Application.Config.DefaultToFirstUnwatched]" />
@@ -185,7 +185,7 @@
 			<Binding Source="[InheritDefaultView.Value]" Target="[Config.InheritDefaultView]" />
 			<Binding Source="[EnableMinimalMovieView.Value]" Target="[Config.EnableMinimalMovieView]" />
 			<Binding Source="[ShowClock.Value]" Target="[Config.ShowClock]" />
-      <!--<Binding Source="[EnableMoreMovieCmds.Value]" Target="[Config.EnableMoreMovieCmds]" />-->
+      <Binding Source="[EnableAdvancedCmds.Value]" Target="[Config.EnableAdvancedCmds]" />
       <Binding Source="[ShowBackdrop.Value]" Target="[Config.ShowBackdrop]" />
       <Binding Source="[ThemeModel.Chosen!cor:String]" Target="[Config.Theme]" >
 				<Conditions>
@@ -364,7 +364,7 @@
                   
                   <me:TextHeader Text="Movie Details" />
                   <cb:CheckBox Label="Enable Alternate Theme" Checked="[EnableMinimalMovieView]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-									<!--<cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableMoreMovieCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>-->
+									<cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableAdvancedCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont" Visible="false"/>
 
                 </Children>
 							</Graphic>

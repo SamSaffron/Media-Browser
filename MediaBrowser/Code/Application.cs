@@ -430,6 +430,49 @@ namespace MediaBrowser
 
         }
 
+        public void DeleteMediaItem(Item Item)
+        {
+            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            var msg = "Are you sure you wish to delete this media item?";
+            var caption = "Delete Confirmation";
+
+            DialogResult dr = mce.Dialog(msg, caption, DialogButtons.No | DialogButtons.Yes, 0, true);
+
+            if (dr == DialogResult.Yes)
+            {
+                if (Item.Source.ItemType == ItemType.Movie)
+                {
+                    Item Parent = Item.PhysicalParent;
+                    string path = Item.Source.Location;
+                    try
+                    {
+                        Directory.Delete(path, true);
+                    }
+                    catch (IOException)
+                    {
+                        mce.Dialog("The selected media item cannot be deleted due to an invalid path. Media Browser requires each movie to be placed in its own folder.", "Delete Failed", DialogButtons.Ok, 0, true);
+                    }
+                    catch (Exception)
+                    {
+                        mce.Dialog("The selected media item cannot be deleted due to an unknown error.", "Delete Failed", DialogButtons.Ok, 0, true);
+                    }
+                    Back(); // Back to the Parent Item; This parent still contains old data.
+
+                    if (session.BackPage()) // Double Back to the GrandParent because history still has old parent.
+                    {
+                        Navigate(Parent);  // Navigate forward to Parent 
+                    }
+                    else // No GrandParent to go back to.
+                    {
+                        Navigate(Parent); // Navigate to the parent again - this will refresh the objects
+                        session.BackPage(); // Now safe to go back to previous parent, and keep session history valid
+                    }                                        
+                }
+                else
+                    mce.Dialog("The selected media item cannot be deleted due to its Item-Type.", "Delete Failed", DialogButtons.Ok, 0, true);
+            }
+        }
+
         // Entry point for the app
         public void GoToMenu()
         {

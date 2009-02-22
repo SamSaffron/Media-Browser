@@ -66,7 +66,7 @@ namespace MediaBrowser
         public string Theme = "Default";
         public string FontTheme = "Default";
         public bool ShowClock = false;
-        public bool EnableMoreMovieCmds = false;
+        public bool EnableAdvancedCmds = false;
         public bool UseAutoPlayForIso = false;
         public bool ShowBackdrop = true;
 
