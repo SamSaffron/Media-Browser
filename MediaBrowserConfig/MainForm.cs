@@ -280,5 +280,12 @@ folder: {0}
             }
         }
 
+        private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var form = new HelpMediaLocation();
+            form.ShowDialog();           
+            
+        }
+
     }
 }

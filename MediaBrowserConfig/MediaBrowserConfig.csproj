@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{51418395-B483-4C40-A8F2-2CCFF7847672}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -44,6 +44,12 @@
     <Compile Include="FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="HelpMediaLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpMediaLocation.Designer.cs">
+      <DependentUpon>HelpMediaLocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,8 +58,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="HelpMediaLocation.resx">
+      <DependentUpon>HelpMediaLocation.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -62,6 +73,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RenameForm.resx">
       <DependentUpon>RenameForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,6 +101,11 @@
       <Project>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</Project>
       <Name>MediaBrowser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\apps.ico" />
+    <Content Include="Images\config.ico" />
+    <Content Include="Images\help.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
