@@ -26,7 +26,7 @@ namespace MediaBrowser
         public string Comment { get; private set; }
     }
 
-
+    
     public class Config : IModelItem
     {
         private ConfigData data;
@@ -407,6 +407,13 @@ namespace MediaBrowser
         {
             get { return this.data.EnableAdvancedCmds; }
             set { if (this.data.EnableAdvancedCmds != value) { this.data.EnableAdvancedCmds = value; Save(); FirePropertyChanged("EnableAdvancedCmds"); } }
+        }
+
+        [Comment(@"Advanced Command: Enable Delete")]
+        public bool Advanced_EnableDelete
+        {
+            get { return this.data.Advanced_EnableDelete; }
+            set { if (this.data.Advanced_EnableDelete != value) { this.data.Advanced_EnableDelete = value; Save(); FirePropertyChanged("Advanced_EnableDelete"); } }
         }
 
         [Comment(@"Show backdrop on main views.")]

@@ -264,7 +264,7 @@
           <Invoke Target="[Item.RefreshMetadata]"/>
         </Actions>
       </Changed>
-
+            
       <Changed Source="[DeleteMovieCommand.Invoked]">
         <Actions>
           <Invoke Target="[Application.DeleteMediaItem]">
@@ -277,12 +277,12 @@
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
-      <Rule>        
+      <Rule ConditionLogicalOp="And">        
         <Conditions>
+          <Equality Source="[Application.Config.Advanced_EnableDelete]" ConditionOp="Equals" Value="true" />
           <Equality Source="[Application.Config.EnableAdvancedCmds]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
-          <!--<Set Target="[CacheMovieButton.Visible]" Value="true" />-->
           <Set Target="[DeleteMovieButton.Visible]" Value="true" />
         </Actions>
       </Rule>

@@ -432,25 +432,37 @@ namespace MediaBrowser
 
         public void DeleteMediaItem(Item Item)
         {
+            // Setup variables
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             var msg = "Are you sure you wish to delete this media item?";
             var caption = "Delete Confirmation";
 
+            // Present dialog
             DialogResult dr = mce.Dialog(msg, caption, DialogButtons.No | DialogButtons.Yes, 0, true);
 
             if (dr == DialogResult.Yes)
             {
-                if (Item.Source.ItemType == ItemType.Movie)
+                // Perform itemtype and configuration checks
+                if (Item.Source.ItemType == ItemType.Movie &&
+                    (this.Config.Advanced_EnableDelete == true && this.Config.EnableAdvancedCmds == true)
+                   )
                 {
                     Item Parent = Item.PhysicalParent;
                     string path = Item.Source.Location;
                     try
                     {
-                        Directory.Delete(path, true);
+                        if (Directory.Exists(path))
+                        {
+                            Directory.Delete(path, true);
+                        }
+                        else if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
                     }
                     catch (IOException)
                     {
-                        mce.Dialog("The selected media item cannot be deleted due to an invalid path. Media Browser requires each movie to be placed in its own folder.", "Delete Failed", DialogButtons.Ok, 0, true);
+                        mce.Dialog("The selected media item cannot be deleted due to an invalid path. Or you may not have sufficient access rights to perform this command.", "Delete Failed", DialogButtons.Ok, 0, true);
                     }
                     catch (Exception)
                     {
@@ -458,6 +470,7 @@ namespace MediaBrowser
                     }
                     Back(); // Back to the Parent Item; This parent still contains old data.
 
+                    // These tricks are required in order to load the parent item with "fresh" data.
                     if (session.BackPage()) // Double Back to the GrandParent because history still has old parent.
                     {
                         Navigate(Parent);  // Navigate forward to Parent 
@@ -466,10 +479,10 @@ namespace MediaBrowser
                     {
                         Navigate(Parent); // Navigate to the parent again - this will refresh the objects
                         session.BackPage(); // Now safe to go back to previous parent, and keep session history valid
-                    }                                        
+                    }
                 }
                 else
-                    mce.Dialog("The selected media item cannot be deleted due to its Item-Type.", "Delete Failed", DialogButtons.Ok, 0, true);
+                    mce.Dialog("The selected media item cannot be deleted due to its Item-Type or you have not enabled this feature in the configuration file.", "Delete Failed", DialogButtons.Ok, 0, true);
             }
         }
 
