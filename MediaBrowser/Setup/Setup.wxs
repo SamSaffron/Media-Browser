@@ -2,8 +2,8 @@
 
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
-<?define Property_ProductVersion = "2.0.8.0" ?>
-<?define Property_ProductCode = "D03C2B42-40D7-4775-91DC-17538080533D" ?>
+<?define Property_ProductVersion = "2.0.9.0" ?>
+<?define Property_ProductCode = "1DEDBF39-074F-4da0-AB66-A424EED9CEC6" ?>
 <?define Property_UpgradeCode = "1AA59629-46C2-42d5-AD06-534A20F68296" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -45,7 +45,22 @@
 					<Directory Id="APPROOTDIRECTORY" Name="MediaBrowser"/>
 				</Directory>
 			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Media Browser"/>
+      </Directory>
 		</Directory>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="C68522A1-03ED-4416-8326-F1375212ACB0">
+        <Shortcut Id="ConfigurationWizard"
+                  Name="Configuration Wizard"
+                  Description="media browser configuration wizard"
+                  Target="[APPROOTDIRECTORY]MediaBrowserConfig.exe"
+                  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\GPL\MediaBrowser" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
 
 		<!-- This is a list of all components installed as a part of this product. A component is the        -->
 		<!-- smallest atomic unit of installation in Windows Installer. Each component must have a unique    -->
@@ -54,6 +69,9 @@
 		<!-- Each component is listed as a child of the DirectoryRef that represents the directory that      -->
 		<!-- the file it contains will install to.                                                           -->
 		<DirectoryRef Id="APPROOTDIRECTORY">
+      <Component Id="MediaBrowserConfig.exe" Guid="3186FBE0-641C-45f9-AA16-7EAA85B7405C" DiskId="1">
+        <File Id="MediaBrowserConfig.exe" Name="MediaBrowserConfig.exe" KeyPath="yes" Source="..\..\MediaBrowserConfig\bin\$(var.BuildType)\MediaBrowserConfig.exe" Checksum="yes" Vital="yes"/>
+      </Component>
 			<Component Id="MediaBrowser.dll" Guid="3D581843-2412-458d-AF79-29845B277677" DiskId="1">
 				<File Id="MediaBrowser.dll" Name="MediaBrowser.dll" KeyPath="yes" Source="..\bin\$(var.BuildType)\MediaBrowser.dll" Checksum="yes" Vital="yes" Assembly=".net"/>
 			</Component>
@@ -72,11 +90,13 @@
 		<!-- only one feature. Each feature contains a list of components that it will install. Features can -->
 		<!-- can be displayed and allow user selection in setup UI if desired.                               -->
 		<Feature Id="APPROOTFEATURE" Title="MediaBrowser" Level="1">
-			<ComponentRef Id="MediaBrowser.dll" />
+      <ComponentRef Id="MediaBrowserConfig.exe" />
+      <ComponentRef Id="MediaBrowser.dll" />
 			<ComponentRef Id="Registration.xml" />
 			<ComponentRef Id="Application.png" />
       <ComponentRef Id="ApplicationInactive.png" />
-		</Feature>
+      <ComponentRef Id="ApplicationShortcut" /> 
+    </Feature>
 
 		<!-- The media table defines the location that the MSI will look to find source files during         -->
 		<!-- installation or repair scenarios. In this case, the source files are in a cab file that will be -->
@@ -164,6 +184,7 @@
       <Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT >= 600 OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
 		</InstallUISequence>
 
+    
 		<!-- These properties define links that will appear in the Add/Remove Programs control panel when    -->
 		<!-- this product is installed on the system.                                                        -->
 		<Property Id="ARPHELPLINK" Value="!(loc.Property_ArpHelpLink)" />
@@ -215,5 +236,15 @@
 		<!-- In WiX v3.0, this variable is used to override the default license agreement text that is       -->
 		<!-- included in the WixUIExtension with a custom file.                                              -->
 		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
-	</Product>
+
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+    <CustomAction Id="StartAppOnExit" FileKey="MediaBrowserConfig.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Configure initial settings" />
+    
+    <UI>
+      <Publish Dialog="ExitDialog" Control="Finish" Order="1" Event="DoAction" Value="StartAppOnExit">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+   
+  </Product>
 </Wix>

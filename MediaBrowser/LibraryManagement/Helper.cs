@@ -197,7 +197,8 @@ namespace MediaBrowser.LibraryManagement
                     //{ "AppPlayStatePath",   "AppConfigPath",    "PlayState"     },
                     { "AppCachePath",       "AppConfigPath",    "Cache"         },
                     //{ "AppPosterThumbPath", "AppCachePath",     "PosterThumb"   },
-                    { "AutoPlaylistPath",   "AppCachePath",     "autoPlaylists" }
+                    { "AutoPlaylistPath",   "AppCachePath",     "autoPlaylists" }, 
+                    { "AppInitialDirPath",       "AppConfigPath",    "StartupFolder"         },
             };
 
             for (int i = 0; i <= tree.GetUpperBound(0); i++)
@@ -208,6 +209,12 @@ namespace MediaBrowser.LibraryManagement
                     Directory.CreateDirectory(e);
                 }
                 PathMap[tree[i, 0]] = e;
+            }
+        }
+
+        public static string AppInitialDirPath {
+            get {
+                return PathMap["AppInitialDirPath"];
             }
         }
 

@@ -27,7 +27,7 @@ namespace MediaBrowser
     }
 
 
-    public class Config : ModelItem
+    public class Config : IModelItem
     {
         private ConfigData data;
 
@@ -529,5 +529,65 @@ namespace MediaBrowser
             }
             return true;
         }
+
+        #region IModelItem Members
+
+        public string Description {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool Selected {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Guid UniqueId {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region IPropertyObject Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region IModelItemOwner Members
+
+        protected void FirePropertyChanged(string property) {
+            if (PropertyChanged != null) {
+                PropertyChanged(this, property);
+            }
+        }
+
+        List<ModelItem> items = new List<ModelItem>(); 
+
+        public void RegisterObject(ModelItem modelItem) {
+            items.Add(modelItem);
+        }
+
+        public void UnregisterObject(ModelItem modelItem) {
+            if (items.Exists((i) => i == modelItem)) {
+                // TODO : Invoke on the UI thread
+                modelItem.Dispose();
+            }
+        }
+
+        #endregion
     }
 }

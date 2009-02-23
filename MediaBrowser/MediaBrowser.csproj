@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -298,7 +298,10 @@
     <Content Include="Markup\StylesDefault.mcml" />
     <Content Include="Registration.xml" />
     <Content Include="Setup\info.xml" />
+    <Content Include="Setup\MbExitDialog.wxs" />
     <Content Include="Setup\mbinfo.xml" />
+    <Content Include="Setup\MbInstallDirDlg.wxs" />
+    <Content Include="Setup\MbWixUI_InstallDir.wxs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
