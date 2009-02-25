@@ -23,7 +23,7 @@ namespace MediaBrowser.LibraryManagement
     {
         public static Dictionary<string, bool> perceivedTypeCache = new Dictionary<string, bool>();
         //private static MD5CryptoServiceProvider CryptoService = new MD5CryptoServiceProvider();
-
+        
         static readonly string[] IsoExtensions = { "iso", "img" };
         #region Signitures imported from http://pinvoke.net
 
@@ -886,6 +886,12 @@ namespace MediaBrowser.LibraryManagement
         internal static bool IsRoot(string path)
         {
             return (Config.Instance.InitialFolder==path) || (Config.Instance.InitialFolder == Helper.MY_VIDEOS && path == Helper.MyVideosPath);
+        }
+
+        private static readonly Regex alphaNumeric = new Regex("[^a-zA-Z0-9]");
+        public static bool IsAlphaNumeric(string str)
+        {
+            return (!alphaNumeric.IsMatch(str));
         }
     }
 }

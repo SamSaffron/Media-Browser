@@ -104,6 +104,9 @@ namespace MediaBrowser.Library
                     if (this.ThumbConstraint.Value.Height > 220)
                         this.ThumbConstraint.Value = new Size(220, 220);
                     break;
+                case ViewTypes.CoverFlow:
+                    this.ThumbConstraint.Value = new Size(340, 340);
+                    break;
             }
             FirePropertyChanged("ViewTypeString");
             Save();

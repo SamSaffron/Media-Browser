@@ -481,7 +481,7 @@ namespace MediaBrowser.Library
         {
             set
             {
-                if ((value != null) && (value != ""))
+                if ((value != null) && (value != "") && (MediaBrowser.LibraryManagement.Helper.IsAlphaNumeric(value)))
                 {
                     TripleTapIndex proto = new TripleTapIndex { Index = -1, Name = value };
                     lock (itemIndex.TripleTapCandidates)
