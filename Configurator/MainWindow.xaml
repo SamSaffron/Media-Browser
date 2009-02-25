@@ -1,0 +1,51 @@
+﻿<Window x:Class="Configurator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Media Browser Configuration" Height="510" Width="700" MaxWidth="700" MaxHeight="510" MinWidth="700" MinHeight="510" Icon="/Configurator;component/Images/config.ico">
+	<Window.Background>
+		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FFFFFFFF" Offset="0"/>
+			<GradientStop Color="#FFCAC0C0" Offset="0.8"/>
+			<GradientStop Color="#FFF1ECEC" Offset="0.974"/>
+		</LinearGradientBrush>
+	</Window.Background>
+	<Window.Foreground>
+		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FF666363" Offset="0"/>
+			<GradientStop Color="#FF6D6D6D" Offset="1"/>
+		</LinearGradientBrush>
+	</Window.Foreground>
+    <Grid>
+        <TabControl Margin="12,51,12,45" Name="tabControl1" Background="{x:Null}">
+            <TabItem Header="media locations" Name="tabItem1" Background="{x:Null}" FontSize="16" FontWeight="Normal" Foreground="#FF323232">            	
+                <Grid Height="351">
+                    <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a virtual folder">Add</Button>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove a virtual folder">Remove</Button>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename a virtual folder">Rename</Button>
+                    <Canvas Margin="0,6,19,13" Name="infoPanel" HorizontalAlignment="Right" Width="297">
+                        <Button Height="32" Name="btnChangeImage" Width="111" Canvas.Left="29" Canvas.Top="104" Click="btnChangeImage_Click" FontSize="14">Change Image</Button>
+                        <ListBox Height="115" Name="internalFolder" Width="285" Canvas.Left="6" Canvas.Top="176" SelectionChanged="internalFolder_SelectionChanged" FontSize="14" />
+                        <Button Height="32" Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another location inside your virtual folder">Add</Button>
+                        <Button Height="32" Name="btnRemoveSubFolder" Width="90" Canvas.Left="201" Canvas.Top="297" Click="btnRemoveSubFolder_Click" FontSize="14" ToolTip="Remove location from your virtual folder">Remove</Button>
+                        <Image Name="folderImage" Stretch="Fill" Width="111" Height="128" Canvas.Left="176" Canvas.Top="8" />
+                        <Label Canvas.Left="6" Height="34" Name="lblStep2" Width="164" Foreground="#FF000000" Canvas.Top="2">❷ Location details</Label>
+                        <Label Canvas.Left="6" Canvas.Top="149" Height="28" Name="label1" Width="285" FontSize="12">Your virtual folder can span across multiple folders.</Label>
+                    </Canvas>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" Name="lblStep1" VerticalAlignment="Top" Width="269" Foreground="#FF030303">❶ Add your media </Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="extenders" Name="tabItem2" Foreground="#FF323232" FontSize="16" FontWeight="Normal">
+                <Grid />
+            </TabItem>
+        </TabControl>
+        <Label Height="43" HorizontalAlignment="Right" Margin="0,-3,48,0" Name="lblHeader" VerticalAlignment="Top" Width="183" FontSize="28" Background="{x:Null}">
+        	<Label.Foreground>
+        		<LinearGradientBrush EndPoint="0.552,0.745" StartPoint="0.282,0.722">
+        			<GradientStop Color="#FF000000" Offset="0.552"/>
+        			<GradientStop Color="#FF1F9C11" Offset="0.557"/>
+        		</LinearGradientBrush>
+        	</Label.Foreground>mediabrowser</Label>
+        <Label Height="28" HorizontalAlignment="Right" Margin="0,28,48,0" Name="lblHeader2" VerticalAlignment="Top" Width="183" FontSize="14" HorizontalContentAlignment="Center">c o n f i g u r a t i o n</Label>
+    </Grid>
+</Window>

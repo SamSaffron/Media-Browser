@@ -1,0 +1,11 @@
+﻿<Window x:Class="Configurator.RenameForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Rename" Height="189" Width="357" Icon="/Configurator;component/Images/rename.ico">
+    <Grid>
+        <Button Height="32" HorizontalAlignment="Left" Margin="12,0,0,27" Name="btnOK" VerticalAlignment="Bottom" Width="89" Click="btnOK_Click" FontSize="14">OK</Button>
+        <Button Height="32" HorizontalAlignment="Right" Margin="0,0,21,27" Name="btnCancel" VerticalAlignment="Bottom" Width="91" Click="btnCancel_Click" FontSize="14">Cancel</Button>
+        <TextBox Margin="12,44,21,0" Name="tbxName" Height="28" VerticalAlignment="Top" FontSize="14" />
+        <Label Height="28" Margin="12,8,0,0" Name="lblName" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" FontSize="14">Label</Label>
+    </Grid>
+</Window>
