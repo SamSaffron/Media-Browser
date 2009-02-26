@@ -82,7 +82,7 @@ namespace MediaBrowser.Library
                 List<ActorItemWrapper> result = new List<ActorItemWrapper>();
                 foreach (Actor a in this.metadata.Actors)
                     result.Add(new ActorItemWrapper(a, this.PhysicalParent));
-                result.Sort(delegate(ActorItemWrapper a, ActorItemWrapper b) { return a.Actor.Name.CompareTo(b.Actor.Name); });
+                //result.Sort(delegate(ActorItemWrapper a, ActorItemWrapper b) { return a.Actor.Name.CompareTo(b.Actor.Name); });
                 return result;
             }
         }
