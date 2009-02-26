@@ -24,12 +24,13 @@ namespace MediaBrowser
             this.Application.NavigatingForward = navigateForward;
             if (navigateForward)
             {
-                if ((uiProperties != null) && (uiProperties.ContainsKey("Item")))
+                if (breadcrumbs.Count == 0) {
+                    breadcrumbs.Add(Config.Instance.InitialBreadcrumbName);
+                }
+                else if ((uiProperties != null) && (uiProperties.ContainsKey("Item")))
                 {
                     Item itm = (Item)uiProperties["Item"];
                     breadcrumbs.Add(itm.Metadata.Name);
-
-
                 }
                 else
                     breadcrumbs.Add("");

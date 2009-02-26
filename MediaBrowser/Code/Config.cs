@@ -423,6 +423,18 @@ namespace MediaBrowser
             set { if (this.data.ShowBackdrop != value) { this.data.ShowBackdrop = value; Save(); FirePropertyChanged("ShowBackdrop"); } }
         }
 
+
+        [Comment(@"The name displayed in the top right when you first navigate into your library")]
+        public string InitialBreadcrumbName {
+            get { return this.data.InitialBreadcrumbName; }
+            set {
+                    if (this.data.InitialBreadcrumbName != value) {
+                        this.data.InitialBreadcrumbName = value;
+                        Save();
+                        FirePropertyChanged("InitialBreadcrumbName");
+                    }
+            }
+        }
         
         /* End of app specific settings*/
 

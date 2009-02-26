@@ -70,6 +70,7 @@ namespace MediaBrowser
         public bool Advanced_EnableDelete = false;
         public bool UseAutoPlayForIso = false;
         public bool ShowBackdrop = true;
+        public string InitialBreadcrumbName = "Media Library";
 
         public string CentralisedCache = null;
 
