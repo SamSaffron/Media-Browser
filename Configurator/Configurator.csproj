@@ -59,6 +59,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddExtenderFormat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +81,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddExtenderFormat.xaml.cs">
+      <DependentUpon>AddExtenderFormat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -96,6 +103,7 @@
     <Compile Include="RenameForm.xaml.cs">
       <DependentUpon>RenameForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VirtualFolder.cs" />
     <Compile Include="WinAPI.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

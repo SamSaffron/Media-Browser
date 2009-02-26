@@ -85,8 +85,8 @@
 					<cor:String String="Themes" />
           <cor:String String="Behavior" />
           <cor:String String="Media Tracking" />
-					<cor:String String="Other" />
-					<cor:String String="Test" />
+			<!--		<cor:String String="Other" /> 
+					<cor:String String="Test" /> -->
 				</Options>
 			</Choice>
 
@@ -268,8 +268,10 @@
 
 										<Children>
 											<me:TextHeader Text="General" />
+                      
+                      <!-- 
 											<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
-
+                        -->
 											<me:TextHeader Text="Tracking" />
 											<me:AssumeWatchedEdit Label="Assume Watched If Older Than" Config="[Application.Config]" Margins="[CMargin]" />
 
@@ -331,8 +333,10 @@
                   <me:TextHeader Text=" " />
 									<cb:CheckBox Label="Transparent Background" Checked="[TransparentBackground]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
 									<cb:CheckBox Label="Logging" Checked="[EnableTraceLogging]"  Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-									<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
-									<me:TextHeader Text="Metadata" />
+									<!--
+                  <te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
+									-->
+                  <me:TextHeader Text="Metadata" />
 									<cb:CheckBox Label="Allow Internet Based Providers" Checked="[AllowInternetMetadataProviders]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
 									<me:TextHeader Text="Updates" />
 									<cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>

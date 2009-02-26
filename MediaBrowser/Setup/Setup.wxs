@@ -55,7 +55,7 @@
         <Shortcut Id="ConfigurationWizard"
                   Name="Configuration Wizard"
                   Description="media browser configuration wizard"
-                  Target="[APPROOTDIRECTORY]MediaBrowserConfig.exe"
+                  Target="[APPROOTDIRECTORY]Configurator.exe"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\GPL\MediaBrowser" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
@@ -69,8 +69,8 @@
 		<!-- Each component is listed as a child of the DirectoryRef that represents the directory that      -->
 		<!-- the file it contains will install to.                                                           -->
 		<DirectoryRef Id="APPROOTDIRECTORY">
-      <Component Id="MediaBrowserConfig.exe" Guid="3186FBE0-641C-45f9-AA16-7EAA85B7405C" DiskId="1">
-        <File Id="MediaBrowserConfig.exe" Name="MediaBrowserConfig.exe" KeyPath="yes" Source="..\..\MediaBrowserConfig\bin\$(var.BuildType)\MediaBrowserConfig.exe" Checksum="yes" Vital="yes"/>
+      <Component Id="Configurator.exe" Guid="3186FBE0-641C-45f9-AA16-7EAA85B7405C" DiskId="1">
+        <File Id="Configurator.exe" Name="Configurator.exe" KeyPath="yes" Source="..\..\Configurator\bin\$(var.BuildType)\Configurator.exe" Checksum="yes" Vital="yes"/>
       </Component>
 			<Component Id="MediaBrowser.dll" Guid="3D581843-2412-458d-AF79-29845B277677" DiskId="1">
 				<File Id="MediaBrowser.dll" Name="MediaBrowser.dll" KeyPath="yes" Source="..\bin\$(var.BuildType)\MediaBrowser.dll" Checksum="yes" Vital="yes" Assembly=".net"/>
@@ -90,7 +90,7 @@
 		<!-- only one feature. Each feature contains a list of components that it will install. Features can -->
 		<!-- can be displayed and allow user selection in setup UI if desired.                               -->
 		<Feature Id="APPROOTFEATURE" Title="MediaBrowser" Level="1">
-      <ComponentRef Id="MediaBrowserConfig.exe" />
+      <ComponentRef Id="Configurator.exe" />
       <ComponentRef Id="MediaBrowser.dll" />
 			<ComponentRef Id="Registration.xml" />
 			<ComponentRef Id="Application.png" />
@@ -239,7 +239,7 @@
 
 
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
-    <CustomAction Id="StartAppOnExit" FileKey="MediaBrowserConfig.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+    <CustomAction Id="StartAppOnExit" FileKey="Configurator.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Configure initial settings" />
     
     <UI>

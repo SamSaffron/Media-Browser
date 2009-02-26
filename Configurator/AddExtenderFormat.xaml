@@ -1,0 +1,11 @@
+﻿<Window x:Class="Configurator.AddExtenderFormat"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="AddExtenderFormat" Height="215" Width="414">
+    <Grid>
+    	<Label Margin="33,22,45,0" VerticalAlignment="Top" Height="37" Content="Add format to be handled natively by the extender" />
+        <TextBox Margin="33,65,0,79" Name="formatName" FontSize="14" HorizontalAlignment="Left" Width="145" />
+        <Button Height="33" HorizontalAlignment="Left" Margin="33,0,0,27" Name="ok" VerticalAlignment="Bottom" Width="80" Click="ok_Click">OK</Button>
+        <Button Height="33" HorizontalAlignment="Right" Margin="0,0,45,27" Name="cancel" VerticalAlignment="Bottom" Width="98" Click="cancel_Click">Cancel</Button>
+    </Grid>
+</Window>
