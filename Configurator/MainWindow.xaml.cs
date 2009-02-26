@@ -176,6 +176,7 @@ folder: {0}
                     folderList.Items.Remove(virtualFolder);
                 }
             }
+            infoPanel.Visibility = Visibility.Hidden;
         }
 
         private void btnChangeImage_Click(object sender, RoutedEventArgs e)

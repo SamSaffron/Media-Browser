@@ -20,19 +20,21 @@
             <TabItem Header="media locations" Name="tabItem1" Background="{x:Null}" FontSize="16" FontWeight="Normal" Foreground="#FF323232">            	
                 <Grid Height="351">
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
-                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a virtual folder">Add</Button>
-                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove a virtual folder">Remove</Button>
-                    <Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename a virtual folder">Rename</Button>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a media location">Add</Button>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove a media location">Remove</Button>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename a media location">Rename</Button>
                     <Canvas Margin="0,6,19,13" Name="infoPanel" HorizontalAlignment="Right" Width="297">
                         <Button Height="32" Name="btnChangeImage" Width="111" Canvas.Left="29" Canvas.Top="104" Click="btnChangeImage_Click" FontSize="14">Change Image</Button>
                         <ListBox Height="115" Name="internalFolder" Width="285" Canvas.Left="6" Canvas.Top="176" SelectionChanged="internalFolder_SelectionChanged" FontSize="14" />
-                        <Button Height="32" Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another location inside your virtual folder">Add</Button>
-                        <Button Height="32" Name="btnRemoveSubFolder" Width="90" Canvas.Left="201" Canvas.Top="297" Click="btnRemoveSubFolder_Click" FontSize="14" ToolTip="Remove location from your virtual folder">Remove</Button>
+                        <Button Height="32" Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another folder inside your  media location">Add</Button>
+                        <Button Height="32" Name="btnRemoveSubFolder" Width="90" Canvas.Left="201" Canvas.Top="297" Click="btnRemoveSubFolder_Click" FontSize="14" ToolTip="Remove folder from your  media location">Remove</Button>
                         <Image Name="folderImage" Stretch="Fill" Width="111" Height="128" Canvas.Left="176" Canvas.Top="8" />
-                        <Label Canvas.Left="6" Height="34" Name="lblStep2" Width="164" Foreground="#FF000000" Canvas.Top="2">❷ Location details</Label>
-                        <Label Canvas.Left="6" Canvas.Top="149" Height="28" Name="label1" Width="285" FontSize="12">Your virtual folder can span across multiple folders.</Label>
+                        <Label Canvas.Left="6" Height="34" Name="lblStep2" Width="30" Foreground="#FFA8A8A8" Canvas.Top="2">❷</Label>
+                        <Label Canvas.Left="40" Height="34" x:Name="lblStep2b" Width="132" Foreground="#FF000000" Canvas.Top="2" Content="Configure details"/>
+                        <Label Canvas.Left="6" Canvas.Top="149" Height="28" Name="label1" Width="285" FontSize="12">A media location can span across multiple folders</Label>
                     </Canvas>
-                    <Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" Name="lblStep1" VerticalAlignment="Top" Width="269" Foreground="#FF030303">❶ Add your media </Label>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" Name="lblStep1" VerticalAlignment="Top" Width="34" Foreground="#FFA8A8A8" Opacity="1">❶</Label>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303">Add your media</Label>
                 </Grid>
             </TabItem>
             <TabItem Header="extenders" Name="tabItem2" Foreground="#FF323232" FontSize="16" FontWeight="Normal">
@@ -43,7 +45,7 @@
         	<Label.Foreground>
         		<LinearGradientBrush EndPoint="0.552,0.745" StartPoint="0.282,0.722">
         			<GradientStop Color="#FF000000" Offset="0.552"/>
-        			<GradientStop Color="#FF1F9C11" Offset="0.557"/>
+        			<GradientStop Color="#FF42BC06" Offset="0.557"/>
         		</LinearGradientBrush>
         	</Label.Foreground>mediabrowser</Label>
         <Label Height="28" HorizontalAlignment="Right" Margin="0,28,48,0" Name="lblHeader2" VerticalAlignment="Top" Width="183" FontSize="14" HorizontalContentAlignment="Center">c o n f i g u r a t i o n</Label>
