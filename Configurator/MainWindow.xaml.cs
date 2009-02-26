@@ -136,6 +136,7 @@ folder: {0}
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
             if (virtualFolder != null) {
                 var form = new RenameForm(virtualFolder.Name);
+                form.Owner = this;
                 var result = form.ShowDialog();
                 if (result == true) {
                     virtualFolder.Name = form.tbxName.Text;
@@ -236,6 +237,7 @@ folder: {0}
 
         private void addExtenderFormat_Click(object sender, RoutedEventArgs e) {
             var form = new AddExtenderFormat();
+            form.Owner = this;
             var result = form.ShowDialog();
             if (result == true) {
                 var parser = new FormatParser(Config.Instance.ExtenderNativeTypes); 
