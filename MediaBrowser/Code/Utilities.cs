@@ -11,7 +11,7 @@ namespace MediaBrowser
         public Clock()
         {
             _timer = new Timer(this);
-            _timer.Interval = 1000;
+            _timer.Interval = 10000;
             _timer.Tick += delegate { RefreshTime(); };
             _timer.Enabled = true;
 
