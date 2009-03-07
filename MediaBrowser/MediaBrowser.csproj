@@ -59,6 +59,7 @@
     <Compile Include="Code\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
     <Compile Include="Code\Scroller.cs" />
+    <Compile Include="Library\BlankLibraryImage.cs" />
     <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />
     <Compile Include="Library\Interop\DirectShowLib\BitmapInfoHeader.cs" />
     <Compile Include="Library\Interop\DirectShowLib\DsLong.cs" />

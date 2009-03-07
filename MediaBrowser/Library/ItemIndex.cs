@@ -136,17 +136,7 @@ namespace MediaBrowser.Library
                         sortedAndIndexedData.Clear();
                         lock(indexedData)
                             sortedAndIndexedData.AddRange(this.indexedData);
-                        sortedAndIndexedData.Sort(new ItemNameComparer());
-                        /*
-                        switch (this.SortBy)
-                        {
-                            case SortOrder.Unwatched:
-                                sortedAndIndexedData.Sort(new ItemComparer(this.SortBy));
-                                break;
-                            default:
-                                sortedAndIndexedData.Sort(new ItemNameComparer()); // simple non-metadata based name sorting when indexed
-                                break;
-                        }      */                      
+                        sortedAndIndexedData.Sort(new ItemNameComparer());                   
                     }
                     lock (tripleTapCandidates)
                     {

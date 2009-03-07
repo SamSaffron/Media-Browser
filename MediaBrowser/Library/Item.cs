@@ -774,7 +774,7 @@ namespace MediaBrowser.Library
                 {
                     i.LoadPlayState();
                     i.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
-                    i.MetadataPropertyChanged += new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+                    i.MetadataPropertyChanged += new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
                     if (i.PhysicalParent == null)
                         i.PhysicalParent = this;
                 }
@@ -795,7 +795,7 @@ namespace MediaBrowser.Library
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke(RetrieveChildrenFinished);
         }
 
-        void child_MetadataPropertyChanged(IPropertyObject sender, string property)
+        void ChildMetadataPropertyChanged(IPropertyObject sender, string property)
         {
             if (this.prefs != null)
             {
@@ -979,7 +979,7 @@ namespace MediaBrowser.Library
         private void RemoveChild(Item i) {
             this.children.Remove(i);
             i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
-            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
             if (i.PhysicalParent == this)
                 i.PhysicalParent = null;
         }
@@ -988,7 +988,7 @@ namespace MediaBrowser.Library
             lock (this.children)
                 this.children.Add(itm);
             itm.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
-            itm.MetadataPropertyChanged += new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+            itm.MetadataPropertyChanged += new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
             if (itm.PhysicalParent == null)
                 itm.PhysicalParent = this;
         }
@@ -1134,7 +1134,7 @@ namespace MediaBrowser.Library
                     foreach (Item i in this.children)
                     {
                         i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
-                        i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+                        i.MetadataPropertyChanged -= new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
                         if (i.PhysicalParent == this)
                             i.PhysicalParent = null;
                     }
