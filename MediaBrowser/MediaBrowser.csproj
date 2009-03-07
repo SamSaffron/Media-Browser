@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -56,10 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Attributes\CommentAttribute.cs" />
-    <Compile Include="Code\Clock.cs" />
+    <Compile Include="Code\ModelItems\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
-    <Compile Include="Code\Scroller.cs" />
-    <Compile Include="Library\BlankLibraryImage.cs" />
+    <Compile Include="Code\ModelItems\Scroller.cs" />
+    <Compile Include="Code\ModelItems\BlankLibraryImage.cs" />
     <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />
     <Compile Include="Library\Interop\DirectShowLib\BitmapInfoHeader.cs" />
     <Compile Include="Library\Interop\DirectShowLib\DsLong.cs" />
@@ -72,18 +72,20 @@
     <Compile Include="Library\Interop\DirectShowLib\VideoInfoHeader.cs" />
     <Compile Include="Library\Interop\ShellNativeMethods.cs" />
     <Compile Include="Library\Interop\ShortcutNativeMethods.cs" />
-    <Compile Include="Library\ActorItemWrapper.cs" />
+    <Compile Include="Code\ModelItems\ActorItemWrapper.cs" />
     <Compile Include="Library\BackgroundProcessor.cs" />
     <Compile Include="Code\Application.cs" />
-    <Compile Include="Code\Config.cs" />
+    <Compile Include="Code\ModelItems\Config.cs" />
     <Compile Include="Code\Launch.cs" />
     <Compile Include="Code\MyHistoryOrientedPageSession.cs" />
-    <Compile Include="Library\Helper.cs">
+    <Compile Include="Library\ItemComparer.cs" />
+    <Compile Include="Library\ItemNameComparer.cs" />
+    <Compile Include="Library\Util\Helper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Library\BinaryWriterExtensions.cs" />
-    <Compile Include="Library\StudioItemWrapper.cs" />
-    <Compile Include="Library\DirectorItemWrapper.cs" />
+    <Compile Include="Code\ModelItems\StudioItemWrapper.cs" />
+    <Compile Include="Code\ModelItems\DirectorItemWrapper.cs" />
     <Compile Include="Library\ImageSource.cs" />
     <Compile Include="Library\Interfaces\IMetadataProvider.cs" />
     <Compile Include="Library\Factories\ItemFactory.cs" />
@@ -92,14 +94,14 @@
     </Compile>
     <Compile Include="Library\MediaMetadataStore.cs" />
     <Compile Include="Library\Persistance\ItemRepository.cs" />
-    <Compile Include="Library\DisplayPreferences.cs" />
-    <Compile Include="Library\Item.cs" />
+    <Compile Include="Code\ModelItems\DisplayPreferences.cs" />
+    <Compile Include="Code\ModelItems\Item.cs" />
     <Compile Include="Library\ItemCache.cs" />
     <Compile Include="Library\Interfaces\IItemRepository.cs" />
     <Compile Include="Library\ItemIndex.cs" />
     <Compile Include="Library\ItemSource.cs" />
-    <Compile Include="Library\LibraryImage.cs" />
-    <Compile Include="Library\MediaMetadata.cs" />
+    <Compile Include="Code\ModelItems\LibraryImage.cs" />
+    <Compile Include="Code\ModelItems\MediaMetadata.cs" />
     <Compile Include="Library\MetaDataSource.cs" />
     <Compile Include="Library\PlayableItem.cs" />
     <Compile Include="Library\Playables\PlayableDvd.cs" />
@@ -107,7 +109,7 @@
     <Compile Include="Library\Playables\PlayableFolder.cs" />
     <Compile Include="Library\Playables\PlayableIso.cs" />
     <Compile Include="Library\Playables\PlayableVideoFile.cs" />
-    <Compile Include="Library\PlayState.cs" />
+    <Compile Include="Code\ModelItems\PlayState.cs" />
     <Compile Include="Library\Factories\PlayStateFactory.cs" />
     <Compile Include="Library\Providers\FrameGrabProvider.cs" />
     <Compile Include="Library\Providers\ImageFromMediaLocationProvider.cs" />
@@ -120,7 +122,7 @@
     <Compile Include="Library\Providers\TvDbProvider.cs" />
     <Compile Include="Library\Providers\TVProviderFromXmlFiles.cs" />
     <Compile Include="Library\Providers\VirtualFolderProvider.cs" />
-    <Compile Include="Library\SizeRef.cs" />
+    <Compile Include="Code\ModelItems\SizeRef.cs" />
     <Compile Include="Library\Sources\FilterSource.cs" />
     <Compile Include="Library\Sources\DummyDeleteItemSource.cs" />
     <Compile Include="Library\Sources\EmptyItemSource.cs" />
@@ -129,7 +131,7 @@
     <Compile Include="Library\Sources\IndexingSource.cs" />
     <Compile Include="Library\Sources\ShortcutSource.cs" />
     <Compile Include="Library\Sources\VirtualFolderSource.cs" />
-    <Compile Include="Library\StringRef.cs" />
+    <Compile Include="Code\ModelItems\StringRef.cs" />
     <Compile Include="Library\ThreadPoolSizes.cs" />
     <Compile Include="Library\Transcode.cs" />
     <Compile Include="Library\UniqueName.cs" />
