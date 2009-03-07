@@ -153,6 +153,19 @@
 				</Actions>
 			</Changed>
 
+      <Changed Source="[Item.DisplayPrefs.UseBanner.Value]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Item.DisplayPrefs.UseCoverflow.Value]" ConditionOp="Equals" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BaseLayout.Top.Offset]" Value="[Item.ActualThumbSize.Value.Height]">
+            <Transformer>
+              <MathTransformer MultiplyInt="-2" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
 		</Rules>
 
 		<Content>
@@ -206,9 +219,15 @@
 					<Panel Name="MyItems" Layout="Anchor" LayoutInput="[BaseLayout]">
 						<Children>
 
-							<cfv:CoverflowScroller Name="FlowItems" Application="[Application]" Item="[Item]" ></cfv:CoverflowScroller>
-							<ps:PosterScroller Name="PosterItems" Application="[Application]" RowLimit="1" Visible="false" Item="[Item]" CenterFocus="true"
-											   TopLabelFont="font://f:SV_PosterTopLabelFont" LabelFont="font://f:SV_PosterLabelFont" UnwatchedCountFont="font://f:SV_UnwatchedCountFont"/>
+							<cfv:CoverflowScroller Name="FlowItems" Application="[Application]" Item="[Item]" >
+                <LayoutInput>
+                  <FormLayoutInput Horizontal="Fill" />
+                </LayoutInput>
+              </cfv:CoverflowScroller>
+              <ps:PosterScroller Name="PosterItems" Application="[Application]" RowLimit="1" Visible="false" Item="[Item]" CenterFocus="true"
+											   TopLabelFont="font://f:SV_PosterTopLabelFont" LabelFont="font://f:SV_PosterLabelFont" UnwatchedCountFont="font://f:SV_UnwatchedCountFont">
+                
+              </ps:PosterScroller>
 						</Children>
 					</Panel>
 				</Children>

@@ -93,7 +93,7 @@ namespace MediaBrowser.Library
         {
             get
             {
-                return this.lastPlayed==DateTime.MinValue ? "" : "Last Watched: " + this.LastPlayed.ToShortDateString();
+                return this.lastPlayed == DateTime.MinValue ? "" : this.LastPlayed.ToShortDateString(); //"Last Watched: " + 
             }
         }
     

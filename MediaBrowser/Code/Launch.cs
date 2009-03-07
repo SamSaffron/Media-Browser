@@ -79,7 +79,7 @@ namespace MediaBrowser
                 if (File.Exists(custom))
                 {
                     Trace.TraceInformation("Using custom fonts mcml");
-                    if (VerifyStylesXml(custom, Resources.FontsDefault))
+                    if (!VerifyStylesXml(custom, Resources.FontsDefault))
                     {
                         host.MediaCenterEnvironment.Dialog("CustomFonts.mcml as been pathed with missing values", CUSTOM_FONTS_FILE, DialogButtons.Ok, 100, true);
                     }

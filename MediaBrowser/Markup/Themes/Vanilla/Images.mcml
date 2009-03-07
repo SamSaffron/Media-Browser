@@ -1,0 +1,70 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      >
+
+  <Image Name="LeftBorderDefault"      Source="resx://MediaBrowser/MediaBrowser.Resources/LeftBorderDefault" />
+  <Image Name="LeftBorderBlack"        Source="resx://MediaBrowser/MediaBrowser.Resources/LeftBorderBlack" />
+  <Image Name="DetailBorderShadow"     Source="resx://MediaBrowser/MediaBrowser.Resources/DetailBorderShadow" />
+  <Image Name="LeftMenuBorderDefault"  Source="resx://MediaBrowser/MediaBrowser.Resources/LeftMenuBorderDefault" />
+  <Image Name="RightMenuBorderDefault" Source="resx://MediaBrowser/MediaBrowser.Resources/RightMenuBorderDefault" />
+  <Image Name="LeftMenuBorderBlack"    Source="resx://MediaBrowser/MediaBrowser.Resources/LeftMenuBorderBlack" />
+  <Image Name="RightMenuBorderBlack"   Source="resx://MediaBrowser/MediaBrowser.Resources/RightMenuBorderBlack" />
+  <Image Name="IconActor" Source="resx://MediaBrowser/MediaBrowser.Resources/IconActors"  />
+  <Image Name="IconPlay" Source="resx://MediaBrowser/MediaBrowser.Resources/IconPlay"  />
+  <Image Name="IconMusic" Source="resx://MediaBrowser/MediaBrowser.Resources/IconMusic"  />
+  <Image Name="IconResume" Source="resx://MediaBrowser/MediaBrowser.Resources/IconResume"  />
+  <Image Name="IconSummary" Source="resx://MediaBrowser/MediaBrowser.Resources/IconSummary"  />
+  <Image Name="IconTrailer" Source="resx://MediaBrowser/MediaBrowser.Resources/IconTrailer"  />
+  <Image Name="IconRefresh" Source="resx://MediaBrowser/MediaBrowser.Resources/IconRefresh"  />
+  <Image Name="BlankActor" Source="resx://MediaBrowser/MediaBrowser.Resources/BlankActor"  />
+  <Image Name="HDLogo720" Source="resx://MediaBrowser/MediaBrowser.Resources/hd720old"  />
+  <Image Name="HDLogo1080" Source="resx://MediaBrowser/MediaBrowser.Resources/hd1080old"  />
+
+  <Image Name="MenuOptionConfiguration" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionConfiguration"/>
+  <Image Name="MenuOptionSort" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionSort"/>
+  <Image Name="MenuOptionIndex" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionIndex"/>
+  <Image Name="MenuOptionViews" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionViews"/>
+  <Image Name="MenuOptionClose" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionClose"/>
+  <Image Name="MenuOptionBGFocused" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGFocused"/>
+  <Image Name="MenuOptionBGNotFocused" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGNotFocused"/>
+  <Image Name="MenuOptionBGNotFocusedBlack" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGNotFocusedBlack"/>
+  <Image Name="MenuOptionBGSelected" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGSelected"/>
+  <Image Name="MenuOptionBackdrop" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBackdrop"/>
+  <Image Name="MenuOptionVertScroll" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionVertScroll"/>
+  <Image Name="MenuOptionLabels" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionLabels"/>
+  <Image Name="MenuOptionBanners" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBanners"/>
+  <Image Name="MenuOptionEnlarge" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionEnlarge"/>
+  <Image Name="MenuOptionShrink" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionShrink"/>
+  <Image Name="MenuOptionName" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionName"/>
+  <Image Name="MenuOptionDate" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionDate"/>
+  <Image Name="MenuOptionRating" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionRating"/>
+  <Image Name="MenuOptionRuntime" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionRuntime"/>
+  <Image Name="MenuOptionUnwatched" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionUnwatched"/>
+  <Image Name="MenuOptionYear" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionYear"/>
+  <Image Name="MenuOptionNone" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionNone"/>
+  <Image Name="MenuOptionActor" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionActor"/>
+  <Image Name="MenuOptionGenre" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionGenre"/>
+  <Image Name="MenuOptionDirector" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionDirector"/>
+  <Image Name="MenuOptionStudio" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionStudio"/>
+  
+  <Image Name="ViewThumb" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewThumb"/>
+  <Image Name="ViewCoverflow" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewCoverflow"/>
+  <Image Name="ViewPoster" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewPoster"/>
+  <Image Name="ViewDetail" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewDetail"/>
+  <Image Name="ViewThumbstrip" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewThumbstrip"/>
+   
+  <Image Name="BackgroundDefault" Source="resx://MediaBrowser/MediaBrowser.Resources/BackgroundDefault" />
+  <Image Name="BackgroundBlack" Source="resx://MediaBrowser/MediaBrowser.Resources/BackgroundBlack" />
+  <Image Name="Logo" Source="resx://MediaBrowser/MediaBrowser.Resources/Logo" />
+  <Image Name="BlankGraphic" Source="resx://MediaBrowser/MediaBrowser.Resources/BlankGraphic" />
+   
+  <Image Name="RatedGfull" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_G_full" />
+  <Image Name="RatedNC17full" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_NC_17_full" />
+  <Image Name="RatedPG13full" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_PG_13_full" />
+  <Image Name="RatedPGfull" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_PG_full" />
+  <Image Name="RatedRfull" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_R_full" />
+  <Image Name="RatedNRfull" Source="resx://MediaBrowser/MediaBrowser.Resources/Rated_NR_full" />
+
+  <Image Name="ButtonLeftFocusDefault"   Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusDefault"         NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocusBlack"     Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusBlack"         NineGrid="7,7,7,7" />
+
+</Mcml>

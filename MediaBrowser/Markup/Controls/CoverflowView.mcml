@@ -105,7 +105,7 @@
 					<!-- List Counter -->
 					<Panel Name="ListCounterPosition" Layout="HorizontalFlow" >
 						<LayoutInput>
-							<AnchorLayoutInput Left="Parent,.9" Bottom="Parent,1,-60"  />
+							<AnchorLayoutInput Left="Parent,.9" Bottom="Parent,1,-80"  />
 						</LayoutInput>
 						<Children>
 							<Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="font://f:CV_CounterFont" />
@@ -364,6 +364,8 @@
 			<Binding Source="[ImageSize.Value]" Target="[ConstraintPanel2.MinimumSize]" />
 			<Binding Source="[ImageSize.Value]" Target="[BelowLabelPanel.MaximumSize]" />
 
+      <Binding Source="[ParentItem.DisplayPrefs.UseBanner.Value]" Target="[Item.Metadata.PreferBanner]" />
+
 			<!-- Set the UI to be mouse and keyboard interactive. -->
 			<Default Target="[Input.KeyInteractive]" Value="true"/>
 			<Rule>
@@ -543,7 +545,7 @@
 								<Children>
 									<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center" Alpha="0.8" Name="TickIndicatorPanel" Visible="[Item.HaveWatched]" MaximumSize="32,32" Margins="5,5,0,0">
 										<LayoutInput>
-											<AnchorLayoutInput Horizontal="Near" Vertical="Near"/>
+											<AnchorLayoutInput Horizontal="Near" Vertical="Near" />
 										</LayoutInput>
 										<Children>
 											<Panel Name="TickPanel" Layout="Center">
@@ -576,7 +578,7 @@
 											</Graphic>
 										</Children>
 									</Panel>
-									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true">
+									<Graphic Name="g1" SizingPolicy="SizeToConstraint" MaintainAspectRatio="[Application.Config.MaintainPosterAspectRatio]">
 										<Children>
 											<Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center">
 												<LayoutInput>

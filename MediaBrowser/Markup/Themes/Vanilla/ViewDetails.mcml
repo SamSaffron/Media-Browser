@@ -1,0 +1,439 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:f="file://Fonts_DoNotEdit.mcml"
+      xmlns:s="file://Styles_DoNotEdit.mcml"
+      xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
+      xmlns:lv="resx://MediaBrowser/MediaBrowser.Resources/ListView"
+      xmlns:me="Me"
+      xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
+      xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
+      xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
+      xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
+	  >
+
+  <UI Name="ViewDetails">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <Timer Name="InfoTimer" AutoRepeat="false" Interval="200" Enabled="false"/>
+      <lib:Item Name="Item" Item="$Required"/>
+      <FormLayoutInput Name="FullDetails"    Left="DetailViewListing,1" Right="Parent,0.8" Top="Parent,0.7" Bottom="Parent,1" />
+      <FormLayoutInput Name="EpisodeDetails" Left="DetailViewListing,1" Right="Parent,0.8" Top="Parent,0.7" Bottom="Parent,1" />
+    </Properties>
+
+    <Locals>
+      <lib:Item Name="SelectedItem"         Item="[Item.SelectedChild]"/>
+      <lib:Item Name="PreSelectedItem"      Item="[Item.SelectedChild]" />
+      <lib:Item Name="PreviousSelectedItem" Item="[Item.SelectedChild]" />
+      <lib:Item Name="BlankItem"            Item="[Item.BlankItem]"/>
+      <Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
+      <ScrollingData Name="ScrollData"/>
+      <ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
+          HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollHandler"/>
+    </Locals>
+
+    <Rules>
+      <Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Invoke Target="[FullDetailsTimer.Stop]" />
+          <Invoke Target="[FullDetailsTimer.Start]" />
+          <Set Target="[SelectedItem]"     Value="[BlankItem]" />
+          <Set Target="[PreSelectedItem]"  Value="[Item.SelectedChild]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Item.SelectedChildIndex]">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[SelectedItem]"          Value="[BlankItem]" />
+          <Set Target="[PreSelectedItem]"       Value="[BlankItem]" />
+          <Set Target="[PreviousSelectedItem]"  Value="[BlankItem]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FullDetailsTimer.Tick]">
+        <Actions>
+          <Set Target="[SelectedItem]"         Value="[PreSelectedItem]"/>
+          <Set Target="[PreviousSelectedItem]" Value="[PreSelectedItem]"/>
+        </Actions>
+      </Changed>
+      <Condition Source="[Application.Config.Theme]" SourceValue="Black" Target="[DetailBackdrop.Content]" Value="image://it:BackgroundBlack"/>
+      <Condition Source="[Application.Config.Theme]" SourceValue="Black" Target="[RightMenuBorder.Content]" Value="image://it:RightMenuBorderBlack"/>
+      <Condition Source="[Application.Config.Theme]" SourceValue="Black" Target="[LeftMenuBorder.Content]"  Value="image://it:LeftMenuBorderBlack"/>
+
+      <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="true"    Target="[ListItems.Visible]"        Value="false"/>
+      <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="false"   Target="[ListItems.Visible]"        Value="true"/>
+      <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="true"    Target="[BannerItems.Visible]"      Value="true"/>
+      <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="false"   Target="[BannerItems.Visible]"      Value="false"/>
+
+      <Binding Source="[Item.DisplayPrefs.UseBackdrop.Value]" Target="[Backdrop.Visible]"/>
+      <Binding Target="[ItemBackdrop.Content]" Source="[PreSelectedItem.BackdropImage.Image]" />
+
+      <Binding Source="[Application.Config.AlphaBlending!cor:Single]" Target="[DetailBackdrop.Alpha]">
+        <Transformer>
+          <MathTransformer Divide="100"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[Application.Config.AlphaBlending!cor:Single]" Target="[RightMenuBorder.Alpha]">
+        <Transformer>
+          <MathTransformer Divide="100"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[Application.Config.AlphaBlending!cor:Single]" Target="[LeftMenuBorder.Alpha]">
+        <Transformer>
+          <MathTransformer Divide="100"/>
+        </Transformer>
+      </Binding>
+
+      <Binding Target="[ScrollHandler.ScrollingData]" Source="[ScrollData]"/>
+      <Default Target="[ScrollData.Repeater]" Value="[StudioRepeater]"/>
+
+      <!-- Bind MetaData -->
+      <Binding Target="[Summary.Text]"             Source="[PreSelectedItem.Overview]"  />
+      <Binding Target="[Poster.Content]"           Source="[PreSelectedItem.Metadata.PreferredImage.Image]"/>
+      
+      <!-- Series Specific Metadata -->
+      <Binding Target="[SeriesMPAARating.Value]"   Source="[PreSelectedItem.Metadata.MpaaRating]"/>
+      <Binding Target="[NetworkRepeater.Source]"   Source="[PreSelectedItem.StudioItems]"/>
+      <Binding Target="[Status.Content]"           Source="[PreSelectedItem.Metadata.Status]"/>
+      <Binding Target="[RunTime.Content]"          Source="[PreSelectedItem.Metadata.RunningTimeString]"/>
+      <Binding Target="[SeriesGenres.SourceData]"  Source="[PreSelectedItem.Metadata.Genres]"/>
+      <Binding Target="[StarRating.Value]"         Source="[PreSelectedItem.Metadata.ImdbRating.Value]" />
+
+      <!-- Season Specific Metadata-->
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals" SourceValue="Series">
+        <Actions>
+          <Set Target="[Seasons.Content]" Value="[PreSelectedItem.Children.Count]">
+            <Transformer>
+              <FormatTransformer Format="{0}"/>
+            </Transformer>
+          </Set>
+        </Actions>
+      </Condition>
+      
+      <!-- Episode Specific Metadata -->
+      <Binding Target="[EpisodeMediaInfo.Item]"    Source="[PreSelectedItem]"/>
+      <Binding Target="[FirstAired.Content]"       Source="[PreSelectedItem.Metadata.FirstAired]"/>
+      <Binding Target="[DirectorRepeater.Source]"  Source="[PreSelectedItem.Metadata.Directors]"/>
+      <Binding Target="[WriterRepeater.Source]"    Source="[PreSelectedItem.Metadata.Writers]"/>
+      <Binding Target="[LastWatched.Content]"      Source="[PreSelectedItem.PlayState.LastPlayedString]"/>
+      <Binding Target="[LastWatchedPanel.Visible]" Source="[PreSelectedItem.HaveWatched]"/>
+      
+      <!-- Movie Specific Metadata -->
+      <Binding Target="[MovieMPAARating.Value]"    Source="[PreSelectedItem.Metadata.MpaaRating]"/>
+      <Binding Target="[StudioRepeater.Source]"    Source="[PreSelectedItem.StudioItems]"/>
+      <Binding Target="[MediaInfo.Item]"           Source="[PreSelectedItem]"/>
+      <Binding Target="[MovieGenres.SourceData]"   Source="[PreSelectedItem.Metadata.Genres]"/>
+      <Binding Target="[MovieLength.Content]"     Source="[PreSelectedItem.Metadata.RunningTimeString]"/>
+      <Binding Target="[Production.Content]"      Source="[PreSelectedItem.Metadata.ProductionYearString]"/>
+      
+      <!-- Hide/Show MetaData -->
+      <Condition Source="[PreSelectedItem.Metadata.Status]"            ConditionOp="Equals"      SourceValue=""  Target="[StatusPanel.Visible]"  Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.Status]"            ConditionOp="NotEquals"   SourceValue=""  Target="[StatusPanel.Visible]"  Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.ImdbRating.Value]"  ConditionOp="LessThan"    SourceValue="0" Target="[Rating.Visible]"       Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.ImdbRating.Value]"  ConditionOp="GreaterThan" SourceValue="0" Target="[Rating.Visible]"       Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.RunningTimeString]" ConditionOp="Equals"      SourceValue=""  Target="[Runtime.Visible]"      Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.RunningTimeString]" ConditionOp="NotEquals"   SourceValue=""  Target="[Runtime.Visible]"      Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.FirstAired]"        ConditionOp="Equals"      SourceValue=""  Target="[FirstAiredPanel.Visible]" Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.FirstAired]"        ConditionOp="NotEquals"   SourceValue=""  Target="[FirstAiredPanel.Visible]" Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.DirectorString]"    ConditionOp="Equals"      SourceValue=""  Target="[DirectorSpacer.Visible]"      Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.DirectorString]"    ConditionOp="NotEquals"   SourceValue=""  Target="[DirectorSpacer.Visible]"      Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.WritersString]"    ConditionOp="Equals"      SourceValue=""  Target="[WriterSpacer.Visible]"      Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.WritersString]"    ConditionOp="NotEquals"   SourceValue=""  Target="[WriterSpacer.Visible]"      Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.MpaaRating]"           ConditionOp="Equals"    SourceValue="" Target="[MPAAspacer.Visible]"       Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.MpaaRating]"           ConditionOp="NotEquals" SourceValue="" Target="[MPAAspacer.Visible]"       Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.ProductionYearString]" ConditionOp="Equals"    SourceValue="" Target="[ProductionSpacer.Visible]" Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.ProductionYearString]" ConditionOp="NotEquals" SourceValue="" Target="[ProductionSpacer.Visible]" Value="true"/>
+      <Condition Source="[PreSelectedItem.Metadata.RunningTimeString]" ConditionOp="Equals"      SourceValue=""  Target="[MovieSpacer.Visible]"      Value="false"/>
+      <Condition Source="[PreSelectedItem.Metadata.RunningTimeString]" ConditionOp="NotEquals"   SourceValue=""  Target="[MovieSpacer.Visible]"      Value="true"/>
+
+      <!-- Hide Hide/Show MetaData for proper Item Type -->
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Episode" Target="[EpisodeData.Visible]" Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Episode" Target="[EpisodeData.Visible]" Value="false"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Series"  Target="[SeriesData.Visible]"  Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Series"  Target="[SeriesData.Visible]"  Value="false"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Movie"   Target="[MovieData.Visible]"   Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Movie"   Target="[MovieData.Visible]"   Value="false"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Episode" Target="[EpisodeGenrePanel.Visible]" Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Episode" Target="[EpisodeGenrePanel.Visible]" Value="false"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Series"  Target="[SeriesGenrePanel.Visible]"  Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Series"  Target="[SeriesGenrePanel.Visible]"  Value="false"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals"    SourceValue="Movie"   Target="[MovieGenrePanel.Visible]"   Value="true"/>
+      <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="NotEquals" SourceValue="Movie"   Target="[MovieGenrePanel.Visible]"   Value="false"/>
+    </Rules>
+
+    <Content>
+      <Panel Layout="Form">
+        <Children>
+
+          <!-- DetailView List Panel -->
+          <Panel Name="DetailViewListing" Layout="Form" Margins="0,5,0,0">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0,35" Top="Parent,0.67" Bottom="Parent,1" Right="Parent,0.3"/>
+            </LayoutInput>
+            <Children>
+              <lv:ListView FocusOrder="1" Name="ListItems" Visible="false" Application="[Application]" Item="[Item]" Font="font://f:DV_ListButtonFont"/>
+              <ps:PosterScroller FocusOrder="1" Name="BannerItems" Visible="true" Application="[Application]" Item="[Item]" NoEndPadding="true" TopLabelFont="font://f:DV_SubTitleFont" LabelFont="font://f:DV_TitleFont" UnwatchedCountFont="font://f:DV_RuntimeFont"/>
+            </Children>
+          </Panel>
+
+          <Panel Name="GenresPanel" Margins="15,15,0,0">
+            <LayoutInput>
+              <FormLayoutInput Left="DetailViewListing,1" Top="Parent,0.67" Bottom="Parent,0.67,50" Right="Parent,0.75"/>
+            </LayoutInput>
+            <Children>
+              <Panel>
+                <Children>
+                  <Panel Name="SeriesGenrePanel" Layout="VerticalFlow" Visible="false">
+                    <Children>
+                      <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">
+                        <Children>
+                          <vot:MPAARating Name="SeriesMPAARating" MaximumSize="0,25"/>
+                          <Text Name="MPAAspacer" Content=" ∙ " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"  />
+                          <gl:GenreList Name="SeriesGenres" SourceData="[PreSelectedItem.Metadata.Genres]" Font="font://f:DV_GenreFont" Color="color://s:FontColorLight"/>
+                        </Children>
+                      </Panel>
+                    </Children>
+                  </Panel>
+                  <Panel Name="EpisodeGenrePanel" Layout="VerticalFlow" Visible="false">
+                    <Children>
+                      <Panel Layout="HorizontalFlow">
+                        <Children>
+                          <Text Name="WriterSpacer" Content="Writer: "  Color="color://s:FontColorMedium"  WordWrap="true" Font="font://f:DV_LastWatchedFont"/>
+                          <Repeater  Name="WriterRepeater" Source="[PreSelectedItem.Metadata.Writers]" DividerName="Divider">
+                            <Layout>
+                              <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                            </Layout>
+                            <Content>
+                              <Text Content="[RepeatedItem!cor:String]" Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorLight"/>
+                            </Content>
+                          </Repeater>
+                          <Text Name="DirectorSpacer" Content="Director: " Color="color://s:FontColorMedium" WordWrap="true" Font="font://f:DV_LastWatchedFont" Margins="10,0,0,0"/>
+                          <Repeater  Name="DirectorRepeater" Source="[PreSelectedItem.Metadata.Directors]" DividerName="Divider"   >
+                            <Layout>
+                              <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                            </Layout>
+                            <Content>
+                              <Text Content="[RepeatedItem!cor:String]" Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorLight"/>
+                            </Content>
+                          </Repeater>
+                        </Children>
+                      </Panel>
+                    </Children>
+                  </Panel>
+                  <Panel Name="MovieGenrePanel" Layout="VerticalFlow" Visible="false">
+                    <Children>
+                      <Panel Layout="HorizontalFlow">
+                        <Children>
+                          <Text Name="Production"       Content=""    Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"/>
+                          <Text Name="ProductionSpacer" Content=" ∙ " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"  />
+                          <Text Name="MovieLength"      Content=""    Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"/>
+                          <Text Name="MovieSpacer"      Content=" ∙ " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"  />
+                          <gl:GenreList Name="MovieGenres" SourceData="[PreSelectedItem.Metadata.Genres]" Font="font://f:DV_GenreFont" Color="color://s:FontColorLight"/>
+                        </Children>
+                      </Panel>
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+          <!-- DetailView MetaData Panel -->
+          <Panel Margins="15,15,0,0">
+            <LayoutInput>
+              <FormLayoutInput Left="DetailViewListing,1" Top="GenresPanel,1" Bottom="Parent,1" Right="ExtraInfoPanel,0"/>
+            </LayoutInput>
+            <Children>
+              <st:ScrollableText Name="Summary" Font="font://f:DV_SummaryFont" Color="color://s:FontColorMedium" FocusColor="color://s:FontColorLight"/>
+            </Children>
+          </Panel>
+
+          <Panel Name="ExtraInfoPanel">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,1,-300" Top="Parent,0.67" Bottom="Parent,1" Right="Parent,1,-35"/>
+            </LayoutInput>
+            <Children>
+
+              <!-- Selected Item is a Series -->
+
+              <Panel Name="SeriesData" Visible="false" Padding="10,10,10,10" Layout="VerticalFlow">
+                <Children>
+                  <Panel Name="Network" MaximumSize="250,80" Layout="Scale" Padding="0,0,0,5">
+                    <Children>
+                      <Repeater Name="NetworkRepeater" Source="[SelectedItem.StudioItems]">
+                        <Layout>
+                          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
+                        </Layout>
+                        <Content>
+                          <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="NetworkLogo"/>
+                        </Content>
+                      </Repeater>
+                    </Children>
+                  </Panel>
+                  <Panel Name="Rating" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="Rating:  " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorMedium"  />
+                      <sr:StarRating Name="StarRating" />
+                    </Children>
+                  </Panel>
+                  <Panel Name="Runtime" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="Run Time:  " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorMedium"  />
+                      <Text Name="RunTime" Content="" Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"/>
+                    </Children>
+                  </Panel>
+                  <Panel Name="SeasonsPanel" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="Seasons:  " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorMedium"  />
+                      <Text Name="Seasons" Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"/>
+                    </Children>
+                  </Panel>
+                  <Panel Name="StatusPanel" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="Status:  " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorMedium"  />
+                      <Text Name="Status" Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"/>
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+
+              <!-- Selected Item is an Episode -->
+              <Panel  Name="EpisodeData" Visible="false" >
+                <Layout>
+                  <FlowLayout ItemAlignment="Center" Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <Panel Name="ConstraintPanel" Padding="10,10,10,10" MaximumSize="0,140">
+                    <Children>
+                      <Graphic Name="Poster" Content="[Item.Metadata.PreferredImage.Image]" MaximumSize="0,140" Padding="0,0,0,0" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true">
+                        <LayoutInput>
+                          <AnchorLayoutInput Horizontal="Center"/>
+                        </LayoutInput>
+                      </Graphic>
+                    </Children>
+                  </Panel>
+                  <mi:MediaInfoPanel Name="EpisodeMediaInfo" Item="[Item]" MaxIconSize="0,35">
+                    <Layout>
+                      <FlowLayout Spacing="10,10" StripAlignment="Center"/>
+                    </Layout>
+                  </mi:MediaInfoPanel>
+                  <Panel Name="LastWatchedPanel" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="Last Watched:  " Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorMedium"/>
+                      <Text Name="LastWatched" Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorLight"/>
+                    </Children>
+                  </Panel>
+                  <Panel Name="FirstAiredPanel" Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="First Aired:  " Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorMedium"/>
+                      <Text Name="FirstAired" Font="font://f:DV_LastWatchedFont" Color="color://s:FontColorLight"/>
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+
+              <!-- Selected Item is a Movie -->
+              <Panel Name="MovieData" Visible="false" Padding="10,10,10,10">
+                <Layout>
+                  <FlowLayout ItemAlignment="Center" Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <Panel Name="Studio" MaximumSize="250,80" Layout="Scale">
+                    <Children>
+                      <Repeater Name="StudioRepeater" Source="[Item.StudioItems]">
+                        <Layout>
+                          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
+                        </Layout>
+                        <Content>
+                          <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
+                        </Content>
+                      </Repeater>
+                    </Children>
+                  </Panel>
+                  <vot:MPAARating Name="MovieMPAARating" MaximumSize="0,70">
+                    <Layout>
+                      <FlowLayout StripAlignment="Center"/>
+                    </Layout>
+                  </vot:MPAARating>
+                  <mi:MediaInfoPanel Name="MediaInfo" Item="[Item]" MaxIconSize="0,35">
+                    <Layout>
+                      <FlowLayout Spacing="10,10" StripAlignment="Center"/>
+                    </Layout>
+                  </mi:MediaInfoPanel>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+
+      <Panel Layout="HorizontalFlow">
+        <LayoutInput>
+          <FormLayoutInput Left="Parent,0" Right="Parent,1" Top="Parent,0.67,-11" Bottom="Parent,0.67"/>
+        </LayoutInput>
+        <Children>
+          <Graphic Layout="Fill" MaintainAspectRatio="true" Content="image://it:DetailBorderShadow"/>
+        </Children>
+      </Panel>
+
+      <Panel Name="RightSpacer" Layout="VerticalFlow">
+        <LayoutInput>
+          <FormLayoutInput Left="Parent,1,-35" Top="Parent,0.67" Right="Parent,1"/>
+        </LayoutInput>
+        <Children>
+          <Graphic Name="RightMenuBorder" Layout="Fill" Content="image://it:RightMenuBorderDefault"/>
+        </Children>
+      </Panel>
+
+      <Panel Name="LeftSpacer" Layout="VerticalFlow">
+        <LayoutInput>
+          <FormLayoutInput Left="Parent,0" Top="Parent,0.67" Right="Parent,0,35"/>
+        </LayoutInput>
+        <Children>
+          <Graphic Name="LeftMenuBorder" Layout="Fill" Content="image://it:LeftMenuBorderDefault"/>
+        </Children>
+      </Panel>
+
+      <Panel Name="PosterShadow">
+        <LayoutInput>
+          <FormLayoutInput Left="Parent,0" Top="Parent,0.67" Bottom="Parent,1" Right="Parent,1"/>
+        </LayoutInput>
+        <Children>
+          <Graphic Name="DetailBackdrop"  MaintainAspectRatio="true" Content="image://it:BackgroundDefault"/>
+        </Children>
+      </Panel>
+
+
+      <Panel Name="Backdrop" Layout="Form">
+        <Children>
+          <Clip Name="Clip" Orientation="Vertical" Layout="Anchor">
+            <LayoutInput>
+              <FormLayoutInput Vertical="Fill" Horizontal="Fill"/>
+            </LayoutInput>
+            <Children>
+              <Graphic Name="ItemBackdrop" Alpha="1" Content="[Item.BackdropImage.Image]" Layout="Fill" MaintainAspectRatio="true" />
+            </Children>
+          </Clip>
+        </Children>
+      </Panel>
+
+      </Children>
+      </Panel>
+    </Content>
+
+    <Content Name="Divider">
+      <Text Content="," Font="font://f:DV_LastWatchedFont" WordWrap="false" Color="color://s:FontColorLight" />
+    </Content>
+  </UI>
+
+</Mcml>

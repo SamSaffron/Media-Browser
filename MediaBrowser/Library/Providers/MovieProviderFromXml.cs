@@ -167,6 +167,55 @@ namespace MediaBrowser.Library.Providers
                         // fall through i dont care, one less genre
                     }
                 }   
+
+                if (store.Studios == null)
+                {
+                    foreach (XmlNode node in doc.SelectNodes("Title/Studios/Studio"))
+                    {
+                        try
+                        {
+                            if (store.Studios == null)
+                                store.Studios = new List<MediaBrowser.Library.Studio>();
+                            store.Studios.Add(new MediaBrowser.Library.Studio { Name = node.InnerText });
+                        }
+                        catch
+                        {
+                            // fall through i dont care, one less actor
+                        }
+                    }
+                }
+                if (store.TrailerPath == null)
+                    store.TrailerPath = doc.SafeGetString("Title/LocalTrailer/URL");
+                if (store.MpaaRating == null)
+                {
+                    int i = doc.SafeGetInt32("Title/ParentalRating/Value", (int)0);
+                    switch (i) {
+                        case -1:
+                            store.MpaaRating = "NR";
+                            break;
+                        case 0:
+                            store.MpaaRating = "NR";
+                            break; 
+                        case 1:
+                            store.MpaaRating = "G";
+                            break;
+                        case 3:
+                            store.MpaaRating = "PG";
+                            break;
+                        case 4:
+                            store.MpaaRating = "PG-13";
+                            break;
+                        case 5:
+                            store.MpaaRating = "NC-17";
+                            break;
+                        case 6:
+                            store.MpaaRating = "R";
+                            break;
+                        default:
+                            store.MpaaRating = null;
+                            break;
+                    }
+                }  
             }
         }
 

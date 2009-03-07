@@ -511,8 +511,9 @@
   <data name="media_hddvd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\mediainfo\media_hddvd.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <!-- Look into making image not hardcoded into source code -->
   <data name="MissingPerson" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\special\missingperson.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>images\special\BlankActor.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PersonButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\buttons\personbutton.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -562,7 +563,204 @@
   <data name="StylesDefaultExtender" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\stylesdefaultextender.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+
+  <data name="PageDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\views\pagedefault.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="StylesBlackExtender" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\stylesblackextender.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+
+  <!-- Theme MCML -->
+  <data name="ViewMenuVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\ViewMenu.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PosterViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\PosterView.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CoverflowViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\CoverflowView.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ViewDetailsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\ViewDetails.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PageDetailAreaVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\PageDetailArea.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ImagesVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Images.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ViewMovieVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\MovieDetailsPage.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PosterDetailViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\posterdetailview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StripViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\stripview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ViewOptionsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\viewoptions.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+
+  <data name="PageVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Page.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+
+  <data name="DetailBorderShadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\DetailBorderShadow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RightMenuBorderDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\RightMenuBorderDefault.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LeftMenuBorderDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\LeftMenuBorderDefault.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RightMenuBorderBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\RightMenuBorderBlack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LeftMenuBorderBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\LeftMenuBorderBlack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconTrailer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\icons\IconTrailers.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconMusic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\icons\IconMusic.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSummary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\icons\IconSummary.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+
+  <data name="BlankActor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\Special\BlankActor.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+
+
+  <data name="Rated_R_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-r_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rated_G_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-g_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rated_NC_17_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-nc-17_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rated_PG_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-pg_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rated_PG_13_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-pg-13_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rated_NR_full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ratings\rated-nr_full.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionConfiguration" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\config.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionIndex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\index.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\sort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionViews" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\view.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\close.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBGFocused" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\bg-focused.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBGSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\bg-selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBGNotFocused" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\bg-unfocused.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBGNotFocusedBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\bg-unfocusedBlack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBackdrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\backdrop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionVertScroll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\vertscroll.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionLabels" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\labels.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionBanners" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\banners.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionEnlarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\enlarge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionShrink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\shrink.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\name.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionDate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\Date.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionRating" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\rating.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionUnwatched" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\unwatched.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionRuntime" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\runtime.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionYear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\year.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\none.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionActor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\actor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionGenre" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\genre.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionDirector" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\director.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionStudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\studio.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\viewthumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewCoverflow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\viewcoverflow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewPoster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\viewposter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewThumbstrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\viewthumbstrip.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewDetail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\viewdetail.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ButtonLeftFocusDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\button\buttonleftfocusdefault.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ButtonLeftFocusBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\button\buttonleftfocusblack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BackgroundDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\backgrounddefault.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BackgroundBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\backgroundblack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BlankGraphic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\spacer.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

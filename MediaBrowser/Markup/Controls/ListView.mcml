@@ -96,17 +96,17 @@
 							<DockLayoutInput Alignment="Far" Position="Bottom"  />
 						</LayoutInput>
 						<Children>
-							<Panel Layout="HorizontalFlow" Margins="0,15,0,0" >
+							<Panel Layout="HorizontalFlow" Margins="0,5,0,0" >
 								<Children>
 									<Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="[Font]" />
-									<Text Name="List_Total" Content="0" Color="color://s:FontColorMedium" Font="[Font]" Margins="0,0,60,0" />
+									<Text Name="List_Total" Content="0" Color="color://s:FontColorMedium" Font="[Font]" Margins="0,0,20,0" />
 								</Children>
 							</Panel>
 						</Children>
 					</Panel>
 
 					<!-- List Repeater -->
-					<Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,20" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
+					<Scroller Orientation="Vertical" FadeSize="-10" Margins="15,0,0,5" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
 						<LayoutInput>
 							<DockLayoutInput Alignment="Fill"  Position="Client"  />
 						</LayoutInput>

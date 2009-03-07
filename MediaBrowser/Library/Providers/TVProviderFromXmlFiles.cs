@@ -113,6 +113,33 @@ namespace MediaBrowser.Library.Providers
                     store.SeasonNumber = metadataDoc.SafeGetString("Item/SeasonNumber");
                 if (store.ImdbRating == null)
                     store.ImdbRating = metadataDoc.SafeGetSingle("Item/Rating", (float)-1, 10);
+                if (store.FirstAired == null)
+                    store.FirstAired = metadataDoc.SafeGetString("Item/FirstAired");
+                if (store.Writers == null)
+                {
+                    string writers = metadataDoc.SafeGetString("Item/Writer");
+                    if (writers != null)
+                        store.Writers = new List<string>(writers.Trim('|').Split('|'));
+                }
+                if (store.Directors == null)
+                {
+                    string directors = metadataDoc.SafeGetString("Item/Director");
+                    if (directors != null)
+                        store.Directors = new List<string>(directors.Trim('|').Split('|'));
+                }
+                if (store.Actors == null)
+                {
+                    string actors = metadataDoc.SafeGetString("Item/GuestStars");
+                    if (actors != null)
+                    {
+                        if (store.Actors == null)
+                            store.Actors = new List<Actor>();
+                        foreach (string n in actors.Split('|'))
+                        {
+                            store.Actors.Add(new Actor { Name = n });
+                        }
+                    }
+                }
             }
         }
 
@@ -132,6 +159,7 @@ namespace MediaBrowser.Library.Providers
         private void SeriesData(Item item, MediaMetadataStore store)
         {
             string location = item.Source.Location;
+            string tmpString;
             if (location != null)
             {
                 string file = XmlLocation(item, ItemType.Series);
@@ -198,6 +226,35 @@ namespace MediaBrowser.Library.Providers
                         string genres = seriesNode.SafeGetString("Genre");
                         if (genres != null)
                             store.Genres = new List<string>(genres.Trim('|').Split('|'));
+                    }
+                    if (store.MpaaRating == null)
+                        store.MpaaRating = seriesNode.SafeGetString("ContentRating");
+                    if (store.RunningTime == null) {
+                        tmpString = seriesNode.SafeGetString("Runtime");
+                        if (tmpString != null)
+                          store.RunningTime = int.Parse(tmpString);
+                    }
+                    if (store.ImdbRating == null) {
+                        tmpString = seriesNode.SafeGetString("Rating");
+                        if (tmpString != null)  store.ImdbRating = float.Parse(tmpString);
+                    }
+                    if (store.DataSource == null)
+                        store.DataSource = seriesNode.SafeGetString("Network");
+                    if (store.Status == null)
+                        store.Status = seriesNode.SafeGetString("Status");
+
+                    if (store.Studios == null)
+                    {
+                        string studios = seriesNode.SafeGetString("Network");
+                        if (studios != null)
+                        {
+                            if (store.Studios == null)
+                                store.Studios = new List<Studio>();
+                            foreach (string n in studios.Split('|'))
+                            {
+                                store.Studios.Add(new Studio { Name = n });
+                            }
+                        }
                     }
                 }
             }

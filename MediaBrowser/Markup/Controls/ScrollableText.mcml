@@ -122,8 +122,6 @@
 						<Children>
 							<Panel Layout="HorizontalFlow" Margins="0,5,0,0">
 								<Children>
-									<Text Content="˄" Font="[Font]" Color="[Color]" />
-									<Text Content="˅" Font="[Font]" Color="[Color]" />
 									<Text Name="CurrentPage" Font="[Font]" Color="[Color]" />
 									<Text Content="|" Font="[Font]" Color="[Color]" />
 									<Text Name="TotalPages"  Font="[Font]" Color="[Color]" />

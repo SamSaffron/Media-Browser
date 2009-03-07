@@ -1,0 +1,384 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:cor="assembly://MsCorLib/System"
+	    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+      xmlns:s="file://Styles_DoNotEdit.mcml"
+      xmlns:f="file://Fonts_DoNotEdit.mcml"
+	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+		  xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenuVanilla"
+	    xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
+	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+	    xmlns:me="Me"
+      xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailAreaVanilla"
+      xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
+      xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+	  >
+  
+  <UI Name="Page">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <lib:Item Name="Item" Item="$Required"/>
+      <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
+      <FormLayoutInput Name="FullScreen" Bottom="Parent,1" Left="Parent,0" Right="Parent,1" Top="Parent,0"/>
+    </Properties>
+
+    <Locals>
+      <a:Config Name="Config" Config="[Application.Config]"/>
+      <Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="100" />
+      <lib:Item Name="SelectedItem" Item="[Item.SelectedChild]" />
+      <lib:Item Name="PreSelectedItem" Item="[Item.SelectedChild]" />
+      <lib:Item Name="PreviousSelectedItem" Item="[Item.SelectedChild]" />
+      <lib:Item Name="BlankItem"  Item="[Item.BlankItem]"/>
+      <Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
+
+      <cor:Boolean Name="CanPlay" Boolean="false" />
+      <Timer Name="HideFindAsYouType" Interval="3000" AutoRepeat="false"/>
+      <cor:String Name="NavigatorText" String="Test"/>
+      <addin:AddInHost Name="AddInHost" />
+      <Command Name="Configure" />
+      <Command Name="ShowViewConfiguration" />
+      <Command Name="CloseViewConfiguration" />
+      <Command Name="ShowSortConfiguration" />
+      <Command Name="CloseSortConfiguration" />
+      <Command Name="ShowIndexConfiguration" />
+      <Command Name="CloseIndexConfiguration" />
+      <Command Name="RefreshCommand" />
+      <Command Name="CloseCommand" />
+      <Command Name="ConfigOptions" />
+      <Command Name="NowPlayingPanel"/>
+
+      
+      <KeyHandler Name="MenuKey" Key="D3" Handle="false" Modifiers="Shift" HandlerStage="Bubbled"/>
+      <KeyHandler Name="ViewKey" Key="D8" Handle="false" Modifiers="Shift" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="RecordBtn" Handle="true" Shortcut="Record" HandlerStage="Bubbled"/>
+      
+      <TypingHandler Name="TypingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap"  >
+        <EditableText>
+          <EditableText Value="" />
+        </EditableText>
+      </TypingHandler>
+    </Locals>
+
+    <Rules>
+
+      <Changed Source="[FullDetailsTimer.Tick]">
+        <Actions>
+          <Set Target="[SelectedItem]" Value="[PreSelectedItem]"/>
+          <Set Target="[PreviousSelectedItem]" Value="[PreSelectedItem]"/>
+        </Actions>
+      </Changed>
+
+      <Binding Source="[FindAsYouType.Content]" Target="[ShadowLabel.Content]" />
+      <Binding Source="[TypingHandler.DisplayValue]" Target="[FindAsYouType.Content]" />
+      <Binding Source="[TypingHandler.DisplayValue]" Target="[Item.TripleTapSelect]" />
+
+      <Changed Source="[TypingHandler.DisplayValue]" >
+        <Conditions>
+          <Equality Source="[TypingHandler.DisplayValue]" ConditionOp="NotEquals" Value="" />
+          
+        </Conditions>
+        <Actions>
+          <Invoke Target="[HideFindAsYouType.Start]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[HideFindAsYouType.Tick]">
+        <Actions>
+          <Set Target="[TypingHandler.EditableText.Value]" Value="" />
+        </Actions>
+      </Changed>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Config.Theme]" ConditionOp="Equals" Value="Black"/>
+          <Equality Source="[Application.Config.TransparentBackground]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainBG.Content]" Value="image://it:BackgroundBlack"/>
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Config.Theme]" ConditionOp="Equals" Value="Default"/>
+          <Equality Source="[Application.Config.TransparentBackground]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[MainBG.Content]" Value="image://it:BackgroundDefault"/>
+        </Actions>
+      </Rule>
+      
+      <Changed Source="[RefocusViewTimer.Tick]">
+        <Actions>
+          <Invoke Target="[ViewConfig.NavigateInto]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Configure.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.OpenConfiguration]" showFullOptions="true" />
+        </Actions>
+      </Changed>
+      
+      <Changed Source="[ShowViewConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[ViewConfig.Visible]" Value="true"/>
+          <Set Target="[SortConfig.Visible]" Value="false"/>
+          <Set Target="[IndexConfig.Visible]" Value="false"/>
+          <Invoke Target="[ViewConfig.NavigateInto]" />
+          <Set Target="[ConfigurationMenu.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CloseViewConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[ViewConfig.Visible]" Value="false"/>
+          <Set Target="[ConfigurationMenu.Visible]" Value="true"/>
+          <Invoke Target="[ConfigurationMenu.NavigateInto]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Item.DisplayPrefs.ViewType.Chosen]" >
+        <Conditions>
+          <Equality Source="[ViewConfig.Visible]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[RefocusViewTimer.Start]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[ShowSortConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[SortConfig.Visible]" Value="true"/>
+          <Set Target="[ViewConfig.Visible]" Value="false"/>
+          <Set Target="[IndexConfig.Visible]" Value="false"/>
+          <Invoke Target="[SortConfig.NavigateInto]" />
+          <Set Target="[ConfigurationMenu.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CloseSortConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[SortConfig.Visible]" Value="false"/>
+          <Set Target="[ConfigurationMenu.Visible]" Value="true"/>
+          <Invoke Target="[ConfigurationMenu.NavigateInto]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Item.DisplayPrefs.SortOrders.Chosen]" >
+        <Actions>
+          <Set Target="[SortConfig.Visible]" Value="false"/>
+          <Invoke Target="[ConfigurationMenu.NavigateInto]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[ShowIndexConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[IndexConfig.Visible]" Value="true"/>
+          <Set Target="[ViewConfig.Visible]" Value="false"/>
+          <Set Target="[SortConfig.Visible]" Value="false"/>
+          <Invoke Target="[IndexConfig.NavigateInto]" />
+          <Set Target="[ConfigurationMenu.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CloseIndexConfiguration.Invoked]">
+        <Actions>
+          <Set Target="[IndexConfig.Visible]" Value="false"/>
+          <Set Target="[ConfigurationMenu.Visible]" Value="true"/>
+          <Invoke Target="[ConfigurationMenu.NavigateInto]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[Item.DisplayPrefs.IndexByChoice.Chosen]" >
+        <Actions>
+          <Set Target="[IndexConfig.Visible]" Value="false"/>
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+
+     
+
+      <!-- Switch Views -->
+      <Rule>
+        <Conditions>
+          <Modified Source="[ViewKey.Invoked]" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[Item.DisplayPrefs.ToggleViewTypes]" />
+        </Actions>
+      </Rule>
+      
+      <!-- Bring Up Options Menu -->
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Modified Source="[MenuKey.Invoked]" />
+          <Modified Source="[ConfigOptions.Invoked]" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ConfigurationMenu.Visible]" Value="true"/>
+          <Invoke Target="[ConfigurationMenu.NavigateInto]" />
+        </Actions>
+      </Rule>
+     
+      <!-- Close Options Menu -->
+      <Rule>
+        <Conditions>
+          <Modified Source="[CloseCommand.Invoked]" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ConfigurationMenu.Visible]" Value="false"/>
+        </Actions>
+      </Rule>
+      
+      <!-- Show Configuration Button -->
+      <Condition Source="[Item.Source.IsRoot]" SourceValue="true" Target="[ConfigurationKey.Visible]" Value="true"/>
+      <Condition Source="[Application.Config.ShowConfigButton]" SourceValue="true" Target="[ConfigurationKey.Visible]" Value="true"/>
+      
+      <Changed Source="[NowPlayingPanel.Invoked]">
+        <Actions>
+          <Invoke Target="[AddInHost.MediaCenterEnvironment.MediaExperience.GoToFullScreen]"/>
+        </Actions>
+      </Changed>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
+          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[TrailerPanel.Visible]" Value="false" />
+        </Actions>
+      </Rule>
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
+          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="2"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[TrailerPanel.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[RecordBtn.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <Invoke Target="[PreSelectedItem.RefreshMetadata]"/>
+        </Actions>
+      </Rule>
+      
+    </Rules>
+    
+
+    
+    <Content>
+      <Graphic Name="MainBG" Content="image://it:BlankGraphic" Margins="0,0,0,0" Layout="Fill">
+        <Animations>
+          <Animation Animation="animation://an:PageHide" />
+        </Animations>
+        <Children>
+
+          <Panel Layout="Center">
+            <Children>
+
+              <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]">
+                <!--CenterPointPercent="0.5,0.5,0.5"-->
+                <Children>
+
+                  <!-- Now Playing View -->
+                <!--  <np:NowPlayingViewport Name="NowPlaying">
+                    <LayoutInput>
+                      <FormLayoutInput Right="Parent,1,480" Top="Parent,0,80"  />
+                    </LayoutInput>
+                  </np:NowPlayingViewport>-->
+
+                  <Panel Name="TrailerPanel" Visible="false">
+                    <LayoutInput>
+                      <FormLayoutInput Left="Parent,0.67" Top="Parent,0" Bottom="Parent,0.33" Right="Parent,1"/>
+                    </LayoutInput>
+                    <Children>
+                      <vot:LargeNPV Command="[NowPlayingPanel]"/>
+                    </Children>
+                  </Panel>
+                  
+                  <vm:ViewConfiguration  Name="ViewConfig"  Visible="false"  Close="[CloseViewConfiguration]"  Prefs="[Item.DisplayPrefs]"/>
+                  <vm:RadioConfiguration Name="SortConfig"  Visible="false"  Close="[CloseSortConfiguration]"  Choice="[Item.DisplayPrefs.SortOrders]"/>
+                  <vm:RadioConfiguration Name="IndexConfig" Visible="false"  Close="[CloseIndexConfiguration]" Choice="[Item.DisplayPrefs.IndexByChoice]"/>
+
+                  <!-- Configuration -->
+                  <Panel Name="ConfigurationMenu" Visible="false" Navigation="ContainAll,RememberFocus">
+                    <Animations>
+                      <Animation Name="AlphaAnimation" Type="Show">
+                        <Keyframes>
+                          <AlphaKeyframe Time="0.0" Value="0" RelativeTo="Current" Interpolation="EaseIn"/>
+                          <AlphaKeyframe Time="0.5" Value="1" RelativeTo="Final"/>
+                        </Keyframes>
+                      </Animation>
+                      <Animation Name="AlphaAnimation" Type="Hide">
+                        <Keyframes>
+                          <AlphaKeyframe Time="0.0" Value="1" RelativeTo="Current" Interpolation="EaseIn"/>
+                          <AlphaKeyframe Time="0.5" Value="0" RelativeTo="Final"/>
+                        </Keyframes>
+                      </Animation>
+                    </Animations>
+                    <Children>
+                      <Panel Layout="Center">
+                        <Children>
+                          <Panel Name="ScrollButton"  Layout="HorizontalFlow">
+                            <Children>
+                              <vot:MenuButton Name="ConfigBtn"     Command="[Configure]"              Image="image://it:MenuOptionConfiguration"/>
+                              <vot:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://it:MenuOptionViews"/>
+                              <vot:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://it:MenuOptionSort"/>
+                              <vot:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://it:MenuOptionIndex" />
+                              <vot:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose"/>
+                            </Children>
+                          </Panel>
+                        </Children>
+                      </Panel>
+                    </Children>
+                  </Panel>
+
+                  <!-- find in list panel - highest Z-Order -->
+                  <Panel Name="FindAsYouTypePanel" >
+                    <LayoutInput>
+                      <FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
+                    </LayoutInput>
+                    <Layout>
+                      <FlowLayout ItemAlignment="Center"/>
+                    </Layout>
+                    <Children>
+                      <ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
+                        <Children>
+                          <Text Name="FindAsYouType" Font="Segoe Media Center Semibold,150" Content="" Color="color://s:FontColorMedium"  />
+                          <Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="Segoe Media Center Semibold,150">
+                            <LayoutInput>
+                              <AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
+                            </LayoutInput>
+                          </Text>
+                        </Children>
+                      </ColorFill>
+                    </Children>
+                  </Panel>
+
+                  <Panel Name="ConfigurationKey" Visible="false">
+                    <LayoutInput>
+                      <FormLayoutInput Bottom="Parent,1,-40" Left="Parent,0,2"/>
+                    </LayoutInput>
+                    <Children>
+                      <vot:SimpleButton Name="ConfigMenuButton" Application="[Application]" ImageNoFocus="image://i:ConfigImg" Command="[ConfigOptions]"/>
+                    </Children>
+                  </Panel>
+
+                  <pda:PageDetailArea Name="ViewPanel" Item="[Item]" Application="[Application]"  LayoutInput="[FullScreen]"/>
+
+                </Children>
+              </Clip>
+
+
+
+            </Children>
+
+          </Panel>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+
+</Mcml>

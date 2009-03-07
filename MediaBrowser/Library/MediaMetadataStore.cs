@@ -55,6 +55,12 @@ namespace MediaBrowser.Library
         }
     }
 
+    public class Studio
+    {
+        public string Name { get; set; }
+
+    }
+
     public class MediaMetadataStore
     {
 
@@ -125,6 +131,10 @@ namespace MediaBrowser.Library
             if (this.MediaInfo != null)
                 this.MediaInfo.Write(bw);
             bw.SafeWriteString(this.SortName);
+            bw.SafeWriteString(this.Status);
+            bw.SafeWriteString(this.TrailerPath);
+            bw.SafeWriteString(this.FirstAired);
+            WriteList(bw, this.Studios);
         }
 
         private static void WriteImageSource(BinaryWriter bw, ImageSource imageSource)
@@ -155,6 +165,20 @@ namespace MediaBrowser.Library
                 {
                     bw.SafeWriteString(s.Name);
                     bw.SafeWriteString(s.Role);
+                }
+
+            }
+            else
+                bw.Write((int)0);
+        }
+        private static void WriteList(BinaryWriter bw, List<Studio> data)
+        {
+            if (data != null)
+            {
+                bw.Write(data.Count);
+                foreach (Studio s in data)
+                {
+                    bw.SafeWriteString(s.Name);
                 }
 
             }
@@ -196,6 +220,10 @@ namespace MediaBrowser.Library
                 store.MediaInfo = MediaInfoData.FromStream(br);
             if (v > 4)
                 store.SortName = br.SafeReadString();
+            store.Status = br.SafeReadString();
+            store.TrailerPath = br.SafeReadString();
+            store.FirstAired = br.SafeReadString();
+            store.Studios = ReadStudioList(br);
             return store;
         }
 
@@ -229,6 +257,18 @@ namespace MediaBrowser.Library
                 List<Actor> ret = new List<Actor>();
                 for (int i = 0; i < len; ++i)
                     ret.Add(new Actor { Name = br.SafeReadString(), Role = br.SafeReadString() });
+                return ret;
+            }
+            return null;
+        }
+        private static List<Studio> ReadStudioList(BinaryReader br)
+        {
+            int len = br.ReadInt32();
+            if (len > 0)
+            {
+                List<Studio> ret = new List<Studio>();
+                for (int i = 0; i < len; ++i)
+                    ret.Add(new Studio { Name = br.SafeReadString() });
                 return ret;
             }
             return null;
@@ -283,6 +323,14 @@ namespace MediaBrowser.Library
                 this.MpaaRating = data.MpaaRating;
             if (this.MediaInfo == null)
                 this.MediaInfo = data.MediaInfo;
+            if (this.Studios == null)
+                this.Studios = data.Studios;
+            if (this.TrailerPath == null)
+                this.TrailerPath = data.TrailerPath;
+            if (this.Status == null)
+                this.Status = data.Status;
+            if (this.FirstAired == null)
+                this.FirstAired = data.FirstAired;
 
             foreach (KeyValuePair<string, string> kv in data.ProviderData)
                 lock (this.ProviderData)
@@ -303,7 +351,6 @@ namespace MediaBrowser.Library
         public DateTime? UtcDataTimestamp { get; set; }
         public string DataSource { get; set; }
         public Dictionary<string, string> ProviderData { get; set; }
-
         public List<string> Directors { get; set; }
         public List<string> Writers { get; set; }
         public List<Actor> Actors { get; set; }
@@ -318,7 +365,10 @@ namespace MediaBrowser.Library
         /// <summary>
         /// data that can be stored by the provider of the data to assist it with refreshing / updating
         /// </summary>
-
+        public string TrailerPath { get; set; }
+        public string Status { get; set; }
+        public string FirstAired { get; set; }
+        public List<Studio> Studios { get; set; }
     }
 
     public class MediaInfoData

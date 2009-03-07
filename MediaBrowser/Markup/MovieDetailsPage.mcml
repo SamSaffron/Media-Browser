@@ -1,80 +1,77 @@
-<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+﻿<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
     xmlns:cor="assembly://MsCorLib/System"
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  xmlns:vd="resx://MediaBrowser/MediaBrowser.Resources/ViewMovieDefault"
     xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMovieMinimal"
-      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+    xmlns:vv="resx://MediaBrowser/MediaBrowser.Resources/ViewMovieVanilla"  
+    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
     xmlns:me="Me"
     >
 
-	<!-- Movie Details Page -->
-	<UI Name="MovieDetailsPage">
-		<Properties>
-			<a:Application Name="Application" Application="$Required"/>
-			<lib:Item Name="Item" Item="$Required"/>
-		</Properties>
+  <!-- Movie Details Page -->
+  <UI Name="MovieDetailsPage">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <lib:Item Name="Item" Item="$Required"/>
+    </Properties>
 
-		<Rules>
-			<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
-				<Transformer>
-					<BooleanTransformer Inverse="true"/>
-				</Transformer>
-			</Binding>
+    <Rules>
+      <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
+        <Transformer>
+          <BooleanTransformer Inverse="true"/>
+        </Transformer>
+      </Binding>
 
+      
+      <!-- Configuration Checks & Display Setup -->
 
-			<!-- Configuration Checks & Display Setup -->
+      <Condition Source="[Application.Config.ViewTheme]" SourceValue="Classic" Target="[ViewClassic.Visible]" Value="true"/>
+      <Condition Source="[Application.Config.ViewTheme]" SourceValue="Default" Target="[ViewDefault.Visible]" Value="true"/>
+      <Condition Source="[Application.Config.ViewTheme]" SourceValue="Vanilla" Target="[ViewVanilla.Visible]" Value="true"/>
 
-			<Binding Source="[Application.Config.EnableMinimalMovieView]" Target="[ViewMinimal.Visible]" />
-			<Binding Source="[Application.Config.EnableMinimalMovieView]" Target="[ViewDefault.Visible]" >
-				<Transformer>
-					<BooleanTransformer Inverse="true"/>
-				</Transformer>
-			</Binding>
+      <!-- END Configuration Checks & Display Setup -->
+    </Rules>
 
+    <Content>
+      <ColorFill Content="Transparent" Layout="Form">
+        <Children>
 
+          <!--  View Details-->
+          <vd:ViewMovieDefault Name="ViewClassic" Item="[Item]" Application="[Application]" Visible="false"  >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </vd:ViewMovieDefault>
+          
+          <vm:ViewMovieMinimal Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="false" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </vm:ViewMovieMinimal>
+          
+          <vv:ViewMovieVanilla Name="ViewVanilla" Item="[Item]" Application="[Application]" Visible="false" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </vv:ViewMovieVanilla>
+          
+          
+          <!-- Background brightening (creates the darker strips on top/bottom -->
+          <ColorFill Content="White" Alpha="0.1">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
+            </LayoutInput>
+          </ColorFill>
 
-			<!-- END Configuration Checks & Display Setup -->
-		</Rules>
+          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
 
-		<Content>
-			<Panel Layout="Form">
-				<Children>
-					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
-						<Children>
-							<!--  View Details-->
-							<vd:ViewMovieDefault Name="ViewDefault" Item="[Item]" Application="[Application]" Visible="true"  >
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-								</LayoutInput>
-							</vd:ViewMovieDefault>
+        </Children>
+      </ColorFill>
 
-							<vm:ViewMovieMinimal Name="ViewMinimal" Item="[Item]" Application="[Application]" Visible="true" >
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
-								</LayoutInput>
-							</vm:ViewMovieMinimal>
+    </Content>
 
-
-
-							<!-- Background brightening (creates the darker strips on top/bottom -->
-
-							<ColorFill Content="White" Alpha="0.1">
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
-								</LayoutInput>
-							</ColorFill>
-
-							<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
-
-						</Children>
-					</Clip>
-				</Children>
-			</Panel>
-
-		</Content>
-
-	</UI>
+  </UI>
 
 
 </Mcml>

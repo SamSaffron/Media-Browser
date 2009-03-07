@@ -279,7 +279,7 @@
 												</Children>
 											</Panel>
 
-											<Graphic  Name="BoxArt"  Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint"  MaintainAspectRatio="true" >
+											<Graphic  Name="BoxArt"  Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint"  MaintainAspectRatio="[Application.Config.MaintainPosterAspectRatio]" >
 												<LayoutInput>
 													<AnchorLayoutInput Horizontal="Center"/>
 												</LayoutInput>

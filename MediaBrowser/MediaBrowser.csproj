@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -82,6 +82,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Library\BinaryWriterExtensions.cs" />
+    <Compile Include="Library\StudioItemWrapper.cs" />
     <Compile Include="Library\DirectorItemWrapper.cs" />
     <Compile Include="Library\ImageSource.cs" />
     <Compile Include="Library\Interfaces\IMetadataProvider.cs" />
@@ -155,7 +156,10 @@
     <None Include="Readme.htm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\Actor.png" />
     <Content Include="Images\Background.png" />
+    <Content Include="Images\BackgroundBlack.png" />
+    <Content Include="Images\BackgroundDefault.png" />
     <Content Include="Images\BackShadow.png" />
     <None Include="Images\banner.png" />
     <Content Include="Images\BlackBtnAlpha50.png" />
@@ -167,6 +171,9 @@
     <Content Include="Images\Config.png" />
     <Content Include="Images\DecrementFocused.png" />
     <Content Include="Images\DecrementNoFocus.png" />
+    <Content Include="Images\DetailBorderShadow.png" />
+    <Content Include="Images\hd1080.png" />
+    <Content Include="Images\hd720.png" />
     <Content Include="Images\Icons\IconActors.png" />
     <Content Include="Images\Icons\IconDelete.png" />
     <Content Include="Images\Icons\IconPlay.png" />
@@ -175,6 +182,8 @@
     <Content Include="Images\IncrementNoFocus.png" />
     <Content Include="Images\IncrementFocused.png" />
     <Content Include="Images\Index.png" />
+    <Content Include="Images\LeftMenuBorderBlack.png" />
+    <Content Include="Images\LeftMenuBorderDefault.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\MediaInfo\aspect_169.png" />
     <Content Include="Images\MediaInfo\aspect_1851.png" />
@@ -199,10 +208,43 @@
     <Content Include="Images\MediaInfo\hd720.png" />
     <Content Include="Images\MediaInfo\hdtype_1080.png" />
     <Content Include="Images\MediaInfo\hdtype_720.png" />
+    <Content Include="Images\Music.png" />
+    <Content Include="Images\Options\actor.png" />
+    <Content Include="Images\Options\backdrop.png" />
+    <Content Include="Images\Options\banners.png" />
+    <Content Include="Images\Options\bg-focused.png" />
+    <Content Include="Images\Options\bg-selected.png" />
+    <Content Include="Images\Options\bg-unfocused.png" />
+    <Content Include="Images\Options\close.png" />
+    <Content Include="Images\Options\config.png" />
+    <Content Include="Images\Options\date.png" />
+    <Content Include="Images\Options\director.png" />
+    <Content Include="Images\Options\enlarge.png" />
+    <Content Include="Images\Options\genre.png" />
+    <Content Include="Images\Options\index.png" />
+    <Content Include="Images\Options\labels.png" />
+    <Content Include="Images\Options\name.png" />
+    <Content Include="Images\Options\none.png" />
+    <Content Include="Images\Options\rating.png" />
+    <Content Include="Images\Options\runtime.png" />
+    <Content Include="Images\Options\shine.png" />
+    <Content Include="Images\Options\shrink.png" />
+    <Content Include="Images\Options\sort.png" />
+    <Content Include="Images\Options\studio.png" />
+    <Content Include="Images\Options\unwatched.png" />
+    <Content Include="Images\Options\vertscroll.png" />
+    <Content Include="Images\Options\view.png" />
+    <Content Include="Images\Options\viewCoverflow.png" />
+    <Content Include="Images\Options\viewDetail.png" />
+    <Content Include="Images\Options\viewPoster.png" />
+    <Content Include="Images\Options\viewThumb.png" />
+    <Content Include="Images\Options\viewThumbstrip.png" />
+    <Content Include="Images\Options\year.png" />
     <Content Include="Images\Pivot\PivotArrowLeft.png" />
     <Content Include="Images\Pivot\PivotArrowLeftNoFocus.png" />
     <Content Include="Images\Pivot\PivotArrowRight.png" />
     <Content Include="Images\Pivot\PivotArrowRightNoFocus.png" />
+    <Content Include="Images\Play.png" />
     <Content Include="Images\RadioFocus.png" />
     <Content Include="Images\RadioNoFocus.png" />
     <Content Include="Images\RadioSelectFocus.png" />
@@ -221,7 +263,15 @@
     <Content Include="Images\Ratings\TV-Y.png" />
     <Content Include="Images\Ratings\TV-Y7-FV.png" />
     <Content Include="Images\Ratings\TV-Y7.png" />
+    <Content Include="Images\Refresh.png" />
+    <Content Include="Images\Resume.png" />
+    <Content Include="Images\RightMenuBorder.png" />
+    <Content Include="Images\RightMenuBorderBlack.png" />
+    <Content Include="Images\RightMenuBorderDefault.png" />
+    <Content Include="Images\ScrollerBorderBlack.png" />
+    <Content Include="Images\ScrollerBorderDefault.png" />
     <Content Include="Images\Sort.png" />
+    <Content Include="Images\spacer.png" />
     <Content Include="Images\Special\MissingPerson.png" />
     <Content Include="Images\Special\FilmScreen.png" />
     <Content Include="Images\Special\Header.png" />
@@ -234,9 +284,11 @@
     <Content Include="Images\Star\Star_Full.png" />
     <Content Include="Images\Star\Star_Empty.png" />
     <Content Include="Images\Star\Star_Half.png" />
+    <Content Include="Images\Summary.png" />
     <Content Include="Images\Tick.png" />
     <Content Include="Images\TickPoster.png" />
     <Content Include="Images\TickPosterBase.png" />
+    <Content Include="Images\Trailers.png" />
     <Content Include="Images\Unwatched.png" />
     <Content Include="Images\UnwatchedBase.png" />
     <Content Include="Images\zoompane.png" />
@@ -277,6 +329,18 @@
     <Content Include="Markup\FontsSmall.mcml" />
     <Content Include="Markup\FontsDefault.mcml" />
     <Content Include="Markup\StylesBlack.mcml" />
+    <Content Include="Markup\Themes\Vanilla\CoverflowView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Images.mcml" />
+    <Content Include="Markup\Themes\Vanilla\MovieDetailsPage.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Page.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PageDetailArea.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PosterDetailView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PosterView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\StripView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewDetails.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
+    <Content Include="Markup\Views\PageDefault.mcml" />
     <Content Include="Markup\Views\ViewMovieDefault.mcml" />
     <Content Include="Markup\Views\ViewMovieMinimal.mcml" />
     <Content Include="Markup\Controls\Pivot.mcml" />

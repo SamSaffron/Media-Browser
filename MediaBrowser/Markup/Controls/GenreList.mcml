@@ -9,6 +9,7 @@
 		<Properties>
 			<col:IList Name="SourceData" IList="$Required" />
 			<Font Name="Font" Font="$Required"/>
+      <Color Name="Color" Color="color://s:FontColorMedium"/>
 		</Properties>
 		<Rules>
 			<Binding Target="[GenreRepeater.Source]" Source="[SourceData]"/>
@@ -19,10 +20,10 @@
 					<FlowLayout Orientation="Horizontal" AllowWrap="true" Spacing="25,0"/>
 				</Layout>
 				<Divider>
-					<Text Content="●" Font="[Font]" Color="color://s:FontColorMedium" Alpha="0.6"  />
+					<Text Content="●" Font="[Font]" Color="[Color]" Alpha="0.6"  />
 				</Divider>
 				<Content>
-					<Text Content="[RepeatedItem!cor:String]" Font="[Font]" Color="color://s:FontColorMedium" />
+					<Text Content="[RepeatedItem!cor:String]" Font="[Font]" Color="[Color]" />
 				</Content>
 			</Repeater>
 		</Content>

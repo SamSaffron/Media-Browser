@@ -60,7 +60,6 @@ namespace MediaBrowser
         public bool RememberIndexing = false;
         public bool ShowIndexWarning = true;
         public double IndexWarningThreshold = 0.1;
-        public bool EnableMinimalMovieView = true;
         public string PreferredMetaDataLanguage = "en";
         public List<ExternalPlayer> ExternalPlayers = new List<ExternalPlayer>();
         public string Theme = "Default";
@@ -73,7 +72,11 @@ namespace MediaBrowser
         public string InitialBreadcrumbName = "Media Library";
 
         public string CentralisedCache = null;
-
+        public string ViewTheme = "Default";
+        public bool MaintainPosterAspectRatio = true;
+        public int AlphaBlending = 50;
+        public bool ShowConfigButton = false;
+        
         public class ExternalPlayer
         {
             public PlayableExternal.MediaTypes MediaType { get; set; }

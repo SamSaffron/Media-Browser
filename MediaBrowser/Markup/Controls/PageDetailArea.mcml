@@ -62,13 +62,13 @@
 
 					<pv:PosterView Name="PosterView" Visible="true" Application="[Application]" Item="[Item]"  >
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1" Right="Parent,1"/>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,1" />
 						</LayoutInput>
 					</pv:PosterView>
 
 					<pdv:ThumbView Name="ThumbView" Visible="true" Item="[Item]" Application="[Application]" >
 						<LayoutInput>
-							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,0.9"/>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0,130" Bottom="Parent,1"/>
 						</LayoutInput>
 					</pdv:ThumbView>
 					

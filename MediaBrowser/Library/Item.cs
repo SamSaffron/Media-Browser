@@ -87,6 +87,18 @@ namespace MediaBrowser.Library
             }
         }
 
+        public List<StudioItemWrapper> StudioItems
+        {
+            get
+            {
+                List<StudioItemWrapper> result = new List<StudioItemWrapper>();
+                foreach (Studio a in this.metadata.Studios)
+                    result.Add(new StudioItemWrapper(a, this.PhysicalParent));
+                result.Sort(delegate(StudioItemWrapper a, StudioItemWrapper b) { return a.Studio.Name.CompareTo(b.Studio.Name); });
+                return result;
+            }
+        }
+
         public List<DirectorItemWrapper> DirectorItems
         {
             get

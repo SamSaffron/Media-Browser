@@ -352,11 +352,10 @@ namespace MediaBrowser
             set { if (this.data.SortReplaceWords != value) { this.data.SortReplaceWords = value; Save(); FirePropertyChanged("SortReplaceWords"); } }
         }
 
-        [Comment(@"Enable new movie detail layout.")]
-        public bool EnableMinimalMovieView
+        public string ViewTheme
         {
-            get { return this.data.EnableMinimalMovieView; }
-            set { if (this.data.EnableMinimalMovieView != value) { this.data.EnableMinimalMovieView = value; Save(); FirePropertyChanged("EnableMinimalMovieView"); } }
+            get { return this.data.ViewTheme; }
+            set { if (this.data.ViewTheme != value) { this.data.ViewTheme = value; Save(); FirePropertyChanged("ViewTheme"); } }
         }
 
         public string PreferredMetaDataLanguage
@@ -423,7 +422,22 @@ namespace MediaBrowser
                     }
             }
         }
-        
+        public bool MaintainPosterAspectRatio
+        {
+            get { return this.data.MaintainPosterAspectRatio; }
+            set { if (this.data.MaintainPosterAspectRatio != value) { this.data.MaintainPosterAspectRatio = value; Save(); FirePropertyChanged("MaintainPosterAspectRatio"); } }
+        }
+    
+        public bool ShowConfigButton
+        {
+            get { return this.data.ShowConfigButton; }
+            set { if (this.data.ShowConfigButton != value) { this.data.ShowConfigButton = value; Save(); FirePropertyChanged("ShowConfigButton"); } }
+        }
+        public int AlphaBlending
+        {
+            get { return this.data.AlphaBlending; }
+            set { if (this.data.AlphaBlending != value) { this.data.AlphaBlending = value; Save(); FirePropertyChanged("AlphaBlending"); } }
+        }
         /* End of app specific settings*/
 
         private string[] _SortRemoveCharactersArray = null;

@@ -133,4 +133,12 @@
     </Keyframes>
   </Animation>
 
+  <Animation Name="PageHide" Type="Hide">
+    <Keyframes>
+      <AlphaKeyframe Time="0.0" Value="1" RelativeTo="Current" Interpolation="EaseIn"/>
+      <AlphaKeyframe Time="0.5" Value="0" RelativeTo="Final"/>
+    </Keyframes>
+  </Animation>
+
+
 </Mcml>

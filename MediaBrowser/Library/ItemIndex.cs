@@ -194,6 +194,16 @@ namespace MediaBrowser.Library
                                 keys.Add(i.Metadata.ProductionYear.ToString());
                             }
                             break;
+                        case IndexType.Studio:
+                            if ((i.Metadata.Studios != null) && (i.Metadata.Studios.Count > 0))
+                            {
+                                keys = new List<string>();
+                                foreach (Studio a in i.Metadata.Studios)
+                                    keys.Add(a.Name);
+                            }
+                            else
+                                keys = null;
+                            break;
                         default:
                             keys = null;
                             break;

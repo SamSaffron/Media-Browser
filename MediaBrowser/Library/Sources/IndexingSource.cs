@@ -29,6 +29,9 @@ namespace MediaBrowser.Library.Sources
                 case IndexType.Year:
                     this.type = ItemType.Year;
                     break;
+                case IndexType.Studio:
+                    this.type = ItemType.Studio;
+                    break;
                 default:
                     throw new NotSupportedException("IndexingSource does not understand IndexType: " + type.ToString());
             }

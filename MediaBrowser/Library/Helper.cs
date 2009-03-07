@@ -490,7 +490,9 @@ namespace MediaBrowser.LibraryManagement
                         new Regex(@".+\\[t|T]emporada\s?(?<seasonnumber>\d{1,2})$"),
                         new Regex(@".+\\[s|S]aison\s?(?<seasonnumber>\d{1,2})$"),
                         new Regex(@".+\\[s|S]taffel\s?(?<seasonnumber>\d{1,2})$"),
-                        new Regex(@".+\\[s|S](?<seasonnumber>\d{1,2})$")
+                        new Regex(@".+\\[s|S](?<seasonnumber>\d{1,2})$"),
+                        new Regex(@".+\\[s|S]eason\s?(?<seasonnumber>\d{1,2})[^\\]*$")
+
         };
 
         public static bool IsSeasonFolder(string path)
