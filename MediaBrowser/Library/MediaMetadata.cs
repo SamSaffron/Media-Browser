@@ -10,6 +10,7 @@ namespace MediaBrowser.Library
     {
         private static readonly List<string> emptyStringList = new List<string>();
         private static readonly List<Actor> emptyActorList = new List<Actor>();
+        private static readonly List<Studio> emptyStudioList = new List<Studio>();
         private static readonly BackgroundProcessor<RefreshObj> processor = new BackgroundProcessor<RefreshObj>(ThreadPoolSizes.METADATA_REFRESH_THREADS, RefreshProcessor, "MetadataRefresh");
         private MediaMetadataStore store;
         private ItemType type;
@@ -114,6 +115,22 @@ namespace MediaBrowser.Library
             set { if (this.store.Overview != value) { this.store.Overview = value; FirePropertyChanged("Overview"); Save(); } }
         }
 
+        public string TrailerPath
+        {
+            get { return this.store.TrailerPath ?? ""; }
+            set { if (this.store.TrailerPath != value) { this.store.TrailerPath = value; FirePropertyChanged("TrailerPath"); Save(); } }
+        }
+
+        public string Status
+        {
+            get { return this.store.Status ?? ""; }
+            set { if (this.store.Status != value) { this.store.Status = value; FirePropertyChanged("Status"); Save(); } }
+        }
+        public string FirstAired
+        {
+            get { return this.store.FirstAired ?? ""; }
+            set { if (this.store.FirstAired != value) { this.store.FirstAired = value; FirePropertyChanged("FirstAired"); Save(); } }
+        }
         public bool HasPrimaryImage
         {
             get { return (this.store.PrimaryImage != null); }
@@ -163,6 +180,8 @@ namespace MediaBrowser.Library
                             return new ImageSource { OriginalSource = "res://ehres!MOVIE.ICON.DEFAULT.PNG", LocalSource = "res://ehres!MOVIE.ICON.DEFAULT.PNG" };
                         case ItemType.Actor:
                             return new ImageSource { OriginalSource = "resx://MediaBrowser/MediaBrowser.Resources/MissingPerson", LocalSource = "resx://MediaBrowser/MediaBrowser.Resources/MissingPerson" };
+                        case ItemType.Studio:
+                            return new ImageSource { OriginalSource = "resx://MediaBrowser/MediaBrowser.Resources/BlankGraphic", LocalSource = "resx://MediaBrowser/MediaBrowser.Resources/MissingStudio" };                       
                         case ItemType.Other:
                             return null;
                         default:
@@ -439,7 +458,11 @@ namespace MediaBrowser.Library
             get { return this.store.Actors ?? emptyActorList; }
             set { if (this.store.Actors != value) { this.store.Actors = value; FirePropertyChanged("Actors"); Save(); } }
         }
-
+        public List<Studio> Studios
+        {
+            get { return this.store.Studios ?? emptyStudioList; }
+            set { if (this.store.Studios != value) { this.store.Studios = value; FirePropertyChanged("Studios"); Save(); } }
+        }
         public List<string> Genres
         {
             get { return this.store.Genres ?? emptyStringList; }
@@ -613,6 +636,10 @@ namespace MediaBrowser.Library
                 this.DataSource = data.DataSource;
                 this.MediaInfo = data.MediaInfo;
                 this.store.ProviderData = data.ProviderData;
+                this.Status = data.Status;
+                this.TrailerPath = data.TrailerPath;
+                this.FirstAired = data.FirstAired;
+                this.Studios = data.Studios;
             }
             finally
             {
@@ -640,6 +667,8 @@ namespace MediaBrowser.Library
             {
                 int score = 0;
                 if ((this.store.Actors != null) && (this.store.Actors.Count > 0))
+                    score += 2;
+                if ((this.store.Studios != null) && (this.store.Studios.Count > 0))
                     score += 2;
                 if ((this.store.Genres != null) && (this.store.Genres.Count > 0))
                     score += 2;
@@ -689,6 +718,7 @@ namespace MediaBrowser.Library
         Director = 128,
         Year = 256,
         Genre = 512,
+        Studio = 768,
         Other = 1024,
         All = 2047
     }

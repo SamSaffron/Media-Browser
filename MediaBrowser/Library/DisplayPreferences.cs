@@ -16,6 +16,7 @@ namespace MediaBrowser.Library
         readonly Choice indexBy = new Choice();
         readonly BooleanChoice useBanner;
         readonly BooleanChoice useCoverflow;
+        readonly BooleanChoice useBackdrop;
         SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
 
         public DisplayPreferences(UniqueName ownerName)
@@ -41,6 +42,9 @@ namespace MediaBrowser.Library
             useCoverflow = new BooleanChoice();
             useCoverflow.Value = false;
 
+            useBackdrop = new BooleanChoice();
+            useBackdrop.Value = Config.Instance.ShowBackdrop;
+
             ArrayList al = new ArrayList();
             foreach (SortOrder v in Enum.GetValues(typeof(SortOrder)))
                 al.Add(SortOrderNames.GetName(v));
@@ -59,6 +63,7 @@ namespace MediaBrowser.Library
             verticalScroll.ChosenChanged += new EventHandler(verticalScroll_ChosenChanged);
             useBanner.ChosenChanged += new EventHandler(useBanner_ChosenChanged);
             useCoverflow.ChosenChanged += new EventHandler(useCoverflow_ChosenChanged);
+            useBackdrop.ChosenChanged += new EventHandler(useBackdrop_ChosenChanged);
             thumbConstraint.PropertyChanged += new PropertyChangedEventHandler(thumbConstraint_PropertyChanged);
         }
 
@@ -96,18 +101,18 @@ namespace MediaBrowser.Library
 
         void viewType_ChosenChanged(object sender, EventArgs e)
         {
-            switch (ViewTypeNames.GetEnum((string)this.viewType.Chosen))
+            /*switch (ViewTypeNames.GetEnum((string)this.viewType.Chosen))
             {
                 case ViewTypes.ThumbStrip:
                     if (this.VerticalScroll.Value)
-                        this.VerticalScroll.Chosen = false;
+                       this.VerticalScroll.Chosen = false;
                     if (this.ThumbConstraint.Value.Height > 220)
                         this.ThumbConstraint.Value = new Size(220, 220);
                     break;
                 case ViewTypes.CoverFlow:
                     this.ThumbConstraint.Value = new Size(340, 340);
                     break;
-            }
+            }*/
             FirePropertyChanged("ViewTypeString");
             Save();
         }
@@ -120,9 +125,14 @@ namespace MediaBrowser.Library
         }
         
 
+        void useBackdrop_ChosenChanged(object sender, EventArgs e)
+        {
+            Save();
+        }
+
         private bool saveEnabled = true;
         public UniqueName OwnerName { get; set; }
-        private const byte Version = 2;
+        private static readonly byte Version = 3;
         public void WriteToStream(BinaryWriter bw)
         {
             bw.Write(Version);
@@ -135,6 +145,7 @@ namespace MediaBrowser.Library
             bw.Write(this.thumbConstraint.Value.Width);
             bw.Write(this.thumbConstraint.Value.Height);
             bw.Write(this.useCoverflow.Value);
+            bw.Write(this.useBackdrop.Value);
         }
 
         public static DisplayPreferences ReadFromStream(UniqueName ownerName, BinaryReader br)
@@ -164,6 +175,9 @@ namespace MediaBrowser.Library
             dp.thumbConstraint.Value = new Size(br.ReadInt32(), br.ReadInt32());
             if (version >= 2)
                 dp.useCoverflow.Value = br.ReadBoolean();
+            if (version >= 3)
+                dp.useBackdrop.Value = br.ReadBoolean();
+
             dp.saveEnabled = true;
             return dp;
         }
@@ -258,6 +272,10 @@ namespace MediaBrowser.Library
             this.ThumbConstraint.Value = s;
         }
 
+        public BooleanChoice UseBackdrop
+        {
+            get { return this.useBackdrop; }
+        }
         
         
         internal void LoadDefaults()
@@ -295,7 +313,8 @@ namespace MediaBrowser.Library
         Actor,
         Genre,
         Director,
-        Year
+        Year,
+        Studio
     }
 
     public enum ViewTypes
@@ -339,7 +358,7 @@ namespace MediaBrowser.Library
 
     public class IndexTypeNames
     {
-        private static readonly string[] Names = { "none", "actor", "genre", "director","year" };
+        private static readonly string[] Names = { "none", "actor", "genre", "director","year", "studio" };
 
         public static string GetName(IndexType order)
         {
