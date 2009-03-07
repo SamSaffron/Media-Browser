@@ -122,7 +122,7 @@ namespace MediaBrowser.Library
 
         private bool saveEnabled = true;
         public UniqueName OwnerName { get; set; }
-        private static readonly byte Version = 2;
+        private const byte Version = 2;
         public void WriteToStream(BinaryWriter bw)
         {
             bw.Write(Version);

@@ -102,19 +102,19 @@ namespace MediaBrowser.Library.Providers
                 }
                 if (store.RunningTime == null)
                 {
-                    int rt = doc.SafeGetInt("Title/RunningTime",0);
+                    int rt = doc.SafeGetInt32("Title/RunningTime",0);
                     if (rt > 0)
                         store.RunningTime = rt;
                 }
                 if (store.ProductionYear == null)
                 {
-                    int y = doc.SafeGetInt("Title/ProductionYear",0);
+                    int y = doc.SafeGetInt32("Title/ProductionYear",0);
                     if (y > 1900)
                         store.ProductionYear = y;
                 }
                 if (store.ImdbRating == null)
                 {
-                    float i = doc.SafeGetFloat("Title/IMDBrating", (float)-1, (float)10);
+                    float i = doc.SafeGetSingle("Title/IMDBrating", (float)-1, (float)10);
                     if (i >= 0)
                         store.ImdbRating = i;
                 }

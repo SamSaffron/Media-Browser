@@ -19,13 +19,7 @@ namespace MediaBrowser.Library.Sources
 
         public override IEnumerable<ItemSource> ChildSources
         {
-            // while this looks very odd it gives the desired behaviour. 
-            // A simple "return null;" results in a null object which breaks foreach loops, 
-            // this returns a valid enumerator hat is already at the end, meaning foreach loops
-            // don't exception
-
-            // This ensures we don't need any special handling of specific source types
-            get { if (false) yield return null; } 
+            get { yield break; } 
         }
 
         public override string RawName

@@ -16,11 +16,11 @@ namespace MediaBrowser
     public class MyAddIn : IAddInModule, IAddInEntryPoint
     {
         private const string CUSTOM_STYLE_FILE = "CustomStyles.mcml";
+        private const string FONTS_FILE = "Fonts_DoNotEdit.mcml";
+        private const string CUSTOM_FONTS_FILE = "CustomFonts.mcml";
 
         public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)
         {
-            
-            
         }
 
         public void Uninitialize()
@@ -45,7 +45,7 @@ namespace MediaBrowser
                 Trace.AutoFlush = true;
                 Trace.Listeners.Add(t);
             }
-            Environment.CurrentDirectory = Helper.AppDataPath;
+            Environment.CurrentDirectory = Helper.AppConfigPath;
             try
             {
                 SetupStylesMcml(host);
@@ -66,8 +66,8 @@ namespace MediaBrowser
         {
             try
             {
-                string file = Path.Combine(Helper.AppDataPath, "Fonts_DoNotEdit.mcml");
-                string custom = Path.Combine(Helper.AppDataPath, "CustomFonts.mcml");
+                string file = Path.Combine(Helper.AppConfigPath, FONTS_FILE);
+                string custom = Path.Combine(Helper.AppConfigPath, CUSTOM_FONTS_FILE);
                 if (File.Exists(file))
                 {
                     try
@@ -81,7 +81,7 @@ namespace MediaBrowser
                     Trace.TraceInformation("Using custom fonts mcml");
                     if (VerifyStylesXml(custom, Resources.FontsDefault))
                     {
-                        host.MediaCenterEnvironment.Dialog("CustomFonts.mcml as been pathed with missing values", "CustomFonts.mcml", DialogButtons.Ok, 100, true);
+                        host.MediaCenterEnvironment.Dialog("CustomFonts.mcml as been pathed with missing values", CUSTOM_FONTS_FILE, DialogButtons.Ok, 100, true);
                     }
                     File.Copy(custom, file);
                 }
@@ -110,8 +110,8 @@ namespace MediaBrowser
         {
             try
             {
-                string file = Path.Combine(Helper.AppDataPath, "Styles_DoNotEdit.mcml");
-                string custom = Path.Combine(Helper.AppDataPath, CUSTOM_STYLE_FILE);
+                string file = Path.Combine(Helper.AppConfigPath, "Styles_DoNotEdit.mcml");
+                string custom = Path.Combine(Helper.AppConfigPath, CUSTOM_STYLE_FILE);
                 if (File.Exists(file))
                 {
                     try
@@ -180,7 +180,6 @@ namespace MediaBrowser
             {
                 if (custom.SelectSingleNode(string.Format("//*[@Name='{0}']", node.Attributes["Name"].Value)) == null)
                     missingNodes.Add(node);
-                    //return string.Format("Missing entry in {0} for\n{1}", filename,node.OuterXml);
             }
             if (missingNodes.Count > 0)
             {

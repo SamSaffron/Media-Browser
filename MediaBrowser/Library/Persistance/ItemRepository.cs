@@ -12,9 +12,9 @@ using System.Security.Cryptography;
 
 namespace MediaBrowser.Library
 {
-    class DefaultCacheProvider : IItemCacheProvider
+    class ItemRepository : IItemRepository, IDisposable
     {
-        public DefaultCacheProvider()
+        public ItemRepository()
         {
             try
             {
@@ -39,6 +39,7 @@ namespace MediaBrowser.Library
         private const string MUTEX_NAME = "MEDIABROWSER_DEFAULTCACHEPROVIDER";
         private Mutex cacheMutex; // provides cross process cache synchonization
         private string rootPath = Helper.AppCachePath;
+
         #region IItemCacheProvider Members
         private DateTime sourcesDate = DateTime.MinValue;
         private Dictionary<UniqueName, ItemSource> sources = new Dictionary<UniqueName, ItemSource>();
@@ -76,7 +77,6 @@ namespace MediaBrowser.Library
 
             #endregion
         }
-
 
         private bool CentralisedSources
         {
@@ -579,18 +579,6 @@ namespace MediaBrowser.Library
 
         }
 
-        public void RetrieveImage(UniqueName uniqueName)
-        {
-
-        }
-
-        public UniqueName SaveImage(LibraryImage image)
-        {
-            return null;
-        }
-
-
-
         public UniqueName GetUniqueName(string name, bool allowCreate)
         {
             lock (this.uniqueNames)
@@ -604,9 +592,7 @@ namespace MediaBrowser.Library
                     lock (this.uniqueNames)
                         if (uniqueNames.ContainsKey(name))
                             return uniqueNames[name];
-                    //Use the SHA1 hash of the string, and in the horribly unlikely event of a conflict,
-                    //use a GUID.  Doing this allows parts of the meta data to persist, 
-                    //namely the played state, even if the rest is deleted.
+    
                     SHA1 newSHA1 = new SHA1CryptoServiceProvider();
                     UnicodeEncoding ByteMaker = new UnicodeEncoding();
                     StringBuilder Digest = new StringBuilder();
@@ -616,10 +602,8 @@ namespace MediaBrowser.Library
                     
                     foreach(byte nchar in SHA1Hash)
                         Digest.Append(nchar.ToString("x2"));
-                    UniqueName n = new UniqueName(Digest.ToString());
 
-                    if(uniqueNames.ContainsValue(n))
-                        n = new UniqueName(Guid.NewGuid().ToString("d"));
+                    UniqueName n = new UniqueName(Digest.ToString());
 
                     uniqueNames[name] = n;
                     AppendUniqueName(name, n);
@@ -761,8 +745,6 @@ namespace MediaBrowser.Library
                 bool success = true;
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "metadata"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "images"));
-                //success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "playstate")); // this is probably not desirable, means not clearing unique names as well
-                //success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "display"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "autoplaylists"));
                 success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "children"));
                 try
@@ -777,20 +759,6 @@ namespace MediaBrowser.Library
                 {
                     success = false;
                 }
-                /*
-                try
-                {
-                    lock (uniqueNames)
-                    {
-                        uniqueNames.Clear();
-                        File.Delete(Path.Combine(Helper.AppCachePath, "uniqueNames"));
-                    }
-                }
-                catch
-                {
-                    success = false;
-                }
-                */
                 return success;
             }
         }
@@ -806,6 +774,17 @@ namespace MediaBrowser.Library
             {
                 return false;
             }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        public void Dispose() {
+            if (cacheMutex != null) {
+                cacheMutex.Close();
+            }
+            GC.SuppressFinalize(this);
         }
 
         #endregion

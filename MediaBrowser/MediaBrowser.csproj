@@ -55,31 +55,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Attributes\CommentAttribute.cs" />
+    <Compile Include="Code\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
-    <Compile Include="Code\Utilities.cs" />
+    <Compile Include="Code\Scroller.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\BitmapInfoHeader.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\DsLong.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\DsRect.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\IMediaDet.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\IMediaSample.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\ISampleGrabber.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\ISampleGrabberCB.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\MediaDet.cs" />
+    <Compile Include="Library\Interop\DirectShowLib\VideoInfoHeader.cs" />
+    <Compile Include="Library\Interop\ShellNativeMethods.cs" />
+    <Compile Include="Library\Interop\ShortcutNativeMethods.cs" />
     <Compile Include="Library\ActorItemWrapper.cs" />
     <Compile Include="Library\BackgroundProcessor.cs" />
     <Compile Include="Code\Application.cs" />
     <Compile Include="Code\Config.cs" />
     <Compile Include="Code\Launch.cs" />
     <Compile Include="Code\MyHistoryOrientedPageSession.cs" />
-    <Compile Include="LibraryManagement\Helper.cs">
+    <Compile Include="Library\Helper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Library\BinaryWriterExtensions.cs" />
     <Compile Include="Library\DirectorItemWrapper.cs" />
     <Compile Include="Library\ImageSource.cs" />
-    <Compile Include="Library\IMetadataProvider.cs" />
-    <Compile Include="Library\ItemFactory.cs" />
-    <Compile Include="Library\MediaMetadataFactory.cs">
+    <Compile Include="Library\Interfaces\IMetadataProvider.cs" />
+    <Compile Include="Library\Factories\ItemFactory.cs" />
+    <Compile Include="Library\Factories\MediaMetadataFactory.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Library\MediaMetadataStore.cs" />
-    <Compile Include="Library\DefaultCacheProvider.cs" />
+    <Compile Include="Library\Persistance\ItemRepository.cs" />
     <Compile Include="Library\DisplayPreferences.cs" />
     <Compile Include="Library\Item.cs" />
     <Compile Include="Library\ItemCache.cs" />
-    <Compile Include="Library\IItemCacheProvider.cs" />
+    <Compile Include="Library\Interfaces\IItemRepository.cs" />
     <Compile Include="Library\ItemIndex.cs" />
     <Compile Include="Library\ItemSource.cs" />
     <Compile Include="Library\LibraryImage.cs" />
@@ -92,7 +106,7 @@
     <Compile Include="Library\Playables\PlayableIso.cs" />
     <Compile Include="Library\Playables\PlayableVideoFile.cs" />
     <Compile Include="Library\PlayState.cs" />
-    <Compile Include="Library\PlayStateFactory.cs" />
+    <Compile Include="Library\Factories\PlayStateFactory.cs" />
     <Compile Include="Library\Providers\FrameGrabProvider.cs" />
     <Compile Include="Library\Providers\ImageFromMediaLocationProvider.cs" />
     <Compile Include="Library\Providers\ImageByNameProvider.cs" />
@@ -106,7 +120,6 @@
     <Compile Include="Library\Providers\VirtualFolderProvider.cs" />
     <Compile Include="Library\SizeRef.cs" />
     <Compile Include="Library\Sources\FilterSource.cs" />
-    <Compile Include="Library\Sources\IndexFilteringSource.cs" />
     <Compile Include="Library\Sources\DummyDeleteItemSource.cs" />
     <Compile Include="Library\Sources\EmptyItemSource.cs" />
     <Compile Include="Library\Sources\ExistingItemSource.cs" />
@@ -125,9 +138,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Util\Profiler.cs" />
-    <Compile Include="Util\ThumbCreator.cs" />
-    <Compile Include="Util\Updater.cs" />
+    <Compile Include="Library\Util\Profiler.cs" />
+    <Compile Include="Library\Util\ThumbCreator.cs" />
+    <Compile Include="Code\Updater.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

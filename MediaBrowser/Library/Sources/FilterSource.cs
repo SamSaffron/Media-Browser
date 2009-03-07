@@ -4,6 +4,9 @@ using System.Text;
 
 namespace MediaBrowser.Library.Sources
 {
+    public delegate bool FilterMatch<FilterType>(Item itm, FilterType filter);
+    public delegate string FilterName<FilterType>(FilterType filter);
+
     public class FilterSource<FilterType> : ItemSource
     {
         string name;

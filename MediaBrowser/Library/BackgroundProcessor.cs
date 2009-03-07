@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace MediaBrowser.Library
 {
-    class BackgroundProcessor<T> where T : class
+    class BackgroundProcessor<T> : IDisposable where T : class
     {
         LinkedList<T> list = new LinkedList<T>();
         LinkedList<T> front = new LinkedList<T>();
@@ -161,6 +161,7 @@ namespace MediaBrowser.Library
                     itemArrived.Set();
                     Thread.Sleep(10);
                 }
+                itemArrived.Close();
                 if (disposing)
                     GC.SuppressFinalize(this);
             }

@@ -12,7 +12,7 @@ namespace MediaBrowser.Library.Sources
 {
     class FileSystemSource : ItemSource, IDisposable
     {
-        static readonly byte Version = 7;
+        const byte Version = 7;
         static readonly string[] ignore = { "metadata", ".metadata" };
         private string path;
         private UniqueName uniqueName;
@@ -57,15 +57,12 @@ namespace MediaBrowser.Library.Sources
 
         public override void ValidateItemType()
         {
-            //using (new Profiler(this.path))
+            if (ResolveItemType())
             {
-                if (ResolveItemType())
-                {
-                    ItemCache.Instance.SaveSource(this);
-                    // would be useful to maybe trigger a metadata refresh here if the type of item has changed
-                }
-                base.ValidateItemType();
+                ItemCache.Instance.SaveSource(this);
+                // would be useful to maybe trigger a metadata refresh here if the type of item has changed
             }
+            base.ValidateItemType();  
         }
 
         public override bool IsPlayable
@@ -89,19 +86,6 @@ namespace MediaBrowser.Library.Sources
                 if (Helper.IsFolder(path) && !IsPlayable)
                 {
                     InitializeWatcher();
-                    /* this slowed down verification ofr season folers dramatically, so for files we will stick with just getting names not full info back
-                    FileSystemInfo[] infos = new DirectoryInfo(path).GetFileSystemInfos();
-                    if (infos!=null)
-                        foreach (FileSystemInfo f in infos)
-                        {
-                            if ((f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
-                            {
-                                ItemSource s = GetChildSource(f.FullName, Helper.IsFolder(f));
-                                if (s != null)
-                                    yield return s;
-                            }
-                        }
-                    */
                     DirectoryInfo[] folders = new DirectoryInfo(path).GetDirectories();
                     if (folders != null)
                         foreach (DirectoryInfo f in folders)
@@ -125,39 +109,37 @@ namespace MediaBrowser.Library.Sources
             }
         }
 
-        private ItemSource GetChildSource(string path, bool isFolder)
+        private static ItemSource GetChildSource(string path, bool isFolder)
         {
-            //using (new Profiler(path))
+            ItemSource childSource = null;
+
+            if (isFolder)
             {
-                if (isFolder)
-                {
-                    if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
-                        return new FileSystemSource(path);
-                    else
-                        return null;
-                }
-                else
-                {
-                    if (Helper.IsShortcut(path))
-                    {
-                        ShortcutSource ss = new ShortcutSource(path);
-                        string location = ss.Location;
-                        if (Directory.Exists(location) || File.Exists(location))
-                            return ss;
-                    }
-                    else if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
-                    {
-                        if (Helper.IsVirtualFolder(path))
-                            return new VirtualFolderSource(path);
-                        else if (Helper.IsVideo(path) || Helper.IsIso(path))
-                            return new FileSystemSource(path);
-                    }
-                }
-                return null;
+                if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
+                    childSource = new FileSystemSource(path);
             }
+            else
+            {
+                if (Helper.IsShortcut(path))
+                {
+                    ShortcutSource shortcutSource = new ShortcutSource(path);
+                    string location = shortcutSource.Location;
+                    if (Directory.Exists(location) || File.Exists(location))
+                        childSource = shortcutSource;
+                }
+                else if (Array.IndexOf<string>(ignore, System.IO.Path.GetFileName(path).ToLower()) < 0)
+                {
+                    if (Helper.IsVirtualFolder(path))
+                        childSource = new VirtualFolderSource(path);
+                    else if (Helper.IsVideo(path) || Helper.IsIso(path))
+                        childSource = new FileSystemSource(path);
+                }
+            }
+
+            return childSource;
         }
 
-        private ItemSource GetDeleteChildSource(string path)
+        private static ItemSource GetDeleteChildSource(string path)
         {
             if (Helper.IsShortcut(path))
                 return new ShortcutSource(path);
@@ -193,11 +175,6 @@ namespace MediaBrowser.Library.Sources
             }
         }
 
-        private static DateTime GetDate(string path)
-        {
-            return GetDate(new FileInfo(path));
-        }
-
         private static DateTime GetDate(FileSystemInfo fi)
         {
             bool isFolder = Helper.IsFolder(fi);
@@ -214,7 +191,6 @@ namespace MediaBrowser.Library.Sources
                         di = new DirectoryInfo(fi.FullName);
                     
                     FileInfo[] files = di.GetFiles();
-                    //string[] files = Directory.GetFiles(fi.FullName);
                     if ((files != null) && (files.Length > 0))
                     {
                         DateTime oldest = DateTime.MaxValue;
@@ -242,8 +218,7 @@ namespace MediaBrowser.Library.Sources
             return ItemFactory.Instance.Create(this);
         }
 
-        PlayableItem playable = null;
-
+        PlayableItem playable;
         internal override PlayableItem PlayableItem
         {
             get
@@ -297,67 +272,63 @@ namespace MediaBrowser.Library.Sources
 
         private bool ResolveItemType()
         {
-            // Debug.WriteLine("Resolving type of " + this.path);
-            //using (Profiler prof = new Profiler(this.path))
+            bool isFolder = Helper.IsFolder(this.path);
+            bool isVideo = (!isFolder) && Helper.IsVideo(path);
+            ItemType old = this.itemType;
+
+            if (IsRoot)
+                itemType = ItemType.Folder;
+            else if (isFolder)
             {
-                bool isFolder = Helper.IsFolder(this.path);
-                bool isVideo = (!isFolder) && Helper.IsVideo(path);
-                ItemType old = this.itemType;
-
-                if (IsRoot)
-                    itemType = ItemType.Folder;
-                else if (isFolder)
-                {
-                    if (Helper.IsSeasonFolder(path))
-                        itemType = ItemType.Season;
-                    else
-                    {
-                        string[] folders;
-                        string[] files;
-
-                        folders = Directory.GetDirectories(path);
-                        files = Directory.GetFiles(path);
-                        if (Helper.IsSeriesFolder(path, files, folders))
-                            itemType = ItemType.Series;
-                        else
-                        {
-                            int iso = Helper.IsoCount(path, files);
-                            if (iso > 1)
-                                itemType = ItemType.Folder;
-                            else if (Helper.HasNoAutoPlaylistFile(path, files))
-                                itemType = ItemType.Folder;
-                            else if (iso == 1)
-                                itemType = ItemType.Movie;
-                            else if (Helper.IsDvDFolder(path, files, folders))
-                                itemType = ItemType.Movie;
-                            else if (Helper.IsHDDVDFolder(path, folders))
-                                itemType = ItemType.Movie;
-                            else if (Helper.IsBluRayFolder(path, folders))
-                                itemType = ItemType.Movie;
-                            else if (Helper.ContainsSingleMovie(path, files, folders))
-                                itemType = ItemType.Movie;
-                            else if (files.Length + folders.Length > 0)
-                                itemType = ItemType.Folder;
-                            else
-                                itemType = ItemType.Other; // we cannot determine what an empty folder might be or become
-
-                        }
-                    }
-                }
+                if (Helper.IsSeasonFolder(path))
+                    itemType = ItemType.Season;
                 else
                 {
-                    if (Helper.IsEpisode(path))
-                        itemType = ItemType.Episode;
-                    else if (isVideo)
-                        itemType = ItemType.Movie;
-                    else if (Helper.IsIso(path))
-                        itemType = ItemType.Movie;
+                    string[] folders;
+                    string[] files;
+
+                    folders = Directory.GetDirectories(path);
+                    files = Directory.GetFiles(path);
+                    if (Helper.IsSeriesFolder(path, files, folders))
+                        itemType = ItemType.Series;
                     else
-                        itemType = ItemType.Other;
+                    {
+                        int iso = Helper.IsoCount(path, files);
+                        if (iso > 1)
+                            itemType = ItemType.Folder;
+                        else if (Helper.HasNoAutoPlaylistFile(path, files))
+                            itemType = ItemType.Folder;
+                        else if (iso == 1)
+                            itemType = ItemType.Movie;
+                        else if (Helper.IsDvDFolder(path, files, folders))
+                            itemType = ItemType.Movie;
+                        else if (Helper.IsHDDVDFolder(path, folders))
+                            itemType = ItemType.Movie;
+                        else if (Helper.IsBluRayFolder(path, folders))
+                            itemType = ItemType.Movie;
+                        else if (Helper.ContainsSingleMovie(path, files, folders))
+                            itemType = ItemType.Movie;
+                        else if (files.Length + folders.Length > 0)
+                            itemType = ItemType.Folder;
+                        else
+                            itemType = ItemType.Other; // we cannot determine what an empty folder might be or become
+
+                    }
                 }
-				//Debug.WriteLine(this.path + " is item type: " + itemType.ToString());
-                return itemType != old;
             }
+            else
+            {
+                if (Helper.IsEpisode(path))
+                    itemType = ItemType.Episode;
+                else if (isVideo)
+                    itemType = ItemType.Movie;
+                else if (Helper.IsIso(path))
+                    itemType = ItemType.Movie;
+                else
+                    itemType = ItemType.Other;
+            }
+            return itemType != old;
+            
         }
 
         public override string Location
@@ -383,7 +354,6 @@ namespace MediaBrowser.Library.Sources
             
             if ((v != Version) || (this.itemType == ItemType.Other)) // we were uncertain of what it was last time
                 this.itemType = ItemType.None; // force reevaluation of what this is
-            //Debug.WriteLine("Loaded " + this.Name + " as " + this.itemType.ToString());
         }
 
         private void InitializeWatcher()
@@ -458,20 +428,11 @@ namespace MediaBrowser.Library.Sources
 
         #region IDisposable Members
 
-        public void Dispose()
-        {
-          /*  if (watcher != null)
-            {
+        public void Dispose() {
+            if (watcher != null) {
                 watcher.Dispose();
-                watcher = null;
             }
-           */
             GC.SuppressFinalize(this);
-        }
-
-        ~FileSystemSource()
-        {
-            Dispose();
         }
 
         #endregion

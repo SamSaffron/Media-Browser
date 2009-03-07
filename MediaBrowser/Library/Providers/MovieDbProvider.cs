@@ -216,7 +216,7 @@ namespace MediaBrowser.Library.Providers
                         store.Overview = store.Overview.Replace("\n\n", "\n");
                 }
                 if (store.ImdbRating == -1.0)
-                    store.ImdbRating = doc.SafeGetFloat("//movie/rating", -1, 10);
+                    store.ImdbRating = doc.SafeGetSingle("//movie/rating", -1, 10);
                 if (store.ProductionYear == null)
                 {
                     string release = doc.SafeGetString("//movie/release");
@@ -224,7 +224,7 @@ namespace MediaBrowser.Library.Providers
                         store.ProductionYear = Int32.Parse(release.Substring(0, 4));
                 }
                 if (store.RunningTime == null)
-                    store.RunningTime = doc.SafeGetInt("//movie/runtime");
+                    store.RunningTime = doc.SafeGetInt32("//movie/runtime");
 
                 if (store.Directors == null)
                 {

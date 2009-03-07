@@ -60,8 +60,6 @@ namespace MediaBrowser.Util
         {
             try
             {
-               // appRef.displayDialog("Test", "Test", (DialogButtons)12, 10000);
-
                 XmlDocument doc = new XmlDocument();
                 doc.Load(new XmlTextReader(infoURL));
 

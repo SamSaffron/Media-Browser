@@ -112,7 +112,7 @@ namespace MediaBrowser.Library.Providers
                 if (store.SeasonNumber == null)
                     store.SeasonNumber = metadataDoc.SafeGetString("Item/SeasonNumber");
                 if (store.ImdbRating == null)
-                    store.ImdbRating = metadataDoc.SafeGetFloat("Item/Rating", (float)-1, 10);
+                    store.ImdbRating = metadataDoc.SafeGetSingle("Item/Rating", (float)-1, 10);
             }
         }
 

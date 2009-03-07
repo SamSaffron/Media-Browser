@@ -2,46 +2,40 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
 
 namespace MediaBrowser.Library
 {
-    class MediaMetadataFactory
+    class ItemFactory : IDisposable
     {
-        public static readonly MediaMetadataFactory Instance = new MediaMetadataFactory();
-        private Stack<MediaMetadata> buffer = new Stack<MediaMetadata>();
+        public static readonly ItemFactory Instance = new ItemFactory();
+        private Stack<Item> buffer = new Stack<Item>();
         private AutoResetEvent moreAvailable = new AutoResetEvent(false);
 
-        private MediaMetadataFactory()
+        public Item Create(ItemSource source)
         {
-            IncreaseBuffer();
-        }
-
-        public MediaMetadata Create(MediaMetadataStore store, ItemType type)
-        {
-            MediaMetadata mine = GetFreeMediaMetadata();
-            mine.Assign(store,type);
+            Item mine = GetFreeItem();
+            mine.Assign(source);
             return mine;
         }
 
-        public MediaMetadata Create(UniqueName ownerName, ItemType type)
+        public Item Create(ItemSource source, MediaMetadata metadata)
         {
-            MediaMetadata mine = GetFreeMediaMetadata();
-            mine.Assign(ownerName, type);
+            Item mine = GetFreeItem();
+            mine.Assign(source, metadata);
             return mine;
         }
 
-        private MediaMetadata GetFreeMediaMetadata()
+        private Item GetFreeItem()
         {
-            MediaMetadata mine = null;
+            Item mine = null;
             while (mine == null)
             {
                 lock (buffer)
                     if (buffer.Count > 0)
                         mine = buffer.Pop();
-                //if (mine == null)
+                if (mine == null)
                     lock(this)
-                        if (buffer.Count<20)
+                        if (buffer.Count==0)
                             IncreaseBuffer();
             }
             return mine;
@@ -58,21 +52,29 @@ namespace MediaBrowser.Library
             {
                 moreAvailable.Reset();
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke(this.BufferMore);
-                if (!moreAvailable.WaitOne(500,false))
-                    Trace.TraceWarning("Wait on buffer increase in mediametadatafactory failed");
-                        
+                moreAvailable.WaitOne(500,false);
             }
         }
 
         private void BufferMore(object nothing)
         {
             lock (buffer)
-                if (buffer.Count < 20)
+                if (buffer.Count < 10)
                     for (int i = 0; i < 100; ++i)
-                        buffer.Push(new MediaMetadata());
+                        buffer.Push(new Item());
             moreAvailable.Set();
         }
 
 
+
+        #region IDisposable Members
+
+        public void Dispose() {
+            if (moreAvailable != null)
+                moreAvailable.Close();
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

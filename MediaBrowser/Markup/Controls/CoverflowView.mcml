@@ -30,22 +30,13 @@
 			<lib:Item Name="PreviousSelectedItem" Item="[Item.SelectedChild]" />
 			<lib:Item Name="BlankItem"  Item="[Item.BlankItem]"/>
 			<Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
-
-			
 		</Locals>
 
 		<Rules>
-
-			
-
 			<Binding Source="[SelectedItem]" Target="[TitleSet.Model]"/>
 			<Binding Source="[PreSelectedItem]" Target="[TitleSet.ModelFast]"/>
 			<Binding Source="[SelectedItem]" Target="[MovieInfo.Model]"/>
 			<Binding Source="[PreSelectedItem]" Target="[MovieInfo.ModelFast]"/>
-			
-
-			
-
 			<Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
 				<Conditions>
 					<Equality ConditionOp="NotEquals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
@@ -160,12 +151,9 @@
 			<ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" />
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true"/>
 			<IntRangedValue Name="NavCount" Value="0" />
-			<cor:UInt32 Name="NormalKeyRepeat" UInt32="250"/><!-- This must be less than anim delay -->
-
-			<cor:UInt32 Name="FastKeyRepeat" UInt32="150"/>
-
+			<cor:Int32 Name="NormalKeyRepeat" Int32="250"/><!-- This must be less than anim delay -->
+			<cor:Int32 Name="FastKeyRepeat" Int32="150"/>
 			<cor:Int32 Name="AnimDelay" Int32="300" /><!-- This must be greater than NormalKeyRepeat-->
-
 			<cor:Int32 Name="SpeedUpDelay" Int32="2"/>
 		</Locals>
 

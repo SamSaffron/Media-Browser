@@ -103,14 +103,12 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning metadata");
                 if (metadata == null)
                     LoadMetadata();
                 return metadata;
             }
             private set
             {
-                //Debug.WriteLine("Setting metadata");
                 if (value != this.metadata)
                 {
                     if (this.metadata != null)
@@ -481,7 +479,7 @@ namespace MediaBrowser.Library
         {
             set
             {
-                if ((value != null) && (value != "") && (MediaBrowser.LibraryManagement.Helper.IsAlphaNumeric(value)))
+                if (!String.IsNullOrEmpty(value) && (MediaBrowser.LibraryManagement.Helper.IsAlphaNumeric(value)))
                 {
                     TripleTapIndex proto = new TripleTapIndex { Index = -1, Name = value };
                     lock (itemIndex.TripleTapCandidates)
@@ -846,10 +844,10 @@ namespace MediaBrowser.Library
         void source_NewItem(ItemSource newItem)
         {
             if (childIndexCreated)
-                Microsoft.MediaCenter.UI.Application.DeferredInvoke(AddChild, newItem);
+                Microsoft.MediaCenter.UI.Application.DeferredInvoke(AddChildSource, newItem);
         }
 
-        private void AddChild(object newItemSource)
+        private void AddChildSource(object newItemSource)
         {
             Item itm = ((ItemSource)newItemSource).ConstructItem();
             lock (this.children)
@@ -866,10 +864,10 @@ namespace MediaBrowser.Library
         void source_RemoveItem(ItemSource newItem)
         {
             if (childIndexCreated)
-                Microsoft.MediaCenter.UI.Application.DeferredInvoke(RemoveChild, newItem);
+                Microsoft.MediaCenter.UI.Application.DeferredInvoke(RemoveChildSource, newItem);
         }
 
-        private void RemoveChild(object removedItemSource)
+        private void RemoveChildSource(object removedItemSource)
         {
             lock (this.children)
             {
@@ -919,68 +917,80 @@ namespace MediaBrowser.Library
 
         private bool VerifyChildren()
         {
-            // todo should also verify on navigate into folder
+            // TODO should also verify on navigate into folder
             Debug.WriteLine("Verifying children:" + this.source.RawName);
-            //using (new Profiler(this.source.RawName))
+           
+            bool changed = false;
+            Item[] clist;
+            lock (this.children)
+                clist = this.children.ToArray();
+            if (clist.Length > 0)
             {
-                bool changed = false;
-                Item[] clist;
-                lock (this.children)
-                    clist = this.children.ToArray();
-                if (clist.Length > 0)
+				Dictionary<UniqueName, Item> itemsToRemove = new Dictionary<UniqueName, Item>();
+                foreach (Item i in clist)
                 {
-					Dictionary<UniqueName, Item> itemsToRemove = new Dictionary<UniqueName, Item>();
-                    foreach (Item i in clist)
-                    {
-                        // index the current items
-                        itemsToRemove[i.UniqueName] = i;
-                    }
-                    foreach (ItemSource s in source.ChildSources)
-                    {
-                        if (!itemsToRemove.ContainsKey(s.UniqueName))
-                        {
-                            // add new item
-                            Trace.TraceInformation("New item found: " + s.Location);
-                            if (childrenToAdd == null)
-                                childrenToAdd = new List<ItemSource>();
-                            s.PrepareToConstruct();
-							childrenToAdd.Add(s);
-							changed = true;
-						}
-                        else
-                        {
-                            // revalidation of type only happens on navigation
-                            itemsToRemove.Remove(s.UniqueName);
-                        }
-                    }
-                    foreach (Item i in itemsToRemove.Values)
-                    {
-                        // remove items no longer present
-                        changed = true;
-                        lock (this.children)
-                        {
-                            this.children.Remove(i);
-                            i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
-                            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
-                            if (i.PhysicalParent == this)
-                                i.PhysicalParent = null;
-                        }
-                        ItemCache.Instance.RemoveSource(i.Source);
-                    }
+                    // index the current items
+                    itemsToRemove[i.UniqueName] = i;
                 }
-                else
+                foreach (ItemSource s in source.ChildSources)
                 {
-                    foreach (ItemSource s in source.ChildSources)
+                    if (!itemsToRemove.ContainsKey(s.UniqueName))
                     {
+                        // add new item
+                        Trace.TraceInformation("New item found: " + s.Location);
                         if (childrenToAdd == null)
                             childrenToAdd = new List<ItemSource>();
                         s.PrepareToConstruct();
 						childrenToAdd.Add(s);
 						changed = true;
 					}
+                    else
+                    {
+                        // revalidation of type only happens on navigation
+                        itemsToRemove.Remove(s.UniqueName);
+                    }
                 }
-                return changed;
+                foreach (Item i in itemsToRemove.Values)
+                {
+                    // remove items no longer present
+                    changed = true;
+                    lock (this.children)
+                    {
+                        RemoveChild(i);
+                    }
+                    ItemCache.Instance.RemoveSource(i.Source);
+                }
             }
+            else
+            {
+                foreach (ItemSource s in source.ChildSources)
+                {
+                    if (childrenToAdd == null)
+                        childrenToAdd = new List<ItemSource>();
+                    s.PrepareToConstruct();
+					childrenToAdd.Add(s);
+					changed = true;
+				}
+            }
+            return changed;
+            
+        }
+
+        private void RemoveChild(Item i) {
+            this.children.Remove(i);
+            i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
+            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+            if (i.PhysicalParent == this)
+                i.PhysicalParent = null;
+        }
+
+        private void AddChild(Item itm) {
+            lock (this.children)
+                this.children.Add(itm);
+            itm.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
+            itm.MetadataPropertyChanged += new PropertyChangedEventHandler(child_MetadataPropertyChanged);
+            if (itm.PhysicalParent == null)
+                itm.PhysicalParent = this;
         }
 
         private void VerifyChildrenComplete(object nothing)
@@ -993,12 +1003,7 @@ namespace MediaBrowser.Library
                     Item itm = s.ConstructItem();
                     if (itm.PhysicalParent == null) // genuine new item not one from a ExistingItem wrapper etc.
                         ItemCache.Instance.SaveSource(itm.Source);
-                    lock (this.children)
-                        this.children.Add(itm);
-                    itm.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
-                    itm.MetadataPropertyChanged +=new PropertyChangedEventHandler(child_MetadataPropertyChanged);
-                    if (itm.PhysicalParent == null)
-                        itm.PhysicalParent = this;
+                    AddChild(itm);
                 }
                 childrenToAdd = null;
             }
@@ -1009,8 +1014,6 @@ namespace MediaBrowser.Library
             if (!(this.Source is IndexingSource))
                 lock (this.children)
                     ItemCache.Instance.SaveChildren(this.UniqueName, this.children);
-
-            //Debug.WriteLine("Finished children verification:" + this.source.Name);
         }
 
         #endregion
@@ -1038,29 +1041,23 @@ namespace MediaBrowser.Library
                 lock (lck)
                     if (this.metadata == null)
                     {
-                        //using (Profiler p = new Profiler())
+                        Debug.WriteLine("Loading metadata for " + this.Source.Location);
+                        MediaMetadataStore data = ItemCache.Instance.RetrieveMetadata(this.UniqueName);
+                        if (data != null)
                         {
-                            Debug.WriteLine("Loading metadata for " + this.Source.Location);
-                            MediaMetadataStore data = ItemCache.Instance.RetrieveMetadata(this.UniqueName);
-                            if (data != null)
-                            {
-                                //Debug.WriteLine("Loaded cached metadata:" + this.UniqueName.Value);
-                                this.Metadata = MediaMetadataFactory.Instance.Create(data, this.Source.ItemType);
-                                this.Metadata.SaveEnabled = true;
-                                this.metadata.RefreshAsync(this, false, false);
-                            }
-                            else
-                            {
-                                //Debug.WriteLine("Fetching new metadata:" + this.UniqueName.Value);
-                                //data = MetaDataSource.Instance.GetMetadata(this);
-                                //if (data == null)
-                                data = new MediaMetadataStore(this.UniqueName) { Name = this.Source.Name };
-                                this.Metadata = MediaMetadataFactory.Instance.Create(data, this.Source.ItemType);
-                                this.Metadata.SaveEnabled = true;
-                                this.Metadata.Save();
-                                this.Metadata.RefreshAsync(this, true, true);
-                            }
+                            this.Metadata = MediaMetadataFactory.Instance.Create(data, this.Source.ItemType);
+                            this.Metadata.SaveEnabled = true;
+                            this.metadata.RefreshAsync(this, false, false);
                         }
+                        else
+                        {
+                            data = new MediaMetadataStore(this.UniqueName) { Name = this.Source.Name };
+                            this.Metadata = MediaMetadataFactory.Instance.Create(data, this.Source.ItemType);
+                            this.Metadata.SaveEnabled = true;
+                            this.Metadata.Save();
+                            this.Metadata.RefreshAsync(this, true, true);
+                        }
+                        
                     }
         }
 

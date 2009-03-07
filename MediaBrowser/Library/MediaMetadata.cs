@@ -179,13 +179,13 @@ namespace MediaBrowser.Library
                 if (this.primaryImage == null)
                 {
                     this.primaryImage = new LibraryImage(this.PrimaryImageSourceInternal);
-                    this.primaryImage.PropertyChanged += new PropertyChangedEventHandler(image_PropertyChanged);
+                    this.primaryImage.PropertyChanged += new PropertyChangedEventHandler(ImagePropertyChanged);
                 }
                 return this.primaryImage;
             }
         }
 
-        public void image_PropertyChanged(IPropertyObject sender, string property)
+        public void ImagePropertyChanged(IPropertyObject sender, string property)
         {
             if (property == "SourceCache")
                 Save();
@@ -209,7 +209,6 @@ namespace MediaBrowser.Library
                     if (this.secondaryImage != null)
                         this.secondaryImage.Source = this.SecondaryImageSource;
                     FirePropertyChanged("SecondaryImageSource");
-                    //FirePropertyChanged("SecondaryImage");
                     FirePropertyChanged("HasSecondaryImage");
                     Save();
                 }
@@ -223,7 +222,7 @@ namespace MediaBrowser.Library
                 if (this.secondaryImage == null)
                 {
                     this.secondaryImage = new LibraryImage(this.SecondaryImageSource);
-                    this.secondaryImage.PropertyChanged += new PropertyChangedEventHandler(image_PropertyChanged);
+                    this.secondaryImage.PropertyChanged += new PropertyChangedEventHandler(ImagePropertyChanged);
                 }
                 return this.secondaryImage;
             }
@@ -270,7 +269,6 @@ namespace MediaBrowser.Library
                         FirePropertyChanged("HasPreferredImage");
                     }
                     FirePropertyChanged("BannerImageSource");
-                    //FirePropertyChanged("BannerImage"); 
                     FirePropertyChanged("HasBannerImage");
                     Save();
                 }
@@ -284,7 +282,7 @@ namespace MediaBrowser.Library
                 if (this.bannerImage == null)
                 {
                     this.bannerImage = new LibraryImage(this.BannerImageSource);
-                    this.bannerImage.PropertyChanged += new PropertyChangedEventHandler(image_PropertyChanged);
+                    this.bannerImage.PropertyChanged += new PropertyChangedEventHandler(ImagePropertyChanged);
                 }
                 return this.bannerImage;
             }
@@ -309,7 +307,6 @@ namespace MediaBrowser.Library
                     if (this.backdropImage != null)
                         this.backdropImage.Source = this.BackdropImageSource;
                     FirePropertyChanged("BackdropImageSource");
-                    //FirePropertyChanged("BackdropImage");
                     FirePropertyChanged("HasBackdropImage");
                     Save();
                 }
@@ -323,7 +320,7 @@ namespace MediaBrowser.Library
                 if (this.backdropImage == null)
                 {
                     this.backdropImage = new LibraryImage(this.BackdropImageSource);
-                    this.backdropImage.PropertyChanged += new PropertyChangedEventHandler(image_PropertyChanged);
+                    this.backdropImage.PropertyChanged += new PropertyChangedEventHandler(ImagePropertyChanged);
                 }
                 return this.backdropImage;
             }
@@ -358,7 +355,7 @@ namespace MediaBrowser.Library
                 if (this.preferedImage == null)
                 {
                     this.preferedImage = new LibraryImage(this.PreferBanner ? this.BannerImageSource : this.PrimaryImageSourceInternal);
-                    this.preferedImage.PropertyChanged += new PropertyChangedEventHandler(image_PropertyChanged);
+                    this.preferedImage.PropertyChanged += new PropertyChangedEventHandler(ImagePropertyChanged);
                 }
                 return this.preferedImage;
             }
@@ -529,16 +526,6 @@ namespace MediaBrowser.Library
             //sortableDescription = sortableDescription.Trim();
             return sortable.Trim();
         }
-        /*
-        internal void Fetch(Item item)
-        {
-            MediaMetadataStore data = MetaDataSource.Instance.GetMetadata(item);
-            if (data != null)
-            {
-                this.AssignFrom(data);
-                Save();
-            }
-        }*/
 
         private class RefreshObj
         {
@@ -569,7 +556,6 @@ namespace MediaBrowser.Library
                         refreshPending = new RefreshObj { Metadata = this, Item = item, Force = force, FastFirst = fastFirst };
                         processor.Inject(refreshPending);
                     }
-            //Microsoft.MediaCenter.UI.Application.DeferredInvokeOnWorkerThread(RefreshMetadata, RefreshMetadataDone, new RefreshObj { Item = item, Force = force });
         }
 
         internal void RefreshToFront()
@@ -627,10 +613,6 @@ namespace MediaBrowser.Library
                 this.DataSource = data.DataSource;
                 this.MediaInfo = data.MediaInfo;
                 this.store.ProviderData = data.ProviderData;
-                /*
-                if (data.ProviderData!=null)
-                    foreach(KeyValuePair<string,string> kv in data.ProviderData)
-                        this.store.ProviderData[kv.Key] = kv.Value;*/
             }
             finally
             {

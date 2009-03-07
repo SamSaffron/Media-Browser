@@ -27,7 +27,7 @@ namespace MediaBrowser.Library.Providers
         {
             string location = Config.Instance.ImageByNameLocation;
             if ((location == null) || (location.Length == 0))
-                location = Path.Combine(Helper.AppDataPath, "ImagesByName");
+                location = Path.Combine(Helper.AppConfigPath, "ImagesByName");
             char[] invalid = Path.GetInvalidFileNameChars();
             string name = item.Source.Name;
             foreach (char c in invalid)

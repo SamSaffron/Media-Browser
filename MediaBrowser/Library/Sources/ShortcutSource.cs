@@ -41,7 +41,7 @@ namespace MediaBrowser.Library.Sources
         protected override void ReadStream(BinaryReader br)
         {
             base.ReadStream(br);
-            byte v = br.ReadByte();
+            br.ReadByte();
             this.path = br.SafeReadString();
         }
     }

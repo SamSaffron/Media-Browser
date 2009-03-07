@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace MediaBrowser.Library
 {
-    class PlayStateFactory
+    class PlayStateFactory : IDisposable
     {
         public static readonly PlayStateFactory Instance = new PlayStateFactory();
         private Stack<PlayState> buffer = new Stack<PlayState>();
@@ -35,7 +35,6 @@ namespace MediaBrowser.Library
                     lock (buffer)
                         if (buffer.Count > 0)
                             mine = buffer.Pop();
-                    //if (mine == null)
                     lock (this)
                         if (buffer.Count < 20)
                             IncreaseBuffer();
@@ -73,5 +72,15 @@ namespace MediaBrowser.Library
                         buffer.Push(new PlayState());
             moreAvailable.Set();
         }
+
+        #region IDisposable Members
+
+        public void Dispose() {
+            if (moreAvailable != null)
+                moreAvailable.Close();
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

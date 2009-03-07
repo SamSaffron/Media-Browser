@@ -164,7 +164,7 @@ namespace MediaBrowser.Library.Providers
                         if (store.SeasonNumber == null)
                             store.SeasonNumber = doc.SafeGetString("//SeasonNumber");
                         if (store.ImdbRating == null)
-                            store.ImdbRating = doc.SafeGetFloat("//Rating", (float)-1, 10);
+                            store.ImdbRating = doc.SafeGetSingle("//Rating", (float)-1, 10);
                         if (store.Actors == null)
                         {
                             string actors = doc.SafeGetString("//GuestStars");
@@ -303,7 +303,7 @@ namespace MediaBrowser.Library.Providers
                         if (store.Overview == null)
                             store.Overview = doc.SafeGetString("//Overview");
                         if (store.ImdbRating == null)
-                            store.ImdbRating = doc.SafeGetFloat("//Rating", 0, 10);
+                            store.ImdbRating = doc.SafeGetSingle("//Rating", 0, 10);
                         if (store.BannerImage == null)
                         {
                             string n = doc.SafeGetString("//banner");

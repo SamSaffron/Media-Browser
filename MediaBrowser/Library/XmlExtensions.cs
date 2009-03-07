@@ -11,15 +11,15 @@ namespace System.Runtime.CompilerServices
 
 namespace System.Xml
 {
-    public static class MyExtension
+    public static class XmlExtensions
     {
 
-        public static int SafeGetInt(this XmlDocument doc, string path)
+        public static int SafeGetInt32(this XmlDocument doc, string path)
         {
-            return SafeGetInt(doc, path, 0);
+            return SafeGetInt32(doc, path, 0);
         }
 
-        public static int SafeGetInt(this XmlDocument doc, string path, int defaultInt)
+        public static int SafeGetInt32(this XmlDocument doc, string path, int defaultInt)
         {
             XmlNode rvalNode = doc.SelectSingleNode(path);
             if (rvalNode != null && rvalNode.InnerText.Length > 0)
@@ -36,7 +36,7 @@ namespace System.Xml
 
         private static CultureInfo _usCulture = new CultureInfo("en-US");
 
-        public static float SafeGetFloat(this XmlDocument doc, string path, float minValue, float maxValue)
+        public static float SafeGetSingle(this XmlDocument doc, string path, float minValue, float maxValue)
         {
             XmlNode rvalNode = doc.SelectSingleNode(path);
             if (rvalNode != null && rvalNode.InnerText.Length > 0)
@@ -76,14 +76,14 @@ namespace System.Xml
             return SafeGetString(doc, path, null);
         }
 
-        public static string SafeGetString(this XmlNode doc, string path, string defaultString)
+        public static string SafeGetString(this XmlNode doc, string path, string defaultValue)
         {
             XmlNode rvalNode = doc.SelectSingleNode(path);
             if (rvalNode != null && rvalNode.InnerText.Length > 0)
             {
                 return rvalNode.InnerText;
             }
-            return defaultString;
+            return defaultValue;
         }
     }
 

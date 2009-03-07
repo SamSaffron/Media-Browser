@@ -39,10 +39,10 @@
 			<ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true"/>
 			<IntRangedValue Name="NavCount" Value="0" />
 
-			<cor:UInt32 Name="NormalKeyRepeat" UInt32="250"/>
+			<cor:Int32 Name="NormalKeyRepeat" Int32="250"/>
 			<!-- This must be less than anim delay -->
 
-			<cor:UInt32 Name="FastKeyRepeat" UInt32="150"/>
+			<cor:Int32 Name="FastKeyRepeat" Int32="150"/>
 
 			<cor:Int32 Name="AnimDelay" Int32="300" />
 			<!-- This must be greater than NormalKeyRepeat-->

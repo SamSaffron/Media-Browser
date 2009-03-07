@@ -9,24 +9,12 @@ using System.Xml;
 using Microsoft.MediaCenter.UI;
 using MediaBrowser.Library;
 using MediaBrowser.LibraryManagement;
+using MediaBrowser.Attributes;
 using Microsoft.MediaCenter;
 
 namespace MediaBrowser
 {
-    [global::System.AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    sealed class CommentAttribute : Attribute
-    {
-
-        // This is a positional argument
-        public CommentAttribute(string comment)
-        {
-            Comment = comment;
-        }
-
-        public string Comment { get; private set; }
-    }
-
-    
+   
     public class Config : IModelItem
     {
         private ConfigData data;

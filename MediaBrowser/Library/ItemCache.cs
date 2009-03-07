@@ -10,6 +10,6 @@ namespace MediaBrowser.Library
         {
         }
 
-        public static IItemCacheProvider Instance = new DefaultCacheProvider();
+        public static IItemRepository Instance = new ItemRepository();
     }
 }
