@@ -14,7 +14,7 @@
       <Color Name="BackgroundColor" Color="Transparent" />
       <FormatTransformer Name="LabelTransformer" Format="{0}" />
       <Font Name="Font" Font="$Required"/>
-		<Font Name="ValueFont" Font="$Required"/>
+		  <Font Name="ValueFont" Font="$Required"/>
       <Color Name="Color" Color="color://s:FontColorLight"/>
       <cor:String Name="Label" String="" />
     </Properties>
@@ -54,7 +54,7 @@
         </Layout>
         <Children>
 
-          <Text Name="Text" Content="[Label]" Font="[Font]" Color="[Color]" />
+          <Text Name="Text" Content="[Label]" Font="[Font]" Color="[Color]" MinimumSize="200,0" />
 
           <!-- Previous button -->
           <vm:ImageBtn Name="btnPrevious" Focused="image://i:DecrementFocus"
@@ -67,7 +67,7 @@
                        Command="[Next]"/>
 
           <!-- Current value -->
-          <ColorFill Name="Background" Content="Transparent" MinimumSize="150,35" MaximumSize="150,35" Padding="5,0,0,5">
+          <ColorFill Name="Background" Content="Transparent" MinimumSize="150,35" MaximumSize="175,35" Padding="5,0,0,5">
             <Children>
               <Text Name="Value" Font="[ValueFont]" Color="color://s:FontColorLight" />
             </Children>

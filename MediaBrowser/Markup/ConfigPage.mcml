@@ -11,6 +11,7 @@
 	  xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
     xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/SpinnerText"
     xmlns:cs="resx://MediaBrowser/MediaBrowser.Resources/ColorSpinner"
+      xmlns:ss="resx://MediaBrowser/MediaBrowser.Resources/SimpleSpinner"
     xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
 	  xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
     xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/Pivot"
@@ -364,8 +365,8 @@
                   <cb:CheckBox Label="Allow Nested Movie Folders" Checked="[EnableNestedMovieFolders]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
                   <cb:CheckBox Label="Movie Playlists" Checked="[EnableMoviePlaylists]"  Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
                   <cb:CheckBox Label="Auto Enter Single Folder Items" Checked="[AutoEnterSingleDirs]" Margins="[CMargin]"   Font="font://f:CP_ConfigItemFont"/>
-                  <vm:IntSpin Label="Playlist Size Limit" Int="[PlaylistLimit]" Margins="[CMargin]"  />
-                  <vm:IntSpin Label="Breadcrumb Count" Int="[BreadcrumbCount]" Margins="[CMargin]"  />
+                  <ss:SimpleSpinner  Label="Playlist Size Limit" Model="[PlaylistLimit]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont"  />
+                  <ss:SimpleSpinner  Label="Breadcrumb Count" Model="[BreadcrumbCount]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont"  />
                 </Children>
               </Graphic>
 
@@ -377,8 +378,8 @@
                   <cb:CheckBox Label="Show Clock" Checked="[ShowClock]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
                   <cb:CheckBox Label="Dim Unselected Posters" Checked="[DimUnselectedPosters]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
                   <me:TextHeader Text="Views" />
-                  <vm:IntSpin Label="Poster Grid Spacing" Int="[GridSpacing]" Margins="[CMargin]"  />
-                  <vm:IntSpin Label="Thumb Strip Split Size" Int="[ThumbStripPosterWidth]" Margins="[CMargin]"  />
+                  <ss:SimpleSpinner  Label="Poster Grid Spacing" Model="[GridSpacing]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont"  />
+                  <ss:SimpleSpinner  Label="Thumb Width Split" Model="[ThumbStripPosterWidth]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont"  />
                   <cb:CheckBox Label="Show Backdrop on Supported Views" Checked="[ShowBackdrop]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
                   
                   <cb:CheckBox Label="Enable Advanced Commands" Checked="[EnableAdvancedCmds]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont" Visible="false"/>
@@ -424,7 +425,7 @@
                   <me:TextHeader Text="View Settings" />
                   <cb:CheckBox   Label="Show Config Button" Margins="[CMargin]"   Checked="[ShowConfigButton]"  Font="font://f:CP_ConfigItemFont"/>
                   <cb:CheckBox   Label="Maintain Poster Aspect Ratio" Checked="[MaintainPosterAspectRatio]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-                  <vm:IntSpin    Label="Alpha Blending" Int="[AlphaBlending]" Margins="[CMargin]"  />
+                  <ss:SimpleSpinner    Label="Alpha Blending" Model="[AlphaBlending]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont" ValueFont="font://f:CP_ConfigItemFont" />
                 </Children>
               </Graphic>
             
