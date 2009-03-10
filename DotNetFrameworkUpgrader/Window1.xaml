@@ -1,0 +1,12 @@
+﻿<Window x:Class="DotNetFrameworkUpgrader.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title=".Net Framework Upgrader" Height="193" Width="570" Topmost="True">
+    <Grid>
+    	<TextBlock Margin="20,17.96,-15,0" VerticalAlignment="Top" Height="24.04" Text="media browser requires that your .NET framework is upgraded to version 3.5. " TextWrapping="Wrap"/>
+    	<ProgressBar Margin="20,0,11,34" VerticalAlignment="Bottom" Height="19" x:Name="progressBar"/>
+    	<Button HorizontalAlignment="Left" Margin="20,57,0,72" Width="112" Content="Upgrade" x:Name="upgradeButton" Click="upgradeButton_Click" />
+    	<TextBlock HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Bottom" Width="112" Height="28" Text="10% " TextWrapping="Wrap" x:Name="message"/>
+        
+    </Grid>
+</Window>
