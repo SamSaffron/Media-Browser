@@ -39,22 +39,18 @@ namespace MediaBrowser.Library
                 Server = Activator.GetObject(ITranscode360,
                    "tcp://localhost:1401/RemotingServices/Transcode360");
                 
-                // go ahead and take care of setting up our methods
-                //////
-                // StopTranscoder
+        
                 ParameterModifier[] arrPmods = new ParameterModifier[1];
                 arrPmods[0] = new ParameterModifier(1);
                 arrPmods[0][0] = false; // not out
                 
                 System.Type[] arrTypes = new System.Type[1];
                 arrTypes.SetValue(Type.GetType("System.String"),0);
-//                arrTypes.SetValue(Type.GetType("System.String"),1);
 
                 methStopTranscoding = ITranscode360.GetMethod("StopTranscoding",
                     arrTypes,
-                    arrPmods);
-            
-                //////
+                    arrPmods);          
+
                 // IsMediaTranscodeComplete
                 arrPmods[0] = new ParameterModifier(3);
                 arrPmods[0][0] = false; // not out
@@ -70,7 +66,6 @@ namespace MediaBrowser.Library
                     arrTypes,
                     arrPmods);
 
-                //////
                 // IsMediaTranscoding
                 arrPmods[0] = new ParameterModifier(3);
                 arrPmods[0][0] = false; // not out
@@ -86,7 +81,6 @@ namespace MediaBrowser.Library
                     arrTypes,
                     arrPmods);
 
-                //////
                 // Transcode
                 arrPmods[0] = new ParameterModifier(3);
                 arrPmods[0][0] = false; // not out
@@ -145,7 +139,6 @@ namespace MediaBrowser.Library
             }
 
             // Check if the transcode is already completed
-
             object[] arrParms = new object[3];
             arrParms.SetValue(filename, 0);
             arrParms.SetValue(0, 1);

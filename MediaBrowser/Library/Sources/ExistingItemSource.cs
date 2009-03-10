@@ -58,6 +58,12 @@ namespace MediaBrowser.Library.Sources
             get { return item.Source.Location; }
         }
 
+        public override MediaType MediaType {
+            get {
+                return item.Source.MediaType;
+            }
+        }
+
         protected override void WriteStream(System.IO.BinaryWriter bw)
         {
             throw new NotImplementedException();

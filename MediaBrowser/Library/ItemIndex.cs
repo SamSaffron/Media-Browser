@@ -40,6 +40,7 @@ namespace MediaBrowser.Library
         {
             this.rawData = items;
         }
+
         private IndexType indexby = IndexType.None;
         public IndexType IndexBy
         {

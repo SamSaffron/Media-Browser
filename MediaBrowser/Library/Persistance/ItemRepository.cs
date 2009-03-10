@@ -18,8 +18,7 @@ namespace MediaBrowser.Library
         {
             try
             {
-                cacheMutex = Mutex.OpenExisting(MUTEX_NAME, MutexRights.Synchronize | MutexRights.Modify);
-                
+                cacheMutex = Mutex.OpenExisting(MUTEX_NAME, MutexRights.Synchronize | MutexRights.Modify); 
             }
             catch
             {

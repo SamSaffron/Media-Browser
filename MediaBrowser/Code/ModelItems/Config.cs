@@ -272,17 +272,17 @@ namespace MediaBrowser
         }
 
         [Comment("Changes the default view index for folders that have not yet been visited.\n\t[Detail|Poster|Thumb]")]
-        public ViewTypes DefaultViewType
+        public ViewType DefaultViewType
         {
             get 
             {
                 try
                 {
-                    return (ViewTypes)Enum.Parse(typeof(ViewTypes), this.data.DefaultViewType);
+                    return (ViewType)Enum.Parse(typeof(ViewType), this.data.DefaultViewType);
                 }
                 catch
                 {
-                    return ViewTypes.Poster;
+                    return ViewType.Poster;
                 }
             }
             set { if (this.data.DefaultViewType != value.ToString()) { this.data.DefaultViewType = value.ToString(); Save(); FirePropertyChanged("DefaultViewType"); } }

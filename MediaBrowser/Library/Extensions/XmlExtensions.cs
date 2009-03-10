@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Globalization;
-namespace System.Runtime.CompilerServices
-{
-    public class ExtensionAttribute : Attribute
-    { }
-}
 
 namespace System.Xml
 {

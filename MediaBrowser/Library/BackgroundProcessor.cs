@@ -102,31 +102,17 @@ namespace MediaBrowser.Library
                 itemArrived.WaitOne();
                 while (!disposed)
                 {
-                    while ((list.Count > 0) || (front.Count>0))
+                    while ((list.Count > 0) || (front.Count > 0))
                     {
                         try
                         {
-                            T item = null;
-                                lock (list)
-                                {
-                                    if (front.Count > 0)
-                                    {
-                                        item = front.First.Value;
-                                        front.RemoveFirst();
-                                    }
-                                    else if (list.Count > 0)
-                                    {
-                                        item = list.First.Value;
-                                        list.RemoveFirst();
-                                    }
-                                }
+                            T item = Dequeue();
                             if (item != null)
                                 this.handler(item);
                         }
                         catch (Exception ex)
                         {
                             Trace.TraceError("Error in background processor.\n" + ex.ToString());
-                            // System.Diagnostics.Debug.WriteLine(ex.ToString());
                         }
                     }
                     itemArrived.WaitOne();
@@ -136,6 +122,20 @@ namespace MediaBrowser.Library
             {
                 // in case the thread is aborted. (during testing) 
                 Interlocked.Decrement(ref activeThreads);
+            }
+        }
+
+        private T Dequeue() {
+            lock (list) {
+                T item = null;
+                if (front.Count > 0) {
+                    item = front.First.Value;
+                    front.RemoveFirst();
+                } else if (list.Count > 0) {
+                    item = list.First.Value;
+                    list.RemoveFirst();
+                }
+                return item;
             }
         }
 

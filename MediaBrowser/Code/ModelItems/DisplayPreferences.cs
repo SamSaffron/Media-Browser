@@ -9,6 +9,8 @@ namespace MediaBrowser.Library
 {
     public class DisplayPreferences : ModelItem
     {
+        private static readonly byte Version = 3;
+
         readonly Choice viewType = new Choice();
         readonly BooleanChoice  showLabels;
         readonly BooleanChoice verticalScroll;
@@ -17,6 +19,7 @@ namespace MediaBrowser.Library
         readonly BooleanChoice useBanner;
         readonly BooleanChoice useCoverflow;
         readonly BooleanChoice useBackdrop;
+        private bool saveEnabled = true;
         SizeRef thumbConstraint = new SizeRef(Config.Instance.DefaultPosterSize);
 
         public DisplayPreferences(UniqueName ownerName)
@@ -24,7 +27,7 @@ namespace MediaBrowser.Library
             this.OwnerName = ownerName;
             
             ArrayList list = new ArrayList();
-            foreach (ViewTypes v in Enum.GetValues(typeof(ViewTypes)))
+            foreach (ViewType v in Enum.GetValues(typeof(ViewType)))
                 list.Add(ViewTypeNames.GetName(v));
             viewType.Options = list;
             
@@ -66,13 +69,12 @@ namespace MediaBrowser.Library
             useBackdrop.ChosenChanged += new EventHandler(useBackdrop_ChosenChanged);
             thumbConstraint.PropertyChanged += new PropertyChangedEventHandler(thumbConstraint_PropertyChanged);
         }
-
+     
         void useCoverflow_ChosenChanged(object sender, EventArgs e)
         {
             Save();
         }
-
-        
+     
         void useBanner_ChosenChanged(object sender, EventArgs e)
         {
             Save();
@@ -101,38 +103,23 @@ namespace MediaBrowser.Library
 
         void viewType_ChosenChanged(object sender, EventArgs e)
         {
-            /*switch (ViewTypeNames.GetEnum((string)this.viewType.Chosen))
-            {
-                case ViewTypes.ThumbStrip:
-                    if (this.VerticalScroll.Value)
-                       this.VerticalScroll.Chosen = false;
-                    if (this.ThumbConstraint.Value.Height > 220)
-                        this.ThumbConstraint.Value = new Size(220, 220);
-                    break;
-                case ViewTypes.CoverFlow:
-                    this.ThumbConstraint.Value = new Size(340, 340);
-                    break;
-            }*/
             FirePropertyChanged("ViewTypeString");
             Save();
         }
                
-        
         void sortOrders_ChosenChanged(object sender, EventArgs e)
         {
             FirePropertyChanged("SortOrder");
             Save();
         }
         
-
         void useBackdrop_ChosenChanged(object sender, EventArgs e)
         {
             Save();
         }
-
-        private bool saveEnabled = true;
+ 
         public UniqueName OwnerName { get; set; }
-        private static readonly byte Version = 3;
+        
         public void WriteToStream(BinaryWriter bw)
         {
             bw.Write(Version);
@@ -155,11 +142,11 @@ namespace MediaBrowser.Library
             byte version = br.ReadByte();
             try
             {
-                dp.viewType.Chosen = ViewTypeNames.GetName((ViewTypes)Enum.Parse(typeof(ViewTypes), br.SafeReadString()));
+                dp.viewType.Chosen = ViewTypeNames.GetName((ViewType)Enum.Parse(typeof(ViewType), br.SafeReadString()));
             }
             catch
             {
-                dp.viewType.Chosen = ViewTypeNames.GetName(ViewTypes.Poster);
+                dp.viewType.Chosen = ViewTypeNames.GetName(MediaBrowser.Library.ViewType.Poster);
             }
             dp.showLabels.Value = br.ReadBoolean();
             dp.verticalScroll.Value = br.ReadBoolean();
@@ -173,8 +160,10 @@ namespace MediaBrowser.Library
                 dp.IndexBy = IndexType.None;
             dp.useBanner.Value = br.ReadBoolean();
             dp.thumbConstraint.Value = new Size(br.ReadInt32(), br.ReadInt32());
+            
             if (version >= 2)
                 dp.useCoverflow.Value = br.ReadBoolean();
+
             if (version >= 3)
                 dp.useBackdrop.Value = br.ReadBoolean();
 
@@ -206,8 +195,7 @@ namespace MediaBrowser.Library
                 this.IndexByChoice.Default = this.IndexByChoice.Chosen;
             }
         }
-
-        
+  
         public Choice IndexByChoice
         {
             get { return this.indexBy; }
@@ -242,7 +230,6 @@ namespace MediaBrowser.Library
         {
             get { return this.useCoverflow; }
         }
-
         
         public SizeRef ThumbConstraint
         {
@@ -277,7 +264,6 @@ namespace MediaBrowser.Library
             get { return this.useBackdrop; }
         }
         
-        
         internal void LoadDefaults()
         {
             
@@ -289,6 +275,7 @@ namespace MediaBrowser.Library
                 return;
             ItemCache.Instance.SaveDisplayPreferences(this);
         }
+
         public void ToggleViewTypes()
         {
             this.ViewType.NextValue(true);
@@ -317,7 +304,7 @@ namespace MediaBrowser.Library
         Studio
     }
 
-    public enum ViewTypes
+    public enum ViewType
     {
         CoverFlow,
         Detail,
@@ -330,14 +317,14 @@ namespace MediaBrowser.Library
     {
         private static readonly string[] Names = { "Cover Flow","Detail", "Poster", "Thumb", "Thumb Strip"};
 
-        public static string GetName(ViewTypes type)
+        public static string GetName(ViewType type)
         {
             return Names[(int)type];
         }
 
-        public static ViewTypes GetEnum(string name)
+        public static ViewType GetEnum(string name)
         {
-            return (ViewTypes)Array.IndexOf<string>(Names, name);
+            return (ViewType)Array.IndexOf<string>(Names, name);
         }
     }
 

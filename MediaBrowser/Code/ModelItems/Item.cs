@@ -8,6 +8,10 @@ using System.Diagnostics;
 using System.Collections;
 using Microsoft.MediaCenter;
 using MediaBrowser.Util;
+using MediaBrowser.Library.Collections;
+using System.Linq;
+using MediaBrowser.Library.LinqExtensions;
+
 
 namespace MediaBrowser.Library
 {
@@ -82,7 +86,6 @@ namespace MediaBrowser.Library
                 List<ActorItemWrapper> result = new List<ActorItemWrapper>();
                 foreach (Actor a in this.metadata.Actors)
                     result.Add(new ActorItemWrapper(a, this.PhysicalParent));
-                //result.Sort(delegate(ActorItemWrapper a, ActorItemWrapper b) { return a.Actor.Name.CompareTo(b.Actor.Name); });
                 return result;
             }
         }
@@ -91,11 +94,10 @@ namespace MediaBrowser.Library
         {
             get
             {
-                List<StudioItemWrapper> result = new List<StudioItemWrapper>();
-                foreach (Studio a in this.metadata.Studios)
-                    result.Add(new StudioItemWrapper(a, this.PhysicalParent));
-                result.Sort(delegate(StudioItemWrapper a, StudioItemWrapper b) { return a.Studio.Name.CompareTo(b.Studio.Name); });
-                return result;
+                var items = this.metadata.Studios
+                    .Select((s) => new StudioItemWrapper(s, this.PhysicalParent))
+                    .OrderBy((x) => x.Studio.Name);
+                return new List<StudioItemWrapper>(items);
             }
         }
 
@@ -103,11 +105,10 @@ namespace MediaBrowser.Library
         {
             get
             {
-                List<DirectorItemWrapper> result = new List<DirectorItemWrapper>();
-                foreach (string d in this.metadata.Directors)
-                    result.Add(new DirectorItemWrapper(d, this.PhysicalParent));
-                result.Sort(delegate(DirectorItemWrapper a, DirectorItemWrapper b) { return a.Director.CompareTo(b.Director); });
-                return result;
+                var items = this.metadata.Directors
+                    .Select((s) => new DirectorItemWrapper(s, this.PhysicalParent))
+                    .OrderBy((x) => x.Director);
+                return new List<DirectorItemWrapper>(items);
             }
         }
 
@@ -308,14 +309,12 @@ namespace MediaBrowser.Library
             {
                 if (playstate == null)
                 {
-                    //Debug.WriteLine("Sync load of playstate");
                     LoadPlayState();
                 }
                 return this.playstate;
             }
             private set
             {
-                //Debug.WriteLine("Setting playstate");
                 if (value != playstate)
                 {
                     if (this.playstate != null)
@@ -418,7 +417,6 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning Children");
                 EnsureChildrenLoaded(true);
                 return children;
             }
@@ -428,7 +426,6 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning Children");
                 EnsureChildrenLoaded(true);
                 return itemIndex.IndexedAndSortedData;
             }
@@ -443,12 +440,11 @@ namespace MediaBrowser.Library
             {
                 if (this.selectedchildIndex > this.Children.Count)
                     this.selectedchildIndex = -1;
-                //Debug.WriteLine("Returning SelectedChildIndex");
                 return this.selectedchildIndex;
             }
             set
             {
-                //Debug.WriteLine("Setting SelectedChildIndex");
+
                 if (this.selectedchildIndex != value)
                 {
                     this.selectedchildIndex = value;
@@ -462,14 +458,12 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning SelectedChild");
                 if ((this.SelectedChildIndex < 0) || (this.selectedchildIndex >= this.Children.Count))
                     return blank;
                 return this.Children[this.SelectedChildIndex];
             }
         }
         #endregion
-
 
         #region Triple Tap Support
 
@@ -623,7 +617,6 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning ThumbAspectRation");
                 if (this.Metadata.HasPreferredImage)
                     return this.Metadata.PreferredImage.AspectRatio;
                 else
@@ -637,7 +630,6 @@ namespace MediaBrowser.Library
             {
                 if (this.actualThumbSize.Value.Height == 1)
                     UpdateActualThumbSize();
-                //Debug.WriteLine("Returning ActualThumbSize");
                 return actualThumbSize;
             }
         }
@@ -652,7 +644,6 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning ReferenceSize");
                 Size s = this.ActualThumbSize.Value;
                 if (this.DisplayPrefs.ShowLabels.Value)
                     s.Height += 40;
@@ -662,7 +653,6 @@ namespace MediaBrowser.Library
 
         private void UpdateActualThumbSize()
         {
-            //Debug.WriteLine("Updating ActualThumbSize");
             Size s = this.DisplayPrefs.ThumbConstraint.Value;
             float f = 0;
             if (this.UnsortedChildren != null)
@@ -692,7 +682,6 @@ namespace MediaBrowser.Library
         {
             get
             {
-                //Debug.WriteLine("Returning PosterZoom");
                 Size s = this.ReferenceSize;
                 float x = Math.Max(s.Height, s.Width);
                 if (x == 1)
@@ -785,7 +774,7 @@ namespace MediaBrowser.Library
                 foreach (Item i in pendingChildren)
                 {
                     i.LoadPlayState();
-                    i.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
+                    i.PropertyChanged += new PropertyChangedEventHandler(ChildPropertyChanged);
                     i.MetadataPropertyChanged += new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
                     if (i.PhysicalParent == null)
                         i.PhysicalParent = this;
@@ -916,8 +905,6 @@ namespace MediaBrowser.Library
                     }
         }
 
-        private List<ItemSource> childrenToAdd = null;
-
         private static void ChildVerificationCallback(Item item)
         {
             if (item.VerifyChildren())
@@ -927,79 +914,56 @@ namespace MediaBrowser.Library
                     item.pendingVerify = false;
         }
 
+
         private bool VerifyChildren()
         {
-            // TODO should also verify on navigate into folder
             Debug.WriteLine("Verifying children:" + this.source.RawName);
            
             bool changed = false;
-            Item[] clist;
+            ItemSource[] childSources;
             lock (this.children)
-                clist = this.children.ToArray();
-            if (clist.Length > 0)
-            {
-				Dictionary<UniqueName, Item> itemsToRemove = new Dictionary<UniqueName, Item>();
-                foreach (Item i in clist)
-                {
-                    // index the current items
-                    itemsToRemove[i.UniqueName] = i;
+                childSources = this.children.Select((item) => item.source).ToArray();
+
+            var comparer = new DerivedEqualityComparer<ItemSource>(
+                    (x,y) => x.UniqueName.Equals(y.UniqueName), 
+                    (x) => x.UniqueName.GetHashCode()
+                );
+
+            foreach (var item in childSources.Diff(source.ChildSources,comparer)) {
+                changed = true;
+                var currentSource = item.Value;
+
+                if (item.DiffAction == DiffAction.Added) {
+                    currentSource.PrepareToConstruct();
+                    var currentItem = currentSource.ConstructItem();
+                    AddChild(currentItem);
+                    if (currentItem.PhysicalParent == null)
+                        ItemCache.Instance.SaveSource(currentItem.Source);
+      
+                } else if (item.DiffAction == DiffAction.Removed) {
+                    ItemCache.Instance.RemoveSource(currentSource);
+                    RemoveChild(currentSource);
                 }
-                foreach (ItemSource s in source.ChildSources)
-                {
-                    if (!itemsToRemove.ContainsKey(s.UniqueName))
-                    {
-                        // add new item
-                        Trace.TraceInformation("New item found: " + s.Location);
-                        if (childrenToAdd == null)
-                            childrenToAdd = new List<ItemSource>();
-                        s.PrepareToConstruct();
-						childrenToAdd.Add(s);
-						changed = true;
-					}
-                    else
-                    {
-                        // revalidation of type only happens on navigation
-                        itemsToRemove.Remove(s.UniqueName);
-                    }
-                }
-                foreach (Item i in itemsToRemove.Values)
-                {
-                    // remove items no longer present
-                    changed = true;
-                    lock (this.children)
-                    {
-                        RemoveChild(i);
-                    }
-                    ItemCache.Instance.RemoveSource(i.Source);
-                }
-            }
-            else
-            {
-                foreach (ItemSource s in source.ChildSources)
-                {
-                    if (childrenToAdd == null)
-                        childrenToAdd = new List<ItemSource>();
-                    s.PrepareToConstruct();
-					childrenToAdd.Add(s);
-					changed = true;
-				}
             }
             return changed;
-            
         }
 
-        private void RemoveChild(Item i) {
-            this.children.Remove(i);
-            i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
-            i.MetadataPropertyChanged -= new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
-            if (i.PhysicalParent == this)
-                i.PhysicalParent = null;
+        private void RemoveChild(ItemSource source) {
+            Item item;
+            lock (this.children) {
+                item = children.Find((x) => x.Source == source);
+                this.children.Remove(item);
+            }
+            item.PropertyChanged -= new PropertyChangedEventHandler(ChildPropertyChanged);
+            item.MetadataPropertyChanged -= new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
+            if (item.PhysicalParent == this)
+                item.PhysicalParent = null;
         }
 
         private void AddChild(Item itm) {
             lock (this.children)
                 this.children.Add(itm);
-            itm.PropertyChanged += new PropertyChangedEventHandler(child_PropertyChanged);
+            itm.PropertyChanged += new PropertyChangedEventHandler(ChildPropertyChanged);
             itm.MetadataPropertyChanged += new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
             if (itm.PhysicalParent == null)
                 itm.PhysicalParent = this;
@@ -1007,18 +971,6 @@ namespace MediaBrowser.Library
 
         private void VerifyChildrenComplete(object nothing)
         {
-            Debug.WriteLine("Finishing children verification:" + this.source.RawName);
-            if (childrenToAdd != null)
-            {
-                foreach (ItemSource s in childrenToAdd)
-                {
-                    Item itm = s.ConstructItem();
-                    if (itm.PhysicalParent == null) // genuine new item not one from a ExistingItem wrapper etc.
-                        ItemCache.Instance.SaveSource(itm.Source);
-                    AddChild(itm);
-                }
-                childrenToAdd = null;
-            }
             itemIndex.FlagUnsorted();
             lock (verifyLock)
                 pendingVerify = false;
@@ -1026,6 +978,9 @@ namespace MediaBrowser.Library
             if (!(this.Source is IndexingSource))
                 lock (this.children)
                     ItemCache.Instance.SaveChildren(this.UniqueName, this.children);
+
+            Debug.WriteLine("Finishing children verification:" + this.source.RawName);
+
         }
 
         #endregion
@@ -1145,7 +1100,7 @@ namespace MediaBrowser.Library
                 lock (this.children)
                     foreach (Item i in this.children)
                     {
-                        i.PropertyChanged -= new PropertyChangedEventHandler(child_PropertyChanged);
+                        i.PropertyChanged -= new PropertyChangedEventHandler(ChildPropertyChanged);
                         i.MetadataPropertyChanged -= new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
                         if (i.PhysicalParent == this)
                             i.PhysicalParent = null;
@@ -1153,21 +1108,8 @@ namespace MediaBrowser.Library
             base.Dispose(disposing);
         }
 
-        void child_PropertyChanged(IPropertyObject sender, string property)
+        void ChildPropertyChanged(IPropertyObject sender, string property)
         {
-            /*if (property == "HaveWatched")
-            {
-                FirePropertyChanged(property);
-                // note: need tobe careful this doesn't trigger the load of the prefs 
-                // that can then trigger a cascade that loads metadata, prefs should only be loaded by 
-                // functions that are required when the item is the current item displayed
-                if ((this.prefs != null) && (this.DisplayPrefs.SortOrder == SortOrder.Unwatched))
-                {
-                    this.itemIndex.FlagUnsorted();
-                    FirePropertyChanged("Children");
-                }
-            }
-            else*/
             if (property == "UnwatchedCount")
             {
                 lock (watchLock)

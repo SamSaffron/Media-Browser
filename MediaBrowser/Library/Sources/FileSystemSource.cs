@@ -12,13 +12,14 @@ namespace MediaBrowser.Library.Sources
 {
     class FileSystemSource : ItemSource, IDisposable
     {
-        const byte Version = 7;
+        const byte Version = 8;
         static readonly string[] ignore = { "metadata", ".metadata" };
         private string path;
         private UniqueName uniqueName;
         private ItemType itemType = ItemType.None;
         private FileSystemWatcher watcher;
         private DateTime createdDate = DateTime.MinValue;
+        private MediaType mediaType = MediaType.Unknown;
 
         public FileSystemSource(UniqueName name)
         {
@@ -300,12 +301,21 @@ namespace MediaBrowser.Library.Sources
                             itemType = ItemType.Folder;
                         else if (iso == 1)
                             itemType = ItemType.Movie;
-                        else if (Helper.IsDvDFolder(path, files, folders))
+                        else if (Helper.IsDvDFolder(path, files, folders)) 
+                        {
+                            mediaType = MediaType.DVD;
                             itemType = ItemType.Movie;
-                        else if (Helper.IsHDDVDFolder(path, folders))
+                        } 
+                        else if (Helper.IsHDDVDFolder(path, folders)) 
+                        {
+                            mediaType = MediaType.HDDVD;
                             itemType = ItemType.Movie;
-                        else if (Helper.IsBluRayFolder(path, folders))
+                        } 
+                        else if (Helper.IsBluRayFolder(path, folders)) 
+                        {
+                            mediaType = MediaType.BluRay;
                             itemType = ItemType.Movie;
+                        } 
                         else if (Helper.ContainsSingleMovie(path, files, folders))
                             itemType = ItemType.Movie;
                         else if (files.Length + folders.Length > 0)
@@ -336,12 +346,21 @@ namespace MediaBrowser.Library.Sources
             get { return path; }
         }
 
+        public override MediaType MediaType {
+            get {
+                return mediaType;
+            }
+        }
+
+        #region Persistance 
+
         protected override void WriteStream(BinaryWriter bw)
         {
             bw.Write(Version);
             bw.SafeWriteString(this.path);
             bw.Write(this.itemType.ToString());
             bw.Write(this.createdDate.Ticks);
+            bw.Write((int)this.MediaType);
         }
 
         protected override void ReadStream(BinaryReader br)
@@ -352,9 +371,14 @@ namespace MediaBrowser.Library.Sources
             if (v > 5) 
                 this.createdDate = new DateTime(br.ReadInt64());
             
+            if (v >= 8)
+                this.mediaType = (MediaType)br.ReadInt32();
+
             if ((v != Version) || (this.itemType == ItemType.Other)) // we were uncertain of what it was last time
                 this.itemType = ItemType.None; // force reevaluation of what this is
         }
+
+        #endregion
 
         private void InitializeWatcher()
         {

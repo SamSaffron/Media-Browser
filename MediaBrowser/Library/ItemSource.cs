@@ -27,10 +27,10 @@ namespace MediaBrowser.Library
         public event NewItemHandler NewItem;
         public event RemoveItemHandler RemoveItem;
         public string ItemTypeString { get { return this.ItemType.ToString(); } }
-        public string ItemMediaTypeString { get { return MediaType(this.Location); } }
+        public string ItemMediaTypeString { get { return MediaType.ToString().ToLower(); } }
 
         /// <summary>
-        /// Does any caching not requiredfor item verification but that should be done async before
+        /// Does any caching not required for item verification but that should be done async before
         /// we construct the item for the first time and also before we save this source for the first time
         /// </summary>
         public virtual void PrepareToConstruct()
@@ -109,45 +109,10 @@ namespace MediaBrowser.Library
         protected abstract void ReadStream( BinaryReader br);
 
 
-        //HACK: This is a real hack job in order to get the Media Type of an item.
-        // It looks at the first file in the directory path, and uses that as the
-        // basis for the Item's MediaType.
-        private static string MediaType(string path)
-        {
-            
-            if (path==null)
-                return "unknown";
-            try
-            {
-                path = path.ToLower();
-                DirectoryInfo di = new DirectoryInfo(path);
-                FileInfo[] fi = di.GetFiles();
-                path = fi[0].ToString().ToLower();
+        public virtual MediaType MediaType {
+            get {
+                return MediaType.Unknown;
             }
-            catch(Exception)
-            {
-                return "unknown";
-            }
-            if (path.Contains("video_ts"))
-                return "DVD";
-            if (path.EndsWith(".avi"))
-                return "Avi";
-            if (path.EndsWith(".mpg"))
-                return "Mpg";
-            if (path.EndsWith(".mkv"))
-                return "Mkv";
-            if (path.Contains("bdmv"))
-                return "BluRay";
-            if (path.Contains("hvdvd_ts"))
-                return "HDDVD";
-            if (Directory.Exists(Path.Combine(path, "VIDEO_TS")))
-                return "DVD";
-            if (Directory.Exists(Path.Combine(path, "BDMV")))
-                return "BluRay";
-            if (Directory.Exists(Path.Combine(path, "HVDVD_TS")))
-                return "HDDVD";
-           
-            return "unknown";
         }
     }
 }

@@ -85,9 +85,9 @@
       <Binding Target="[Summary.Text]" Source="[SelectedItem.Overview]"/>
       <Binding Target="[LastWatched.Content]" Source="[SelectedItem.PlayState.LastPlayedString]"/>
       <Binding Target="[LastWatched.Visible]" Source="[SelectedItem.HaveWatched]"/>
-      <!--<Binding Target="[Backdrop.Image]" Source="[SelectedItem.BackdropImage.Image]" /> -->
       <Binding Target="[MPAARating.Value]" Source="[SelectedItem.Metadata.MpaaRating]" />
-      <Binding Target="[MediaInfo.Item]" Source="[SelectedItem]" />
+      <Binding Target="[MediaInfo.Item]" Source="[SelectedItem]" /> 
+
     </Rules>
 
     <Content>

@@ -98,22 +98,6 @@ namespace MediaBrowser.Library
         }
     
 
-        internal void AssignFrom(PlayState data)
-        {
-            saveEnabled = false;
-            try
-            {
-                this.PlayCount = data.PlayCount;
-                this.PositionTicks = data.PositionTicks;
-                this.PlaylistPosition = data.PlaylistPosition;
-                this.LastPlayed = data.LastPlayed;
-            }
-            finally
-            {
-                saveEnabled = true;
-            }
-        }
-
         private void Save()
         {
             // todo defer the save for a few seconds to make sure we're not doing it too often

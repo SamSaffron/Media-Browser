@@ -8,10 +8,8 @@ namespace MediaBrowser.Library.Playables
 {
     public class PlayableExternal : PlayableItem
     {
-        public enum MediaTypes { Unknown, Mpg, Avi, Mkv, DVD, BluRay, HDDVD }
-
         private static object lck = new object();
-        private static Dictionary<MediaTypes, ConfigData.ExternalPlayer> configuredPlayers = null;
+        private static Dictionary<MediaType, ConfigData.ExternalPlayer> configuredPlayers = null;
         private string path;
         public PlayableExternal(string path)
         {
@@ -35,7 +33,7 @@ namespace MediaBrowser.Library.Playables
 
         protected override void PlayInternal( bool resume)
         {
-            MediaTypes type  = DetermineType(this.path);
+            MediaType type  = MediaTypeResolver.DetermineType(this.path);
             ConfigData.ExternalPlayer p = configuredPlayers[type];
             string args = string.Format(p.Args, this.path);
             Process.Start(p.Command, args);
@@ -50,7 +48,7 @@ namespace MediaBrowser.Library.Playables
                 lock(lck)
                     if (configuredPlayers==null)
                         LoadConfig();
-            MediaTypes type = DetermineType(path);
+            MediaType type = MediaTypeResolver.DetermineType(path);
             if (configuredPlayers.ContainsKey(type))
                 return true;
             else
@@ -59,34 +57,12 @@ namespace MediaBrowser.Library.Playables
 
         private static void LoadConfig()
         {
- 	        configuredPlayers = new Dictionary<MediaTypes,ConfigData.ExternalPlayer>();
+ 	        configuredPlayers = new Dictionary<MediaType,ConfigData.ExternalPlayer>();
             if (Config.Instance.ExternalPlayers!=null)
                 foreach(var x in Config.Instance.ExternalPlayers)
                     configuredPlayers[x.MediaType] = x;
         }
 
-        private static MediaTypes DetermineType(string path)
-        {
-            path = path.ToLower();
-            if (path.Contains("video_ts"))
-                return MediaTypes.DVD;
-            if (path.EndsWith(".avi"))
-                return MediaTypes.Avi;
-            if (path.EndsWith(".mpg"))
-                return MediaTypes.Mpg;
-            if (path.EndsWith(".mkv"))
-                return MediaTypes.Mkv;
-            if (path.Contains("bdmv"))
-                return MediaTypes.BluRay;
-            if (path.Contains("hvdvd_ts"))
-                return MediaTypes.HDDVD;
-            if (Directory.Exists(Path.Combine(path, "VIDEO_TS")))
-                return MediaTypes.DVD;
-            if (Directory.Exists(Path.Combine(path, "BDMV")))
-                return MediaTypes.BluRay;
-            if (Directory.Exists(Path.Combine(path, "HVDVD_TS")))
-                return MediaTypes.HDDVD;
-            return MediaTypes.Unknown;
-        }
+        
     }
 }

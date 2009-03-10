@@ -126,7 +126,7 @@ namespace MediaBrowser
                 object control = pi.GetValue(view, null);
 
                 pi = control.GetType().GetProperty("KeyRepeatThreshold", BindingFlags.NonPublic | BindingFlags.Instance);
-                pi.SetValue(control, val, null);
+                pi.SetValue(control, (UInt32)val, null);
             }
             catch
             {

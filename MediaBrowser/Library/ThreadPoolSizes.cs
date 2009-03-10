@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediaBrowser.Library
 {
-    class ThreadPoolSizes
+    static class ThreadPoolSizes
     {
         internal const int METADATA_REFRESH_THREADS = 2;
         internal const int CHILD_VERIFICATION_THREADS = 2;

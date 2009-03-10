@@ -146,7 +146,7 @@ namespace MediaBrowser.Library
             var mce = AddInHost.Current.MediaCenterEnvironment;
             try
             {
-                if (!mce.PlayMedia(MediaType.Video, this.fileToPlay, false))
+                if (!mce.PlayMedia(Microsoft.MediaCenter.MediaType.Video, this.fileToPlay, false))
                     Trace.TraceInformation("PlayMedia returned false");
             }
             catch (Exception ex)
@@ -207,16 +207,6 @@ namespace MediaBrowser.Library
                         string title = null;
                         try
                         {
-                            /*
-                            foreach (var x in mce.MediaMetadata)
-                                try
-                                {
-                                    Debug.WriteLine("Key=" + x.Key);
-                                    Debug.WriteLine("Value=" + x.Value == null ? "" : x.Value.ToString());
-                                }
-                                catch { }
-                             */
-
                             title = mce.MediaMetadata["Title"] as string;
                         }
                         catch (Exception e)

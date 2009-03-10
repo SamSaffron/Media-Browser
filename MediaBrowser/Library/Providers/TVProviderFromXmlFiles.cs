@@ -108,7 +108,6 @@ namespace MediaBrowser.Library.Providers
                     store.EpisodeNumber = metadataDoc.SafeGetString("Item/EpisodeNumber");
                 if (store.Name == null)
                     store.Name = store.EpisodeNumber + " - " + metadataDoc.SafeGetString("Item/EpisodeName");
-                //store.Name = metadataDoc.SafeGetString("Item/ShowName");
                 if (store.SeasonNumber == null)
                     store.SeasonNumber = metadataDoc.SafeGetString("Item/SeasonNumber");
                 if (store.ImdbRating == null)
@@ -129,18 +128,26 @@ namespace MediaBrowser.Library.Providers
                 }
                 if (store.Actors == null)
                 {
-                    string actors = metadataDoc.SafeGetString("Item/GuestStars");
-                    if (actors != null)
-                    {
+                    var actors = ActorListFromString(metadataDoc.SafeGetString("Item/GuestStars"));
+                    if (actors != null) {
                         if (store.Actors == null)
                             store.Actors = new List<Actor>();
-                        foreach (string n in actors.Split('|'))
-                        {
-                            store.Actors.Add(new Actor { Name = n });
-                        }
+                        store.Actors = actors;
                     }
                 }
             }
+        }
+
+        private static List<Actor> ActorListFromString(string unsplit) {
+
+            List<Actor> actors = null;
+            if (unsplit != null) {
+                actors = new List<Actor>();
+                foreach (string name in unsplit.Split('|')) {
+                    actors.Add(new Actor { Name = name });
+                }
+            }
+            return actors;
         }
 
         private void SeasonData(Item item, MediaMetadataStore store)
@@ -160,101 +167,107 @@ namespace MediaBrowser.Library.Providers
         {
             string location = item.Source.Location;
             string tmpString;
-            if (location != null)
+            if (location == null) return;
+            string file = XmlLocation(item, ItemType.Series);
+            if (!File.Exists(file)) return;
+      
+            store.ProviderData[ProviderName + ":ModTime"] = new FileInfo(file).LastWriteTimeUtc.Ticks.ToString();
+            store.ProviderData[ProviderName + ":File"] = file;
+            XmlDocument metadataDoc = new XmlDocument();
+            metadataDoc.Load(file);
+
+            var seriesNode = metadataDoc.SelectSingleNode("Series");
+            if (seriesNode == null)
             {
-                string file = XmlLocation(item, ItemType.Series);
-                if (File.Exists(file))
+                // support for sams metadata scraper 
+                seriesNode = metadataDoc.SelectSingleNode("Item");
+            }
+
+            // exit if we have no data. 
+            if (seriesNode == null)
+            {
+                return; 
+            }
+
+            string id = seriesNode.SafeGetString("id");
+
+            if (id != null)
+            {
+                store.ProviderData["TvDb:SeriesId"] = id;  // caching this means the TvDbProvider can then fill in season and episode data automatically
+                item.Metadata.ProviderData["TvDb:SeriesId"] = id; // not strictly what we should be doing here but helps later providers in the flow
+            }
+            if (store.BannerImage == null)
+            {
+                var p = seriesNode.SafeGetString("banner");
+                if (p != null)
                 {
-                    store.ProviderData[ProviderName + ":ModTime"] = new FileInfo(file).LastWriteTimeUtc.Ticks.ToString();
-                    store.ProviderData[ProviderName + ":File"] = file;
-                    XmlDocument metadataDoc = new XmlDocument();
-                    metadataDoc.Load(file);
-
-                    var seriesNode = metadataDoc.SelectSingleNode("Series");
-                    if (seriesNode == null)
+                    string bannerFile = System.IO.Path.Combine(location, System.IO.Path.GetFileName(p));
+                    if (File.Exists(bannerFile))
+                        store.BannerImage = new ImageSource { OriginalSource = bannerFile };
+                    else
                     {
-                        // support for sams metadata scraper 
-                        seriesNode = metadataDoc.SelectSingleNode("Item");
+                        // we don't have the banner file!
                     }
-
-                    // exit if we have no data. 
-                    if (seriesNode == null)
-                    {
-                        return; 
-                    }
-
-                    string id = seriesNode.SafeGetString("id");
-
-                    if (id != null)
-                    {
-                        store.ProviderData["TvDb:SeriesId"] = id;  // caching this means the TvDbProvider can then fill in season and episode data automatically
-                        item.Metadata.ProviderData["TvDb:SeriesId"] = id; // not strictly what we should be doing here but helps later providers in the flow
-                    }
-                    if (store.BannerImage == null)
-                    {
-                        var p = seriesNode.SafeGetString("banner");
-                        if (p != null)
-                        {
-                            string bannerFile = System.IO.Path.Combine(location, System.IO.Path.GetFileName(p));
-                            if (File.Exists(bannerFile))
-                                store.BannerImage = new ImageSource { OriginalSource = bannerFile };
-                            else
-                            {
-                                // we don;t have the banner file!
-                            }
-                        }
-                    }
-                    if (store.Overview == null)
-                        store.Overview = seriesNode.SafeGetString("Overview");
-                    if (store.Name == null)
-                        store.Name = seriesNode.SafeGetString("SeriesName");
+                }
+            }
+            if (store.Overview == null)
+                store.Overview = seriesNode.SafeGetString("Overview");
+            if (store.Name == null)
+                store.Name = seriesNode.SafeGetString("SeriesName");
+            if (store.Actors == null)
+            {
+                string actors = seriesNode.SafeGetString("Actors");
+                if (actors != null)
+                {
                     if (store.Actors == null)
+                        store.Actors = new List<Actor>();
+                    foreach (string n in actors.Split('|'))
                     {
-                        string actors = seriesNode.SafeGetString("Actors");
-                        if (actors != null)
-                        {
-                            if (store.Actors == null)
-                                store.Actors = new List<Actor>();
-                            foreach (string n in actors.Split('|'))
-                            {
-                                store.Actors.Add(new Actor { Name = n });
-                            }
-                        }
+                        store.Actors.Add(new Actor { Name = n });
                     }
-                    if (store.Genres == null)
-                    {
-                        string genres = seriesNode.SafeGetString("Genre");
-                        if (genres != null)
-                            store.Genres = new List<string>(genres.Trim('|').Split('|'));
-                    }
-                    if (store.MpaaRating == null)
-                        store.MpaaRating = seriesNode.SafeGetString("ContentRating");
-                    if (store.RunningTime == null) {
-                        tmpString = seriesNode.SafeGetString("Runtime");
-                        if (tmpString != null)
-                          store.RunningTime = int.Parse(tmpString);
-                    }
-                    if (store.ImdbRating == null) {
-                        tmpString = seriesNode.SafeGetString("Rating");
-                        if (tmpString != null)  store.ImdbRating = float.Parse(tmpString);
-                    }
-                    if (store.DataSource == null)
-                        store.DataSource = seriesNode.SafeGetString("Network");
-                    if (store.Status == null)
-                        store.Status = seriesNode.SafeGetString("Status");
+                }
+            }
+            if (store.Genres == null)
+            {
+                string genres = seriesNode.SafeGetString("Genre");
+                if (genres != null)
+                    store.Genres = new List<string>(genres.Trim('|').Split('|'));
+            }
+            if (store.MpaaRating == null)
+                store.MpaaRating = seriesNode.SafeGetString("ContentRating");
+            if (store.RunningTime == null) {
+                tmpString = seriesNode.SafeGetString("Runtime");
+                if (string.IsNullOrEmpty(tmpString)) {
 
+                    int runtime;
+                    if (int.TryParse(tmpString.Split(' ')[0], out runtime))
+                        store.RunningTime =  runtime;
+                }
+            }
+            if (store.ImdbRating == null) {
+                tmpString = seriesNode.SafeGetString("Rating");
+                if (tmpString != null) {
+                    float imdbRating;
+                    if (float.TryParse(tmpString, out imdbRating)) {
+                        store.ImdbRating = imdbRating;
+                    }
+                }
+            }
+            if (store.DataSource == null)
+                store.DataSource = seriesNode.SafeGetString("Network");
+            if (store.Status == null)
+                store.Status = seriesNode.SafeGetString("Status");
+
+            if (store.Studios == null)
+            {
+                string studios = seriesNode.SafeGetString("Network");
+                if (studios != null)
+                {
                     if (store.Studios == null)
+                        store.Studios = new List<Studio>();
+                    foreach (string n in studios.Split('|'))
                     {
-                        string studios = seriesNode.SafeGetString("Network");
-                        if (studios != null)
-                        {
-                            if (store.Studios == null)
-                                store.Studios = new List<Studio>();
-                            foreach (string n in studios.Split('|'))
-                            {
-                                store.Studios.Add(new Studio { Name = n });
-                            }
-                        }
+                        store.Studios.Add(new Studio { Name = n });
                     }
                 }
             }

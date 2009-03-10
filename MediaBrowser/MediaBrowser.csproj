@@ -15,7 +15,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AssemblyOriginatorKeyFile>MediaBrowser.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,6 +48,9 @@
     <Reference Include="Microsoft.MediaCenter" />
     <Reference Include="Microsoft.MediaCenter.UI" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
@@ -60,6 +63,8 @@
     <Compile Include="Code\ConfigData.cs" />
     <Compile Include="Code\ModelItems\Scroller.cs" />
     <Compile Include="Code\ModelItems\BlankLibraryImage.cs" />
+    <Compile Include="Library\Collections\DerivedEqualityComparer.cs" />
+    <Compile Include="Library\Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />
     <Compile Include="Library\Interop\DirectShowLib\BitmapInfoHeader.cs" />
     <Compile Include="Library\Interop\DirectShowLib\DsLong.cs" />
@@ -80,10 +85,15 @@
     <Compile Include="Code\MyHistoryOrientedPageSession.cs" />
     <Compile Include="Library\ItemComparer.cs" />
     <Compile Include="Library\ItemNameComparer.cs" />
+    <Compile Include="Library\Extensions\DiffAction.cs" />
+    <Compile Include="Library\Extensions\DiffExtension.cs" />
+    <Compile Include="Library\Extensions\DiffPair.cs" />
+    <Compile Include="Library\MediaType.cs" />
+    <Compile Include="Library\MediaTypeResolver.cs" />
     <Compile Include="Library\Util\Helper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Library\BinaryWriterExtensions.cs" />
+    <Compile Include="Library\Extensions\BinaryWriterExtensions.cs" />
     <Compile Include="Code\ModelItems\StudioItemWrapper.cs" />
     <Compile Include="Code\ModelItems\DirectorItemWrapper.cs" />
     <Compile Include="Library\ImageSource.cs" />
@@ -135,7 +145,7 @@
     <Compile Include="Library\ThreadPoolSizes.cs" />
     <Compile Include="Library\Transcode.cs" />
     <Compile Include="Library\UniqueName.cs" />
-    <Compile Include="Library\XmlExtensions.cs" />
+    <Compile Include="Library\Extensions\XmlExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
