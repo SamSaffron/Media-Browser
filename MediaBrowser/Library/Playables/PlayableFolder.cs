@@ -13,6 +13,8 @@ namespace MediaBrowser.Library.Playables
         string path;
         string playListFile;
         List<string> videoFiles;
+        PlayableExternal playableExternal = null;
+
         
         public PlayableFolder(string path)
             : base()
@@ -30,6 +32,8 @@ namespace MediaBrowser.Library.Playables
                 if (videoFiles.Count==1)
                 {
                     playListFile = videoFiles[0];
+                    if (PlayableExternal.CanPlay(playListFile))
+                        this.playableExternal = new PlayableExternal(playListFile);
                 }
                 else
                 {
@@ -37,60 +41,47 @@ namespace MediaBrowser.Library.Playables
                     int pos = 0;
                     if (resume)
                         pos = PlayState.PlaylistPosition;
-                    
 
-                    playListFile = Path.Combine(Helper.AutoPlaylistPath, Path.GetFileName(path) + ".wpl");
-                    StringBuilder contents = new StringBuilder(@"<?wpl version=""1.0""?><smil><body><seq>");
-                    foreach (string file in videoFiles)
+                    if (PlayableExternal.CanPlay(videoFiles[0]))
                     {
-                        if (pos>0)
-                            pos--;
-                        else
+                        playListFile = Path.Combine(Helper.AutoPlaylistPath, Path.GetFileName(path) + ".pls");
+                        StringBuilder contents = new StringBuilder("[playlist]\n");
+                        int x = 1;
+                        foreach (string file in videoFiles)
                         {
-                            contents.Append(@"<media src=""");
-                            contents.Append(file);
-                            contents.AppendLine(@"""/>");
-                        }
-                    }
-                    contents.Append(@"</seq></body></smil>");
-                    System.IO.File.WriteAllText(playListFile, contents.ToString());
-                }
-                /*
-                filenames = Directory.GetFiles(path);
-                if (filenames != null)
-                {
-                    List<string> videoFiles = new List<string>();
-                    foreach (string f in filenames)
-                        if (Helper.IsVideo(f))
-                            videoFiles.Add(f);
-                    videoFiles.Sort();
-                    if (resume)
-                    {
-                        offset = PlayState.PlaylistPosition;
-                        int pos = offset;
-                        while (pos > 0)
-                        {
-                            if (videoFiles.Count > 0)
+                            if (pos > 0)
+                                pos--;
+                            else
                             {
-                                videoFiles.RemoveAt(0);
+                                contents.Append("File" + x + "=" + file + "\n");
+                                contents.Append("Title" + x + "=Part " + x + "\n\n");
                             }
-                            pos--;
+                            x++;
                         }
-                    }
+                        contents.Append("Version=2\n");
 
-                    filenames = videoFiles.ToArray();
-                    playListFile = Path.Combine(Helper.AutoPlaylistPath, Path.GetFileName(path) + ".wpl");
-                    StringBuilder contents = new StringBuilder(@"<?wpl version=""1.0""?><smil><body><seq>");
-                    foreach (string file in videoFiles)
-                    {
-                        contents.Append(@"<media src=""");
-                        contents.Append(file);
-                        contents.AppendLine(@"""/>");
+                        System.IO.File.WriteAllText(playListFile, contents.ToString());
+                        this.playableExternal = new PlayableExternal(playListFile);
                     }
-                    contents.Append(@"</seq></body></smil>");
-                    System.IO.File.WriteAllText(playListFile, contents.ToString());
+                    else
+                    {
+                        playListFile = Path.Combine(Helper.AutoPlaylistPath, Path.GetFileName(path) + ".wpl");
+                        StringBuilder contents = new StringBuilder(@"<?wpl version=""1.0""?><smil><body><seq>");
+                        foreach (string file in videoFiles)
+                        {
+                            if (pos > 0)
+                                pos--;
+                            else
+                            {
+                                contents.Append(@"<media src=""");
+                                contents.Append(file);
+                                contents.AppendLine(@"""/>");
+                            }
+                        }
+                        contents.Append(@"</seq></body></smil>");
+                        System.IO.File.WriteAllText(playListFile, contents.ToString());
+                    }
                 }
-                 */
             }
         }
 
@@ -128,6 +119,14 @@ namespace MediaBrowser.Library.Playables
             foreach (string file in Helper.EnumerateVideoFiles(path,null,null,true))
                 return true;
             return false;
+        }
+
+        protected override void PlayInternal(bool resume)
+        {
+            if (this.playableExternal != null)
+                this.playableExternal.Play(this.PlayState, resume);
+            else
+                base.PlayInternal(resume);
         }
     }
 }

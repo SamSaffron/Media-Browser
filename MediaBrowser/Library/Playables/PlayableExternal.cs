@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.MediaCenter.Hosting;
+using Microsoft.MediaCenter;
 
 namespace MediaBrowser.Library.Playables
 {
@@ -33,6 +35,19 @@ namespace MediaBrowser.Library.Playables
 
         protected override void PlayInternal( bool resume)
         {
+            MediaCenterEnvironment env = AddInHost.Current.MediaCenterEnvironment;
+            if (env != null)
+            {
+                MediaExperience exp = env.MediaExperience;
+                if (exp != null)
+                {
+
+                    MediaTransport currentmt = exp.Transport;
+                    if (currentmt.PlayState == Microsoft.MediaCenter.PlayState.Playing)
+                        currentmt.PlayRate = 1;
+                }
+            }
+            
             MediaType type  = MediaTypeResolver.DetermineType(this.path);
             ConfigData.ExternalPlayer p = configuredPlayers[type];
             string args = string.Format(p.Args, this.path);

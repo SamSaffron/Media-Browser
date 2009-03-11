@@ -16,6 +16,10 @@ namespace MediaBrowser.Library {
                 return MediaType.Mpg;
             if (path.EndsWith(".mkv"))
                 return MediaType.Mkv;
+            if (path.EndsWith(".pls"))
+                return MediaType.PlayList;
+            if (path.EndsWith(".ts") || path.EndsWith(".m2ts"))
+                return MediaType.TS;
             if (path.Contains("bdmv"))
                 return MediaType.BluRay;
             if (path.Contains("hvdvd_ts"))

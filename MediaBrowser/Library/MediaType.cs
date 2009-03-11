@@ -11,6 +11,8 @@ namespace MediaBrowser.Library {
         Mkv, 
         DVD, 
         BluRay, 
-        HDDVD 
+        HDDVD,
+        TS,
+        PlayList
     }
 }
