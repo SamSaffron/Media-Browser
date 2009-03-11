@@ -23,6 +23,8 @@
       <lib:Item Name="Item" Item="$Required"/>
       <IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
       <FormLayoutInput Name="FullScreen" Bottom="Parent,1" Left="Parent,0" Right="Parent,1" Top="Parent,0"/>
+      <AnchorLayoutInput Name="NPVCenter" Top="Parent,0"/>
+      <AnchorLayoutInput Name="NPVRight" Right="Parent,1" Top="Parent,0"/>
     </Properties>
 
     <Locals>
@@ -269,30 +271,17 @@
 
     
     <Content>
-      <Graphic Name="MainBG" Content="image://it:BlankGraphic" Margins="0,0,0,0" Layout="Fill">
-        <Animations>
-          <Animation Animation="animation://an:PageHide" />
-        </Animations>
-        <Children>
-
           <Panel Layout="Center">
             <Children>
-
               <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]">
-                <!--CenterPointPercent="0.5,0.5,0.5"-->
+                <Animations>
+                  <Animation Animation="animation://an:PageHide" />
+                </Animations>
                 <Children>
 
-                  <!-- Now Playing View -->
-                <!--  <np:NowPlayingViewport Name="NowPlaying">
-                    <LayoutInput>
-                      <FormLayoutInput Right="Parent,1,480" Top="Parent,0,80"  />
-                    </LayoutInput>
-                  </np:NowPlayingViewport>-->
 
-                  <Panel Name="TrailerPanel" Visible="false">
-                    <LayoutInput>
-                      <FormLayoutInput Left="Parent,0.67" Top="Parent,0" Bottom="Parent,0.33" Right="Parent,1"/>
-                    </LayoutInput>
+                  <!-- Now Playing View Port -->
+                  <Panel Name="TrailerPanel" Layout="Anchor" LayoutInput="[NPVRight]" Visible="false" >
                     <Children>
                       <vot:LargeNPV Command="[NowPlayingPanel]"/>
                     </Children>
@@ -305,18 +294,8 @@
                   <!-- Configuration -->
                   <Panel Name="ConfigurationMenu" Visible="false" Navigation="ContainAll,RememberFocus">
                     <Animations>
-                      <Animation Name="AlphaAnimation" Type="Show">
-                        <Keyframes>
-                          <AlphaKeyframe Time="0.0" Value="0" RelativeTo="Current" Interpolation="EaseIn"/>
-                          <AlphaKeyframe Time="0.5" Value="1" RelativeTo="Final"/>
-                        </Keyframes>
-                      </Animation>
-                      <Animation Name="AlphaAnimation" Type="Hide">
-                        <Keyframes>
-                          <AlphaKeyframe Time="0.0" Value="1" RelativeTo="Current" Interpolation="EaseIn"/>
-                          <AlphaKeyframe Time="0.5" Value="0" RelativeTo="Final"/>
-                        </Keyframes>
-                      </Animation>
+                      <Animation Animation="animation://an:PageHide" />
+                      <Animation Animation="animation://an:PageShow" />
                     </Animations>
                     <Children>
                       <Panel Layout="Center">
@@ -357,6 +336,7 @@
                     </Children>
                   </Panel>
 
+                  <!-- Configuration Key -->
                   <Panel Name="ConfigurationKey" Visible="false">
                     <LayoutInput>
                       <FormLayoutInput Bottom="Parent,1,-40" Left="Parent,0,2"/>
@@ -368,6 +348,7 @@
 
                   <pda:PageDetailArea Name="ViewPanel" Item="[Item]" Application="[Application]"  LayoutInput="[FullScreen]"/>
 
+                  <Graphic Name="MainBG" Content="image://it:BlankGraphic" Layout="Fill"/>
                 </Children>
               </Clip>
 
@@ -376,8 +357,7 @@
             </Children>
 
           </Panel>
-        </Children>
-      </Graphic>
+
     </Content>
   </UI>
 

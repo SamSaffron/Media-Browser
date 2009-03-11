@@ -70,7 +70,6 @@
           <Set Target="[ExtraInfo.Visible]"        Value="true"/>
           <Set Target="[GenreInfo.Visible]"        Value="true"/>
           <Set Target="[ActorScroller.Visible]"    Value="false"/>
-          <Set Target="[TrailerPanel.Visible]"     Value="false"/>
           <Set Target="[NowPlaying.Visible]"       Value="true"/>
           <Invoke Target="[Item.Play]"/>
         </Actions>
@@ -114,13 +113,12 @@
           <Invoke Target="[AddInHost.MediaCenterEnvironment.MediaExperience.GoToFullScreen]"/>
         </Actions>
       </Changed>
-
-      
+    
       <Changed Source="[TrailerCommand.Invoked]">
         <Actions>
-          <Set Target="[NowPlaying.Visible]"   Value="false"/>
-          <Set Target="[TrailerPanel.Visible]" Value="true"/>
+          <Set Target="[NowPlaying.Visible]"   Value="true"/>
           <Invoke Target="[AddInHost.MediaCenterEnvironment.PlayMedia]"  mediaType="Video" media="[MediaPath]" addToQueue="false" />
+          <Invoke Target="[NowPlaying.NavigateInto]"/>
         </Actions>
       </Changed>
       
@@ -131,18 +129,16 @@
         </Conditions>
         <Actions>
           <Set Target="[NowPlaying.Visible]" Value="false" />
-          <Set Target="[TrailerPanel.Visible]" Value="false"/>
         </Actions>
       </Rule>
       
       <Rule ConditionLogicalOp="And">
         <Conditions>
           <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
-          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" ConditionOp="ChangedTo" Value="2"/>
+          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="2"/>
         </Conditions>
         <Actions>
-          <Set Target="[NowPlaying.Visible]" Value="false" />
-          <Set Target="[TrailerPanel.Visible]" Value="true"/>
+          <Set Target="[NowPlaying.Visible]" Value="true" />
         </Actions>
       </Rule>
 
@@ -215,7 +211,7 @@
                   <FlowLayout ItemAlignment="Center" Orientation="Vertical" Spacing="3,3"/>
                 </Layout>
                 <Children>
-                  <vot:SimpleButton Name="PlayMovieButton"   ImageNoFocus="image://it:IconPlay"    Command="[PlayMovieCommand]" Application="[Application]"/>
+                  <vot:SimpleButton Name="PlayMovieButton"   ImageNoFocus="image://it:IconPlay"    Command="[PlayMovieCommand]" Application="[Application]" />
                   <vot:SimpleButton Name="ResumeMovieButton" ImageNoFocus="image://it:IconResume"  Command="[ResumeMovieCommand]" Application="[Application]" />
                   <vot:SimpleButton Name="TrailerButton"     ImageNoFocus="image://it:IconTrailer" Command="[TrailerCommand]" Application="[Application]"/>
                   <vot:SimpleButton Name="RefreshButton"     ImageNoFocus="image://it:IconRefresh" Command="[RefreshCommand]" Application="[Application]"/>
@@ -247,32 +243,15 @@
                 </Children>
               </Panel>-->
 
-              <Panel Name="TrailerPanel" Visible="false">
-                <LayoutInput>
-                  <FormLayoutInput Left="Parent,0" Top="Parent,0,20" Bottom="Parent,0.67,-20" Right="Parent,1"/>
-                </LayoutInput>
-                <Children>
-                  <vot:LargeNPV Command="[NowPlayingPanel]"/>              
-                </Children>
-              </Panel>
-
               <!-- Now Playing View -->
-
-              <Panel Name="NowPlaying">
+              <Panel Name="NowPlaying" Layout="Anchor" Scale="1,1,1" Visible="false">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.67" Top="Parent,0" Bottom="Parent,0.33" Right="Parent,1"/>
+                  <AnchorLayoutInput Top="Parent,0" Horizontal="Far"/>
                 </LayoutInput>
                 <Children>
-                  <vot:LargeNPV Command="[NowPlayingPanel]"/>
+                  <vot:LargeNPV Name="NPVOption" Command="[NowPlayingPanel]"/>
                 </Children>
               </Panel>
-              <!--
-              <vp:NowPlayingViewport Name="NowPlaying">
-                <LayoutInput>
-                  <FormLayoutInput Right="Parent,1,480" Top="Parent,0,100"  />
-                </LayoutInput>
-                
-              </vp:NowPlayingViewport>-->
               
               <Panel Name="MovieTitle" Padding="10,0,0,0">
                 <LayoutInput>

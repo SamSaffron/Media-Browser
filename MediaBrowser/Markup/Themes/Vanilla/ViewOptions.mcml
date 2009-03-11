@@ -51,105 +51,7 @@
     </Content>
   </UI>
 
-  <UI Name="SimpleButton">
 
-    <Properties>
-      <a:Application Name="Application" Application="$Required"/>
-      <ICommand Name="Command" ICommand="$Required" />
-      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
-      <Size Name="Size" Size="135,135" />
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="ImageNoFocus" Image="$Required" />
-      <Image Name="BlankImage" Image="null" />
-      
-    </Properties>
-
-    <Locals>
-
-      <a:Config Name="Config" Config="[Application.Config]"/>
-      <ClickHandler Name="Clicker" />
-
-    </Locals>
-
-    <Rules>
-
-      <Binding Source="[Command]" Target="[Clicker.Command]" />
-      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-      
-      <Condition Source="[Config.Theme]" SourceValue="Black" Target="[NoFocusImage]"  Value="image://it:MenuOptionBGNotFocusedBlack"/>
-      
-
-
-      <Rule>
-        <Conditions>
-          <Modified Source="[Clicker.Invoked]"/>
-          <Equality Source="[IsNavigatingCommand]" Value="true" />
-        </Conditions>
-        <Actions>
-          <PlaySound Sound="sound://sd:Select" />
-        </Actions>
-      </Rule>
-
-      <Rule>
-        <Conditions>
-          <Modified Source="[Clicker.Invoked]"/>
-          <Equality Source="[IsNavigatingCommand]" Value="false"/>
-        </Conditions>
-        <Actions>
-          <PlaySound Sound="sound://sd:Miniselect" />
-        </Actions>
-      </Rule>
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="true"/>
-          <Equality Source="[Command.Available]" Value="true"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
-          <PlaySound Sound="sound://sd:Focus" />
-        </Actions>
-      </Rule>
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="false"/>
-          <Equality Source="[Command.Available]" Value="true"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
-          <PlaySound Sound="sound://sd:Focus" />
-        </Actions>
-      </Rule>
-
-      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
-        <Actions>
-          <Set Target="[BoxImage.Visible]" Value="false" />
-        </Actions>
-      </Condition>
-
-    </Rules>
-
-    <Content>
-
-      <Panel>
-        <Children>
-          <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren" Padding="3,3,3,3">
-            <Children>
-              <Panel >
-                <Children>
-                  <Graphic Content="[ImageNoFocus]" MaximumSize="[Size]" MaintainAspectRatio="true" />
-                </Children>
-              </Panel>
-            </Children>
-          </Graphic>
-
-        </Children>
-      </Panel>
-    </Content>
-  </UI>
 
 
   <UI Name="Studio">
@@ -496,7 +398,105 @@
 
   </UI>
 
- 
+  <UI Name="SimpleButton">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <ICommand Name="Command" ICommand="$Required" />
+      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <Size Name="Size" Size="135,135" />
+      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+      <Image Name="ImageNoFocus" Image="$Required" />
+      <Image Name="BlankImage" Image="null" />
+
+    </Properties>
+
+    <Locals>
+
+      <a:Config Name="Config" Config="[Application.Config]"/>
+      <ClickHandler Name="Clicker" />
+
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Command]" Target="[Clicker.Command]" />
+      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[Config.Theme]" SourceValue="Black" Target="[NoFocusImage]"  Value="image://it:MenuOptionBGNotFocusedBlack"/>
+
+
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="true" />
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Select" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Miniselect" />
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="true"/>
+          <Equality Source="[Command.Available]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
+          <PlaySound Sound="sound://sd:Focus" />
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="false"/>
+          <Equality Source="[Command.Available]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+          <PlaySound Sound="sound://sd:Focus" />
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Set Target="[BoxImage.Visible]" Value="false" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel>
+        <Children>
+          <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren" Padding="3,3,3,3">
+            <Children>
+              <Panel >
+                <Children>
+                  <Graphic Content="[ImageNoFocus]" MaximumSize="[Size]" MaintainAspectRatio="true" />
+                </Children>
+              </Panel>
+            </Children>
+          </Graphic>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI> 
   
   <UI Name="MenuButton">
     <Properties>
@@ -556,10 +556,8 @@
 
     <Properties>
       <ICommand Name="Command" ICommand="$Required" />
-      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
       <Image Name="FocusImage" Image="image://i:ZoomPane" />
       <Image Name="NoFocusImage" Image="null" />
-      <Image Name="BlankImage" Image="null" />
     </Properties>
 
     <Locals>
@@ -567,11 +565,11 @@
     </Locals>
 
     <Rules>
-
-      <Binding Source="[Command]" Target="[Clicker.Command]" />
-      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[Command]"           Target="[Clicker.Command]" />
+      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
 
+      <!-- Play Sound When Clicked -->
       <Rule>
         <Conditions>
           <Modified Source="[Clicker.Invoked]"/>
@@ -580,59 +578,48 @@
           <PlaySound Sound="sound://sd:Select" />
         </Actions>
       </Rule>
-<!--
+
+      <!-- Expand NPV Panel When Focused -->
       <Rule>
         <Conditions>
-          <Modified Source="[Clicker.Invoked]"/>
-          <Equality Source="[IsNavigatingCommand]" Value="false"/>
-        </Conditions>
-        <Actions>
-          <PlaySound Sound="sound://sd:Miniselect" />
-        </Actions>
-      </Rule>-->
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
           <Equality Source="[Input.KeyFocus]" Value="true"/>
-          <Equality Source="[Command.Available]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[BoxImage.Scale]" Value="1.05,1.05,1.05"/>
+          <Set Target="[BoxImage.Scale]" Value="2,2,1"/>
           <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
           <Set Target="[VideoPanel.LetterboxColor]" Value="Black"/>
           <PlaySound Sound="sound://sd:Focus" />
         </Actions>
       </Rule>
 
-      <Rule ConditionLogicalOp="And">
+      <!-- Shrink NPV Panel When Not Focused -->
+      <Rule>
         <Conditions>
           <Equality Source="[Input.KeyFocus]" Value="false"/>
-          <Equality Source="[Command.Available]" Value="true"/>
         </Conditions>
         <Actions>
           <PlaySound Sound="sound://sd:Focus" />
           <Set Target="[VideoPanel.LetterboxColor]" Value="Transparent"/>
           <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+          <Set Target="[BoxImage.Scale]" Value="1,1,1"/>
         </Actions>
       </Rule>
-
     </Rules>
 
     <Content>
-      <Graphic Padding="50,20,50,20" SizingPolicy="SizeToChildren" Scale="1.0,1.0,1.0" MaintainAspectRatio="false">
-
+       <Graphic Name="NPVPosition" Padding="20,20,20,20" SizingPolicy="SizeToChildren"  >
         <Children>
-          <Graphic Name="BoxImage" Content="[NoFocusImage]" SizingPolicy="SizeToChildren" Padding="4,4,4,4" MaintainAspectRatio="false" Scale="1.0,1.0,1.0">
+          <Graphic Name="BoxImage" Content="[NoFocusImage]" SizingPolicy="SizeToChildren" Padding="4,4,4,4">
             <Animations>
-              <Animation Loop="0" CenterPointPercent="0.5,0.5,1.0" Type="Scale">
+              <Animation Loop="0" CenterPointPercent="1.0,0.0,1.0" Type="Scale">
                 <Keyframes>
-                  <ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="EaseOut"/>
-                  <ScaleKeyframe Time="0.15" RelativeTo="Final"/>
+                  <ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Bezier,-1.0,1.0"/>
+                  <ScaleKeyframe Time="1.00" RelativeTo="Final"/>
                 </Keyframes>
               </Animation>
             </Animations>
             <Children>
-               <Video Name="VideoPanel"  Layout="Fill"/>
+              <Video Name="VideoPanel" MaximumSize="400,220" MinimumSize="400,220"/>
             </Children>
           </Graphic>
         </Children>
@@ -647,14 +634,5 @@
       <ScaleKeyframe Time="0.15" Value="1.0,1.0,1.0"/>
     </Keyframes>
   </Animation>
-
-  <Image Name="ButtonDisabled"          Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
-  <Image Name="ButtonDormant"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusDefault"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocusBlack"    Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusBlack"    NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedAfterGlow"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedHighlight"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
 
 </Mcml>

@@ -140,5 +140,11 @@
     </Keyframes>
   </Animation>
 
+  <Animation Name="PageShow" Type="Show">
+    <Keyframes>
+      <AlphaKeyframe Time="0.0" Value="0" RelativeTo="Current" Interpolation="EaseIn"/>
+      <AlphaKeyframe Time="0.5" Value="1" RelativeTo="Final"/>
+    </Keyframes>
+  </Animation>
 
 </Mcml>

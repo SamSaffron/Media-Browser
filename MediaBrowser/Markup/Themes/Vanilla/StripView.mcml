@@ -27,13 +27,13 @@
 
       <Animation Name="MovePanelUp">
         <Keyframes>
-          <PositionKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" Interpolation="EaseIn,1.0,0.25"/>
+          <PositionKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" Interpolation="Bezier,-1.0,1.0"/>
           <PositionKeyframe Time="0.5" RelativeTo="Final" Value="0,-200,0"/>
         </Keyframes>
       </Animation>
       <Animation Name="MovePanelDown">
         <Keyframes>
-          <PositionKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" Interpolation="EaseIn,1.0,0.25"/>
+          <PositionKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" Interpolation="Bezier,-1.0,1.0"/>
           <PositionKeyframe Time="0.5" RelativeTo="Final" Value="0,0,0"/>
         </Keyframes>
       </Animation>
@@ -482,7 +482,7 @@
 
             <Panel Name="PosterShadow">
               <LayoutInput>
-                <FormLayoutInput Left="Parent,0" Top="Parent,1,-100" Bottom="Parent,1,200" Right="Parent,1"/>
+                <FormLayoutInput Left="Parent,0" Top="Parent,1,-100" Bottom="Parent,1,300" Right="Parent,1"/>
               </LayoutInput>
               <Children>
                 <Graphic Name="DetailBackdrop" MaintainAspectRatio="true" Content="image://it:BackgroundDefault"/>
