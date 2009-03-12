@@ -161,10 +161,6 @@
   <ItemGroup>
     <None Include="DevInstall.cmd" />
     <None Include="MediaBrowser.snk" />
-    <None Include="Setup\Build.bat" />
-    <None Include="Setup\License.rtf" />
-    <None Include="Setup\Setup-en-us.wxl" />
-    <None Include="Setup\Setup.wxs" />
     <None Include="Readme.htm" />
   </ItemGroup>
   <ItemGroup>
@@ -387,11 +383,6 @@
     <Content Include="Markup\Controls\PosterView.mcml" />
     <Content Include="Markup\StylesDefault.mcml" />
     <Content Include="Registration.xml" />
-    <Content Include="Setup\info.xml" />
-    <Content Include="Setup\MbExitDialog.wxs" />
-    <Content Include="Setup\mbinfo.xml" />
-    <Content Include="Setup\MbInstallDirDlg.wxs" />
-    <Content Include="Setup\MbWixUI_InstallDir.wxs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

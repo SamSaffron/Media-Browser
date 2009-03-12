@@ -2,8 +2,8 @@
 
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
-<?define Property_ProductVersion = "2.0.9.0" ?>
-<?define Property_ProductCode = "1DEDBF39-074F-4da0-AB66-A424EED9CEC6" ?>
+<?define Property_ProductVersion = "2.0.10.0" ?>
+<?define Property_ProductCode = "10C75A03-2B4D-4966-AA56-C35AF58F71F8" ?>
 <?define Property_UpgradeCode = "1AA59629-46C2-42d5-AD06-534A20F68296" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -11,6 +11,8 @@
 
 		<Package Description="!(loc.Package_Description)" Comments="!(loc.Package_Comments)" InstallerVersion="200" Compressed="yes" />
 
+    <PropertyRef Id="NETFRAMEWORK35" />
+    
 		<!-- This information enables Windows Installer major upgrade functionality so users can seamlessly  -->
 		<!-- install a new version of the product and have the old version automatically uninstall behind    -->
 		<!-- the scenes. See the following topic in the MSDN Library for additional information:             -->
@@ -27,12 +29,16 @@
 		<!-- This custom action prevents users from installing this product on unsupported operating system  -->
 		<!-- versions. The conditions that are checked for operating system version are defined below.       -->
 		<CustomAction Id="CA_ErrWrongWindowsVersion" Error="!(loc.LaunchCondition_WrongOSVersion)" />
-
+    
 		<!-- This condition adds an item to the LaunchCondition table of the MSI to block a user from        -->
 		<!-- installing this product unless they have administrative privileges on the system.               -->
 		<Condition Message="!(loc.LaunchCondition_AdminPrivs)">
 			<![CDATA[Privileged]]>
 		</Condition>
+
+    <Condition Message="!(loc.LaunchCondition_WrongDotNetFramework)">
+      <![CDATA[Installed OR NETFRAMEWORK35]]>
+    </Condition>
 
 		<!-- This is a list of directories that are used by this product as installation locations or custom -->
 		<!-- action file search locations.                                                                   -->
@@ -48,6 +54,7 @@
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="Media Browser"/>
       </Directory>
+      <Directory Id="TEMPDIR" Name="TempFolder"/>
 		</Directory>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -68,21 +75,22 @@
 		<!-- order to avoid reference counting problems and make future servicing of this product easier.    -->
 		<!-- Each component is listed as a child of the DirectoryRef that represents the directory that      -->
 		<!-- the file it contains will install to.                                                           -->
-		<DirectoryRef Id="APPROOTDIRECTORY">
+    
+    <DirectoryRef Id="APPROOTDIRECTORY">
       <Component Id="Configurator.exe" Guid="3186FBE0-641C-45f9-AA16-7EAA85B7405C" DiskId="1">
-        <File Id="Configurator.exe" Name="Configurator.exe" KeyPath="yes" Source="..\..\Configurator\bin\$(var.BuildType)\Configurator.exe" Checksum="yes" Vital="yes"/>
+        <File Id="Configurator.exe" Name="Configurator.exe" KeyPath="yes" Source="..\Configurator\bin\$(var.BuildType)\Configurator.exe" Checksum="yes" Vital="yes"/>
       </Component>
 			<Component Id="MediaBrowser.dll" Guid="3D581843-2412-458d-AF79-29845B277677" DiskId="1">
-				<File Id="MediaBrowser.dll" Name="MediaBrowser.dll" KeyPath="yes" Source="..\bin\$(var.BuildType)\MediaBrowser.dll" Checksum="yes" Vital="yes" Assembly=".net"/>
+				<File Id="MediaBrowser.dll" Name="MediaBrowser.dll" KeyPath="yes" Source="..\MediaBrowser\bin\$(var.BuildType)\MediaBrowser.dll" Checksum="yes" Vital="yes" Assembly=".net"/>
 			</Component>
 			<Component Id="Registration.xml" Guid="C3CA4268-C97F-414f-99E8-BD1106A6B12C" DiskId="1">
-				<File Id="Registration.xml" Name="Registration.xml" Source="..\Registration.xml" Checksum="no" />
+				<File Id="Registration.xml" Name="Registration.xml" Source="..\MediaBrowser\Registration.xml" Checksum="no" />
 			</Component>
 			<Component Id="Application.png" Guid="85297F6D-29E5-4288-83EB-FBF9C2D70FE2" DiskId="1">
-				<File Id="Application.png" Name="Application.png" Source="..\Images\Application.png" Checksum="no" />
+				<File Id="Application.png" Name="Application.png" Source="..\MediaBrowser\Images\Application.png" Checksum="no" />
 			</Component>
       <Component Id="ApplicationInactive.png" Guid="B555C4A3-415F-47a7-8565-C994A03F49C6" DiskId="1">
-        <File Id="ApplicationInactive.png" Name="ApplicationInactive.png" Source="..\Images\ApplicationInactive.png" Checksum="no" />
+        <File Id="ApplicationInactive.png" Name="ApplicationInactive.png" Source="..\MediaBrowser\Images\ApplicationInactive.png" Checksum="no" />
       </Component>
 		</DirectoryRef>
 
@@ -123,6 +131,8 @@
 		<CustomAction Id="CA_RegisterMceApp_Register" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="check" Impersonate="no"/>
 		<CustomAction Id="CA_RegisterMceApp_Rollback" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="rollback" Return="ignore" Impersonate="no"/>
 
+    <CustomAction Id="CA_CheckDotNetFramework" BinaryKey="WixCA" ExeCommand="" />
+    
 		<!-- The InstallExecuteSequence table describes the order that actions will be executed during       -->
 		<!-- installation, repair and uninstall of this product.                                             -->
 		<InstallExecuteSequence>
@@ -184,7 +194,7 @@
       <Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT >= 600 OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
 		</InstallUISequence>
 
-    
+
 		<!-- These properties define links that will appear in the Add/Remove Programs control panel when    -->
 		<!-- this product is installed on the system.                                                        -->
 		<Property Id="ARPHELPLINK" Value="!(loc.Property_ArpHelpLink)" />

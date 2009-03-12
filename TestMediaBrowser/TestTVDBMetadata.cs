@@ -6,7 +6,7 @@ using MediaBrowser.Library;
 using MediaBrowser.Library.Sources;
 using MediaBrowser.LibraryManagement;
 using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Microsoft.MediaCenter.UI;
 using System.Reflection;
 using System.IO;
@@ -36,16 +36,16 @@ namespace MediaBrowserTest
         } 
     }
 
-    [TestClass]
+    [TestFixture]
     public class TestTVDBMetadata
     {
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             typeof(Application).GetMethod("RegisterUIThread",BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, null);
         }
 
-        [TestMethod]
+        [Test]
         public void TestEpisodeNumberFromFile()
         {
             Assert.AreEqual("02", Helper.EpisodeNumberFromFile(@"c:\somefolder\Season 1\1x02 BFOD.avi"));
@@ -79,13 +79,13 @@ namespace MediaBrowserTest
             Assert.AreEqual("11", Helper.EpisodeNumberFromFile(@"\\10.0.0.4\videos\TV\Mister TV\Season 12\Mister.Tv.S12E11.NONSE.avi"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestSeasonFromEpisodeName()
         {
             Assert.AreEqual("12", Helper.SeasonNumberFromEpisodeFile(@"c:\videos\TV\South Park\Season 12\South.Park.S12E11.OTHERSTUFF.avi"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestSourceNavigation()
         {
             var path = Path.GetFullPath(@"..\..\..\TestMediaBrowser\SampleMedia\TV");
@@ -102,7 +102,7 @@ namespace MediaBrowserTest
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestStandardFile()
         {
             var provider = new TvDbProvider();
@@ -122,7 +122,7 @@ namespace MediaBrowserTest
             provider.Fetch(item, ItemType.Episode, store, false);
         }
 
-        [TestMethod]
+        [Test]
         public void TestRemoveNameCommments()
         {
             Assert.AreEqual("Hello", Helper.RemoveCommentsFromName("Hello[Comment]"));

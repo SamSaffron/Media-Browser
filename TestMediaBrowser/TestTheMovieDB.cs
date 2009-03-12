@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using MediaBrowser.Library.Providers;
 using MediaBrowser.Library.Sources;
 using MediaBrowser.Library;
@@ -16,7 +16,7 @@ namespace TestMediaBrowser
     /// <summary>
     /// Summary description for TestTheMovieDB
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class TestTheMovieDB
     {
         public TestTheMovieDB()
@@ -26,51 +26,12 @@ namespace TestMediaBrowser
             //
         }
         
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             typeof(Microsoft.MediaCenter.UI.Application).GetMethod("RegisterUIThread", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, null);
         }
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         private void Compare(string str1, string str2)
         {
@@ -79,7 +40,7 @@ namespace TestMediaBrowser
             Assert.AreEqual(title1, title2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSpecialCharCleanup()
         {
             Compare("À bout de souffle", " A bout de souffle ");
@@ -88,7 +49,7 @@ namespace TestMediaBrowser
             Compare("Face Off" , "Face/Off");
         }
 
-        [TestMethod]
+        [Test]
         public void TestCorrectMovieTitleIsFetched() 
         { 
             string matchedName; 
@@ -98,7 +59,7 @@ namespace TestMediaBrowser
             Assert.AreEqual("City Of Men".ToLower(), matchedName.ToLower()); 
         }
 
-        [TestMethod]
+        [Test]
         public void TestFetching()
         {
             int count = 0;
@@ -152,7 +113,7 @@ namespace TestMediaBrowser
             Debug.WriteLine(string.Join("\n", nonmatches.ToArray()));
         }
 
-        [TestMethod]
+        [Test]
         public void TestSpecificMovieMatch()
         {
             string name = "Flight of the Phoenix (2004)";
