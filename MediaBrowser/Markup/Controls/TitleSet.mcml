@@ -11,15 +11,34 @@
 			<Font Name="Font" Font="$Required"/>
 			<Font Name="SubFont" Font="$Required"/>
 		</Properties>
-    <Rules>
-      <Binding Target="[Title1.Content]" Source="[ModelFast.Metadata.Name]"/>
+		<Rules>
+			<Binding Target="[Title1.Content]" Source="[ModelFast.Metadata.Name]"/>
 			<Binding Target="[Title2.Content]" Source="[ModelFast.Metadata.SubName]"/>
+      
+      <!-- We need these 2 rules to hide/display the subtitle. -->
+      <Rule>
+        <Conditions>
+          <Equality Source="[ModelFast.Metadata.SubName.Length]" ConditionOp="GreaterThan" Value="2" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Title2.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+      <Rule>
+        <Conditions>
+          <Equality Source="[ModelFast.Metadata.SubName.Length]" ConditionOp="LessThanOrEquals" Value="2" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Title2.Visible]" Value="false" />
+        </Actions>
+      </Rule>
+      
 		</Rules>
 		<Content>
 			<Panel Name="UpperSection" Layout="VerticalFlow">
 				<Children>
 					<Text Name="Title1" Color="color://s:FontColorLight" Font="[Font]"></Text>
-					<Text Name="Title2" Color="color://s:FontColorLight" Font="[SubFont]" Margins="0,-5,0,0"></Text>
+					<Text Name="Title2" Color="color://s:FontColorLight" Font="[SubFont]" Margins="0,-5,0,0" Visible="false"></Text>
 				</Children>
 			</Panel>
 		</Content>
