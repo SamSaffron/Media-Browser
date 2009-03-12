@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using System.IO;
+using System.Diagnostics;
 
 namespace MediaBrowser.Library
 {
@@ -89,11 +90,7 @@ namespace MediaBrowser.Library
         }
 
         public string Name {
-            get {
-                // There is something about the movie title panel in the vanilla theme and titleset, that means we need an empty space here
-                // Can someone help debug the MCML ?
-                return String.IsNullOrEmpty(this.store.Name)?  " ": this.store.Name;
-                }
+            get { return this.store.Name ?? ""; }
             set {
                 if (this.store.Name != value) {
                     this.store.Name = value;
@@ -108,11 +105,7 @@ namespace MediaBrowser.Library
 
         public string SubName
         {
-            get {
-                // There is something about the movie title panel in the vanilla theme and titleset, that means we need an empty space here
-                // Can someone help debug the MCML ?
-                return String.IsNullOrEmpty(this.store.SubName) ? " " : this.store.SubName; 
-            }
+            get { return this.store.SubName ?? ""; }
             set { if (this.store.SubName != value) { this.store.SubName = value; FirePropertyChanged("SubName"); Save(); } }
         }
 
