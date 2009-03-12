@@ -61,6 +61,7 @@
     <Compile Include="Code\Attributes\CommentAttribute.cs" />
     <Compile Include="Code\ModelItems\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
+    <Compile Include="Code\ModelItems\PlaybackController.cs" />
     <Compile Include="Code\ModelItems\Scroller.cs" />
     <Compile Include="Code\ModelItems\BlankLibraryImage.cs" />
     <Compile Include="Library\Collections\DerivedEqualityComparer.cs" />

@@ -12,7 +12,7 @@ using Microsoft.MediaCenter.UI;
 namespace MediaBrowser.Library
 {
 
-    internal abstract class TransportProxy
+    internal static class TransportProxy
     {
         static MediaTransport transport = null;
         public static void CheckAttached()
@@ -143,20 +143,9 @@ namespace MediaBrowser.Library
             }
 
             this.fileToPlay = file;
-            var mce = AddInHost.Current.MediaCenterEnvironment;
-            try
-            {
-                if (!mce.PlayMedia(Microsoft.MediaCenter.MediaType.Video, this.fileToPlay, false))
-                    Trace.TraceInformation("PlayMedia returned false");
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError("Playing media failed.\n" + ex.ToString());
-                Application.ReportBrokenEnvironment();
-                return;
-            }
+            Application.CurrentInstance.PlaybackController.PlayVideo(file);
             eventHandler = new Microsoft.MediaCenter.UI.PropertyChangedEventHandler(Transport_PropertyChanged);
-            mce.MediaExperience.GoToFullScreen();
+            Application.CurrentInstance.PlaybackController.GoToFullScreen();
             MarkWatched();
             TransportProxy.ClearHandler(); // ensure we will be the only one getting the events
             TransportProxy.PropertyChanged += eventHandler;

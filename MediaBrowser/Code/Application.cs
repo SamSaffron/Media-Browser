@@ -38,10 +38,9 @@ namespace MediaBrowser
 
         private static Application singleApplicationInstance;
         private MyHistoryOrientedPageSession session;
-
         private static object syncObj = new object();
-
         private bool navigatingForward;
+        private PlaybackController playbackController = new PlaybackController();
 
         public bool NavigatingForward
         {
@@ -140,8 +139,12 @@ namespace MediaBrowser
             get
             {
                 return Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                //if (host == null) return null;
-                //return host.MediaCenterEnvironment;
+            }
+        }
+
+        public PlaybackController PlaybackController {
+            get {
+                return playbackController;
             }
         }
 
@@ -149,8 +152,6 @@ namespace MediaBrowser
         private string ResolveInitialFolder()
         {
             string start = Config.Instance.InitialFolder;
-            //if (Helper.IsShortcut(start))
-            //start = Helper.ResolveShortcut(start);
             if (start == Helper.MY_VIDEOS)
                 start = Helper.MyVideosPath;
             return start;
