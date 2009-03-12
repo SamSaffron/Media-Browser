@@ -110,37 +110,28 @@
 
       <Changed Source="[NowPlayingPanel.Invoked]">
         <Actions>
-          <Invoke Target="[AddInHost.MediaCenterEnvironment.MediaExperience.GoToFullScreen]"/>
+          <Invoke Target="[Application.PlaybackController.GoToFullScreen]"/>
         </Actions>
       </Changed>
     
       <Changed Source="[TrailerCommand.Invoked]">
         <Actions>
           <Set Target="[NowPlaying.Visible]"   Value="true"/>
-          <Invoke Target="[AddInHost.MediaCenterEnvironment.PlayMedia]"  mediaType="Video" media="[MediaPath]" addToQueue="false" />
+          <Invoke Target="[Application.PlaybackController.PlayVideo]" path="[MediaPath]"/>
           <Invoke Target="[NowPlaying.NavigateInto]"/>
         </Actions>
       </Changed>
       
-      <Rule ConditionLogicalOp="And">
+      <Rule ConditionLogicalOp="Or">
         <Conditions>
-          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
-          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="0"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[NowPlaying.Visible]" Value="false" />
-        </Actions>
-      </Rule>
-      
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
-          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="2"/>
+          <Equality Source="[Application.PlaybackController.IsPlaying]" Value="true"/>
+          <Equality Source="[Application.PlaybackController.IsPaused]" Value="true"/>
         </Conditions>
         <Actions>
           <Set Target="[NowPlaying.Visible]" Value="true" />
         </Actions>
       </Rule>
+      
 
       <Changed Source="[RefreshCommand.Invoked]">
         <Actions>

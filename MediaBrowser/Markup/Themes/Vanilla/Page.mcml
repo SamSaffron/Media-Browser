@@ -233,14 +233,13 @@
       
       <Changed Source="[NowPlayingPanel.Invoked]">
         <Actions>
-          <Invoke Target="[AddInHost.MediaCenterEnvironment.MediaExperience.GoToFullScreen]"/>
+          <Invoke Target="[Application.PlaybackController.GoToFullScreen]"/>
         </Actions>
       </Changed>
 
       <Rule ConditionLogicalOp="And">
         <Conditions>
-          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
-          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="0"/>
+          <Equality Source="[Application.PlaybackController.IsStopped]" Value="true"/>
         </Conditions>
         <Actions>
           <Set Target="[TrailerPanel.Visible]" Value="false" />
@@ -248,8 +247,7 @@
       </Rule>
       <Rule ConditionLogicalOp="And">
         <Conditions>
-          <IsValid Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" />
-          <Equality Source="[AddInHost.MediaCenterEnvironment.MediaExperience.Transport.PlayRate]" Value="2"/>
+          <Equality Source="[Application.PlaybackController.IsPlaying]" Value="true"/>
         </Conditions>
         <Actions>
           <Set Target="[TrailerPanel.Visible]" Value="true" />

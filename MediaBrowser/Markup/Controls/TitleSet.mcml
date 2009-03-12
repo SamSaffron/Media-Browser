@@ -11,8 +11,8 @@
 			<Font Name="Font" Font="$Required"/>
 			<Font Name="SubFont" Font="$Required"/>
 		</Properties>
-		<Rules>
-			<Binding Target="[Title1.Content]" Source="[ModelFast.Metadata.Name]"/>
+    <Rules>
+      <Binding Target="[Title1.Content]" Source="[ModelFast.Metadata.Name]"/>
 			<Binding Target="[Title2.Content]" Source="[ModelFast.Metadata.SubName]"/>
 		</Rules>
 		<Content>
