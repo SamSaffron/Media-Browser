@@ -11,9 +11,30 @@ using Microsoft.MediaCenter;
 
 namespace MediaBrowser {
 
-    
+    public class PlaybackState : EventArgs
+    {
+        public string Title {get; set;}
+        public long Position { get; set; }
+    }
+
     public class PlaybackController : ModelItem {
 
+        EventHandler<PlaybackState> progressHandler;
+
+        // dont allow multicast events 
+        public event EventHandler<PlaybackState> OnProgress { 
+            add
+            {
+                progressHandler = value;
+            } 
+            remove
+            {
+                if (progressHandler == value)
+                {
+                    progressHandler = null;
+                }
+            }
+        }
 
         public PlaybackController() {
             PlayState = PlayState.Undefined;
@@ -61,26 +82,30 @@ namespace MediaBrowser {
         public PlayState PlayState { get; private set; }
 
         #endregion
-
+        const int ForceRefreshMillisecs = 5000;
         private void GovernatorThreadProc()
         {
             while (true) {
-
-                Thread.Sleep(5000);
-
+                Thread.Sleep(ForceRefreshMillisecs);
                 try {
                     var transport = MediaTransport;
                     if (transport != null) {
                         if (transport.PlayState != PlayState) {
                             ReAttach();
-                            UpdatePlayState();
                         }
+                        UpdateStatus();
                     }
                 } 
                 catch (Exception e) { 
                     // dont crash the background thread 
                     Trace.WriteLine("FAIL: something is wrong with media experience!" + e.Message.ToString());
                 }
+            }
+        }
+
+        private MediaExperience MediaExperience {
+            get {
+                return AddInHost.Current.MediaCenterEnvironment.MediaExperience;
             }
         }
 
@@ -114,20 +139,39 @@ namespace MediaBrowser {
             if (diff < 1000 && diff >= 0) {
                 return;
             }
-
-            UpdatePlayState();
+            lastCall = DateTime.Now;
+            UpdateStatus();
         }
 
-        private void UpdatePlayState() {
+
+        long position;
+        string title;
+        private void UpdateStatus() {
             var transport = MediaTransport;
             PlayState state = PlayState.Undefined;
             if (transport != null) {
                 state = transport.PlayState;
+                long position = transport.Position.Ticks;
+                string title = null;
+                try {
+                    title = MediaExperience.MediaMetadata["Title"] as string;
+                } catch (Exception e) {
+                    Trace.TraceError("Failed to get title on current media item!\n" + e.ToString());
+                }
+
+                if (title != null && progressHandler != null && (this.title != title || this.position != position)) {
+                    progressHandler(this, new PlaybackState() {Position = position, Title = title});
+                    this.title = title;
+                    this.position = position;
+                }
             }
 
             if (state != PlayState) {
                 PlayState = state;
                 Microsoft.MediaCenter.UI.Application.DeferredInvoke((object o) => PlayStateChanged());
+                Application.CurrentInstance.ShowNowPlaying = (
+                    (state == Microsoft.MediaCenter.PlayState.Playing) || 
+                    (state == Microsoft.MediaCenter.PlayState.Paused));
             }
         }
 
@@ -137,8 +181,6 @@ namespace MediaBrowser {
             FirePropertyChanged("IsStopped");
             FirePropertyChanged("IsPaused");
         }
-
-
 
         internal void Pause() {
             var transport = MediaTransport;

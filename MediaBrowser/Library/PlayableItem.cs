@@ -12,34 +12,6 @@ using Microsoft.MediaCenter.UI;
 namespace MediaBrowser.Library
 {
 
-    internal static class TransportProxy
-    {
-        static MediaTransport transport = null;
-        public static void CheckAttached()
-        {
-            MediaTransport current = AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport;
-            if (current != transport)
-            {
-                if (transport != null)
-                    transport.PropertyChanged -= new PropertyChangedEventHandler(transport_PropertyChanged);
-                transport = current;
-                transport.PropertyChanged += new PropertyChangedEventHandler(transport_PropertyChanged);
-            }
-        }
-
-        static void transport_PropertyChanged(IPropertyObject sender, string property)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(sender, property);
-        }
-
-        public static void ClearHandler()
-        {
-            PropertyChanged = null;
-        }
-
-        public static event PropertyChangedEventHandler PropertyChanged;
-    }
     /// <summary>
     /// Encapsulates play back of different types of item. Builds playlists, mounts iso etc. where appropriate
     /// </summary>
@@ -132,26 +104,23 @@ namespace MediaBrowser.Library
             Play(bufferpath);
         }
 
-        private Microsoft.MediaCenter.UI.PropertyChangedEventHandler eventHandler; 
 
         private void Play(string file)
         {
-            if (previousPlayable != null)
-            {
-                // save previous position before playing new file
-                previousPlayable.Transport_PropertyChanged(null, "Position"); 
-            }
-
             this.fileToPlay = file;
             Application.CurrentInstance.PlaybackController.PlayVideo(file);
-            eventHandler = new Microsoft.MediaCenter.UI.PropertyChangedEventHandler(Transport_PropertyChanged);
             Application.CurrentInstance.PlaybackController.GoToFullScreen();
             MarkWatched();
-            TransportProxy.ClearHandler(); // ensure we will be the only one getting the events
-            TransportProxy.PropertyChanged += eventHandler;
-            TransportProxy.CheckAttached();
+
+            Application.CurrentInstance.PlaybackController.OnProgress += new EventHandler<PlaybackState>(PlaybackController_OnProgress);
             previousPlayable = this;
             Application.CurrentInstance.ShowNowPlaying = true;
+        }
+
+        void PlaybackController_OnProgress(object sender, PlaybackState e) {
+            if (!UpdatePosition(e.Title, e.Position)) {
+                Application.CurrentInstance.PlaybackController.OnProgress -= new EventHandler<PlaybackState>(PlaybackController_OnProgress);
+            }
         }
 
         protected void MarkWatched()
@@ -171,57 +140,6 @@ namespace MediaBrowser.Library
             else
             {
                 return false;
-            }
-        }
-
-        long previousCall = DateTime.MinValue.Ticks;
-        void Transport_PropertyChanged(Microsoft.MediaCenter.UI.IPropertyObject sender, string property)
-        {
-            if (property == "Position")
-            {
-                // Do work the maximum of once a second. 
-                // This method seems to be called more aggresively in windows 7 
-                long currentCall = DateTime.Now.Ticks / 10000000L;
-                if (currentCall == previousCall)
-                {
-                    return;
-                }
-                previousCall = currentCall;
-
-                try
-                {
-                    var mce = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
-                    if (mce.Transport != null)
-                    {
-                        string title = null;
-                        try
-                        {
-                            title = mce.MediaMetadata["Title"] as string;
-                        }
-                        catch (Exception e)
-                        {
-                            Trace.TraceError("Failed to get title on current media item!\n" + e.ToString());
-                            return;
-                        }
-
-                        Debug.WriteLine("Update Postion for : " + title);
-                        if (!UpdatePosition(title, mce.Transport.Position.Ticks))
-                            TransportProxy.PropertyChanged -= eventHandler;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError("Error trying in Transport_PropertyChanged.\n" + ex.ToString());
-                }
-            }
-            else if (property == "PlayState")
-            {
-                MediaTransport mt = sender as MediaTransport;
-                if (mt != null)
-                {
-                    var ps = mt.PlayState;
-                    Application.CurrentInstance.ShowNowPlaying = ((ps == Microsoft.MediaCenter.PlayState.Playing) || (ps == Microsoft.MediaCenter.PlayState.Paused));
-                }
             }
         }
 
