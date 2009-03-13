@@ -72,7 +72,14 @@ namespace Bootstrapper {
             }
 
             SetMaxProgress(100);
-            Process p = Process.Start(tempFile,"");
+            try {
+                Process p = Process.Start(tempFile, "");
+            } catch { 
+                // if UAC is no accepted we will find ourselves here
+                 Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate() {
+                     MessageBox.Show("Failed to Launch Installer, you really are going to have to accept that UAC message.");
+                 });
+            }
             Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate() {
                 this.Close();
             });
