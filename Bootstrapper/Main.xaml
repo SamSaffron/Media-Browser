@@ -1,11 +1,13 @@
 ﻿<Window x:Class="Bootstrapper.Main"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title=".Net Framework Upgrader" Height="158" Width="570" Topmost="True" ResizeMode="NoResize">
+    Title=".Net Framework Upgrader" Height="227" Width="570" Topmost="True" ResizeMode="NoResize">
     <Grid>
-    	<TextBlock Margin="20,17.96,160,0" VerticalAlignment="Top" Height="24.04" Text="Downloading .NET framework 3.5 SP1, and launching installer." TextWrapping="Wrap"/>
-    	<ProgressBar Margin="20,56,11,47" x:Name="progressBar"/>
-    	<TextBlock HorizontalAlignment="Left" Margin="20,0,0,1" VerticalAlignment="Bottom" Width="112" Height="28" Text="10% " TextWrapping="Wrap" x:Name="message"/>
+    	<TextBlock Margin="20,40.96,160,0" VerticalAlignment="Top" Height="24.04" Text="Downloading and launching installer." TextWrapping="Wrap"/>
+    	<ProgressBar Margin="20,0,11,40" x:Name="progressBar" VerticalAlignment="Bottom" Height="29"/>
+    	<TextBlock HorizontalAlignment="Left" Margin="20,0,0,8" VerticalAlignment="Bottom" Width="112" Height="28" Text="10% " TextWrapping="Wrap" x:Name="message"/>
+    	<TextBlock Margin="20,69,47,73" TextWrapping="Wrap" FontSize="10"><Run Text="note: if you are not connected to the internet this will fail."/><LineBreak/><Run Text="You can always download .NET framework 3.5 from the Microsoft website and install it manually to bypass this screen."/></TextBlock>
+    	<TextBlock Margin="20,8,101,0" VerticalAlignment="Top" Height="28.96" TextWrapping="Wrap"><Run FontSize="14" FontWeight="Bold" Text="media browser depends on .NET framework version 3.5"/></TextBlock>
         
     </Grid>
 </Window>

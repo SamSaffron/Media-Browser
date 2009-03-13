@@ -6,6 +6,7 @@ using System.Reflection;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.IO.Compression;
 
 
 namespace Bootstrapper {
@@ -45,9 +46,11 @@ namespace Bootstrapper {
 
         public static string ExtractInstaller() {
             var tempfile = Path.Combine(Path.GetTempPath(), "MediaBrowser.msi"); ;
-            var name = "Bootstrapper.MediaBrowser.msi";
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name)) {
-                File.WriteAllBytes(tempfile, ReadStream(stream,1024*1000));
+            var name = "Bootstrapper.MediaBrowser.msi.gz";
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name)) 
+            {
+                GZipStream unzippedStream = new GZipStream(stream, CompressionMode.Decompress, true);
+                File.WriteAllBytes(tempfile, ReadStream(unzippedStream, 1024 * 1000));
             }
             return tempfile;
         }

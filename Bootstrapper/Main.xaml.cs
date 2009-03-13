@@ -30,6 +30,7 @@ namespace Bootstrapper {
         public Main() {
             InitializeComponent();
             message.Text = "";
+            DownloadAndInstall();
         }
 
 
@@ -70,18 +71,11 @@ namespace Bootstrapper {
                 }
             }
 
-            SetMessage("Installing...");
             SetMaxProgress(100);
-            int i = 0;
             Process p = Process.Start(tempFile,"");
-            while (!p.WaitForExit(1000)) {
-                i = (i + 1) % 100;
-                SetProgress(i);
-            }
-            SetProgress(100);
-
-            App.LaunchInstaller();
-            this.Close();
+            Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate() {
+                this.Close();
+            });
 
         }
 
