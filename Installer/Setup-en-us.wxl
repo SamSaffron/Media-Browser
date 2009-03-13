@@ -4,7 +4,7 @@
 	<String Id="LaunchCondition_AdminPrivs">You must have Administrative rights on this machine to install [ProductName].</String>
 	<String Id="LaunchCondition_LaterVersion">A later version of [ProductName] is already installed.</String>
 	<String Id="LaunchCondition_WrongOSVersion">[ProductName] can only be installed on Microsoft Windows Vista Home Premium or Ultimate Edition.</String>
-  <String Id="LaunchCondition_WrongDotNetFramework">media browser requires .Net framework version 3.5 or Above</String>
+  <String Id="LaunchCondition_WrongDotNetFramework">media browser requires .Net framework version 3.5 or Above! To install Google ".Net 3.5" and follow the top link.</String>
 
 	<String Id="Property_ArpHelpLink">http://msdn.microsoft.com/mce/</String>
 	<String Id="Property_ArpUrlInfoAbout">http://msdn.microsoft.com/mce/</String>
