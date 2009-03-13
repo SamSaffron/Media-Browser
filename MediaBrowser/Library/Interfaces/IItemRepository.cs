@@ -12,7 +12,7 @@ namespace MediaBrowser.Library
         Item Retrieve(UniqueName uniqueName);
         ItemSource RetrieveSource(UniqueName uniqueName);
         Item[] RetrieveChildren(UniqueName ownerName);
-        void SaveChildren(UniqueName ownerName, List<Item> children);
+        void SaveChildren(UniqueName ownerName, IEnumerable<UniqueName> children);
 
         MediaMetadataStore RetrieveMetadata(UniqueName ownerName);
         PlayState RetrievePlayState(UniqueName ownerName);

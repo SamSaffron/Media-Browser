@@ -9,6 +9,7 @@ using MediaBrowser.Util;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace MediaBrowser.Library
 {
@@ -351,7 +352,7 @@ namespace MediaBrowser.Library
             }
         }
 
-        public void SaveChildren(UniqueName ownerName, List<Item> children)
+        public void SaveChildren(UniqueName ownerName, IEnumerable<UniqueName> children)
         {
             if (ownerName == null)
                 return;
@@ -363,9 +364,9 @@ namespace MediaBrowser.Library
                     BinaryWriter bw = new BinaryWriter(fs);
                     lock (children)
                     {
-                        bw.Write(children.Count);
-                        foreach (Item i in children)
-                            bw.SafeWriteString(i.UniqueName == null ? null : i.UniqueName.Value);
+                        bw.Write(children.Count());
+                        foreach (var name in children)
+                            bw.SafeWriteString(name == null ? null : name.Value);
                     }
                     fs.Close();
                 }

@@ -35,18 +35,10 @@ namespace MediaBrowser.Library.Playables
 
         protected override void PlayInternal( bool resume)
         {
-            MediaCenterEnvironment env = AddInHost.Current.MediaCenterEnvironment;
-            if (env != null)
-            {
-                MediaExperience exp = env.MediaExperience;
-                if (exp != null)
-                {
-
-                    MediaTransport currentmt = exp.Transport;
-                    if (currentmt.PlayState == Microsoft.MediaCenter.PlayState.Playing)
-                        currentmt.PlayRate = 1;
-                }
+            if (Application.CurrentInstance.PlaybackController.PlayState == Microsoft.MediaCenter.PlayState.Playing) {
+                Application.CurrentInstance.PlaybackController.Pause();   
             }
+           
             
             MediaType type  = MediaTypeResolver.DetermineType(this.path);
             ConfigData.ExternalPlayer p = configuredPlayers[type];

@@ -19,9 +19,6 @@ namespace TestMediaBrowser
     {
         public TestItemSource()
         {
-            //
-            // TODO: Add constructor logic here
-            //
         }
 
         string intialFolderBackup = "";

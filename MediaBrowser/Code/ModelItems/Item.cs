@@ -859,7 +859,7 @@ namespace MediaBrowser.Library
             FireChildrenChangedEvents();
             if (!(this.Source is IndexingSource))
                 lock (this.children)
-                    ItemCache.Instance.SaveChildren(this.UniqueName, this.children);
+                    ItemCache.Instance.SaveChildren(this.UniqueName, this.children.Select((i) => i.UniqueName));
         }
 
         void source_RemoveItem(ItemSource newItem)
@@ -887,7 +887,7 @@ namespace MediaBrowser.Library
             FireChildrenChangedEvents();
             if (!(this.Source is IndexingSource))
                 lock (this.children)
-                    ItemCache.Instance.SaveChildren(this.UniqueName, this.children);
+                    ItemCache.Instance.SaveChildren(this.UniqueName, this.children.Select((i)=>i.UniqueName));
         }
 
         object verifyLock = new object();
@@ -929,7 +929,16 @@ namespace MediaBrowser.Library
                     (x) => x.UniqueName.GetHashCode()
                 );
 
-            foreach (var item in childSources.Diff(source.ChildSources,comparer)) {
+            var targetSources = source.ChildSources;
+            bool savedChildSources = false;
+
+            foreach (var item in childSources.Diff(targetSources, comparer)) {
+                if (!savedChildSources) {
+                    if (!(this.Source is IndexingSource))
+                        ItemCache.Instance.SaveChildren(this.UniqueName, targetSources.Select((s) => s.UniqueName));
+                    savedChildSources = true;
+                }
+
                 changed = true;
                 var currentSource = item.Value;
 
@@ -937,9 +946,6 @@ namespace MediaBrowser.Library
                     currentSource.PrepareToConstruct();
                     var currentItem = currentSource.ConstructItem();
                     AddChild(currentItem);
-                    if (currentItem.PhysicalParent == null)
-                        ItemCache.Instance.SaveSource(currentItem.Source);
-      
                 } else if (item.DiffAction == DiffAction.Removed) {
                     ItemCache.Instance.RemoveSource(currentSource);
                     RemoveChild(currentSource);
@@ -960,13 +966,24 @@ namespace MediaBrowser.Library
                 item.PhysicalParent = null;
         }
 
+
+        int pendingItems = 0;
         private void AddChild(Item itm) {
+
+            pendingItems++;
+            if (pendingItems > 20) {
+                itemIndex.FlagUnsorted();
+                pendingItems = 0;
+                Microsoft.MediaCenter.UI.Application.DeferredInvoke((object o) => FireChildrenChangedEvents());
+            }
+
             lock (this.children)
                 this.children.Add(itm);
             itm.PropertyChanged += new PropertyChangedEventHandler(ChildPropertyChanged);
             itm.MetadataPropertyChanged += new PropertyChangedEventHandler(ChildMetadataPropertyChanged);
             if (itm.PhysicalParent == null)
                 itm.PhysicalParent = this;
+            ItemCache.Instance.SaveSource(itm.Source);
         }
 
         private void VerifyChildrenComplete(object nothing)
@@ -975,9 +992,6 @@ namespace MediaBrowser.Library
             lock (verifyLock)
                 pendingVerify = false;
             FireChildrenChangedEvents();
-            if (!(this.Source is IndexingSource))
-                lock (this.children)
-                    ItemCache.Instance.SaveChildren(this.UniqueName, this.children);
 
             Debug.WriteLine("Finishing children verification:" + this.source.RawName);
 

@@ -106,7 +106,15 @@ namespace MediaBrowser {
             }
         }
 
+        DateTime lastCall = DateTime.Now;
+
         void TransportPropertyChanged(IPropertyObject sender, string property) {
+            // protect against really agressive calls
+            var diff = (DateTime.Now - lastCall).TotalMilliseconds;
+            if (diff < 1000 && diff >= 0) {
+                return;
+            }
+
             UpdatePlayState();
         }
 
@@ -131,5 +139,12 @@ namespace MediaBrowser {
         }
 
 
+
+        internal void Pause() {
+            var transport = MediaTransport;
+            if (transport != null) {
+                transport.PlayRate = 1;
+            }
+        }
     }
 }

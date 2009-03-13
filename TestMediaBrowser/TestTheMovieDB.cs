@@ -21,9 +21,6 @@ namespace TestMediaBrowser
     {
         public TestTheMovieDB()
         {
-            //
-            // TODO: Add constructor logic here
-            //
         }
         
         [SetUp]
