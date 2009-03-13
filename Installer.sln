@@ -3,38 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Installer.wixproj", "{0B434A26-16FD-4D77-8302-E8105E018D3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootsrapper", "Bootstrapper\Bootsrapper.csproj", "{F46D05B4-CF41-4A58-9F15-609C9F077549}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Debug|x86.ActiveCfg = Debug|x86
 		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Debug|x86.Build.0 = Debug|x86
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Release|Any CPU.ActiveCfg = Release|x86
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Release|x86.ActiveCfg = Release|x86
 		{0B434A26-16FD-4D77-8302-E8105E018D3A}.Release|x86.Build.0 = Release|x86
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F46D05B4-CF41-4A58-9F15-609C9F077549}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
