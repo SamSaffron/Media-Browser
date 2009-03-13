@@ -293,9 +293,9 @@
                   <Panel Name="ConfigurationMenu" Visible="false" Navigation="ContainAll,RememberFocus">
                     <Animations>
                       <Animation Animation="animation://an:PageHide" />
-                      <!-- Was not compiling so I commented this out (sam)
+                      
                       <Animation Animation="animation://an:PageShow" />
-                      -->
+                      
                     </Animations>
                     <Children>
                       <Panel Layout="Center">

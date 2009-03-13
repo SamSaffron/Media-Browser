@@ -307,7 +307,7 @@
       </Panel>
     </Content>
     <Content Name="Divider">
-      <Text Content="," Font="font://f:PV_CounterFont" WordWrap="false" Color="color://s:FontColorLight" />
+      <Text Content=", " Font="font://f:PV_CounterFont" WordWrap="false" Color="color://s:FontColorLight" />
     </Content>
   </UI>
 

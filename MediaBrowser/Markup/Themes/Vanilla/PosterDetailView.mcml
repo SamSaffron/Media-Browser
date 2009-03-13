@@ -611,7 +611,7 @@
     </Content>
 
     <Content Name="Divider">
-      <Text Content="," Font="font://f:PD_LastWatchedFont" WordWrap="false" Color="color://s:FontColorLight"/>
+      <Text Content=", " Font="font://f:PD_LastWatchedFont" WordWrap="false" Color="color://s:FontColorLight"/>
     </Content>
 
   </UI>

@@ -96,7 +96,7 @@
 						<Children>
 							<Scroller Orientation="Vertical" FadeSize="-5"  ScrollingData="[ScrollingData]" >
 								<LayoutInput>
-									<AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" />
+									<AnchorLayoutInput Horizontal="Fill" ContributesToHeight="true" Vertical="Near" />
 								</LayoutInput>
 								<Children>
 									<Text Name="TextVal" Color="[Color]" Font="[Font]" WordWrap="true" Content="[Text]"

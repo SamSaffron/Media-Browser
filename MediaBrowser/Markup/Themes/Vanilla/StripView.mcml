@@ -529,6 +529,7 @@
       <ScrollingData Name="ScrollingData" LockedPosition="0.5" EndPaddingRelativeTo="Far" BeginPaddingRelativeTo="Near" />
       <cor:Int32 Name="CounterValue" Int32="0" />
       <IntRangedValue Name="SelectedIndex" Value="0"/>
+      <GridLayout Name="MyLayout" Orientation="Horizontal" AllowWrap="false" Spacing="600,0" Repeat="Never" RepeatGap="-60" Rows="1" Columns="1" MinorAlignment="Center" />
     </Locals>
 
     <Rules>
@@ -562,8 +563,6 @@
           <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val ="50" />
         </Actions>
       </Changed>
-      <!--      <Binding Source="[Item.Metadata.Name]" Target="[ItemLabel.Content]"/>-->
-      <!--<Binding Source="[MyLayout]" Target="[MyRepeater.Layout]"/>-->
     </Rules>
 
     <Content>
@@ -573,13 +572,10 @@
                 <!-- List Repeater -->
           <Scroller  Orientation="Horizontal" FadeSize="-10" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]"  >
             <Children>
-              <Repeater Source="[Item.Children]" Name="MyRepeater" ContentName="BaseItem" >
+              <Repeater Source="[Item.Children]" Name="MyRepeater" Layout="[MyLayout]" ContentName="BaseItem" >
                 <Animations>
                   <Animation Animation="animation://anim:ScrollerMoveItemSmooth"/>
                 </Animations>
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="600,0" />
-                </Layout>
               </Repeater>
             </Children>
           </Scroller>
@@ -789,7 +785,7 @@
       </Panel>
     </Content>
     <Content Name="Divider">
-      <Text Content="," Font="font://f:SV_CounterFont" WordWrap="false" Color="color://s:FontColorLight"/>
+      <Text Content=", " Font="font://f:SV_CounterFont" WordWrap="false" Color="color://s:FontColorLight"/>
     </Content>
 
   </UI>

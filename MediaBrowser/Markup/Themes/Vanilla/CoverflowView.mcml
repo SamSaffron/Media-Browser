@@ -307,7 +307,7 @@
 
       </Content>
       <Content Name="Divider">
-        <Text Content="," Font="font://f:CV_SubTitleFont" WordWrap="false" Color="color://s:FontColorLight" />
+        <Text Content=", " Font="font://f:CV_SubTitleFont" WordWrap="false" Color="color://s:FontColorLight" />
       </Content>
     </UI>
 
