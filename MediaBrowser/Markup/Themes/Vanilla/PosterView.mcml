@@ -2,7 +2,6 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
       xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
       xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
@@ -10,7 +9,7 @@
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
  	  >
-    
+    <!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
       
   <UI Name="PosterView">
     <Properties>
@@ -109,8 +108,9 @@
       <Binding Source="[Application.Config.ShowClock]" Target="[ClockDisplay.Visible]"/>
 
       <!-- Bind Common MetaData -->
-      <Binding Target="[Title.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[Title.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[Title.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--<Binding Target="[Title.Model]"       Source="[SelectedItem]"/>
+      <Binding Target="[Title.ModelFast]"   Source="[PreSelectedItem]"/>-->
       
       <!-- Bind Series Specific MetaData -->
       <Binding Target="[SeriesGenres.SourceData]"       Source="[PreSelectedItem.Metadata.Genres]"/>
@@ -161,9 +161,6 @@
     </Rules>
     <Content>
       <Panel Layout="Form">
-        <LayoutInput>
-          <FormLayoutInput Left="Parent,0" Top="Parent,0" Right="Parent,1" Bottom="Parent,0.5"/>
-        </LayoutInput>
         <Children>
 
           <Panel Name="ClockDisplay">
@@ -203,7 +200,8 @@
                          Horizontal="Center"  />
             </LayoutInput>
             <Children>
-              <ts:TitleSet Name="Title" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PV_TitleFont" SubFont="font://f:PV_PosterLabelFont"/>
+              <Text Name="Title" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PV_TitleFont" Color="color://s:FontColorLight"/>
+              <!--<ts:TitleSet Name="Title" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PV_TitleFont" SubFont="font://f:PV_PosterLabelFont"/>-->
               <Panel Name="SeriesPanel">
                 <Children>
                   <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">
@@ -279,7 +277,7 @@
           
           <Panel Layout="Form">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Top="Parent,0,20" Right="Parent,1" Bottom="Parent,1,-120" />
+              <FormLayoutInput Left="Parent,0" Top="Parent,0,50" Right="Parent,1" Bottom="Parent,1,-120" />
             </LayoutInput>
             <Children>
               <Panel Name="SeriesScroller" >
@@ -290,7 +288,7 @@
             </Children>
           </Panel>
 
-          <Panel Name="Backdrop" Layout="Form">
+          <Panel Name="Backdrop">
             <Children>
               <Clip Name="Clip" Orientation="Vertical" Layout="Anchor">
                 <LayoutInput>

@@ -7,7 +7,6 @@
       xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
-      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
       xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
@@ -17,6 +16,8 @@
       xmlns:me="Me"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  >
+
+  <!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
 
   <UI Name="PosterDetailView">
 
@@ -116,12 +117,16 @@
       <Binding Source="[Item.DisplayPrefs.UseBackdrop.Value]" Target="[Backdrop.Visible]"/>
 
       <!-- Bind Folder Specific MetaData -->
+      <Binding Target="[FolderTitle.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--
       <Binding Target="[FolderTitle.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[FolderTitle.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[FolderTitle.ModelFast]"   Source="[PreSelectedItem]"/>-->
 
       <!-- Bind Series Specific MetaData -->
+      <Binding Target="[SeriesTitle.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--
       <Binding Target="[SeriesTitle.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[SeriesTitle.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[SeriesTitle.ModelFast]"   Source="[PreSelectedItem]"/>-->
       <Binding Target="[SeriesSummary.Content]"   Source="[PreSelectedItem.Overview]"  />
       <Binding Target="[StarRating.Value]"        Source="[PreSelectedItem.Metadata.ImdbRating.Value]" />
       <Binding Target="[RunTime.Content]"         Source="[PreSelectedItem.Metadata.RunningTimeString]"/>
@@ -142,8 +147,9 @@
       
 
       <!-- Bind Season Specific MetaData -->
-      <Binding Target="[SeasonTitle.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[SeasonTitle.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[SeasonTitle.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--<Binding Target="[SeasonTitle.Model]"       Source="[SelectedItem]"/>
+      <Binding Target="[SeasonTitle.ModelFast]"   Source="[PreSelectedItem]"/>-->
       <Binding Target="[SeasonSummary.Content]"   Source="[PreSelectedItem.Overview]"  />
       <Condition Source="[PreSelectedItem.Source.ItemTypeString]" ConditionOp="Equals" SourceValue="Season">
         <Actions>
@@ -157,8 +163,10 @@
 
       
       <!-- Bind Episode Specific MetaData -->
+      <Binding Target="[EpisodeTitle.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--
       <Binding Target="[EpisodeTitle.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[EpisodeTitle.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[EpisodeTitle.ModelFast]"   Source="[PreSelectedItem]"/>-->
       <Binding Target="[EpisodeSummary.Content]"   Source="[PreSelectedItem.Overview]"  />
       <Binding Target="[DirectorRepeater.Source]"  Source="[PreSelectedItem.Metadata.Directors]"/>
       <Binding Target="[WriterRepeater.Source]"    Source="[PreSelectedItem.Metadata.Writers]"/>
@@ -168,8 +176,9 @@
       <Binding Target="[MediaInfo.Item]"           Source="[PreSelectedItem]"/>
 
       <!-- Bind Movie Specific MetaData -->
-      <Binding Target="[MovieTitle.Model]"       Source="[SelectedItem]"/>
-      <Binding Target="[MovieTitle.ModelFast]"   Source="[PreSelectedItem]"/>
+      <Binding Target="[MovieTitle.Content]"       Source="[PreSelectedItem.Metadata.Name]"/>
+      <!--<Binding Target="[MovieTitle.Model]"       Source="[SelectedItem]"/>
+      <Binding Target="[MovieTitle.ModelFast]"   Source="[PreSelectedItem]"/>-->
       <Binding Target="[MovieSummary.Content]"   Source="[PreSelectedItem.Overview]"  />
       <Binding Target="[StudioRepeater.Source]"  Source="[PreSelectedItem.StudioItems]"/>
       <Binding Target="[MovieMediaInfo.Item]"    Source="[PreSelectedItem]"/>
@@ -260,7 +269,8 @@
                   <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,0,80" Right="Parent,1"/>
                 </LayoutInput>
                 <Children>
-                  <ts:TitleSet Name="FolderTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
+                  <Text Name="FolderTitle" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PD_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Name="FolderTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>-->
                 </Children>
               </Panel>
             </Children>
@@ -291,7 +301,9 @@
                   </Panel>
                   <Panel Layout="VerticalFlow">
                     <Children>
-                      <ts:TitleSet Name="SeriesTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
+                      <Text Name="SeriesTitle" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PV_TitleFont" Color="color://s:FontColorLight"/>
+                      <!--
+                      <ts:TitleSet Name="SeriesTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>-->
                       <Panel Name="SeriesData" Layout="VerticalFlow" >
                         <Children>
                           <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">
@@ -361,7 +373,8 @@
                   <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,0,80" Right="Parent,1"/>
                 </LayoutInput>
                 <Children>
-                  <ts:TitleSet Name="SeasonTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
+                  <Text Name="SeasonTitle" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PD_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Name="SeasonTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>-->
                   <Panel Name="EpisodesPanel" Layout="HorizontalFlow">
                     <Children>
                       <Text Content="Episodes:  " Font="font://f:PD_SummaryFont" WordWrap="false" Color="color://s:FontColorMedium"  />
@@ -393,7 +406,8 @@
                   <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,0,90" Right="Parent,1"/>
                 </LayoutInput>
                 <Children>
-                  <ts:TitleSet Name="EpisodeTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
+                  <Text Name="EpisodeTitle" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PD_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Name="EpisodeTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>-->
                   <Panel Layout="HorizontalFlow">
                     <Children>
                       <Text Name="WriterSpacer" Content="Writer: "  Color="color://s:FontColorMedium"  WordWrap="true" Font="font://f:PD_LastWatchedFont"  Margins="0,0,0,0"/>
@@ -472,7 +486,8 @@
                       <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,0,80" Right="Parent,0.65"/>
                     </LayoutInput>
                     <Children>
-                  <ts:TitleSet Name="MovieTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>
+                      <Text Name="MovieTitle" Content="[PreSelectedItem.Metadata.Name]" Font="font://f:PD_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Name="MovieTitle" Model="[PreSelectedItem]" ModelFast="[PreSelectedItem]" Layout="Scale" Font="font://f:PD_TitleFont" SubFont="font://f:PD_SubTitleFont"/>-->
                   <Panel Name="MovieData" Layout="VerticalFlow">
                     <Children>
                       <Panel Layout="HorizontalFlow">

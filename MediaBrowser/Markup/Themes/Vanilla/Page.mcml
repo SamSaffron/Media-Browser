@@ -264,6 +264,9 @@
         </Actions>
       </Rule>
       
+      <Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[NowPlayingViewPort.NPVSize]" Value="200,110" />
+      <Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[NowPlayingViewPort.NPVSize]" Value="400,220" />
+      
     </Rules>
     
 
@@ -281,7 +284,7 @@
                   <!-- Now Playing View Port -->
                   <Panel Name="TrailerPanel" Layout="Anchor" LayoutInput="[NPVRight]" Visible="false" >
                     <Children>
-                      <vot:LargeNPV Command="[NowPlayingPanel]"/>
+                      <vot:LargeNPV Name="NowPlayingViewPort" Command="[NowPlayingPanel]" NPVSize="200,110"/>
                     </Children>
                   </Panel>
                   

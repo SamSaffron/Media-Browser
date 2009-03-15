@@ -2,7 +2,6 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
       xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
       xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
@@ -18,7 +17,7 @@
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
 	  >
-
+  <!--xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
 
   <UI Name="StripView">
     <Properties>
@@ -710,7 +709,8 @@
                   <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
                 </Layout>
                 <Children>
-                  <ts:TitleSet Model="[Item]" ModelFast="[Item]" Layout="Scale" Font="font://f:SV_TitleFont" SubFont="font://f:SV_PosterLabelFont"/>
+                  <Text Name="Title" Content="[Item.Metadata.Name]" Font="font://f:SV_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Model="[Item]" ModelFast="[Item]" Layout="Scale" Font="font://f:SV_TitleFont" SubFont="font://f:SV_PosterLabelFont"/>-->
                   <Panel Name="SeriesPanel" Layout="HorizontalFlow">
                     <Children>
                       <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">

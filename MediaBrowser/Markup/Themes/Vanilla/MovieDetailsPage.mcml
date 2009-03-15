@@ -19,10 +19,10 @@
       xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
        xmlns:pb="resx://MediaBrowser/MediaBrowser.Resources/PersonButton"
-      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"
+
       xmlns:me="Me"
     >
-
+<!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
   <!-- Movie Details Page -->
   <UI Name="ViewMovieVanilla">
     <Properties>
@@ -160,6 +160,7 @@
       <Binding Target="[Produced.Content]"     Source="[Item.Metadata.ProductionYearString]"/>
       <Binding Target="[Genres.SourceData]"    Source="[Item.Metadata.Genres]"/>
       <Binding Target="[MPAARating.Value]"     Source="[Item.Metadata.MpaaRating]"/>
+      <Binding Target="[Title.Content]"        Source="[Item.Metadata.Name]"/>
       <Binding Target="[Overview.Text]"        Source="[Item.Overview]"/>
 
       <Condition Source="[Item.Metadata.ImdbRating.Value]"  ConditionOp="GreaterThan" SourceValue="0" Target="[StarRatingSpacer.Visible]" Value="true"/>
@@ -249,7 +250,8 @@
                   <FormLayoutInput Left="Parent,0,30" Right="ExtraInfo,0"  Top="Parent,0.67" Bottom="Parent,0.7,25"/>
                 </LayoutInput>
                 <Children>
-                  <ts:TitleSet Name="TitleSet" Model="[Item]" ModelFast="[Item]" Layout="Scale" Font="font://f:CV_TitleFont" SubFont="font://f:CV_SubTitleFont"/>
+                  <Text Name="Title" Content="[Item.Metadata.Name]" Font="font://f:CV_TitleFont" Color="color://s:FontColorLight"/>
+                  <!--<ts:TitleSet Name="TitleSet" Model="[Item]" ModelFast="[Item]" Layout="Scale" Font="font://f:CV_TitleFont" SubFont="font://f:CV_SubTitleFont"/>-->
                 </Children>
               </Panel>
               
@@ -279,6 +281,7 @@
                   <gl:GenreList Name="Genres" SourceData="[Item.Metadata.Genres]" Font="font://f:MD_GenreFont"/>
                 </Children>
               </Panel>
+              
               <!-- MovieSummary -->
               <Panel Name="MovieDescription" Layout="VerticalFlow" Padding="10,10,10,10">
                 <LayoutInput>

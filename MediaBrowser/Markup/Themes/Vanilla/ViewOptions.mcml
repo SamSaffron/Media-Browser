@@ -558,6 +558,7 @@
       <ICommand Name="Command" ICommand="$Required" />
       <Image Name="FocusImage" Image="image://i:ZoomPane" />
       <Image Name="NoFocusImage" Image="null" />
+      <Size Name="NPVSize" Size="400,220"/>
     </Properties>
 
     <Locals>
@@ -607,7 +608,7 @@
     </Rules>
 
     <Content>
-       <Graphic Name="NPVPosition" Padding="20,20,20,20" SizingPolicy="SizeToChildren"  >
+       <Graphic Name="NPVPosition" Padding="10,10,10,10" SizingPolicy="SizeToChildren"  >
         <Children>
           <Graphic Name="BoxImage" Content="[NoFocusImage]" SizingPolicy="SizeToChildren" Padding="4,4,4,4">
             <Animations>
@@ -619,7 +620,7 @@
               </Animation>
             </Animations>
             <Children>
-              <Video Name="VideoPanel" MaximumSize="400,220" MinimumSize="400,220"/>
+              <Video Name="VideoPanel" MaximumSize="[NPVSize]" MinimumSize="[NPVSize]"/>
             </Children>
           </Graphic>
         </Children>

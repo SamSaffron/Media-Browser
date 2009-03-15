@@ -381,35 +381,40 @@ namespace MediaBrowser.LibraryManagement
         public static IEnumerable<string> EnumerateVideoFiles(string path, string[] files,string[] folders, bool recursive)
         {
             List<string> nestedFolders = new List<string>();
-
-            if (files==null)
-                files = Directory.GetFiles(path);                
-            foreach (string file in files)
+ 
+            // Ignore Recyling Bin System File - Tried by Directory Attribute but Network Shares are 
+            // considered Hidden System Files as well :(
+            if (!path.EndsWith("$RECYCLE.BIN"))
             {
-                if (Helper.IsVideo(file))
-                    yield return file;
-
-                if (recursive)
+                if (files == null)
+                    files = Directory.GetFiles(path);
+                foreach (string file in files)
                 {
-                    if (Helper.IsShortcut(file))
+                    if (Helper.IsVideo(file))
+                        yield return file;
+
+                    if (recursive)
                     {
-                        var resolvedFolder = Helper.ResolveShortcut(file);
-                        if (Helper.IsFolder(resolvedFolder))
+                        if (Helper.IsShortcut(file))
                         {
-                            nestedFolders.Add(resolvedFolder);
+                            var resolvedFolder = Helper.ResolveShortcut(file);
+                            if (Helper.IsFolder(resolvedFolder))
+                            {
+                                nestedFolders.Add(resolvedFolder);
+                            }
                         }
                     }
                 }
-            }
-            if (recursive)
-            {
-                if (folders == null)
-                    folders = Directory.GetDirectories(path);
-                nestedFolders.AddRange(folders);
-                foreach (string folder in nestedFolders)
-                    foreach (string s in EnumerateVideoFiles(folder, null,null, recursive))
-                        yield return s;
-            }   
+                if (recursive)
+                {
+                    if (folders == null)
+                        folders = Directory.GetDirectories(path);
+                    nestedFolders.AddRange(folders);
+                    foreach (string folder in nestedFolders)
+                        foreach (string s in EnumerateVideoFiles(folder, null, null, recursive))
+                            yield return s;
+                }
+           }
         }
 
 
