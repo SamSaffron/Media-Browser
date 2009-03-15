@@ -237,7 +237,7 @@ namespace MediaBrowser.Library.Providers
                 store.MpaaRating = seriesNode.SafeGetString("ContentRating");
             if (store.RunningTime == null) {
                 tmpString = seriesNode.SafeGetString("Runtime");
-                if (string.IsNullOrEmpty(tmpString)) {
+                if (!string.IsNullOrEmpty(tmpString)) {
 
                     int runtime;
                     if (int.TryParse(tmpString.Split(' ')[0], out runtime))

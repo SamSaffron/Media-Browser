@@ -19,6 +19,10 @@ namespace MediaBrowser.Library.Playables
         {
         }
 
+        public override void Play(string file) {
+            Application.CurrentInstance.PlaybackController.PlayDVD(file);
+        }
+
         public override string Filename
         {
             get { return this.folder; }

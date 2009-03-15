@@ -43,7 +43,7 @@ namespace MediaBrowser.Library
             {
                 
                 if (!RunningOnExtender || !Config.Instance.EnableTranscode360 || Helper.IsExtenderNativeVideo(this.Filename))
-                    Play(this.Filename);
+                    PlayAndGoFullScreen(this.Filename);
                 else
                 {
                     // if we are on an extender, we need to start up our transcoder
@@ -54,7 +54,7 @@ namespace MediaBrowser.Library
                     catch
                     {
                         // in case t360 is not installed - we may get an assembly loading failure 
-                        Play(this.Filename);
+                        PlayAndGoFullScreen(this.Filename);
                     }
                 }
 
@@ -101,14 +101,14 @@ namespace MediaBrowser.Library
                 AddInHost.Current.MediaCenterEnvironment.Dialog("Could not start transcoding process", "Transcode Error", new object[] { DialogButtons.Ok }, 10, true, null, delegate(DialogResult dialogResult) { });
                 return;
             }
-            Play(bufferpath);
+            PlayAndGoFullScreen(bufferpath);
         }
 
 
-        private void Play(string file)
+        private void PlayAndGoFullScreen(string file)
         {
             this.fileToPlay = file;
-            Application.CurrentInstance.PlaybackController.PlayVideo(file);
+            Play(file);
             Application.CurrentInstance.PlaybackController.GoToFullScreen();
             MarkWatched();
 
@@ -116,6 +116,11 @@ namespace MediaBrowser.Library
             previousPlayable = this;
             Application.CurrentInstance.ShowNowPlaying = true;
         }
+
+        public virtual void Play(string file) {
+            Application.CurrentInstance.PlaybackController.PlayVideo(file);
+        }
+        
 
         void PlaybackController_OnProgress(object sender, PlaybackState e) {
             if (!UpdatePosition(e.Title, e.Position)) {

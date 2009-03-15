@@ -43,10 +43,23 @@ namespace MediaBrowser {
             t.Start();
         }
 
+        bool lastWasDVD = true;
+        public void PlayDVD(string path) {
+            PlayPath(path);
+            lastWasDVD = true;
+        }
+
         public void PlayVideo(string path) {
+            if (lastWasDVD) mediaTransport = null;
+            PlayPath(path);
+            lastWasDVD = false;
+        }
+
+        private static void PlayPath(string path) {
             try {
-                if (!AddInHost.Current.MediaCenterEnvironment.PlayMedia(Microsoft.MediaCenter.MediaType.Video, path, false))
+                if (!AddInHost.Current.MediaCenterEnvironment.PlayMedia(Microsoft.MediaCenter.MediaType.Video, path, false)) {
                     Trace.TraceInformation("PlayMedia returned false");
+                }
             } catch (Exception ex) {
                 Trace.TraceError("Playing media failed.\n" + ex.ToString());
                 Application.ReportBrokenEnvironment();
@@ -56,7 +69,11 @@ namespace MediaBrowser {
 
         public void GoToFullScreen() {
             try {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 AddInHost.Current.MediaCenterEnvironment.MediaExperience.GoToFullScreen();
+                watch.Stop();
+                Trace.WriteLine("It Took : " + watch.ElapsedMilliseconds.ToString() + " to go to full screen!");
             } catch (Exception e) {
                 // dont crash the UI thread
                 Trace.WriteLine("FAIL: " + e.Message);
@@ -87,19 +104,24 @@ namespace MediaBrowser {
         {
             while (true) {
                 Thread.Sleep(ForceRefreshMillisecs);
-                try {
-                    var transport = MediaTransport;
-                    if (transport != null) {
-                        if (transport.PlayState != PlayState) {
-                            ReAttach();
-                        }
-                        UpdateStatus();
+
+                Microsoft.MediaCenter.UI.Application.DeferredInvoke((object o) => AttachAndUpdateStatus());
+            }
+        }
+
+        private void AttachAndUpdateStatus() {
+            try {
+                var transport = MediaTransport;
+                if (transport != null) {
+                    if (transport.PlayState != PlayState) {
+                        ReAttach();
                     }
-                } 
-                catch (Exception e) { 
-                    // dont crash the background thread 
-                    Trace.WriteLine("FAIL: something is wrong with media experience!" + e.Message.ToString());
+                    UpdateStatus();
                 }
+            } catch (Exception e) {
+                // dont crash the background thread 
+                Trace.WriteLine("FAIL: something is wrong with media experience!" + e.Message.ToString());
+                mediaTransport = null;
             }
         }
 
@@ -109,17 +131,20 @@ namespace MediaBrowser {
             }
         }
 
+        private MediaTransport mediaTransport;
         private MediaTransport MediaTransport {
             get {
+                if (mediaTransport != null) return mediaTransport;
                 try {
                     var experience = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
                     if (experience != null) {
-                        return experience.Transport;
+                        mediaTransport = experience.Transport;
                     }
-                } catch (InvalidOperationException) { 
+                } catch (InvalidOperationException e) { 
                     // well if we are inactive we are not allowed to get media experience ...
+                    Trace.WriteLine("EXCEPTION : " + e.ToString());
                 }
-                return null;
+                return mediaTransport;
             }
         }
 
@@ -188,5 +213,7 @@ namespace MediaBrowser {
                 transport.PlayRate = 1;
             }
         }
+
+     
     }
 }
