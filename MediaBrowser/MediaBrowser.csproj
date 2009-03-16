@@ -64,6 +64,10 @@
     <Compile Include="Code\ModelItems\PlaybackController.cs" />
     <Compile Include="Code\ModelItems\Scroller.cs" />
     <Compile Include="Code\ModelItems\BlankLibraryImage.cs" />
+    <Compile Include="Code\ShadowTypes\Colors.cs" />
+    <Compile Include="Code\ShadowTypes\Inset.cs" />
+    <Compile Include="Code\ShadowTypes\Size.cs" />
+    <Compile Include="Code\ShadowTypes\Vector3.cs" />
     <Compile Include="Library\Collections\DerivedEqualityComparer.cs" />
     <Compile Include="Library\Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />

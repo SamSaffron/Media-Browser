@@ -16,19 +16,29 @@ using MediaBrowser;
 using MediaBrowser.LibraryManagement;
 using System.IO;
 using Microsoft.Win32;
+using MediaBrowser.Code.ShadowTypes;
+using System.Xml.Serialization;
+using MediaBrowser.Library;
 
 namespace Configurator
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
+        ConfigData config;
+
         public MainWindow() {
             InitializeComponent();
+
+            config = ConfigData.FromFile(Helper.ConfigFile);
+   
             infoPanel.Visibility = Visibility.Hidden;
 
             // first time the wizard has run 
-            if (Config.Instance.InitialFolder != Helper.AppInitialDirPath) {
+            if (config.InitialFolder != Helper.AppInitialDirPath) {
                 try {
                     MigrateOldInitialFolder();
                 } catch {
@@ -36,31 +46,37 @@ namespace Configurator
                 }
             }
 
-            Config.Instance.InitialFolder = Helper.AppInitialDirPath;
+            config.InitialFolder = Helper.AppInitialDirPath;
 
             RefreshItems();
 
-            enableTranscode360.IsChecked = Config.Instance.EnableTranscode360;
-            useAutoPlay.IsChecked = Config.Instance.UseAutoPlayForIso;
+            enableTranscode360.IsChecked = config.EnableTranscode360;
+            useAutoPlay.IsChecked = config.UseAutoPlayForIso;
 
             for (char c = 'D'; c <= 'Z'; c++) {
                 daemonToolsDrive.Items.Add(c.ToString()); 
             }
 
             try {
-                daemonToolsDrive.SelectedValue = Config.Instance.DaemonToolsDrive;
+                daemonToolsDrive.SelectedValue = config.DaemonToolsDrive;
             } catch { 
                 // someone bodged up the config
             }
 
-            daemonToolsLocation.Content = Config.Instance.DaemonToolsLocation;
+            daemonToolsLocation.Content = config.DaemonToolsLocation;
             RefreshExtenderFormats();
 
+            SaveConfig();
+
+        }
+
+        private void SaveConfig() {
+            config.Save(Helper.ConfigFile);
         }
 
         private void RefreshExtenderFormats() {
             extenderFormats.Items.Clear();
-            foreach (var format in Config.Instance.ExtenderNativeTypes.Split(',')) {
+            foreach (var format in config.ExtenderNativeTypes.Split(',')) {
                 extenderFormats.Items.Add(format);
             }
         }
@@ -70,7 +86,7 @@ namespace Configurator
 
             folderList.Items.Clear();
 
-            foreach (var filename in Directory.GetFiles(Config.Instance.InitialFolder)) {
+            foreach (var filename in Directory.GetFiles(config.InitialFolder)) {
                 try {
                     folderList.Items.Add(new VirtualFolder(filename));
                 } catch (Exception e) {
@@ -80,9 +96,9 @@ namespace Configurator
             }
         }
 
-        private static void MigrateOldInitialFolder() {
-            var path = Config.Instance.InitialFolder;
-            if (Config.Instance.InitialFolder == Helper.MY_VIDEOS) {
+        private void MigrateOldInitialFolder() {
+            var path = config.InitialFolder;
+            if (config.InitialFolder == Helper.MY_VIDEOS) {
                 path = Helper.MyVideosPath;
             }
 
@@ -232,7 +248,8 @@ folder: {0}
 
 
         private void enableTranscode360_Click(object sender, RoutedEventArgs e) {
-            Config.Instance.EnableTranscode360 = (bool)enableTranscode360.IsChecked;
+            config.EnableTranscode360 = (bool)enableTranscode360.IsChecked;
+            SaveConfig();
         }
 
         private void addExtenderFormat_Click(object sender, RoutedEventArgs e) {
@@ -240,10 +257,11 @@ folder: {0}
             form.Owner = this;
             var result = form.ShowDialog();
             if (result == true) {
-                var parser = new FormatParser(Config.Instance.ExtenderNativeTypes); 
+                var parser = new FormatParser(config.ExtenderNativeTypes); 
                 parser.Add(form.formatName.Text);
-                Config.Instance.ExtenderNativeTypes = parser.ToString();
+                config.ExtenderNativeTypes = parser.ToString();
                 RefreshExtenderFormats();
+                SaveConfig();
             }
         }
 
@@ -253,10 +271,11 @@ folder: {0}
                 var message = "Remove \"" + format + "\"?";
                 if (
                   MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
-                    var parser = new FormatParser(Config.Instance.ExtenderNativeTypes);
+                    var parser = new FormatParser(config.ExtenderNativeTypes);
                     parser.Remove(format);
-                    Config.Instance.ExtenderNativeTypes = parser.ToString();
+                    config.ExtenderNativeTypes = parser.ToString();
                     RefreshExtenderFormats();
+                    SaveConfig();
                 }
             }
         }
@@ -267,18 +286,23 @@ folder: {0}
             dialog.Filter = "*.exe|*.exe";
             var result = dialog.ShowDialog();
             if (result == true) {
-                Config.Instance.DaemonToolsLocation = dialog.FileName;
-                daemonToolsLocation.Content = Config.Instance.DaemonToolsLocation;
+                config.DaemonToolsLocation = dialog.FileName;
+                daemonToolsLocation.Content = config.DaemonToolsLocation;
+                SaveConfig();
             }
         }
 
 
         private void useAutoPlay_Click(object sender, RoutedEventArgs e) {
-            Config.Instance.UseAutoPlayForIso = (bool)useAutoPlay.IsChecked ;
+            config.UseAutoPlayForIso = (bool)useAutoPlay.IsChecked ;
+            SaveConfig();
         }
 
         private void daemonToolsDrive_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            Config.Instance.DaemonToolsDrive = (string)daemonToolsDrive.SelectedValue;
+            if (daemonToolsDrive.SelectedValue != null) {
+                config.DaemonToolsDrive = (string)daemonToolsDrive.SelectedValue;
+            }
+            SaveConfig();
         }
     }
 

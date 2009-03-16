@@ -6,7 +6,7 @@ using System.Configuration;
 using System.Reflection;
 using System.Xml;
 
-using Microsoft.MediaCenter.UI;
+using MediaBrowser.Code.ShadowTypes;
 using MediaBrowser.Library;
 using MediaBrowser.LibraryManagement;
 using System.Xml.Serialization;
@@ -19,11 +19,11 @@ namespace MediaBrowser
     {
         public bool IsFirstRun = true;
         public string ImageByNameLocation = "";
-        public Vector3 OverScanScaling = new Vector3(1, 1, 1);
-        public Inset OverScanPadding = new Inset(0, 0, 0, 0);
+        public Vector3 OverScanScaling = new Vector3() {X=1, Y=1, Z=1};
+        public Inset OverScanPadding = new Inset();
         public bool EnableTraceLogging = false;
-        public Size DefaultPosterSize = new Size(220, 220);
-        public Size GridSpacing = new Size(0, 0);
+        public Size DefaultPosterSize = new Size() {Width=220, Height=220};
+        public Size GridSpacing = new Size();
         public float MaximumAspectRatioDistortion = 0.05F;
         public bool EnableTranscode360 = true;
         public string ExtenderNativeTypes = ".dvr-ms,.wmv";

@@ -11,6 +11,7 @@ using MediaBrowser.Library;
 using MediaBrowser.LibraryManagement;
 using MediaBrowser.Attributes;
 using Microsoft.MediaCenter;
+using System.Diagnostics;
 
 namespace MediaBrowser
 {
@@ -50,14 +51,23 @@ namespace MediaBrowser
         [Comment(@"Enables you to scan the display to cope with overscan issue, parameter should be of the for x,y,z scaling factors")]
         public Vector3 OverScanScaling
         {
-            get { return this.data.OverScanScaling; }
-            set { if (this.data.OverScanScaling != value) { this.data.OverScanScaling = value; Save(); FirePropertyChanged("OverScanScaling"); } }
+            get { return this.data.OverScanScaling.ToMediaCenterVector3(); }
+            set { 
+                if (this.data.OverScanScaling.ToMediaCenterVector3() != value) { 
+                    this.data.OverScanScaling = MediaBrowser.Code.ShadowTypes.Vector3.FromMediaCenterVector3(value); 
+                    Save(); 
+                    FirePropertyChanged("OverScanScaling"); 
+                } 
+            }
         }
         [Comment("Defines padding to apply round the edge of the screen to cope with overscan issues")]
         public Inset OverScanPadding
         {
-            get { return this.data.OverScanPadding; }
-            set { if (this.data.OverScanPadding != value) { this.data.OverScanPadding = value; Save(); FirePropertyChanged("OverScanPadding"); } }
+            get { return this.data.OverScanPadding.ToMediaCenterInset(); }
+            set { if (this.data.OverScanPadding.ToMediaCenterInset() != value) { 
+                this.data.OverScanPadding = MediaBrowser.Code.ShadowTypes.Inset.FromMediaCenterInset(value); 
+                Save(); 
+                FirePropertyChanged("OverScanPadding"); } }
         }
         [Comment(@"Enables the writing of trace log files in a production environment to assist with problem solving")]
         public bool EnableTraceLogging
@@ -68,8 +78,16 @@ namespace MediaBrowser
         [Comment(@"The default size of posters before change are made to the view settings")]
         public Size DefaultPosterSize
         {
-            get { return this.data.DefaultPosterSize; }
-            set { if (this.data.DefaultPosterSize != value) { this.data.DefaultPosterSize = value; Save(); FirePropertyChanged("DefaultPosterSize"); } }
+            get { 
+                return this.data.DefaultPosterSize.ToMediaCenterSize(); 
+            }
+            set { 
+                if (this.data.DefaultPosterSize.ToMediaCenterSize() != value) { 
+                    this.data.DefaultPosterSize = MediaBrowser.Code.ShadowTypes.Size.FromMediaCenterSize(value); 
+                    Save(); 
+                    FirePropertyChanged("DefaultPosterSize"); 
+                } 
+            }
         }
 
         public int DefaultPosterSizeCfg
@@ -81,8 +99,14 @@ namespace MediaBrowser
         [Comment("Controls the space between items in the poster and thumb strip views")]
         public Size GridSpacing
         {
-            get { return this.data.GridSpacing; }
-            set { if (this.data.GridSpacing != value) { this.data.GridSpacing = value; Save(); FirePropertyChanged("GridSpacing"); } }
+            get { return this.data.GridSpacing.ToMediaCenterSize(); }
+            set { 
+                if (this.data.GridSpacing.ToMediaCenterSize() != value) { 
+                    this.data.GridSpacing = MediaBrowser.Code.ShadowTypes.Size.FromMediaCenterSize(value); 
+                    Save(); 
+                    FirePropertyChanged("GridSpacing"); 
+                } 
+            }
         }
 
         public int GridSpacingCfg
@@ -204,8 +228,9 @@ namespace MediaBrowser
         [Comment(@"Enables the showing of watched shows in a different color in the list view (Transparent disables it)")]
         public Colors ListViewWatchedColor
         {
-            get { return this.data.ListViewWatchedColor; }
-            set { if (this.data.ListViewWatchedColor != value) { this.data.ListViewWatchedColor = value; Save(); FirePropertyChanged("ListViewWatchedColor"); FirePropertyChanged("ListViewWatchedColorMcml"); } }
+            get { return (Colors)(int)this.data.ListViewWatchedColor; 
+            }
+            set { if ((int)this.data.ListViewWatchedColor != (int)value) { this.data.ListViewWatchedColor = (MediaBrowser.Code.ShadowTypes.Colors)(int)value; Save(); FirePropertyChanged("ListViewWatchedColor"); FirePropertyChanged("ListViewWatchedColorMcml"); } }
         }
         public Color ListViewWatchedColorMcml
         {
