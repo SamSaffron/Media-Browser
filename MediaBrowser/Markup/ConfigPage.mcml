@@ -285,9 +285,6 @@
                     <Children>
                       <me:TextHeader Text="General" />
                       
-                      <!-- 
-											<te:TextEdit LabelSize="[LabelSize1]" Label="Initial Location" EditableText="[InitialFolder]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
-                        -->
                       <me:TextHeader Text="Tracking" />
                       <me:AssumeWatchedEdit Label="Assume Watched If Older Than" Config="[Application.Config]" Margins="[CMargin]" />
 
@@ -296,11 +293,6 @@
 
                       <me:TextHeader Text="Updates" />
                       <cb:CheckBox Label="Automatic Updates" Checked="[EnableUpdates]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
-
-                      <me:TextHeader Text="ISO Playback" />
-                      <te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Location" EditableText="[DaemonToolsLocation]" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
-                      <te:TextEdit LabelSize="[LabelSize1]" Label="Daemon Tools Drive" EditableText="[DaemonToolsDrive]" MaxChars="1" Margins="[CMargin]" Font="font://f:CP_ConfigItemFont"/>
-                      <cb:CheckBox Label="Use Autoplay" Checked="[UseAutoPlayForIso]" Margins="[CMargin]"  Font="font://f:CP_ConfigItemFont"/>
 
                     </Children>
                   </Graphic>
