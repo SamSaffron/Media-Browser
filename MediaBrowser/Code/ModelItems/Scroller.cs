@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser {
-    public class Scroller : ModelItem {
+    public class Scroller : BaseModelItem {
         public Scroller() {
         }
 

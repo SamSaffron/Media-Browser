@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using System.IO;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class PlayState : ModelItem
+    public class PlayState : BaseModelItem
     {
         private static readonly byte Version = 1;
         public PlayState()

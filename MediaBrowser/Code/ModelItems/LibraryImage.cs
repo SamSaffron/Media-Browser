@@ -8,11 +8,12 @@ using System.Net;
 using MediaBrowser.LibraryManagement;
 using System.Diagnostics;
 using MediaBrowser.Util.VideoProcessing;
+using MediaBrowser.Code.ModelItems;
 
 
 namespace MediaBrowser.Library
 {
-    public class LibraryImage : ModelItem
+    public class LibraryImage : BaseModelItem
     {
         private static BackgroundProcessor<LibraryImage> backgroundProcessor = new BackgroundProcessor<LibraryImage>(ThreadPoolSizes.IMAGE_CACHING_THREADS, LibraryImage.ProcessorCallback, "ImageCaching");
         private static BackgroundProcessor<LibraryImage> imageScalingProcessor = new BackgroundProcessor<LibraryImage>(ThreadPoolSizes.IMAGE_RESIZE_THREADS, LibraryImage.ImageLoadCallback, "SmallImageGeneration");

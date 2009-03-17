@@ -59,8 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Attributes\CommentAttribute.cs" />
+    <Compile Include="Code\ModelItems\BaseModelItem.cs" />
     <Compile Include="Code\ModelItems\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
+    <Compile Include="Code\ModelItems\Folder.cs" />
     <Compile Include="Code\ModelItems\PlaybackController.cs" />
     <Compile Include="Code\ModelItems\Scroller.cs" />
     <Compile Include="Code\ModelItems\BlankLibraryImage.cs" />

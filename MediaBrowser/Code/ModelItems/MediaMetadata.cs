@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.MediaCenter.UI;
 using System.IO;
 using System.Diagnostics;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class MediaMetadata : ModelItem
+    public class MediaMetadata : BaseModelItem
     {
         private static readonly List<string> emptyStringList = new List<string>();
         private static readonly List<Actor> emptyActorList = new List<Actor>();

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using MediaBrowser.Library.Sources;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class DirectorItemWrapper : ModelItem
+    public class DirectorItemWrapper : BaseModelItem
     {
         public string Director{ get; private set; }
         private Item parent;

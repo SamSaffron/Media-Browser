@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.MediaCenter.UI;
 using System.IO;
 using System.Collections;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class DisplayPreferences : ModelItem
+    public class DisplayPreferences : BaseModelItem
     {
         private static readonly byte Version = 3;
 

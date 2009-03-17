@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using MediaBrowser.Library.Sources;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class StudioItemWrapper : ModelItem
+    public class StudioItemWrapper : BaseModelItem
     {
         public Studio Studio { get; private set; }
         private Item parent;

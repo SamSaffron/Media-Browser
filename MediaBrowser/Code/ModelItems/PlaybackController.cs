@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.MediaCenter.Hosting;
 using System.Diagnostics;
 using Microsoft.MediaCenter;
+using MediaBrowser.Code.ModelItems;
 
 
 namespace MediaBrowser {
@@ -17,7 +18,7 @@ namespace MediaBrowser {
         public long Position { get; set; }
     }
 
-    public class PlaybackController : ModelItem {
+    public class PlaybackController : BaseModelItem {
 
         EventHandler<PlaybackState> progressHandler;
 

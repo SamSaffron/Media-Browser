@@ -11,12 +11,13 @@ using MediaBrowser.Util;
 using MediaBrowser.Library.Collections;
 using System.Linq;
 using MediaBrowser.Library.LinqExtensions;
+using MediaBrowser.Code.ModelItems;
 
 
 namespace MediaBrowser.Library
 {
 
-    public class Item : ModelItem
+    public class Item : BaseModelItem
     {
         private static BackgroundProcessor<Item> childVerificationProcessor = new BackgroundProcessor<Item>(ThreadPoolSizes.CHILD_VERIFICATION_THREADS, Item.ChildVerificationCallback, "ChildVerification");
         private static BackgroundProcessor<Item> childRetrievalProcessor = new BackgroundProcessor<Item>(ThreadPoolSizes.CHILD_LOAD_THREADS, Item.ProcessRetrieveChildren, "ChildRetrieval");

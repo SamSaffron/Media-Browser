@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.MediaCenter.UI;
+using MediaBrowser.Code.ModelItems;
 
 namespace MediaBrowser.Library
 {
-    public class StringRef : ModelItem
+    public class StringRef : BaseModelItem
     {
         private string val;
         public string Value

@@ -115,7 +115,7 @@ namespace MediaBrowser.Library.Providers
         {
 
             string id = null;
-            string url = string.Format(search, HttpUtility.UrlEncode(name).Replace("'", "%27"), ApiKey);
+            string url = string.Format(search, UrlEncode(name), ApiKey);
             XmlDocument doc = Fetch(url);
             List<string> possibleTitles = new List<string>();
             if (doc != null)
@@ -197,6 +197,10 @@ namespace MediaBrowser.Library.Providers
             possibles = possibleTitles.ToArray();
             matchedName = null;
             return null;
+        }
+
+        private static string UrlEncode(string name) {
+            return HttpUtility.UrlEncode(name).Replace("'", "%27").Replace("+", "%20");
         }
 
         void FetchMovieData(string id, Item item, MediaMetadataStore store)
