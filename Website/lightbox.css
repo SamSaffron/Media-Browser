@@ -43,7 +43,7 @@
 {
 	background-image: url(images/overlay.png);
 }
-
+/* REMOVED DUE TO INVALID CSS VERIFICATION
 * html #overlay
 {
 	background-color: #333;
@@ -51,3 +51,4 @@
 	background-image: url(blank.gif);
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src= "images/overlay.png" , sizingMethod= "scale" );
 }
+*/
