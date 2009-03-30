@@ -1,76 +1,114 @@
-body { 
-	font-family: sans-serif;
-	background : url('images/background.png') repeat-x #031931;
-	font-size : 0.8em;
-	padding-top: 15px;
-}
-table  { border-collapse:collapse;}
-td { 
-	border: 1px solid #cacaca;
-	vertical-align:top; 
-	padding : 5px;
-}
-#header h2 { color : white; }
-h2 { font-size : 1.8em;}
-h3 { font-size : 1.6em;}
-h4 { font-size : 1.3em; }
-#container 
-{
-	width : 900px; 
-	margin-left:auto; 
-	margin-right:auto;
-}
-#content { background : white; padding : 20px;}
-tt { font-size : 1.2em; font-weight : bold;}
-.bold { font-weight : bold; }
-.prettyprint {
-	font-size : 1.2em;
-	border-left : 3px solid #cacaca;
-	padding-left: 5px;
+﻿/* CSS Document */
 
-}
-.lavaLampWithImage {
-	position: relative;
-	height: 64px;
-	overflow: hidden;
-	margin : 0 0 10 0;
-	padding : 0;
-}
-.lavaLampWithImage li {
-	float: left;
-	list-style: none;
-	width : 94px;
-	height : 64px;
-}
-.lavaLampWithImage li.back 
-{
-	width: 9px; 
-	height : 64px;
-	z-index: 8;
-	position: absolute;
-}
-.lavaLampWithImage li.back .left {
-	background: url("images/lava.png") no-repeat top left;
-	height : 64px;
-	margin-right: 0px;
-}
-.lavaLampWithImage li a {
-	text-decoration: none;
-	color : white;
-	z-index: 10;
-	display: block;
-	float: left;
-	height : 64px;
-	position: relative;
-	margin-top: 24px;
-	padding-left : 5%;
-}
-.lavaLampWithImage li a:hover, .lavaLampWithImage li a:active, .lavaLampWithImage li a:visited {
-	border: none;
-}
-.lavaLampWithImage li a
-{
-	font-size: 1.3em;
-	width:94px; 
-	text-align:center;
-}
+body{background:#fff; color:#0F0F0F; font:15px/20px Arial, Helvetica, sans-serif; margin:32px 0 0; padding:0;}
+div, ul, h1, h2, h3, li, p, img{margin:0; padding:0;}
+ul{list-style-type:none;}
+
+/* TOP PANEL*/
+#topPanel{width:762px; height:373px; position:relative; margin:0 auto; padding:0;}
+#topPanel img{width:230px; height:80px; z-index:1; padding:0; position:absolute; margin:0 0 0 21px;}
+/* MENU PANEL*/
+#topPanel ul{display:block; width:732px; height:36px; position:absolute; top:0; right:0; margin:11px 0 0; padding:0 29px 0 0; border-bottom:1px solid #AEAEAE;}
+#topPanel ul li{float:right; font:12px/36px "Trebuchet MS",Arial, Helvetica, sans-serif; font-weight:bold;}
+#topPanel ul li a{width:74px; height:36px; display:block; padding:0; color:#555; background:#fff; text-decoration:none; text-align:center; margin:0 1px 0 0; top:0px; left:0px;}
+#topPanel ul li a:hover{width:74px; height:36px; text-decoration:none; background:url(images/button.gif) no-repeat 0 0 #AEAEAE; color:#fff;}
+#topPanel ul li.active{width:74px; display:block; height:36px; background:url(images/button.gif) no-repeat 0 0 #AEAEAE; color:#fff; text-align:center; margin:0 1px 0 0;}
+/* HEADER PANEL*/
+#topPanel #headerPanelfast{width:246px; height:263px; position:absolute; top:0; left:0; margin:110px 0 0; padding:0px; background:url(images/orange-normal.jpg) no-repeat 0 0 #FC5F00; color:#fff;}
+#topPanel #headerPanelfast a{width:246px; height:263px; display:block; text-decoration:none; }
+/*#topPanel #headerPanelfast a:hover{width:246px; height:263px; background:url(images/orange-hover.jpg) no-repeat 0 0 #FC5F00; color:#fff; text-decoration:none;}*/
+#topPanel #headerPanelfast h2{display:block; width:90px; height:47px; margin:54px 0 0 120px; font:28px/28px "Trebuchet MS",Arial, Helvetica, sans-serif; font-weight:bold; text-transform:uppercase; position:absolute; top:0px; left:0px; z-index:1;}
+#topPanel #headerPanelfast p{width:163px; display:block; font:12px/18px Arial, Helvetica, sans-serif; font-weight:bold;  position:absolute; top:0px; left:0px; z-index:1; padding:0; margin:105px 50px 0 38px;}
+
+#topPanel #headerPanelsecond{width:246px; height:263px; position:absolute; top:0; left:258px; margin:110px 0 0; padding:0px; background:url(images/green-normal.jpg) no-repeat 0 0 #FC5F00; color:#fff;}
+#topPanel #headerPanelsecond a{width:246px; height:263px; display:block; text-decoration:none; }
+/*#topPanel #headerPanelsecond a:hover{width:246px; height:263px; background:url(images/green-hover.jpg) no-repeat 0 0 #FC5F00; color:#fff; text-decoration:none;}*/
+#topPanel #headerPanelsecond h2{display:block; width:90px; height:47px; background:none; margin:54px 0 0 103px; font:28px/28px "Trebuchet MS",Arial, Helvetica, sans-serif; font-weight:bold; text-transform:uppercase; padding:0; position:absolute; z-index:1;}
+#topPanel #headerPanelsecond p{width:163px; display:block; font:12px/18px Arial, Helvetica, sans-serif; font-weight:bold;  position:absolute; top:0px; left:0px; z-index:1; padding:0; margin:105px 50px 0 38px;}
+
+#topPanel #headerPanelthird{width:246px; height:263px; position:absolute; top:0; right:0; margin:110px 0 0; padding:0px; background:url(images/blue-normal.jpg) no-repeat 0 0 #FC5F00; color:#fff;}
+#topPanel #headerPanelthird a{width:246px; height:263px; display:block; text-decoration:none; }
+/*#topPanel #headerPanelthird a:hover{width:246px; height:263px; background:url(images/blue-hover.jpg) no-repeat 0 0 #FC5F00; color:#fff; text-decoration:none;}*/
+#topPanel #headerPanelthird h2{display:block; width:90px; height:47px; background:none; margin:54px 0 0 93px; font:28px/28px "Trebuchet MS",Arial, Helvetica, sans-serif; font-weight:bold; text-transform:uppercase; padding:0; position:absolute; z-index:1;}
+#topPanel #headerPanelthird p{width:163px; display:block; font:12px/18px Arial, Helvetica, sans-serif; font-weight:bold;  position:absolute; top:0px; left:0px; z-index:1; padding:0; margin:105px 50px 0 38px;}
+/* /TOP PANEL*/
+
+/* BODY PANEL*/
+#bodyPanel{width:762px; height:540px; position:relative; margin:0 auto; padding:0;}
+#bodyPanel h2{ background:#fff; display:block; width:400px; height:50px; margin:0; font:30px Georgia; font-weight:normal; padding:4px 0 0 202px; color:#FF7113;}
+#bodyPanel p{background:url(images/Application.png) 0 0 no-repeat #fff; margin:0 0 0 54px; padding:0 42px 35px 150px; color:#0F0F0F;}
+#bodyPanel p span{font-weight:bold;}
+#bodyPanel p.dotline{background:url(images/dot-line.gif) 0 0 repeat-x #fff; padding:0; margin:0 40px 0 25px; color:#000;}
+#bodyPanel p.capstext{background: url(images/name.png) bottom right no-repeat #fff; font:18px Georgia; font-style:italic; color:#555555; padding:2px 10px 0 25px ; margin:0 35px 10px 0; }
+#bodyPanel p.more{height:26px; padding:0; background:none; margin:0;}
+#bodyPanel p.more a{width:76px; height:26px; display:block; margin:314px 20px 19px 618px; background:url(images/more.gif) 0 0 no-repeat #fff; color:#555; text-decoration:none; font:15px/26px "Trebuchet MS",Arial, Helvetica, sans-serif; padding:0 0 0 10px; text-transform:uppercase; position:absolute; top:0px; right:0px;}
+#bodyPanel p.more a:hover{background:url(images/more.gif) 0 0 no-repeat #fff; color:#216EBD; text-decoration:none;}
+#bodyPanel h3{background:#fff; display:block; width:250px; height:34px; margin:34px 0 12px 0; font:30px Georgia; font-weight:normal; padding:0 0 0 20px; color:#FF7113;}
+#bodyPanel #testimonial{width:283px; height:162px; display:block; background:url(images/testimonial-bg.gif) 0 0 no-repeat #FFF6DB; padding:32px 33px 0 148px; margin:0 0 0 0px; color:#786321;}
+#bodyPanel #testimonial p{background:none; margin:0; padding:0 0 5px 0;}
+#bodyPanel #testimonial p span{color:#786321 !Important; background:#FFFAED !Important;}
+#bodyPanel p.moretwo{height:26px; padding:0; background:none; margin:0;}
+#bodyPanel p.moretwo a{width:76px; height:26px; display:block; margin:0px 0px 0px 196px; background:url(images/more2.gif) 0 0 no-repeat #FFF5D6; color:#555; text-decoration:none; font:15px/26px "Trebuchet MS",Arial, Helvetica, sans-serif; text-transform:uppercase; padding:0 0 0 5px; top:0px; right:0px;}
+#bodyPanel p.moretwo a:hover{background:url(images/more2.gif) 0 0 no-repeat #FFF5D6; color:#216EBD; text-decoration:none;}
+#bodyPanel h4{ background:#fff; width:250px; position:absolute; top:290px; right:5px; margin:0; font:30px Georgia; font-weight:normal; padding:0px; color:#FF7113;}
+#bodyPanel ul{width:225px; display:block; position:absolute; right:30px; top:340px; }
+#bodyPanel ul li{font:12px/25px Arial, Helvetica, sans-serif; font-weight:normal; background:url(images/symbol2.gif) 0 8px no-repeat; padding:0 0 0 30px;}
+#bodyPanel ul span{ background:url(images/dot-line.gif) repeat-x 0 100%; height:25px; display:block;}
+
+/* BODY2 PANEL*/
+#body2Panel{width:762px;  position:relative; margin:0 auto; padding:0;}
+#body2Panel h2{ background:#fff; display:block; width:400px; height:50px; margin:0; font:30px Georgia; font-weight:normal; color:#FF7113;}
+#body2Panel p{color:#0F0F0F; padding:0 42px 15px 42px; }
+#body2Panel p span{font-weight:bold;}
+#body2Panel p.dotline{background:url(images/dot-line.gif) 0 0 repeat-x #fff; padding:0; margin:0 40px 0 25px; color:#000;}
+#body2Panel p.capstext{background: url(images/name.png) bottom right no-repeat #fff; font:18px Georgia; font-style:italic; color:#555555; padding:2px 10px 0 25px ; margin:0 35px 10px 0; }
+#body2Panel p.more{height:26px; padding:0; background:none; margin:0;}
+#body2Panel p.more a{width:76px; height:26px; display:block; margin:314px 20px 19px 618px; background:url(images/more.gif) 0 0 no-repeat #fff; color:#555; text-decoration:none; font:15px/26px "Trebuchet MS",Arial, Helvetica, sans-serif; padding:0 0 0 10px; text-transform:uppercase; position:absolute; top:0px; right:0px;}
+#body2Panel p.more a:hover{background:url(images/more.gif) 0 0 no-repeat #fff; color:#216EBD; text-decoration:none;}
+#body2Panel h3{background:#fff; display:block; width:250px; height:34px; margin:34px 0 12px 0; font:30px Georgia; font-weight:normal; padding:0 0 0 20px; color:#FF7113;}
+#body2Panel #testimonial{width:283px; height:162px; display:block; background:url(images/testimonial-bg.gif) 0 0 no-repeat #FFF6DB; padding:32px 33px 0 148px; margin:0 0 0 0px; color:#786321;}
+#body2Panel #testimonial p{background:none; margin:0; padding:0 0 5px 0;}
+#body2Panel #testimonial p span{color:#786321 !Important; background:#FFFAED !Important;}
+#body2Panel #download{width:283px; height:162px; display:block; background:url(images/download-bg.gif) 0 0 no-repeat #FFF6DB; padding:32px 33px 0 148px; margin:0 0 0 0px; color:#786321;}
+#body2Panel #download p{background:none; margin:0; padding:0 0 5px 0;}
+#body2Panel #download p span{color:#786321 !Important; background:#FFFAED !Important;}
+#body2Panel p.moretwo{height:26px; padding:0; background:none; margin:0;}
+#body2Panel p.moretwo a{width:76px; height:26px; display:block; margin:0px 0px 0px 196px; background:url(images/more2.gif) 0 0 no-repeat #FFF5D6; color:#555; text-decoration:none; font:15px/26px "Trebuchet MS",Arial, Helvetica, sans-serif; text-transform:uppercase; padding:0 0 0 10px; top:0px; right:0px;}
+#body2Panel p.moretwo a:hover{background:url(images/more2.gif) 0 0 no-repeat #FFF5D6; color:#216EBD; text-decoration:none;}
+#body2Panel h4{ background:#fff; width:250px; position:absolute; top:290px; right:5px; margin:0; font:30px Georgia; font-weight:normal; padding:0px; color:#FF7113;}
+#body2Panel ul{width:225px; }
+#body2Panel ul li{font:12px/25px Arial, Helvetica, sans-serif; font-weight:normal; }
+#body2Panel ul span{ background:url(images/dot-line.gif) repeat-x 0 100%; height:25px; display:block;}
+#body2Panel h5{ background:#fff; display:block; width:400px; height:30px; margin:0; font:20px Georgia; font-weight:normal; color:#FF7113;}
+
+
+.greybox { width:80%; margin:0px 42px 35px 42px;  background:#DCDCDC; }
+.devperson { margin: 0px 42px 15px 42px; }
+.devperson ul li{ list-style: square; margin: 10px 0px 0px 42px; }
+
+
+
+/* FOOTER PANEL*/
+#footerPanel{width:100%;  background:#DCDCDC; color:#4C4C4C; font-size:12px;}
+#footerbodyPanel{width:762px;height:133px; position:relative; margin:0 auto; padding:0;}
+#footerPanel ul{width:360px; display:block; position:absolute; right:10px; top:33px; }
+#footerPanel li{float:left; font:12px/15px Arial, Helvetica, sans-serif; font-weight:normal;}
+#footerPanel ul li a.padl{padding:0 0 0 6px;}
+
+
+#footerPanel ul li a{padding:0 6px; color:#4C4C4C; background:#DCDCDC; text-decoration:none;}
+#footerPanel ul li a:hover{text-decoration:underline;}
+
+
+#footerPanel p.copyright{background:#DCDCDC; display:block; position:absolute; top:54px; right:40px; color:#A64200;}
+#footerPanel p.templateworld{background:#DCDCDC; color:#4C4C4C; font-size: xx-small; display:block; position:absolute; top:100px; right:40px;}
+#footerPanel p.templateworld a {color:#4C4C4C; background:#DCDCDC; text-decoration:none;}
+#footerPanel p.templateworld a:hover{text-decoration:underline;}
+
+#footerhtmlPanel{ width:86px; height:31px; display:block; position:absolute; top:34px; left:29px; margin:0; padding:0;} 
+#footerhtmlPanel a{ width:86px; height:31px; display:block; background:url(images/html-img.gif) no-repeat 0 0 #DCDCDC; text-decoration:none; font:14px/31px "Trebuchet MS",Arial, Helvetica, sans-serif; color:#2F2F2F; text-transform:uppercase; padding:0 0 0 10px; position:absolute; top:0px; right:0px;}
+#footerhtmlPanel a:hover{background:url(images/html-img.gif) no-repeat 0 0 #DCDCDC; color:#216EBD; text-decoration:none; }
+#footercssPanel{ width:86px; height:31px; display:block; position:absolute; top:34px; left:115px; margin:0; padding:0;} 
+#footercssPanel a{ width:86px; height:31px; display:block; background:url(images/css-img.gif) no-repeat 0 0 #DCDCDC; text-decoration:none; font:14px/31px "Trebuchet MS",Arial, Helvetica, sans-serif; color:#2F2F2F; text-transform:uppercase; padding:0 0 0 10px; position:absolute; top:0px; right:0px;}
+#footercssPanel a:hover{background:url(images/css-img.gif) no-repeat 0 0 #DCDCDC; color:#216EBD; text-decoration:none; }
+

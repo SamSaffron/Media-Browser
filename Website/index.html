@@ -1,64 +1,107 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Video Browser</title>
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen">
-    <script type="text/javascript" src="javascript/jquery-1.2.6.min.js"></script>
-    <script type="text/javascript" src="javascript/jquery.easing.min.js"></script>
-    <script type="text/javascript" src="javascript/jquery.lavalamp.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $("#1").lavaLamp({
-                fx: "backout",
-                speed: 700,
-                click: function(event, menuItem) {
-                    return true;
-                }
-            });
-        });
-    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>media browser</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<div id="container">
-	<div id="header">
-	<img src="images/logo.png" />
-	<h2>Navigation</h2>
-	<ul class="lavaLampWithImage" id="1">
-	    <li class="current"><a href="index.html">News</a></li>
-	    <li><a href="about.html">About</a></li>
-	    <li><a href="http://code.google.com/p/videobrowser/downloads/list">Downloads</a></li>
-	    <li><a href="faq.html">FAQ</a></li>
-		<li><a href="install.html">Config</a></li>
-		<li><a href="http://www.videobrowser.ch/">Community</a></li>
-	</ul>
-	</div>
-	
-	<div id="content">
-	
-		<div style="text-align:center;"><img src="images/thumbs_poster.jpg" /></div>
-		<p>Video Browser is a plug-in for Windows Vista Media Center. It provides a <strong>simple</strong> interface to your videos.</p>
-
-		
-		<h3>Download</h3>
-		<table>
-			<tr>
-				<td>Latest stable version</td>
-				<td><a href="http://videobrowser.googlecode.com/files/MCE_Video_Browser_1_1_4_0.msi">1.1.4.0</a></td>
-			</tr>
-			<tr>
-				<td>Latest beta version </td>
-				<td><a href="http://videobrowser.googlecode.com/files/MCE_Video_Browser_1_3_2_0.msi">1.3.2.0</a></td>
-			</tr>
-		</table>
-	</div>
-</div>
-<script src="http://videobrowser.uservoice.com/pages/general/widgets/tab.js?alignment=left&amp;color=0178B3" type="text/javascript"></script>
+    <div id="topPanel">
+        <ul>
+            <li><a href="http://www.mediabrowser.tv/forum">Forum</a></li>
+            <li><a href="http://www.mediabrowser.tv/wiki">Wiki</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="about.html">About</a></li>
+            <li class="active">Home</li>
+        </ul>
+        <a href="index.html">
+            <img src="images/logo.gif" title="media browser" alt="media browser" width="230"
+                height="80" border="0" /></a>
+        <div id="headerPanelfast">
+            <h2>
+                ABOUT</h2>
+            <p>
+                Learn more about the team that brought you Media Browser
+            </p>
+            <a href="about.html">&nbsp; </a>
+        </div>
+        <div id="headerPanelsecond">
+            <h2>
+                Gallery</h2>
+            <p>
+                Check out the gallery to see Media Browser in action 
+            </p>
+            <a href="gallery.html">&nbsp; </a>
+        </div>
+        <div id="headerPanelthird">
+            <h2>
+                DOWNLOAD</h2>
+            <p>
+                Stay up to date with the latest version available here
+            </p>
+            <a href="download.html">&nbsp; </a>
+        </div>
+    </div>
+    <div id="bodyPanel">
+        <h2>
+            What is Media Browser?</h2>
+        <p>
+            Media Browser is a <span>free media aggregator</span> plugin for Media Center that
+            takes your recorded, digital, or ripped media and presents it in a simple, easy
+            to use interface. Media Browser prides itself on delivering a fast, intuitive, media
+            rich experience for the whole family.</p>
+        <p class="dotline">
+            <img src="images/blank.gif" alt="" width="1" height="1" /></p>
+        <p class="capstext">
+            If you are interested in learning more about media browser and it's potential feel
+            free to visit our features and wiki sections. Media Browser is being updated constantly
+            so check back regularly to stay in the loop.</p>
+        <p class="dotline">
+            <img src="images/blank.gif" alt="" width="1" height="1" /></p>
+        <p class="more" style="margin-bottom: 36">
+        </p>
+        <!--<h3>Testimonials</h3>-->
+        <h4>
+            Highlights</h4>
+        <ul>
+            <li><span class="style1">Automatic metadata retrieval</span> </li>
+            <li><span>Custom views</span> </li>
+            <li><span>Media bookmarking (resume play)</span></li>
+            <li><span>Automatic updates</span></li>
+            <li>Custom themes </li>
+        </ul>
+        <div id="testimonial">
+            <p>
+                <span>Questions, comments or feedback</span><br />
+                <br />
+                We value your feedback please visit the official Media Browser forum to drop us
+                a line.</p>
+            <p class="moretwo">
+                <a href="http://www.mediabrowser.tv/">FORUM</a></p>
+        </div>
+    </div>
+    <div id="footerPanel">
+        <div id="footerbodyPanel">
+            <ul>
+                <li><a href="#">Home</a> | </li>
+                <li><a href="about.html">About</a> | </li>
+                <li><a href="download.html">Download</a> | </li>
+                <li><a href="gallery.html">Gallery</a> | </li>
+                <li><a href="http://www.mediabrowser.tv/wiki">Wiki</a> | </li>
+                <li><a href="http://www.mediabrowser.tv/">Forum </a></li>
+            </ul>
+            <p class="copyright">
+                Copyright © 2009 Media Browser Team. All rights reserved.&nbsp;
+            </p>
+            <p class="templateworld">
+                Enhancements - <a href="http://blog.manghera.com" target="_blank">J.Manghera</a> / Design - <a href="http://www.templateworld.com" target="_blank">Template World</a>
+            </p>
+            <div id="footerhtmlPanel">
+                <a href="http://validator.w3.org/check?uri=referer" target="_blank">html</a></div>
+            <div id="footercssPanel">
+                <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank">css</a></div>
+        </div>
+    </div>
 </body>
 </html>
-
-
-
-
-
-

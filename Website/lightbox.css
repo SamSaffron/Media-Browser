@@ -1,0 +1,53 @@
+.GalleryDiv { padding: 40px 0px 40px 40px; width: 680px; }
+.GalleryDiv a img { height: 90px; width: 160px; }
+/**/
+#lightbox
+{
+	background-color: #eee;
+	padding: 5px;
+	border-bottom: 2px solid #666;
+	border-right: 2px solid #666;
+}
+#lightboxDetails
+{
+	font-size: 0.8em;
+	padding-top: 0.4em;
+}
+#lightboxCaption
+{
+	float: left;
+	font-family: Arial;
+}
+#keyboardMsg
+{
+	float: right;
+	font-family: Arial;
+}
+#closeButton
+{
+	top: 0px;
+	right: 0px;
+}
+
+#lightbox img
+{
+	border: none;
+	clear: both;
+}
+#overlay img
+{
+	border: none;
+}
+
+#overlay
+{
+	background-image: url(images/overlay.png);
+}
+
+* html #overlay
+{
+	background-color: #333;
+	background-color: transparent;
+	background-image: url(blank.gif);
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src= "images/overlay.png" , sizingMethod= "scale" );
+}
