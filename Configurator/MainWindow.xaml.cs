@@ -26,22 +26,28 @@ namespace Configurator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
 
         ConfigData config;
 
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
 
             config = ConfigData.FromFile(Helper.ConfigFile);
-   
+
             infoPanel.Visibility = Visibility.Hidden;
 
             // first time the wizard has run 
-            if (config.InitialFolder != Helper.AppInitialDirPath) {
-                try {
+            if (config.InitialFolder != Helper.AppInitialDirPath)
+            {
+                try
+                {
                     MigrateOldInitialFolder();
-                } catch {
+                }
+                catch
+                {
                     MessageBox.Show("For some reason we were not able to migrate your old initial path, you are going to have to start from scratch.");
                 }
             }
@@ -50,73 +56,124 @@ namespace Configurator
 
             RefreshItems();
 
-            enableTranscode360.IsChecked = config.EnableTranscode360;
-            useAutoPlay.IsChecked = config.UseAutoPlayForIso;
+            LoadConfigurationSettings();
+            
 
-            for (char c = 'D'; c <= 'Z'; c++) {
-                daemonToolsDrive.Items.Add(c.ToString()); 
+            for (char c = 'D'; c <= 'Z'; c++)
+            {
+                daemonToolsDrive.Items.Add(c.ToString());
             }
 
-            try {
+            try
+            {
                 daemonToolsDrive.SelectedValue = config.DaemonToolsDrive;
-            } catch { 
+            }
+            catch
+            {
                 // someone bodged up the config
             }
 
             daemonToolsLocation.Content = config.DaemonToolsLocation;
             RefreshExtenderFormats();
+            RefreshDisplaySettings();
 
             SaveConfig();
 
         }
 
-        private void SaveConfig() {
+        #region Config Loading / Saving
+        private void LoadConfigurationSettings()
+        {
+            enableTranscode360.IsChecked = config.EnableTranscode360;
+            useAutoPlay.IsChecked = config.UseAutoPlayForIso;
+
+            cbxOptionClock.IsChecked = config.ShowClock;            
+            cbxOptionTransparent.IsChecked = config.TransparentBackground;
+            cbxOptionIndexing.IsChecked = config.RememberIndexing;
+            cbxOptionDimPoster.IsChecked = config.DimUnselectedPosters;
+
+            cbxOptionUnwatchedCount.IsChecked      = config.ShowUnwatchedCount;
+            cbxOptionUnwatchedOnFolder.IsChecked   = config.ShowWatchedTickOnFolders;
+            cbxOptionUnwatchedOnVideo.IsChecked    = config.ShowWatchTickInPosterView;
+            cbxOptionUnwatchedDetailView.IsChecked = config.EnableListViewTicks;
+            cbxOptionDefaultToUnwatched.IsChecked  = config.DefaultToFirstUnwatched;
+        }
+
+        private void SaveConfig()
+        {
             config.Save(Helper.ConfigFile);
         }
 
-        private void RefreshExtenderFormats() {
+        #endregion
+
+        private void RefreshExtenderFormats()
+        {
             extenderFormats.Items.Clear();
-            foreach (var format in config.ExtenderNativeTypes.Split(',')) {
+            foreach (var format in config.ExtenderNativeTypes.Split(','))
+            {
                 extenderFormats.Items.Add(format);
             }
         }
 
+        private void RefreshDisplaySettings()
+        {
+            extenderFormats.Items.Clear();
+            foreach (var format in config.ExtenderNativeTypes.Split(','))
+            {
+                extenderFormats.Items.Add(format);
+            }
+        }
 
-        private void RefreshItems() {
+        private void RefreshItems()
+        {
 
             folderList.Items.Clear();
 
-            foreach (var filename in Directory.GetFiles(config.InitialFolder)) {
-                try {
+            foreach (var filename in Directory.GetFiles(config.InitialFolder))
+            {
+                try
+                {
                     folderList.Items.Add(new VirtualFolder(filename));
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     MessageBox.Show("Invalid file detected in the initial folder!" + e.ToString());
                     // TODO : alert about dodgy VFs and delete them
                 }
             }
         }
 
-        private void MigrateOldInitialFolder() {
+        #region Media Collection methods
+
+        private void MigrateOldInitialFolder()
+        {
             var path = config.InitialFolder;
-            if (config.InitialFolder == Helper.MY_VIDEOS) {
+            if (config.InitialFolder == Helper.MY_VIDEOS)
+            {
                 path = Helper.MyVideosPath;
             }
 
-            foreach (var file in Directory.GetFiles(path)) {
-                if (file.ToLower().EndsWith(".vf")) {
+            foreach (var file in Directory.GetFiles(path))
+            {
+                if (file.ToLower().EndsWith(".vf"))
+                {
                     File.Copy(file, System.IO.Path.Combine(Helper.AppInitialDirPath, System.IO.Path.GetFileName(file)), true);
-                } else if (file.ToLower().EndsWith(".lnk")) {
+                }
+                else if (file.ToLower().EndsWith(".lnk"))
+                {
                     WriteVirtualFolder(Helper.ResolveShortcut(file));
                 }
             }
 
-            foreach (var dir in Directory.GetDirectories(path)) {
+            foreach (var dir in Directory.GetDirectories(path))
+            {
 
                 WriteVirtualFolder(dir);
             }
         }
 
-        private static void WriteVirtualFolder(string dir) {
+        private static void WriteVirtualFolder(string dir)
+        {
             var imagePath = FindImage(dir);
             string vf = string.Format(
 @"
@@ -129,38 +186,50 @@ folder: {0}
                 vf.Trim());
         }
 
-        private static string FindImage(string dir) {
+        private static string FindImage(string dir)
+        {
             string imagePath = "";
             foreach (var file in new string[] { "folder.png", "folder.jpeg", "folder.jpg" })
-                if (File.Exists(System.IO.Path.Combine(dir, file))) {
+                if (File.Exists(System.IO.Path.Combine(dir, file)))
+                {
                     imagePath = "image: " + System.IO.Path.Combine(dir, file);
                 }
             return imagePath;
         }
 
-        private void btnAddFolder_Click(object sender, RoutedEventArgs e) {
+        #endregion
+
+        #region events
+        private void btnAddFolder_Click(object sender, RoutedEventArgs e)
+        {
             FolderBrowser browser = new FolderBrowser();
             var result = browser.ShowDialog();
 
-            if (result == System.Windows.Forms.DialogResult.OK) {
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
                 WriteVirtualFolder(browser.DirectoryPath);
                 RefreshItems();
             }
         }
 
-        private void btnRename_Click(object sender, RoutedEventArgs e) {
+        private void btnRename_Click(object sender, RoutedEventArgs e)
+        {
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
-            if (virtualFolder != null) {
+            if (virtualFolder != null)
+            {
                 var form = new RenameForm(virtualFolder.Name);
                 form.Owner = this;
                 var result = form.ShowDialog();
-                if (result == true) {
+                if (result == true)
+                {
                     virtualFolder.Name = form.tbxName.Text;
 
                     RefreshItems();
 
-                    foreach (VirtualFolder item in folderList.Items) {
-                        if (item.Name == virtualFolder.Name) {
+                    foreach (VirtualFolder item in folderList.Items)
+                    {
+                        if (item.Name == virtualFolder.Name)
+                        {
                             folderList.SelectedItem = item;
                             break;
                         }
@@ -169,13 +238,16 @@ folder: {0}
             }
         }
 
-        private void btnRemoveFolder_Click(object sender, RoutedEventArgs e) {
+        private void btnRemoveFolder_Click(object sender, RoutedEventArgs e)
+        {
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
-            if (virtualFolder != null) {
+            if (virtualFolder != null)
+            {
 
                 var message = "About to remove the folder \"" + virtualFolder.Name + "\" from the menu.\nAre you sure?";
                 if (
-                   MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
+                   MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                {
 
                     File.Delete(virtualFolder.Path);
                     folderList.Items.Remove(virtualFolder);
@@ -184,7 +256,8 @@ folder: {0}
             infoPanel.Visibility = Visibility.Hidden;
         }
 
-        private void btnChangeImage_Click(object sender, RoutedEventArgs e) {
+        private void btnChangeImage_Click(object sender, RoutedEventArgs e)
+        {
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
             if (virtualFolder == null) return;
 
@@ -194,51 +267,63 @@ folder: {0}
             dialog.FilterIndex = 1;
             dialog.RestoreDirectory = true;
             var result = dialog.ShowDialog(this);
-            if (result == true) {
+            if (result == true)
+            {
                 virtualFolder.ImagePath = dialog.FileName;
                 folderImage.Source = new BitmapImage(new Uri(virtualFolder.ImagePath));
             }
         }
 
-        private void btnAddSubFolder_Click(object sender, RoutedEventArgs e) {
+        private void btnAddSubFolder_Click(object sender, RoutedEventArgs e)
+        {
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
             if (virtualFolder == null) return;
 
             FolderBrowser browser = new FolderBrowser();
             var result = browser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
                 virtualFolder.AddFolder(browser.DirectoryPath);
                 folderList_SelectionChanged(this, null);
             }
         }
 
-        private void btnRemoveSubFolder_Click(object sender, RoutedEventArgs e) {
+        private void btnRemoveSubFolder_Click(object sender, RoutedEventArgs e)
+        {
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
             if (virtualFolder == null) return;
 
             var path = internalFolder.SelectedItem as string;
-            if (path != null) {
+            if (path != null)
+            {
                 var message = "Remove \"" + path + "\"?";
                 if (
-                  MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
+                  MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                {
                     virtualFolder.RemoveFolder(path);
                     folderList_SelectionChanged(this, null);
                 }
             }
         }
 
-        private void folderList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void folderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             internalFolder.Items.Clear();
 
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
-            if (virtualFolder != null) {
-                foreach (var folder in virtualFolder.Folders) {
+            if (virtualFolder != null)
+            {
+                foreach (var folder in virtualFolder.Folders)
+                {
                     internalFolder.Items.Add(folder);
                 }
 
-                if (!string.IsNullOrEmpty(virtualFolder.ImagePath)) {
+                if (!string.IsNullOrEmpty(virtualFolder.ImagePath))
+                {
                     folderImage.Source = new BitmapImage(new Uri(virtualFolder.ImagePath));
-                } else {
+                }
+                else
+                {
                     folderImage.Source = null;
                 }
 
@@ -246,18 +331,14 @@ folder: {0}
             }
         }
 
-
-        private void enableTranscode360_Click(object sender, RoutedEventArgs e) {
-            config.EnableTranscode360 = (bool)enableTranscode360.IsChecked;
-            SaveConfig();
-        }
-
-        private void addExtenderFormat_Click(object sender, RoutedEventArgs e) {
+        private void addExtenderFormat_Click(object sender, RoutedEventArgs e)
+        {
             var form = new AddExtenderFormat();
             form.Owner = this;
             var result = form.ShowDialog();
-            if (result == true) {
-                var parser = new FormatParser(config.ExtenderNativeTypes); 
+            if (result == true)
+            {
+                var parser = new FormatParser(config.ExtenderNativeTypes);
                 parser.Add(form.formatName.Text);
                 config.ExtenderNativeTypes = parser.ToString();
                 RefreshExtenderFormats();
@@ -265,12 +346,15 @@ folder: {0}
             }
         }
 
-        private void removeExtenderFormat_Click(object sender, RoutedEventArgs e) {
+        private void removeExtenderFormat_Click(object sender, RoutedEventArgs e)
+        {
             var format = extenderFormats.SelectedItem as string;
-            if (format != null) {
+            if (format != null)
+            {
                 var message = "Remove \"" + format + "\"?";
                 if (
-                  MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
+                  MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                {
                     var parser = new FormatParser(config.ExtenderNativeTypes);
                     parser.Remove(format);
                     config.ExtenderNativeTypes = parser.ToString();
@@ -280,63 +364,139 @@ folder: {0}
             }
         }
 
-        private void changeDaemonToolsLocation_Click(object sender, RoutedEventArgs e) {
-
+        private void changeDaemonToolsLocation_Click(object sender, RoutedEventArgs e)
+        {
             var dialog = new OpenFileDialog();
             dialog.Filter = "*.exe|*.exe";
             var result = dialog.ShowDialog();
-            if (result == true) {
+            if (result == true)
+            {
                 config.DaemonToolsLocation = dialog.FileName;
                 daemonToolsLocation.Content = config.DaemonToolsLocation;
                 SaveConfig();
             }
         }
 
-
-        private void useAutoPlay_Click(object sender, RoutedEventArgs e) {
-            config.UseAutoPlayForIso = (bool)useAutoPlay.IsChecked ;
-            SaveConfig();
-        }
-
-        private void daemonToolsDrive_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (daemonToolsDrive.SelectedValue != null) {
+        private void daemonToolsDrive_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (daemonToolsDrive.SelectedValue != null)
+            {
                 config.DaemonToolsDrive = (string)daemonToolsDrive.SelectedValue;
             }
             SaveConfig();
         }
-    }
+        #endregion
 
-    class FormatParser {
+        #region CheckBox Events
+
+        private void useAutoPlay_Click(object sender, RoutedEventArgs e)
+        {
+            config.UseAutoPlayForIso = (bool)useAutoPlay.IsChecked;
+            SaveConfig();
+        }
+        private void enableTranscode360_Click(object sender, RoutedEventArgs e)
+        {
+            config.EnableTranscode360 = (bool)enableTranscode360.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionClock_Click(object sender, RoutedEventArgs e)
+        {
+            config.ShowClock = (bool)cbxOptionClock.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionTransparent_Click(object sender, RoutedEventArgs e)
+        {
+            config.TransparentBackground = (bool)cbxOptionTransparent.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionIndexing_Click(object sender, RoutedEventArgs e)
+        {
+            config.RememberIndexing = (bool)cbxOptionIndexing.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionDimPoster_Click(object sender, RoutedEventArgs e)
+        {
+            config.DimUnselectedPosters = (bool)cbxOptionDimPoster.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionUnwatchedCount_Click(object sender, RoutedEventArgs e)
+        {
+            config.ShowUnwatchedCount = (bool)cbxOptionUnwatchedCount.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionUnwatchedOnFolder_Click(object sender, RoutedEventArgs e)
+        {
+            config.ShowWatchedTickOnFolders = (bool)cbxOptionUnwatchedOnFolder.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionUnwatchedOnVideo_Click(object sender, RoutedEventArgs e)
+        {
+            config.ShowWatchTickInPosterView = (bool)cbxOptionUnwatchedOnVideo.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionUnwatchedDetailView_Click(object sender, RoutedEventArgs e)
+        {
+            config.EnableListViewTicks = (bool)cbxOptionUnwatchedDetailView.IsChecked;
+            SaveConfig();
+        }
+
+        private void cbxOptionDefaultToUnwatched_Click(object sender, RoutedEventArgs e)
+        {
+            config.DefaultToFirstUnwatched = (bool)cbxOptionDefaultToUnwatched.IsChecked;
+            SaveConfig();
+        }
+        #endregion
+
+
+    }
+    #region FormatParser Class
+    class FormatParser
+    {
 
         List<string> currentFormats = new List<string>();
 
-        public FormatParser(string value) {
+        public FormatParser(string value)
+        {
             currentFormats.AddRange(value.Split(','));
         }
 
-        public void Add(string format) {
+        public void Add(string format)
+        {
             format = format.Trim();
-            if (!format.StartsWith(".")) {
+            if (!format.StartsWith("."))
+            {
                 format = "." + format;
             }
             format = format.ToLower();
 
-            if (format.Length > 1) {
-                if (!currentFormats.Contains(format)) {
+            if (format.Length > 1)
+            {
+                if (!currentFormats.Contains(format))
+                {
                     currentFormats.Add(format);
                 }
-            }  
+            }
         }
 
-        public void Remove(string format) {
+        public void Remove(string format)
+        {
             currentFormats.Remove(format);
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return String.Join(",", currentFormats.ToArray());
         }
 
 
     }
-   
+    #endregion
 }

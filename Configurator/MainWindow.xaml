@@ -14,7 +14,7 @@
     		<ColumnDefinition Width="*"/>
     	</Grid.ColumnDefinitions>
         <TabControl Margin="12,51,12,45" x:Name="tabControl1" Background="{x:Null}">
-        	<TabItem Header="media collection" x:Name="tabItem1" FontSize="16" FontWeight="Normal" Foreground="#FF323232">            	
+        	<TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">            	
         		<Grid Height="351">
         			<ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
         			<Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
@@ -34,7 +34,23 @@
         			<Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
         		</Grid>
         	</TabItem>
-            <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="16" FontWeight="Normal">
+            <TabItem Header="display" x:Name="tabItem4" Foreground="#FF323232" FontSize="14" FontWeight="Normal" >
+                <Grid >                    
+                    <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="6,6,0,0" Width="182" Content="General Display Settings" Height="35.38" VerticalAlignment="Top" />
+                    <CheckBox Margin="37,47,0,0" Name="cbxOptionClock" HorizontalAlignment="Left" Width="120" Content="Display Clock" Height="32" VerticalAlignment="Top" Click="cbxOptionClock_Click" />
+                    <CheckBox Margin="37,71,0,0" Name="cbxOptionTransparent" HorizontalAlignment="Left" Width="184" Content="Transparent Background" Height="32" VerticalAlignment="Top" Click="cbxOptionTransparent_Click" />
+                    <CheckBox Margin="37,95,0,0" Name="cbxOptionDimPoster" HorizontalAlignment="Left" Width="175" Content="Dim Unselected Posters" Height="32" VerticalAlignment="Top" Click="cbxOptionDimPoster_Click" />
+                    <CheckBox Margin="37,119,0,0" Name="cbxOptionIndexing" HorizontalAlignment="Left" Width="195" Content="Remember Folder Indexing" Height="32" VerticalAlignment="Top" Click="cbxOptionIndexing_Click" />
+                    
+                    <Label Margin="0,6,80,0" VerticalAlignment="Top" Height="38.56" Content="Media Tracking"  HorizontalAlignment="Right" Width="239"  />                    
+                    <CheckBox Margin="370,47,0,0" Name="cbxOptionUnwatchedCount" HorizontalAlignment="Left" Width="224" Content="Show Unwatched Counter" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedCount_Click" />
+                    <CheckBox Margin="370,71,0,0" Name="cbxOptionUnwatchedOnFolder" HorizontalAlignment="Left" Width="224" Content="Watched Indicator on Folders" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnFolder_Click" />
+                    <CheckBox Margin="370,95,0,0" Name="cbxOptionUnwatchedOnVideo" HorizontalAlignment="Left" Width="195" Content="Watched Indicator on Files" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnVideo_Click" />
+                    <CheckBox Margin="370,119,0,0" Name="cbxOptionUnwatchedDetailView" HorizontalAlignment="Left" Width="243" Content="Watched Indicator in Detail View" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedDetailView_Click" />
+                    <CheckBox Margin="370,143,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
                 <Grid >
                 	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="26,111,0,70.72" x:Name="extenderFormats" Width="175.88"/>
                 	<Label HorizontalAlignment="Left" Margin="26,74,0,0" VerticalAlignment="Top" Width="175.88" Height="30.28" Content="Extender formats"/>
@@ -43,17 +59,18 @@
                 	<CheckBox Margin="26,40.72,324,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" />
                 </Grid>
             </TabItem>
-        	<TabItem Header="advanced playback" x:Name="tabItem3" Foreground="#FF323232" FontSize="16" FontWeight="Normal" >
+        	<TabItem Header="advanced playback" x:Name="tabItem3" Foreground="#FF323232" FontSize="14" FontWeight="Normal" >
         		<Grid >
         			<Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="38.56" Content="Daemon Tools Location"  HorizontalAlignment="Left" Width="239"  />
-        			<Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="26.373,166,0,140.44" Width="Auto" Height="Auto" Content="Drive:"/>
-        			<CheckBox Margin="26.373,0,0,81.44" Content="Use Autoplay" Width="193" HorizontalAlignment="Left" x:Name="useAutoPlay" VerticalAlignment="Bottom" Height="31" Click="useAutoPlay_Click" />
+        			<Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="26.373,150,0,156" Width="50.157" Content="Drive:"/>
+        			<CheckBox Margin="26.373,0,0,108" Content="Use Autoplay" Width="193" HorizontalAlignment="Left" x:Name="useAutoPlay" VerticalAlignment="Bottom" Height="31" Click="useAutoPlay_Click" />
         			<Label Margin="26.373,64,24.627,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation"/>
-        			<Button Margin="26.373,102,0,0" Content="Change Location..." HorizontalAlignment="Left" Width="167" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" Height="34" VerticalAlignment="Top" FontSize="14" />
-        			<ComboBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="96.627,166,0,138.72" Width="47" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" />
+        			<Button Margin="26.373,102,0,0" Content="Change Location..." HorizontalAlignment="Left" Width="167" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" Height="32" VerticalAlignment="Top" FontSize="14" />
+        			<ComboBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="146.373,150,0,156.72" Width="47" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" />
         			
         		</Grid>
         	</TabItem>
+            
         </TabControl>
         <Label Height="43" HorizontalAlignment="Right" Margin="0,-3,48,0" x:Name="lblHeader" VerticalAlignment="Top" Width="183" FontSize="28" Background="{x:Null}" Content="mediabrowser">
         	<Label.Foreground>
