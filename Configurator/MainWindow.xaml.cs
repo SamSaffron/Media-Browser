@@ -74,6 +74,9 @@ namespace Configurator
             }
 
             daemonToolsLocation.Content = config.DaemonToolsLocation;
+
+            LoadComboBoxes();
+
             RefreshExtenderFormats();
             RefreshDisplaySettings();
 
@@ -81,7 +84,7 @@ namespace Configurator
 
         }
 
-        #region Config Loading / Saving
+        #region Config Loading / Saving        
         private void LoadConfigurationSettings()
         {
             enableTranscode360.IsChecked = config.EnableTranscode360;
@@ -97,6 +100,11 @@ namespace Configurator
             cbxOptionUnwatchedOnVideo.IsChecked    = config.ShowWatchTickInPosterView;
             cbxOptionUnwatchedDetailView.IsChecked = config.EnableListViewTicks;
             cbxOptionDefaultToUnwatched.IsChecked  = config.DefaultToFirstUnwatched;
+
+
+            ddlOptionViewTheme.SelectedItem = config.ViewTheme;
+            ddlOptionThemeColor.SelectedItem = config.Theme;
+            ddlOptionThemeFont.SelectedItem = config.FontTheme;
         }
 
         private void SaveConfig()
@@ -104,6 +112,21 @@ namespace Configurator
             config.Save(Helper.ConfigFile);
         }
 
+        private void LoadComboBoxes()
+        {
+            // Themes
+            ddlOptionViewTheme.Items.Add("Default");
+            ddlOptionViewTheme.Items.Add("Classic");
+            ddlOptionViewTheme.Items.Add("Vanilla");
+            // Colors
+            ddlOptionThemeColor.Items.Add("Default");
+            ddlOptionThemeColor.Items.Add("Black");
+            ddlOptionThemeColor.Items.Add("Extender Default");
+            ddlOptionThemeColor.Items.Add("Extender Black");
+            // Fonts 
+            ddlOptionThemeFont.Items.Add("Default");
+            ddlOptionThemeFont.Items.Add("Small");
+        }
         #endregion
 
         private void RefreshExtenderFormats()
@@ -455,6 +478,34 @@ folder: {0}
         }
         #endregion
 
+        #region ComboBox Events
+        private void ddlOptionViewTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ddlOptionViewTheme.SelectedValue != null)
+            {
+                config.ViewTheme = ddlOptionViewTheme.SelectedValue.ToString();
+            }
+            SaveConfig();
+        }
+
+        private void ddlOptionThemeColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ddlOptionThemeColor.SelectedValue != null)
+            {
+                config.Theme = ddlOptionThemeColor.SelectedValue.ToString();
+            }
+            SaveConfig();
+        }
+
+        private void ddlOptionThemeFont_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ddlOptionThemeFont.SelectedValue != null)
+            {
+                config.FontTheme = ddlOptionThemeFont.SelectedValue.ToString();
+            }
+            SaveConfig();
+        }
+        #endregion
 
     }
     #region FormatParser Class
