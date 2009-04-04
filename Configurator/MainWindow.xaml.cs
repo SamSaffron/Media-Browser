@@ -53,11 +53,8 @@ namespace Configurator
             }
 
             config.InitialFolder = Helper.AppInitialDirPath;
-
             RefreshItems();
-
-            LoadConfigurationSettings();
-            
+            LoadConfigurationSettings();            
 
             for (char c = 'D'; c <= 'Z'; c++)
             {
@@ -76,12 +73,10 @@ namespace Configurator
             daemonToolsLocation.Content = config.DaemonToolsLocation;
 
             LoadComboBoxes();
-
             RefreshExtenderFormats();
             RefreshDisplaySettings();
 
             SaveConfig();
-
         }
 
         #region Config Loading / Saving        
@@ -100,8 +95,7 @@ namespace Configurator
             cbxOptionUnwatchedOnVideo.IsChecked    = config.ShowWatchTickInPosterView;
             cbxOptionUnwatchedDetailView.IsChecked = config.EnableListViewTicks;
             cbxOptionDefaultToUnwatched.IsChecked  = config.DefaultToFirstUnwatched;
-
-
+            
             ddlOptionViewTheme.SelectedItem = config.ViewTheme;
             ddlOptionThemeColor.SelectedItem = config.Theme;
             ddlOptionThemeFont.SelectedItem = config.FontTheme;
@@ -225,7 +219,18 @@ folder: {0}
         #region events
         private void btnAddFolder_Click(object sender, RoutedEventArgs e)
         {
+            BrowseForFolderDialog dlg = new BrowseForFolderDialog();
+
+            if (true == dlg.ShowDialog(this))
+            {
+                WriteVirtualFolder(dlg.SelectedFolder);
+                RefreshItems();
+            }
+
+            /* OLDFolderBrowser
             FolderBrowser browser = new FolderBrowser();
+            browser.OnlyFilesystem = false;
+
             var result = browser.ShowDialog();
 
             if (result == System.Windows.Forms.DialogResult.OK)
@@ -233,6 +238,7 @@ folder: {0}
                 WriteVirtualFolder(browser.DirectoryPath);
                 RefreshItems();
             }
+            */
         }
 
         private void btnRename_Click(object sender, RoutedEventArgs e)
@@ -302,6 +308,15 @@ folder: {0}
             var virtualFolder = folderList.SelectedItem as VirtualFolder;
             if (virtualFolder == null) return;
 
+            BrowseForFolderDialog dlg = new BrowseForFolderDialog();
+            
+            if (true == dlg.ShowDialog(this))
+            {
+                virtualFolder.AddFolder(dlg.SelectedFolder);
+                folderList_SelectionChanged(this, null);
+            }
+
+            /* OLDFolderBrowser
             FolderBrowser browser = new FolderBrowser();
             var result = browser.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
@@ -309,6 +324,7 @@ folder: {0}
                 virtualFolder.AddFolder(browser.DirectoryPath);
                 folderList_SelectionChanged(this, null);
             }
+            */
         }
 
         private void btnRemoveSubFolder_Click(object sender, RoutedEventArgs e)

@@ -87,7 +87,8 @@
     <Compile Include="AddExtenderFormat.xaml.cs">
       <DependentUpon>AddExtenderFormat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderBrowser.cs">
+    <Compile Include="Code\BrowseForFolder.cs" />
+    <Compile Include="Code\FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -106,8 +107,8 @@
     <Compile Include="RenameForm.xaml.cs">
       <DependentUpon>RenameForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VirtualFolder.cs" />
-    <Compile Include="WinAPI.cs" />
+    <Compile Include="Code\VirtualFolder.cs" />
+    <Compile Include="Code\WinAPI.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

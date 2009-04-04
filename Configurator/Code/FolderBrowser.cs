@@ -23,7 +23,7 @@ namespace Configurator {
         private int publicOptions = (int)WinAPI.Shell32.BffStyles.RestrictToFilesystem |
              (int)WinAPI.Shell32.BffStyles.RestrictToDomain;
         private int privateOptions = (int)WinAPI.Shell32.BffStyles.NewDialogStyle | (int)WinAPI.Shell32.BffStyles.ShowTextBox;
-
+        
         // Description text to show.
         private string descriptionText = "Please select a folder below:";
 

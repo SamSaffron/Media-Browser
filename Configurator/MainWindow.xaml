@@ -40,7 +40,7 @@
                     <CheckBox Margin="37,47,0,0" Name="cbxOptionClock" HorizontalAlignment="Left" Width="120" Content="Display Clock" Height="32" VerticalAlignment="Top" Click="cbxOptionClock_Click" ToolTip="Display time clock within Media Browser" />
                     <CheckBox Margin="37,71,0,0" Name="cbxOptionTransparent" HorizontalAlignment="Left" Width="184" Content="Transparent Background" Height="32" VerticalAlignment="Top" Click="cbxOptionTransparent_Click" ToolTip="Enable transparent background" />
                     <CheckBox Margin="37,95,0,0" Name="cbxOptionDimPoster" HorizontalAlignment="Left" Width="175" Content="Dim Unselected Posters" Height="32" VerticalAlignment="Top" Click="cbxOptionDimPoster_Click" ToolTip="Dim unselected items" />
-                    <CheckBox Margin="37,119,0,0" Name="cbxOptionIndexing" HorizontalAlignment="Left" Width="195" Content="Remember Folder Indexing" Height="32" VerticalAlignment="Top" Click="cbxOptionIndexing_Click" ToolTip="Remember indexing settings for each folder" />
+                    <CheckBox Margin="37,119,0,0" Name="cbxOptionIndexing" HorizontalAlignment="Left" Width="195" Content="Remember Folder Indexing" Height="32" VerticalAlignment="Top" Click="cbxOptionIndexing_Click" ToolTip="Remember indexed filter settings for each folder" />
                     
                     <Label Margin="0,6,80,0" VerticalAlignment="Top" Height="38.56" Content="Media Tracking"  HorizontalAlignment="Right" Width="239"  />                    
                     <CheckBox Margin="370,47,0,0" Name="cbxOptionUnwatchedCount" HorizontalAlignment="Left" Width="224" Content="Show Unwatched Counter" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedCount_Click" />
