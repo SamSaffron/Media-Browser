@@ -72,7 +72,7 @@ namespace Configurator
             BrowseInfo.pidlRoot = IntPtr.Zero;
             BrowseInfo.pszDisplayName = new String(' ', 260);
             BrowseInfo.lpszTitle = "Select a folder:";
-            BrowseInfo.ulFlags = BrowseInfoFlags.BIF_NEWDIALOGSTYLE | BrowseInfoFlags.BIF_EDITBOX;
+            BrowseInfo.ulFlags = BrowseInfoFlags.BIF_RETURNONLYFSDIRS | BrowseInfoFlags.BIF_USENEWUI;
             BrowseInfo.lpfn = new BrowseCallbackProc(BrowseEventHandler);
             BrowseInfo.lParam = IntPtr.Zero;
             BrowseInfo.iImage = -1;

@@ -95,6 +95,11 @@ namespace Configurator
             cbxOptionUnwatchedOnVideo.IsChecked    = config.ShowWatchTickInPosterView;
             cbxOptionUnwatchedDetailView.IsChecked = config.EnableListViewTicks;
             cbxOptionDefaultToUnwatched.IsChecked  = config.DefaultToFirstUnwatched;
+            if (config.MaximumAspectRatioDistortion == Constants.MAX_ASPECT_RATIO_STRETCH)
+                cbxOptionAspectRatio.IsChecked = true;
+            else
+                cbxOptionAspectRatio.IsChecked = false;
+            
             
             ddlOptionViewTheme.SelectedItem = config.ViewTheme;
             ddlOptionThemeColor.SelectedItem = config.Theme;
@@ -280,9 +285,9 @@ folder: {0}
 
                     File.Delete(virtualFolder.Path);
                     folderList.Items.Remove(virtualFolder);
+                    infoPanel.Visibility = Visibility.Hidden;
                 }
-            }
-            infoPanel.Visibility = Visibility.Hidden;
+            }            
         }
 
         private void btnChangeImage_Click(object sender, RoutedEventArgs e)
@@ -492,6 +497,20 @@ folder: {0}
             config.DefaultToFirstUnwatched = (bool)cbxOptionDefaultToUnwatched.IsChecked;
             SaveConfig();
         }
+
+        private void cbxOptionAspectRatio_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)cbxOptionAspectRatio.IsChecked)
+            {
+                config.MaximumAspectRatioDistortion = Constants.MAX_ASPECT_RATIO_STRETCH;
+            }
+            else
+            {
+                config.MaximumAspectRatioDistortion = Constants.MAX_ASPECT_RATIO_DEFAULT;
+            }
+
+            SaveConfig();
+        }
         #endregion
 
         #region ComboBox Events
@@ -522,6 +541,8 @@ folder: {0}
             SaveConfig();
         }
         #endregion
+
+        
 
     }
     #region FormatParser Class

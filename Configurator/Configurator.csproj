@@ -88,6 +88,7 @@
       <DependentUpon>AddExtenderFormat.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\BrowseForFolder.cs" />
+    <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
