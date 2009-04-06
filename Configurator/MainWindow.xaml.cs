@@ -155,7 +155,15 @@ namespace Configurator
             {
                 try
                 {
-                    folderList.Items.Add(new VirtualFolder(filename));
+                    if (filename.ToLowerInvariant().EndsWith(".vf") ||
+                        filename.ToLowerInvariant().EndsWith(".lnk"))
+                        folderList.Items.Add(new VirtualFolder(filename));
+                    else
+                        throw new ArgumentException("Invalid virtual folder file extension: " + filename);
+                }
+                catch (ArgumentException e)
+                {
+                    // LOG invalid filename object.
                 }
                 catch (Exception e)
                 {
