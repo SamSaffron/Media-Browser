@@ -550,7 +550,31 @@ folder: {0}
         }
         #endregion
 
-        
+        #region Header Selection Methods
+        private void hdrBasic_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SetHeader(hdrBasic);
+            tabItem4.Visibility = Visibility.Collapsed;
+        }
+
+        private void hdrAdvanced_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SetHeader(hdrAdvanced);
+            tabItem4.Visibility = Visibility.Visible;
+        }
+
+        private void ClearHeaders()
+        {
+            hdrAdvanced.Foreground = hdrBasic.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
+            tabControl1.SelectedIndex = 0;
+        }
+        private void SetHeader(Label label)
+        {
+            ClearHeaders();
+            label.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+        }
+        #endregion
+
 
     }
     #region FormatParser Class
