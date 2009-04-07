@@ -70,9 +70,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PlayerArgsForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RenameForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectMediaTypeForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -92,6 +100,9 @@
     <Compile Include="Code\FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PlayerArgsForm.xaml.cs">
+      <DependentUpon>PlayerArgsForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,6 +121,9 @@
     </Compile>
     <Compile Include="Code\VirtualFolder.cs" />
     <Compile Include="Code\WinAPI.cs" />
+    <Compile Include="SelectMediaTypeForm.xaml.cs">
+      <DependentUpon>SelectMediaTypeForm.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

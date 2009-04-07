@@ -32,7 +32,7 @@
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="*"/>
     	</Grid.ColumnDefinitions>
-        <TabControl Margin="12,54,12,42" x:Name="tabControl1" Background="{x:Null}">
+        <TabControl Margin="12,63,12,33" x:Name="tabControl1" Background="{x:Null}">
         	<TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">            	
         		<Grid Height="351">
         			<ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
@@ -98,6 +98,29 @@
                     <Rectangle Height="2" Margin="37,184.38,31,0" Name="rectangle1" Stroke="#FFA8A8A8" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
+            <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
+                <Grid Height="351">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="83*" />
+                        <ColumnDefinition Width="561*" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media player" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="126,0,0,14" x:Name="btnRemovePlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Remove media player" Content="Remove" Click="btnRemovePlayer_Click" Grid.Column="1" />
+                    <Canvas Margin="265,6,12,13" x:Name="infoPlayerPanel" Grid.Column="1">
+                        <Label Canvas.Left="6" Height="34" x:Name="lblPlayerStep2" Width="30" Foreground="#FFA8A8A8" Canvas.Top="2" Content="❷" FontSize="14" />
+                        <Label Canvas.Left="40" Height="34" x:Name="lblPlayerStep2b" Width="235.373" Foreground="#FF000000" Canvas.Top="2" Content="Configure External player" FontSize="14" />
+                        <Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="39" Content="External Player Location"  HorizontalAlignment="Left" Width="239" Canvas.Left="-9" Canvas.Top="31" />
+                        <TextBox Margin="26.373,64,24.627,0" VerticalAlignment="Top" Height="32" x:Name="txtPlayerCommand" Canvas.Left="-9" Canvas.Top="19" Width="258" IsReadOnly="True" />
+                        <Button Margin="26.373,102,0,0" Content="Select Player" HorizontalAlignment="Left" Width="149" x:Name="btnPlayerCommand" Height="32" VerticalAlignment="Top" FontSize="14" Canvas.Left="100" Canvas.Top="19" Click="btnPlayerCommand_Click" />
+                        <Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="39" Content="Optional Parameters"  HorizontalAlignment="Left" Width="239" Canvas.Left="-5" Canvas.Top="174" />
+                        <Label Canvas.Left="17.373" Canvas.Top="232" Height="34" Name="lblPlayerArgs" Width="258">"0"</Label>
+                        <Button Margin="26.373,102,0,0" Content="Change Parameters..." HorizontalAlignment="Left" Width="149" x:Name="btnPlayerArgs" Height="32" VerticalAlignment="Top" FontSize="14" Canvas.Left="100" Canvas.Top="192" Click="btnPlayerArgs_Click" />
+                    </Canvas>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" x:Name="lblPlayerStep1" VerticalAlignment="Top" Width="34" Foreground="#FFA8A8A8" Opacity="1" Content="❶" FontSize="14" />
+                    <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblPlayerStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add media type for external player" Grid.ColumnSpan="2" FontSize="14" />
+                </Grid>
+            </TabItem>
         </TabControl>
         <Label Height="43" HorizontalAlignment="Right" Margin="0,-3,12,0" x:Name="lblHeader" VerticalAlignment="Top" Width="183" FontSize="28" Background="{x:Null}" Content="mediabrowser" RenderTransformOrigin="0.5,0.5">
         	<Label.RenderTransform>
@@ -124,7 +147,7 @@
         		</TransformGroup>
         	</Label.RenderTransform>
         </Label>
-        <Label Height="33" HorizontalAlignment="Left" Margin="37,1,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown">basic</Label>
+        <Label Height="33" HorizontalAlignment="Left" Margin="37,1,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold">basic</Label>
         <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="107,1,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown">advanced</Label>
     </Grid>
 </Window>

@@ -38,6 +38,7 @@ namespace Configurator
             config = ConfigData.FromFile(Helper.ConfigFile);
 
             infoPanel.Visibility = Visibility.Hidden;
+            infoPlayerPanel.Visibility = Visibility.Hidden;
 
             // first time the wizard has run 
             if (config.InitialFolder != Helper.AppInitialDirPath)
@@ -54,6 +55,7 @@ namespace Configurator
 
             config.InitialFolder = Helper.AppInitialDirPath;
             RefreshItems();
+            RefreshPlayers();
             LoadConfigurationSettings();            
 
             for (char c = 'D'; c <= 'Z'; c++)
@@ -171,6 +173,13 @@ namespace Configurator
                     // TODO : alert about dodgy VFs and delete them
                 }
             }
+        }
+
+        private void RefreshPlayers()
+        {
+            lstExternalPlayers.Items.Clear();
+            foreach (ConfigData.ExternalPlayer item in config.ExternalPlayers)
+                lstExternalPlayers.Items.Add(item);
         }
 
         #region Media Collection methods
@@ -437,6 +446,114 @@ folder: {0}
             }
             SaveConfig();
         }
+
+        private void btnAddPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            List<MediaType> list = new List<MediaType>();
+            // Provide a list of media types that haven't been used. This is to filter out the selection available to the end user.
+            // Don't display media types for players that we already have. 
+            //
+            // This also makes this scalable, we shouldn't have to adjust this code for new media types.
+            Boolean found;
+            foreach (MediaType item in Enum.GetValues(typeof(MediaType)))
+            {
+                // See if an external player has been configured for this media type.
+                found = false;
+                foreach (ConfigData.ExternalPlayer player in lstExternalPlayers.Items)
+                    if (player.MediaType == item) {
+                        found = true;
+                        break;
+                    }
+                // If a player hasn't been configured then make it an available option to be added
+                if (!found)
+                    list.Add(item);
+            }
+
+            var form = new SelectMediaTypeForm(list);
+            form.Owner = this;
+
+            if (form.ShowDialog() == true)
+            {
+                ConfigData.ExternalPlayer player = new ConfigData.ExternalPlayer();
+                player.MediaType = (MediaType)form.cbMediaType.SelectedItem;
+                player.Args = "\"{0}\""; // Assign a default parameter
+                config.ExternalPlayers.Add(player);
+                lstExternalPlayers.Items.Add(player);
+                lstExternalPlayers.SelectedItem = player;
+                SaveConfig();
+            }
+        }
+
+        private void btnRemovePlayer_Click(object sender, RoutedEventArgs e)
+        {
+            var mediaPlayer = lstExternalPlayers.SelectedItem as ConfigData.ExternalPlayer;
+            if (mediaPlayer != null)
+            {
+                var message = "About to remove the media type \"" + lstExternalPlayers.SelectedItem.ToString() + "\" from the external players.\nAre you sure?";
+                if (MessageBox.Show(message, "Remove Player", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    config.ExternalPlayers.Remove(mediaPlayer);
+                    lstExternalPlayers.Items.Remove(mediaPlayer);
+                    SaveConfig();
+                    infoPlayerPanel.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
+        private void btnPlayerCommand_Click(object sender, RoutedEventArgs e)
+        {
+            var mediaPlayer = lstExternalPlayers.SelectedItem as ConfigData.ExternalPlayer;
+            if (mediaPlayer != null)
+            {
+                var dialog = new OpenFileDialog();
+                dialog.Filter = "*.exe|*.exe";
+                if (mediaPlayer.Command != string.Empty)
+                    dialog.FileName = mediaPlayer.Command;
+
+                if (dialog.ShowDialog() == true)
+                {
+                    mediaPlayer.Command = dialog.FileName;
+                    txtPlayerCommand.Text = mediaPlayer.Command;
+                    SaveConfig();
+                }
+            }
+        }
+
+        private void btnPlayerArgs_Click(object sender, RoutedEventArgs e)
+        {
+            var mediaPlayer = lstExternalPlayers.SelectedItem as ConfigData.ExternalPlayer;
+            if (mediaPlayer != null)
+            {
+                var form = new PlayerArgsForm(mediaPlayer.Args);
+                form.Owner = this;
+                if (form.ShowDialog() == true)
+                {
+                    mediaPlayer.Args = form.txtArgs.Text;
+                    lblPlayerArgs.Content = mediaPlayer.Args;
+                    SaveConfig();
+                }
+            }
+        }
+
+        private void lstExternalPlayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lstExternalPlayers.SelectedIndex >= 0)
+            {
+                var mediaPlayer = lstExternalPlayers.SelectedItem as ConfigData.ExternalPlayer;
+                if (mediaPlayer != null)
+                {
+                    txtPlayerCommand.Text = mediaPlayer.Command;
+                    lblPlayerArgs.Content = mediaPlayer.Args;
+                    infoPlayerPanel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    txtPlayerCommand.Text = string.Empty;
+                    lblPlayerArgs.Content = string.Empty;
+                    infoPlayerPanel.Visibility = Visibility.Hidden;
+                }
+            }
+        }
         #endregion
 
         #region CheckBox Events
@@ -554,24 +671,26 @@ folder: {0}
         private void hdrBasic_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrBasic);
-            tabItem4.Visibility = Visibility.Collapsed;
+            tabItem4.Visibility = tabItem5.Visibility = Visibility.Collapsed;
         }
 
         private void hdrAdvanced_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrAdvanced);
-            tabItem4.Visibility = Visibility.Visible;
+            tabItem4.Visibility = tabItem5.Visibility = Visibility.Visible;
         }
 
         private void ClearHeaders()
         {
             hdrAdvanced.Foreground = hdrBasic.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
+            hdrAdvanced.FontWeight = hdrBasic.FontWeight = FontWeights.Normal;
             tabControl1.SelectedIndex = 0;
         }
         private void SetHeader(Label label)
         {
             ClearHeaders();
             label.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+            label.FontWeight = FontWeights.Bold;
         }
         #endregion
 
