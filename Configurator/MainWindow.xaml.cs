@@ -529,7 +529,7 @@ folder: {0}
                 if (form.ShowDialog() == true)
                 {
                     mediaPlayer.Args = form.txtArgs.Text;
-                    lblPlayerArgs.Content = mediaPlayer.Args;
+                    lblPlayerArgs.Text = mediaPlayer.Args;
                     SaveConfig();
                 }
             }
@@ -543,13 +543,13 @@ folder: {0}
                 if (mediaPlayer != null)
                 {
                     txtPlayerCommand.Text = mediaPlayer.Command;
-                    lblPlayerArgs.Content = mediaPlayer.Args;
+                    lblPlayerArgs.Text = mediaPlayer.Args;
                     infoPlayerPanel.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     txtPlayerCommand.Text = string.Empty;
-                    lblPlayerArgs.Content = string.Empty;
+                    lblPlayerArgs.Text = string.Empty;
                     infoPlayerPanel.Visibility = Visibility.Hidden;
                 }
             }
