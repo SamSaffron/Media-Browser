@@ -16,7 +16,10 @@
 				<SplineDoubleKeyFrame KeyTime="00:00:02" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
-	</Window.Resources>
+        <DataTemplate x:Key="EPStyle">
+                <TextBlock Text="{Binding Path=MediaType}" />
+        </DataTemplate>
+    </Window.Resources>
 	<Window.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
 			<BeginStoryboard Storyboard="{StaticResource Default}"/>
@@ -28,6 +31,7 @@
 			<GradientStop Color="#FFCAC0C0" Offset="1"/>
 		</LinearGradientBrush>
 	</Window.Background>
+    
     <Grid>
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="*"/>
@@ -100,7 +104,7 @@
             </TabItem>
             <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid Height="351">
-                    <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" />
+                    <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" ItemTemplate="{StaticResource EPStyle}" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media player" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemovePlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Remove media player" Content="Remove" Click="btnRemovePlayer_Click" />
                     <Canvas Margin="0,6,12,13" x:Name="infoPlayerPanel" HorizontalAlignment="Right" Width="282">
