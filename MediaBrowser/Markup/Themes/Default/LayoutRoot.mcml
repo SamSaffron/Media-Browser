@@ -89,6 +89,8 @@
           <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
         </Conditions>
       </Binding>
+      <Binding Source="[Application.Information.DisplayText]" Target="[InfoPanelDisplay.Content]"  />
+      
       <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
         <Transformer>
           <BooleanTransformer Inverse="true"/>
@@ -383,7 +385,7 @@
               <!-- Right Bottom Main Menu Panel -->
               <Panel>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0.4" Right="Parent,1"/>
+                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0.65" Right="Parent,1"/>
                 </LayoutInput>
                 <Children>
                   <Panel>
@@ -404,10 +406,10 @@
               <!-- Left Bottom Main Menu Panel-->
               <Panel>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0" Right="Parent,0.4"/>
+                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0" Right="Parent,0.65"/>
                 </LayoutInput>
                 <Children>
-
+                  <Text Name="InfoPanelDisplay" Font="font://f:P_ClockFont"  Color="White" />
                   <ColorFill Layout="Fill" Content="Black" Alpha="0.15" />
                 </Children>
               </Panel>

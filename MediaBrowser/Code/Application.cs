@@ -699,5 +699,18 @@ namespace MediaBrowser
                 logger = value;
             }
         }
+
+        private Information _information = new Information();
+        public Information Information
+        {
+            get
+            {
+                return _information;
+            }
+            set
+            {
+                _information = value;
+            }
+        }
     }
 }

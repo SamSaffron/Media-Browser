@@ -85,6 +85,11 @@ namespace MediaBrowser
             public MediaType MediaType { get; set; }
             public string Command { get; set; }
             public string Args { get; set; }
+
+            public override string ToString()
+            {
+                return MediaType.ToString();
+            }
         }
 
         public ConfigData()
