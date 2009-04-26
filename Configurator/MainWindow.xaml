@@ -100,6 +100,15 @@
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="146,0,0,23" Name="ddlOptionThemeFont" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeFont_SelectionChanged" ToolTip="Font size displayed within Media Browser" />
                     <Label Height="35.38" HorizontalAlignment="Left" Margin="37,0,0,14" VerticalAlignment="Bottom" Width="120" ToolTip="Font size displayed within Media Browser">Font Size</Label>
                     <Rectangle Height="2" Margin="37,184.38,31,0" Name="rectangle1" Stroke="#FFA8A8A8" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,40,52" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">
+                        <ComboBoxItem IsSelected="True">Celsius</ComboBoxItem>
+                        <ComboBoxItem>Farenheit</ComboBoxItem>
+                    </ComboBox>
+                    <Label Height="35.38" HorizontalAlignment="Right" Margin="0,0,154,43" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">Units</Label>
+                    <Label Height="35.38" HorizontalAlignment="Right" Margin="0,0,154,72" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">Location ID</Label>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,0,40,23" Name="btnWeatherID" VerticalAlignment="Bottom" Width="120">Save Weather</Button>
+                    <TextBox Height="23" HorizontalAlignment="Right" Margin="0,0,40,81" Name="tbxWeatherID" VerticalAlignment="Bottom" Width="120" />
+                    <Label Height="35.38" HorizontalAlignment="Right" Margin="0,0,137,110" VerticalAlignment="Bottom" Width="182">Weather Settings</Label>
                 </Grid>
             </TabItem>
             <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
