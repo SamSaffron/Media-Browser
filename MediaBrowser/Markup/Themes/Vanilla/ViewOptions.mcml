@@ -1,0 +1,639 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	    xmlns:cor="assembly://MSCorLib/System"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:f="file://Fonts_DoNotEdit.mcml"
+      xmlns:s="file://Styles_DoNotEdit.mcml"
+      xmlns:me="Me"
+      xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
+      xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
+      xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
+      xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+      xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
+      >
+ 
+  <UI Name="MPAARating">
+    <Properties>
+      <cor:String Name="Value" String=""/>
+    </Properties>
+    <Locals>
+      <cor:String Name="MPAARating" String="" />
+    </Locals>
+    <Rules>
+      <Binding Source="[Value]" Target="[MPAARating]"/>
+
+      <Condition Source="[MPAARating]" SourceValue="" ConditionOp="Equals" Target="[Image.Visible]" Value="false" />
+      <Condition Source="[MPAARating]" SourceValue="" ConditionOp="NotEquals" Target="[Image.Visible]" Value="true" />
+
+      <Condition Source="[MPAARating]" SourceValue="G"       ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedGfull" />
+      <Condition Source="[MPAARating]" SourceValue="NC-17"   ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNC17full" />
+      <Condition Source="[MPAARating]" SourceValue="PG-13"   ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedPG13full" />
+      <Condition Source="[MPAARating]" SourceValue="PG"      ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedPGfull" />
+      <Condition Source="[MPAARating]" SourceValue="R"       ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedRfull" />
+      <Condition Source="[MPAARating]" SourceValue="Unrated" ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNRfull" />
+      <Condition Source="[MPAARating]" SourceValue="NR"      ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNRfull" />
+
+      <Condition Source="[MPAARating]" SourceValue="TV-G"  ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-G" />
+      <Condition Source="[MPAARating]" SourceValue="TV-MA" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-MA" />
+      <Condition Source="[MPAARating]" SourceValue="TV-Y7" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y7" />
+      <Condition Source="[MPAARating]" SourceValue="TV-Y"  ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y" />
+
+      <Condition Source="[MPAARating]" SourceValue="TV-14"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-14" />
+      <Condition Source="[MPAARating]" SourceValue="TV-PG"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-PG" />
+      <Condition Source="[MPAARating]" SourceValue="TV-V7-FV" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-V7-FV" />
+    </Rules>
+
+    <Content>
+      <Graphic Name="Image" Visible="true" MaximumSize="0,70" Content="image://it:RatedNRfull" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" />
+    </Content>
+  </UI>
+
+
+
+
+  <UI Name="Studio">
+
+    <Properties>
+      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <cor:Boolean Name="LeftAlign" Boolean="true" />
+      <lib:StudioItemWrapper Name="StudioItem" StudioItemWrapper="$Required" />
+    </Properties>
+
+    <Rules>
+      <Binding Source="[StudioItem.Item.PrimaryImageSmall]" Target="[SImage.Content]" />
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Children>        
+          <Graphic Name="SImage" MaximumSize="250,70" MaintainAspectRatio="true"/>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+    <UI Name="RadioGroup" >
+
+      <Properties>
+        <Choice Name="Model" Choice="$Required" />
+        <Size Name="Size" Size="135,135"/>
+      </Properties>
+
+      <Rules>
+        <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+        <Default Target="[Input.KeyInteractive]" Value="true" />
+        <Binding Source="[Model.Options]" Target="[Repeater.Source]" />
+      </Rules>
+      <Content>
+        <Panel>
+          <Children>
+            <Repeater Name="Repeater" ContentName="RadioButton" Navigation="RememberFocus" DefaultFocusIndex="[Model.DefaultIndex]" >
+              <Layout>
+                <FlowLayout Orientation="Horizontal" Spacing="5,0" ItemAlignment="Near" AllowWrap="true"/>
+              </Layout>
+            </Repeater>
+          </Children>
+        </Panel>
+      </Content>
+      <Content Name="RadioButton">
+        <me:ViewButtons Model="[Model]" Option="[RepeatedItem!cor:String]" Size="[Size]"/>
+      </Content>
+    </UI>
+
+
+    <UI Name="ViewButtons">
+      <Properties>
+        <Choice     Name="Model" Choice="$Required"/>
+        <cor:String Name="Option" String="$Required"/>
+        <Size       Name="Size" Size="135,135"/>
+      </Properties>
+      <Locals>
+        <ClickHandler Name="Clicker" HandleEnterSpaceKeys ="true" HandlePrimaryMouseButton ="true" HandlerStage="Bubbled"/>
+        <Image Name="Image" Image="image://it:MenuOptionBGNotFocused" />
+        <Image Name="ViewThumb" Image="image://it:ViewThumb" />
+        <Image Name="ViewCoverflow" Image="image://it:ViewCoverflow" />
+        <Image Name="ViewPoster" Image="image://it:ViewPoster" />
+        <Image Name="ViewDetail" Image="image://it:ViewDetail" />
+        <Image Name="ViewThumbstrip" Image="image://it:ViewThumbstrip" />
+        <Image Name="MenuOptionName" Image="image://it:MenuOptionName"/>
+        <Image Name="MenuOptionDate" Image="image://it:MenuOptionDate"/>
+        <Image Name="MenuOptionRating" Image="image://it:MenuOptionRating"/>
+        <Image Name="MenuOptionRuntime" Image="image://it:MenuOptionRuntime"/>
+        <Image Name="MenuOptionUnwatched" Image="image://it:MenuOptionUnwatched"/>
+        <Image Name="MenuOptionYear" Image="image://it:MenuOptionYear"/>
+        <Image Name="MenuOptionNone" Image="image://it:MenuOptionNone"/>
+        <Image Name="MenuOptionActor" Image="image://it:MenuOptionActor"/>
+        <Image Name="MenuOptionGenre" Image="image://it:MenuOptionGenre"/>
+        <Image Name="MenuOptionDirector" Image="image://it:MenuOptionDirector"/>
+        <Image Name="MenuOptionStudio" Image="image://it:MenuOptionStudio"/>
+        <Image Name="MenuOptionClose" Image="image://it:MenuOptionClose"/>
+        <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+        <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+        <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+        <Image Name="BlankImage" Image="null" />
+      </Locals>
+      <Rules>
+        <Default Target="[Input.KeyInteractive]" Value="true" />
+        
+        <Changed Source="[Clicker.Invoked]">
+          <Actions>
+            <Set Target="[Model.Chosen]" Value="[Option]"/>
+          </Actions>
+        </Changed>
+
+        <Changed Source="[Model.Chosen]">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" Value="[Option]" />
+            <Equality Source="[Input.KeyFocus]" Value="true" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+          </Actions>
+        </Changed>
+
+        <Changed Source="[Model.Chosen]">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" Value="[Option]" />
+            <Equality Source="[Input.KeyFocus]" Value="false" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+          </Actions>
+        </Changed>
+
+        <Changed Source="[Model.Chosen]">
+          <Conditions>
+            <Equality Source="[Model.Chosen]"  ConditionOp="NotEquals" Value="[Option]" />
+            <Equality Source="[Input.KeyFocus]" Value="true" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+          </Actions>
+        </Changed>
+
+        <Changed Source="[Model.Chosen]">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" ConditionOp="NotEquals" Value="[Option]" />
+            <Equality Source="[Input.KeyFocus]" Value="false" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+          </Actions>
+        </Changed>
+
+        
+	<!--		<Condition Source="[Clicker.Clicking]" SourceValue="true">
+				<Conditions>
+					<Equality Source="[Model.Chosen]" ConditionOp="Equals" Value="[Option]" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
+				</Actions>
+			</Condition>
+
+			<Condition Source="[Clicker.Clicking]" SourceValue="true">
+				<Conditions>
+					<Equality Source="[Model.Chosen]"  ConditionOp="NotEquals" Value="[Option]" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+				</Actions>
+			</Condition>-->
+
+        <Condition Source="[Input.KeyFocus]" SourceValue="true">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" Value="[Option]" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+          </Actions>
+        </Condition>
+
+        <Condition Source="[Input.KeyFocus]" SourceValue="true">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" ConditionOp="NotEquals" Value="[Option]" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+          </Actions>
+        </Condition>
+
+        <Condition Source="[Input.KeyFocus]" SourceValue="false">
+          <Conditions>
+            <Equality Source="[Model.Chosen]" Value="[Option]" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
+          </Actions>
+        </Condition>
+
+        <Condition Source="[Input.KeyFocus]" SourceValue="false">
+          <Conditions>
+            <Equality Source="[Model.Chosen]"  ConditionOp="NotEquals" Value="[Option]" />
+          </Conditions>
+          <Actions>
+            <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+          </Actions>
+        </Condition>
+
+        <Condition Source="[Option]" SourceValue="Poster" Target="[GraphicImage.Content]" Value="[ViewPoster]"/>
+        <Condition Source="[Option]" SourceValue="Detail" Target="[GraphicImage.Content]" Value="[ViewDetail]"/>
+        <Condition Source="[Option]" SourceValue="Cover Flow" Target="[GraphicImage.Content]" Value="[ViewCoverflow]"/>
+        <Condition Source="[Option]" SourceValue="Thumb" Target="[GraphicImage.Content]" Value="[ViewThumb]"/>
+        <Condition Source="[Option]" SourceValue="Thumb Strip" Target="[GraphicImage.Content]" Value="[ViewThumbstrip]"/>
+        <Condition Source="[Option]" SourceValue="name" Target="[GraphicImage.Content]" Value="[MenuOptionName]"/>
+        <Condition Source="[Option]" SourceValue="date" Target="[GraphicImage.Content]" Value="[MenuOptionDate]"/>
+        <Condition Source="[Option]" SourceValue="rating" Target="[GraphicImage.Content]" Value="[MenuOptionRating]"/>
+        <Condition Source="[Option]" SourceValue="runtime" Target="[GraphicImage.Content]" Value="[MenuOptionRuntime]"/>
+        <Condition Source="[Option]" SourceValue="unwatched" Target="[GraphicImage.Content]" Value="[MenuOptionUnwatched]"/>
+        <Condition Source="[Option]" SourceValue="year" Target="[GraphicImage.Content]" Value="[MenuOptionYear]"/>
+        <Condition Source="[Option]" SourceValue="none" Target="[GraphicImage.Content]" Value="[MenuOptionNone]"/>
+        <Condition Source="[Option]" SourceValue="actor" Target="[GraphicImage.Content]" Value="[MenuOptionActor]"/>
+        <Condition Source="[Option]" SourceValue="genre" Target="[GraphicImage.Content]" Value="[MenuOptionGenre]"/>
+        <Condition Source="[Option]" SourceValue="director" Target="[GraphicImage.Content]" Value="[MenuOptionDirector]"/>
+        <Condition Source="[Option]" SourceValue="studio" Target="[GraphicImage.Content]" Value="[MenuOptionStudio]"/>
+      </Rules>
+
+      <Content>
+
+        <Panel Name="Root">
+          <Layout>
+            <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+          </Layout>
+          <Children>
+            <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren">
+              <Children>
+                <Panel >
+                  <Children>
+                    <Graphic Name="GraphicImage" Content="[Image]" MaximumSize="[Size]" MaintainAspectRatio="true" />
+                  </Children>
+                </Panel>
+              </Children>
+            </Graphic>
+          </Children>
+        </Panel>
+      </Content>
+
+    </UI>
+  
+  
+  <UI Name="MenuCheckBox">
+
+    <Properties>
+      <BooleanChoice Name="Checked" BooleanChoice="$Required" />
+      <!--<cor:String Name="Label" String="$Required" />
+      <Font Name="Font" Font="$Required"/>-->
+      <Image Name="Image" Image="$Required"/>
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker" />
+      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+      <Image Name="BlankImage" Image="image://it:MenuOptionBGNotFocused"/>
+    </Locals>
+
+    <Rules>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[Image]" Target="[GrapicImage.Content]"/>
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <Set Target="[Checked.Value]" Value="[Checked.Value]">
+            <Transformer>
+              <BooleanTransformer Inverse="true"/>
+            </Transformer>
+          </Set>
+          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Checked.Value]">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" />
+        </Layout>
+        <Children>
+          <Graphic Name="BoxImage" Content="image://it:MenuOptionBGNotFocused" SizingPolicy="SizeToChildren">
+            <Children>
+              <Panel >
+                <Children>
+                  <Graphic Name="GrapicImage" Content="image://it:MenuOptionBGNotFocused" MaximumSize="135,135" MaintainAspectRatio="true"/>
+                </Children>
+              </Panel>
+            </Children>
+          </Graphic>
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+  <UI Name="SimpleButton">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <ICommand Name="Command" ICommand="$Required" />
+      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <Size Name="Size" Size="135,135" />
+      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+      <Image Name="ImageNoFocus" Image="$Required" />
+      <Image Name="BlankImage" Image="null" />
+
+    </Properties>
+
+    <Locals>
+
+      <a:Config Name="Config" Config="[Application.Config]"/>
+      <ClickHandler Name="Clicker" />
+
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Command]" Target="[Clicker.Command]" />
+      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[Config.Theme]" SourceValue="Black" Target="[NoFocusImage]"  Value="image://it:MenuOptionBGNotFocusedBlack"/>
+
+
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="true" />
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Select" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Miniselect" />
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="true"/>
+          <Equality Source="[Command.Available]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
+          <PlaySound Sound="sound://sd:Focus" />
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="false"/>
+          <Equality Source="[Command.Available]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+          <PlaySound Sound="sound://sd:Focus" />
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Set Target="[BoxImage.Visible]" Value="false" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel>
+        <Children>
+          <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren" Padding="3,3,3,3">
+            <Children>
+              <Panel >
+                <Children>
+                  <Graphic Content="[ImageNoFocus]" MaximumSize="[Size]" MaintainAspectRatio="true" />
+                </Children>
+              </Panel>
+            </Children>
+          </Graphic>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI> 
+  
+  <UI Name="MenuButton">
+    <Properties>
+      <ICommand Name="Command" ICommand="$Required"/>
+      <Image Name="Image" Image="image://i:ConfigImg"/>
+    </Properties>
+    <Locals>
+      <ClickHandler Name="Clicker" Command="[Command]"/>
+      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+      <Image Name="BlankImage" Image="null" />
+    </Locals>
+    <Rules>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true" >
+        <Actions>
+          <PlayAnimation Target="[BoxImage]" Animation="animation://me:ButtonPress"/>
+          <Set Target="[BoxImage.Content]" Value="[SelectedImage]"/>
+        </Actions>
+      </Condition>
+    </Rules>
+    <Content>
+      <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren">
+        <Children>
+          <Panel >
+            <Children>
+              <Graphic Content="[Image]" MaximumSize="135,135" MaintainAspectRatio="true" ></Graphic>
+            </Children>
+          </Panel>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+  
+  <UI Name="LargeNPV">
+
+    <Properties>
+      <ICommand Name="Command" ICommand="$Required" />
+      <Image Name="FocusImage" Image="image://i:ZoomPane" />
+      <Image Name="NoFocusImage" Image="null" />
+      <Size Name="NPVSize" Size="400,220"/>
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker" />
+    </Locals>
+
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[Command]"           Target="[Clicker.Command]" />
+      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
+
+      <!-- Play Sound When Clicked -->
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Select" />
+        </Actions>
+      </Rule>
+
+      <!-- Expand NPV Panel When Focused -->
+      <Rule>
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Scale]" Value="2,2,1"/>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
+          <Set Target="[VideoPanel.LetterboxColor]" Value="Black"/>
+          <PlaySound Sound="sound://sd:Focus" />
+        </Actions>
+      </Rule>
+
+      <!-- Shrink NPV Panel When Not Focused -->
+      <Rule>
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sd:Focus" />
+          <Set Target="[VideoPanel.LetterboxColor]" Value="Transparent"/>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+          <Set Target="[BoxImage.Scale]" Value="1,1,1"/>
+        </Actions>
+      </Rule>
+    </Rules>
+
+    <Content>
+       <Graphic Name="NPVPosition" Padding="10,10,10,10" SizingPolicy="SizeToChildren"  >
+        <Children>
+          <Graphic Name="BoxImage" Content="[NoFocusImage]" SizingPolicy="SizeToChildren" Padding="4,4,4,4">
+            <Animations>
+              <Animation Loop="0" CenterPointPercent="1.0,0.0,1.0" Type="Scale">
+                <Keyframes>
+                  <ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Bezier,-1.0,1.0"/>
+                  <ScaleKeyframe Time="1.00" RelativeTo="Final"/>
+                </Keyframes>
+              </Animation>
+            </Animations>
+            <Children>
+              <Video Name="VideoPanel" MaximumSize="[NPVSize]" MinimumSize="[NPVSize]"/>
+            </Children>
+          </Graphic>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+
+  <Animation Name="ButtonPress" Loop="0" CenterPointPercent="0.5,0.5,1.0">
+    <Keyframes>
+      <ScaleKeyframe Time="0.00" RelativeTo="Current" Interpolation="Log"/>
+      <ScaleKeyframe Time="0.08" Value="0.9,0.9,1.0"/>
+      <ScaleKeyframe Time="0.15" Value="1.0,1.0,1.0"/>
+    </Keyframes>
+  </Animation>
+
+</Mcml>

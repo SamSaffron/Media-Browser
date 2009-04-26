@@ -1,0 +1,388 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MsCorLib/System"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
+	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+		xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"  
+	  xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
+	  
+	  xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailArea"
+    xmlns:me="Me"
+      >
+	
+
+	<UI Name="Page">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:FolderModel Name="Folder" FolderModel="$Required"/>
+			<IntRangedValue Name="SortOrderIndex" MinValue ="0" MaxValue="999"/>
+			
+		</Properties>
+
+		<Locals>
+			<TypingHandler Name="TypingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" >
+				<EditableText>
+					<EditableText Value="" />
+				</EditableText>
+			</TypingHandler>
+				
+			<cor:Boolean Name="CanPlay" Boolean="false" />
+			<Timer Name="HideFindAsYouType" Interval="3000" AutoRepeat="false"/>
+			<!--<Timer Name="BGTimer" Interval="100" Enabled="false"/>-->
+			<Command Name="Configure" />
+			<Command Name="ShowViewConfiguration" />
+			<Command Name="CloseViewConfiguration" />
+			<Command Name="ShowSortConfiguration" />
+			<Command Name="CloseSortConfiguration" />
+			<Command Name="ShowIndexConfiguration" />
+			<Command Name="CloseIndexConfiguration" />
+			<Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="250" /> <!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
+      <a:Clock Name="Clock"/>
+      <KeyHandler Name="SwitchKey" Key="D8" Handle="false" Modifiers="Shift" HandlerStage="Bubbled"/>
+    </Locals>
+    
+		<Rules>
+      <Rule ConditionLogicalOp ="And">
+        <Conditions >
+          <Equality Source="[Folder.IsRoot]" Value="true"/>
+          <Equality Source="[Application.Config.EnableRootPage]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[TimePanel.Visible]" Value="false"/>
+          <Set Target="[ConfigBtn.Visible]" Value="false"/>
+          <Set Target="[ViewsBtn.Visible]" Value="false"/>
+          <Set Target="[ViewConfig.Visible]" Value="false"/>
+          <Set Target="[SortOrdersBtn.Visible]" Value="false"/>
+          <Set Target="[SortConfig.Visible]" Value="false"/>
+          <Set Target="[IndexesBtn.Visible]" Value="false"/>
+          <Set Target="[IndexConfig.Visible]" Value="false"/>
+          <Set Target="[Breadcrumbs.Visible]" Value="false"/>
+          <Set Target="[NowPlaying.Visible]" Value="false"/>
+        </Actions>
+      </Rule>
+      
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]">
+        <Conditions>
+          <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+      </Binding>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[SwitchKey.Invoked]" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[Folder.DisplayPrefs.ToggleViewTypes]" />
+        </Actions>
+      </Rule>
+      
+      
+			<Changed Source="[RefocusViewTimer.Tick]">
+				<Actions>
+					<Invoke Target="[ViewConfig.NavigateInto]" />
+				</Actions>
+			</Changed>
+			<Changed Source="[Configure.Invoked]">
+				<Actions>
+					<Invoke Target="[Application.OpenConfiguration]" showFullOptions="true" />
+				</Actions>
+			</Changed>
+			<Changed Source="[ShowViewConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[ViewConfig.Visible]" Value="true"/>
+					<Set Target="[SortConfig.Visible]" Value="false"/>
+					<Set Target="[IndexConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewConfig.NavigateInto]" />
+				</Actions>
+			</Changed>
+			<Changed Source="[CloseViewConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[ViewConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewPanel.NavigateInto]" />
+				</Actions>
+			</Changed>
+			
+			<Changed Source="[Folder.DisplayPrefs.ViewType.Chosen]" >
+				<Conditions>
+					<Equality Source="[ViewConfig.Visible]" Value="true" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[RefocusViewTimer.Start]" /> 
+				</Actions>
+			</Changed>
+
+			<Changed Source="[ShowSortConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[SortConfig.Visible]" Value="true"/>
+					<Set Target="[ViewConfig.Visible]" Value="false"/>
+					<Set Target="[IndexConfig.Visible]" Value="false"/>
+					<Invoke Target="[SortConfig.NavigateInto]" />
+				</Actions>
+			</Changed>
+			
+			<Changed Source="[CloseSortConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[SortConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewPanel.NavigateInto]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Folder.DisplayPrefs.SortOrders.Chosen]" >
+				<Actions>
+					<Set Target="[SortConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewPanel.NavigateInto]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[ShowIndexConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[IndexConfig.Visible]" Value="true"/>
+					<Set Target="[ViewConfig.Visible]" Value="false"/>
+					<Set Target="[SortConfig.Visible]" Value="false"/>
+					<Invoke Target="[IndexConfig.NavigateInto]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[CloseIndexConfiguration.Invoked]">
+				<Actions>
+					<Set Target="[IndexConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewPanel.NavigateInto]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Folder.DisplayPrefs.IndexByChoice.Chosen]" >
+				<Actions>
+					<Set Target="[IndexConfig.Visible]" Value="false"/>
+					<Invoke Target="[ViewPanel.NavigateInto]" />
+				</Actions>
+			</Changed>
+
+      <Binding Source="[Folder.IsRoot]" Target="[ConfigBtn.Visible]"/>
+
+			
+<!--
+			<Rule>
+				<Actions>
+					<Set Target="[BGTimer.Enabled]" Value="true" />
+				</Actions>
+			</Rule>
+			-->
+
+			<Rule>
+				<Conditions>
+					<Equality Source="[Folder.HasBannerImage]" ConditionOp="Equals" Value="false" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BreadCrumbs.Font]" Value="font://f:P_BreadcrumbFont" />
+					<Set Target="[BreadCrumbs.Margins]" Value="0,20,0,0" />
+				</Actions>
+			</Rule>
+
+			<Rule ConditionLogicalOp="And">
+				<Conditions>
+					<Equality Source="[Folder.HasBannerImage]" ConditionOp="Equals" Value="false" />
+					<Equality Source="[Application.BreadCrumbs]" ConditionOp="Equals" Value="" />
+				</Conditions>
+				<Actions>
+					<Set Target="[BreadCrumbs.Content]" Value="video library" />
+					<Set Target="[BreadCrumbs.Font]" Value="font://f:P_BreadcrumbFont" />
+				</Actions>
+			</Rule>
+			
+			<Binding Source="[Folder.BannerImage]" Target="[BannerGraphic.Content]" />
+			<Binding Source="[Folder.DisplayPrefs.SortOrders.Chosen!cor:String]" Target="[SortOrdersBtn.Content]" />
+			<Binding Source="[Folder.DisplayPrefs.IndexByChoice.Chosen!cor:String]" Target="[IndexesBtn.Content]" />
+
+			<Binding Source="[FindAsYouType.Content]" Target="[ShadowLabel.Content]" />
+			<Binding Source="[TypingHandler.DisplayValue]" Target="[FindAsYouType.Content]" />
+			<Binding Source="[TypingHandler.DisplayValue]" Target="[Folder.TripleTapSelect]" />
+			
+			<Changed Source="[TypingHandler.DisplayValue]">
+				<Conditions>
+					<Equality Source="[TypingHandler.DisplayValue]" ConditionOp="NotEquals" Value="" />
+				</Conditions>
+				<Actions>
+					<Invoke Target="[HideFindAsYouType.Start]" />
+				</Actions>
+			</Changed>
+			
+			<Changed Source="[HideFindAsYouType.Tick]">
+				<Actions>
+					<Set Target="[TypingHandler.EditableText.Value]" Value="" />
+				</Actions>
+			</Changed>
+			<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
+				<Transformer>
+					<BooleanTransformer Inverse="true"/>
+				</Transformer>
+			</Binding>
+			<Binding Source="[Application.ShowNowPlaying]" Target="[NowPlaying.Visible]" />
+			<Condition Source="[Folder.DisplayPrefs.IndexByChoice.Chosen!cor:String]" ConditionOp="Equals" SourceValue="none" Target="[SortOrdersBtn.Enabled]" Value="true"/>
+			<Condition Source="[Folder.DisplayPrefs.IndexByChoice.Chosen!cor:String]" ConditionOp="NotEquals" SourceValue="none" Target="[SortOrdersBtn.Enabled]" Value="false"/>
+
+    </Rules>
+
+		<Content>
+			<Panel Layout="Center">
+				<Children>
+					<Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
+						<Children>
+
+              <Panel Name="TimePanel">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                </Layout>
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0,50" Bottom="ViewsBtn,1" Right="Parent,0,125" Horizontal="Center"/>
+                </LayoutInput>
+                <Children>
+                  <Panel Layout="Scale">
+                    <Children>
+                      <Text Name="TimeDate" Font="font://f:P_ClockFont"  Color="White"
+                            Visible="[Application.Config.ShowClock]" />
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+              
+							<vm:CfgButton Name="ConfigBtn" Command="[Configure]" >
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,130" Bottom="Parent,0,120" />
+								</LayoutInput>
+							</vm:CfgButton>
+							
+							<vm:ViewsButton Name="ViewsBtn" Command="[ShowViewConfiguration]" Font="font://f:P_ConfigButtons">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,180" Bottom="Parent,0,120"/>
+								</LayoutInput>
+							</vm:ViewsButton>
+
+							<vm:ViewConfiguration Name="ViewConfig" Visible="false" Prefs="[Folder.DisplayPrefs]" Close="[CloseViewConfiguration]">
+								<LayoutInput>
+									<FormLayoutInput Left="ViewsBtn,0,0" Top="ViewsBtn,1"/>
+								</LayoutInput>
+							</vm:ViewConfiguration>
+
+							<vm:ImgButton Name="SortOrdersBtn" Enabled="true" Command="[ShowSortConfiguration]" Image="image://i:SortImg" Font="font://f:P_ConfigButtons">
+								<LayoutInput>
+									<FormLayoutInput Left="ViewsBtn,1,0" Bottom="ViewsBtn,1"/>
+								</LayoutInput>
+							</vm:ImgButton>
+
+							<vm:RadioConfiguration Name="SortConfig" Visible="false" Choice="[Folder.DisplayPrefs.SortOrders]" Close="[CloseSortConfiguration]">
+								<LayoutInput>
+									<FormLayoutInput Left="SortOrdersBtn,0,0" Top="SortOrdersBtn,1"/>
+								</LayoutInput>
+							</vm:RadioConfiguration>
+
+							<vm:ImgButton Name="IndexesBtn" Command="[ShowIndexConfiguration]" Image="image://i:IndexImg" Font="font://f:P_ConfigButtons">
+								<LayoutInput>
+									<FormLayoutInput Left="SortOrdersBtn,1" Bottom="ViewsBtn,1"/>
+								</LayoutInput>
+							</vm:ImgButton>
+
+							<vm:RadioConfiguration Name="IndexConfig" Visible="false" Choice="[Folder.DisplayPrefs.IndexByChoice]" Close="[CloseIndexConfiguration]">
+								<LayoutInput>
+									<FormLayoutInput Left="IndexesBtn,0,0" Top="IndexesBtn,1"/>
+								</LayoutInput>
+							</vm:RadioConfiguration>
+							
+							<!-- find in list panel - highest Z-Order -->
+							<Panel Name="FindAsYouTypePanel" >
+								<LayoutInput>
+									<FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
+								</LayoutInput>
+								<Layout>
+									<FlowLayout ItemAlignment="Center"/>
+								</Layout>
+								<Children>
+									<ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
+										<Children>
+											<Text Name="FindAsYouType" Font="font://f:P_FindAsYouTypeFont" Content="" Color="color://s:FontColorMedium"  />
+											<Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="font://f:P_FindAsYouTypeFont">
+												<LayoutInput>
+													<AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
+												</LayoutInput>
+											</Text>
+										</Children>
+									</ColorFill>
+								</Children>
+							</Panel>
+							
+							
+							<!-- Black Overlay to Fade Out contents -->
+							<!--
+							<Panel Name="FadeOutPanel" Visible="false">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
+								</LayoutInput>
+								<Children>
+									<ColorFill Content="Black" Alpha="0"/>
+								</Children>
+							</Panel>
+							-->
+
+							<!--Banner / Breadcrumbs -->
+							<Panel Name="Breadcrumbs">
+								<Layout>
+									<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+								</Layout>
+								<Children>
+									<Graphic Name="BannerGraphic" Content="[Folder.BannerImage]" MaintainAspectRatio="true" MaximumSize="600,90">
+									</Graphic>
+									<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+										<Children>
+											<Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" Font="font://f:P_BreadcrumbSmallFont" Color="color://s:FontColorMedium">
+											</Text>
+										</Children>
+									</Clip>
+								</Children>
+								<LayoutInput>
+									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
+								</LayoutInput>
+							</Panel>
+						
+							<!--  View Details-->
+							<pda:PageDetailArea Name="ViewPanel" Folder="[Folder]" Application="[Application]"  >
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,.0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+								</LayoutInput>
+							</pda:PageDetailArea>
+
+							<!-- Now Playing View -->
+							<np:NowPlayingViewport Name="NowPlaying">
+								<LayoutInput>
+									<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,20" />
+								</LayoutInput>
+							</np:NowPlayingViewport>
+							
+									
+							
+						</Children>
+					</Clip>
+
+
+					<Panel Name="MainBG" Layout="Fill" Margins="-50,-20,-150,-20" >
+						<Children>
+							<Clip FadeSize="360" Orientation="Vertical" FadeAmount="1" CenterPointPercent="0.5,0.5,0.5" FarOffset="50" NearOffset="50" >
+								<Children>
+									<ColorFill Content="color://s:BackgroundColor1" Layout="Fill"/>
+								</Children>
+							</Clip>
+							<ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>		
+						</Children>
+					</Panel>
+					
+					<!--
+					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+					-->
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+
+	
+	
+</Mcml>
