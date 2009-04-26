@@ -34,6 +34,7 @@ namespace Configurator
         public MainWindow()
         {
             InitializeComponent();
+            LoadComboBoxes();
 
             config = ConfigData.FromFile(Helper.ConfigFile);
 
@@ -74,7 +75,7 @@ namespace Configurator
 
             daemonToolsLocation.Content = config.DaemonToolsLocation;
 
-            LoadComboBoxes();
+            
             RefreshExtenderFormats();
             RefreshDisplaySettings();
 
@@ -97,6 +98,7 @@ namespace Configurator
             cbxOptionUnwatchedOnVideo.IsChecked    = config.ShowWatchTickInPosterView;
             cbxOptionUnwatchedDetailView.IsChecked = config.EnableListViewTicks;
             cbxOptionDefaultToUnwatched.IsChecked  = config.DefaultToFirstUnwatched;
+            cbxRootPage.IsChecked                  = config.EnableRootPage;
             if (config.MaximumAspectRatioDistortion == Constants.MAX_ASPECT_RATIO_STRETCH)
                 cbxOptionAspectRatio.IsChecked = true;
             else
@@ -106,6 +108,12 @@ namespace Configurator
             ddlOptionViewTheme.SelectedItem = config.ViewTheme;
             ddlOptionThemeColor.SelectedItem = config.Theme;
             ddlOptionThemeFont.SelectedItem = config.FontTheme;
+
+            tbxWeatherID.Text = config.YahooWeatherFeed;
+            if (config.YahooWeatherUnit.ToLower() == "f")
+                ddlWeatherUnits.SelectedItem = "Farenheit";
+            else
+                ddlWeatherUnits.SelectedItem = "Celsius";
         }
 
         private void SaveConfig()
@@ -127,6 +135,9 @@ namespace Configurator
             // Fonts 
             ddlOptionThemeFont.Items.Add("Default");
             ddlOptionThemeFont.Items.Add("Small");
+            // Weather Units
+            ddlWeatherUnits.Items.Add("Celsius");
+            ddlWeatherUnits.Items.Add("Farenheit");
         }
         #endregion
 
@@ -636,6 +647,11 @@ folder: {0}
 
             SaveConfig();
         }
+        private void cbxRootPage_Click(object sender, RoutedEventArgs e)
+        {
+            config.EnableRootPage = (bool)cbxRootPage.IsChecked;
+            SaveConfig();
+        }
         #endregion
 
         #region ComboBox Events
@@ -693,6 +709,18 @@ folder: {0}
             label.FontWeight = FontWeights.Bold;
         }
         #endregion
+
+        private void btnWeatherID_Click(object sender, RoutedEventArgs e)
+        {
+            if (ddlWeatherUnits.SelectedItem.ToString() == "Farenheit")
+                config.YahooWeatherUnit = "f";
+            else
+                config.YahooWeatherUnit = "c";
+            config.YahooWeatherFeed = tbxWeatherID.Text;
+            SaveConfig();
+        }
+
+        
 
 
     }

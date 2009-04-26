@@ -18,7 +18,7 @@ namespace MediaBrowser
     public class YahooWeather : ModelItem
     {
         #region static fields 
-        private static readonly string FileName = string.Format("weather_{0}.xml", Application.CurrentInstance.Config.YahooWeatherFeed);
+        private static readonly string FileName = string.Format("weather_{1}_{0}.xml", Application.CurrentInstance.Config.YahooWeatherFeed, Application.CurrentInstance.Config.YahooWeatherUnit);
         private readonly string DownloadToFilePath = Path.Combine(LibraryManagement.Helper.AppRSSPath, FileName);        
         private readonly string Feed = string.Format("http://weather.yahooapis.com/forecastrss?p={0}&u={1}",
             Application.CurrentInstance.Config.YahooWeatherFeed,
