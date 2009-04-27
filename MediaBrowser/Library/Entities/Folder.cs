@@ -246,7 +246,7 @@ namespace MediaBrowser.Library.Entities {
 
             var validChildren = GetChildren(false);
             var currentChildren = new Dictionary<Guid, BaseItem>();
-            // in case some how we have a non distinc list 
+            // in case some how we have a non distinct list 
             foreach (var item in childrenCopy) {
                 currentChildren[item.Id] = item;
             }
