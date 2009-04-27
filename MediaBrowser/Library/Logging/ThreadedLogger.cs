@@ -23,7 +23,7 @@ namespace MediaBrowser.Library.Logging {
         void ProcessQueue() {
             while (true) {
                 waiting = true;
-                hasNewItems.WaitOne(10000);
+                hasNewItems.WaitOne(10000,true);
                 waiting = false;
 
                 Queue<Action> queueCopy;

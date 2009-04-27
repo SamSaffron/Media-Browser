@@ -135,9 +135,6 @@ namespace MediaBrowser.Library {
         public BaseItem RetrieveItem(Guid id) {
             BaseItem item = null;
             string file = GetItemFilename(id);
-            
-            // Leak out an exception if the file does not exist.  
-            //if (!File.Exists(file)) return null;
 
             try {
                 using (Stream fs = ReadFileStream(file)) {
@@ -158,7 +155,6 @@ namespace MediaBrowser.Library {
                 Serializer.Serialize(bw.BaseStream, item);
             }
         }
-
 
 
         public IMetadataProvider RetrieveProvider(Guid guid) {
