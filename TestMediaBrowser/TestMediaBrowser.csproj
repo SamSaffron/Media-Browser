@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleMedia\TV\South Park\Season 1\02.mkv" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Movies.txt" />
     <Content Include="SampleMedia\Images\image.png" />
     <Content Include="SampleMedia\TV\South Park\Season 1\03.mpg" />

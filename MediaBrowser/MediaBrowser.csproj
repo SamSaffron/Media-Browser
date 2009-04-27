@@ -464,6 +464,7 @@
     <Content Include="Images\Weather\9.png" />
     <Content Include="Images\Weather\readme.txt" />
     <Content Include="Images\zoompane.png" />
+    <Content Include="Library\LICENSE.txt" />
     <Content Include="Markup\Base\Sounds.mcml" />
     <Content Include="Images\ApplicationInactive.png" />
     <Content Include="Images\Button\ButtonDisabled.png" />
