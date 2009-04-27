@@ -12,6 +12,7 @@ using MediaBrowser.LibraryManagement;
 using MediaBrowser.Attributes;
 using Microsoft.MediaCenter;
 using System.Diagnostics;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser
 {
@@ -403,10 +404,10 @@ namespace MediaBrowser
             set { if (this.data.PreferredMetaDataLanguage != value) { this.data.PreferredMetaDataLanguage = value; Save(); FirePropertyChanged("PreferredMetaDataLanguage"); } }
         }
 
-        public string CentralisedCache
+        public string UserSettingsPath
         {
-            get { return this.data.CentralisedCache; }
-            set { if (this.data.CentralisedCache != value) { this.data.CentralisedCache = value; Save(); FirePropertyChanged("CentralisedCache"); } }
+            get { return this.data.UserSettingsPath; }
+            set { if (this.data.UserSettingsPath != value) { this.data.UserSettingsPath = value; Save(); FirePropertyChanged("UserSettingsPath"); } }
         }
 
         public string Theme
@@ -483,6 +484,8 @@ namespace MediaBrowser
             get { return this.data.YahooWeatherUnit; }
             set { if (this.data.YahooWeatherUnit != value) { this.data.YahooWeatherUnit = value; Save(); FirePropertyChanged("YahooWeatherUnit"); } }
         }
+        
+        
         /* End of app specific settings*/
 
         private string[] _SortRemoveCharactersArray = null;
@@ -530,6 +533,11 @@ namespace MediaBrowser
         private Config()
         {
             isValid = Load();
+            if (isValid) {
+                if (!string.IsNullOrEmpty(this.UserSettingsPath) && Directory.Exists(this.UserSettingsPath)) {
+                    ApplicationPaths.SetUserSettingsPath(this.UserSettingsPath);
+                }
+            }
         }
 
         public bool IsValid {
@@ -541,7 +549,7 @@ namespace MediaBrowser
         private void Save()
         {
             lock(this)
-                this.data.Save(Helper.ConfigFile);
+                this.data.Save(ApplicationPaths.ConfigFile);
         }
 
         public void Reset()
@@ -568,7 +576,7 @@ namespace MediaBrowser
         {
             try
             {
-                this.data = ConfigData.FromFile(Helper.ConfigFile);
+                this.data = ConfigData.FromFile(ApplicationPaths.ConfigFile);
                 return true;
             }
             catch (Exception ex)

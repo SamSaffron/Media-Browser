@@ -5,6 +5,7 @@ using MediaBrowser.LibraryManagement;
 using System.IO;
 using MediaBrowser.Library.Providers.Attributes;
 using MediaBrowser.Library.Entities;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library.Providers
 {
@@ -18,7 +19,7 @@ namespace MediaBrowser.Library.Providers
             get {
                 string location = Config.Instance.ImageByNameLocation;
                 if ((location == null) || (location.Length == 0))
-                    location = Path.Combine(Helper.AppConfigPath, "ImagesByName");
+                    location = Path.Combine(ApplicationPaths.AppConfigPath, "ImagesByName");
                 char[] invalid = Path.GetInvalidFileNameChars();
                 string name = Item.Name;
                 foreach (char c in invalid)

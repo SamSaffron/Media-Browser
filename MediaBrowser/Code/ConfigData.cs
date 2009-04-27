@@ -11,6 +11,7 @@ using MediaBrowser.Library;
 using MediaBrowser.LibraryManagement;
 using System.Xml.Serialization;
 using MediaBrowser.Library.Playables;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser
 {
@@ -33,7 +34,7 @@ namespace MediaBrowser
         public bool EnableNestedMovieFolders = true;
         public bool EnableMoviePlaylists = true;
         public int PlaylistLimit = 2;
-        public string InitialFolder = Helper.AppInitialDirPath;
+        public string InitialFolder = ApplicationPaths.AppInitialDirPath;
         public bool EnableUpdates = true;
         public bool EnableBetas = false;
         public string DaemonToolsLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"DAEMON Tools Lite\\daemon.exe");
@@ -72,7 +73,7 @@ namespace MediaBrowser
         public bool ShowBackdrop = true;
         public string InitialBreadcrumbName = "Media";
 
-        public string CentralisedCache = null;
+        public string UserSettingsPath = null;
         public string ViewTheme = "Default";
         public int AlphaBlending = 50;
         public bool ShowConfigButton = false;
@@ -80,6 +81,7 @@ namespace MediaBrowser
         public bool EnableSyncViews = true;
         public string YahooWeatherFeed = "UKXX0085";
         public string YahooWeatherUnit = "c";
+
         public class ExternalPlayer
         {
             public MediaType MediaType { get; set; }

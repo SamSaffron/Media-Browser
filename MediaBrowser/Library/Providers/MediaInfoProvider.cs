@@ -10,6 +10,7 @@ using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Providers.Attributes;
 using System.Linq;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library.Providers
 {
@@ -24,7 +25,7 @@ namespace MediaBrowser.Library.Providers
 
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(Helper.AppPluginPath, "mediainfo\\mediainfo.dll");
+            string mediaInfoPath = Path.Combine(ApplicationPaths.AppPluginPath, "mediainfo\\mediainfo.dll");
             if (File.Exists(mediaInfoPath)) {
                 var handle = LoadLibrary(mediaInfoPath);
                 return handle != IntPtr.Zero;

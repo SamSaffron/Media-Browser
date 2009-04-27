@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Linq;
 using MediaBrowser.Library.Entities;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library.Playables
 {
@@ -43,7 +44,7 @@ namespace MediaBrowser.Library.Playables
 
                 if (PlayableExternal.CanPlay(videoFiles[0]))
                 {
-                    playListFile = Path.Combine(Helper.AutoPlaylistPath, video.Name + ".pls");
+                    playListFile = Path.Combine(ApplicationPaths.AutoPlaylistPath, video.Name + ".pls");
                     StringBuilder contents = new StringBuilder("[playlist]\n");
                     int x = 1;
                     foreach (string file in videoFiles)

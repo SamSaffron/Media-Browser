@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Xml;
 using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.RemoteControl;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library
 {
@@ -158,7 +159,7 @@ namespace MediaBrowser.Library
 
 
         protected static string CreateWPLPlaylist(string name, IEnumerable<string> videoFiles) {
-            var playListFile = Path.Combine(Helper.AutoPlaylistPath, name + ".wpl");
+            var playListFile = Path.Combine(ApplicationPaths.AutoPlaylistPath, name + ".wpl");
 
 
             StringWriter writer = new StringWriter();

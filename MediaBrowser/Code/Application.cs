@@ -21,6 +21,7 @@ using MediaBrowser.Library.Plugins;
 using MediaBrowser.Library.EntityDiscovery;
 using MediaBrowser.Library.RemoteControl;
 using MediaBrowser.Library.Logging;
+using MediaBrowser.Library.Configuration;
 
 
 namespace MediaBrowser
@@ -452,7 +453,7 @@ namespace MediaBrowser
                 bool ok = ItemCache.Instance.ClearEntireCache();
                 if (!ok)
                 {
-                    ev.Dialog("An error occured during the clearing of the cache, you may wish to manually clear it from " + Helper.AppCachePath + " before restarting Media Browser", "Error", DialogButtons.Ok, 60, true);
+                    ev.Dialog("An error occured during the clearing of the cache, you may wish to manually clear it from " + ApplicationPaths.AppCachePath + " before restarting Media Browser", "Error", DialogButtons.Ok, 60, true);
                 }
                 else
                 {

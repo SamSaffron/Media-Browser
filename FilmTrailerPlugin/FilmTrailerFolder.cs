@@ -13,6 +13,7 @@ using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser;
+using MediaBrowser.Library.Configuration;
 
 
 namespace FilmTrailerPlugin
@@ -20,7 +21,7 @@ namespace FilmTrailerPlugin
     public class FilmTrailerFolder : Folder
     {
         private static readonly string FileName = "filmtrailers.xml";
-        private readonly string DownloadToFilePath = System.IO.Path.Combine(MediaBrowser.LibraryManagement.Helper.AppRSSPath, FileName);
+        private readonly string DownloadToFilePath = System.IO.Path.Combine(ApplicationPaths.AppRSSPath, FileName);
         private readonly string Feed = @"http://uk.feed.filmtrailer.com/v2.0/?ListType=Latest30InCinema&channel_user_id=441100001-1";
         //private readonly string Feed = @"http://uk.feed.filmtrailer.com/v2.0/?ListType=AllCinemaMovies&channel_user_id=441100001-1";
 

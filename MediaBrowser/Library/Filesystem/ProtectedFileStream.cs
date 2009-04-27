@@ -15,44 +15,42 @@ namespace MediaBrowser.Library.Filesystem {
 
     public class ProtectedFileStream : Stream, IDisposable {
 
-        static object  globalLock = new object();
+
+        // Theoretically ReaderWriterLockSlim is a better choice, its just that I can not get it not to hang
+        static Dictionary<string, object> fileLocks = new Dictionary<string, object>();
+
         const int SLEEP_TIME = 25;
         const int ATTEMPTS = 80;
 
-        /// <summary>
-        /// This lock is acquired and held during all file access 
-        /// </summary>
-        public static object GlobalLock { get { return globalLock; } }
+
+        public static object GetLock(string filename) {
+            object fileLock; 
+            lock (fileLocks) {
+                if (!fileLocks.TryGetValue(filename, out fileLock)) {
+                    fileLock = new object();
+                    fileLocks[filename] = fileLock;
+                }
+            }
+            return fileLock;
+        }
 
 
         FileStream stream;
-        bool isLocked = false; 
+        Action releaseLock;
 
-        private ProtectedFileStream(Func<FileStream> func) {
+        private ProtectedFileStream(Func<FileStream> func, Action getLock, Action releaseLock) {
             
             try {
-                Lock();
+                getLock();
                 stream = GetStreamWithRetry(func, ATTEMPTS, SLEEP_TIME);
+                this.releaseLock = releaseLock;
                 
             } catch {
-                Unlock();
+                releaseLock();
                 throw; 
             }
         }
 
-        private void Lock() {
-            if (!isLocked) {
-                Monitor.Enter(globalLock);
-                isLocked = true;
-            }
-        }
-
-        private void Unlock() {
-            if (isLocked) {
-                Monitor.Exit(globalLock);
-                isLocked = false;
-            }
-        }
 
         static FileStream GetStreamWithRetry(Func<FileStream> getter, int attempts, int sleepTime) {
             FileStream fs = null;
@@ -78,14 +76,26 @@ namespace MediaBrowser.Library.Filesystem {
         }
 
         public static ProtectedFileStream OpenExclusiveWriter(string filename) {
+
+            var lck = GetLock(filename);
+
             return new ProtectedFileStream (() => 
-                new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None));
+                new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None),
+                () => Monitor.Enter(lck),
+                () => Monitor.Exit(lck)
+                );
         }
 
 
         public static ProtectedFileStream OpenSharedReader(string filename) {
+
+            var lck = GetLock(filename);
+
             return new ProtectedFileStream (() => 
-                new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read));
+                new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read),
+                () => Monitor.Enter(lck),
+                () => Monitor.Exit(lck)
+                );
         }
 
         public override bool CanRead {
@@ -140,7 +150,14 @@ namespace MediaBrowser.Library.Filesystem {
                 try {
                     if (stream != null) stream.Dispose();
                 } finally {
-                    Unlock();
+#if (!DEBUG)
+                    if (releaseLock != null) releaseLock();
+#else 
+                    // I want to catch double dispose in debug
+                    releaseLock();
+#endif
+
+                    releaseLock = null;
                 }
             }
         }

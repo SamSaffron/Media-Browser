@@ -18,28 +18,32 @@ using System.Drawing;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.Interfaces;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library {
     class ItemRepository : IItemRepository, IDisposable {
         public ItemRepository() {
         }
 
-        string rootPath = Helper.AppCachePath;
+        string rootPath = ApplicationPaths.AppCachePath;
+        string userSettingPath = ApplicationPaths.AppUserSettingsPath;
 
         #region IItemCacheProvider Members
 
         public void SaveChildren(Guid id, IEnumerable<Guid> children) {
             string file = GetChildrenFilename(id);
 
+            Guid[] childrenCopy;
+            lock (children) {
+                childrenCopy = children.ToArray();
+            }
+
             using (Stream fs = WriteExclusiveFileStream(file)) {
                 BinaryWriter bw = new BinaryWriter(fs);
-                lock (children) {
-                    bw.Write(children.Count());
-                    foreach (var guid in children) {
-                        bw.Write(guid);
-                    }
+                bw.Write(childrenCopy.Length);
+                foreach (var guid in childrenCopy) {
+                    bw.Write(guid);
                 }
-                fs.Close();
             }
 
         }
@@ -62,7 +66,6 @@ namespace MediaBrowser.Library {
                             itemsRead++;
                         }
                     }
-                    fs.Close();
                 }
             } catch (Exception e) {
                 Application.Logger.ReportException("Failed to retrieve children:", e);
@@ -79,7 +82,7 @@ namespace MediaBrowser.Library {
 
 
         public PlaybackStatus RetrievePlayState(Guid id) {
-            string file = GetFile("playstate", id);
+            string file = GetPlaystateFile(id);
             byte[] bytes = null;
             if (!File.Exists(file)) return null;
 
@@ -103,7 +106,7 @@ namespace MediaBrowser.Library {
         }
 
         public DisplayPreferences RetrieveDisplayPreferences(Guid id) {
-            string file = GetFile("display", id);
+            string file = GetDisplayPrefsFile(id);
 
             if (File.Exists(file)) {
                 using (Stream fs = ReadFileStream(file)) {
@@ -116,29 +119,33 @@ namespace MediaBrowser.Library {
         }
 
         public void SavePlayState(PlaybackStatus playState) {
-            string file = GetFile("playstate", playState.Id);
+            string file = GetPlaystateFile(playState.Id);
             using (Stream fs = WriteExclusiveFileStream(file)) {
                 Serializer.Serialize(fs, playState);
             }
         }
 
         public void SaveDisplayPreferences(DisplayPreferences prefs) {
-            string file = GetFile("display", prefs.Id);
+            string file = GetDisplayPrefsFile(prefs.Id);
             using (Stream fs = WriteExclusiveFileStream(file)) {
                 prefs.WriteToStream(new BinaryWriter(fs));
-                fs.Close();
             }
         }
 
         public BaseItem RetrieveItem(Guid id) {
             BaseItem item = null;
             string file = GetItemFilename(id);
-            if (!File.Exists(file)) return null;
+            
+            // Leak out an exception if the file does not exist.  
+            //if (!File.Exists(file)) return null;
 
-            using (Stream fs = ReadFileStream(file)) {
-                using (BinaryReader reader = new BinaryReader(fs)) {
+            try {
+                using (Stream fs = ReadFileStream(file)) {
+                    BinaryReader reader = new BinaryReader(fs);
                     item = Serializer.Deserialize<BaseItem>(fs);
                 }
+            } catch (FileNotFoundException) { 
+                // we expect to be called with unknown items sometimes
             }
 
             return item;
@@ -147,9 +154,8 @@ namespace MediaBrowser.Library {
         public void SaveItem(BaseItem item) {
             string file = GetItemFilename(item.Id);
             using (Stream fs = WriteExclusiveFileStream(file)) {
-                using (BinaryWriter bw = new BinaryWriter(fs)) {
-                    Serializer.Serialize(bw.BaseStream, item);
-                }
+                BinaryWriter bw = new BinaryWriter(fs);
+                Serializer.Serialize(bw.BaseStream, item);
             }
         }
 
@@ -161,9 +167,8 @@ namespace MediaBrowser.Library {
             if (!File.Exists(file)) return null;
 
             using (Stream fs = ReadFileStream(file)) {
-                using (BinaryReader reader = new BinaryReader(fs)) {
-                    data = (IMetadataProvider)Serializer.Deserialize<object>(fs);
-                }
+                BinaryReader reader = new BinaryReader(fs);
+                data = (IMetadataProvider)Serializer.Deserialize<object>(fs);
             }
 
             return data;
@@ -172,9 +177,8 @@ namespace MediaBrowser.Library {
         public void SaveProvider(Guid guid, IMetadataProvider provider) {
             string file = GetProviderFilename(guid);
             using (Stream fs = WriteExclusiveFileStream(file)) {
-                using (BinaryWriter bw = new BinaryWriter(fs)) {
-                    Serializer.Serialize<object>(bw.BaseStream, provider);
-                }
+                BinaryWriter bw = new BinaryWriter(fs);
+                Serializer.Serialize<object>(bw.BaseStream, provider);
             }
         }
 
@@ -203,6 +207,14 @@ namespace MediaBrowser.Library {
             return GetFile("providerdata", id);
         }
 
+        private string GetDisplayPrefsFile(Guid id) {
+            return GetFile("display", id);
+        }
+
+        private string GetPlaystateFile(Guid id) {
+            return GetFile("playstate", id);
+        }
+
 
         private string GetFile(string type, Guid id) {
             string root = this.rootPath;
@@ -214,13 +226,15 @@ namespace MediaBrowser.Library {
 
         public bool ClearEntireCache() {
             bool success = true;
-            lock (ProtectedFileStream.GlobalLock) {
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "items"));
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "providerdata"));
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "images"));
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "autoplaylists"));
-                success &= DeleteFolder(Path.Combine(Helper.AppCachePath, "children"));
-            }
+            
+            // we are going to need a semaphore here.
+            //lock (ProtectedFileStream.GlobalLock) {
+                success &= DeleteFolder(Path.Combine(ApplicationPaths.AppCachePath, "items"));
+                success &= DeleteFolder(Path.Combine(ApplicationPaths.AppCachePath, "providerdata"));
+                success &= DeleteFolder(Path.Combine(ApplicationPaths.AppCachePath, "images"));
+                success &= DeleteFolder(Path.Combine(ApplicationPaths.AppCachePath, "autoplaylists"));
+                success &= DeleteFolder(Path.Combine(ApplicationPaths.AppCachePath, "children"));
+            //}
             return success;
         }
 

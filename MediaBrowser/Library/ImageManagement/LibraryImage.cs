@@ -7,13 +7,14 @@ using MediaBrowser.LibraryManagement;
 using MediaBrowser.Library.Extensions;
 using System.IO;
 using MediaBrowser.Library.Filesystem;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library.ImageManagement {
     public abstract class LibraryImage {
 
         static Dictionary<Guid, object> FileLocks = new Dictionary<Guid, object>();
 
-        protected static string cachePath = Helper.AppImagePath;
+        protected static string cachePath = ApplicationPaths.AppImagePath;
 
         /// <summary>
         /// The raw path of this image including http:// or grab:// 

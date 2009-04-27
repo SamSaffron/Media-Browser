@@ -7,6 +7,8 @@ using MediaBrowser.Library;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.Persistance;
+using MediaBrowser.Library.Factories;
+using MediaBrowser.Library.Configuration;
 
 namespace TestMediaBrowser {
 
@@ -15,6 +17,17 @@ namespace TestMediaBrowser {
 
         class TempClass : BaseItem { 
             
+        }
+
+        [Ignore("This is only used to test network performance")]
+        [Test]
+        public void TestHowLongItTakesToLoadItall() {
+            var rootLocation = MediaLocationFactory.Instance.Create(ApplicationPaths.AppInitialDirPath);
+            var root = (Folder)BaseItemFactory.Instance.Create(rootLocation);
+
+            foreach (var item in root.RecursiveChildren) {
+               // Console.WriteLine(item.Path);
+            }
         }
 
         [Test]

@@ -8,6 +8,7 @@ using System.IO;
 using System.Xml.XPath;
 using Microsoft.MediaCenter.UI;
 using System.Diagnostics;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser
 {
@@ -19,7 +20,7 @@ namespace MediaBrowser
     {
         #region static fields 
         private static readonly string FileName = string.Format("weather_{1}_{0}.xml", Application.CurrentInstance.Config.YahooWeatherFeed, Application.CurrentInstance.Config.YahooWeatherUnit);
-        private readonly string DownloadToFilePath = Path.Combine(LibraryManagement.Helper.AppRSSPath, FileName);        
+        private readonly string DownloadToFilePath = Path.Combine(ApplicationPaths.AppRSSPath, FileName);        
         private readonly string Feed = string.Format("http://weather.yahooapis.com/forecastrss?p={0}&u={1}",
             Application.CurrentInstance.Config.YahooWeatherFeed,
             Application.CurrentInstance.Config.YahooWeatherUnit);

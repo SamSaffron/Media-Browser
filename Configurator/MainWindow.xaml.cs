@@ -19,6 +19,7 @@ using Microsoft.Win32;
 using MediaBrowser.Code.ShadowTypes;
 using System.Xml.Serialization;
 using MediaBrowser.Library;
+using MediaBrowser.Library.Configuration;
 
 namespace Configurator
 {
@@ -36,13 +37,13 @@ namespace Configurator
             InitializeComponent();
             LoadComboBoxes();
 
-            config = ConfigData.FromFile(Helper.ConfigFile);
+            config = ConfigData.FromFile(ApplicationPaths.ConfigFile);
 
             infoPanel.Visibility = Visibility.Hidden;
             infoPlayerPanel.Visibility = Visibility.Hidden;
 
             // first time the wizard has run 
-            if (config.InitialFolder != Helper.AppInitialDirPath)
+            if (config.InitialFolder != ApplicationPaths.AppInitialDirPath)
             {
                 try
                 {
@@ -54,7 +55,7 @@ namespace Configurator
                 }
             }
 
-            config.InitialFolder = Helper.AppInitialDirPath;
+            config.InitialFolder = ApplicationPaths.AppInitialDirPath;
             RefreshItems();
             RefreshPlayers();
             LoadConfigurationSettings();            
@@ -118,7 +119,7 @@ namespace Configurator
 
         private void SaveConfig()
         {
-            config.Save(Helper.ConfigFile);
+            config.Save(ApplicationPaths.ConfigFile);
         }
 
         private void LoadComboBoxes()
@@ -207,7 +208,7 @@ namespace Configurator
             {
                 if (file.ToLower().EndsWith(".vf"))
                 {
-                    File.Copy(file, System.IO.Path.Combine(Helper.AppInitialDirPath, System.IO.Path.GetFileName(file)), true);
+                    File.Copy(file, System.IO.Path.Combine(ApplicationPaths.AppInitialDirPath, System.IO.Path.GetFileName(file)), true);
                 }
                 else if (file.ToLower().EndsWith(".lnk"))
                 {
@@ -230,7 +231,7 @@ namespace Configurator
 folder: {0}
 {1}
 ", dir, imagePath);
-            var destination = System.IO.Path.Combine(Helper.AppInitialDirPath, System.IO.Path.GetFileName(dir) + ".vf");
+            var destination = System.IO.Path.Combine(ApplicationPaths.AppInitialDirPath, System.IO.Path.GetFileName(dir) + ".vf");
 
             File.WriteAllText(destination,
                 vf.Trim());

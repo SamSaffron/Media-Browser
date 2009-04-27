@@ -6,6 +6,7 @@ using System.IO;
 using MediaBrowser.LibraryManagement;
 using System.Diagnostics;
 using MediaBrowser.Library.Entities;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser.Library.Plugins {
     public class PluginLoader {
@@ -36,10 +37,10 @@ namespace MediaBrowser.Library.Plugins {
 
         private List<Plugin> LoadPlugins() {
             List<Plugin> plugins = new List<Plugin>();
-            foreach (var file in Directory.GetFiles(Helper.AppPluginPath)) {
+            foreach (var file in Directory.GetFiles(ApplicationPaths.AppPluginPath)) {
                 if (file.ToLower().EndsWith(".dll")) {
                     try {
-                        plugins.Add(new Plugin(Path.Combine(Helper.AppPluginPath, file)));
+                        plugins.Add(new Plugin(Path.Combine(ApplicationPaths.AppPluginPath, file)));
                     } catch (Exception ex) {
                         Debug.Assert(false, "Failed to load plugin: " + ex.ToString());
                         Application.Logger.ReportException("Failed to load plugin", ex); 

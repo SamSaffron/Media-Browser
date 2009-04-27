@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.MediaCenter.UI;
 using System.Text;
 using MediaBrowser.Library.Logging;
+using MediaBrowser.Library.Configuration;
 
 namespace MediaBrowser
 {
@@ -39,7 +40,7 @@ namespace MediaBrowser
                 Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
                 return; // there is a problem with the config and the user opt'd not to reset it to defaults
             }
-            Environment.CurrentDirectory = Helper.AppConfigPath;
+            Environment.CurrentDirectory = ApplicationPaths.AppConfigPath;
             try
             {
                 SetupStylesMcml(host);
@@ -55,7 +56,7 @@ namespace MediaBrowser
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
 
             if (Config.Instance.EnableTraceLogging) {
-                app.MultiLogger.AddLogger(new FileLogger(Helper.AppLogPath));
+                app.MultiLogger.AddLogger(new FileLogger(ApplicationPaths.AppLogPath));
 #if (!DEBUG)
                 app.MultiLogger.AddLogger(new TraceLogger());
 #endif
@@ -72,8 +73,8 @@ namespace MediaBrowser
         {
             try
             {
-                string file = Path.Combine(Helper.AppConfigPath, FONTS_FILE);
-                string custom = Path.Combine(Helper.AppConfigPath, CUSTOM_FONTS_FILE);
+                string file = Path.Combine(ApplicationPaths.AppConfigPath, FONTS_FILE);
+                string custom = Path.Combine(ApplicationPaths.AppConfigPath, CUSTOM_FONTS_FILE);
                 if (File.Exists(file))
                 {
                     try
@@ -116,8 +117,8 @@ namespace MediaBrowser
         {
             try
             {
-                string file = Path.Combine(Helper.AppConfigPath, "Styles_DoNotEdit.mcml");
-                string custom = Path.Combine(Helper.AppConfigPath, CUSTOM_STYLE_FILE);
+                string file = Path.Combine(ApplicationPaths.AppConfigPath, "Styles_DoNotEdit.mcml");
+                string custom = Path.Combine(ApplicationPaths.AppConfigPath, CUSTOM_STYLE_FILE);
                 if (File.Exists(file))
                 {
                     try

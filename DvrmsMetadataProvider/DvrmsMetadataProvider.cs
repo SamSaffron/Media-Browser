@@ -13,6 +13,7 @@ using System.IO;
 using MediaBrowser.LibraryManagement;
 using System.Drawing.Imaging;
 using MediaBrowser.Library.Persistance;
+using MediaBrowser.Library.Configuration;
 
 namespace DvrmsMetadataProvider {
 
@@ -77,7 +78,7 @@ namespace DvrmsMetadataProvider {
 
                 if (image != null) {
                     lock (typeof(BaseMetadataProvider)) {
-                        var imagePath = Path.Combine(Helper.AppImagePath, Item.Id.ToString() + ".png");
+                        var imagePath = Path.Combine(ApplicationPaths.AppImagePath, Item.Id.ToString() + ".png");
                         image.Picture.Save(imagePath, ImageFormat.Png);
                         Item.PrimaryImagePath = imagePath;
                     }
