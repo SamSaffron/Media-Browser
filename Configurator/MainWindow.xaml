@@ -3,110 +3,122 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Configurator.MainWindow"
     Title="Media Browser Configuration Tool" Height="550" Width="700" MaxWidth="700" MaxHeight="550" MinWidth="700" MinHeight="550" Icon="/Configurator;component/Images/config.ico" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser">
-	<Window.Resources>
-		<Storyboard x:Key="Default">
-			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
-				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="-41"/>
-				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-41"/>
-				<SplineDoubleKeyFrame KeyTime="00:00:01" Value="0"/>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="236"/>
-				<SplineDoubleKeyFrame KeyTime="00:00:01.5000000" Value="236"/>
-				<SplineDoubleKeyFrame KeyTime="00:00:02" Value="0"/>
-			</DoubleAnimationUsingKeyFrames>
-		</Storyboard>
+    <Window.Resources>
+        <Storyboard x:Key="Default">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="-41"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-41"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="236"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01.5000000" Value="236"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:02" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
         <DataTemplate x:Key="EPStyle">
-                <TextBlock Text="{Binding Path=MediaType}" />
+            <TextBlock Text="{Binding Path=MediaType}" />
         </DataTemplate>
     </Window.Resources>
-	<Window.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource Default}"/>
-		</EventTrigger>
-	</Window.Triggers>
-	<Window.Background>
-		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-			<GradientStop Color="#FFFFFFFF" Offset="0.483"/>
-			<GradientStop Color="#FFCAC0C0" Offset="1"/>
-		</LinearGradientBrush>
-	</Window.Background>
-    
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Default}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0.853"/>
+            <GradientStop Color="#FFCAC0C0" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
     <Grid>
-    	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="*"/>
-    	</Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <TabControl Margin="12,63,12,51" x:Name="tabControl1" Background="{x:Null}">
-        	<TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">            	
-        		<Grid Height="351">
-        			<ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
-        			<Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
-        			<Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove media collection" Content="Remove"/>
-        			<Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" x:Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename media collection" Content="Rename" FontSize="14" />
-        			<Canvas Margin="0,6,19,13" x:Name="infoPanel" HorizontalAlignment="Right" Width="297">
-        				<Button Height="32" x:Name="btnChangeImage" Width="111" Canvas.Left="29" Canvas.Top="104" Click="btnChangeImage_Click" FontSize="14" Content="Change Image" ToolTip="Change the default image for the media collection" />
-        				<ListBox Height="115" x:Name="internalFolder" Width="285" Canvas.Left="6" Canvas.Top="176" FontSize="14" />
-        				<Button Height="32" x:Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another folder inside your media collection" Content="Add"/>
-        				<Button Height="32" x:Name="btnRemoveSubFolder" Width="90" Canvas.Left="201" Canvas.Top="297" Click="btnRemoveSubFolder_Click" FontSize="14" ToolTip="Remove folder from your media collection" Content="Remove"/>
-        				<Image x:Name="folderImage" Stretch="Fill" Width="111" Height="128" Canvas.Left="176" Canvas.Top="8" />
-        				<Label Canvas.Left="6" Height="34" x:Name="lblStep2" Width="30" Foreground="#FFA8A8A8" Canvas.Top="2" Content="❷"/>
-        				<Label Canvas.Left="40" Height="34" x:Name="lblStep2b" Width="132" Foreground="#FF000000" Canvas.Top="2" Content="Configure details"/>
-        				<Label Canvas.Left="6" Canvas.Top="149" Height="28" x:Name="label1" Width="285" FontSize="12" Content="A media collection can span across multiple folders"/>
-        			</Canvas>
-        			<Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" x:Name="lblStep1" VerticalAlignment="Top" Width="34" Foreground="#FFA8A8A8" Opacity="1" Content="❶"/>
-        			<Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
-        		</Grid>
-        	</TabItem>            
-            <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
-                <Grid >
-                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="26,111,0,70.72" x:Name="extenderFormats" Width="175.88"/>
-                	<Label HorizontalAlignment="Left" Margin="26,74,0,0" VerticalAlignment="Top" Width="175.88" Height="30.28" Content="Extender formats"/>
-                	<Button HorizontalAlignment="Left" Margin="26,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Add" x:Name="addExtenderFormat" Click="addExtenderFormat_Click" FontSize="14" />
-                	<Button HorizontalAlignment="Left" Margin="121.88,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Remove" x:Name="removeExtenderFormat" Click="removeExtenderFormat_Click" FontSize="14" />
-                	<CheckBox Margin="26,40.72,324,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" />
+            <TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
+                <Grid Height="351">
+                    <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove media collection" Content="Remove"/>
+                    <Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" x:Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename media collection" Content="Rename" FontSize="14" />
+                    <Canvas Margin="0,6,19,13" x:Name="infoPanel" HorizontalAlignment="Right" Width="297">
+                        <Button Height="32" x:Name="btnChangeImage" Width="111" Canvas.Left="29" Canvas.Top="104" Click="btnChangeImage_Click" FontSize="14" Content="Change Image" ToolTip="Change the default image for the media collection" />
+                        <ListBox Height="115" x:Name="internalFolder" Width="285" Canvas.Left="6" Canvas.Top="176" FontSize="14" />
+                        <Button Height="32" x:Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another folder inside your media collection" Content="Add"/>
+                        <Button Height="32" x:Name="btnRemoveSubFolder" Width="90" Canvas.Left="201" Canvas.Top="297" Click="btnRemoveSubFolder_Click" FontSize="14" ToolTip="Remove folder from your media collection" Content="Remove"/>
+                        <Image x:Name="folderImage" Stretch="Fill" Width="111" Height="128" Canvas.Left="176" Canvas.Top="8" />
+                        <Label Canvas.Left="6" Height="34" x:Name="lblStep2" Width="30" Foreground="#FFA8A8A8" Canvas.Top="2" Content="❷"/>
+                        <Label Canvas.Left="40" Height="34" x:Name="lblStep2b" Width="132" Foreground="#FF000000" Canvas.Top="2" Content="Configure details"/>
+                        <Label Canvas.Left="6" Canvas.Top="149" Height="28" x:Name="label1" Width="285" FontSize="12" Content="A media collection can span across multiple folders"/>
+                    </Canvas>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="20,6,0,0" x:Name="lblStep1" VerticalAlignment="Top" Width="34" Foreground="#FFA8A8A8" Opacity="1" Content="❶"/>
+                    <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
                 </Grid>
             </TabItem>
-        	<TabItem Header="iso mounting" x:Name="tabItem3" Foreground="#FF323232" FontSize="14" FontWeight="Normal" >
-        		<Grid >
-        			<Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="38.56" Content="ISO Mounting Tool Location"  HorizontalAlignment="Left" Width="239"  />
-        			<Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="62,108,0,0" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Top" />
-        			<CheckBox Margin="68.373,150,0,161" Content="Use Autoplay" Width="193" HorizontalAlignment="Left" x:Name="useAutoPlay" Click="useAutoPlay_Click" />
-        			<Label Margin="211,64,24.627,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation"/>
-        			<Button Margin="62,62.31,0,0" Content="Change Location..." HorizontalAlignment="Left" Width="131" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" Height="32" VerticalAlignment="Top" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" />
-        			<ComboBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="211,111,0,0" Width="63" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" Height="23" VerticalAlignment="Top" />
-        			
-        		</Grid>
-        	</TabItem>
+            <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
+                <Grid >
+                    <ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="26,111,0,70.72" x:Name="extenderFormats" Width="175.88"/>
+                    <Label HorizontalAlignment="Left" Margin="26,74,0,0" VerticalAlignment="Top" Width="175.88" Height="30.28" Content="Extender formats"/>
+                    <Button HorizontalAlignment="Left" Margin="26,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Add" x:Name="addExtenderFormat" Click="addExtenderFormat_Click" FontSize="14" />
+                    <Button HorizontalAlignment="Left" Margin="121.88,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Remove" x:Name="removeExtenderFormat" Click="removeExtenderFormat_Click" FontSize="14" />
+                    <CheckBox Margin="26,40.72,324,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="iso mounting" x:Name="tabItem3" Foreground="#FF323232" FontSize="14" FontWeight="Normal" >
+                <Grid >
+                    <Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="38.56" Content="ISO Mounting Tool Location"  HorizontalAlignment="Left" Width="239"  />
+                    <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="62,108,0,0" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Top" />
+                    <CheckBox Margin="68.373,150,0,161" Content="Use Autoplay" Width="193" HorizontalAlignment="Left" x:Name="useAutoPlay" Click="useAutoPlay_Click" />
+                    <Label Margin="211,64,24.627,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation"/>
+                    <Button Margin="62,62.31,0,0" Content="Change Location..." HorizontalAlignment="Left" Width="131" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" Height="32" VerticalAlignment="Top" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" />
+                    <ComboBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="211,111,0,0" Width="63" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" Height="23" VerticalAlignment="Top" />
+
+                </Grid>
+            </TabItem>
             <TabItem Header="display" x:Name="tabItem4" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid >
-                    <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="6,6,0,0" Width="182" Content="General Display Settings" Height="35.38" VerticalAlignment="Top" />
-                    <CheckBox Margin="37,47,0,0" Name="cbxOptionClock" HorizontalAlignment="Left" Width="120" Content="Display Clock" Height="32" VerticalAlignment="Top" Click="cbxOptionClock_Click" ToolTip="Display time clock within Media Browser" />
-                    <CheckBox Margin="37,71,0,0" Name="cbxOptionTransparent" HorizontalAlignment="Left" Width="184" Content="Transparent Background" Height="32" VerticalAlignment="Top" Click="cbxOptionTransparent_Click" ToolTip="Enable transparent background" />
-                    <CheckBox Margin="37,95,0,0" Name="cbxOptionDimPoster" HorizontalAlignment="Left" Width="175" Content="Dim Unselected Posters" Height="32" VerticalAlignment="Top" Click="cbxOptionDimPoster_Click" ToolTip="Dim unselected items" />
-                    <CheckBox Margin="37,119,0,0" Name="cbxOptionIndexing" HorizontalAlignment="Left" Width="195" Content="Remember Folder Indexing" Height="32" VerticalAlignment="Top" Click="cbxOptionIndexing_Click" ToolTip="Remember indexed filter settings for each folder" />
-                    <CheckBox Margin="37,143,0,0" Name="cbxOptionAspectRatio" HorizontalAlignment="Left" Width="195" Content="Stretch Poster Art Image" Height="32" VerticalAlignment="Top" Click="cbxOptionAspectRatio_Click" ToolTip="Stretch folder image to fill display area" />
-
-                    <Label Margin="0,6,80,0" VerticalAlignment="Top" Height="38.56" Content="Media Tracking"  HorizontalAlignment="Right" Width="239"  />
-                    <CheckBox Margin="370,47,0,0" Name="cbxOptionUnwatchedCount" HorizontalAlignment="Left" Width="224" Content="Show Unwatched Counter" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedCount_Click" ToolTip="Show unwatched counter on top of poster art" />
-                    <CheckBox Margin="370,71,0,0" Name="cbxOptionUnwatchedOnFolder" HorizontalAlignment="Left" Width="224" Content="Watched Indicator on Folders" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnFolder_Click" ToolTip="Display indicator for previously viewed folders" />
-                    <CheckBox Margin="370,95,0,0" Name="cbxOptionUnwatchedOnVideo" HorizontalAlignment="Left" Width="195" Content="Watched Indicator on Items" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnVideo_Click" ToolTip="Display indicator for previously viewed items" />
-                    <CheckBox Margin="370,119,0,0" Name="cbxOptionUnwatchedDetailView" HorizontalAlignment="Left" Width="243" Content="Watched Indicator in Detail View" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedDetailView_Click" ToolTip="Display indicator in detail view for previously viewed items" />
-                    <CheckBox Margin="370,143,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="146,0,0,118" Name="ddlOptionViewTheme" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
-                    <Label Height="35.38" HorizontalAlignment="Left" Margin="37,0,0,109" VerticalAlignment="Bottom" Width="120" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
-                    <Label HorizontalAlignment="Left" Margin="6,0,0,144" Width="182" Height="35.38" VerticalAlignment="Bottom">Theme Settings</Label>
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="146,0,0,89" Name="ddlOptionThemeColor" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeColor_SelectionChanged" ToolTip="Change the color scheme of a theme" />
-                    <Label Height="35.38" HorizontalAlignment="Left" Margin="37,0,0,80" VerticalAlignment="Bottom" Width="120" ToolTip="Change the color scheme of a theme">Color Scheme</Label>
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="146,0,0,60" Name="ddlOptionThemeFont" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeFont_SelectionChanged" ToolTip="Font size displayed within Media Browser" />
-                    <Label Height="35.38" HorizontalAlignment="Left" Margin="37,0,0,51" VerticalAlignment="Bottom" Width="120" ToolTip="Font size displayed within Media Browser">Font Size</Label>
-                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,40,43" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">                        
-                    </ComboBox>
-                    <Label Height="35.38" HorizontalAlignment="Right" Margin="0,0,154,34" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">Units</Label>
-                    <Label Height="35.38" HorizontalAlignment="Right" Margin="0,0,154,61.62" ToolTip="Change the color scheme of a theme" VerticalAlignment="Bottom" Width="120">Location ID</Label>
-                    <Button Height="23" HorizontalAlignment="Right" Margin="0,0,40,14" Name="btnWeatherID" VerticalAlignment="Bottom" Width="120" Click="btnWeatherID_Click">Save Weather</Button>
-                    <TextBox Height="23" HorizontalAlignment="Right" Margin="0,0,40,72" Name="tbxWeatherID" VerticalAlignment="Bottom" Width="120" />
-                    <Label HorizontalAlignment="Right" Margin="0,0,92,91" Width="182" Height="35.38" VerticalAlignment="Bottom">Weather Settings</Label>
-                    <CheckBox Height="32" HorizontalAlignment="Right" Margin="0,0,40,118" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Bottom" Width="234" Click="cbxRootPage_Click">Enable Root Page</CheckBox>
+                    
+                    <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,0" Name="groupBox1" Width="287" Height="157.38" VerticalAlignment="Top">
+                        <Grid>
+                            <CheckBox Height="32" Margin="25,10,100,0" Name="cbxOptionClock" ToolTip="Display time clock within Media Browser" VerticalAlignment="Top">Display Clock</CheckBox>
+                            <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background">Transparent Background</CheckBox>
+                            <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items">Dim Unselected Posters</CheckBox>
+                            <CheckBox Margin="25,0,25,30" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Bottom">Remember Folder Indexing</CheckBox>
+                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area">Stretch Poster Art Image</CheckBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Media Tracking" HorizontalAlignment="Right" Margin="0,14,20,0" Name="groupBox2" Width="287" Height="157.38" VerticalAlignment="Top">
+                        <Grid>
+                            <CheckBox Margin="25,10,0,0" Name="cbxOptionUnwatchedCount" HorizontalAlignment="Left" Width="224" Content="Show Unwatched Counter" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedCount_Click" ToolTip="Show unwatched counter on top of poster art" />
+                            <CheckBox Margin="25,34,0,0" Name="cbxOptionUnwatchedOnFolder" HorizontalAlignment="Left" Width="224" Content="Watched Indicator on Folders" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnFolder_Click" ToolTip="Display indicator for previously viewed folders" />
+                            <CheckBox Margin="25,58,0,0" Name="cbxOptionUnwatchedOnVideo" HorizontalAlignment="Left" Width="195" Content="Watched Indicator on Items" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedOnVideo_Click" ToolTip="Display indicator for previously viewed items" />
+                            <CheckBox Margin="25,82,0,0" Name="cbxOptionUnwatchedDetailView" HorizontalAlignment="Left" Width="243" Content="Watched Indicator in Detail View" Height="32" VerticalAlignment="Top" Click="cbxOptionUnwatchedDetailView_Click" ToolTip="Display indicator in detail view for previously viewed items" />
+                            <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="0,190,20,0" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Top">
+                        <Grid>
+                            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
+                    <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
+                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,38,11,0" Name="ddlOptionThemeColor" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionThemeColor_SelectionChanged" ToolTip="Change the color scheme of a theme" />
+                    <Label Margin="20,32,135,64" ToolTip="Change the color scheme of a theme">Color Scheme</Label>
+                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,11,41" Name="ddlOptionThemeFont" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeFont_SelectionChanged" ToolTip="Font size displayed within Media Browser" />
+                    <Label Margin="20,63,135,33" ToolTip="Font size displayed within Media Browser">Font Size</Label>
+                    
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Root Page" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
+                        <Grid>
+                            <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Root Page</CheckBox>
+                            <Label Margin="25,60,130,36" ToolTip="">Units</Label>
+                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="" VerticalAlignment="Top" Width="120">Location ID</Label>
+                            <TextBox Height="23" Margin="120,37,35,0" Name="tbxWeatherID" VerticalAlignment="Top" />
+                            <ComboBox Margin="120,64,35,45" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" />
+                            <Button Height="23" HorizontalAlignment="Left" Margin="25,96,0,0" Name="btnWeatherID" VerticalAlignment="Top" Width="120" Click="btnWeatherID_Click">Save Weather</Button>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
@@ -130,29 +142,30 @@
             </TabItem>
         </TabControl>
         <Label Height="43" HorizontalAlignment="Right" Margin="0,-3,12,0" x:Name="lblHeader" VerticalAlignment="Top" Width="183" FontSize="28" Background="{x:Null}" Content="mediabrowser" RenderTransformOrigin="0.5,0.5">
-        	<Label.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform ScaleX="1" ScaleY="1"/>
-        			<SkewTransform AngleX="0" AngleY="0"/>
-        			<RotateTransform Angle="0"/>
-        			<TranslateTransform X="0" Y="0"/>
-        		</TransformGroup>
-        	</Label.RenderTransform>
-        	<Label.Foreground>
-        		<LinearGradientBrush EndPoint="0.552,0.745" StartPoint="0.282,0.722">
-        			<GradientStop Color="#FF000000" Offset="0.552"/>
-        			<GradientStop Color="#FF1BAA04" Offset="0.557"/>
-        		</LinearGradientBrush>
-        	</Label.Foreground></Label>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform AngleX="0" AngleY="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="0" Y="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.552,0.745" StartPoint="0.282,0.722">
+                    <GradientStop Color="#FF000000" Offset="0.552"/>
+                    <GradientStop Color="#FF1BAA04" Offset="0.557"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
         <Label Height="28" HorizontalAlignment="Right" Margin="0,28,12,0" x:Name="lblHeader2" VerticalAlignment="Top" Width="183" FontSize="14" HorizontalContentAlignment="Center" Content="c o n f i g u r a t i o n" RenderTransformOrigin="0.5,0.5">
-        	<Label.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform ScaleX="1" ScaleY="1"/>
-        			<SkewTransform AngleX="0" AngleY="0"/>
-        			<RotateTransform Angle="0"/>
-        			<TranslateTransform X="0" Y="0"/>
-        		</TransformGroup>
-        	</Label.RenderTransform>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform AngleX="0" AngleY="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="0" Y="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
         </Label>
         <Label Height="33" HorizontalAlignment="Left" Margin="59,12,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
         <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="129,12,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
