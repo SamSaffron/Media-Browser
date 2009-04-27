@@ -204,16 +204,20 @@ namespace MediaBrowser.Library {
         }
 
         private string GetDisplayPrefsFile(Guid id) {
-            return GetFile("display", id);
+            return GetFile("display", id, this.userSettingPath);
         }
 
         private string GetPlaystateFile(Guid id) {
-            return GetFile("playstate", id);
+            return GetFile("playstate", id, this.userSettingPath);
         }
 
 
         private string GetFile(string type, Guid id) {
-            string root = this.rootPath;
+            return GetFile(type, id, rootPath);
+        }
+
+
+        private string GetFile(string type, Guid id, string root) {
             string path = Path.Combine(root, type);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
