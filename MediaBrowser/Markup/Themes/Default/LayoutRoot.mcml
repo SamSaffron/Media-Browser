@@ -378,8 +378,16 @@
                   <FlowLayout Orientation="Horizontal" StripAlignment="Far"/>
                 </Layout>
                 <Children>
-                  <Text Content="media" Color="Black" Font="Segoe UI, 16" />
-                  <Text Content="browser" Color="Black" Font="Segoe UI, 16" Margins="0,0,15,0" />
+                  <ColorFill Content="Transparent" Layout="Anchor">
+                    <Children>
+                      <Text Name="logoName" Content="media browser " Color="White" Font="Segoe UI, 16" />
+                      <Text Content="media browser " Color="Black" Font="Segoe UI, 16" >
+                        <LayoutInput>
+                          <AnchorLayoutInput Top="logoName, 0, 2" Left="logoName, 0, 2"/>
+                        </LayoutInput>
+                      </Text>
+                    </Children>
+                  </ColorFill>
                 </Children>
               </Graphic>
               <!-- Right Bottom Main Menu Panel -->
@@ -468,12 +476,12 @@
                 <Children>
                   <ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
                     <Children>
-                      <Text Name="NPVTitle" Content="recently added" Color="color://s:FontColorMedium"
+                      <Text Name="NPVTitle" Content="recently added" Color="color://s:FontColorLight"
                             Font="Segoe Media Center, 24" Margins="50,0,0,0" />
                       <Text Content="recently added" Color="Black"
                             Font="Segoe Media Center, 24" Margins="50,0,0,0">
                         <LayoutInput>
-                          <AnchorLayoutInput Top="NPVTitle, 0, 3" Left="NPVTitle, 0, 3"/>
+                          <AnchorLayoutInput Top="NPVTitle, 0, 2" Left="NPVTitle, 0, 2"/>
                         </LayoutInput>
                       </Text>
                     </Children>
@@ -502,7 +510,7 @@
                   <AnchorLayoutInput Top="recentlyAdded,1,5" Bottom="Parent,0.7,25" Left="Parent,0.3" Right="Parent,0.85,25" />
                 </LayoutInput>
                 <Children>
-                  <ColorFill Content="color://s:FillColor" Alpha="0.5" Layout="Fill">
+                  <ColorFill Content="color://s:FillColor" Alpha="0.7" Layout="Fill">
                   </ColorFill>
                 </Children>
               </Clip>

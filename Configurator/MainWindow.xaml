@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Configurator.MainWindow"
-    Title="Media Browser Configuration Tool" Height="550" Width="700" MaxWidth="700" MaxHeight="550" MinWidth="700" MinHeight="550" Icon="/Configurator;component/Images/config.ico" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser">
+    Title="Media Browser Configuration Tool" Height="550" Width="700" MinWidth="700" MinHeight="550" Icon="/Configurator;component/Images/config.ico" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser">
     <Window.Resources>
         <Storyboard x:Key="Default">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
@@ -98,7 +98,7 @@
                             <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="0,190,20,0" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Top">
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,16" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom">
                         <Grid>
                             <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
                     <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
@@ -167,7 +167,16 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Height="33" HorizontalAlignment="Left" Margin="59,12,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
-        <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="129,12,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
+        <Label Height="33" HorizontalAlignment="Left" Margin="38,12,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
+        <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="108,12,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
+        <Rectangle Height="32" Margin="12,12,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="10" >
+        	<Rectangle.Fill>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF234502" Offset="1"/>
+        			<GradientStop Color="#FF77CA29" Offset="0.518"/>
+        			<GradientStop Color="#FFA0F54F" Offset="0"/>
+        		</LinearGradientBrush>
+        	</Rectangle.Fill>
+        </Rectangle>
     </Grid>
 </Window>
