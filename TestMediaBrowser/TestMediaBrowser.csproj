@@ -88,6 +88,9 @@
     <Content Include="LICENSE.txt" />
     <Content Include="Movies.txt" />
     <Content Include="SampleMedia\Images\image.png" />
+    <Content Include="SampleMedia\Movies\Flawless\backdrop.jpg" />
+    <Content Include="SampleMedia\Movies\Flawless\backdrop1.png" />
+    <Content Include="SampleMedia\Movies\Flawless\movie.avi" />
     <Content Include="SampleMedia\TV\South Park\Season 1\03.mpg" />
     <Content Include="SampleMedia\TV\South Park\Season 1\South.Park.S01E08.JUNK.avi" />
   </ItemGroup>
@@ -99,9 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaBrowser.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SampleMedia\Movies\Flawless\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

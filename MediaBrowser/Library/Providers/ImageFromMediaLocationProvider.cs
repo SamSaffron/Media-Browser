@@ -60,6 +60,7 @@ namespace MediaBrowser.Library.Providers
             {
                 string currentImage = FindImage(name + postfix);
                 if (currentImage == null) break;
+                paths.Add(currentImage);
                 postfix = index.ToString();
                 index++;
 

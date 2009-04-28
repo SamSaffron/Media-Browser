@@ -9,6 +9,8 @@ using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Metadata;
+using MediaBrowser.Library.Providers;
 
 namespace TestMediaBrowser {
 
@@ -17,6 +19,19 @@ namespace TestMediaBrowser {
 
         class TempClass : BaseItem { 
             
+        }
+
+        [Test]
+        public void TestBackdropsAreDetected() {
+
+            var movie = new Movie();
+            movie.Path = @"..\..\SampleMedia\Movies\Flawless";
+            ImageFromMediaLocationProvider provider = new ImageFromMediaLocationProvider();
+            provider.Item = movie;
+            Assert.IsTrue(provider.NeedsRefresh());
+            provider.Fetch();
+            Assert.AreEqual(2, movie.BackdropImagePaths.Count);
+
         }
 
         [Ignore("This is only used to test network performance")]

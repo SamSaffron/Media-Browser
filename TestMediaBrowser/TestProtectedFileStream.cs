@@ -26,7 +26,13 @@ namespace TestMediaBrowser {
                 var threads = new List<Thread>();
 
                 for (int i = 0; i < asyncThreads; i++) {
-                    Thread thread = new Thread(new ThreadStart(() => Repeat(times, false, action)));
+
+                    int iterations = times / asyncThreads; 
+                    if (i == 0) {
+                        iterations += times % asyncThreads;                    
+                    }
+
+                    Thread thread = new Thread(new ThreadStart(() => Repeat(iterations, 0, action, null)));
                     thread.Start();
                     threads.Add(thread);
                 }
