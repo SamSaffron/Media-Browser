@@ -60,6 +60,7 @@ namespace TestMediaBrowser {
             }
 
             foreach (var item in root.RecursiveChildren) {
+                if (!(item.Path.Contains("The Office (US)\\Season 5") || item.Path.EndsWith("The Office (US)"))) continue;
                 using (new Profiler("Refresh Metadata: " + item.Path))
                 {
                     item.RefreshMetadata();

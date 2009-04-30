@@ -140,7 +140,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
         private bool HasCompleteMetadata() {
             return (Series.BannerImagePath != null) && (Series.ImdbRating != null)
                                 && (Series.Overview != null) && (Series.Name != null) && (Series.Actors != null)
-                                && (Series.Genres != null) && (Series.MpaaRating != null);
+                                && (Series.Genres != null) && (Series.MpaaRating != null) && (Series.TVDBSeriesId != null);
         }
 
 
