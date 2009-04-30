@@ -1,0 +1,52 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="LogViewer.Window1"
+    Title="Log Viewer" Height="532" Width="787" xmlns:LogViewer="clr-namespace:LogViewer">
+	<Window.Resources>
+		<ObjectDataProvider x:Key="LogMessagesDS" d:IsDataSource="True" ObjectType="{x:Type LogViewer:LogMessages}"/>
+		 <LogViewer:RowHighlighter x:Key="RowHighlighter" />
+		<Style x:Key="listViewRowStyle" TargetType="{x:Type ListViewItem}">
+		  <Setter Property="Foreground">
+		    <Setter.Value>
+		      <Binding RelativeSource="{RelativeSource Self}" 
+		               Converter="{StaticResource RowHighlighter}"/>
+		    </Setter.Value>
+		  </Setter>
+		</Style>
+	</Window.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.051*"/>
+			<RowDefinition Height="0.059*"/>
+			<RowDefinition Height="0.408*"/>
+			<RowDefinition Height="13.832"/>
+			<RowDefinition Height="0.428*"/>
+			<RowDefinition Height="0.054*"/>
+		</Grid.RowDefinitions>
+		<Menu  VerticalAlignment="Top" Height="24.786" d:LayoutOverrides="VerticalAlignment">
+			<MenuItem Header="File..."/>
+		</Menu>
+		<Button HorizontalAlignment="Left" Margin="9,4,0,4" Width="50" Content="Start" Grid.Row="1"/>
+		<Button HorizontalAlignment="Left" Margin="73,4,0,4" Width="50" Content="Stop" Grid.Row="1"/>
+		<Button HorizontalAlignment="Left" Margin="136,4,0,4" Width="50" Content="Clear" Grid.Row="1"/>
+		<ListView IsSynchronizedWithCurrentItem="True" Margin="8,8,8,7.768"  Grid.Row="2" x:Name="listView" 
+				ItemsSource="{Binding Mode=OneWay, Source={StaticResource LogMessagesDS}}" OverridesDefaultStyle="False"
+				ItemContainerStyle="{StaticResource listViewRowStyle}"
+				>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Date" DisplayMemberBinding="{Binding Path=Time}"/>
+					<GridViewColumn Header="Message" DisplayMemberBinding="{Binding Path=ShortMessage}"/>
+					<GridViewColumn Header="Category" DisplayMemberBinding="{Binding Path=Category}"/>
+					<GridViewColumn Header="TID" DisplayMemberBinding="{Binding Path=ThreadId}"/>
+				</GridView>
+			</ListView.View>
+		</ListView>
+		<GridSplitter HorizontalAlignment="Stretch" Grid.Row="3" Margin="0,0.232,0,-0.232"/>
+		<TextBox Grid.Row="4" Margin="8,8.019,8,8" x:Name="textBox">
+			
+		</TextBox>
+	</Grid>
+</Window>
