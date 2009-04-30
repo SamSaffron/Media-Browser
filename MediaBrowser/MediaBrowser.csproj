@@ -67,6 +67,7 @@
     <Compile Include="Code\ModelItems\BaseModelItem.cs" />
     <Compile Include="Code\ModelItems\Clock.cs" />
     <Compile Include="Code\ConfigData.cs" />
+    <Compile Include="Code\ModelItems\MultiBackdrop.cs" />
     <Compile Include="Code\ModelItems\Information.cs" />
     <Compile Include="Code\ModelItems\FolderModel.cs" />
     <Compile Include="Code\ModelItems\FolderChildren.cs" />

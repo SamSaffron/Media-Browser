@@ -42,18 +42,9 @@
         </Options>
       </Choice>
       <Color Name="FilterColor" Color="color://s:FilterColor" />
-      <Timer Name="ChangeBackdropTimer" Interval="8000" Enabled="true" AutoRepeat="true"/>
     </Locals>
 
     <Rules>
-
-      <Changed Source="[ChangeBackdropTimer.Tick]" InitialEvaluate="true">
-        <Actions>
-         
-          <Invoke Target="[Item.GetNextBackDropImage]"/>
-        </Actions>
-      </Changed>
-
       <Changed Source="[Item.HasBackdropImage]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Item.HasBackdropImage]" Value="true"/>
@@ -218,7 +209,7 @@
           </ColorFill>
 
           <!-- Movie Backdrop -->
-          <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]">
+          <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]">
             <LayoutInput>
               <FormLayoutInput Top="Parent,0,-10" Left="Parent,0,-10" Bottom="Parent,1,10" Right="Parent,1,10" />
             </LayoutInput>

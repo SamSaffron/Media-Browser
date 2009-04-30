@@ -1,5 +1,6 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
 	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	  >
@@ -86,10 +87,31 @@
   <UI Name="Backdrop4">
     <Properties>
       <Image Name="Image" Image="$Required"/>
+      <lib:Item Name="Item" Item="$Required"/>      
     </Properties>
+
+    <Locals>
+      <a:MultiBackdrop Name="MultiBackdrop"/>
+      <Timer Name="StartupTimer" Interval="300" AutoRepeat="false" Enabled="true"/>
+    </Locals>
+    
     <Rules>
-      <Binding Source="[Image]" Target="[Backdrop.Content]" />
+      <Binding Source="[Item.BackdropImage]" Target="[Backdrop.Content]" />
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[StartupTimer.Tick]"  />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[MultiBackdrop.BeginRotation]" InvokePolicy="AsynchronousLowPri" >
+            <item>
+              <lib:Item Item="[Item]" />
+            </item> 
+          </Invoke>
+        </Actions>
+      </Rule>      
     </Rules>
+    
     <Content>
       <!--- Backdrop support -->
       <Panel Layout="Fill">

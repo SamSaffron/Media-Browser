@@ -50,7 +50,7 @@ namespace MediaBrowser
         public DateTime AssumeWatchedBefore = DateTime.Today.AddYears(-1);
         public bool InheritDefaultView = true;
         public string DefaultViewType = ViewType.Poster.ToString();
-        public bool DefaultShowLabels = true;
+        public bool DefaultShowLabels = false;
         public bool DefaultVerticalScroll = false;
         public int BreadcrumbCountLimit = 2;
         public string SortRemoveCharacters = ",|&|-|{|}";
