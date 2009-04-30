@@ -6,7 +6,7 @@ using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.Persistance;
 
 namespace MediaBrowser.Library.Entities {
-    public class PlaybackStatus  {
+    public class PlaybackStatus : IPersistableChangeNotifiable {
 
         public event EventHandler<EventArgs> WasPlayedChanged;
 
@@ -54,6 +54,14 @@ namespace MediaBrowser.Library.Entities {
         [Persist]
         public DateTime LastPlayed { get; set; }
 
+
+        bool? wasPlayedCache = null;
+        public void OnChanged() {
+            if (WasPlayedChanged != null && (wasPlayedCache == null || wasPlayedCache.Value != WasPlayed)) {
+                WasPlayedChanged(this, null);
+            }
+            wasPlayedCache = WasPlayed;
+        }
 
 
         public void Save() {

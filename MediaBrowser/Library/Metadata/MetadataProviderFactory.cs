@@ -8,7 +8,7 @@ using MediaBrowser.Library.Entities;
 
 namespace MediaBrowser.Library {
 
-    public class MetadataProvider {
+    public class MetadataProviderFactory {
 
         public bool RequiresInternet { get; private set; }
         public int Priority { get; private set; }
@@ -16,7 +16,7 @@ namespace MediaBrowser.Library {
         public Type Type { get; private set; }
         private SupportedTypeAttribute[] SupportedTypes { get; set; }
 
-        public MetadataProvider(Type type) {
+        public MetadataProviderFactory(Type type) {
             Type = type;
             Slow = GetAttribute<SlowProviderAttribute>() != null;
             RequiresInternet = GetAttribute<RequiresInternetAttribute>() != null;
@@ -50,10 +50,6 @@ namespace MediaBrowser.Library {
             }
         }
 
-        public IMetadataProvider Construct() {
-            return (IMetadataProvider)Type.GetConstructor(new Type[] { }).Invoke(null);
-        }
-
         private T[] GetAttributes<T>() where T : Attribute {
             T[] found = null;
             var attribs = Type.GetCustomAttributes(typeof(T), false);
@@ -70,6 +66,10 @@ namespace MediaBrowser.Library {
                 attribute = (T)attribs[0];
             }
             return attribute;
+        }
+
+        public IMetadataProvider Construct() {
+            return (IMetadataProvider)Type.GetConstructor(new Type[] { }).Invoke(null);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace MediaBrowser.Library.Interfaces {
     public interface IMetadataProvider {
 
         BaseItem Item { get; set; }
-
         void Fetch();
-
         bool NeedsRefresh();
+        bool RequiresInternet { get;  }
+        bool IsSlow { get; }
     }
 }

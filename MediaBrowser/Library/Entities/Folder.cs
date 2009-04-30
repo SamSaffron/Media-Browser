@@ -91,7 +91,9 @@ namespace MediaBrowser.Library.Entities {
             get {
                 int count = 0;
 
-                foreach (var item in this.EnumerateChildren()) {
+                // it may be expensive to bring in the playback status 
+                // so don't lock up the object during.
+                foreach (var item in this.Children) {
                     var video = item as Video;
                     if (video != null && video.PlaybackStatus.PlayCount == 0) {
                         count++;

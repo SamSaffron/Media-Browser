@@ -21,5 +21,11 @@ namespace MediaBrowser.Library.Entities {
             list.AddRange(virtualChildren);
             return list;
         }
+
+        
+        public override bool RefreshMetadata(MediaBrowser.Library.Metadata.MetadataRefreshOptions options) {
+            // these are root folders they support no metadata
+            return false;
+        }
     }
 }

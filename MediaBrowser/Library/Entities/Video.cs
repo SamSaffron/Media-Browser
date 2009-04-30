@@ -52,8 +52,6 @@ namespace MediaBrowser.Library.Entities {
         public override bool AssignFromItem(BaseItem item) {
             bool changed = this.MediaType != ((Video)item).MediaType;
             this.MediaType = ((Video)item).MediaType;
-            // force playback status to reload
-            playbackStatus = null;
             return changed | base.AssignFromItem(item);
         }
 

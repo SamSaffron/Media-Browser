@@ -8,8 +8,8 @@ namespace MediaBrowser.Library
 {
     public interface IItemRepository
     {
-        IMetadataProvider RetrieveProvider(Guid guid);
-        void SaveProvider(Guid guid, IMetadataProvider provider);
+        IEnumerable<IMetadataProvider> RetrieveProviders(Guid guid);
+        void SaveProviders(Guid guid, IEnumerable<IMetadataProvider> providers);
 
         void SaveItem(BaseItem item);
         BaseItem RetrieveItem(Guid name);

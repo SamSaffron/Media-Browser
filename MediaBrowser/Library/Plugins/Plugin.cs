@@ -13,7 +13,7 @@ namespace MediaBrowser.Library.Plugins {
         string filename;
         Assembly assembly;
 
-        IEnumerable<MetadataProvider> providers;
+        IEnumerable<MetadataProviderFactory> providers;
         IPlugin pluginInterface;
 
         public Plugin(string filename) {
@@ -29,20 +29,20 @@ namespace MediaBrowser.Library.Plugins {
             pluginInterface = FindPluginInterface(assembly);
         }
 
-        public IEnumerable<MetadataProvider> MetadataProviders {
+        public IEnumerable<MetadataProviderFactory> MetadataProviders {
             get {
                 return providers;
             }
         }
 
-        public static IEnumerable<MetadataProvider> DiscoverProviders(Assembly assembly) {
-            return new List<MetadataProvider>(
+        public static IEnumerable<MetadataProviderFactory> DiscoverProviders(Assembly assembly) {
+            return new List<MetadataProviderFactory>(
              assembly
              .GetTypes()
              .Where(type => typeof(IMetadataProvider).IsAssignableFrom(type))
              .Where(type => type.IsClass)
              .Where(type => !type.IsAbstract)
-             .Select(type => new MetadataProvider(type))
+             .Select(type => new MetadataProviderFactory(type))
          );
         }
 

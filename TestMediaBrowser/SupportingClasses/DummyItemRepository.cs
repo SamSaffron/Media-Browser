@@ -47,11 +47,12 @@ namespace TestMediaBrowser {
             return false;
         }
 
-        public IMetadataProvider RetrieveProvider(Guid guid) {
-            return null;    
+
+        public IEnumerable<IMetadataProvider> RetrieveProviders(Guid guid) {
+            return null;
         }
 
-        public void SaveProvider(Guid guid, MediaBrowser.Library.Interfaces.IMetadataProvider provider) {
+        public void SaveProviders(Guid guid, IEnumerable<IMetadataProvider> providers) {
         }
 
 

@@ -174,9 +174,9 @@ namespace MediaBrowser.Library.Persistance {
             }
         }
 
-        public void MergeObjects(object source, object target) {
+        public void MergeObjects(object source, object target, bool force) {
             foreach (var persistable in persistables) {
-                if (persistable.GetValue(target) == null) {
+                if (persistable.GetValue(target) == null || force) {
                     persistable.SetValue(target, persistable.GetValue(source));
                 }
             }
@@ -187,13 +187,24 @@ namespace MediaBrowser.Library.Persistance {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        internal static void Merge(object source, object target) {
-            GetSerializer(source.GetType()).MergeObjects(source, target);
+        public static void Merge(object source, object target) {
+            Merge(source, target, false);
+        }
+
+        /// <summary>
+        /// Merge persistable fields in source into target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="force">force non null fields to be overwritten</param>
+        public static void Merge(object source, object target, bool force) {
+            GetSerializer(source.GetType()).MergeObjects(source, target, force);
         }
 
         internal static IEnumerable<Persistable> GetPersistables(object obj) {
             return GetSerializer(obj.GetType()).persistables;
         }
+  
     }
 
     

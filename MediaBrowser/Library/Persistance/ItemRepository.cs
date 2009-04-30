@@ -23,10 +23,16 @@ using MediaBrowser.Library.Configuration;
 namespace MediaBrowser.Library {
     class ItemRepository : IItemRepository, IDisposable {
         public ItemRepository() {
+            playbackStatus = new FileBasedDictionary<PlaybackStatus>(GetPath("playstate", userSettingPath));
         }
 
         string rootPath = ApplicationPaths.AppCachePath;
         string userSettingPath = ApplicationPaths.AppUserSettingsPath;
+
+        FileBasedDictionary<PlaybackStatus> playbackStatus;
+
+
+        
 
         #region IItemCacheProvider Members
 
@@ -82,27 +88,7 @@ namespace MediaBrowser.Library {
 
 
         public PlaybackStatus RetrievePlayState(Guid id) {
-            string file = GetPlaystateFile(id);
-            byte[] bytes = null;
-            if (!File.Exists(file)) return null;
-
-            using (var fs = ReadFileStream(file)) {
-                bytes = fs.ReadAllBytes();
-            }
-   
-            try {
-                using (MemoryStream ms = new MemoryStream(bytes)) {
-                    var state = Serializer.Deserialize<PlaybackStatus>(ms);
-                    if (state.Id == id) {
-                        return state;
-                    }
-                }
-            } catch (SerializationException e) {
-                Application.Logger.ReportException("Play state information was corrupt, deleting it.", e);
-                File.Delete(file);
-            }
-
-            return null;
+            return playbackStatus[id]; 
         }
 
         public DisplayPreferences RetrieveDisplayPreferences(Guid id) {
@@ -119,10 +105,7 @@ namespace MediaBrowser.Library {
         }
 
         public void SavePlayState(PlaybackStatus playState) {
-            string file = GetPlaystateFile(playState.Id);
-            using (Stream fs = WriteExclusiveFileStream(file)) {
-                Serializer.Serialize(fs, playState);
-            }
+            playbackStatus[playState.Id] = playState;
         }
 
         public void SaveDisplayPreferences(DisplayPreferences prefs) {
@@ -157,24 +140,32 @@ namespace MediaBrowser.Library {
         }
 
 
-        public IMetadataProvider RetrieveProvider(Guid guid) {
-            IMetadataProvider data = null;
-            string file = GetProviderFilename(guid);
-            if (!File.Exists(file)) return null;
-
-            using (Stream fs = ReadFileStream(file)) {
-                BinaryReader reader = new BinaryReader(fs);
-                data = (IMetadataProvider)Serializer.Deserialize<object>(fs);
-            }
-
-            return data;
+        // TODO implement IEnumerable serialization
+        class MetadataProviderSearilizationWrapper {
+            [Persist]
+            public List<IMetadataProvider> Providers {get; set;}
         }
 
-        public void SaveProvider(Guid guid, IMetadataProvider provider) {
+        public IEnumerable<IMetadataProvider> RetrieveProviders(Guid guid) {
+            MetadataProviderSearilizationWrapper data = null;
+            string file = GetProviderFilename(guid);
+
+            try {
+                using (Stream fs = ReadFileStream(file)) {
+                    BinaryReader reader = new BinaryReader(fs);
+                    data = (MetadataProviderSearilizationWrapper)Serializer.Deserialize<object>(fs);
+                }
+            } catch (FileNotFoundException) { return null; }
+
+            return data.Providers;
+        }
+
+        public void SaveProviders(Guid guid, IEnumerable<IMetadataProvider> providers) {
             string file = GetProviderFilename(guid);
             using (Stream fs = WriteExclusiveFileStream(file)) {
                 BinaryWriter bw = new BinaryWriter(fs);
-                Serializer.Serialize<object>(bw.BaseStream, provider);
+                Serializer.Serialize<object>(bw.BaseStream,
+                    new MetadataProviderSearilizationWrapper() { Providers = providers.ToList() });
             }
         }
 
@@ -218,11 +209,17 @@ namespace MediaBrowser.Library {
 
 
         private string GetFile(string type, Guid id, string root) {
+
+            return Path.Combine(GetPath(type,root), id.ToString("N"));
+        }
+
+        private string GetPath(string type, string root) {
             string path = Path.Combine(root, type);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            return Path.Combine(path, id.ToString("N"));
+            return path;
         }
+
 
         public bool ClearEntireCache() {
             bool success = true;

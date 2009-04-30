@@ -16,6 +16,28 @@ namespace MediaBrowser.Library.Logging {
         public string ThreadName { get; set; }
         public DateTime Time { get; set; }
 
+        public string ShortMessage { 
+            get {
+                var message = Message;
+                if (message.Length > 120) { 
+                    message = Message.Substring(0, 120).Replace(Environment.NewLine, " ") + " ... ";
+                }
+                return message;
+            } 
+        }
+
+        public string FullDescription { 
+            get {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("Time: {0}", Time);
+                sb.AppendLine();
+                sb.AppendFormat("Thread Id: {0} {1}", ThreadId, ThreadName);
+                sb.AppendLine();
+                sb.AppendLine(Message);
+                return sb.ToString();
+            } 
+        }
+
         public override string ToString() {
             StringBuilder builder = new StringBuilder();
             builder.Append(Time.ToString(TimePattern))

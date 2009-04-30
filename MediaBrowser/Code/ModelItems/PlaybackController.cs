@@ -159,7 +159,12 @@ namespace MediaBrowser {
             get {
                 if (mediaTransport != null) return mediaTransport;
                 try {
-                    var experience = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
+                    MediaExperience experience;
+                    using (new Profiler("Retrieving media experience!"))
+                    {
+                    	experience = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
+                    }
+                     
                     if (experience != null) {
                         mediaTransport = experience.Transport;
                     }

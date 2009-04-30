@@ -71,6 +71,7 @@
     <Compile Include="Code\ModelItems\FolderModel.cs" />
     <Compile Include="Code\ModelItems\FolderChildren.cs" />
     <Compile Include="Library\Configuration\ApplicationPaths.cs" />
+    <Compile Include="Library\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Library\Logging\FileLogger.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
@@ -79,6 +80,9 @@
     <Compile Include="Library\Logging\MultiLogger.cs" />
     <Compile Include="Library\Logging\ThreadedLogger.cs" />
     <Compile Include="Library\Logging\TraceLogger.cs" />
+    <Compile Include="Library\Metadata\MetadataProviders.cs" />
+    <Compile Include="Library\Persistance\FileBasedDictionary.cs" />
+    <Compile Include="Library\Persistance\IPersistableChangeNotifiable.cs" />
     <Compile Include="Library\RemoteControl\IPlaybackController.cs" />
     <Compile Include="Code\ModelItems\ItemImages.cs">
       <DependentUpon>Item.cs</DependentUpon>
@@ -174,7 +178,7 @@
     <Compile Include="Library\Interop\ShellNativeMethods.cs" />
     <Compile Include="Library\Interop\ShortcutNativeMethods.cs" />
     <Compile Include="Code\ModelItems\ActorItemWrapper.cs" />
-    <Compile Include="Library\MetadataProvider.cs" />
+    <Compile Include="Library\Metadata\MetadataProviderFactory.cs" />
     <Compile Include="Library\Metadata\MetadataRefreshOptions.cs" />
     <Compile Include="Library\Plugins\IPlugin.cs" />
     <Compile Include="Library\Plugins\LibraryConfig.cs" />
@@ -215,7 +219,6 @@
     <Compile Include="Library\Persistance\SerializerGeneric.cs">
       <DependentUpon>Serializer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\ProviderData.cs" />
     <Compile Include="Library\Providers\Attributes\RequiresInternetAttribute.cs" />
     <Compile Include="Library\Providers\Attributes\SlowProviderAttribute.cs" />
     <Compile Include="Library\Providers\BaseMetadataProvider.cs" />

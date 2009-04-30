@@ -412,7 +412,9 @@ namespace MediaBrowser.Library.Providers
                                 using (Stream s = resp.GetResponseStream())
                                 {
                                     XmlDocument doc = new XmlDocument();
-                                    doc.Load(s);
+                                    // this makes it a bit easier to debug.
+                                    string payload = new StreamReader(s).ReadToEnd();
+                                    doc.LoadXml(payload);
                                     return doc;
                                 }
                             }

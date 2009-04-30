@@ -12,7 +12,7 @@ namespace MediaBrowser.Library.Plugins {
     public class LibraryConfig {
 
         public LibraryConfig(AggregateFolder rootFolder, List<IPlaybackController> playbackControllers, 
-           List<MetadataProvider> providers, List<EntityResolver> resolvers, ILogger logger) {
+           List<MetadataProviderFactory> providers, List<EntityResolver> resolvers, ILogger logger) {
             RootFolder = rootFolder;
             PlaybackControllers = playbackControllers;
             Providers = providers;
@@ -22,7 +22,7 @@ namespace MediaBrowser.Library.Plugins {
 
         public AggregateFolder RootFolder { get; private set; }
         public List<IPlaybackController> PlaybackControllers { get; private set; }
-        public List<MetadataProvider> Providers { get; private set; }
+        public List<MetadataProviderFactory> Providers { get; private set; }
         public List<EntityResolver> Resolvers { get; private set; }
         public ILogger Logger { get; set; }
     }

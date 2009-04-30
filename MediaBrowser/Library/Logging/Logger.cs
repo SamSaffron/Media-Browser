@@ -8,10 +8,8 @@ using System.Threading;
 namespace MediaBrowser.Library.Logging
 {
 
-    public abstract class Logger : IDisposable, ILogger
+    public abstract partial class Logger : IDisposable, ILogger
     {
-
-
         public Logger()
         {
             Enabled = true;
@@ -70,7 +68,7 @@ namespace MediaBrowser.Library.Logging
                     Environment.NewLine);
             }
             StackFrame frame = new StackFrame(1);
-            ReportError(string.Format("{0} ( {1} )", message, builder), string.Format("{0}.{1}", frame.GetMethod().ReflectedType.FullName, frame.GetMethod().Name));
+            ReportError(string.Format("{0} ( {1} )", message, builder),  "");
         }
 
         public void ReportError(string message)
@@ -82,7 +80,6 @@ namespace MediaBrowser.Library.Logging
         {
             LogMessage(LogSeverity.Error, message, category);
         }
-
 
         void LogMessage(LogSeverity severity, string message)
         {

@@ -7,14 +7,21 @@ using TestMediaBrowser.SupportingClasses;
 using MediaBrowser.Library;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Factories;
+using MediaBrowser;
+using MediaBrowser.Util;
 
 namespace TestMediaBrowser {
     [TestFixture] 
     public class TestLibrary {
 
 
+
         [Test]
         public void TestLibraryNavigation() {
+
+            var oldRepository = ItemCache.Instance;
+            ItemCache.Instance = new DummyItemRepository();
+
             var rootLocation = MockFolderMediaLocation.CreateMockLocation(
             @"
 |Root
@@ -38,7 +45,26 @@ namespace TestMediaBrowser {
             }
 
             Assert.AreEqual("movie3", rootFolder.Children.ElementAt(1).Name);
+            ItemCache.Instance = oldRepository;
 
+        }
+
+        [Ignore("Only used for performance testing!")]
+        [Test]
+        public void TestScanPerformance() {
+            var root = BaseItemFactory.Instance.Create(MediaLocationFactory.Instance.Create(
+                Config.Instance.InitialFolder)) as Folder;
+
+            foreach (var item in root.RecursiveChildren) {
+                Console.WriteLine(item.Path);
+            }
+
+            foreach (var item in root.RecursiveChildren) {
+                using (new Profiler("Refresh Metadata: " + item.Path))
+                {
+                    item.RefreshMetadata();
+                }
+            }
         }
     }
 }

@@ -17,25 +17,16 @@ using MediaBrowser.Library.Plugins;
 namespace MediaBrowser.Library.Metadata {
     public class MetadataProviderHelper {
 
-        #region Helper classes
-
-        class ProviderWithId {
-            public IMetadataProvider Provider { get; set; }
-            public Guid Id { get; set; }
-            public MetadataProvider ProviderWrapper { get; set; }
-        }
-
-        #endregion
 
         static object sync = new object();
  
-        static List<MetadataProvider> providers = DiscoverProviders();
+        static List<MetadataProviderFactory> providers = DiscoverProviders();
 
-        static List<MetadataProvider> slowProviders =
-            new List<MetadataProvider>(providers.Where(p => p.Slow || p.RequiresInternet));
+        static List<MetadataProviderFactory> slowProviders =
+            new List<MetadataProviderFactory>(providers.Where(p => p.Slow || p.RequiresInternet));
 
-        static List<MetadataProvider> fastProviders =
-            new List<MetadataProvider>(providers.Where(p => !p.Slow && !p.RequiresInternet));
+        static List<MetadataProviderFactory> fastProviders =
+            new List<MetadataProviderFactory>(providers.Where(p => !p.Slow && !p.RequiresInternet));
 
         
         public static Type[] ProviderTypes { 
@@ -44,7 +35,7 @@ namespace MediaBrowser.Library.Metadata {
             } 
         }
 
-        static List<MetadataProvider> DiscoverProviders() {
+        static List<MetadataProviderFactory> DiscoverProviders() {
             return
                 Plugin.DiscoverProviders(typeof(MetadataProviderHelper).Assembly)
                 .Concat( 
@@ -64,9 +55,18 @@ namespace MediaBrowser.Library.Metadata {
             if (force) {
                 ClearItem(item); 
             }
-            var providers = GetSupportedProviders(item, fastOnly); 
-            if (force || NeedsRefresh(providers)) {
-                changed = UpdateMetadata(item, force, providers);
+            var providers = GetSupportedProviders(item);
+
+            var itemClone = (BaseItem)Serializer.Clone(item);
+            // Parent is not serialized so its not cloned
+            itemClone.Parent = item.Parent; 
+
+            foreach (var provider in providers) {
+                provider.Item = itemClone;
+            }
+
+            if (force || NeedsRefresh(providers, fastOnly)) {
+                changed = UpdateMetadata(item, force, fastOnly, providers);
             }
             return changed;
         }
@@ -83,10 +83,11 @@ namespace MediaBrowser.Library.Metadata {
             }
         }
 
-        static bool NeedsRefresh(IList<ProviderWithId> supportedProviders) {
+        static bool NeedsRefresh(IList<IMetadataProvider> supportedProviders, bool fastOnly) {
             foreach (var provider in supportedProviders) {
                 try {
-                    if (provider.Provider.NeedsRefresh())
+                    if ((provider.IsSlow || provider.RequiresInternet) && fastOnly) continue;
+                    if (provider.NeedsRefresh())
                         return true;
                 } catch (Exception e) {
                     Application.Logger.ReportException("Metadata provider failed during NeedsRefresh", e);
@@ -96,54 +97,46 @@ namespace MediaBrowser.Library.Metadata {
             return false;
         }
 
-        static IList<ProviderWithId> GetSupportedProviders(BaseItem item, bool fastOnly) {
-            return (fastOnly?fastProviders:providers)
+        static IList<IMetadataProvider> GetSupportedProviders(BaseItem item) {
+            
+            var cachedProviders = (ItemCache.Instance.RetrieveProviders(item.Id) ?? new List<IMetadataProvider> ())
+                .ToDictionary(provider => provider.GetType());
+
+            return providers
                 .Where(provider => provider.Supports(item))
                 .Where(provider => !provider.RequiresInternet || Config.Instance.AllowInternetMetadataProviders)
-                .Select(provider => GetProviderWithId(item, provider))
+                .Select(provider => cachedProviders.GetValueOrDefault(provider.Type, provider.Construct()))
                 .ToList();
         }
 
-        static ProviderWithId GetProviderWithId(BaseItem item, MetadataProvider providerWrapper) {
-            Guid id = (item.Id.ToString() + providerWrapper.Type.FullName).GetMD5();
-            var provider = ItemCache.Instance.RetrieveProvider(id);
-            if (provider == null) {
-                provider = providerWrapper.Construct();
-            }
-            provider.Item = (BaseItem)Serializer.Clone(item);
-            // Parent is not serialized so its not cloned
-            provider.Item.Parent = item.Parent;
-
-            return new  ProviderWithId() { Provider = provider, Id = id, ProviderWrapper = providerWrapper };
-        }
 
         static bool UpdateMetadata(
             BaseItem item,
             bool force,
-            IEnumerable<ProviderWithId> providers
+            bool fastOnly,
+            IEnumerable<IMetadataProvider> providers
             ) 
         {
             bool changed = false;
-            var updatedProviders = new List<ProviderWithId>();
 
-            foreach (var pair in providers) {
+            foreach (var provider in providers) {
+
+                if ((provider.IsSlow || provider.RequiresInternet) && fastOnly) continue;
+
                 try {
-                    if (force || pair.Provider.NeedsRefresh()) {
-                        pair.Provider.Fetch();
-                        updatedProviders.Add(pair);
-                        Serializer.Merge(pair.Provider.Item, item);
+                    if (force || provider.NeedsRefresh()) {
+                        provider.Fetch();
+                        Serializer.Merge(provider.Item, item);
+                        changed = true;
                     }
                 } catch (Exception e) {
                     Debug.Assert(false, "Meta data provider should not be leaking exceptions");
-                    Application.Logger.ReportException("Provider failed: " + pair.Provider.GetType().ToString(), e);
+                    Application.Logger.ReportException("Provider failed: " + provider.GetType().ToString(), e);
                 }
             }
-            if (updatedProviders.Count > 0) {
+            if (changed) {
                 ItemCache.Instance.SaveItem(item);
-                foreach (var tuple in updatedProviders) {
-                    ItemCache.Instance.SaveProvider(tuple.Id, tuple.Provider);
-                }
-                changed = true;
+                ItemCache.Instance.SaveProviders(item.Id, providers);
             }
 
             return changed;

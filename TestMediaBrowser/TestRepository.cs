@@ -11,14 +11,41 @@ using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Configuration;
 using MediaBrowser.Library.Metadata;
 using MediaBrowser.Library.Providers;
+using MediaBrowser.Library.Interfaces;
 
 namespace TestMediaBrowser {
+
+    class TestProvider : BaseMetadataProvider {
+
+        [Persist]
+        public DateTime date = DateTime.MinValue;
+
+        public override void Fetch() {
+            throw new NotImplementedException();
+        }
+
+        public override bool NeedsRefresh() {
+            throw new NotImplementedException();
+        }
+    }
 
     [TestFixture]
     public class TestRepository {
 
         class TempClass : BaseItem { 
             
+        }
+
+        [Test]
+        public void TestProviderPersistance() {
+            List<IMetadataProvider> providers = new List<IMetadataProvider>();
+            var provider = new TestProvider();
+            provider.date = DateTime.Now;
+            providers.Add(provider);
+            Guid guid = Guid.Empty;
+            ItemCache.Instance.SaveProviders(guid, providers);
+            providers = ItemCache.Instance.RetrieveProviders(guid).ToList();
+            Assert.AreEqual(provider.date, (providers[0] as TestProvider).date);
         }
 
         [Test]

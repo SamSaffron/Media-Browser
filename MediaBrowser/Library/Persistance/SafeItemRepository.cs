@@ -35,12 +35,12 @@ namespace MediaBrowser.Library.Persistance {
 
         }
 
-        public IMetadataProvider RetrieveProvider(Guid guid) {
-            return SafeFunc(() => repository.RetrieveProvider(guid));
+        public IEnumerable<IMetadataProvider> RetrieveProviders(Guid guid) {
+            return SafeFunc(() => repository.RetrieveProviders(guid));
         }
 
-        public void SaveProvider(Guid guid, IMetadataProvider provider) {
-            SafeAction(() => repository.SaveProvider(guid, provider));
+        public void SaveProviders(Guid guid, IEnumerable<IMetadataProvider> providers) {
+            SafeAction(() => repository.SaveProviders(guid, providers));
         }
 
         public void SaveItem(BaseItem item) {

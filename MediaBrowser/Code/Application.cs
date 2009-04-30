@@ -204,7 +204,7 @@ namespace MediaBrowser
 
                         (AggregateFolder)BaseItemFactory.Instance.Create(InitialLocation),
                         new List<IPlaybackController>(),
-                        new List<MetadataProvider>(),
+                        new List<MetadataProviderFactory>(),
                         new List<EntityResolver>(),
                         this.MultiLogger
                     );
@@ -385,17 +385,8 @@ namespace MediaBrowser
         void RunActionRecursively(Folder folder, Action<BaseItem> action)
         {
             action(folder);
-            foreach (var item in folder.Children)
-            {
-                Folder childFolder = item as Folder;
-                if (childFolder != null)
-                {
-                    RunActionRecursively(childFolder, action);
-                }
-                else
-                {
-                    action(item);
-                }
+            foreach (var item in folder.RecursiveChildren) {
+                action(item);
             }
         }
 

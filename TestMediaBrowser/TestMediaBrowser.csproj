@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestExtensions.cs" />
+    <Compile Include="TestFileBasedDictionary.cs" />
     <Compile Include="TestFolder.cs" />
     <Compile Include="TestIdentity.cs" />
     <Compile Include="TestInterceptor.cs" />
