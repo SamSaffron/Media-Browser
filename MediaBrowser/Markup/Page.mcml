@@ -40,7 +40,7 @@
             </LayoutInput>
           </ps:PageSelector>-->
 
-          <pd:Page Name="ViewDefault" Folder="[Folder]" Application="[Application]" Visible="true" >
+          <pd:Page Name="ViewDefault" Folder="[Folder]" Application="[Application]" Visible="false" >
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
