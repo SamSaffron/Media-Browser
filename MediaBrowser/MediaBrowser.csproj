@@ -295,6 +295,8 @@
     <None Include="Images\Root\roottopw.png" />
     <None Include="Images\Root\rootscrollhilite.png" />
     <None Include="Images\Root\rootselectbg.png" />
+    <Content Include="Images\Root\flashHor.png" />
+    <Content Include="Images\Root\flashVer.png" />
     <Content Include="Images\Root\poster-frame.png" />
     <Content Include="Images\Root\rootscrollhilitefocus.png" />
     <Content Include="Images\Spinner\DecrementFocused.png" />

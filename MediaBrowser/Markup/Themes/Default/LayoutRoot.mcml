@@ -90,7 +90,7 @@
         </Conditions>
       </Binding>
       <Binding Source="[Application.Information.DisplayText]" Target="[InfoPanelDisplay.Content]"  />
-      
+
       <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBG.Visible]">
         <Transformer>
           <BooleanTransformer Inverse="true"/>
@@ -345,7 +345,7 @@
               <!-- Center Scrolling Panel -->
               <Graphic Name="ItemMenuPanel" Content="resx://MediaBrowser/MediaBrowser.Resources/rootselectbg">
                 <LayoutInput>
-                  <AnchorLayoutInput Horizontal="Fill" Top="Parent,0.8" Bottom="Parent,0.9"/>
+                  <AnchorLayoutInput Horizontal="Fill" Top="Parent,0.8" Bottom="Parent,0.8,65"/>
                 </LayoutInput>
                 <Children>
                   <Scroller Orientation="Horizontal" FadeSize="5" Name="Scroller" Navigation="RememberFocus"
@@ -401,10 +401,9 @@
                       <FlowLayout Orientation="Horizontal" ItemAlignment="Near" StripAlignment="Far"/>
                     </Layout>
                     <Children>
-                      <!--<wea:YahooWeather />
-                      <Text Font="font://f:P_ClockFont"  Color="Gray" Content="  |  " />-->
                       <Text Name="TimeDate" Font="font://f:P_ClockFont"  Color="White"
                                 Visible="[Application.Config.ShowClock]" />
+                      <Text Font="font://f:P_ClockFont"  Color="Gray" Content="  " />
                       <vm:CfgButton Name="ConfigBtn" Command="[Configure]" />
                     </Children>
                   </Panel>
@@ -421,29 +420,6 @@
                   <ColorFill Layout="Fill" Content="Black" Alpha="0.15" />
                 </Children>
               </Panel>
-
-
-              <!-- find in list panel - highest Z-Order 
-              <Panel Name="FindAsYouTypePanel" >
-                <LayoutInput>
-                  <FormLayoutInput Bottom="Parent,1,-30" Right="Parent,1,-30"/>
-                </LayoutInput>
-                <Layout>
-                  <FlowLayout ItemAlignment="Center"/>
-                </Layout>
-                <Children>
-                  <ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
-                    <Children>
-                      <Text Name="FindAsYouType" Font="font://f:P_FindAsYouTypeFont" Content="" Color="color://s:FontColorMedium"  />
-                      <Text Name="ShadowLabel" Content="" Color="255, 0, 0, 0" Font="font://f:P_FindAsYouTypeFont">
-                        <LayoutInput>
-                          <AnchorLayoutInput Top="FindAsYouType, 0, 2" Left="FindAsYouType, 0, 2"/>
-                        </LayoutInput>
-                      </Text>
-                    </Children>
-                  </ColorFill>
-                </Children>
-              </Panel>-->
 
               <!-- Now Playing Box -->
               <np:NowPlayingViewportLarge Name="NowPlaying" Visible="false" Application="[Application]">
@@ -553,6 +529,7 @@
       <Index Name="Index" Index="$Required"/>
       <IntRangedValue Name="NavCount" IntRangedValue="$Required" />
     </Properties>
+    
     <Locals>
       <Color Name="FocusedColor" Color="color://s:FontColorLight" />
       <Color Name="IdleColor" Color="color://s:FontColorMedium" />
@@ -563,8 +540,11 @@
         <Actions>
           <Set Target="[SelectedIndex.Value]" Value="[Index.Value]"/>
           <Set Target="[Bg.Content]" Value="image://me:HiliteFocusBg" />
+          <Set Target="[FlashTop.Visible]" Value="true"/>
+          <Set Target="[FlashBottom.Visible]" Value="true"/>
         </Actions>
       </Condition>
+
       <Rule>
         <Conditions>
           <Equality Source="[SelectedIndex.Value]" ConditionOp="NotEquals" Value="[Index.Value]" />
@@ -589,33 +569,72 @@
           <Set Target="[Bg.Content]" Value="image://me:HiliteBg" />
         </Actions>
       </Rule>
-
-      <!--<Changed Source="[Input.KeyFocus]" >
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Title.Color]" Value="[IdleColor]"/>
-          <Set Target="[Bg.Content]" Value="image://i:BlankImage" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[Input.KeyFocus]" >
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Title.Color]" Value="[FocusedColor]"/>
-          <Set Target="[SelectedIndex.Value]" Value="[Index.Value]"/>
-          <Set Target="[Bg.Content]" Value="image://me:HiliteBg" />
-        </Actions>
-      </Changed>-->
     </Rules>
 
     <Content>
-      <Graphic Name="Bg" Content="image://i:BlankImage" SizingPolicy="SizeToChildren" Padding="25,5,25,10">
+      <Graphic Name="Bg" MinimumSize="0,65" Content="image://i:BlankImage" SizingPolicy="SizeToChildren" Padding="25,0,25,0">
         <Children>
-          <Text Name="Title" Content="[Item.Name]" Color="[IdleColor]" Font="Segoe Media Center Semibold,32"  />
+
+          <ColorFill Name="BoxItem" Content="Transparent" Layout="Anchor" Alpha="1" >
+
+            <Children>
+
+              <Text Name="Title" Content="[Item.Name]" Color="[IdleColor]" Font="Segoe Media Center Semibold,32" >
+                <LayoutInput>
+                  <AnchorLayoutInput Top="Parent, 0, 5" Left="Parent, 0" />
+                </LayoutInput>
+              </Text>
+
+              <Graphic Name="FlashTop" Content="image://me:FlashHorizontal" Visible="false">
+                <LayoutInput>
+                  <AnchorLayoutInput Top="Parent, 0, 4" Left="Parent, 0, 0" ContributesToHeight="false" ContributesToWidth="false"/>
+                </LayoutInput>
+                <Animations>
+                  <TransformAnimation Delay="1">
+                    <Source>
+                      <Animation Loop="-1">
+                        <Keyframes>
+                          <PositionKeyframe Time="0" RelativeTo="Current"/>
+                          <PositionKeyframe Time="3" Value="100,0,0"/>
+                          <PositionKeyframe Time="11" Value="100,0,0"/>
+                          <AlphaKeyframe Time="0.0" Value="0"/>
+                          <AlphaKeyframe Time="1.0" Value="1"/>
+                          <AlphaKeyframe Time="2.0" Value="1"/>
+                          <AlphaKeyframe Time="3.0" Value="0"/>
+                          <AlphaKeyframe Time="11.0" Value="0"/>
+                        </Keyframes>
+                      </Animation>
+                    </Source>
+                  </TransformAnimation>
+                </Animations>
+              </Graphic>
+
+              <Graphic Name="FlashBottom" Content="image://me:FlashHorizontal" Visible="false">
+                <LayoutInput>
+                  <FormLayoutInput Bottom="Parent,1,6" Left="Title,1,24" ContributesToHeight="false" ContributesToWidth="false"/>
+                </LayoutInput>
+                <Animations>
+                  <TransformAnimation Delay="6">
+                    <Source>
+                      <Animation Loop="-1">
+                        <Keyframes>
+                          <PositionKeyframe Time="0" RelativeTo="Current"/>
+                          <PositionKeyframe Time="3" Value="-100,0,0"/>
+                          <PositionKeyframe Time="6" Value="-100,0,0"/>
+                          <AlphaKeyframe Time="0.0" Value="0"/>
+                          <AlphaKeyframe Time="1.0" Value="1"/>
+                          <AlphaKeyframe Time="2.0" Value="1"/>
+                          <AlphaKeyframe Time="3.0" Value="0"/>
+                          <AlphaKeyframe Time="6.0" Value="0"/>
+                        </Keyframes>
+                      </Animation>
+                    </Source>
+                  </TransformAnimation>
+                </Animations>
+              </Graphic>
+            </Children>
+          </ColorFill>
+
         </Children>
       </Graphic>
     </Content>
@@ -732,5 +751,8 @@
   <Image Name="HiliteBg" Source="resx://MediaBrowser/MediaBrowser.Resources/rootscrollhilite" NineGrid="10,10,10,10" />
   <Image Name="HiliteFocusBg" Source="resx://MediaBrowser/MediaBrowser.Resources/rootscrollhilitefocus" NineGrid="10,10,10,10" />
   <Image Name="PosterFrame" Source="resx://MediaBrowser/MediaBrowser.Resources/poster_frame" NineGrid="10,10,10,10" />
+
+  <Image Name="FlashVertical" Source="resx://MediaBrowser/MediaBrowser.Resources/flashVer" />
+  <Image Name="FlashHorizontal" Source="resx://MediaBrowser/MediaBrowser.Resources/flashHor" />
 
 </Mcml>
