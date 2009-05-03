@@ -12,7 +12,11 @@ using System.Threading;
 namespace MediaBrowser.Library.Persistance {
     public class FileBasedDictionary<T> : IDisposable where T : class {
 
-        readonly string FastLoadFile; 
+        readonly string FastLoadFile;
+        Dictionary<Guid, DatedObject> dictionary = new Dictionary<Guid, DatedObject>();
+        FileSystemWatcher watcher;
+        string path;
+        ManualResetEvent asyncValidationDone = new ManualResetEvent(false);
 
 #if DEBUG
         public string TrackingId { get; set; }
@@ -36,13 +40,13 @@ namespace MediaBrowser.Library.Persistance {
             public T Data;
         }
 
-        Dictionary<Guid, DatedObject> dictionary = new Dictionary<Guid, DatedObject>();
-        FileSystemWatcher watcher;
-        string path;
-        ManualResetEvent asyncValidationDone = new ManualResetEvent(false);
 
-        public FileBasedDictionary(string path) {
+        public FileBasedDictionary(string path)
+            : this(path, true) {
 
+        }
+
+        internal FileBasedDictionary(string path, bool enableAsyncValidation) {
             Debug.Assert(Directory.Exists(path));
 
             FastLoadFile = Path.Combine(path, "FastLoad");
@@ -52,16 +56,20 @@ namespace MediaBrowser.Library.Persistance {
             watcher.Changed += new FileSystemEventHandler(DirectoryChanged);
             watcher.EnableRaisingEvents = true;
 
-            Async.Queue(() => {
-                LoadFastLoadData(); 
-                Validate(true); 
-            }, 
-                () => asyncValidationDone.Set()  
-             );
-         
+            if (enableAsyncValidation) {
+                Async.Queue(() =>
+                {
+                    LoadFastLoadData();
+                    Validate();
+                },
+                    () => asyncValidationDone.Set()
+                 );
+            }
+
         }
 
-        void LoadFastLoadData() {
+        // marked internal for testing (perhaps we should use reflection to test) 
+        internal void LoadFastLoadData() {
 
             FastLoadData data = null;
             try {
@@ -70,16 +78,16 @@ namespace MediaBrowser.Library.Persistance {
                     data = Serializer.Deserialize<object>(stream) as FastLoadData;
                 }
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to load fast load data: ",e); 
+                Application.Logger.ReportException("Failed to load fast load data: ", e);
             }
 
             if (data != null && data.Items != null) {
                 lock (dictionary) {
                     foreach (var item in data.Items) {
-                        if (!dictionary.ContainsKey(item.Guid)) { 
+                        if (!dictionary.ContainsKey(item.Guid)) {
                             dictionary[item.Guid] = new DatedObject() { FileDate = DateTime.MinValue, Data = item.Data };
                         }
-                    
+
                     }
                 }
 
@@ -89,19 +97,21 @@ namespace MediaBrowser.Library.Persistance {
 
         void DirectoryChanged(object sender, FileSystemEventArgs e) {
             if (e.ChangeType == WatcherChangeTypes.Changed || e.ChangeType == WatcherChangeTypes.Created) {
-                var data = LoadFile(e.FullPath);
-                if (data != null) {
-                    SetInternalData(GetGuid(e.FullPath).Value, data, MediaLocationFactory.Instance.Create(path).DateModified);
+                if (e.FullPath != FastLoadFile) {
+                    var data = LoadFile(e.FullPath);
+                    if (data != null) {
+                        SetInternalData(GetGuid(e.FullPath).Value, data, MediaLocationFactory.Instance.Create(path).DateModified);
+                    }
                 }
             }
         }
 
-        public void Validate(bool force) {
+        public void Validate() {
             var loadedData = new Dictionary<Guid, T>();
             var directory = MediaLocationFactory.Instance.Create(path) as IFolderMediaLocation;
 
             List<Guid> validChildren = new List<Guid>();
-            foreach (var item in directory.Children) {
+            foreach (var item in directory.Children.OrderBy(key => key.DateModified).Reverse()) {
 
                 if (item is IFolderMediaLocation) continue;
                 if (item.Path == FastLoadFile) continue;
@@ -109,8 +119,8 @@ namespace MediaBrowser.Library.Persistance {
                 var guid = GetGuid(item.Path);
                 DatedObject data;
 
-                if (!force && guid != null) {
-                   lock (dictionary) {
+                if (guid != null) {
+                    lock (dictionary) {
                         if (dictionary.TryGetValue(guid.Value, out data)) {
                             if (data.FileDate == item.DateModified) {
                                 validChildren.Add(guid.Value);
@@ -118,7 +128,6 @@ namespace MediaBrowser.Library.Persistance {
                             }
                         }
                     }
-                    
                 }
 
                 T obj = LoadFile(item.Path);
@@ -130,10 +139,9 @@ namespace MediaBrowser.Library.Persistance {
             }
 
             lock (dictionary) {
-                foreach (var key in dictionary.Keys.Except(validChildren).ToArray())
-	            {
+                foreach (var key in dictionary.Keys.Except(validChildren).ToArray()) {
                     dictionary.Remove(key);
-	            }
+                }
             }
 
             // Save the fastload file
@@ -167,12 +175,10 @@ namespace MediaBrowser.Library.Persistance {
         }
 
         public T this[Guid guid] {
-            get
-            {
+            get {
                 return GetData(guid);
             }
-            set
-            {
+            set {
                 SetData(guid, value);
             }
         }
@@ -230,7 +236,7 @@ namespace MediaBrowser.Library.Persistance {
             if (guid == null) return null;
 
             // we have a guid
-            T data = null; 
+            T data = null;
             using (var stream = ProtectedFileStream.OpenSharedReader(path)) {
                 data = Serializer.Deserialize<object>(stream) as T;
             }
@@ -238,14 +244,13 @@ namespace MediaBrowser.Library.Persistance {
             if (data == null) {
                 Application.Logger.ReportWarning("Invalid data was detected in the file : " + path);
                 guid = null;
-            }
-            else {
+            } else {
                 DatedObject current;
                 lock (dictionary) {
                     if (dictionary.TryGetValue(guid.Value, out current)) {
                         Serializer.Merge(data, current.Data, true);
                         data = current.Data;
-                    } 
+                    }
                 }
             }
             return data;

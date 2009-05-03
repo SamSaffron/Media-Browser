@@ -78,6 +78,7 @@ namespace MediaBrowser.Library.Entities {
                     var video = item as Video;
                     if (video != null) {
                         video.PlaybackStatus.WasPlayed = value;
+                        video.PlaybackStatus.Save();
                     }
                     var folder = item as Folder;
                     if (folder != null) {

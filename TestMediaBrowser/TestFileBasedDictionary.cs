@@ -83,8 +83,30 @@ namespace TestMediaBrowser {
             Assert.IsTrue(dog.ChangeCount > 0);
 
             store.Dispose();
-            store2.Dispose();
-                   
+            store2.Dispose();      
+        }
+
+        [Test]
+        public void TestFastLoadWorksCorrectly() {
+            var store = new FileBasedDictionary<Dog>(path,false);
+
+            Guid id = Guid.NewGuid();
+            Dog dog = new Dog();
+            dog.Age = 20;
+            store[id] = dog; 
+
+            // as a side effect we will have the fastload file
+            store.Validate();
+
+            dog.Age = 21;
+            store[id] = dog;
+
+
+            var store2 = new FileBasedDictionary<Dog>(path, false);
+            store2.LoadFastLoadData();
+            store2.Validate();
+
+            Assert.AreEqual(21, store2[id].Age);
         }
 
 
