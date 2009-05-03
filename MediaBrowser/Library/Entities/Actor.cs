@@ -20,7 +20,7 @@ namespace MediaBrowser.Library.Entities {
                 var person = ItemCache.Instance.RetrieveItem(PersonId) as Person;
                 if (person == null) {
                     person = new Person();
-                    person.Name = Name;
+                    person.Name = Name.Trim();
                     person.Id = PersonId;
                     ItemCache.Instance.SaveItem(person);
                 }
@@ -30,7 +30,7 @@ namespace MediaBrowser.Library.Entities {
 
         public Guid PersonId {
             get {
-                return ("person" + Name).GetMD5();
+                return ("person" + Name.Trim()).GetMD5();
             }
         }
 

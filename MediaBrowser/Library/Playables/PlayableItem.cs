@@ -9,6 +9,7 @@ using System.Xml;
 using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.RemoteControl;
 using MediaBrowser.Library.Configuration;
+using System.Linq;
 
 namespace MediaBrowser.Library
 {
@@ -132,19 +133,20 @@ namespace MediaBrowser.Library
 
         public virtual bool UpdatePosition(string title, long positionTicks)
         {
+            Application.Logger.ReportVerbose("Updating the position for " + title + " position " + positionTicks);
+
             if (PlayState == null) {
                 return false;
             }
 
             var currentTitle = Path.GetFileNameWithoutExtension(this.fileToPlay);
-            if ((title == currentTitle) || title.EndsWith("(" + currentTitle + ")"))
+            if (title == currentTitle)
             {
                 PlayState.PositionTicks = positionTicks;
                 PlayState.Save();
                 return true; 
-            }
-            else
-            {
+            }  
+            else {
                 return false;
             }
         }
@@ -159,6 +161,13 @@ namespace MediaBrowser.Library
 
 
         protected static string CreateWPLPlaylist(string name, IEnumerable<string> videoFiles) {
+
+            // we need to filter out all invalid chars 
+            name = new string(name
+                .ToCharArray()
+                .Where(e => !Path.GetInvalidFileNameChars().Contains(e))
+                .ToArray());
+
             var playListFile = Path.Combine(ApplicationPaths.AutoPlaylistPath, name + ".wpl");
 
 

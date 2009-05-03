@@ -73,6 +73,8 @@ namespace MediaBrowser.Library.Playables
 
         public override bool UpdatePosition(string title, long positionTicks)
         {
+            Application.Logger.ReportVerbose("Updating multi file position for " + title + " position " + positionTicks);
+
             if (title == null || videoFiles == null) 
                 return false; 
             

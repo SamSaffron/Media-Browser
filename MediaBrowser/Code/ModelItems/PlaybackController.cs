@@ -123,7 +123,9 @@ namespace MediaBrowser {
             try {
                 while (true) {
                     Thread.Sleep(ForceRefreshMillisecs);
-                    Microsoft.MediaCenter.UI.Application.DeferredInvoke( _ => AttachAndUpdateStatus());
+                    if (progressHandler != null) {
+                        Microsoft.MediaCenter.UI.Application.DeferredInvoke(_ => AttachAndUpdateStatus());
+                    }
                 }
             }
             catch(Exception e)
@@ -192,6 +194,9 @@ namespace MediaBrowser {
             if (diff < 1000 && diff >= 0) {
                 return;
             }
+
+            Application.Logger.ReportVerbose("TransportPropertyChanged was called with property = " + property);
+
             lastCall = DateTime.Now;
             UpdateStatus();
         }
@@ -213,6 +218,9 @@ namespace MediaBrowser {
                 }
 
                 if (title != null && progressHandler != null && (this.title != title || this.position != position)) {
+
+                    Application.Logger.ReportVerbose("progressHandler was called with : position =" + position.ToString() + " title :" + title);
+
                     progressHandler(this, new PlaybackStateEventArgs() {Position = position, Title = title});
                     this.title = title;
                     this.position = position;
