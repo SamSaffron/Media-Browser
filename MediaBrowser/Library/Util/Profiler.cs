@@ -24,7 +24,10 @@ namespace MediaBrowser.Util
         public void Dispose()
         {
             stopwatch.Stop();
-            Application.Logger.ReportInfo(caller + ":" + name + " took " + stopwatch.ElapsedMilliseconds.ToString() + " miliseconds!"); 
+            string message = string.Format("{0} : {1} took {2} milliseconds.",
+                caller, name, stopwatch.ElapsedMilliseconds.ToString());
+            Application.Logger.ReportInfo( message);
+            Application.CurrentInstance.Information.AddInformation(new InfomationItem(message, false)); 
         }
 
         #endregion
