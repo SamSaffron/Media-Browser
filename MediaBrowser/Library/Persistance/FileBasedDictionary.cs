@@ -12,9 +12,24 @@ using System.Threading;
 namespace MediaBrowser.Library.Persistance {
     public class FileBasedDictionary<T> : IDisposable where T : class {
 
+        readonly string FastLoadFile; 
+
 #if DEBUG
         public string TrackingId { get; set; }
 #endif
+
+        class IdentifiableData {
+            [Persist]
+            public Guid Guid { get; set; }
+
+            [Persist]
+            public T Data { get; set; }
+        }
+
+        class FastLoadData {
+            [Persist]
+            public List<IdentifiableData> Items { get; set; }
+        }
 
         struct DatedObject {
             public DateTime FileDate;
@@ -27,17 +42,49 @@ namespace MediaBrowser.Library.Persistance {
         ManualResetEvent asyncValidationDone = new ManualResetEvent(false);
 
         public FileBasedDictionary(string path) {
+
             Debug.Assert(Directory.Exists(path));
+
+            FastLoadFile = Path.Combine(path, "FastLoad");
 
             this.path = path;
             watcher = new FileSystemWatcher(path);
             watcher.Changed += new FileSystemEventHandler(DirectoryChanged);
             watcher.EnableRaisingEvents = true;
 
-            Async.Queue(() => Validate(true) , 
+            Async.Queue(() => {
+                LoadFastLoadData(); 
+                Validate(true); 
+            }, 
                 () => asyncValidationDone.Set()  
              );
          
+        }
+
+        void LoadFastLoadData() {
+
+            FastLoadData data = null;
+            try {
+
+                using (var stream = ProtectedFileStream.OpenSharedReader(FastLoadFile)) {
+                    data = Serializer.Deserialize<object>(stream) as FastLoadData;
+                }
+            } catch (Exception e) {
+                Application.Logger.ReportException("Failed to load fast load data: ",e); 
+            }
+
+            if (data != null && data.Items != null) {
+                lock (dictionary) {
+                    foreach (var item in data.Items) {
+                        if (!dictionary.ContainsKey(item.Guid)) { 
+                            dictionary[item.Guid] = new DatedObject() { FileDate = DateTime.MinValue, Data = item.Data };
+                        }
+                    
+                    }
+                }
+
+                Application.Logger.ReportInfo("Successfully loaded fastload data for : " + path + " " + typeof(T).ToString());
+            }
         }
 
         void DirectoryChanged(object sender, FileSystemEventArgs e) {
@@ -57,6 +104,7 @@ namespace MediaBrowser.Library.Persistance {
             foreach (var item in directory.Children) {
 
                 if (item is IFolderMediaLocation) continue;
+                if (item.Path == FastLoadFile) continue;
 
                 var guid = GetGuid(item.Path);
                 DatedObject data;
@@ -87,6 +135,24 @@ namespace MediaBrowser.Library.Persistance {
                     dictionary.Remove(key);
 	            }
             }
+
+            // Save the fastload file
+
+            FastLoadData fastLoadData;
+            lock (dictionary) {
+                fastLoadData = new FastLoadData()
+                {
+                    Items = dictionary.Select(pair => new IdentifiableData() { Guid = pair.Key, Data = pair.Value.Data })
+                        .ToList()
+                };
+            }
+
+            using (var stream = ProtectedFileStream.OpenExclusiveWriter(FastLoadFile)) {
+                Serializer.Serialize<object>(stream, fastLoadData);
+            }
+
+            Application.Logger.ReportInfo("Finished validating : " + path + " " + typeof(T).ToString());
+
         }
 
         private void SetInternalData(Guid guid, T data, DateTime date) {
