@@ -9,6 +9,7 @@ using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Factories;
 using MediaBrowser;
 using MediaBrowser.Util;
+using System.Diagnostics;
 
 namespace TestMediaBrowser {
     [TestFixture] 
@@ -57,6 +58,14 @@ namespace TestMediaBrowser {
 
             foreach (var item in root.RecursiveChildren) {
                 Console.WriteLine(item.Path);
+                if (item.Name.ToLower() == "metadata") {
+
+                    item.Parent.ValidateChildren();
+
+                  //  Console.WriteLine(item.Path);
+                    Debugger.Break();
+                    
+                }
             }
 
             foreach (var item in root.RecursiveChildren) {

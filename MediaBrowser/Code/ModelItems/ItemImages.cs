@@ -14,6 +14,7 @@ using MediaBrowser.Library.Factories;
 using System.Diagnostics;
 using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.Threading;
+using System.Runtime.InteropServices;
 
 namespace MediaBrowser.Library {
     public partial class Item {
@@ -246,7 +247,6 @@ namespace MediaBrowser.Library {
         }
 
 
-
         public bool HasPrimaryImage {
             get { return baseItem.PrimaryImagePath != null; }
         }
@@ -288,9 +288,61 @@ namespace MediaBrowser.Library {
                 aspect = ((float)image.Height) / (float)image.Width;
             }
             return aspect;
-
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+
+        // I can not figure out any way to pass the size of an element to the code
+        // so I cheat 
+        public void SetPreferredImageSmallToEstimatedScreenSize() {
+
+            var folder = this as FolderModel;
+            if (folder == null) return;
+
+            Size size = new Size(200, 200);
+
+            try {
+
+                // find ehshell 
+                var ehshell = Process.GetProcessesByName("ehshell").First().MainWindowHandle;
+
+                if (ehshell != IntPtr.Zero) {
+
+                    RECT windowSize;
+                    GetWindowRect(ehshell, out windowSize);
+
+                    // why 3, well the large images are in general a 3rd the size of the screen. 
+                    size = new Size(
+                        (windowSize.Right - windowSize.Left) / 3,
+                        (windowSize.Bottom - windowSize.Top) / 3
+                        );
+
+
+
+                }
+            } catch (Exception e) {
+                Application.Logger.ReportException("Failed to gather size information, made a guess ", e);
+            }
+
+            foreach (var item in folder.Children) {
+                item.PreferredImageSmallSize = size;
+            }
+
+        }
 
 
         static Image DefaultVideoImage = new Image("res://ehres!MOVIE.ICON.DEFAULT.PNG");

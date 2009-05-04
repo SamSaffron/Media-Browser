@@ -11,82 +11,26 @@ using System.Xml;
 using System.ServiceModel.Syndication;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using MediaBrowser.Library.Network;
 
 namespace MediaBrowser.Library.Entities {
-    // move me out of here ... 
-    class RSSFeed {
 
-        string url;
-        SyndicationFeed feed;
-        IEnumerable<BaseItem> children;
+    public enum DownloadPolicy { 
+        /// <summary>
+        /// Vodcast is streamed, never downloaded locally 
+        /// </summary>
+        Stream, 
+        /// <summary>
+        /// Vodcast is downloaded locally once its played for the first time 
+        /// </summary>
+        FirstPlay,
 
-        public RSSFeed(string url) {
-            this.url = url;
-        }
-
-        public void Refresh() {
-            lock (this) {
-                try {
-                    using (XmlReader reader = XmlReader.Create(url)) {
-                        feed = SyndicationFeed.Load(reader);
-                        children = GetChildren(feed);
-                    }
-                } catch (Exception ex) {
-                    // error, do we exception out ? do we retry ? 
-                    Debug.Assert(false,"Failed to update podcast");
-                    Application.Logger.ReportException("Podcast update failed.", ex);
-                }
-            }
-        }
-
-        public string ImageUrl {
-            get {
-                if (feed == null || feed.ImageUrl == null) return null;
-                return feed.ImageUrl.AbsoluteUri;
-            }
-        }
-
-        public string Title {
-            get {
-                if (feed == null) return "";
-                return feed.Title.Text;
-            }
-        }
-
-        private static IEnumerable<BaseItem> GetChildren(SyndicationFeed feed) {
-            if (feed == null) yield break;
-
-            foreach (var item in feed.Items) {
-                VodcastVideo video = new VodcastVideo();
-                video.DateCreated = item.PublishDate.UtcDateTime;
-                video.DateModified = item.PublishDate.UtcDateTime;
-                video.Name = item.Title.Text;
-                video.Overview =  Regex.Replace(item.Summary.Text,@"<(.|\n)*?>",string.Empty);
-
-                var match = Regex.Match(item.Summary.Text, @"<img src=[\""\']([^\'\""]+)",RegexOptions.IgnoreCase);
-                if (match != null && match.Groups.Count > 1) {
-                    video.PrimaryImagePath = match.Groups[1].Value;
-                }
-
-                foreach (var link in item.Links) {
-                    if (link.RelationshipType == "enclosure") {
-                        video.Path = (link.Uri.AbsoluteUri);
-                    }
-                }
-                if (video.Path != null) {
-                    video.Id = video.Path.GetMD5();
-                    yield return video;
-                }
-
-            }
-        }
-
-        public IEnumerable<BaseItem> Children {
-            get {
-                return children;
-            }
-        }
+        /// <summary>
+        /// Latest vodcat is always downloaded 
+        /// </summary>
+        Latest
     }
+
 
     public class VodCast : Folder {
 
@@ -97,6 +41,15 @@ namespace MediaBrowser.Library.Entities {
         [Persist]
         string url;
 
+        [Persist]
+        string localPath;
+
+        [Persist]
+        int maximumLocalVodcastsToKeep = -1; 
+
+        [Persist]
+        DownloadPolicy downloadPolicy; 
+        
         [Persist]
         List<BaseItem> children = new List<BaseItem>();
 

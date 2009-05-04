@@ -9,7 +9,7 @@ using MediaBrowser.Library.Factories;
 namespace MediaBrowser.Library.EntityDiscovery {
     public class FolderResolver : EntityResolver {
 
-        static readonly string[] ignoreFolders = { "metadata", ".metadata", "$RECYCLE.BIN" };
+        static readonly string[] ignoreFolders = { "metadata", ".metadata", "$recycle.bin" };
 
         public override void ResolveEntity(IMediaLocation location,
             out BaseItemFactoryBase factory, 

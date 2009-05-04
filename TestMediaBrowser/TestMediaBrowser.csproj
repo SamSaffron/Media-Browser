@@ -66,6 +66,7 @@
     <Compile Include="TestLogging.cs" />
     <Compile Include="TestMediaLocation.cs" />
     <Compile Include="TestMetadataProvider.cs" />
+    <Compile Include="TestResolvers.cs" />
     <Compile Include="TestSerialization.cs" />
     <Compile Include="SupportingClasses\DummyItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

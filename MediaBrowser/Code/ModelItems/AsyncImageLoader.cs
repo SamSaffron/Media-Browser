@@ -58,7 +58,11 @@ namespace MediaBrowser.Code.ModelItems {
 
                     if (image != null) {
                         return image;
+                    }
+                    if (!IsLoaded) {
+                        return null;
                     } else {
+                        // fall back
                         return defaultImage;
                     }
                 }

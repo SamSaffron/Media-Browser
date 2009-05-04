@@ -79,7 +79,13 @@
 
       <!--<Binding Target="[Title2.Visible]" Source="[SelectedItem.HasSubTitle]"/>-->
 
-      <Binding Target="[Preview.Content]" Source="[SelectedItem.PreferredImage]"/>
+      <Rule>
+        <Actions>
+          <Invoke Target="[Item.SetPreferredImageSmallToEstimatedScreenSize]"/>
+        </Actions>
+      </Rule>
+      
+      <Binding Target="[Preview.Content]" Source="[SelectedItem.PreferredImageSmall]"/>
       <Binding Target="[StarRating.Value]" Source="[SelectedItem.ImdbRating]" />
       <Binding Target="[TxtRuntime.Content]" Source="[SelectedItem.RunningTimeString]"/>
       <Binding Target="[GenreRepeater.Source]" Source="[SelectedItem.Genres]"/>
@@ -201,8 +207,7 @@
               <AnchorLayoutInput Top="Parent,0.45" Left="Parent,0.82" Bottom="Parent, 1" Right="Parent, 1, -60" Horizontal="Far"/>
             </LayoutInput>
             <Children>
-              <Graphic Name="Preview" MaintainAspectRatio="true"  SizingPolicy="SizeToConstraint">
-              </Graphic>
+              <Graphic Name="Preview" MaintainAspectRatio="true"  SizingPolicy="SizeToConstraint"/>
             </Children>
           </ColorFill>
 

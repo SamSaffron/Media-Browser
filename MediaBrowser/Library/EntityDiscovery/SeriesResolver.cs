@@ -20,8 +20,8 @@ namespace MediaBrowser.Library.EntityDiscovery {
             var folderLocation = location as IFolderMediaLocation;
 
             if (folderLocation != null && 
-                ( location.IsSeriesFolder() || 
-                   (folderLocation.Children.FirstOrDefault(loc => loc.Path.ToLower().EndsWith("series.xml")) != null) 
+                (   location.IsSeriesFolder() || 
+                  ( folderLocation.Children.FirstOrDefault(loc => loc.Path.ToLower().EndsWith("\\series.xml")) != null ) 
                 ) ) {
                 factory = BaseItemFactory<Series>.Instance;
             }

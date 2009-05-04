@@ -82,6 +82,7 @@
     <Compile Include="Library\Logging\ThreadedLogger.cs" />
     <Compile Include="Library\Logging\TraceLogger.cs" />
     <Compile Include="Library\Metadata\MetadataProviders.cs" />
+    <Compile Include="Library\Network\RSSFeed.cs" />
     <Compile Include="Library\Persistance\FileBasedDictionary.cs" />
     <Compile Include="Library\Persistance\IPersistableChangeNotifiable.cs" />
     <Compile Include="Library\RemoteControl\IPlaybackController.cs" />
