@@ -769,9 +769,6 @@
   <data name="rootscrollhilite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\root\rootscrollhilite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rootselectbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\root\rootselectbg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="roottopw" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\root\roottopw.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -925,10 +922,10 @@
   <data name="LayoutRoot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\default\layoutroot.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="flashHor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\root\flashhor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="flashHorB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\root\flashhorb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="flashVer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\root\flashver.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="flashHorT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\root\flashhort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

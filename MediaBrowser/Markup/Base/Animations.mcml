@@ -147,4 +147,18 @@
     </Keyframes>
   </Animation>
 
+  <Animation Name="AlphaContentHide" Type="ContentChangeHide">
+    <Keyframes>
+      <AlphaKeyframe RelativeTo="Current" Time="0.0" Value="1"/>
+      <AlphaKeyframe RelativeTo="Current" Time="1.0" Value="0"/>
+    </Keyframes>
+  </Animation>
+
+  <Animation Name="AlphaContentShow" Type="ContentChangeShow">
+    <Keyframes>
+      <AlphaKeyframe RelativeTo="Current" Time="0.0" Value="0"/>
+      <AlphaKeyframe RelativeTo="Final" Time="1.0" Value="1"/>
+    </Keyframes>
+  </Animation>
+
 </Mcml>

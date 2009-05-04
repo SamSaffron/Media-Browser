@@ -11,6 +11,7 @@
 	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
 		xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"
 	  xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
+    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
       
 	  xmlns:wea="resx://MediaBrowser/MediaBrowser.Resources/Weather"
 	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
@@ -96,11 +97,11 @@
           <BooleanTransformer Inverse="true"/>
         </Transformer>
       </Binding>
-      <Binding Source="[Application.Config.TransparentBackground]" Target="[MainBGFill.Visible]">
+      <!--<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBGFill.Visible]">
         <Transformer>
           <BooleanTransformer Inverse="true"/>
         </Transformer>
-      </Binding>
+      </Binding>-->
       <Binding Source="[Folder.BackdropImage]" Target="[MainBG.Content]" >
         <!--<Conditions>
           <Equality Source="[Folder.HasBackdropImage]" ConditionOp="Equals" Value="true" />
@@ -335,21 +336,50 @@
                 </LayoutInput>
               </pp:PopupPlay>
 
-
+              <!-- Weather Panel -->
               <wea:YahooWeatherLarge>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="Parent,0,15" Right="Parent,1,-15"/>
+                  <AnchorLayoutInput Top="Parent,0,15" Right="Parent,1,-35"/>
                 </LayoutInput>
               </wea:YahooWeatherLarge>
 
+              <!-- Gradient Center Panel Borders -->
+              <Panel>
+                <LayoutInput>
+                  <AnchorLayoutInput Bottom="ItemMenuPanel,0" Horizontal="Fill"/>
+                </LayoutInput>
+                <Children>
+                  <Clip FadeSize="50" Orientation="Horizontal" FadeAmount="1" >
+                    <Children>
+                      <ColorFill Content="color://s:FontColorLight" Alpha="0.8" Layout="Fill" MaximumSize="0,2" />
+                    </Children>
+                  </Clip>
+                </Children>
+              </Panel>
+              <Panel>
+                <LayoutInput>
+                  <AnchorLayoutInput Top="ItemMenuPanel,1" Horizontal="Fill"/>
+                </LayoutInput>
+                <Children>
+                  <Clip FadeSize="50" Orientation="Horizontal" FadeAmount="1" >
+                    <Children>
+                      <ColorFill Content="color://s:FontColorLight" Alpha="0.8" Layout="Fill" MaximumSize="0,2" />
+                    </Children>
+                  </Clip>
+                </Children>
+              </Panel>
+
               <!-- Center Scrolling Panel -->
-              <Graphic Name="ItemMenuPanel" Content="resx://MediaBrowser/MediaBrowser.Resources/rootselectbg">
+              <Graphic Name="ItemMenuPanel" Layout="Anchor" >
                 <LayoutInput>
                   <AnchorLayoutInput Horizontal="Fill" Top="Parent,0.8" Bottom="Parent,0.8,65"/>
                 </LayoutInput>
                 <Children>
                   <Scroller Orientation="Horizontal" FadeSize="5" Name="Scroller" Navigation="RememberFocus"
                             ScrollingData="[ScrollingData]" Padding="50,0,50,0" >
+                    <LayoutInput>
+                      <AnchorLayoutInput Horizontal="Fill" Vertical="Fill" />
+                    </LayoutInput>
                     <Children>
                       <Repeater Source="[Folder.Children]" Name="Repeater" ContentName="BaseItem" DiscardOffscreenVisuals="false" >
                         <Layout>
@@ -367,12 +397,18 @@
                     </Children>
 
                   </Scroller>
+                  <ColorFill Content="color://s:FillColor" Alpha="0.65">
+                    <LayoutInput>
+                      <AnchorLayoutInput Horizontal="Fill" Vertical="Fill" ContributesToHeight="false" ContributesToWidth="false"/>
+                    </LayoutInput>
+                  </ColorFill>
                 </Children>
               </Graphic>
+              
               <!-- Media Browser Name Panel -->
               <Graphic Name="TopMiniPanel" Content="resx://MediaBrowser/MediaBrowser.Resources/roottopw">
                 <LayoutInput>
-                  <AnchorLayoutInput Top="ItemMenuPanel,0,-35" Bottom="ItemMenuPanel,0" Left="Parent,0.85" Right="Parent,1"/>
+                  <AnchorLayoutInput Top="ItemMenuPanel,0,-37" Bottom="ItemMenuPanel,0,-2" Left="Parent,0.85" Right="Parent,1"/>
                 </LayoutInput>
                 <Layout>
                   <FlowLayout Orientation="Horizontal" StripAlignment="Far"/>
@@ -390,10 +426,11 @@
                   </ColorFill>
                 </Children>
               </Graphic>
+              
               <!-- Right Bottom Main Menu Panel -->
               <Panel>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0.65" Right="Parent,1"/>
+                  <AnchorLayoutInput Top="ItemMenuPanel,1,2" Bottom="ItemMenuPanel,1,37" Left="Parent,0.65" Right="Parent,1"/>
                 </LayoutInput>
                 <Children>
                   <Panel>
@@ -410,6 +447,7 @@
                   <ColorFill Layout="Fill" Content="Black" Alpha="0.15" />
                 </Children>
               </Panel>
+              
               <!-- Left Bottom Main Menu Panel-->
               <Panel>
                 <LayoutInput>
@@ -452,7 +490,7 @@
                 <Children>
                   <ColorFill Content="Transparent" Padding="8,0,8,-3" Layout="Anchor">
                     <Children>
-                      <Text Name="NPVTitle" Content="recently added" Color="color://s:FontColorLight"
+                      <Text Name="NPVTitle" Content="recently added" Color="color://s:FontColorMedium"
                             Font="Segoe Media Center, 24" Margins="50,0,0,0" />
                       <Text Content="recently added" Color="Black"
                             Font="Segoe Media Center, 24" Margins="50,0,0,0">
@@ -499,7 +537,7 @@
                 </LayoutInput>
               </Graphic>
 
-              <!-- Background Fill -->
+              <!-- Background Fill 
               <Panel Name="MainBGFill" Layout="Fill" Margins="-50,-20,-150,-20" >
                 <Children>
                   <Clip FadeSize="360" Orientation="Vertical" FadeAmount="1" CenterPointPercent="0.5,0.5,0.5" FarOffset="50" NearOffset="50" >
@@ -509,7 +547,7 @@
                   </Clip>
                   <ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>
                 </Children>
-              </Panel>
+              </Panel>-->
 
             </Children>
           </Clip>
@@ -529,7 +567,7 @@
       <Index Name="Index" Index="$Required"/>
       <IntRangedValue Name="NavCount" IntRangedValue="$Required" />
     </Properties>
-    
+
     <Locals>
       <Color Name="FocusedColor" Color="color://s:FontColorLight" />
       <Color Name="IdleColor" Color="color://s:FontColorMedium" />
@@ -574,18 +612,14 @@
     <Content>
       <Graphic Name="Bg" MinimumSize="0,65" Content="image://i:BlankImage" SizingPolicy="SizeToChildren" Padding="25,0,25,0">
         <Children>
-
           <ColorFill Name="BoxItem" Content="Transparent" Layout="Anchor" Alpha="1" >
-
             <Children>
-
-              <Text Name="Title" Content="[Item.Name]" Color="[IdleColor]" Font="Segoe Media Center Semibold,32" >
+              <Text Name="Title" Content="[Item.Name]" Color="[IdleColor]" Margins="0,5,0,0" Font="Segoe Media Center Semibold,32" >
                 <LayoutInput>
                   <AnchorLayoutInput Top="Parent, 0, 5" Left="Parent, 0" />
                 </LayoutInput>
               </Text>
-
-              <Graphic Name="FlashTop" Content="image://me:FlashHorizontal" Visible="false">
+              <Graphic Name="FlashTop" Content="image://me:FlashHorizontalT" Visible="false">
                 <LayoutInput>
                   <AnchorLayoutInput Top="Parent, 0, 4" Left="Parent, 0, 0" ContributesToHeight="false" ContributesToWidth="false"/>
                 </LayoutInput>
@@ -609,7 +643,7 @@
                 </Animations>
               </Graphic>
 
-              <Graphic Name="FlashBottom" Content="image://me:FlashHorizontal" Visible="false">
+              <Graphic Name="FlashBottom" Content="image://me:FlashHorizontalB" Visible="false">
                 <LayoutInput>
                   <FormLayoutInput Bottom="Parent,1,6" Left="Title,1,24" ContributesToHeight="false" ContributesToWidth="false"/>
                 </LayoutInput>
@@ -752,7 +786,7 @@
   <Image Name="HiliteFocusBg" Source="resx://MediaBrowser/MediaBrowser.Resources/rootscrollhilitefocus" NineGrid="10,10,10,10" />
   <Image Name="PosterFrame" Source="resx://MediaBrowser/MediaBrowser.Resources/poster_frame" NineGrid="10,10,10,10" />
 
-  <Image Name="FlashVertical" Source="resx://MediaBrowser/MediaBrowser.Resources/flashVer" />
-  <Image Name="FlashHorizontal" Source="resx://MediaBrowser/MediaBrowser.Resources/flashHor" />
+  <Image Name="FlashHorizontalT" Source="resx://MediaBrowser/MediaBrowser.Resources/flashHorT" />
+  <Image Name="FlashHorizontalB" Source="resx://MediaBrowser/MediaBrowser.Resources/flashHorB" />
 
 </Mcml>

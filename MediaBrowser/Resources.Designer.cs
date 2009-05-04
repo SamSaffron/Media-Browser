@@ -748,16 +748,16 @@ namespace MediaBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap flashHor {
+        internal static System.Drawing.Bitmap flashHorB {
             get {
-                object obj = ResourceManager.GetObject("flashHor", resourceCulture);
+                object obj = ResourceManager.GetObject("flashHorB", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap flashVer {
+        internal static System.Drawing.Bitmap flashHorT {
             get {
-                object obj = ResourceManager.GetObject("flashVer", resourceCulture);
+                object obj = ResourceManager.GetObject("flashHorT", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1588,13 +1588,6 @@ namespace MediaBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap rootselectbg {
-            get {
-                object obj = ResourceManager.GetObject("rootselectbg", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap roottopw {
             get {
                 object obj = ResourceManager.GetObject("roottopw", resourceCulture);
@@ -1647,6 +1640,13 @@ namespace MediaBrowser {
         internal static System.Drawing.Bitmap Star_Empty {
             get {
                 object obj = ResourceManager.GetObject("Star_Empty", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Star_Full {
+            get {
+                object obj = ResourceManager.GetObject("Star_Full", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
