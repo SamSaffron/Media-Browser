@@ -36,9 +36,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl Margin="12,63,12,51" x:Name="tabControl1" Background="{x:Null}">
+        <TabControl Margin="12,67,12,47" x:Name="tabControl1" Background="{x:Null}">
             <TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
-                <Grid Height="351">
+                <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
                     <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove media collection" Content="Remove"/>
@@ -57,55 +57,57 @@
                     <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
                 </Grid>
             </TabItem>
-			<TabItem Header="Podcasts">
+			<TabItem Header="podcasts" FontSize="14">
 				<Grid>
-					<Label HorizontalAlignment="Left" Margin="12,0,0,32.38" VerticalAlignment="Bottom" Width="286" Height="27" Content="Where would you like your podcasts to be stored:"/>
-					<Label VerticalAlignment="Bottom" Height="27" Content="C:\ProgramData\MediaBrowser" Margin="298,0,66,32.38" x:Name="podcastsPath"/>
-					<Button Margin="298,0,282,6.38" VerticalAlignment="Bottom" Height="22" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" />
-					<ListBox IsSynchronizedWithCurrentItem="True" Margin="31,20.38,315,130" x:Name="podcastList" DisplayMemberPath="Name" />
-					<Button HorizontalAlignment="Left" Margin="31,0,0,85.38" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
-					<Button HorizontalAlignment="Left" Margin="139,0,0,85.38" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast"/>
-					<Button Margin="245,0,315,85.38" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast"/>
+					<Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
+					<Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
+					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" />
+					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" />
+					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
+					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast"/>
+					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" />
 					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="284.667" x:Name="podcastDetails">
 						<Grid>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Width="108" Height="25" SelectedIndex="0" IsEditable="True" x:Name="downloadPolicy" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,33,0">
+							<ComboBox IsSynchronizedWithCurrentItem="True" Height="25" SelectedIndex="0" IsEditable="True" x:Name="downloadPolicy" VerticalAlignment="Top" Margin="0,20,10,0" HorizontalAlignment="Right" Width="125">
 								<ComboBoxItem Content="Stream"/>
 								<ComboBoxItem Content="On Demand"/>
 								<ComboBoxItem Content="Latest"/>
 							</ComboBox>
-							<Label Width="104" Height="27" Content="Download Policy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,20,0,0"/>
+							<Label Width="119" Height="27" Content="Download Policy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,20,0,0"/>
 							<Label Width="105" Content="Keep:" HorizontalAlignment="Left" Margin="8,51,0,0" Height="32" VerticalAlignment="Top"/>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Width="108" SelectedIndex="0" IsEditable="True" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,53,33,0" Height="25" VerticalAlignment="Top">
+							<ComboBox IsSynchronizedWithCurrentItem="True" Width="125" SelectedIndex="0" IsEditable="True" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,51,10,0" Height="25" VerticalAlignment="Top">
 								<ComboBoxItem Content="All Podcasts"/>
 								<ComboBoxItem Content="Last 10"/>
 								<ComboBoxItem Content="Last 5"/>
 							</ComboBox>
-							<Label Width="50" Content="Url:" HorizontalAlignment="Left" Margin="8,87,0,101"/>
-							<Label Content="http://somepodcast.com/podcas.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="8,0,8,71.04"/>
+							<Label Width="50" Content="Url:" HorizontalAlignment="Left" Margin="8,87,0,95"/>
+							<Label Content="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="8,0,8,71.04" FontSize="12" />
 						</Grid>
 					</Border>
 	
 					
 				</Grid>
 			</TabItem>
-            <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
+            <TabItem Header="extenders + iso" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
                 <Grid >
-                    <ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="26,111,0,70.72" x:Name="extenderFormats" Width="175.88"/>
-                    <Label HorizontalAlignment="Left" Margin="26,74,0,0" VerticalAlignment="Top" Width="175.88" Height="30.28" Content="Extender formats"/>
-                    <Button HorizontalAlignment="Left" Margin="26,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Add" x:Name="addExtenderFormat" Click="addExtenderFormat_Click" FontSize="14" />
-                    <Button HorizontalAlignment="Left" Margin="121.88,0,0,27" VerticalAlignment="Bottom" Width="80" Height="32" Content="Remove" x:Name="removeExtenderFormat" Click="removeExtenderFormat_Click" FontSize="14" />
-                    <CheckBox Margin="26,40.72,324,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="iso mounting" x:Name="tabItem3" Foreground="#FF323232" FontSize="14" FontWeight="Normal" >
-                <Grid >
-                    <Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="38.56" Content="ISO Mounting Tool Location"  HorizontalAlignment="Left" Width="239"  />
-                    <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="62,108,0,0" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Top" />
-                    <CheckBox Margin="68.373,150,0,161" Content="Use Autoplay" Width="193" HorizontalAlignment="Left" x:Name="useAutoPlay" Click="useAutoPlay_Click" />
-                    <Label Margin="211,64,24.627,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation"/>
-                    <Button Margin="62,62.31,0,0" Content="Change Location..." HorizontalAlignment="Left" Width="131" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" Height="32" VerticalAlignment="Top" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" />
-                    <ComboBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="211,111,0,0" Width="63" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" Height="23" VerticalAlignment="Top" />
-
+                    <GroupBox Header="Extender Settings" Margin="9,16,0,14" Name="groupBox6" HorizontalAlignment="Left" Width="225">
+                        <Grid>
+                            <ListBox IsSynchronizedWithCurrentItem="True" Margin="6,60,8.12,49" x:Name="extenderFormats" />
+                            <Label Margin="6,32,8.12,0" VerticalAlignment="Top" Height="30.28" Content="Extender formats" />
+                            <Button HorizontalAlignment="Left" Margin="6,0,0,5" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addExtenderFormat" Click="addExtenderFormat_Click" FontSize="14" />
+                            <Button Margin="0,0,8.12,5" VerticalAlignment="Bottom" Height="32" Content="Remove" x:Name="removeExtenderFormat" Click="removeExtenderFormat_Click" FontSize="14" HorizontalAlignment="Right" Width="90" />
+                            <CheckBox Margin="6,7,0,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" HorizontalAlignment="Left" Width="198.88" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="ISO Mounting Settings" Name="groupBox5" Margin="260,16,6,165">
+                        <Grid>
+                            <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="19,0,0,33" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Bottom" />
+                            <Label Margin="6,7,6,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation" FontSize="12" />
+                            <Button Margin="87,0,0,78" Content="Change Location..." HorizontalAlignment="Left" Width="131" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" Height="31.76" VerticalAlignment="Bottom" />
+                            <ComboBox IsSynchronizedWithCurrentItem="True" Margin="147,0,0,39" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="71" />
+                            <CheckBox Margin="23,0,170,8" Content="Use Autoplay" x:Name="useAutoPlay" Click="useAutoPlay_Click" Height="22.38" VerticalAlignment="Bottom" />
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="display" x:Name="tabItem4" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
@@ -129,7 +131,7 @@
                             <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,16" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom">
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,190,0,0" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
                             <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
                     <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
@@ -140,20 +142,20 @@
                     
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Root Page" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
+                    <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
-                            <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Root Page</CheckBox>
-                            <Label Margin="25,60,130,36" ToolTip="">Units</Label>
-                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="" VerticalAlignment="Top" Width="120">Location ID</Label>
+                            <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
+                            <Label Margin="25,60,130,36" ToolTip="Weather temperature unit">Weather Unit</Label>
+                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="Yahoo! Weather location ID" VerticalAlignment="Top" Width="120">Weather ID</Label>
                             <TextBox Height="23" Margin="120,37,35,0" Name="tbxWeatherID" VerticalAlignment="Top" />
                             <ComboBox Margin="120,64,35,45" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" />
-                            <Button Height="23" HorizontalAlignment="Left" Margin="25,96,0,0" Name="btnWeatherID" VerticalAlignment="Top" Width="120" Click="btnWeatherID_Click">Save Weather</Button>
+                            <Button Height="29.76" Margin="25,0,0,6" Name="btnWeatherID" VerticalAlignment="Bottom" Click="btnWeatherID_Click" HorizontalAlignment="Left" Width="85">Save</Button>
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
-                <Grid Height="351">
+                <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" ItemTemplate="{StaticResource EPStyle}" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media player" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemovePlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Remove media player" Content="Remove" Click="btnRemovePlayer_Click" />
@@ -172,7 +174,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Height="43" HorizontalAlignment="Right" Margin="0,-3,12,0" x:Name="lblHeader" VerticalAlignment="Top" Width="183" FontSize="28" Background="{x:Null}" Content="mediabrowser" RenderTransformOrigin="0.5,0.5">
+        <Label HorizontalAlignment="Right" Margin="0,0,12,0" x:Name="lblHeader" Width="183" FontSize="28" Background="{x:Null}" Content="mediabrowser" RenderTransformOrigin="0.5,0.5" Height="43" VerticalAlignment="Top">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -188,7 +190,7 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,28,12,0" x:Name="lblHeader2" VerticalAlignment="Top" Width="183" FontSize="14" HorizontalContentAlignment="Center" Content="c o n f i g u r a t i o n" RenderTransformOrigin="0.5,0.5">
+        <Label Height="28" HorizontalAlignment="Right" Margin="0,31,12,0" x:Name="lblHeader2" VerticalAlignment="Top" Width="183" FontSize="14" HorizontalContentAlignment="Center" Content="c o n f i g u r a t i o n" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -198,9 +200,9 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Height="33" HorizontalAlignment="Left" Margin="38,12,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
-        <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="108,12,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
-        <Rectangle Height="32" Margin="12,12,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="10" >
+        <Label Height="33" HorizontalAlignment="Left" Margin="38,15,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
+        <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="108,15,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
+        <Rectangle Height="25.989" Margin="15,19.343,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0">
         	<Rectangle.Fill>
         		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
         			<GradientStop Color="#FF234502" Offset="1"/>
