@@ -57,6 +57,37 @@
                     <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
                 </Grid>
             </TabItem>
+			<TabItem Header="Podcasts">
+				<Grid>
+					<Label HorizontalAlignment="Left" Margin="12,0,0,32.38" VerticalAlignment="Bottom" Width="286" Height="27" Content="Where would you like your podcasts to be stored:"/>
+					<Label VerticalAlignment="Bottom" Height="27" Content="C:\ProgramData\MediaBrowser" Margin="298,0,66,32.38" x:Name="podcastsPath"/>
+					<Button Margin="298,0,282,6.38" VerticalAlignment="Bottom" Height="22" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" />
+					<ListBox IsSynchronizedWithCurrentItem="True" Margin="31,20.38,315,130" x:Name="podcastList" DisplayMemberPath="Name" />
+					<Button HorizontalAlignment="Left" Margin="31,0,0,85.38" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
+					<Button HorizontalAlignment="Left" Margin="139,0,0,85.38" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast"/>
+					<Button Margin="245,0,315,85.38" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast"/>
+					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="284.667" x:Name="podcastDetails">
+						<Grid>
+							<ComboBox IsSynchronizedWithCurrentItem="True" Width="108" Height="25" SelectedIndex="0" IsEditable="True" x:Name="downloadPolicy" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,33,0">
+								<ComboBoxItem Content="Stream"/>
+								<ComboBoxItem Content="On Demand"/>
+								<ComboBoxItem Content="Latest"/>
+							</ComboBox>
+							<Label Width="104" Height="27" Content="Download Policy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,20,0,0"/>
+							<Label Width="105" Content="Keep:" HorizontalAlignment="Left" Margin="8,51,0,0" Height="32" VerticalAlignment="Top"/>
+							<ComboBox IsSynchronizedWithCurrentItem="True" Width="108" SelectedIndex="0" IsEditable="True" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,53,33,0" Height="25" VerticalAlignment="Top">
+								<ComboBoxItem Content="All Podcasts"/>
+								<ComboBoxItem Content="Last 10"/>
+								<ComboBoxItem Content="Last 5"/>
+							</ComboBox>
+							<Label Width="50" Content="Url:" HorizontalAlignment="Left" Margin="8,87,0,101"/>
+							<Label Content="http://somepodcast.com/podcas.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="8,0,8,71.04"/>
+						</Grid>
+					</Border>
+	
+					
+				</Grid>
+			</TabItem>
             <TabItem Header="extenders" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
                 <Grid >
                     <ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="26,111,0,70.72" x:Name="extenderFormats" Width="175.88"/>
@@ -178,5 +209,6 @@
         		</LinearGradientBrush>
         	</Rectangle.Fill>
         </Rectangle>
+        
     </Grid>
 </Window>

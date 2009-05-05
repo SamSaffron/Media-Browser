@@ -17,9 +17,9 @@ namespace MediaBrowser.Library.Providers
         string imagePath;
 
         // to simplify things we could consider moving this into folder ... 
-        private VirtualFolder VirtualFolder {
+        private VirtualFolderContents VirtualFolder {
             get {
-                VirtualFolder virtualfolder = null;
+                VirtualFolderContents virtualfolder = null;
                 var folder = Item as MediaBrowser.Library.Entities.Folder;
                 if (folder != null) {
                     var location = folder.FolderMediaLocation as VirtualFolderMediaLocation;

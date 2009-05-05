@@ -73,6 +73,9 @@
     <Compile Include="Code\ModelItems\FolderChildren.cs" />
     <Compile Include="Library\Configuration\ApplicationPaths.cs" />
     <Compile Include="Library\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Library\Filesystem\AttributedContents.cs" />
+    <Compile Include="Library\Filesystem\VirtualFolder.cs" />
+    <Compile Include="Library\Filesystem\VodcastContents.cs" />
     <Compile Include="Library\Logging\FileLogger.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Library\Logging\ThreadedLogger.cs" />
     <Compile Include="Library\Logging\TraceLogger.cs" />
     <Compile Include="Library\Metadata\MetadataProviders.cs" />
+    <Compile Include="Library\Network\DownloadPolicy.cs" />
     <Compile Include="Library\Network\RSSFeed.cs" />
     <Compile Include="Library\Persistance\FileBasedDictionary.cs" />
     <Compile Include="Library\Persistance\IPersistableChangeNotifiable.cs" />
@@ -156,7 +160,7 @@
     <Compile Include="Library\Filesystem\IMediaLocation.cs" />
     <Compile Include="Library\Filesystem\MediaLocation.cs" />
     <Compile Include="Library\Filesystem\ProtectedFileStream.cs" />
-    <Compile Include="Library\Filesystem\VirtualFolder.cs" />
+    <Compile Include="Library\Filesystem\VirtualFolderContents.cs" />
     <Compile Include="Library\Filesystem\VirtualFolderMediaLocation.cs" />
     <Compile Include="Library\ImageManagement\GrabImage.cs" />
     <Compile Include="Library\ImageManagement\LibraryImage.cs" />

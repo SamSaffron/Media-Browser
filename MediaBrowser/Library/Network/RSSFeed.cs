@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using MediaBrowser.Library.Extensions;
 
 namespace MediaBrowser.Library.Network {
-    class RSSFeed {
+    public class RSSFeed {
 
         string url;
         SyndicationFeed feed;
@@ -28,9 +28,9 @@ namespace MediaBrowser.Library.Network {
                         children = GetChildren(feed);
                     }
                 } catch (Exception ex) {
-                    // error, do we exception out ? do we retry ? 
                     Debug.Assert(false, "Failed to update podcast");
                     Application.Logger.ReportException("Podcast update failed.", ex);
+                    throw;
                 }
             }
         }
@@ -81,6 +81,16 @@ namespace MediaBrowser.Library.Network {
             get {
                 return children;
             }
+        }
+
+        // Save a basic .vodcast file that the entity framework understands 
+        public void Save(string folder) {
+            // find a file name based off title. 
+ 
+            // find next available file 
+
+
+
         }
     }
 }

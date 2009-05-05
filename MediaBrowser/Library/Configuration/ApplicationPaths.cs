@@ -18,7 +18,8 @@ namespace MediaBrowser.Library.Configuration {
                     { "AppInitialDirPath",   "AppConfigPath",    "StartupFolder" },
                     { "AppPluginPath",       "AppConfigPath",    "Plugins" },
                     { "AppRSSPath",          "AppConfigPath",    "RSS"},
-                    { "AppLogPath",          "AppConfigPath",    "Logs"}
+                    { "AppLogPath",          "AppConfigPath",    "Logs"},
+                    { "DefaultPodcastPath", "AppConfigPath", "Podcasts"    }
             };
 
 
@@ -44,6 +45,12 @@ namespace MediaBrowser.Library.Configuration {
 
             pathMap["AppUserSettingsPath"] = path;
         }
+
+        public static string DefaultPodcastPath {
+            get {
+                return pathMap["DefaultPodcastPath"];
+            } 
+        } 
 
         public static string AppLogPath {
             get {

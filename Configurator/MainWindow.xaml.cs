@@ -20,6 +20,8 @@ using MediaBrowser.Code.ShadowTypes;
 using System.Xml.Serialization;
 using MediaBrowser.Library;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Factories;
+using MediaBrowser.Library.Entities;
 
 namespace Configurator
 {
@@ -57,6 +59,7 @@ namespace Configurator
 
             config.InitialFolder = ApplicationPaths.AppInitialDirPath;
             RefreshItems();
+            RefreshPodcasts();
             RefreshPlayers();
             LoadConfigurationSettings();            
 
@@ -80,7 +83,22 @@ namespace Configurator
             RefreshExtenderFormats();
             RefreshDisplaySettings();
 
+            podcastsPath.Content = config.PodcastHome;
             SaveConfig();
+
+        }
+
+        private void RefreshPodcasts() {
+            var podcasts = BaseItemFactory.Instance.Create(config.PodcastHome) as Folder;
+            podcasts.ValidateChildren();
+
+            podcastList.Items.Clear();
+
+            foreach (var item in podcasts.Children) {
+                if (item is VodCast) {
+                    podcastList.Items.Add(item);
+                }
+            }
         }
 
         #region Config Loading / Saving        
@@ -172,8 +190,8 @@ namespace Configurator
                     if (filename.ToLowerInvariant().EndsWith(".vf") ||
                         filename.ToLowerInvariant().EndsWith(".lnk"))
                         folderList.Items.Add(new VirtualFolder(filename));
-                    else
-                        throw new ArgumentException("Invalid virtual folder file extension: " + filename);
+                    //else
+                    //    throw new ArgumentException("Invalid virtual folder file extension: " + filename);
                 }
                 catch (ArgumentException e)
                 {
@@ -349,16 +367,6 @@ folder: {0}
                 virtualFolder.AddFolder(dlg.SelectedFolder);
                 folderList_SelectionChanged(this, null);
             }
-
-            /* OLDFolderBrowser
-            FolderBrowser browser = new FolderBrowser();
-            var result = browser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                virtualFolder.AddFolder(browser.DirectoryPath);
-                folderList_SelectionChanged(this, null);
-            }
-            */
         }
 
         private void btnRemoveSubFolder_Click(object sender, RoutedEventArgs e)
@@ -719,6 +727,26 @@ folder: {0}
                 config.YahooWeatherUnit = "c";
             config.YahooWeatherFeed = tbxWeatherID.Text;
             SaveConfig();
+        }
+
+        private void ChangePodcastPathClick(object sender, RoutedEventArgs e) {
+            BrowseForFolderDialog dlg = new BrowseForFolderDialog();
+
+            if (true == dlg.ShowDialog(this)) {
+                config.PodcastHome = dlg.SelectedFolder;
+                podcastsPath.Content = dlg.SelectedFolder;
+                SaveConfig();
+            }
+        }
+
+        private void addPodcast_Click(object sender, RoutedEventArgs e) {
+            var form = new AddPodcastForm();
+            form.Owner = this;
+            var result = form.ShowDialog();
+            if (result == true) {
+                form.RSSFeed.Save(config.PodcastHome);
+            } 
+
         }
 
         

@@ -2,38 +2,55 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using MediaBrowser.Library.Filesystem;
 
-namespace MediaBrowser.Library.Filesystem {
+namespace Configurator {
+
     public class VirtualFolder {
-        
-        List<string> folders = new List<string>();
-        string image;
 
-        public VirtualFolder(string contents) {
-            // splitting on \n cause I want this to work for VFs edited in linux. 
-            foreach (var line in contents.Split('\n')) {
-                var colonPos = line.IndexOf(':');
-                if (colonPos <= 0) {
-                    continue;
-                }
+        VirtualFolderContents contents;
 
-                var type = line.Substring(0, colonPos);
-                var filename = line.Substring(colonPos + 1).Trim();
+        string path;
 
-                if (type == "image") {
-                    image = filename;
-                } else if (type == "folder") {
-                    folders.Add(filename);
-                }
+        public VirtualFolder(string path) {
+            this.path = path;
+            contents = new VirtualFolderContents(File.ReadAllText(path));
+        }
 
+        public string Path { get { return path; } }
+
+        public void RemoveFolder(string folder) {
+            contents.RemoveFolder(folder);
+            Save();
+        }
+
+        public void AddFolder(string folder) {
+            contents.AddFolder(folder);
+            Save();
+        }
+
+        public void Save() {
+            File.WriteAllText(path, contents.Contents);
+        }
+
+        public List<string> Folders { get { return contents.Folders; } }
+
+        public string ImagePath {
+            get { return contents.ImagePath; }
+            set { contents.ImagePath = value; Save(); }
+        }
+
+        public string Name {
+            get { return System.IO.Path.GetFileNameWithoutExtension(path); }
+            set {
+                string newPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), value + ".vf");
+                File.Move(path, newPath);
+                path = newPath;
             }
         }
 
-        public List<string> Folders { get { return folders; } }
-
-        public string ImagePath {
-            get { return image; }
+        public override string ToString() {
+            return Name;
         }
-    
     }
 }

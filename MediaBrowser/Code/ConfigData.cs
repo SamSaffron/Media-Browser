@@ -82,6 +82,8 @@ namespace MediaBrowser
         public string YahooWeatherFeed = "UKXX0085";
         public string YahooWeatherUnit = "c";
 
+        public string PodcastHome = ApplicationPaths.DefaultPodcastPath;
+
         public class ExternalPlayer
         {
             public MediaType MediaType { get; set; }

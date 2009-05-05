@@ -484,7 +484,13 @@ namespace MediaBrowser
             get { return this.data.YahooWeatherUnit; }
             set { if (this.data.YahooWeatherUnit != value) { this.data.YahooWeatherUnit = value; Save(); FirePropertyChanged("YahooWeatherUnit"); } }
         }
-        
+
+
+        public string PodcastHome {
+            get { return this.data.PodcastHome; }
+            set { if (this.data.PodcastHome != value) { this.data.PodcastHome = value; Save(); FirePropertyChanged("PodcastHome"); } }
+        }
+
         
         /* End of app specific settings*/
 

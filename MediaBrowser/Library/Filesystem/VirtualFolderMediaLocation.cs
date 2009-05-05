@@ -8,14 +8,14 @@ using MediaBrowser.Library.Extensions;
 namespace MediaBrowser.Library.Filesystem {
     public class VirtualFolderMediaLocation : MediaLocation, IFolderMediaLocation {
 
-        VirtualFolder virtualFolder;
+        VirtualFolderContents virtualFolder;
 
-        public VirtualFolder VirtualFolder { get { return virtualFolder;  } }
+        public VirtualFolderContents VirtualFolder { get { return virtualFolder;  } }
 
         public VirtualFolderMediaLocation(FileInfo info, IFolderMediaLocation parent)
             : base(info, parent) 
         {
-            virtualFolder = new VirtualFolder(Contents);
+            virtualFolder = new VirtualFolderContents(Contents);
             children = new Lazy<IList<IMediaLocation>>(GetChildren);
         }
 

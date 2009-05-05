@@ -23,6 +23,10 @@ namespace MediaBrowser.Library.Factories {
             
         };
 
+        public BaseItem Create(string path) {
+            return Create(MediaLocationFactory.Instance.Create(path));
+        }
+
         public BaseItem Create(IMediaLocation location) {
             BaseItem item = null;
 

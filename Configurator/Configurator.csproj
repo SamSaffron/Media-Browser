@@ -66,6 +66,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddPodcastForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,6 +99,9 @@
     <Compile Include="AddExtenderFormat.xaml.cs">
       <DependentUpon>AddExtenderFormat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddPodcastForm.xaml.cs">
+      <DependentUpon>AddPodcastForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Code\BrowseForFolder.cs" />
     <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\FolderBrowser.cs">
@@ -119,7 +126,6 @@
     <Compile Include="RenameForm.xaml.cs">
       <DependentUpon>RenameForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Code\VirtualFolder.cs" />
     <Compile Include="Code\WinAPI.cs" />
     <Compile Include="SelectMediaTypeForm.xaml.cs">
       <DependentUpon>SelectMediaTypeForm.xaml</DependentUpon>
