@@ -9,6 +9,10 @@ using MediaBrowser.Library.Providers.TVDB;
 namespace MediaBrowser.Library.Extensions {
     static class IMediaLocationExtensions {
 
+        public static bool IsIso(this IMediaLocation location) {
+            return Helper.IsIso(location.Path);
+        } 
+
         public static bool IsVideo(this IMediaLocation location) {
             return Helper.IsVideo(location.Path);
         }

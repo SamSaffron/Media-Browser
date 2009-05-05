@@ -14,6 +14,12 @@ namespace MediaBrowser.Library.Factories {
 
         Dictionary<string, LibraryImage> cache = new Dictionary<string, LibraryImage>();
 
+        public void ClearCache() {
+            lock (cache) {
+                cache.Clear();
+            }
+        }
+
         public LibraryImage GetImage(string path) {
             LibraryImage image = null;
             bool cached = false;

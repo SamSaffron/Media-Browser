@@ -15,13 +15,37 @@ namespace TestMediaBrowser {
     [TestFixture] 
     public class TestLibrary {
 
+        IItemRepository oldRepository; 
+
+        [SetUp]
+        public void Setup() {
+            oldRepository = ItemCache.Instance;
+            ItemCache.Instance = new DummyItemRepository();
+        }
+
+        [TearDown]
+        public void Teardown() {
+            ItemCache.Instance = oldRepository;
+        } 
+
+        [Test]
+        public void TestISOResolution () { 
+             var rootLocation = MockFolderMediaLocation.CreateMockLocation(
+            @"
+|Root
+ Rocky.iso
+ Rambo.iso
+");
+            var rootFolder = (MediaBrowser.Library.Entities.Folder)BaseItemFactory.Instance.Create(rootLocation);
+
+            Assert.AreEqual(2, rootFolder.Children.Count());
+            Assert.AreEqual(MediaType.ISO, (rootFolder.Children[0] as Video).MediaType);
+            Assert.AreEqual(MediaType.ISO, (rootFolder.Children[1] as Video).MediaType);
+        } 
 
 
         [Test]
         public void TestLibraryNavigation() {
-
-            var oldRepository = ItemCache.Instance;
-            ItemCache.Instance = new DummyItemRepository();
 
             var rootLocation = MockFolderMediaLocation.CreateMockLocation(
             @"
@@ -46,7 +70,7 @@ namespace TestMediaBrowser {
             }
 
             Assert.AreEqual("movie3", rootFolder.Children.ElementAt(1).Name);
-            ItemCache.Instance = oldRepository;
+           
 
         }
 

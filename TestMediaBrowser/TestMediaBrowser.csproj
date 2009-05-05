@@ -90,6 +90,7 @@
     <Content Include="LICENSE.txt" />
     <Content Include="Movies.txt" />
     <Content Include="SampleMedia\Images\image.png" />
+    <Content Include="SampleMedia\Images\image2.png" />
     <Content Include="SampleMedia\Movies\Flawless\backdrop.jpg" />
     <Content Include="SampleMedia\Movies\Flawless\backdrop1.png" />
     <Content Include="SampleMedia\Movies\Flawless\movie.avi" />

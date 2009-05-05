@@ -34,7 +34,13 @@ namespace MediaBrowser.Library.EntityDiscovery {
                 DetectFolderWhichIsMovie(folder, out isMovie, out mediaType, out volumes);
 
             } else {
-                isMovie = location.IsVideo();
+                if (location.IsIso()) {
+                    isMovie = true;
+                    mediaType = MediaType.ISO;
+                } else {
+                    isMovie = location.IsVideo();
+                }
+
             }
 
             if (isMovie) {
@@ -79,7 +85,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
                     break;
                 }
 
-                if (pathUpper.EndsWith(".ISO")) {
+                if (child.IsIso()) {
                     mediaType = MediaType.ISO;
                     isoCount++;
                     if (isoCount > 1) {
@@ -114,10 +120,14 @@ namespace MediaBrowser.Library.EntityDiscovery {
                     .Take((maxVideosPerMovie - currentCount) + 1));
             }
 
-            if (volumes.Count > 0 || isoCount > 0) {
-                if ((volumes.Count == 0 || isoCount == 0) && volumes.Count <= maxVideosPerMovie) {
+            if (volumes.Count > 0 && isoCount == 0) {
+                if (volumes.Count <= maxVideosPerMovie) {
                     isMovie = true;
                 }
+            }
+
+            if (volumes.Count == 0 && isoCount == 1) {
+                isMovie = true;
             } 
 
             return;

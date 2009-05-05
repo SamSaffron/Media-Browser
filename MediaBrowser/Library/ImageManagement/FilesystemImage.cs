@@ -33,7 +33,8 @@ namespace MediaBrowser.Library.ImageManagement {
                 if (!isValid && File.Exists(LocalFilename)) {
                     var localInfo = new System.IO.FileInfo(LocalFilename);
                     var remoteInfo = new System.IO.FileInfo(Path);
-                    isValid = localInfo.LastWriteTimeUtc > remoteInfo.LastWriteTimeUtc;   
+                    isValid = localInfo.LastWriteTimeUtc > remoteInfo.LastWriteTimeUtc;
+                    isValid &= localInfo.Length == remoteInfo.Length;
                 }
 
                 if (!isValid) {
