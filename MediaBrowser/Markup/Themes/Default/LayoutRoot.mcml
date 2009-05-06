@@ -451,7 +451,7 @@
               <!-- Left Bottom Main Menu Panel-->
               <Panel>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="ItemMenuPanel,1" Bottom="ItemMenuPanel,1,35" Left="Parent,0" Right="Parent,0.65"/>
+                  <AnchorLayoutInput Top="ItemMenuPanel,1,2" Bottom="ItemMenuPanel,1,37" Left="Parent,0" Right="Parent,0.65"/>
                 </LayoutInput>
                 <Children>
                   <Text Name="InfoPanelDisplay" Font="font://f:P_ClockFont"  Color="White" />

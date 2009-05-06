@@ -211,7 +211,7 @@
           <!-- Movie Backdrop -->
           <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]">
             <LayoutInput>
-              <FormLayoutInput Top="Parent,0,-10" Left="Parent,0,-10" Bottom="Parent,1,10" Right="Parent,1,10" />
+              <FormLayoutInput Top="Parent,0,-20" Left="Parent,0,-25" Bottom="Parent,1,10" Right="Parent,1,25" />
             </LayoutInput>
           </bd:Backdrop4>
 
