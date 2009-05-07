@@ -22,6 +22,7 @@ using MediaBrowser.Library;
 using MediaBrowser.Library.Configuration;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Entities;
+using MediaBrowser.Library.Network;
 
 namespace Configurator
 {
@@ -745,10 +746,70 @@ folder: {0}
             var result = form.ShowDialog();
             if (result == true) {
                 form.RSSFeed.Save(config.PodcastHome);
+                podcastList_SelectionChanged(null, null);
             } 
 
         }
 
+        private void podcastList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            VodCast vodcast = podcastList.SelectedItem as VodCast;
+            if (vodcast != null) {
+                podcastUrl.Content = vodcast.Url;
+
+                // i hate this, it needs to be re-written
+                if (vodcast.FilesToRetain < 0) {
+                    keepPolicy.SelectedIndex = 0;
+                } else if (vodcast.FilesToRetain >= 5) {
+                    keepPolicy.SelectedItem = 1; 
+                } else {
+                    keepPolicy.SelectedItem = 2;
+                }
+
+                if (vodcast.DownloadPolicy == DownloadPolicy.Stream) {
+                    downloadPolicy.SelectedIndex = 0;
+                } else if (vodcast.DownloadPolicy == DownloadPolicy.FirstPlay) {
+                    downloadPolicy.SelectedIndex = 1;
+                } else {
+                    downloadPolicy.SelectedIndex = 2;
+                }
+            }
+        }
+
+        private void downloadPolicy_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            SaveCurrentVodcast();   
+        }
+
+        private void keepPolicy_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            SaveCurrentVodcast();   
+        }
+
+        private void SaveCurrentVodcast() {
+            VodCast vodcast = podcastList.SelectedItem as VodCast;
+            if (vodcast != null) {
+
+                // ugly ugly ugly should be replaced with something cleaner
+
+                if (downloadPolicy.SelectedIndex == 0) {
+                    vodcast.DownloadPolicy = DownloadPolicy.Stream;
+                } else if (downloadPolicy.SelectedIndex == 1) {
+                    vodcast.DownloadPolicy = DownloadPolicy.FirstPlay;
+                } else {
+                    vodcast.DownloadPolicy = DownloadPolicy.Latest;
+                }
+
+                if (keepPolicy.SelectedIndex == 0) {
+                    vodcast.FilesToRetain = -1;
+                } else if (keepPolicy.SelectedIndex == 1) {
+                    vodcast.FilesToRetain = 10;
+                } else {
+                    vodcast.FilesToRetain = 5;
+                }
+
+                vodcast.SaveSettings();
+            }
+        }
+
+        
         
 
 

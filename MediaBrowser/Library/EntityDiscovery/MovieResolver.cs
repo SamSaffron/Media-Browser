@@ -30,7 +30,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
             List<IMediaLocation> volumes = null;
 
             var folder = location as IFolderMediaLocation;
-            if (folder != null) {
+            if (folder != null && !folder.ContainsChild(FolderResolver.IGNORE_FOLDER)) {
                 DetectFolderWhichIsMovie(folder, out isMovie, out mediaType, out volumes);
 
             } else {
@@ -134,6 +134,9 @@ namespace MediaBrowser.Library.EntityDiscovery {
         }
 
         private IEnumerable<IMediaLocation> ChildVideos(IFolderMediaLocation location) {
+
+            if (location.ContainsChild(FolderResolver.IGNORE_FOLDER)) yield break;
+
             foreach (var child in location.Children) {
                 if (child.IsVideo()) { 
                     yield return child;

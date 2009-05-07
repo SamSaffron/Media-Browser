@@ -29,6 +29,9 @@ namespace MediaBrowser.Library.Filesystem {
             get {
                 return File.ReadAllText(Path);
             }
+            set {
+                File.WriteAllText(Path, value); 
+            }
         }
 
     }

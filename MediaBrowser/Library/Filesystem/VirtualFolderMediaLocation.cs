@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using MediaBrowser.Library.Util;
 using System.IO;
+using System.Linq;
 using MediaBrowser.Library.Extensions;
 
 namespace MediaBrowser.Library.Filesystem {
-    public class VirtualFolderMediaLocation : MediaLocation, IFolderMediaLocation {
+    public class VirtualFolderMediaLocation : FolderMediaLocation {
 
         VirtualFolderContents virtualFolder;
 
@@ -16,12 +17,13 @@ namespace MediaBrowser.Library.Filesystem {
             : base(info, parent) 
         {
             virtualFolder = new VirtualFolderContents(Contents);
-            children = new Lazy<IList<IMediaLocation>>(GetChildren);
         }
 
-        Lazy<IList<IMediaLocation>> children;
+        protected override void SetName() {
+            Name = System.IO.Path.GetFileNameWithoutExtension(Path);
+        }
 
-        private IList<IMediaLocation> GetChildren() {
+        protected override IList<IMediaLocation> GetChildren() {
             var children = new List<IMediaLocation>();
             foreach (var folder in virtualFolder.Folders) {
 
@@ -33,10 +35,6 @@ namespace MediaBrowser.Library.Filesystem {
             return children;
         }
 
-
-        public IList<IMediaLocation> Children {
-            get { return children.Value; }
-        }
 
     }
 }

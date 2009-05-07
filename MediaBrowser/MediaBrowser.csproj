@@ -123,7 +123,7 @@
     <Compile Include="Library\Entities\Studio.cs" />
     <Compile Include="Library\Entities\Video.cs" />
     <Compile Include="Library\Entities\VodCast.cs" />
-    <Compile Include="Library\Entities\VodcastVideo.cs" />
+    <Compile Include="Library\Entities\VodCastVideo.cs" />
     <Compile Include="Library\EntityDiscovery\ChainedEntityResolver.cs" />
     <Compile Include="Library\EntityDiscovery\EntityResolver.cs" />
     <Compile Include="Library\EntityDiscovery\EpisodeResolver.cs" />

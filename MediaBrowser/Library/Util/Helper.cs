@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 
 
 namespace MediaBrowser.LibraryManagement
@@ -299,6 +300,18 @@ namespace MediaBrowser.LibraryManagement
         public static bool IsAlphaNumeric(string str)
         {
             return (!alphaNumeric.IsMatch(str));
+        }
+
+        public static string RemoveInvalidFileChars(string filename) {
+
+            var cleanName = new StringBuilder();
+            foreach (var letter in filename) {
+                if (!System.IO.Path.GetInvalidFileNameChars().Contains(letter)) {
+                    cleanName.Append(letter);
+                }
+            }
+            return cleanName.ToString();
+
         }
     }
 }

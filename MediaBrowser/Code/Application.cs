@@ -385,7 +385,7 @@ namespace MediaBrowser
         void RunActionRecursively(Folder folder, Action<BaseItem> action)
         {
             action(folder);
-            foreach (var item in folder.RecursiveChildren) {
+            foreach (var item in folder.RecursiveChildren.OrderByDescending( i => i.DateModified)) {
                 action(item);
             }
         }

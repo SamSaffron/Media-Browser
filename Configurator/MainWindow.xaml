@@ -62,20 +62,20 @@
 					<Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
 					<Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
 					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" />
-					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" />
+					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged" />
 					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
 					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast"/>
 					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" />
 					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="284.667" x:Name="podcastDetails">
 						<Grid>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Height="25" SelectedIndex="0" IsEditable="True" x:Name="downloadPolicy" VerticalAlignment="Top" Margin="0,20,10,0" HorizontalAlignment="Right" Width="125">
+							<ComboBox IsSynchronizedWithCurrentItem="True" Height="25" SelectedIndex="0" IsEditable="False" x:Name="downloadPolicy" VerticalAlignment="Top" Margin="0,20,10,0" HorizontalAlignment="Right" Width="125" SelectionChanged="downloadPolicy_SelectionChanged">
 								<ComboBoxItem Content="Stream"/>
 								<ComboBoxItem Content="On Demand"/>
 								<ComboBoxItem Content="Latest"/>
 							</ComboBox>
 							<Label Width="119" Height="27" Content="Download Policy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,20,0,0"/>
 							<Label Width="105" Content="Keep:" HorizontalAlignment="Left" Margin="8,51,0,0" Height="32" VerticalAlignment="Top"/>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Width="125" SelectedIndex="0" IsEditable="True" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,51,10,0" Height="25" VerticalAlignment="Top">
+							<ComboBox IsSynchronizedWithCurrentItem="True" Width="125" SelectedIndex="0" IsEditable="False" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,51,10,0" Height="25" VerticalAlignment="Top" SelectionChanged="keepPolicy_SelectionChanged">
 								<ComboBoxItem Content="All Podcasts"/>
 								<ComboBoxItem Content="Last 10"/>
 								<ComboBoxItem Content="Last 5"/>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 using MediaBrowser.Library.Util;
 using MediaBrowser.LibraryManagement;
 using MediaBrowser.Library.Extensions;
@@ -10,20 +11,20 @@ using MediaBrowser.Library.Interop;
 namespace MediaBrowser.Library.Filesystem {
     public class FolderMediaLocation : MediaLocation, IFolderMediaLocation  {
 
+        private IFolderMediaLocation location;
+        Lazy<IList<IMediaLocation>> children;
+        Lazy<Dictionary<string, IMediaLocation>> index; 
 
         internal FolderMediaLocation(FileInfo info, IFolderMediaLocation parent)
             : this(info, parent, null) 
         {
         }
 
-        protected override void SetName() {
-            Name = System.IO.Path.GetFileName(Path);
-        }
-
         // special constructor used by the virtual folders (allows for folder relocation)
         internal FolderMediaLocation(FileInfo info, IFolderMediaLocation parent, IFolderMediaLocation location)
             : base(info, parent) {
             children = new Lazy<IList<IMediaLocation>>(GetChildren);
+            index = new Lazy<Dictionary<string, IMediaLocation>>(CreateIndex); 
             if (location == null) {
                 this.location = this;
             } else {
@@ -32,18 +33,29 @@ namespace MediaBrowser.Library.Filesystem {
         }
 
 
+        protected override void SetName() {
+            Name = System.IO.Path.GetFileName(Path);
+        }
+
+        Dictionary<string, IMediaLocation> CreateIndex() {
+            return children.Value.ToDictionary(item => System.IO.Path.GetFileName(item.Path).ToLower());
+        }
+
+        public IMediaLocation GetChild(string name) {
+            return index.Value[name.ToLower()];
+        }
+
+        public bool ContainsChild(string name) {
+            return index.Value.ContainsKey(name.ToLower());
+        }
+
         public IList<IMediaLocation> Children {
             get {
                 return children.Value;
             }
         }
 
-        #region private
-
-        private IFolderMediaLocation location; 
-        Lazy<IList<IMediaLocation>> children;
-
-        private IList<IMediaLocation> GetChildren() {
+        protected virtual IList<IMediaLocation> GetChildren() {
             var children = new List<IMediaLocation>();
 
             foreach (var file in GetFileInfos(Path)) {
@@ -76,7 +88,7 @@ namespace MediaBrowser.Library.Filesystem {
             return children;
         }
 
-        #endregion 
+
     
         static List<FileInfo> GetFileInfos(string directory) {
             IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
@@ -117,5 +129,12 @@ namespace MediaBrowser.Library.Filesystem {
             return info;
         }
 
+
+     
+
+
+      
+
+     
     }
 }

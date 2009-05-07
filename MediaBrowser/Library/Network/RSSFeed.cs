@@ -8,6 +8,8 @@ using System.Diagnostics;
 using MediaBrowser.Library.Entities;
 using System.Text.RegularExpressions;
 using MediaBrowser.Library.Extensions;
+using MediaBrowser.LibraryManagement;
+using System.IO;
 
 namespace MediaBrowser.Library.Network {
     public class RSSFeed {
@@ -53,7 +55,7 @@ namespace MediaBrowser.Library.Network {
             if (feed == null) yield break;
 
             foreach (var item in feed.Items) {
-                VodcastVideo video = new VodcastVideo();
+                VodCastVideo video = new VodCastVideo();
                 video.DateCreated = item.PublishDate.UtcDateTime;
                 video.DateModified = item.PublishDate.UtcDateTime;
                 video.Name = item.Title.Text;
@@ -86,10 +88,14 @@ namespace MediaBrowser.Library.Network {
         // Save a basic .vodcast file that the entity framework understands 
         public void Save(string folder) {
             // find a file name based off title. 
- 
-            // find next available file 
+            string name = Helper.RemoveInvalidFileChars(Title); 
+            string filename = Path.Combine(folder, name + ".vodcast");
 
-
+            if (!File.Exists(filename)) {
+                File.WriteAllText(filename, "url : " + url);
+            } else {
+                throw new ApplicationException("Looks like we already have this podcast!");
+            }
 
         }
     }

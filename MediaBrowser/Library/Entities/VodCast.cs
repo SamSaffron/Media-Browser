@@ -12,6 +12,7 @@ using System.ServiceModel.Syndication;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using MediaBrowser.Library.Network;
+using System.IO;
 
 namespace MediaBrowser.Library.Entities {
 
@@ -21,40 +22,89 @@ namespace MediaBrowser.Library.Entities {
         // update the vodcast every 60 minutes
         const int UpdateMinuteInterval = 60;
 
-        [NotSourcedFromProvider]
         [Persist]
-        string url;
+        public string Url { get; set; }
+        [Persist]
+        public DownloadPolicy DownloadPolicy { get; set; }
+        [Persist]
+        public int FilesToRetain {get; set; }  
 
-        [Persist]
-        string localPath;
-
-        [Persist]
-        int maximumLocalVodcastsToKeep = -1; 
-
-        [Persist]
-        DownloadPolicy downloadPolicy; 
-        
         [Persist]
         List<BaseItem> children = new List<BaseItem>();
 
         [Persist]
         DateTime lastUpdated = DateTime.MinValue;
 
+        string downloadPath; 
+        public string DownloadPath {
+            get {
+
+                if (downloadPath != null) return downloadPath;
+
+                downloadPath = System.IO.Path.Combine( 
+                    System.IO.Path.GetDirectoryName(Path) ,  
+                    System.IO.Path.GetFileNameWithoutExtension(Path)
+                    );
+
+                lock (this) {
+                    if (!Directory.Exists(downloadPath)) {
+                        Directory.CreateDirectory(downloadPath);
+                        File.WriteAllText(System.IO.Path.Combine(downloadPath, FolderResolver.IGNORE_FOLDER), ""); 
+                    }
+                }
+
+                return downloadPath;
+            } 
+        }
+
         public override void Assign(IMediaLocation location, IEnumerable<InitializationParameter> parameters, Guid id) {
-            this.url = location.Contents;
+            RefreshUserSettings(location);
             base.Assign(location, parameters, id);
         }
 
+        private void RefreshUserSettings(IMediaLocation location) {
+            VodcastContents parser = new VodcastContents(location.Contents);
+            this.Url = parser.Url;
+            this.DownloadPolicy = parser.DownloadPolicy;
+            this.FilesToRetain = parser.FilesToRetain;
+        }
+
+        public void SaveSettings() { 
+            VodcastContents generator = new VodcastContents();
+            generator.DownloadPolicy = DownloadPolicy;
+            generator.FilesToRetain = FilesToRetain;
+            generator.Url = Url;
+            MediaLocationFactory.Create(Path).Contents = generator.Contents;
+            ItemCache.Instance.SaveItem(this);
+        } 
+
         public override void ValidateChildren() {
+
+            RefreshUserSettings(MediaLocationFactory.Create(Path));
+
             if (Math.Abs((lastUpdated - DateTime.Now).TotalMinutes) < UpdateMinuteInterval) return;
+            
             lastUpdated = DateTime.Now;
             this.children = GetNonCachedChildren();
+            SetParent();
             this.OnChildrenChanged(null);
             ItemCache.Instance.SaveItem(this);
         }
 
+        private void SetParent() {
+            foreach (var item in children) {
+                item.Parent = this;
+            }
+        }
+
+        // this stuff should move to AfterDeserialize 
+        bool parentSet = false;
         protected override List<BaseItem> ActualChildren {
             get {
+                if (!parentSet) {
+                    SetParent();
+                    parentSet = true;
+                }
                 if (lastUpdated == DateTime.MinValue) {
                     ValidateChildren();
                 }
@@ -63,7 +113,7 @@ namespace MediaBrowser.Library.Entities {
         }
 
         protected override List<BaseItem> GetNonCachedChildren() {
-            RSSFeed feed = new RSSFeed(url);
+            RSSFeed feed = new RSSFeed(Url);
             feed.Refresh();
             PrimaryImagePath = feed.ImageUrl;
             return feed.Children.Distinct(key => key.Id).ToList();

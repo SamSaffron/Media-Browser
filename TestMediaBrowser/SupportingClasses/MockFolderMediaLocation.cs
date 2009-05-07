@@ -113,5 +113,14 @@ namespace TestMediaBrowser.SupportingClasses {
             get { return children; }
         }
 
+        public IMediaLocation GetChild(string name) {
+            return children.Where(child => child.Path.EndsWith(name.ToLower())).First();
+        }
+
+        public bool ContainsChild(string name) {
+            return children.Where(child => child.Path.EndsWith(name.ToLower())).Count() > 0;
+        }
+
+ 
     }
 }

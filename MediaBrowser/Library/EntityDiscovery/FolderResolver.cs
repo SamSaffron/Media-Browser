@@ -10,6 +10,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
     public class FolderResolver : EntityResolver {
 
         static readonly string[] ignoreFolders = { "metadata", ".metadata", "$recycle.bin" };
+        public const string IGNORE_FOLDER = ".ignore";
 
         public override void ResolveEntity(IMediaLocation location,
             out BaseItemFactoryBase factory, 
@@ -26,7 +27,9 @@ namespace MediaBrowser.Library.EntityDiscovery {
                     factory = BaseItemFactory<AggregateFolder>.Instance;
                 }
                 else if (folder.Children.Count > 0 && !ignoreFolders.Contains(folder.Name.ToLower())) {
-                    factory = BaseItemFactory<Folder>.Instance;
+                    if (!folder.ContainsChild(IGNORE_FOLDER)) { 
+                        factory = BaseItemFactory<Folder>.Instance;
+                    }
                 }
             }
 
