@@ -40,6 +40,7 @@ namespace MediaBrowser
         string _location = "";
         string _temp = "";
         string _unit = "";
+        string _longTemp = "";
         ArrayListDataSet _forecast = new ArrayListDataSet();
 
         public string Code
@@ -77,6 +78,11 @@ namespace MediaBrowser
         {
             get { return _unit; }
             set { _unit = value; FirePropertyChanged("Unit"); }
+        }
+        public string LongTemp
+        {
+            get { return _longTemp;}
+            set { _longTemp = value; FirePropertyChanged("LongTemp"); }
         }
         public ArrayListDataSet Forecast
         {
@@ -144,6 +150,7 @@ namespace MediaBrowser
             this.Code = xDoc.SelectSingleNode("rss/channel/item/yweather:condition", man).Attributes["code"].Value.ToString();
             this.ImageUrl = string.Format("resx://MediaBrowser/MediaBrowser.Resources/_{0}", this.Code);
             //this.ImageUrl = string.Format("http://l.yimg.com/a/i/us/we/52/{0}.gif", this.Code);
+            this.LongTemp = string.Format("{0}°{1} {2}", Temp, Unit, CodeDescription); 
 
             var tempForecast = xDoc.SelectNodes("rss/channel/item/yweather:forecast", man);
             //<yweather:forecast day="Fri" date="24 Apr 2009" low="50" high="63" text="Partly Cloudy" code="30" />

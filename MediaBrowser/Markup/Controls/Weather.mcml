@@ -96,20 +96,27 @@
     <Rules>
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
-      <Binding Source="[YahooWeather.Temp]" Target="[Temp.Content]"/>
-      <Binding Source="[YahooWeather.Unit]" Target="[Unit.Content]" />
+      <Binding Source="[YahooWeather.LongTemp]" Target="[Temp.Content]"/>
       <Binding Source="[YahooWeather.Location]" Target="[Location.Content]" >
-        <Transformer>
-          <FormatTransformer ToUpper="true"/>
-        </Transformer>
+      <Transformer>
+        <FormatTransformer ToUpper="true"/>
+      </Transformer>
       </Binding>
-      <Binding Source="[YahooWeather.CodeDescription]" Target="[Desc.Content]" />
       <Binding Source="[YahooWeather.ImageUrl!Image]" Target="[Icon.Content]" >
         <Conditions>
           <Equality Source="[YahooWeather.ImageUrl]" ConditionOp="NotEquals" Value="" />
         </Conditions>
       </Binding>
       <Binding Source="[YahooWeather.Forecast]" Target="[Repeater.Source]" />
+
+      <!-- Shadow-->
+      <Binding Source="[YahooWeather.Location]" Target="[LocationShadow.Content]" >
+        <Transformer>
+          <FormatTransformer ToUpper="true"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[YahooWeather.LongTemp]" Target="[TempShadow.Content]"/>
+
 
       <Rule>
         <Conditions>
@@ -133,7 +140,7 @@
     </Rules>
 
     <Content>
-      <Graphic Name="Bg" Content="image://i:BlankImage" SizingPolicy="SizeToChildren">
+      <Graphic Name="Bg" Content="image://i:BlankImage" SizingPolicy="SizeToChildren" Padding="5,0,5,0">
         <Layout>
           <FlowLayout Orientation="Horizontal" />
         </Layout>
@@ -141,7 +148,7 @@
           <!-- Information Panel -->
           <Panel>
             <Layout>
-              <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="-10,-10" />
+              <FlowLayout Orientation="Vertical" Spacing="-10,-10" />
             </Layout>
             <Children>
               <Text Content="Yahoo! Weather" Color="White" Font="[Font]" >
@@ -159,7 +166,19 @@
                 </Animations>
               </Text>
               <!-- Country -->
-              <Text Name="Location" Color="LightGray" Font="[LargeFont]"  >
+              <Panel>
+                <Children>
+                  <ColorFill Content="Transparent" Layout="Anchor" >
+                    <Children>
+                      <Text Name="Location" Color="LightGray" Font="[LargeFont]" />
+                      <Text Name="LocationShadow" Color="Black" Font="[LargeFont]"  >
+                        <LayoutInput>
+                          <AnchorLayoutInput Left="Location, 0, 2" Top="Location, 0,2"/>
+                        </LayoutInput>
+                      </Text>
+                    </Children>
+                  </ColorFill>
+                </Children>
                 <Animations>
                   <Animation Type="Idle" Loop="0">
                     <Keyframes>
@@ -172,14 +191,22 @@
                     </Keyframes>
                   </Animation>
                 </Animations>
-              </Text>
+              </Panel>
+
               <!-- Current Settings -->
-              <Panel Layout="HorizontalFlow">
+              <Panel>
                 <Children>
-                  <Text Name="Temp" Color="White" Font="[Font]" />
-                  <Text Content="°" Color="White" Font="[Font]" />
-                  <Text Name="Unit" Color="White" Font="[Font]" />
-                  <Text Name="Desc" Color="White" Font="[Font]" Margins="10,0,10,0"/>
+                  <ColorFill Content="Transparent" Layout="Anchor" >
+                    <Children>
+                      <Text Name="Temp" Color="White" Font="[Font]" />
+                      <Text Name="TempShadow" Color="Black" Font="[Font]" >
+                        <LayoutInput>
+                          <AnchorLayoutInput Left="Temp, 0, 2" Top="Temp, 0,2"/>
+                        </LayoutInput>
+                      </Text>
+                    </Children>
+                  </ColorFill>
+
                 </Children>
                 <Animations>
                   <Animation Type="Idle" Loop="0">
@@ -194,7 +221,8 @@
                   </Animation>
                 </Animations>
               </Panel>
-            </Children>            
+
+            </Children>
           </Panel>
 
           <!-- Icon -->
