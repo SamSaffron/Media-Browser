@@ -211,8 +211,8 @@ namespace MediaBrowser
                             this.MultiLogger
                         );
 
-                        var podcastHome = BaseItemFactory.Instance.Create(Config.PodcastHome);
-                        if (podcastHome != null) {
+                        var podcastHome = BaseItemFactory.Instance.Create(Config.PodcastHome) as Folder;
+                        if (podcastHome != null && podcastHome.Children.Count > 0) {
                             libraryConfig.RootFolder.AddVirtualChild(podcastHome);
                         }
 
