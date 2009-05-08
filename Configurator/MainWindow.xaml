@@ -43,7 +43,7 @@
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
                     <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemoveFolder" VerticalAlignment="Bottom" Width="80" Click="btnRemoveFolder_Click" FontSize="14" ToolTip="Remove media collection" Content="Remove"/>
                     <Button Height="32" HorizontalAlignment="Left" Margin="115,0,0,14" x:Name="btnRename" VerticalAlignment="Bottom" Width="80" Click="btnRename_Click" ToolTip="Rename media collection" Content="Rename" FontSize="14" />
-                    <Canvas Margin="0,6,19,13" x:Name="infoPanel" HorizontalAlignment="Right" Width="297">
+                    <Canvas Margin="328,6,19,13" x:Name="infoPanel">
                         <Button Height="32" x:Name="btnChangeImage" Width="111" Canvas.Left="29" Canvas.Top="104" Click="btnChangeImage_Click" FontSize="14" Content="Change Image" ToolTip="Change the default image for the media collection" />
                         <ListBox Height="115" x:Name="internalFolder" Width="285" Canvas.Left="6" Canvas.Top="176" FontSize="14" />
                         <Button Height="32" x:Name="btnAddSubFolder" Width="90" Canvas.Left="6" Canvas.Top="297" Click="btnAddSubFolder_Click" FontSize="14" ToolTip="Add another folder inside your media collection" Content="Add"/>
@@ -61,11 +61,11 @@
 				<Grid>
 					<Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
 					<Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
-					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" />
+					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" ToolTip="Change podcast data storage location" />
 					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged" />
-					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
-					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" />
-					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" />
+					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
+					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
+					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
 					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="310" x:Name="podcastDetails" Height="246">
 						<Grid >
                             <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="10,44,10,52" Name="podcastDescription" TextWrapping="Wrap" />
@@ -88,11 +88,11 @@
                             <CheckBox Margin="6,7,0,0" VerticalAlignment="Top" Height="27" Content="Enable Transcode360" x:Name="enableTranscode360" Click="enableTranscode360_Click" HorizontalAlignment="Left" Width="198.88" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="ISO Mounting Settings" Name="groupBox5" Margin="260,16,6,165">
+                    <GroupBox Header="ISO Mounting Settings" Name="groupBox5" Margin="260,16,6,0" Height="182.38" VerticalAlignment="Top">
                         <Grid>
-                            <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="19,0,0,33" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Bottom" />
+                            <Label d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="19,0,0,33" Width="97" Content="Drive Letter" Height="35.38" VerticalAlignment="Bottom" ToolTip="Enter drive for mounting tool to use" />
                             <Label Margin="6,7,6,0" VerticalAlignment="Top" Height="34" Content="C:\DaemonTools\Somewhere\" x:Name="daemonToolsLocation" FontSize="12" />
-                            <Button Margin="87,0,0,78" Content="Change Location..." HorizontalAlignment="Left" Width="131" x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" Height="31.76" VerticalAlignment="Bottom" />
+                            <Button Margin="87,42,148,0" Content="Change Location..." x:Name="changeDaemonToolsLocation" Click="changeDaemonToolsLocation_Click" FontSize="14" ToolTip="Enter the location of your ISO mounting tool" Height="31.76" VerticalAlignment="Top" />
                             <ComboBox IsSynchronizedWithCurrentItem="True" Margin="147,0,0,39" x:Name="daemonToolsDrive" SelectionChanged="daemonToolsDrive_SelectionChanged" FontSize="14" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="71" />
                             <CheckBox Margin="23,0,170,8" Content="Use Autoplay" x:Name="useAutoPlay" Click="useAutoPlay_Click" Height="22.38" VerticalAlignment="Bottom" />
                         </Grid>
@@ -135,7 +135,7 @@
                         <Grid>
                             <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
                             <Label Margin="25,60,130,36" ToolTip="Weather temperature unit">Weather Unit</Label>
-                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="Yahoo! Weather location ID" VerticalAlignment="Top" Width="120">Weather ID</Label>
+                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="Yahoo! Weather location ID (e.g. UKXX0055)" VerticalAlignment="Top" Width="120">Weather ID</Label>
                             <TextBox Height="23" Margin="120,37,35,0" Name="tbxWeatherID" VerticalAlignment="Top" />
                             <ComboBox Margin="120,64,35,45" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" />
                             <Button Height="29.76" Margin="25,0,0,6" Name="btnWeatherID" VerticalAlignment="Bottom" Click="btnWeatherID_Click" HorizontalAlignment="Left" Width="85">Save</Button>
@@ -146,11 +146,11 @@
             <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" ItemTemplate="{StaticResource EPStyle}" />
-                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media player" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />
-                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemovePlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Remove media player" Content="Remove" Click="btnRemovePlayer_Click" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media type for external playback" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />
+                    <Button Height="32" HorizontalAlignment="Left" Margin="209,0,0,14" x:Name="btnRemovePlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Remove media type" Content="Remove" Click="btnRemovePlayer_Click" />
                     <Canvas Margin="0,6,12,13" x:Name="infoPlayerPanel" HorizontalAlignment="Right" Width="282">
                         <Label Canvas.Left="6" Height="34" x:Name="lblPlayerStep2" Width="30" Foreground="#FFA8A8A8" Canvas.Top="43" Content="❷" FontSize="14" />
-                        <Label Canvas.Left="40" Height="34" x:Name="lblPlayerStep2b" Width="235.373" Foreground="#FF000000" Canvas.Top="43" Content="Configure External player" FontSize="14" />
+                        <Label Canvas.Left="40" Height="34" x:Name="lblPlayerStep2b" Width="235.373" Foreground="#FF000000" Canvas.Top="43" Content="Configure external player" FontSize="14" />
                         <Label Margin="22.373,21.44,0,0" VerticalAlignment="Top" Height="39" Content="External Player Location"  HorizontalAlignment="Left" Width="239" Canvas.Left="-17" Canvas.Top="72" />
                         <TextBox Margin="26.373,64,24.627,0" VerticalAlignment="Top" Height="32" x:Name="txtPlayerCommand" Canvas.Left="-9" Canvas.Top="60" Width="258" IsReadOnly="True" />
                         <Button Margin="26.373,102,0,0" Content="Select Player" HorizontalAlignment="Left" Width="149" x:Name="btnPlayerCommand" Height="32" VerticalAlignment="Top" FontSize="14" Canvas.Left="100" Canvas.Top="60" Click="btnPlayerCommand_Click" ToolTip="Select an external player to play selected media" />
