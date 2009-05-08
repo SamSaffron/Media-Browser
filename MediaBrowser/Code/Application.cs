@@ -510,6 +510,7 @@ namespace MediaBrowser
 
         private void OpenFolderPage(FolderModel folder)
         {
+            folder.RefreshMetadata();
             Dictionary<string, object> properties = new Dictionary<string, object>();
             properties["Application"] = this;
             properties["Folder"] = folder;
