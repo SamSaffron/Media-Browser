@@ -259,8 +259,10 @@ namespace MediaBrowser.Library.Entities {
             foreach (var item in validChildren) {
                 BaseItem currentChild;
                 if (currentChildren.TryGetValue(item.Id, out currentChild)) {
-                    changed |= currentChild.AssignFromItem(item);
-                    currentChildren[item.Id] = null;
+                    if (currentChild != null) {
+                        changed |= currentChild.AssignFromItem(item);
+                        currentChildren[item.Id] = null;
+                    }
                 } else {
                     changed = true;
                     lock (ActualChildren) {

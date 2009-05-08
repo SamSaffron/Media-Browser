@@ -198,18 +198,26 @@ namespace MediaBrowser
         {
             get
             {
-                if (libraryConfig == null)
-                {
-                    libraryConfig = new LibraryConfig(
+                if (libraryConfig != null) return libraryConfig;
 
-                        (AggregateFolder)BaseItemFactory.Instance.Create(InitialLocation),
-                        new List<IPlaybackController>(),
-                        new List<MetadataProviderFactory>(),
-                        new List<EntityResolver>(),
-                        this.MultiLogger
-                    );
+                lock (syncObj) {
+                    if (libraryConfig == null) {
+                        libraryConfig = new LibraryConfig(
 
-                    PluginLoader.Instance.Initialize(libraryConfig);
+                            (AggregateFolder)BaseItemFactory.Instance.Create(InitialLocation),
+                            new List<IPlaybackController>(),
+                            new List<MetadataProviderFactory>(),
+                            new List<EntityResolver>(),
+                            this.MultiLogger
+                        );
+
+                        var podcastHome = BaseItemFactory.Instance.Create(Config.PodcastHome);
+                        if (podcastHome != null) {
+                            libraryConfig.RootFolder.AddVirtualChild(podcastHome);
+                        }
+
+                        PluginLoader.Instance.Initialize(libraryConfig);
+                    }
                 }
                 return libraryConfig;
             }

@@ -235,6 +235,7 @@ namespace MediaBrowser.Library.Entities {
             this.Path = item.Path;
             this.DateModified = item.DateModified;
             this.DateCreated = item.DateCreated;
+            this.defaultName = item.defaultName;
 
             return changed;
         }

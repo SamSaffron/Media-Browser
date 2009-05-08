@@ -80,15 +80,27 @@ namespace MediaBrowser.Library.Entities {
 
         public override void ValidateChildren() {
 
-            RefreshUserSettings(MediaLocationFactory.Create(Path));
+            try {
 
-            if (Math.Abs((lastUpdated - DateTime.Now).TotalMinutes) < UpdateMinuteInterval) return;
-            
-            lastUpdated = DateTime.Now;
-            this.children = GetNonCachedChildren();
-            SetParent();
-            this.OnChildrenChanged(null);
-            ItemCache.Instance.SaveItem(this);
+                RefreshUserSettings(MediaLocationFactory.Create(Path));
+
+                if (Math.Abs((lastUpdated - DateTime.Now).TotalMinutes) < UpdateMinuteInterval) return;
+
+                lastUpdated = DateTime.Now;
+
+                RSSFeed feed = new RSSFeed(Url);
+                feed.Refresh();
+                PrimaryImagePath = feed.ImageUrl;
+                children = feed.Children.Distinct(key => key.Id).ToList();
+                SetParent();
+
+                Overview = feed.Description;
+
+                this.OnChildrenChanged(null);
+                ItemCache.Instance.SaveItem(this);
+            } catch (Exception e) {
+                Application.Logger.ReportException("Failed to update podcast!", e);
+            }
         }
 
         private void SetParent() {
@@ -110,13 +122,6 @@ namespace MediaBrowser.Library.Entities {
                 }
                 return children;
             }
-        }
-
-        protected override List<BaseItem> GetNonCachedChildren() {
-            RSSFeed feed = new RSSFeed(Url);
-            feed.Refresh();
-            PrimaryImagePath = feed.ImageUrl;
-            return feed.Children.Distinct(key => key.Id).ToList();
         }
 
         public override bool RefreshMetadata(MediaBrowser.Library.Metadata.MetadataRefreshOptions options) {

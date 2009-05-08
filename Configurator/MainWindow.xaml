@@ -64,25 +64,14 @@
 					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" />
 					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged" />
 					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" />
-					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast"/>
-					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" />
-					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="284.667" x:Name="podcastDetails">
-						<Grid>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Height="25" SelectedIndex="0" IsEditable="False" x:Name="downloadPolicy" VerticalAlignment="Top" Margin="0,20,10,0" HorizontalAlignment="Right" Width="125" SelectionChanged="downloadPolicy_SelectionChanged">
-								<ComboBoxItem Content="Stream"/>
-								<ComboBoxItem Content="On Demand"/>
-								<ComboBoxItem Content="Latest"/>
-							</ComboBox>
-							<Label Width="119" Height="27" Content="Download Policy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,20,0,0"/>
-							<Label Width="105" Content="Keep:" HorizontalAlignment="Left" Margin="8,51,0,0" Height="32" VerticalAlignment="Top"/>
-							<ComboBox IsSynchronizedWithCurrentItem="True" Width="125" SelectedIndex="0" IsEditable="False" x:Name="keepPolicy" HorizontalAlignment="Right" Margin="0,51,10,0" Height="25" VerticalAlignment="Top" SelectionChanged="keepPolicy_SelectionChanged">
-								<ComboBoxItem Content="All Podcasts"/>
-								<ComboBoxItem Content="Last 10"/>
-								<ComboBoxItem Content="Last 5"/>
-							</ComboBox>
-							<Label Width="50" Content="Url:" HorizontalAlignment="Left" Margin="8,87,0,95"/>
-							<Label Content="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="8,0,8,71.04" FontSize="12" />
-						</Grid>
+					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" />
+					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" />
+					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="310" x:Name="podcastDetails" Height="246">
+						<Grid >
+                            <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="10,44,10,52" Name="podcastDescription" TextWrapping="Wrap" />
+                            <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="11,0,12,6" FontSize="12" Height="40" TextWrapping="Wrap" />
+                            <Label Height="29" Margin="6,9,17,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold">The Cook and the Chef</Label>
+                        </Grid>
 					</Border>
 	
 					

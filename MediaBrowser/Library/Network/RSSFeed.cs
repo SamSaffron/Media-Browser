@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser.LibraryManagement;
 using System.IO;
+using MediaBrowser.Library.Filesystem;
 
 namespace MediaBrowser.Library.Network {
     public class RSSFeed {
@@ -51,6 +52,13 @@ namespace MediaBrowser.Library.Network {
             }
         }
 
+        public string Description {
+            get {
+                if (feed == null) return null;
+                return feed.Description.Text;
+            } 
+        } 
+
         private static IEnumerable<BaseItem> GetChildren(SyndicationFeed feed) {
             if (feed == null) yield break;
 
@@ -59,11 +67,15 @@ namespace MediaBrowser.Library.Network {
                 video.DateCreated = item.PublishDate.UtcDateTime;
                 video.DateModified = item.PublishDate.UtcDateTime;
                 video.Name = item.Title.Text;
-                video.Overview = Regex.Replace(item.Summary.Text, @"<(.|\n)*?>", string.Empty);
 
-                var match = Regex.Match(item.Summary.Text, @"<img src=[\""\']([^\'\""]+)", RegexOptions.IgnoreCase);
-                if (match != null && match.Groups.Count > 1) {
-                    video.PrimaryImagePath = match.Groups[1].Value;
+                // itunes podcasts sometimes don't have a summary 
+                if (item.Summary != null && item.Summary.Text != null) {
+                    video.Overview = Regex.Replace(item.Summary.Text, @"<(.|\n)*?>", string.Empty);
+
+                    var match = Regex.Match(item.Summary.Text, @"<img src=[\""\']([^\'\""]+)", RegexOptions.IgnoreCase);
+                    if (match != null && match.Groups.Count > 1) {
+                        video.PrimaryImagePath = match.Groups[1].Value;
+                    }
                 }
 
                 foreach (var link in item.Links) {
@@ -92,7 +104,11 @@ namespace MediaBrowser.Library.Network {
             string filename = Path.Combine(folder, name + ".vodcast");
 
             if (!File.Exists(filename)) {
-                File.WriteAllText(filename, "url : " + url);
+                VodcastContents generator = new VodcastContents();
+                generator.Url = url;
+                generator.FilesToRetain = -1;
+                generator.DownloadPolicy = DownloadPolicy.Stream;
+                File.WriteAllText(filename, generator.Contents);
             } else {
                 throw new ApplicationException("Looks like we already have this podcast!");
             }

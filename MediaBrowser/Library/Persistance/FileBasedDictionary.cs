@@ -235,24 +235,31 @@ namespace MediaBrowser.Library.Persistance {
             var guid = GetGuid(path);
             if (guid == null) return null;
 
-            // we have a guid
             T data = null;
-            using (var stream = ProtectedFileStream.OpenSharedReader(path)) {
-                data = Serializer.Deserialize<object>(stream) as T;
-            }
 
-            if (data == null) {
-                Application.Logger.ReportWarning("Invalid data was detected in the file : " + path);
-                guid = null;
-            } else {
-                DatedObject current;
-                lock (dictionary) {
-                    if (dictionary.TryGetValue(guid.Value, out current)) {
-                        Serializer.Merge(data, current.Data, true);
-                        data = current.Data;
+            try {
+                // we have a guid
+                
+                using (var stream = ProtectedFileStream.OpenSharedReader(path)) {
+                    data = Serializer.Deserialize<object>(stream) as T;
+                }
+
+                if (data == null) {
+                    Application.Logger.ReportWarning("Invalid data was detected in the file : " + path);
+                    guid = null;
+                } else {
+                    DatedObject current;
+                    lock (dictionary) {
+                        if (dictionary.TryGetValue(guid.Value, out current)) {
+                            Serializer.Merge(data, current.Data, true);
+                            data = current.Data;
+                        }
                     }
                 }
+            } catch (Exception e) {
+                Application.Logger.ReportException("Failed to load date: ", e);
             }
+
             return data;
         }
 

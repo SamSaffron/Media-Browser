@@ -73,7 +73,7 @@ namespace MediaBrowser.Library.Entities {
         }
 
 
-        public IEnumerable<string> VideoFiles {
+        public virtual IEnumerable<string> VideoFiles {
             get {
                 if (!ContainsRippedMedia && MediaLocation is IFolderMediaLocation) {
                     foreach (var path in GetChildVideos((IFolderMediaLocation)MediaLocation)) {

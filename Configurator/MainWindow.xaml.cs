@@ -85,6 +85,7 @@ namespace Configurator
             RefreshDisplaySettings();
 
             podcastsPath.Content = config.PodcastHome;
+            podcastDetails.Visibility = Visibility.Hidden;
             SaveConfig();
 
         }
@@ -97,6 +98,7 @@ namespace Configurator
 
             foreach (var item in podcasts.Children) {
                 if (item is VodCast) {
+                    (item as VodCast).ValidateChildren();
                     podcastList.Items.Add(item);
                 }
             }
@@ -746,7 +748,7 @@ folder: {0}
             var result = form.ShowDialog();
             if (result == true) {
                 form.RSSFeed.Save(config.PodcastHome);
-                podcastList_SelectionChanged(null, null);
+                RefreshPodcasts();
             } 
 
         }
@@ -754,63 +756,48 @@ folder: {0}
         private void podcastList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             VodCast vodcast = podcastList.SelectedItem as VodCast;
             if (vodcast != null) {
-                podcastUrl.Content = vodcast.Url;
-
-                // i hate this, it needs to be re-written
-                if (vodcast.FilesToRetain < 0) {
-                    keepPolicy.SelectedIndex = 0;
-                } else if (vodcast.FilesToRetain >= 5) {
-                    keepPolicy.SelectedItem = 1; 
-                } else {
-                    keepPolicy.SelectedItem = 2;
-                }
-
-                if (vodcast.DownloadPolicy == DownloadPolicy.Stream) {
-                    downloadPolicy.SelectedIndex = 0;
-                } else if (vodcast.DownloadPolicy == DownloadPolicy.FirstPlay) {
-                    downloadPolicy.SelectedIndex = 1;
-                } else {
-                    downloadPolicy.SelectedIndex = 2;
-                }
+                podcastDetails.Visibility = Visibility.Visible;
+                podcastUrl.Text = vodcast.Url;
+                podcastName.Content = vodcast.Name;
+                podcastDescription.Text = vodcast.Overview;
             }
         }
 
-        private void downloadPolicy_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            SaveCurrentVodcast();   
-        }
-
-        private void keepPolicy_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            SaveCurrentVodcast();   
-        }
-
-        private void SaveCurrentVodcast() {
+        private void removePodcast_Click(object sender, RoutedEventArgs e) {
             VodCast vodcast = podcastList.SelectedItem as VodCast;
             if (vodcast != null) {
-
-                // ugly ugly ugly should be replaced with something cleaner
-
-                if (downloadPolicy.SelectedIndex == 0) {
-                    vodcast.DownloadPolicy = DownloadPolicy.Stream;
-                } else if (downloadPolicy.SelectedIndex == 1) {
-                    vodcast.DownloadPolicy = DownloadPolicy.FirstPlay;
-                } else {
-                    vodcast.DownloadPolicy = DownloadPolicy.Latest;
+                var message = "Remove \"" + vodcast.Name + "\"?";
+                if (
+                  MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
+                    File.Delete(vodcast.Path);
+                    vodcast.Parent.ValidateChildren();
+                    podcastDetails.Visibility = Visibility.Hidden;
+                    RefreshPodcasts();
                 }
-
-                if (keepPolicy.SelectedIndex == 0) {
-                    vodcast.FilesToRetain = -1;
-                } else if (keepPolicy.SelectedIndex == 1) {
-                    vodcast.FilesToRetain = 10;
-                } else {
-                    vodcast.FilesToRetain = 5;
-                }
-
-                vodcast.SaveSettings();
             }
         }
 
-        
-        
+        private void renamePodcast_Click(object sender, RoutedEventArgs e) {
+            VodCast vodcast = podcastList.SelectedItem as VodCast;
+            if (vodcast != null) {
+                var form = new RenameForm(vodcast.Name);
+                form.Owner = this;
+                var result = form.ShowDialog();
+                if (result == true) {
+                    vodcast.Name = form.tbxName.Text;
+                    ItemCache.Instance.SaveItem(vodcast);
+
+                    RefreshPodcasts();
+
+                    foreach (VodCast item in podcastList.Items) {
+                        if (item.Name == vodcast.Name) {
+                            podcastList.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
 
     }
