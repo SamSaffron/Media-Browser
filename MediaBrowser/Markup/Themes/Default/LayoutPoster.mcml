@@ -79,7 +79,7 @@
 					</bd:Backdrop>
 					<ColorFill Content="White" Alpha="0.1">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1"/>
+							<FormLayoutInput Left="Parent,0,-50" Top="ItemPanel,0.0,-10" Bottom="ItemPanel,1" Right="Parent,1,50"/>
 						</LayoutInput>
 					</ColorFill>
 

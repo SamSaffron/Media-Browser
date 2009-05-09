@@ -211,7 +211,7 @@
           <!-- Movie Backdrop -->
           <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]">
             <LayoutInput>
-              <FormLayoutInput Top="Parent,0,-20" Left="Parent,0,-25" Bottom="Parent,1,10" Right="Parent,1,25" />
+              <FormLayoutInput Top="Parent,0,-20" Left="Parent,0,-50" Bottom="Parent,1,10" Right="Parent,1,50" />
             </LayoutInput>
           </bd:Backdrop4>
 
@@ -228,7 +228,7 @@
           </ColorFill>
 
           <!-- Main Background -->
-          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
+          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-50,-20" Layout="Fill"/>
 
         </Children>
       </ColorFill>

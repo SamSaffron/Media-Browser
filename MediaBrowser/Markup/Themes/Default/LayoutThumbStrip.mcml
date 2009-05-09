@@ -211,7 +211,7 @@
 
 					<ColorFill Content="White" Alpha="0.1">
 						<LayoutInput>
-							<FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="MyItems,0" Right="Parent,1"/>
+							<FormLayoutInput Left="Parent,0,-50" Top="Parent,0,130" Bottom="MyItems,0" Right="Parent,1,50"/>
 						</LayoutInput>
 					</ColorFill>
 
