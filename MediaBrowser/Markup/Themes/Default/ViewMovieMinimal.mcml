@@ -58,6 +58,9 @@
       <Binding Source="[Item.Name]" Target="[TitleName.Content]" />
 
       <Binding Source="[Item.ProductionYearString]" Target="[ProductionYear.Content]" >
+        <Conditions>
+          <Equality Source="[Item.ProductionYear]" ConditionOp="GreaterThan" Value="1900" />
+        </Conditions>
         <Transformer>
           <FormatTransformer Format="({0})" />
         </Transformer>

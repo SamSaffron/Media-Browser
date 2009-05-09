@@ -6,7 +6,7 @@ using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Metadata;
 
 namespace ITunesTrailers {
-    public class ITunesTrailer : Show {
+    public class ITunesTrailer : Movie {
         public override bool RefreshMetadata(MetadataRefreshOptions options) {
             // do nothing, metadata is assigned external to the provider framework
             return false;

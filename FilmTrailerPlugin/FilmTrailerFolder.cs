@@ -206,6 +206,7 @@ namespace FilmTrailerPlugin
                         }
                     }
                     currentTrailer.Id = currentTrailer.Path.GetMD5();
+                    currentTrailer.SubTitle = "presented by FilmTrailer.com";
                     trailers.Add(currentTrailer);
                     //Plugin.Logger.ReportInfo("FilmTrailer added trailer: " + currentTrailer.Name);
                 }
