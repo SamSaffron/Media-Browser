@@ -133,7 +133,7 @@
                     </GroupBox>
                     <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
-                            <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Automatically highlight the first unwatched item" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
+                            <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Enable the enhanced home screen" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
                             <Label Margin="25,60,130,36" ToolTip="Weather temperature unit">Weather Unit</Label>
                             <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="Yahoo! Weather location ID (e.g. UKXX0055)" VerticalAlignment="Top" Width="120">Weather ID</Label>
                             <TextBox Height="23" Margin="120,37,35,0" Name="tbxWeatherID" VerticalAlignment="Top" />
