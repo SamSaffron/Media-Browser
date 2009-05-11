@@ -86,6 +86,7 @@
     <Compile Include="Metadata\MetadataEditor.cs" />
     <Compile Include="Metadata\MetaDataPictureType.cs" />
     <Compile Include="Metadata\WMPictureType.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DisposalCleanup.cs" />
   </ItemGroup>

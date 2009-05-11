@@ -13,6 +13,8 @@ using System.Diagnostics;
 using MediaBrowser.Library.Entities.Attributes;
 using System.Threading;
 using MediaBrowser.Library.Plugins;
+using MediaBrowser.Library.Providers.TVDB;
+using MediaBrowser.Library.Providers;
 
 namespace MediaBrowser.Library.Metadata {
     public class MetadataProviderHelper {
@@ -20,29 +22,30 @@ namespace MediaBrowser.Library.Metadata {
 
         static object sync = new object();
  
-        static List<MetadataProviderFactory> providers = DiscoverProviders();
+        // This should be moved to kernel eventually 
+        static internal List<MetadataProviderFactory> providers = DefaultProviders();
 
-        static List<MetadataProviderFactory> slowProviders =
-            new List<MetadataProviderFactory>(providers.Where(p => p.Slow || p.RequiresInternet));
-
-        static List<MetadataProviderFactory> fastProviders =
-            new List<MetadataProviderFactory>(providers.Where(p => !p.Slow && !p.RequiresInternet));
-
-        
         public static Type[] ProviderTypes { 
             get { 
                 return providers.Select(p => p.Type).ToArray(); 
             } 
         }
 
-        static List<MetadataProviderFactory> DiscoverProviders() {
-            return
-                Plugin.DiscoverProviders(typeof(MetadataProviderHelper).Assembly)
-                .Concat( 
-                    PluginLoader.Instance.Plugins.SelectMany(p => p.MetadataProviders)
-                )
-                .OrderBy(provider => provider.Order)
-                .ToList(); 
+        static List<MetadataProviderFactory> DefaultProviders() {
+
+            return new Type[] { 
+                typeof(VirtualFolderProvider),
+                typeof(ImageFromMediaLocationProvider),
+                typeof(ImageByNameProvider), 
+                typeof(MovieProviderFromXml),
+                typeof(LocalEpisodeProvider), 
+                typeof(LocalSeriesProvider), 
+                typeof(RemoteEpisodeProvider),
+                typeof(RemoteSeasonProvider), 
+                typeof(RemoteSeriesProvider),
+                typeof(MovieDbProvider)
+            }.Select(t => new MetadataProviderFactory(t)).ToList(); 
+            
         }
 
 

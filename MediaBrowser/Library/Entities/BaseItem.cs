@@ -273,6 +273,7 @@ namespace MediaBrowser.Library.Entities {
                     try {
                         if (image != null) {
                             image.ClearLocalImages();
+                            LibraryImageFactory.Instance.ClearCache(image.Path);
                         }
                     } catch (Exception ex) {
                         Application.Logger.ReportException("Failed to clear local image (its probably in use)", ex);

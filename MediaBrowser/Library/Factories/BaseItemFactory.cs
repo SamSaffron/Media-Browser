@@ -11,6 +11,12 @@ namespace MediaBrowser.Library.Factories {
     public class BaseItemFactory : IBaseItemFactory {
         public static readonly BaseItemFactory Instance = new BaseItemFactory();
 
+        internal static ChainedEntityResolver EntityResolver {
+            get {
+                return resolver;
+            } 
+        } 
+
         private static ChainedEntityResolver resolver = new ChainedEntityResolver() { 
             new VodCastResolver(),
             new EpisodeResolver(), 

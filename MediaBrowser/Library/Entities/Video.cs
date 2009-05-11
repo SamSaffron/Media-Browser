@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MediaBrowser.Library.Persistance;
-using MediaInfoLib;
 using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.EntityDiscovery;
 using MediaBrowser.Library.Entities.Attributes;

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using MediaBrowser.Library.Interop.DirectShowLib;
 
-namespace MediaBrowser.Util.VideoProcessing
+namespace FrameGrabProvider
 {
     class ThumbCreator {
 
@@ -17,7 +17,7 @@ namespace MediaBrowser.Util.VideoProcessing
 
         public static bool CreateThumb(string videoFilename, string thumbFilename, double positionPercent)
         {
-            Application.Logger.ReportInfo("Creating thumb for " + videoFilename);
+            Plugin.Logger.ReportInfo("Creating thumb for " + videoFilename);
             bool rval = false;
             IMediaDet m = new MediaDet() as IMediaDet;
             m.put_Filename(videoFilename);

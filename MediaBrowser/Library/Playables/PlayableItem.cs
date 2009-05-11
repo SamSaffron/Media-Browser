@@ -112,6 +112,7 @@ namespace MediaBrowser.Library
         }
 
         public virtual void Play(string file) {
+            Application.Logger.ReportInfo("About to play : " + file);
             PlaybackController.PlayVideo(file);
         }
         

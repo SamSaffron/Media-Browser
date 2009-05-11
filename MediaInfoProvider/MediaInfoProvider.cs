@@ -11,8 +11,9 @@ using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Providers.Attributes;
 using System.Linq;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Providers;
 
-namespace MediaBrowser.Library.Providers
+namespace MediaInfoProvider
 {
     [SlowProvider]
     [SupportedType(typeof(Video))]
@@ -23,9 +24,25 @@ namespace MediaBrowser.Library.Providers
 
         private static bool enabled = CheckForLib();
 
+        private static bool Is64Bit {
+            get {
+                return IntPtr.Size == 8;
+            }
+        }
+
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(ApplicationPaths.AppPluginPath, "mediainfo\\mediainfo.dll");
+            string path = Path.Combine(ApplicationPaths.AppPluginPath, "mediainfo");
+            if (!Directory.Exists(path)) {
+                Directory.CreateDirectory(path);
+            }
+
+            string mediaInfoPath = Path.Combine(path, "mediainfo.dll");
+            if (!File.Exists(mediaInfoPath)) {
+                string resourceName = string.Format("MediaInfoProvider.MediaInfo{0}.dll.gz", Is64Bit ? 64 : 32);
+                LibraryLoader.Extract(resourceName, mediaInfoPath);
+            }
+
             if (File.Exists(mediaInfoPath)) {
                 var handle = LoadLibrary(mediaInfoPath);
                 return handle != IntPtr.Zero;
@@ -53,7 +70,7 @@ namespace MediaBrowser.Library.Providers
 
         private MediaInfoData GetMediaInfo(string location)
         {
-            Application.Logger.ReportInfo("getting media info from " + location);
+            Plugin.Logger.ReportInfo("getting media info from " + location);
             MediaInfo mediaInfo = new MediaInfo();
             int i = mediaInfo.Open(location);
             MediaInfoData mediaInfoData = null;
@@ -81,7 +98,7 @@ namespace MediaBrowser.Library.Providers
             }
             else
             {
-                Application.Logger.ReportInfo("Could not extract media information from " + location);
+                Plugin.Logger.ReportInfo("Could not extract media information from " + location);
             }
             mediaInfo.Close();
             return mediaInfoData;

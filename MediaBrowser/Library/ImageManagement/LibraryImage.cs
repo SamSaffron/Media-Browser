@@ -79,7 +79,7 @@ namespace MediaBrowser.Library.ImageManagement {
                 foreach (var item in Directory.GetFiles(cachePath,Id.ToString() + "*"))
 	            {
                     File.Delete(item);
-	            }         
+	            }  
             }
         }
 

@@ -6,17 +6,47 @@ using MediaBrowser.Library.ImageManagement;
 using System.Diagnostics;
 
 namespace MediaBrowser.Library.Factories {
+
+    public delegate LibraryImage ImageResolver(string path); 
+
     public class LibraryImageFactory {
         public static LibraryImageFactory Instance = new LibraryImageFactory();
 
         private LibraryImageFactory() {
         }
 
+        internal List<ImageResolver> ImageResolvers {
+            get {
+                return resolvers;
+            } 
+        }
+
+        List<ImageResolver> resolvers = GetImageResolvers();
+
+        private static List<ImageResolver> GetImageResolvers() {
+            return new List<ImageResolver>() {
+                (path) =>  { 
+                    if (path != null && path.ToLower().StartsWith("http")) {
+                        return new RemoteImage();
+                    }
+                    return null;
+                }
+            };
+        } 
+
         Dictionary<string, LibraryImage> cache = new Dictionary<string, LibraryImage>();
 
         public void ClearCache() {
             lock (cache) {
                 cache.Clear();
+            }
+        }
+
+        public void ClearCache(string path) {
+            lock (cache) {
+                if (cache.ContainsKey(path)) {
+                    cache.Remove(path);
+                }
             }
         }
 
@@ -31,11 +61,15 @@ namespace MediaBrowser.Library.Factories {
             if (!cached && image == null) {
                 try {
 
-                    if (path.ToLower().StartsWith("http")) {
-                        image = new RemoteImage();
-                    } else {
+                    foreach (var resolver in resolvers) {
+                        image = resolver(path);
+                        if (image != null) break;
+                    }
+
+                    if (image == null) {
                         image = new FilesystemImage();
                     }
+
                     image.Path = path;
                     image.Init();
 

@@ -73,6 +73,7 @@
     <Compile Include="Code\ModelItems\FolderChildren.cs" />
     <Compile Include="Library\Configuration\ApplicationPaths.cs" />
     <Compile Include="Library\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Library\Factories\SharedKernel.cs" />
     <Compile Include="Library\Filesystem\AttributedContents.cs" />
     <Compile Include="Library\Filesystem\VirtualFolder.cs" />
     <Compile Include="Library\Filesystem\VodcastContents.cs" />
@@ -162,7 +163,6 @@
     <Compile Include="Library\Filesystem\ProtectedFileStream.cs" />
     <Compile Include="Library\Filesystem\VirtualFolderContents.cs" />
     <Compile Include="Library\Filesystem\VirtualFolderMediaLocation.cs" />
-    <Compile Include="Library\ImageManagement\GrabImage.cs" />
     <Compile Include="Library\ImageManagement\LibraryImage.cs" />
     <Compile Include="Library\ImageManagement\FilesystemImage.cs" />
     <Compile Include="Library\ImageManagement\RemoteImage.cs" />
@@ -170,16 +170,6 @@
     <Compile Include="Library\Interfaces\IBaseItemFactory.cs" />
     <Compile Include="Library\Interfaces\IMediaLocationFactory.cs" />
     <Compile Include="Library\Interfaces\IMetadataProvider.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\AMMediaType.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\BitmapInfoHeader.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\DsLong.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\DsRect.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\IMediaDet.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\IMediaSample.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\ISampleGrabber.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\ISampleGrabberCB.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\MediaDet.cs" />
-    <Compile Include="Library\Interop\DirectShowLib\VideoInfoHeader.cs" />
     <Compile Include="Library\Interop\FindFileApis.cs" />
     <Compile Include="Library\Interop\ShellNativeMethods.cs" />
     <Compile Include="Library\Interop\ShortcutNativeMethods.cs" />
@@ -190,7 +180,6 @@
     <Compile Include="Library\Plugins\LibraryConfig.cs" />
     <Compile Include="Library\Plugins\Plugin.cs" />
     <Compile Include="Library\Plugins\PluginLoader.cs" />
-    <Compile Include="Library\Providers\MediaInfoProvider.cs" />
     <Compile Include="Library\RemoteControl\PlaybackStateEventArgs.cs" />
     <Compile Include="Library\RemoteControl\RemoteCommand.cs" />
     <Compile Include="Library\Sorting\SortHelper.cs" />
@@ -253,7 +242,6 @@
     <Compile Include="Library\Playables\PlayableIso.cs" />
     <Compile Include="Library\Playables\PlayableVideoFile.cs" />
     <Compile Include="Library\Factories\PlaybackStatusFactory.cs" />
-    <Compile Include="Library\Providers\FrameGrabProvider.cs" />
     <Compile Include="Library\Providers\ImageFromMediaLocationProvider.cs" />
     <Compile Include="Library\Providers\ImageByNameProvider.cs" />
     <Compile Include="Library\Providers\MovieDbProvider.cs" />
@@ -273,7 +261,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Library\Util\Profiler.cs" />
-    <Compile Include="Library\Util\ThumbCreator.cs" />
     <Compile Include="Code\Updater.cs" />
   </ItemGroup>
   <ItemGroup>

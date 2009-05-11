@@ -73,6 +73,12 @@ namespace MediaBrowser.Library
         {
         }
 
+        public bool IsVideo {
+            get {
+                return baseItem is Video;
+            } 
+        }
+
         // having this in Item and not in Folder helps us avoid lots of messy mcml 
         public virtual bool ShowNewestItems {
             get {

@@ -23,6 +23,8 @@
 
       <ShortcutHandler Name="RecordBtn" Handle="true" Shortcut="Record" HandlerStage="Bubbled"/>
       <KeyHandler Name="RefreshShortcut" Handle="true" Key="R" Modifiers="Control" HandlerStage="Bubbled"/>
+
+      <BooleanChoice Name="ShowPopup" Value="false"/>
     </Locals>
 
     <Rules>
@@ -57,6 +59,28 @@
         </Actions>
       </Changed>
 
+      <Changed Source="[ShowPopup.Value]" ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[ShowPopup.Value]" Value="true"/>
+          <Equality Source="[Item.IsVideo]" Value="false"/> 
+        </Conditions>
+        <Actions>
+          <Set Target="[ShowPopup.Value]" Value="false" />
+          <Set Target="[Application.DisplayPopupPlay]" Value="true" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ShowPopup.Value]" ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[ShowPopup.Value]" Value="true"/>
+          <Equality Source="[Item.IsVideo]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[ShowPopup.Value]" Value="false" />
+          <Invoke Target="[Item.Play]"/>
+        </Actions>
+      </Changed>
+      
       <!-- Popup Rules -->
       <Rule ConditionLogicalOp ="Or">
         <Conditions>
@@ -64,7 +88,7 @@
           <Modified Source="[PlayShortcut.Invoked]"/>
         </Conditions>
         <Actions>
-          <Set Target="[Application.DisplayPopupPlay]" Value="true" />          
+          <Set Target="[ShowPopup.Value]" Value="true" />          
         </Actions>
       </Rule>
 

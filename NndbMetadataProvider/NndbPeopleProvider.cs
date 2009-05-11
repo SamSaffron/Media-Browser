@@ -10,9 +10,10 @@ using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Entities;
 using System.Web;
 using MediaBrowser.Library.Providers.Attributes;
+using MediaBrowser.Library.Providers;
 
 
-namespace MediaBrowser.Library.Providers
+namespace NndbMetadataProvider
 {
     [RequiresInternet]
     [SupportedType(typeof(Person))]
@@ -61,6 +62,8 @@ namespace MediaBrowser.Library.Providers
         private static object fetchLock = new object();
         private string Fetch(string url)
         {
+            Plugin.Logger.ReportInfo("nndb provider requesting image from: " + url);
+
             int attempt = 0;
             while (attempt < 2)
             {
@@ -86,14 +89,11 @@ namespace MediaBrowser.Library.Providers
                         }
                     }
                 }
-                catch (WebException ex)
+                catch (Exception ex)
                 {
-                    Trace.TraceWarning("Error requesting: " + url + "\n" + ex.ToString());
+                    Plugin.Logger.ReportException("Error requesting: " + url, ex);
                 }
-                catch (IOException ex)
-                {
-                    Trace.TraceWarning("Error requesting: " + url + "\n" + ex.ToString());
-                }
+       
             }
             return null;
         }

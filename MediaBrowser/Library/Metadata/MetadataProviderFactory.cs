@@ -16,6 +16,10 @@ namespace MediaBrowser.Library {
         public Type Type { get; private set; }
         private SupportedTypeAttribute[] SupportedTypes { get; set; }
 
+        public static MetadataProviderFactory Get<T>() where T : IMetadataProvider {
+            return new MetadataProviderFactory(typeof(T));
+        }  
+
         public MetadataProviderFactory(Type type) {
             Type = type;
             Slow = GetAttribute<SlowProviderAttribute>() != null;

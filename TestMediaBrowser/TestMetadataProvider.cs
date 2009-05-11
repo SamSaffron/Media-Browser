@@ -10,10 +10,6 @@ namespace TestMediaBrowser {
     [TestFixture]
     public class TestMetadataProvider {
 
-        [Test]
-        public void TestProvidersLoadUpProperly() {
-            Assert.Contains(typeof(MediaInfoProvider), MetadataProviderHelper.ProviderTypes);
-        }
 
         [Test]
         public void TestImageFromMediaLocationProviderIsFirst() {

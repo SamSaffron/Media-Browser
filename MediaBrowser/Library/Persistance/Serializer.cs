@@ -112,7 +112,7 @@ namespace MediaBrowser.Library.Persistance {
                     .GetAssemblies()
                     .Select(a => a.GetType(typeName, false))
                     .Where(t => t != null)
-                    .First();
+                    .FirstOrDefault();
                 if (type != null) typeMap[typeName] = type;
             }
             return type;

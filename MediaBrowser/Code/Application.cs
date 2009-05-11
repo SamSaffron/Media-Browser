@@ -206,8 +206,9 @@ namespace MediaBrowser
 
                             (AggregateFolder)BaseItemFactory.Instance.Create(InitialLocation),
                             new List<IPlaybackController>(),
-                            new List<MetadataProviderFactory>(),
-                            new List<EntityResolver>(),
+                            MetadataProviderHelper.providers,
+                            BaseItemFactory.EntityResolver,
+                            LibraryImageFactory.Instance.ImageResolvers,
                             this.MultiLogger
                         );
 
