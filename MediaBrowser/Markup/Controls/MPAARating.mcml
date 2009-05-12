@@ -33,7 +33,9 @@
 			<Condition Source="[MPAARating]" SourceValue="PG-13" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:RatedPG13" />
 			<Condition Source="[MPAARating]" SourceValue="PG" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:RatedPG" />
 			<Condition Source="[MPAARating]" SourceValue="R" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:RatedR" />
-			<Condition Source="[MPAARating]" SourceValue="Unrated" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:Unrated" />
+			<!-- Unrated is just way too ugly 
+      <Condition Source="[MPAARating]" SourceValue="Unrated" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:Unrated" />
+      -->
       <!-- NR is a meaningless rating removing it (sam) -->
       <!-- 	<Condition Source="[MPAARating]" SourceValue="NR" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:RatedNR" /> -->
 
@@ -51,7 +53,7 @@
 		
 
 		<Content>
-			<Graphic Name="Image" Visible="false" Content="image://i:Unrated" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" />
+			<Graphic Name="Image" Visible="false" Content="image://i:BlankImage" SizingPolicy="SizeToContent" MaintainAspectRatio="true" />
 		</Content>
 	</UI>
 
