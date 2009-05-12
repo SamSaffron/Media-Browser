@@ -15,6 +15,7 @@
 	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
     xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
     xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ItemButton"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
     xmlns:me="Me"
 	  >
 
@@ -312,7 +313,7 @@
       <Changed Source="[ClosePopupPlay.Invoked]">
         <Actions>
           <Set Target="[Application.DisplayPopupPlay]" Value="false" />
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
           <Set Target="[PopupPlay.Visible]" Value="false"/>
           <Invoke Target="[Scroller.NavigateInto]" />
         </Actions>

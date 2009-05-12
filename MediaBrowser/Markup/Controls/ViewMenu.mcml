@@ -1,12 +1,13 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	  xmlns:cor="assembly://MSCorLib/System"
-	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="file://Styles_DoNotEdit.mcml"
-	  xmlns:f="file://Fonts_DoNotEdit.mcml"
-	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:cb="resx://MediaBrowser/MediaBrowser.Resources/CheckBox"
-	  xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
-	  xmlns:me="Me"
+    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+    xmlns:s="file://Styles_DoNotEdit.mcml"
+    xmlns:f="file://Fonts_DoNotEdit.mcml"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+    xmlns:cb="resx://MediaBrowser/MediaBrowser.Resources/CheckBox"
+    xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+    xmlns:me="Me"
 	  >
 
 	<Image Name="Border" Source="resx://MediaBrowser/MediaBrowser.Resources/ZoomPane" NineGrid="4,4,4,4"/>
@@ -90,7 +91,7 @@
 
 			<Changed Source="[Clicker.Invoked]">
 				<Actions>
-					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<PlaySound Sound="sound://sounds:Miniselect" />
 				</Actions>
 			</Changed>
 
@@ -283,7 +284,7 @@
 					<Equality Source="[Enabled]" Value="true" />
 				</Conditions>
 				<Actions>
-					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<PlaySound Sound="sound://sounds:Miniselect" />
 				</Actions>
 			</Changed>
 
@@ -331,7 +332,7 @@
 
 			<Changed Source="[Clicker.Invoked]">
 				<Actions>
-					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<PlaySound Sound="sound://sounds:Miniselect" />
 				</Actions>
 			</Changed>
 

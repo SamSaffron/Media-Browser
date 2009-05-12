@@ -621,7 +621,7 @@
 
       <Changed Source="[Clicker.Invoked]">
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sd:Miniselect" />
           <Invoke Target="[Application.Navigate]" item="[Item]" />
         </Actions>
       </Changed>

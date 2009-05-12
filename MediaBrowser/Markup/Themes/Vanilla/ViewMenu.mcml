@@ -7,6 +7,7 @@
 	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	    xmlns:rg="resx://MediaBrowser/MediaBrowser.Resources/RadioGroup"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	    xmlns:me="Me"
 	  >
 
@@ -65,7 +66,7 @@
 
       <Changed Source="[Clicker.Invoked]">
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
         </Actions>
       </Changed>
 

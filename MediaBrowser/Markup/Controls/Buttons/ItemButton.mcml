@@ -1,8 +1,9 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	  xmlns:cor="assembly://MSCorLib/System"
-	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
-	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-    xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+      xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	  >
 
   <UI Name="ItemButton">
@@ -35,7 +36,7 @@
           <Modified Source="[WatchedShortcut.Invoked]"/>
         </Conditions>
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
           <Invoke Target="[Item.ToggleWatched]"/>
         </Actions>
       </Rule>
@@ -47,7 +48,7 @@
           <Modified Source="[RefreshShortcut.Invoked]"/>
         </Conditions>
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
           <Invoke Target="[Item.RefreshMetadata]"/>
         </Actions>
       </Rule>
@@ -55,7 +56,7 @@
       <Changed Source="[Clicker.Invoked]">
         <Actions>
           <Invoke Target="[Application.Navigate]" item="[Item]"/>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
         </Actions>
       </Changed>
 
@@ -113,7 +114,7 @@
       
       <!--<Changed Source="[ClosePopupPlay.Invoked]">
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
           <Set Target="[PopupPlay.Visible]" Value="false"/>
           <Invoke Target="[BasePanel.NavigateInto]" />
         </Actions>

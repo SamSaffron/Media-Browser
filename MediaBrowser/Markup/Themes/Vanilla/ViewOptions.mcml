@@ -308,7 +308,7 @@
               <BooleanTransformer Inverse="true"/>
             </Transformer>
           </Set>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sd:Miniselect" />
         </Actions>
       </Changed>
 
@@ -516,7 +516,7 @@
 
       <Changed Source="[Clicker.Invoked]">
         <Actions>
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sd:Miniselect" />
         </Actions>
       </Changed>
 

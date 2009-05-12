@@ -1,8 +1,9 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	  xmlns:cor ="assembly://MsCorLib/System"
+      xmlns:cor ="assembly://MsCorLib/System"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-	  xmlns:s="file://Styles_DoNotEdit.mcml"
-	  xmlns:me="Me"
+      xmlns:s="file://Styles_DoNotEdit.mcml"
+      xmlns:me="Me"
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	  >
 
 	<UI Name="CBTest">
@@ -38,7 +39,7 @@
 							<BooleanTransformer Inverse="true"/>
 						</Transformer>
 					</Set>
-					<PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+					<PlaySound Sound="sound://sounds:Miniselect" />
 				</Actions>
 			</Changed>
 

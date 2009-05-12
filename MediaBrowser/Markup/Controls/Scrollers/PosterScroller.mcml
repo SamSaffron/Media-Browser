@@ -1,11 +1,12 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	  xmlns:cor="assembly://MSCorLib/System"
-	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
-	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	  xmlns:fs="resx://MediaBrowser/MediaBrowser.Resources/FocusSelector"
-	  xmlns:pvi="resx://MediaBrowser/MediaBrowser.Resources/PosterViewItem"
-      xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
-	  xmlns:s="file://Styles_DoNotEdit.mcml"
+    xmlns:cor="assembly://MSCorLib/System"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+    xmlns:fs="resx://MediaBrowser/MediaBrowser.Resources/FocusSelector"
+    xmlns:pvi="resx://MediaBrowser/MediaBrowser.Resources/PosterViewItem"
+    xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
+    xmlns:s="file://Styles_DoNotEdit.mcml"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	  >
 
 	<UI Name="PosterScroller">
@@ -214,7 +215,7 @@
       <Changed Source="[ClosePopupPlay.Invoked]">
         <Actions>
           <Set Target="[Application.DisplayPopupPlay]" Value="false" />
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
           <Set Target="[PopupPlay.Visible]" Value="false"/>
           <Invoke Target="[Scroller.NavigateInto]" />          
         </Actions>

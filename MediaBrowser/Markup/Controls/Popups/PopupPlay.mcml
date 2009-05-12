@@ -9,6 +9,7 @@
 	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"
       xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"      
 		  xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu" 
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
 	    xmlns:me="Me"
 	  >
 
@@ -33,7 +34,7 @@
         <Changed Source="[CmdPlayAll.Invoked]">
           <Actions>
             <Invoke Target="[Close.Invoke]" InvokePolicy="AsynchronousNormal" />
-            <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+            <PlaySound Sound="sound://sounds:Miniselect" />
             <Invoke Target="[Application.Play]" item="[Item]" />            
           </Actions>
         </Changed>
@@ -41,7 +42,7 @@
         <Changed Source="[CmdPlayRandom.Invoked]">
           <Actions>
             <Invoke Target="[Close.Invoke]" InvokePolicy="AsynchronousNormal" />
-            <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
+            <PlaySound Sound="sound://sounds:Miniselect" />
             <Invoke Target="[Application.Shuffle]" item="[Item]" />
           </Actions>
         </Changed>

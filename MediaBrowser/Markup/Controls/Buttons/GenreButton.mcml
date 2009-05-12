@@ -3,7 +3,7 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
-	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:me="Me">
 
  
