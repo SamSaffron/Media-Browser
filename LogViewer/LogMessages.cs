@@ -9,6 +9,8 @@ using MediaBrowser.Library.Threading;
 using MediaBrowser.Library.Extensions;
 using System.Windows.Threading;
 using System.Timers;
+using System.Collections.Specialized;
+using System.Collections;
 
 namespace LogViewer {
     class LogMessages : ObservableCollection<LogRow> {
@@ -87,9 +89,11 @@ namespace LogViewer {
 
             dispatcher.Invoke((Action)(() =>
             {
-                foreach (var row in newRows.OrderBy(row => row.Time)) {
-                    Add(row);
-                }
+                foreach (var item in newRows.OrderBy(row => row.Time))
+	            {
+                    this.Items.Add(item);
+	            }
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }));
 
 
