@@ -944,6 +944,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] InfoMarquee {
+            get {
+                object obj = ResourceManager.GetObject("InfoMarquee", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] ItemButton {
             get {
                 object obj = ResourceManager.GetObject("ItemButton", resourceCulture);

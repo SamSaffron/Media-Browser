@@ -1,0 +1,39 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
+    xmlns:me="Me"
+      >
+
+
+  <UI Name="InfoMarquee">
+    <Properties>
+      <a:Application Name="Application" Application="$Required" />
+    </Properties>
+
+    <Rules>
+      <Binding Source="[Application.Information.DisplayText]" Target="[InfoPanelDisplay.Content]"  />
+    </Rules>
+
+    <Content>
+      <Text Name="InfoPanelDisplay" Font="font://f:P_ClockFont"  Color="White">
+        <Animations>
+          <Animation Type="ContentChangeShow">
+            <Keyframes>
+              <AlphaKeyframe Time="0" Value="0"/>
+              <AlphaKeyframe Time="0.4" Value="0"/>
+              <AlphaKeyframe Time=".8" Value="1"/>
+            </Keyframes>
+          </Animation>
+          <Animation Type="ContentChangeHide">
+            <Keyframes>
+              <AlphaKeyframe Time="0" Value="1"/>
+              <AlphaKeyframe Time="0.4" Value="0"/>
+            </Keyframes>
+          </Animation>
+        </Animations>
+      </Text>
+    </Content>
+  </UI>
+
+</Mcml>
