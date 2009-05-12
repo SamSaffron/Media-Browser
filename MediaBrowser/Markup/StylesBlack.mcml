@@ -5,6 +5,7 @@
 
 	<!-- The background used when the posters zoom, sows most ovbiously when labels are turned on -->
 	<Color Name="PosterZoomBackground" Color="Transparent"/>
+  <Color Name="PanelBackground" Color="128,128,128"/>
 
 	<!-- The 3 font colors used in the app -->
 	<Color Name="FontColorLight" Color="255,255,255"/>

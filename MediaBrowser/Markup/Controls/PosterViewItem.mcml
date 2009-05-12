@@ -271,7 +271,8 @@
 
                           <Graphic  Name="BoxArt"  Scale="1,1,1" Padding="0,0,0,0" SizingPolicy="SizeToConstraint"  MaintainAspectRatio="true" >
 												<LayoutInput>
-													<AnchorLayoutInput Horizontal="Center"/>
+													<!--<AnchorLayoutInput Horizontal="Center"/>-->
+                           <AnchorLayoutInput Horizontal="Fill" Vertical="Fill"/> 
 												</LayoutInput>
 											</Graphic>
 										</Children>

@@ -263,64 +263,6 @@
         </Actions>
       </Rule>
 
-
-
-
-      <!--<Binding Source="[SelectedItem]" Target="[TitleSet.Model]"/>
-      <Binding Source="[PreSelectedItem]" Target="[TitleSet.ModelFast]"/>
-      <Binding Source="[SelectedItem]" Target="[MovieInfo.Model]"/>
-      <Binding Source="[PreSelectedItem]" Target="[MovieInfo.ModelFast]"/>
-
-      <Condition Source="[UseCustomAnchor]" ConditionOp="Equals" SourceValue="false"
-                 Target="[CFScroller.LayoutInput]" Value="[AnchorNormal]" />
-      <Condition Source="[UseCustomAnchor]" ConditionOp="Equals" SourceValue="true"
-                 Target="[CFScroller.LayoutInput]" Value="[AnchorCustom]" />
-      
-      <Changed Source="[Folder.SelectedChildIndex]" InitialEvaluate="true">
-        <Conditions>
-          <Equality ConditionOp="NotEquals" Source="[Folder.SelectedChildIndex]" Value="-1"></Equality>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[FullDetailsTimer.Stop]" />
-          <Invoke Target="[FullDetailsTimer.Start]" />
-          <Set Target="[SelectedItem]"  Value="[BlankItem]" />
-          <Set Target="[PreSelectedItem]"  Value="[Folder.SelectedChild]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[Folder.SelectedChildIndex]">
-        <Conditions>
-          <Equality ConditionOp="Equals" Source="[Folder.SelectedChildIndex]" Value="-1"></Equality>
-        </Conditions>
-        <Actions>
-          <Set Target="[SelectedItem]"  Value="[BlankItem]" />
-          <Set Target="[PreSelectedItem]"  Value="[BlankItem]" />
-          <Set Target="[PreviousSelectedItem]"  Value="[BlankItem]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[FullDetailsTimer.Tick]">
-        <Actions>
-          <Set Target="[SelectedItem]" Value="[PreSelectedItem]"/>
-          <Set Target="[PreviousSelectedItem]" Value="[PreSelectedItem]"/>
-        </Actions>
-      </Changed>
-
-      -->
-      <!-- Counter Bindings -->
-      <!--
-      <Binding Source="[Folder.SelectedChildIndex!cor:String]" Target="[List_Counter.Content]">
-        <Transformer>
-          <MathTransformer Add="1"/>
-        </Transformer>
-      </Binding>
-      <Binding Source="[Folder.Children.Count]" Target="[List_Total.Content]" >
-        <Transformer>
-          <FormatTransformer Format=" | {0}" />
-        </Transformer>
-      </Binding>-->
-
-
     </Rules>
 
     <Content>
