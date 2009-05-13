@@ -17,5 +17,12 @@ namespace NndbMetadataProvider {
             config.Providers.Add(MetadataProviderFactory.Get<NndbPeopleProvider>());
         }
 
+        public string Name {
+            get { return "Nndb image provider"; }
+        }
+
+        public string Description {
+            get { return "Downloads actor and director images from nndb.com"; }
+        }
     }
 }

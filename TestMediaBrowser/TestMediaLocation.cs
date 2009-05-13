@@ -19,6 +19,54 @@ namespace TestMediaBrowser {
             }
         }
 
+
+        // note this test can take a while.. 
+        [Test]
+        public void DodgyVfsShouldPartiallyLoad() {
+
+            var vf = Path.Combine(testDir, "test.vf");
+
+            Directory.CreateDirectory(testDir);
+            var dir1 = Path.Combine(testDir, "test");
+            Directory.CreateDirectory(dir1 + "\\path");
+
+            VirtualFolderContents generator = new VirtualFolderContents("");
+            generator.AddFolder(dir1);
+            generator.AddFolder(@"\\10.0.0.4\mydir");
+           
+            File.WriteAllText(vf, generator.Contents);
+
+            var root = MediaLocationFactory.Instance.Create(vf) as VirtualFolderMediaLocation;
+
+            Assert.AreEqual(1, root.Children.Count);
+            
+        }
+
+        [Test]
+        public void VirtualFoldersCanContainDuplicateFiles() {
+            Directory.CreateDirectory(testDir);
+
+            var dir1 = Path.Combine(testDir, "test");
+            var dir2 = Path.Combine(testDir, "test2");
+
+            var vf = Path.Combine(testDir, "test.vf");
+
+            Directory.CreateDirectory(dir1 + "\\path");
+            Directory.CreateDirectory(dir2 + "\\path");
+
+
+            VirtualFolderContents generator = new VirtualFolderContents("");
+            generator.AddFolder(dir1);
+            generator.AddFolder(dir2);
+            
+            File.WriteAllText(vf, generator.Contents);
+
+            var root = MediaLocationFactory.Instance.Create(vf) as VirtualFolderMediaLocation;
+            
+            Assert.AreEqual(2, root.Children.Count);
+            Assert.AreEqual(true, root.ContainsChild("path"));
+        } 
+
         [Test]
         public void TestStandardScanning() {
             CreateTree(3, 10, "hello world");

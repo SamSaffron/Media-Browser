@@ -17,5 +17,12 @@ namespace MediaInfoProvider {
             config.Providers.Add(MetadataProviderFactory.Get<MediaInfoProvider>()); 
         }
 
+        public string Name {
+            get { return "MediaInfo Provider"; }
+        }
+
+        public string Description {
+            get { return "This plugin provides rich information about your media using the MediaInfo project."; }
+        }
     }
 }

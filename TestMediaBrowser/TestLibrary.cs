@@ -70,8 +70,6 @@ namespace TestMediaBrowser {
             }
 
             Assert.AreEqual("movie3", rootFolder.Children.ElementAt(1).Name);
-           
-
         }
 
         [Ignore("Only used for performance testing!")]

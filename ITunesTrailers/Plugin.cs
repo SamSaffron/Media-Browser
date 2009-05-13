@@ -20,5 +20,13 @@ namespace ITunesTrailers {
             config.RootFolder.AddVirtualChild(trailers);
         }
 
+        public string Name {
+             get { return "ITunes Trailers"; }
+        }
+
+        public string Description {
+            get { return "HD Trailers powered by Apple."; }
+        }
+
     }
 }

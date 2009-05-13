@@ -12,5 +12,12 @@ namespace DvrmsMetadataProvider {
             config.Providers.Add(new MetadataProviderFactory(typeof(DvrmsMetadataProvider))); 
         }
 
+        public string Name {
+            get { return "DVR-MS metadata."; }
+        }
+
+        public string Description {
+            get { return "This plugin provides metadata for DVR-MS files. (all your recorded tv shows start off as dvr-ms files)"; }
+        }
     }
 }

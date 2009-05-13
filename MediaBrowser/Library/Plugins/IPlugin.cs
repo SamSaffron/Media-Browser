@@ -11,5 +11,7 @@ namespace MediaBrowser.Library.Plugins {
     /// </summary>
     public interface IPlugin {
         void Init(LibraryConfig config);
+        string Name { get; }
+        string Description { get; }
     }
 }

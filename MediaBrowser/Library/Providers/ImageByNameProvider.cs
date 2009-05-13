@@ -17,10 +17,14 @@ namespace MediaBrowser.Library.Providers
         protected override string Location
         {
             get {
+
+                if (string.IsNullOrEmpty(Item.Name)) return "";
+
                 string location = Config.Instance.ImageByNameLocation;
                 if ((location == null) || (location.Length == 0))
                     location = Path.Combine(ApplicationPaths.AppConfigPath, "ImagesByName");
                 char[] invalid = Path.GetInvalidFileNameChars();
+
                 string name = Item.Name;
                 foreach (char c in invalid)
                     name = name.Replace(c.ToString(), "");

@@ -11,5 +11,6 @@ namespace MediaBrowser.Library.Factories {
     /// </summary>
     public class SharedKernel {
 
+        
     }
 }

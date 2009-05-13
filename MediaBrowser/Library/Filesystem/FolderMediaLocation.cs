@@ -38,9 +38,19 @@ namespace MediaBrowser.Library.Filesystem {
         }
 
         Dictionary<string, IMediaLocation> CreateIndex() {
-            return children.Value.ToDictionary(item => System.IO.Path.GetFileName(item.Path).ToLower());
+            // the juggling here is to workaround a situation where we have 2 children with the same name
+            return children
+                .Value
+                .Select(item => new {Name = System.IO.Path.GetFileName(item.Path).ToLower(), Value = item})
+                .Distinct(item => item.Name)
+                .ToDictionary(item => item.Name, item => item.Value);
         }
 
+        /// <summary>
+        /// Will return the first child with the specific name 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public IMediaLocation GetChild(string name) {
             return index.Value[name.ToLower()];
         }

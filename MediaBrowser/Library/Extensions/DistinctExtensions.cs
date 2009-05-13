@@ -5,11 +5,11 @@ using System.Text;
 
 namespace MediaBrowser.Library.Extensions {
     public static class DistinctExtensions {
-        class StructEqualityComparer<T, TKey> : IEqualityComparer<T> where TKey : struct {
+        class EqualityComparer<T, TKey> : IEqualityComparer<T> {
 
             Func<T, TKey> lookup;
 
-            public StructEqualityComparer(Func<T, TKey> lookup) {
+            public EqualityComparer(Func<T, TKey> lookup) {
                 this.lookup = lookup;
             }
 
@@ -22,10 +22,11 @@ namespace MediaBrowser.Library.Extensions {
             }
         }
 
-
-        public static IEnumerable<T> Distinct<T, TKey>(this IEnumerable<T> list, Func<T, TKey> lookup) where TKey : struct {
-            return list.Distinct(new StructEqualityComparer<T, TKey>(lookup));
+        public static IEnumerable<T> Distinct<T, TKey>(this IEnumerable<T> list, Func<T, TKey> lookup)  {
+            // null handling perhaps ? 
+            return list.Distinct(new EqualityComparer<T, TKey>(lookup));
         }
+
 
     }
 }

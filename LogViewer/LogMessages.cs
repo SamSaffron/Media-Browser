@@ -17,6 +17,7 @@ namespace LogViewer {
 
         string path;
 
+        Dictionary<string, DateTime> logfileChangeDate = new Dictionary<string,DateTime>(); 
         HashSet<Guid> rowHashs = new HashSet<Guid>();
         System.Threading.Timer timer;
         Dispatcher dispatcher; 
@@ -75,8 +76,24 @@ namespace LogViewer {
         private void LoadMessages() {
 
             var newRows = new List<LogRow>();
+            var filesToLoad = new List<string>();
 
-            foreach (var file in Directory.GetFiles(path)) {
+            var logFiles = new DirectoryInfo(path).GetFiles();
+
+            foreach (var file in logFiles) {
+                DateTime lastChanged;
+                if (!logfileChangeDate.TryGetValue(file.FullName, out lastChanged)) {
+                    lastChanged = DateTime.MinValue;
+                }
+
+                if (lastChanged < file.LastWriteTime) {
+                    filesToLoad.Add(file.FullName);
+                    logfileChangeDate[file.FullName] = file.LastWriteTime;
+                }
+                
+            }
+
+            foreach (var file in filesToLoad) {
                 foreach (var line in GetLines(file)) {
                     LogRow row = LogRow.FromString(line);
                     var hash = row.ToString().GetMD5();
@@ -87,14 +104,15 @@ namespace LogViewer {
                 }
             }
 
-            dispatcher.Invoke((Action)(() =>
-            {
-                foreach (var item in newRows.OrderBy(row => row.Time))
-	            {
-                    this.Items.Add(item);
-	            }
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }));
+            if (newRows.Count > 0) {
+                dispatcher.Invoke((Action)(() =>
+                {
+                    foreach (var item in newRows.OrderBy(row => row.Time)) {
+                        this.Items.Add(item);
+                    }
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                }));
+            }
 
 
         }

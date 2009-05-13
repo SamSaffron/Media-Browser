@@ -37,6 +37,14 @@ namespace MtnFrameGrabProvider {
             });
         }
 
+        public string Name {
+            get { return "High Quality Thumbnails"; }
+        }
+
+        public string Description {
+            get { return "High quality automatic thumbnails powered by the mtn project. http://moviethumbnail.sourceforge.net"; }
+        }
+
         public static void EnsureMtnIsExtracted() {
            
             if (!Directory.Exists(MtnPath)) {

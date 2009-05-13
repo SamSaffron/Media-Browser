@@ -25,5 +25,13 @@ namespace FrameGrabProvider {
         }
 
 
+        public string Name {
+             get { return "Frame Grab provider"; }
+        }
+
+        public string Description {
+            get { return "This plugin provides frame grabs for videos which contain no cover art."; }
+        }
+
     }
 }
