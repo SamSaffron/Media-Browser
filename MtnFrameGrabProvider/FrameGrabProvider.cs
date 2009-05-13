@@ -8,7 +8,7 @@ using MediaBrowser.Library.Providers;
 using MediaBrowser.Library;
 
 
-namespace FrameGrabProvider {
+namespace MtnFrameGrabProvider {
     // we mark this as slow, so we ensure it only runs at the end of the chain
     [SlowProvider]
     [SupportedType(typeof(Video))]
@@ -24,7 +24,7 @@ namespace FrameGrabProvider {
         }
 
         public override void Fetch() {
-            Item.PrimaryImagePath = "grab://" + Video.VideoFiles.First();
+            Item.PrimaryImagePath = "mtngrab://" + Video.VideoFiles.First();
         }
 
         public override bool NeedsRefresh() {

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using MediaBrowser.Library.ImageManagement;
+using System.IO;
 
-namespace FrameGrabProvider {
+namespace MtnFrameGrabProvider {
     class GrabImage : LibraryImage {
 
         protected override string LocalFilename {
             get {
-                return System.IO.Path.Combine(cachePath, Id.ToString() + ".png");
+                return System.IO.Path.Combine(cachePath, Id.ToString() + ".jpg");
             }
         }
 
@@ -20,15 +20,15 @@ namespace FrameGrabProvider {
                     return LocalFilename;
                 }
 
-                // path without grab://
-                string video = this.Path.Substring(7);
+                // path without mtngrab://
+                string video = this.Path.Substring(10);
 
-                Plugin.Logger.ReportInfo("Trying to extract thumbnail for " + video);
+                Plugin.Logger.ReportInfo("Trying to extract mtn thumbnail for " + video);
 
-                if (ThumbCreator.CreateThumb(video, LocalFilename, 0.2)) {
+                if (ThumbCreator.CreateThumb(video, LocalFilename, 600)) {
                     return LocalFilename;
                 } else {
-                    Plugin.Logger.ReportWarning("Failed to grab thumbnail for " + video);
+                    Plugin.Logger.ReportWarning("Failed to grab mtn thumbnail for " + video);
                     return null;
                 }
 
