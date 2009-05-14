@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics;
 
 namespace MediaBrowser.Library.Logging {
-    public class TraceLogger : Logger {
+    public class TraceLogger : LoggerBase {
 
         public override void LogMessage(LogRow row) {
             Trace.WriteLine(row.ToString());

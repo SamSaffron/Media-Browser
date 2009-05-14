@@ -116,7 +116,7 @@ namespace MediaBrowser
                 }
                 catch (Exception ex)
                 {
-                    Application.Logger.ReportException("Error in RunningOnExtender.", ex);
+                    Logger.ReportException("Error in RunningOnExtender.", ex);
                     Application.ReportBrokenEnvironment();
                     throw;
                 }
@@ -129,8 +129,8 @@ namespace MediaBrowser
         /// </summary>
         internal static void ReportBrokenEnvironment()
         {
-            Application.Logger.ReportInfo("Application has broken MediaCenterEnvironment, possibly due to 5 minutes of idle while running under system with TVPack installed.\n Application will now close.");
-            Application.Logger.ReportInfo("Attempting to use reflection that sometimes works to show a dialog box");
+            Logger.ReportInfo("Application has broken MediaCenterEnvironment, possibly due to 5 minutes of idle while running under system with TVPack installed.\n Application will now close.");
+            Logger.ReportInfo("Attempting to use reflection that sometimes works to show a dialog box");
             // for some reason using reflection still works
             Application.DialogBoxViaReflection("Application will now close due to broken MediaCenterEnvironment object, possibly due to 5 minutes of idle time and/or running with TVPack installed.");
             Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
@@ -172,75 +172,12 @@ namespace MediaBrowser
         }
 
 
-        private string ResolveInitialFolder()
-        {
-            string start = Config.Instance.InitialFolder;
-            if (start == Helper.MY_VIDEOS)
-                start = Helper.MyVideosPath;
-            return start;
-        }
-
-        private IMediaLocation initialLocation = null;
-        public IMediaLocation InitialLocation
-        {
-            get
-            {
-                if (initialLocation == null)
-                {
-                    initialLocation = MediaLocationFactory.Instance.Create(ResolveInitialFolder());
-                }
-                return initialLocation;
-            }
-        }
-
-        internal LibraryConfig libraryConfig = null;
-        public LibraryConfig LibraryConfig
-        {
-            get
-            {
-                if (libraryConfig != null) return libraryConfig;
-
-                lock (syncObj) {
-                    if (libraryConfig == null) {
-                        libraryConfig = new LibraryConfig(
-
-                            (AggregateFolder)BaseItemFactory.Instance.Create(InitialLocation),
-                            new List<IPlaybackController>(),
-                            MetadataProviderHelper.providers,
-                            BaseItemFactory.EntityResolver,
-                            LibraryImageFactory.Instance.ImageResolvers,
-                            this.MultiLogger
-                        );
-
-                        var podcastHome = BaseItemFactory.Instance.Create(Config.PodcastHome) as Folder;
-                        if (podcastHome != null && podcastHome.Children.Count > 0) {
-                            libraryConfig.RootFolder.AddVirtualChild(podcastHome);
-                        }
-
-                        PluginLoader.Instance.Initialize(libraryConfig);
-                    }
-                }
-                return libraryConfig;
-            }
-        }
-
         public AggregateFolder RootFolder
         {
             get
             {
-                return LibraryConfig.RootFolder;
+                return Kernel.Instance.RootFolder;
             }
-        }
-
-        private bool CheckInitialSource()
-        {
-            string start = ResolveInitialFolder();
-            if (Helper.IsShortcut(start))
-                start = Helper.ResolveShortcut(start);
-            if (Helper.IsVirtualFolder(start))
-                return File.Exists(start);
-            else
-                return Directory.Exists(start);
         }
 
         public void Back()
@@ -332,14 +269,6 @@ namespace MediaBrowser
                         Updater update = new Updater(this);
                         Async.Queue(update.checkUpdate);
                     }
-                    if (!CheckInitialSource())
-                    {
-                        MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                        ev.Dialog("Initial folder: " + Config.Instance.InitialFolder + " cannot be found, please check configuration.", "Error", DialogButtons.Ok, 60, true);
-                        Config.IsFirstRun = true;
-                        OpenConfiguration(false);
-                        return;
-                    }
 
                     Async.Queue(() =>
                     {
@@ -351,7 +280,7 @@ namespace MediaBrowser
                             }
                             catch (Exception ex)
                             {
-                                Application.Logger.ReportException("Failed to refresh library! ", ex);
+                                Logger.ReportException("Failed to refresh library! ", ex);
                                 Debug.Assert(false, "Full refresh thread should never crash!");
                             }
                         }
@@ -487,7 +416,7 @@ namespace MediaBrowser
             }
             else
             {
-                Application.Logger.ReportError("Session is null in OpenPage");
+                Logger.ReportError("Session is null in OpenPage");
             }
         }
 
@@ -505,7 +434,7 @@ namespace MediaBrowser
             }
             else
             {
-                Application.Logger.ReportError("Session is null in OpenExternalPlaybackPage");
+                Logger.ReportError("Session is null in OpenExternalPlaybackPage");
             }
         }
 
@@ -523,7 +452,7 @@ namespace MediaBrowser
             }
             else
             {
-                Application.Logger.ReportError("Session is null in OpenPage");
+                Logger.ReportError("Session is null in OpenPage");
             }
         }
 
@@ -677,30 +606,6 @@ namespace MediaBrowser
             get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
-        public static ILogger Logger
-        {
-            get
-            {
-                // to ease testing we return a dummy logger if no one is defined
-                if (Application.CurrentInstance != null)
-                    return Application.CurrentInstance.MultiLogger;
-                else 
-                    return (ILogger)new TraceLogger();
-            }
-        }
-
-        MultiLogger logger = new MultiLogger();
-        public MultiLogger MultiLogger
-        {
-            get
-            {
-                return logger;
-            }
-            set
-            {
-                logger = value;
-            }
-        }
 
         private Information _information = new Information();
         public Information Information

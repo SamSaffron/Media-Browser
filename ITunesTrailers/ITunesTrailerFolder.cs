@@ -10,6 +10,7 @@ using System.IO;
 using MediaBrowser;
 using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Extensions;
+using MediaBrowser.Library.Logging;
 
 namespace ITunesTrailers {
     public class ITunesTrailerFolder : Folder {
@@ -48,7 +49,7 @@ namespace ITunesTrailers {
 
                 lastUpdated = DateTime.Now;
             } catch (Exception err) {
-                Plugin.Logger.ReportException("Failed to update trailers", err);
+                Logger.ReportException("Failed to update trailers", err);
             }
         }
 

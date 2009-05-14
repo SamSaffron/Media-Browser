@@ -35,9 +35,9 @@ namespace TestMediaBrowser {
 |Lib
  movie.avi
 ");
-            var id = BaseItemFactory.Instance.Create(root).Id;
+            var id = Kernel.Instance.GetItem(root).Id;
 
-            Assert.AreEqual(id, BaseItemFactory.Instance.Create(root).Id);
+            Assert.AreEqual(id, Kernel.Instance.GetItem(root).Id);
 
             root = MockFolderMediaLocation.CreateMockLocation(@"
 |Lib
@@ -46,7 +46,7 @@ namespace TestMediaBrowser {
   movie3.avi
 ");
 
-            var id2 = BaseItemFactory.Instance.Create(root).Id;
+            var id2 = Kernel.Instance.GetItem(root).Id;
 
             Assert.AreNotEqual(id, id2);
             
@@ -70,7 +70,7 @@ namespace TestMediaBrowser {
 "
                 );
 
-            BaseItemFactoryBase factory;
+            BaseItemFactory factory;
             IEnumerable<InitializationParameter> setup;
 
             resolver.ResolveEntity(root.Children[0], out factory, out setup);
@@ -93,7 +93,7 @@ namespace TestMediaBrowser {
  |Spandax
   movie.vob
 ");
-            BaseItemFactoryBase factory;
+            BaseItemFactory factory;
             IEnumerable<InitializationParameter> setup; 
 
             resolver.ResolveEntity(root, out factory, out setup);

@@ -36,7 +36,7 @@ namespace TestMediaBrowser {
  Rocky.iso
  Rambo.iso
 ");
-            var rootFolder = (MediaBrowser.Library.Entities.Folder)BaseItemFactory.Instance.Create(rootLocation);
+             var rootFolder = Kernel.Instance.GetItem <MediaBrowser.Library.Entities.Folder>(rootLocation);
 
             Assert.AreEqual(2, rootFolder.Children.Count());
             Assert.AreEqual(MediaType.ISO, (rootFolder.Children[0] as Video).MediaType);
@@ -60,7 +60,7 @@ namespace TestMediaBrowser {
  movie4.avi
  movie5.avi
 ");
-            var rootFolder = BaseItemFactory.Instance.Create(rootLocation) as MediaBrowser.Library.Entities.Folder;
+            var rootFolder = Kernel.Instance.GetItem<MediaBrowser.Library.Entities.Folder>(rootLocation);
 
             Assert.IsNotNull(rootFolder);
             Assert.AreEqual(4, rootFolder.Children.Count());
@@ -75,8 +75,7 @@ namespace TestMediaBrowser {
         [Ignore("Only used for performance testing!")]
         [Test]
         public void TestScanPerformance() {
-            var root = BaseItemFactory.Instance.Create(MediaLocationFactory.Instance.Create(
-                Config.Instance.InitialFolder)) as Folder;
+            var root = Kernel.Instance.GetItem<Folder>(Config.Instance.InitialFolder);
 
             foreach (var item in root.RecursiveChildren) {
                 Console.WriteLine(item.Path);

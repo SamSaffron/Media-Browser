@@ -11,6 +11,7 @@ using MediaBrowser.Library.Extensions;
 using MediaBrowser.LibraryManagement;
 using System.IO;
 using MediaBrowser.Library.Filesystem;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Network {
     public class RSSFeed {
@@ -32,7 +33,7 @@ namespace MediaBrowser.Library.Network {
                     }
                 } catch (Exception ex) {
                     Debug.Assert(false, "Failed to update podcast");
-                    Application.Logger.ReportException("Podcast update failed.", ex);
+                    Logger.ReportException("Podcast update failed.", ex);
                     throw;
                 }
             }

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.Threading;
 using System.Threading;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Persistance {
     public class FileBasedDictionary<T> : IDisposable where T : class {
@@ -78,7 +79,7 @@ namespace MediaBrowser.Library.Persistance {
                     data = Serializer.Deserialize<object>(stream) as FastLoadData;
                 }
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to load fast load data: ", e);
+                Logger.ReportException("Failed to load fast load data: ", e);
             }
 
             if (data != null && data.Items != null) {
@@ -91,7 +92,7 @@ namespace MediaBrowser.Library.Persistance {
                     }
                 }
 
-                Application.Logger.ReportInfo("Successfully loaded fastload data for : " + path + " " + typeof(T).ToString());
+                Logger.ReportInfo("Successfully loaded fastload data for : " + path + " " + typeof(T).ToString());
             }
         }
 
@@ -100,7 +101,7 @@ namespace MediaBrowser.Library.Persistance {
                 if (e.FullPath != FastLoadFile) {
                     var data = LoadFile(e.FullPath);
                     if (data != null) {
-                        SetInternalData(GetGuid(e.FullPath).Value, data, MediaLocationFactory.Instance.Create(path).DateModified);
+                        SetInternalData(GetGuid(e.FullPath).Value, data, Kernel.Instance.GetLocation(path).DateModified);
                     }
                 }
             }
@@ -108,7 +109,7 @@ namespace MediaBrowser.Library.Persistance {
 
         public void Validate() {
             var loadedData = new Dictionary<Guid, T>();
-            var directory = MediaLocationFactory.Instance.Create(path) as IFolderMediaLocation;
+            var directory = Kernel.Instance.GetLocation<IFolderMediaLocation>(path);
 
             List<Guid> validChildren = new List<Guid>();
             foreach (var item in directory.Children.OrderBy(key => key.DateModified).Reverse()) {
@@ -159,7 +160,7 @@ namespace MediaBrowser.Library.Persistance {
                 Serializer.Serialize<object>(stream, fastLoadData);
             }
 
-            Application.Logger.ReportInfo("Finished validating : " + path + " " + typeof(T).ToString());
+            Logger.ReportInfo("Finished validating : " + path + " " + typeof(T).ToString());
 
         }
 
@@ -191,7 +192,7 @@ namespace MediaBrowser.Library.Persistance {
 
             // during load we may have an incomplete cache
             string filename = GetFilename(guid);
-            var location = MediaLocationFactory.Instance.Create(filename);
+            var location = Kernel.Instance.GetLocation(filename);
             if (location != null) {
                 var data = LoadFile(location.Path);
                 if (data != null) {
@@ -223,7 +224,7 @@ namespace MediaBrowser.Library.Persistance {
             } catch (FormatException) { }
 
             if (guid == null) {
-                Application.Logger.ReportWarning("Attempting to load invalid file! All files in the directory should be guids");
+                Logger.ReportWarning("Attempting to load invalid file! All files in the directory should be guids");
                 return null;
             }
 
@@ -245,7 +246,7 @@ namespace MediaBrowser.Library.Persistance {
                 }
 
                 if (data == null) {
-                    Application.Logger.ReportWarning("Invalid data was detected in the file : " + path);
+                    Logger.ReportWarning("Invalid data was detected in the file : " + path);
                     guid = null;
                 } else {
                     DatedObject current;
@@ -257,7 +258,7 @@ namespace MediaBrowser.Library.Persistance {
                     }
                 }
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to load date: ", e);
+                Logger.ReportException("Failed to load date: ", e);
             }
 
             return data;

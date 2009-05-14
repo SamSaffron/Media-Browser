@@ -36,7 +36,7 @@ namespace MtnFrameGrabProvider {
             string tempFile = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(video) + ".jpg");
             try {
                 File.Move(tempFile, destination);
-            } catch (Exception e) {
+            } catch (Exception) {
                 return false;
             } 
             return true;

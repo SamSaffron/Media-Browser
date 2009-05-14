@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace MediaBrowser.Library.Logging {
-    public class MultiLogger : Logger{
+    public class MultiLogger : LoggerBase{
 
         public MultiLogger(): base() {
             Loggers = new List<ILogger>();

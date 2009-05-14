@@ -8,6 +8,7 @@ using MediaBrowser.Library.Persistance;
 using System.Xml;
 using System.Web;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Providers.TVDB {
     [RequiresInternet]
@@ -65,7 +66,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
             Series series = Item as Series;
 
             string name = Item.Name;
-            Application.Logger.ReportInfo("TvDbProvider: Fetching series data: " + name);
+            Logger.ReportInfo("TvDbProvider: Fetching series data: " + name);
 
             if (string.IsNullOrEmpty(seriesId)) {
                 seriesId = FindSeries(name);

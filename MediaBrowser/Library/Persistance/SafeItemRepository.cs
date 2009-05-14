@@ -5,6 +5,7 @@ using System.Text;
 using MediaBrowser.Library.Interfaces;
 using MediaBrowser.Library.Entities;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Persistance {
     public class SafeItemRepository : IItemRepository {
@@ -21,7 +22,7 @@ namespace MediaBrowser.Library.Persistance {
             try {
                 obj = func();
             } catch (Exception ex) {
-                Application.Logger.ReportException("Failed to access repository ", ex);
+                Logger.ReportException("Failed to access repository ", ex);
             }
             return obj;
         }
@@ -30,7 +31,7 @@ namespace MediaBrowser.Library.Persistance {
             try {
                 action();
             } catch (Exception ex) {
-                Application.Logger.ReportException("Failed to access repository ", ex);
+                Logger.ReportException("Failed to access repository ", ex);
             }
 
         }

@@ -9,14 +9,13 @@ using MediaBrowser.Library;
 namespace FrameGrabProvider {
     public class Plugin : IPlugin {
 
-        public static ILogger Logger {get; private set;}
+        public void Init(Kernel kernel) {
 
-        public void Init(LibraryConfig config) {
-            Logger = config.Logger;
 
-            config.Providers.Add(new MetadataProviderFactory(typeof(FrameGrabProvider)));
+            kernel.MetadataProviderFactories.Add(new MetadataProviderFactory(typeof(FrameGrabProvider)));
 
-            config.ImageResolvers.Add(path => {
+            kernel.ImageResolvers.Add(path =>
+            {
                 if (path.ToLower().StartsWith("grab")) {
                     return new GrabImage(); 
                 }

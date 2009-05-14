@@ -12,6 +12,7 @@ using MediaBrowser.Library.Providers.Attributes;
 using System.Linq;
 using MediaBrowser.Library.Configuration;
 using MediaBrowser.Library.Providers;
+using MediaBrowser.Library.Logging;
 
 namespace MediaInfoProvider
 {
@@ -70,7 +71,7 @@ namespace MediaInfoProvider
 
         private MediaInfoData GetMediaInfo(string location)
         {
-            Plugin.Logger.ReportInfo("getting media info from " + location);
+            Logger.ReportInfo("getting media info from " + location);
             MediaInfo mediaInfo = new MediaInfo();
             int i = mediaInfo.Open(location);
             MediaInfoData mediaInfoData = null;
@@ -98,7 +99,7 @@ namespace MediaInfoProvider
             }
             else
             {
-                Plugin.Logger.ReportInfo("Could not extract media information from " + location);
+                Logger.ReportInfo("Could not extract media information from " + location);
             }
             mediaInfo.Close();
             return mediaInfoData;

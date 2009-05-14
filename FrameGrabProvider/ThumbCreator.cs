@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using MediaBrowser.Library.Interop.DirectShowLib;
+using MediaBrowser.Library.Logging;
 
 namespace FrameGrabProvider
 {
@@ -17,7 +18,7 @@ namespace FrameGrabProvider
 
         public static bool CreateThumb(string videoFilename, string thumbFilename, double positionPercent)
         {
-            Plugin.Logger.ReportInfo("Creating thumb for " + videoFilename);
+            Logger.ReportInfo("Creating thumb for " + videoFilename);
             bool rval = false;
             IMediaDet m = new MediaDet() as IMediaDet;
             m.put_Filename(videoFilename);

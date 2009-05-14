@@ -15,6 +15,8 @@ using System.Threading;
 using MediaBrowser.Library.Plugins;
 using MediaBrowser.Library.Providers.TVDB;
 using MediaBrowser.Library.Providers;
+using MediaBrowser.Library.Factories;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Metadata {
     public class MetadataProviderHelper {
@@ -22,16 +24,13 @@ namespace MediaBrowser.Library.Metadata {
 
         static object sync = new object();
  
-        // This should be moved to kernel eventually 
-        static internal List<MetadataProviderFactory> providers = DefaultProviders();
-
         public static Type[] ProviderTypes { 
             get { 
-                return providers.Select(p => p.Type).ToArray(); 
+                return Kernel.Instance.MetadataProviderFactories.Select(p => p.Type).ToArray(); 
             } 
         }
 
-        static List<MetadataProviderFactory> DefaultProviders() {
+        public static List<MetadataProviderFactory> DefaultProviders() {
 
             return new Type[] { 
                 typeof(VirtualFolderProvider),
@@ -93,7 +92,7 @@ namespace MediaBrowser.Library.Metadata {
                     if (provider.NeedsRefresh())
                         return true;
                 } catch (Exception e) {
-                    Application.Logger.ReportException("Metadata provider failed during NeedsRefresh", e);
+                    Logger.ReportException("Metadata provider failed during NeedsRefresh", e);
                     Debug.Assert(false, "Providers should catch all the exceptions that NeedsRefresh generates!");
                 }
             }
@@ -105,7 +104,7 @@ namespace MediaBrowser.Library.Metadata {
             var cachedProviders = (ItemCache.Instance.RetrieveProviders(item.Id) ?? new List<IMetadataProvider> ())
                 .ToDictionary(provider => provider.GetType());
 
-            return providers
+            return Kernel.Instance.MetadataProviderFactories
                 .Where(provider => provider.Supports(item))
                 .Where(provider => !provider.RequiresInternet || Config.Instance.AllowInternetMetadataProviders)
                 .Select(provider => cachedProviders.GetValueOrDefault(provider.Type, provider.Construct()))
@@ -134,7 +133,7 @@ namespace MediaBrowser.Library.Metadata {
                     }
                 } catch (Exception e) {
                     Debug.Assert(false, "Meta data provider should not be leaking exceptions");
-                    Application.Logger.ReportException("Provider failed: " + provider.GetType().ToString(), e);
+                    Logger.ReportException("Provider failed: " + provider.GetType().ToString(), e);
                 }
             }
             if (changed) {

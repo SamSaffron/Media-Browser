@@ -14,6 +14,7 @@ using MediaBrowser.Library;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Logging;
 
 
 namespace FilmTrailerPlugin
@@ -90,7 +91,7 @@ namespace FilmTrailerPlugin
             }
             catch (Exception e)
             {
-                Plugin.Logger.ReportException("Failed to update trailers", e);
+                Logger.ReportException("Failed to update trailers", e);
             }
             finally
             {
@@ -212,7 +213,7 @@ namespace FilmTrailerPlugin
                 }
                 catch (Exception e)
                 {
-                    Plugin.Logger.ReportException("Failed to parse trailer document", e);
+                    Logger.ReportException("Failed to parse trailer document", e);
                 }
             }
             return trailers;

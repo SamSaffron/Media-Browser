@@ -73,13 +73,13 @@
     <Compile Include="Code\ModelItems\FolderChildren.cs" />
     <Compile Include="Library\Configuration\ApplicationPaths.cs" />
     <Compile Include="Library\Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Library\Factories\SharedKernel.cs" />
+    <Compile Include="Library\Factories\Kernel.cs" />
     <Compile Include="Library\Filesystem\AttributedContents.cs" />
     <Compile Include="Library\Filesystem\VirtualFolder.cs" />
     <Compile Include="Library\Filesystem\VodcastContents.cs" />
     <Compile Include="Library\Logging\FileLogger.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
-    <Compile Include="Library\Logging\Logger.cs" />
+    <Compile Include="Library\Logging\LoggerBase.cs" />
     <Compile Include="Library\Logging\LogRow.cs" />
     <Compile Include="Library\Logging\LogSeverity.cs" />
     <Compile Include="Library\Logging\MultiLogger.cs" />
@@ -145,13 +145,6 @@
     <Compile Include="Library\Extensions\IMediaLocationExtensions.cs" />
     <Compile Include="Library\Extensions\Interceptor.cs" />
     <Compile Include="Library\Extensions\StreamExtensions.cs" />
-    <Compile Include="Library\Factories\BaseItemFactory.cs" />
-    <Compile Include="Library\Factories\BaseItemFactoryBase.cs">
-      <DependentUpon>BaseItemFactory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\Factories\BaseItemFactoryGeneric.cs">
-      <DependentUpon>BaseItemFactory.cs</DependentUpon>
-    </Compile>
     <Compile Include="Library\Factories\LibraryImageFactory.cs" />
     <Compile Include="Library\Factories\MediaLocationFactory.cs" />
     <Compile Include="Library\Factories\PlayableItemFactory.cs" />
@@ -167,7 +160,6 @@
     <Compile Include="Library\ImageManagement\FilesystemImage.cs" />
     <Compile Include="Library\ImageManagement\RemoteImage.cs" />
     <Compile Include="Library\ImageManagement\ResourceImage.cs" />
-    <Compile Include="Library\Interfaces\IBaseItemFactory.cs" />
     <Compile Include="Library\Interfaces\IMediaLocationFactory.cs" />
     <Compile Include="Library\Interfaces\IMetadataProvider.cs" />
     <Compile Include="Library\Interop\FindFileApis.cs" />
@@ -177,9 +169,7 @@
     <Compile Include="Library\Metadata\MetadataProviderFactory.cs" />
     <Compile Include="Library\Metadata\MetadataRefreshOptions.cs" />
     <Compile Include="Library\Plugins\IPlugin.cs" />
-    <Compile Include="Library\Plugins\LibraryConfig.cs" />
     <Compile Include="Library\Plugins\Plugin.cs" />
-    <Compile Include="Library\Plugins\PluginLoader.cs" />
     <Compile Include="Library\RemoteControl\PlaybackStateEventArgs.cs" />
     <Compile Include="Library\RemoteControl\RemoteCommand.cs" />
     <Compile Include="Library\Sorting\SortHelper.cs" />
@@ -474,6 +464,11 @@
     <None Include="Images\ButtonSelection2.png" />
     <Content Include="Images\folder.png" />
     <None Include="Images\lines.png" />
+    <Compile Include="Library\Factories\BaseItemFactoryGeneric.cs">
+      <DependentUpon>BaseItemFactory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\Factories\BaseItemFactory.cs" />
+    <Compile Include="Library\Logging\Logger.cs" />
     <Content Include="Markup\Base\Animations.mcml" />
     <Content Include="Markup\Base\Images.mcml" />
     <Content Include="Markup\Controls\Backdrop.mcml" />

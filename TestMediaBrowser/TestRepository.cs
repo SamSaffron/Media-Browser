@@ -64,8 +64,8 @@ namespace TestMediaBrowser {
         [Ignore("This is only used to test network performance")]
         [Test]
         public void TestHowLongItTakesToLoadItall() {
-            var rootLocation = MediaLocationFactory.Instance.Create(ApplicationPaths.AppInitialDirPath);
-            var root = (Folder)BaseItemFactory.Instance.Create(rootLocation);
+            var rootLocation = Kernel.Instance.GetLocation(ApplicationPaths.AppInitialDirPath);
+            var root = Kernel.Instance.GetItem <Folder>(rootLocation);
 
             foreach (var item in root.RecursiveChildren) {
                // Console.WriteLine(item.Path);

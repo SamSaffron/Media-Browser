@@ -37,7 +37,7 @@ namespace TestMediaBrowser {
  movie4.avi
  movie5.avi
 ");
-            var rootFolder = BaseItemFactory.Instance.Create(rootLocation) as MediaBrowser.Library.Entities.Folder;
+            var rootFolder = Kernel.Instance.GetItem<MediaBrowser.Library.Entities.Folder>(rootLocation) ;
             rootFolder.Id = Guid.NewGuid();
 
             Assert.AreEqual(3, rootFolder.Children.Count());
@@ -66,15 +66,19 @@ namespace TestMediaBrowser {
  movie6.avi
 ");
 
-            var rootFolder = BaseItemFactory.Instance.Create(rootLocation) as MediaBrowser.Library.Entities.Folder;
+            var rootFolder = Kernel.Instance.GetItem(rootLocation) as MediaBrowser.Library.Entities.Folder;
             rootFolder.Id = Guid.NewGuid();
 
             Assert.AreEqual(3, rootFolder.Children.Count());
 
-            rootFolder.MediaLocationFactory = new FakeMediaLocationFactory(rootLocationNew);
+            var oldFactory = Kernel.Instance.MediaLocationFactory;
+
+            Kernel.Instance.MediaLocationFactory = new FakeMediaLocationFactory(rootLocationNew);
             rootFolder.ValidateChildren();
 
             Assert.AreEqual(4, rootFolder.Children.Count());
+
+            Kernel.Instance.MediaLocationFactory = oldFactory;
 
         }
     }

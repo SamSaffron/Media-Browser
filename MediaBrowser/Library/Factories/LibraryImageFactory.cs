@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MediaBrowser.Library.ImageManagement;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Factories {
 
@@ -14,25 +15,6 @@ namespace MediaBrowser.Library.Factories {
 
         private LibraryImageFactory() {
         }
-
-        internal List<ImageResolver> ImageResolvers {
-            get {
-                return resolvers;
-            } 
-        }
-
-        List<ImageResolver> resolvers = GetImageResolvers();
-
-        private static List<ImageResolver> GetImageResolvers() {
-            return new List<ImageResolver>() {
-                (path) =>  { 
-                    if (path != null && path.ToLower().StartsWith("http")) {
-                        return new RemoteImage();
-                    }
-                    return null;
-                }
-            };
-        } 
 
         Dictionary<string, LibraryImage> cache = new Dictionary<string, LibraryImage>();
 
@@ -61,7 +43,7 @@ namespace MediaBrowser.Library.Factories {
             if (!cached && image == null) {
                 try {
 
-                    foreach (var resolver in resolvers) {
+                    foreach (var resolver in Kernel.Instance.ImageResolvers) {
                         image = resolver(path);
                         if (image != null) break;
                     }
@@ -76,7 +58,7 @@ namespace MediaBrowser.Library.Factories {
                     // this will trigger a download a resize
                     image.EnsureImageSizeInitialized();
                 } catch (Exception ex) {
-                    Application.Logger.ReportException("Failed to load image: " + path + " ", ex);
+                    Logger.ReportException("Failed to load image: " + path + " ", ex);
                     image = null;
                 }
             }

@@ -12,6 +12,8 @@ using Microsoft.MediaCenter.UI;
 using System.Text;
 using MediaBrowser.Library.Logging;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Factories;
+using MediaBrowser.Library;
 
 namespace MediaBrowser
 {
@@ -35,11 +37,15 @@ namespace MediaBrowser
 #if DEBUG
             host.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", DialogButtons.Ok, 100, true); 
 #endif
-            if (!Config.Instance.IsValid)
-            {
+
+            var config = GetConfig();
+            if (config == null) {
                 Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
-                return; // there is a problem with the config and the user opt'd not to reset it to defaults
+                return;
             }
+
+            Kernel.Init(config); 
+
             Environment.CurrentDirectory = ApplicationPaths.AppConfigPath;
             try
             {
@@ -55,18 +61,26 @@ namespace MediaBrowser
 
             Application app = new Application(new MyHistoryOrientedPageSession(), host);
 
-            if (Config.Instance.EnableTraceLogging) {
-                app.MultiLogger.AddLogger(new FileLogger(ApplicationPaths.AppLogPath));
-#if (!DEBUG)
-                app.MultiLogger.AddLogger(new TraceLogger());
-#endif
+            app.GoToMenu();
+        }
+
+        private static ConfigData GetConfig() {
+            ConfigData config = null;
+            try {
+                config = ConfigData.FromFile(ApplicationPaths.ConfigFile);
+            } catch (Exception ex) {
+                MediaCenterEnvironment ev = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                DialogResult r = ev.Dialog(ex.Message + "\nReset to default?", "Error in configuration file", DialogButtons.Yes | DialogButtons.No, 600, true);
+                if (r == DialogResult.Yes) {
+                    config = new ConfigData(ApplicationPaths.ConfigFile);
+                    config.Save();
+                } else {
+                    Microsoft.MediaCenter.Hosting.AddInHost.Current.ApplicationContext.CloseApplication();
+
+                }
             }
 
-#if DEBUG 
-            app.MultiLogger.AddLogger(new TraceLogger());
-#endif 
-
-            app.GoToMenu();
+            return config;
         }
 
         private void SetupFontsMcml(AddInHost host)
@@ -85,7 +99,7 @@ namespace MediaBrowser
                 }
                 if (File.Exists(custom))
                 {
-                    Application.Logger.ReportInfo("Using custom fonts mcml");
+                    Logger.ReportInfo("Using custom fonts mcml");
                     if (!VerifyStylesXml(custom, Resources.FontsDefault))
                     {
                         host.MediaCenterEnvironment.Dialog("CustomFonts.mcml as been pathed with missing values", CUSTOM_FONTS_FILE, DialogButtons.Ok, 100, true);
@@ -108,7 +122,7 @@ namespace MediaBrowser
             }
             catch (Exception ex)
             {
-                Application.Logger.ReportException("Error creating Fonts_DoNotEdit.mcml" , ex);
+                Logger.ReportException("Error creating Fonts_DoNotEdit.mcml" , ex);
                 throw;
             }
         }
@@ -129,7 +143,7 @@ namespace MediaBrowser
                 }
                 if (File.Exists(custom))
                 {
-                    Application.Logger.ReportInfo("Using custom styles mcml");
+                    Logger.ReportInfo("Using custom styles mcml");
                     if (!VerifyStylesXml(custom, Resources.StylesDefault))
                     {
                         host.MediaCenterEnvironment.Dialog(CUSTOM_STYLE_FILE + " has been patched with missing values", CUSTOM_STYLE_FILE, DialogButtons.Ok, 100, true);
@@ -159,7 +173,7 @@ namespace MediaBrowser
             }
             catch (Exception ex)
             {
-                Application.Logger.ReportException("Error creating Styles_DoNotEdit.mcml", ex);
+                Logger.ReportException("Error creating Styles_DoNotEdit.mcml", ex);
                 throw;
             }
 

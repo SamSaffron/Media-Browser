@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System.IO;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Filesystem;
+using MediaBrowser.Library;
 
 namespace TestMediaBrowser {
     [TestFixture]
@@ -36,7 +37,7 @@ namespace TestMediaBrowser {
            
             File.WriteAllText(vf, generator.Contents);
 
-            var root = MediaLocationFactory.Instance.Create(vf) as VirtualFolderMediaLocation;
+            var root = Kernel.Instance.GetLocation<VirtualFolderMediaLocation>(vf) ;
 
             Assert.AreEqual(1, root.Children.Count);
             
@@ -61,7 +62,7 @@ namespace TestMediaBrowser {
             
             File.WriteAllText(vf, generator.Contents);
 
-            var root = MediaLocationFactory.Instance.Create(vf) as VirtualFolderMediaLocation;
+            var root = Kernel.Instance.GetLocation<VirtualFolderMediaLocation>(vf);
             
             Assert.AreEqual(2, root.Children.Count);
             Assert.AreEqual(true, root.ContainsChild("path"));
@@ -70,7 +71,7 @@ namespace TestMediaBrowser {
         [Test]
         public void TestStandardScanning() {
             CreateTree(3, 10, "hello world");
-            var root = MediaLocationFactory.Instance.Create(testDir);
+            var root = Kernel.Instance.GetLocation(testDir);
             Assert.AreEqual(3, (root as IFolderMediaLocation).Children.Count);
 
             foreach (var item in (root as IFolderMediaLocation).Children) {

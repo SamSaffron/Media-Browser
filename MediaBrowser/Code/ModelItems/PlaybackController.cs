@@ -10,6 +10,7 @@ using Microsoft.MediaCenter;
 using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.RemoteControl;
 using MediaBrowser.Util;
+using MediaBrowser.Library.Logging;
 
 
 namespace MediaBrowser {
@@ -64,7 +65,7 @@ namespace MediaBrowser {
 
         public void Seek(long position) {
             var mce = AddInHost.Current.MediaCenterEnvironment;
-            Application.Logger.ReportInfo("Trying to seek position :" + new TimeSpan(position).ToString());
+            Logger.ReportInfo("Trying to seek position :" + new TimeSpan(position).ToString());
             int i = 0;
             while ((i++ < 15) && (mce.MediaExperience.Transport.PlayState != Microsoft.MediaCenter.PlayState.Playing)) {
                 // settng the position only works once it is playing and on fast multicore machines we can get here too quick!
@@ -77,10 +78,10 @@ namespace MediaBrowser {
         private static void PlayPath(string path) {
             try {
                 if (!AddInHost.Current.MediaCenterEnvironment.PlayMedia(Microsoft.MediaCenter.MediaType.Video, path, false)) {
-                    Application.Logger.ReportInfo("PlayMedia returned false");
+                    Logger.ReportInfo("PlayMedia returned false");
                 }
             } catch (Exception ex) {
-                Application.Logger.ReportException("Playing media failed.", ex);
+                Logger.ReportException("Playing media failed.", ex);
                 Application.ReportBrokenEnvironment();
                 return;
             }
@@ -94,7 +95,7 @@ namespace MediaBrowser {
                 }
             } catch (Exception e) {
                 // dont crash the UI thread
-                Application.Logger.ReportException("Failed to go to full screen", e);
+                Logger.ReportException("Failed to go to full screen", e);
                 AddInHost.Current.MediaCenterEnvironment.Dialog("We can not maximize the window for some reason! " + e.Message, "", Microsoft.MediaCenter.DialogButtons.Ok, 0, true);
             }
         }
@@ -130,7 +131,7 @@ namespace MediaBrowser {
             }
             catch(Exception e)
             {
-                Application.Logger.ReportException("Governator thread proc died!", e); 
+                Logger.ReportException("Governator thread proc died!", e); 
             }
         }
 
@@ -145,7 +146,7 @@ namespace MediaBrowser {
                 }
             } catch (Exception e) {
                 // dont crash the background thread 
-                Application.Logger.ReportException("FAIL: something is wrong with media experience!", e);
+                Logger.ReportException("FAIL: something is wrong with media experience!", e);
                 mediaTransport = null;
             }
         }
@@ -172,7 +173,7 @@ namespace MediaBrowser {
                     }
                 } catch (InvalidOperationException e) { 
                     // well if we are inactive we are not allowed to get media experience ...
-                    Application.Logger.ReportException("EXCEPTION : ", e);
+                    Logger.ReportException("EXCEPTION : ", e);
                 }
                 return mediaTransport;
             }
@@ -195,7 +196,7 @@ namespace MediaBrowser {
                 return;
             }
 
-            Application.Logger.ReportVerbose("TransportPropertyChanged was called with property = " + property);
+            Logger.ReportVerbose("TransportPropertyChanged was called with property = " + property);
 
             lastCall = DateTime.Now;
             UpdateStatus();
@@ -214,12 +215,12 @@ namespace MediaBrowser {
                 try {
                     title = MediaExperience.MediaMetadata["Title"] as string;
                 } catch (Exception e) {
-                    Application.Logger.ReportException("Failed to get title on current media item!", e);
+                    Logger.ReportException("Failed to get title on current media item!", e);
                 }
 
                 if (title != null && progressHandler != null && (this.title != title || this.position != position)) {
 
-                    Application.Logger.ReportVerbose("progressHandler was called with : position =" + position.ToString() + " title :" + title);
+                    Logger.ReportVerbose("progressHandler was called with : position =" + position.ToString() + " title :" + title);
 
                     progressHandler(this, new PlaybackStateEventArgs() {Position = position, Title = title});
                     this.title = title;

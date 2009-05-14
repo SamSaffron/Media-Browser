@@ -23,6 +23,7 @@ using MediaBrowser.Library.Configuration;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Network;
+using MediaBrowser.Library.Logging;
 
 namespace Configurator
 {
@@ -91,7 +92,7 @@ namespace Configurator
         }
 
         private void RefreshPodcasts() {
-            var podcasts = BaseItemFactory.Instance.Create(config.PodcastHome) as Folder;
+            var podcasts = Kernel.Instance.GetItem<Folder>(config.PodcastHome);
             podcasts.ValidateChildren();
 
             podcastList.Items.Clear();
@@ -196,9 +197,9 @@ namespace Configurator
                     //else
                     //    throw new ArgumentException("Invalid virtual folder file extension: " + filename);
                 }
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
-                    // LOG invalid filename object.
+                    Logger.ReportWarning("Ignored file: " + filename);
                 }
                 catch (Exception e)
                 {
@@ -404,7 +405,9 @@ folder: {0}
 
                 if (!string.IsNullOrEmpty(virtualFolder.ImagePath))
                 {
-                    folderImage.Source = new BitmapImage(new Uri(virtualFolder.ImagePath));
+                    if (File.Exists(virtualFolder.ImagePath)) {
+                        folderImage.Source = new BitmapImage(new Uri(virtualFolder.ImagePath));
+                    }
                 }
                 else
                 {
@@ -699,13 +702,13 @@ folder: {0}
         private void hdrBasic_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrBasic);
-            tabItem4.Visibility = tabItem5.Visibility = Visibility.Collapsed;
+            externalPlayersTab.Visibility = externalPlayersTab.Visibility  = extendersTab.Visibility = Visibility.Collapsed;
         }
 
         private void hdrAdvanced_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrAdvanced);
-            tabItem4.Visibility = tabItem5.Visibility = Visibility.Visible;
+            externalPlayersTab.Visibility = externalPlayersTab.Visibility = extendersTab.Visibility = Visibility.Visible;
         }
 
         private void ClearHeaders()

@@ -7,6 +7,7 @@ using TestMediaBrowser.SupportingClasses;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser.Library.Filesystem;
+using MediaBrowser.Library;
 
 namespace TestMediaBrowser {
     [TestFixture]
@@ -23,7 +24,7 @@ namespace TestMediaBrowser {
 
             Assert.IsFalse(location.IsSeriesFolder()); 
 
-            Assert.IsNull(BaseItemFactory.Instance.Create(location));
+            Assert.IsNull(Kernel.Instance.GetItem(location));
         }
 
         public void WeShouldNotBeResolvingTheRecycleBin() {
@@ -32,7 +33,7 @@ namespace TestMediaBrowser {
             var location = new MockFolderMediaLocation();
             location.Parent = root;
             location.Path = @"c:\$ReCycle.bin";
-            Assert.IsNull(BaseItemFactory.Instance.Create(location));
+            Assert.IsNull(Kernel.Instance.GetItem(location));
         }
     }
 }

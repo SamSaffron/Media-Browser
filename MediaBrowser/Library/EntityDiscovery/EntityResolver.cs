@@ -10,7 +10,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
     public abstract class EntityResolver{
 
         public abstract void ResolveEntity(IMediaLocation location,
-            out BaseItemFactoryBase factory,
+            out BaseItemFactory factory,
             out IEnumerable<InitializationParameter> setup);
 
     }

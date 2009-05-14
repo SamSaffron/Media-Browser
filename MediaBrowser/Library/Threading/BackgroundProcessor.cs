@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library
 {
@@ -113,7 +114,7 @@ namespace MediaBrowser.Library
                         }
                         catch (Exception ex)
                         {
-                            Application.Logger.ReportException("Error in background processor.", ex);
+                            Logger.ReportException("Error in background processor.", ex);
                         }
                     }
                     itemArrived.WaitOne();

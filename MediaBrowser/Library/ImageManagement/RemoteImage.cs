@@ -6,13 +6,14 @@ using System.IO;
 using MediaBrowser.Library.Filesystem;
 using System.Net;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.ImageManagement {
     public class RemoteImage : LibraryImage {
 
 
         private void DownloadImage() {
-            Application.Logger.ReportInfo("Fetching image: " + Path);
+            Logger.ReportInfo("Fetching image: " + Path);
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(Path);
             req.Timeout = 60000;
             using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
@@ -48,7 +49,7 @@ namespace MediaBrowser.Library.ImageManagement {
                         success = true;
                         break;
                     } catch (Exception e) {
-                        Application.Logger.ReportException("Failed to download image: " + Path, e);
+                        Logger.ReportException("Failed to download image: " + Path, e);
                     }
                 }
                 return success?LocalFilename:null;

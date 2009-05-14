@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using MediaBrowser.Library.Network;
 using System.IO;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Entities {
 
@@ -74,7 +75,7 @@ namespace MediaBrowser.Library.Entities {
             generator.DownloadPolicy = DownloadPolicy;
             generator.FilesToRetain = FilesToRetain;
             generator.Url = Url;
-            MediaLocationFactory.Create(Path).Contents = generator.Contents;
+            Kernel.Instance.GetLocation(Path).Contents = generator.Contents;
             ItemCache.Instance.SaveItem(this);
         } 
 
@@ -82,7 +83,7 @@ namespace MediaBrowser.Library.Entities {
 
             try {
 
-                RefreshUserSettings(MediaLocationFactory.Create(Path));
+                RefreshUserSettings(Kernel.Instance.GetLocation(Path));
 
                 if (Math.Abs((lastUpdated - DateTime.Now).TotalMinutes) < UpdateMinuteInterval) return;
 
@@ -99,7 +100,7 @@ namespace MediaBrowser.Library.Entities {
                 this.OnChildrenChanged(null);
                 ItemCache.Instance.SaveItem(this);
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to update podcast!", e);
+                Logger.ReportException("Failed to update podcast!", e);
             }
         }
 

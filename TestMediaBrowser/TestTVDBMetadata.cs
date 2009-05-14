@@ -94,7 +94,7 @@ namespace MediaBrowserTest {
   03.avi
 ");
 
-                var root = BaseItemFactory.Instance.Create(folder) as Folder;
+                var root = Kernel.Instance.GetItem<Folder>(folder);
 
                 Series series = (Series)root;
                 Season season = (Season)root.Children[0];

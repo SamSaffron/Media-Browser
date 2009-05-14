@@ -8,9 +8,9 @@ using System.Threading;
 namespace MediaBrowser.Library.Logging
 {
 
-    public abstract partial class Logger : IDisposable, ILogger
+    public abstract partial class LoggerBase : IDisposable, ILogger
     {
-        public Logger()
+        public LoggerBase()
         {
             Enabled = true;
         }

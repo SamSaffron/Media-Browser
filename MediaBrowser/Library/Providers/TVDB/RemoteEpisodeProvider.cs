@@ -7,6 +7,7 @@ using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Persistance;
 using System.Xml;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Providers.TVDB {
 
@@ -54,7 +55,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
 
             string name = Item.Name;
             string location = Item.Path;
-            Application.Logger.ReportInfo("TvDbProvider: Fetching episode data: " + name);
+            Logger.ReportInfo("TvDbProvider: Fetching episode data: " + name);
             string epNum = TVUtils.EpisodeNumberFromFile(location);
 
             if (epNum == null)
@@ -122,7 +123,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
                         episode.Writers = new List<string>(writers.Trim('|').Split('|'));
                     }
 
-                    Application.Logger.ReportInfo("TvDbProvider: Success");
+                    Logger.ReportInfo("TvDbProvider: Success");
                     return true;
                 }
 

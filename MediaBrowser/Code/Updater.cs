@@ -10,6 +10,7 @@ using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using MediaBrowser;
 using System.Reflection;
+using MediaBrowser.Library.Logging;
 
 
 
@@ -101,7 +102,7 @@ namespace MediaBrowser.Util
             catch (Exception e)
             {
                 // No biggie, just return out.
-                Application.Logger.ReportException("Failed to update plugin", e);
+                Logger.ReportException("Failed to update plugin", e);
             }
 
         }

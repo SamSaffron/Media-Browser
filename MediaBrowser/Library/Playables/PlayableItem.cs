@@ -10,6 +10,7 @@ using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.RemoteControl;
 using MediaBrowser.Library.Configuration;
 using System.Linq;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library
 {
@@ -78,7 +79,7 @@ namespace MediaBrowser.Library
             }
             catch (Exception ex)
             {
-                Application.Logger.ReportException("Failed to play " + this.Filename,  ex);
+                Logger.ReportException("Failed to play " + this.Filename,  ex);
             }
         }
 
@@ -112,7 +113,7 @@ namespace MediaBrowser.Library
         }
 
         public virtual void Play(string file) {
-            Application.Logger.ReportInfo("About to play : " + file);
+            Logger.ReportInfo("About to play : " + file);
             PlaybackController.PlayVideo(file);
         }
         
@@ -134,7 +135,7 @@ namespace MediaBrowser.Library
 
         public virtual bool UpdatePosition(string title, long positionTicks)
         {
-            Application.Logger.ReportVerbose("Updating the position for " + title + " position " + positionTicks);
+            Logger.ReportVerbose("Updating the position for " + title + " position " + positionTicks);
 
             if (PlayState == null) {
                 return false;

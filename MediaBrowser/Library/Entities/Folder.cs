@@ -37,7 +37,7 @@ namespace MediaBrowser.Library.Entities {
         public IFolderMediaLocation FolderMediaLocation {
             get {
                 if (location == null) {
-                    location = (IFolderMediaLocation)MediaLocationFactory.Create(Path);
+                    location = Kernel.Instance.GetLocation<IFolderMediaLocation>(Path);
                 }
                 return location;
             }
@@ -324,7 +324,7 @@ namespace MediaBrowser.Library.Entities {
             List<BaseItem> items = new List<BaseItem>();
 
             foreach (var location in this.FolderMediaLocation.Children) {
-                var item = BaseItemFactory.Create(location);
+                var item = Kernel.Instance.GetItem(location);
                 if (item != null) {
                     items.Add(item);
                 }

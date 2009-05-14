@@ -7,6 +7,7 @@ using MediaBrowser.Library.Providers.Attributes;
 using MediaBrowser.Library.Persistance;
 using System.Diagnostics;
 using System.Xml;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Providers.TVDB {
     [RequiresInternet]
@@ -49,7 +50,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
             Season season = Season;
 
             string name = Item.Name;
-            Application.Logger.ReportInfo("TvDbProvider: Fetching season data: " + name);
+            Logger.ReportInfo("TvDbProvider: Fetching season data: " + name);
             string seasonNum = TVUtils.SeasonNumberFromFolderName(Item.Path);
             int seasonNumber = Int32.Parse(seasonNum);
 
@@ -94,7 +95,7 @@ namespace MediaBrowser.Library.Providers.TVDB {
                     }
 
                 }
-                Application.Logger.ReportInfo("TvDbProvider: Success");
+                Logger.ReportInfo("TvDbProvider: Success");
                 return true;
             }
 

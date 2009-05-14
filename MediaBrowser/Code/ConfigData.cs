@@ -96,17 +96,25 @@ namespace MediaBrowser
             }
         }
 
-        public ConfigData()
+        // for the serializer
+        public ConfigData ()
+	    {
+
+	    }
+
+        public ConfigData(string file)
         {
-            
+            this.file = file;
         }
+
+        string file;
 
         public static ConfigData FromFile(string file)
         {
             if (!File.Exists(file))
             {
-                ConfigData d = new ConfigData();
-                d.Save(file);
+                ConfigData d = new ConfigData(file);
+                d.Save();
             }
             XmlSerializer xs = new XmlSerializer(typeof(ConfigData));
             using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -114,6 +122,10 @@ namespace MediaBrowser
                 return (ConfigData)xs.Deserialize(fs);
             }
         }
+
+        public void Save() {
+            Save(file); 
+        } 
 
         /// <summary>
         /// Write current config to file

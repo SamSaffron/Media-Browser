@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MediaBrowser.Library.Entities;
+using MediaBrowser.Library.Factories;
 
 namespace MediaBrowser.Library.Plugins {
     /// <summary>
@@ -10,7 +11,7 @@ namespace MediaBrowser.Library.Plugins {
     ///  It also provides plugins with a place to place initialization code
     /// </summary>
     public interface IPlugin {
-        void Init(LibraryConfig config);
+        void Init(Kernel kernel);
         string Name { get; }
         string Description { get; }
     }

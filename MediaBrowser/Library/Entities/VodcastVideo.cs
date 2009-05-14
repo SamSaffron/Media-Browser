@@ -9,6 +9,7 @@ using MediaBrowser.Library.Filesystem;
 using System.Threading;
 using System.Net;
 using MediaBrowser.LibraryManagement;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Entities {
     public class VodCastVideo : Video {
@@ -107,7 +108,7 @@ namespace MediaBrowser.Library.Entities {
                 File.Delete(PartialFileName);
 
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to download podcast!", e);
+                Logger.ReportException("Failed to download podcast!", e);
             } finally {
 
                 Monitor.Exit(partialLock);

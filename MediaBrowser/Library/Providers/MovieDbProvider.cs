@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Providers.Attributes;
 using MediaBrowser.Library.Persistance;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Providers
 {
@@ -81,7 +82,7 @@ namespace MediaBrowser.Library.Providers
             }
             if (year == "")
                 year = null;
-            Application.Logger.ReportInfo("MovieDbProvider: Finding id for movie data: " + name);
+            Logger.ReportInfo("MovieDbProvider: Finding id for movie data: " + name);
             string id = AttemptFindId(name, year, out matchedName, out possibles);
             if (id == null)
             {
@@ -142,7 +143,7 @@ namespace MediaBrowser.Library.Providers
 
                         if (matchedName != null)
                         {
-                            Application.Logger.ReportInfo("Match " + matchedName + " for " + name);
+                            Logger.ReportInfo("Match " + matchedName + " for " + name);
                             if (year != null)
                             {
                                 string r = node.SafeGetString("release");
@@ -156,7 +157,7 @@ namespace MediaBrowser.Library.Providers
                                         {
                                             if (Math.Abs(db - y) > 1) // allow a 1 year tollerance on release date
                                             {
-                                                Application.Logger.ReportInfo("Result " + matchedName + " release on " + r + " did not match year " + year);
+                                                Logger.ReportInfo("Result " + matchedName + " release on " + r + " did not match year " + year);
                                                 continue;
                                             }
                                         }
@@ -173,7 +174,7 @@ namespace MediaBrowser.Library.Providers
                             foreach (var title in titles)
                             {
                                 possibleTitles.Add(title);
-                                Application.Logger.ReportInfo("Result " + title + " did not match " + name);
+                                Logger.ReportInfo("Result " + title + " did not match " + name);
                             }
                         }
                     }
@@ -342,7 +343,7 @@ namespace MediaBrowser.Library.Providers
                 return genreMap[g];
             else
             {
-                Application.Logger.ReportWarning("Tmdb category not mapped to genre: " + g);
+                Logger.ReportWarning("Tmdb category not mapped to genre: " + g);
                 return "";
             }
         }

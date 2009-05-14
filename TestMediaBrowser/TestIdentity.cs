@@ -48,7 +48,7 @@ namespace TestMediaBrowser {
                 .ToArray();
              */
 
-            var rootLocation = MediaLocationFactory.Instance.Create(@"c:\users") as IFolderMediaLocation;
+            var rootLocation = Kernel.Instance.GetLocation<IFolderMediaLocation>(@"c:\users");
 
             var files = Recurse(rootLocation)
                 .Where(location => !(location is IFolderMediaLocation))

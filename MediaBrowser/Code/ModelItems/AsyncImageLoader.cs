@@ -11,6 +11,7 @@ using System.Reflection;
 using MediaBrowser.Library;
 using MediaBrowser.Library.ImageManagement;
 using MediaBrowser.Library.Threading;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Code.ModelItems {
     class AsyncImageLoader {
@@ -77,7 +78,7 @@ namespace MediaBrowser.Code.ModelItems {
                 }
             } catch (Exception e) {
                 // this may fail in if we are unable to write a file... its not a huge problem cause we will pick it up next time around
-                Application.Logger.ReportException("Failed to load image: " + item.Name, e);
+                Logger.ReportException("Failed to load image: " + item.Name, e);
                 if (Debugger.IsAttached) {
                     Debugger.Break();
                 }

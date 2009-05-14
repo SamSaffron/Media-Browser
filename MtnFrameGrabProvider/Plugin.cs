@@ -14,21 +14,17 @@ using MediaBrowser.Library.Extensions;
 namespace MtnFrameGrabProvider {
     public class Plugin : IPlugin {
 
-        public static ILogger Logger { get; private set; }
-
         public static readonly string MtnPath = Path.Combine(ApplicationPaths.AppPluginPath, "mtn");
         public static readonly string MtnExe = Path.Combine(MtnPath, "mtn.exe");
         public static readonly string FrameGrabsPath = Path.Combine(MtnPath, "FrameGrabs");
 
-        public void Init(LibraryConfig config) {
+        public void Init(Kernel kernel) {
 
             EnsureMtnIsExtracted();
 
-            Logger = config.Logger;
+            kernel.MetadataProviderFactories.Add(new MetadataProviderFactory(typeof(FrameGrabProvider)));
 
-            config.Providers.Add(new MetadataProviderFactory(typeof(FrameGrabProvider)));
-
-            config.ImageResolvers.Add(path =>
+            kernel.ImageResolvers.Add(path =>
             {
                 if (path.ToLower().StartsWith("mtn")) {
                     return new GrabImage();

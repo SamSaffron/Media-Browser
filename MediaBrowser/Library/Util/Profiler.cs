@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Util
 {
@@ -26,7 +27,7 @@ namespace MediaBrowser.Util
             stopwatch.Stop();
             string message = string.Format("{1} took {2} milliseconds.",
                 caller, name, stopwatch.ElapsedMilliseconds.ToString());
-            Application.Logger.ReportInfo( message);
+            Logger.ReportInfo( message);
             Application.CurrentInstance.Information.AddInformation(new InfomationItem(message, false)); 
         }
 

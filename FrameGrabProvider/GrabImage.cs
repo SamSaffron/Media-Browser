@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using MediaBrowser.Library.ImageManagement;
+using MediaBrowser.Library.Logging;
 
 namespace FrameGrabProvider {
     class GrabImage : LibraryImage {
@@ -23,12 +24,12 @@ namespace FrameGrabProvider {
                 // path without grab://
                 string video = this.Path.Substring(7);
 
-                Plugin.Logger.ReportInfo("Trying to extract thumbnail for " + video);
+                Logger.ReportInfo("Trying to extract thumbnail for " + video);
 
                 if (ThumbCreator.CreateThumb(video, LocalFilename, 0.2)) {
                     return LocalFilename;
                 } else {
-                    Plugin.Logger.ReportWarning("Failed to grab thumbnail for " + video);
+                    Logger.ReportWarning("Failed to grab thumbnail for " + video);
                     return null;
                 }
 

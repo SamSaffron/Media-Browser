@@ -9,12 +9,10 @@ using MediaBrowser.Library;
 namespace NndbMetadataProvider {
     class Plugin : IPlugin {
 
-        internal static ILogger Logger { get; private set; }
 
-        public void Init(LibraryConfig config) {
-            Logger = config.Logger;
 
-            config.Providers.Add(MetadataProviderFactory.Get<NndbPeopleProvider>());
+        public void Init(Kernel kernel) {
+            kernel.MetadataProviderFactories.Add(MetadataProviderFactory.Get<NndbPeopleProvider>());
         }
 
         public string Name {

@@ -20,7 +20,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
         }
 
         public override void ResolveEntity(IMediaLocation location, 
-            out BaseItemFactoryBase factory, 
+            out BaseItemFactory factory, 
             out IEnumerable<InitializationParameter> setup) {
 
             factory = null;

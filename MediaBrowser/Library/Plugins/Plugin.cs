@@ -7,13 +7,13 @@ using MediaBrowser.Library.Interfaces;
 using MediaBrowser.Library.Entities;
 using System.Drawing;
 using System.Diagnostics;
+using MediaBrowser.Library.Factories;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Plugins {
-    public class Plugin {
+    public class Plugin : IPlugin {
         string filename;
         Assembly assembly;
-
-        IEnumerable<MetadataProviderFactory> providers;
         IPlugin pluginInterface;
 
         public Plugin(string filename) {
@@ -25,26 +25,10 @@ namespace MediaBrowser.Library.Plugins {
             // This will reduce the locking on the plugins files
             assembly = Assembly.Load(System.IO.File.ReadAllBytes(filename)); 
 #endif
-            providers = DiscoverProviders(assembly);
             pluginInterface = FindPluginInterface(assembly);
+
         }
 
-        public IEnumerable<MetadataProviderFactory> MetadataProviders {
-            get {
-                return providers;
-            }
-        }
-
-        public static IEnumerable<MetadataProviderFactory> DiscoverProviders(Assembly assembly) {
-            return new List<MetadataProviderFactory>(
-             assembly
-             .GetTypes()
-             .Where(type => typeof(IMetadataProvider).IsAssignableFrom(type))
-             .Where(type => type.IsClass)
-             .Where(type => !type.IsAbstract)
-             .Select(type => new MetadataProviderFactory(type))
-         );
-        }
 
         public IPlugin FindPluginInterface(Assembly assembly) {
 
@@ -55,18 +39,30 @@ namespace MediaBrowser.Library.Plugins {
                 try {
                     pluginInterface = plugin.GetConstructor(Type.EmptyTypes).Invoke(null) as IPlugin;
                 } catch (Exception e) {
-                    Application.Logger.ReportException ("Failed to initialize plugin: ", e);
+                    Logger.ReportException ("Failed to initialize plugin: ", e);
                     Debug.Assert(false);
+                    throw;
                 }
+            }
+
+            if (pluginInterface == null) {
+                throw new ApplicationException("The following assembly is not a valid Plugin : " + assembly.FullName);
             }
 
             return pluginInterface;
         }
 
-        public void Init(LibraryConfig config) {
-            if (pluginInterface != null) {
-                pluginInterface.Init(config);
-            }
+        public void Init(Kernel config) {
+            pluginInterface.Init(config);
+        }
+
+
+        public string Name {
+            get { return pluginInterface.Name; }
+        }
+
+        public string Description {
+            get { return pluginInterface.Description; }
         }
 
 

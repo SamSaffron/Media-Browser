@@ -8,7 +8,7 @@ using MediaBrowser.Library.EntityDiscovery;
 using MediaBrowser.Library.Extensions;
 
 namespace MediaBrowser.Library.Factories {
-    public class BaseItemFactory<T> : BaseItemFactoryBase where T : BaseItem, new() {
+    public class BaseItemFactory<T> : BaseItemFactory where T : BaseItem, new() {
         public static BaseItemFactory<T> Instance = new BaseItemFactory<T>();
 
         private BaseItemFactory() { }

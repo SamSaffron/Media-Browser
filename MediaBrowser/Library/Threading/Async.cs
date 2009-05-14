@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Threading {
 
@@ -28,7 +29,7 @@ namespace MediaBrowser.Library.Threading {
                 catch (ThreadAbortException) { /* dont report on this */ } 
                 catch (Exception ex) {
                     Debug.Assert(false, "Async thread crashed! This must be fixed. " + ex.ToString());
-                    Application.Logger.ReportException("Async thread crashed! This must be fixed. ", ex);
+                    Logger.ReportException("Async thread crashed! This must be fixed. ", ex);
                 }
                 if (done != null) done();
             });

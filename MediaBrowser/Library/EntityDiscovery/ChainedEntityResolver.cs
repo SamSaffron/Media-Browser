@@ -8,7 +8,7 @@ using MediaBrowser.Library.Factories;
 namespace MediaBrowser.Library.EntityDiscovery {
     public class ChainedEntityResolver : List<EntityResolver> {
         public void ResolveEntity(IMediaLocation location,
-            out BaseItemFactoryBase factory,
+            out BaseItemFactory factory,
             out IEnumerable<InitializationParameter> setup) {
 
             factory = null;
@@ -22,7 +22,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
 
         public Type ResolveType(IMediaLocation location) {
             
-            BaseItemFactoryBase factory;
+            BaseItemFactory factory;
             IEnumerable<InitializationParameter> setup;
             ResolveEntity(location, out factory, out setup);
             return factory == null ?  null : factory.EntityType;

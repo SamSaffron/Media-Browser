@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 
 namespace MediaBrowser.Library.Logging {
-    public abstract class ThreadedLogger : Logger {
+    public abstract class ThreadedLogger : LoggerBase {
 
 
         Thread loggingThread;

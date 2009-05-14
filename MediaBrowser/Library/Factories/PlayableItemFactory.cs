@@ -28,7 +28,7 @@ namespace MediaBrowser.Library.Factories {
             else if (PlayableDvd.CanPlay(video))
                 playable = new PlayableDvd(video);
 
-            foreach (var controller in Application.CurrentInstance.LibraryConfig.PlaybackControllers) {
+            foreach (var controller in Kernel.Instance.PlaybackControllers) {
                 if (controller.CanPlay(playable.Filename)) {
                     playable.PlaybackController = controller;
                 }

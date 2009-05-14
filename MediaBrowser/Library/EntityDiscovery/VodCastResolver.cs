@@ -9,7 +9,7 @@ using MediaBrowser.Library.Entities;
 
 namespace MediaBrowser.Library.EntityDiscovery {
     public class VodCastResolver : EntityResolver {
-        public override void ResolveEntity(IMediaLocation location, out BaseItemFactoryBase factory, out IEnumerable<InitializationParameter> setup) {
+        public override void ResolveEntity(IMediaLocation location, out BaseItemFactory factory, out IEnumerable<InitializationParameter> setup) {
             factory = null;
             setup = null;
 

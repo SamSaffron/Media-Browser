@@ -9,6 +9,7 @@ using MediaBrowser.Library.Entities.Attributes;
 using MediaBrowser.LibraryManagement;
 using MediaBrowser.Library.Extensions;
 using System.IO;
+using MediaBrowser.Library.Factories;
 
 namespace MediaBrowser.Library.Entities {
     public class Video : Media {
@@ -18,7 +19,8 @@ namespace MediaBrowser.Library.Entities {
         public IMediaLocation MediaLocation {
             get {
                 if (location == null) {
-                    location = (IMediaLocation)MediaLocationFactory.Create(Path);
+
+                    location = Kernel.Instance.GetLocation<IMediaLocation>(Path);
                 }
                 return location;
             }

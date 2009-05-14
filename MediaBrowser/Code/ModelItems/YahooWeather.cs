@@ -9,6 +9,7 @@ using System.Xml.XPath;
 using Microsoft.MediaCenter.UI;
 using System.Diagnostics;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser
 {
@@ -115,7 +116,7 @@ namespace MediaBrowser
             }
             catch (Exception e)
             {
-                Application.Logger.ReportException("Yahoo weather refresh failed" , e);
+                Logger.ReportException("Yahoo weather refresh failed" , e);
             }
             finally
             {

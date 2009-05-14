@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Playables
 {
@@ -73,7 +74,7 @@ namespace MediaBrowser.Library.Playables
 
         public override bool UpdatePosition(string title, long positionTicks)
         {
-            Application.Logger.ReportVerbose("Updating multi file position for " + title + " position " + positionTicks);
+            Logger.ReportVerbose("Updating multi file position for " + title + " position " + positionTicks);
 
             if (title == null || videoFiles == null) 
                 return false; 

@@ -37,7 +37,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TabControl Margin="12,67,12,47" x:Name="tabControl1" Background="{x:Null}">
-            <TabItem Header="media collection" x:Name="tabItem1" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
+            <TabItem Header="media collection" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
                 <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddFolder" VerticalAlignment="Bottom" Width="80" Click="btnAddFolder_Click" FontSize="14" ToolTip="Add a new media collection" Content="Add"/>
@@ -73,11 +73,27 @@
                             <Label Height="29" Margin="6,9,17,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold">The Cook and the Chef</Label>
                         </Grid>
 					</Border>
-	
-					
 				</Grid>
 			</TabItem>
-            <TabItem Header="extenders + iso" x:Name="tabItem2" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
+			
+			
+			<TabItem Header="plug-ins" x:Name="plugins" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
+                <Grid >
+                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList"/>
+                	<TextBlock Margin="301,80.38,56,156" Text="This is information about the plug-in" TextWrapping="Wrap" x:Name="pluginDescription"/>
+                	<Label Margin="301,0,228,100" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,138,63.31" Width="93" Content="1.0.0.2" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>
+                	<Label Margin="301,0,235,65" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,141,100" VerticalAlignment="Bottom" Width="90" Height="29" Content="1.0.0.1" x:Name="latestPluginVersion"/>
+                	<Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin"/>
+                	<Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin"/>
+                	<Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin"/>
+                	<Label Margin="300,37.38,68,0" VerticalAlignment="Top" Height="30.62" Content="MediaInfo Provider" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
+                  
+                </Grid>
+            </TabItem>
+			
+            <TabItem Header="extenders + iso" x:Name="extendersTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed">
                 <Grid >
                     <GroupBox Header="Extender Settings" Margin="9,16,0,14" Name="groupBox6" HorizontalAlignment="Left" Width="225">
                         <Grid>
@@ -99,7 +115,9 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="display" x:Name="tabItem4" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
+			
+			
+            <TabItem Header="display" x:Name="displayTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid >
                     
                     <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,0" Name="groupBox1" Width="287" Height="157.38" VerticalAlignment="Top">
@@ -143,7 +161,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="external players" x:Name="tabItem5" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
+            <TabItem Header="external players" x:Name="externalPlayersTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="lstExternalPlayers" Width="269" FontSize="14" Grid.ColumnSpan="2" SelectionChanged="lstExternalPlayers_SelectionChanged" ItemTemplate="{StaticResource EPStyle}" />
                     <Button Height="32" HorizontalAlignment="Left" Margin="20,0,0,14" x:Name="btnAddPlayer" VerticalAlignment="Bottom" Width="80" FontSize="14" ToolTip="Add a new media type for external playback" Content="Add" Click="btnAddPlayer_Click" Grid.ColumnSpan="2" />

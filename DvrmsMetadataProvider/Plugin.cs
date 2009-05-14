@@ -8,8 +8,8 @@ using MediaBrowser.Library;
 namespace DvrmsMetadataProvider {
     public class Plugin : IPlugin {
 
-        public void Init(LibraryConfig config) {
-            config.Providers.Add(new MetadataProviderFactory(typeof(DvrmsMetadataProvider))); 
+        public void Init(Kernel kernel) {
+            kernel.MetadataProviderFactories.Add(new MetadataProviderFactory(typeof(DvrmsMetadataProvider))); 
         }
 
         public string Name {

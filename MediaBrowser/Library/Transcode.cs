@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using System.IO;
 using Microsoft.Win32;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library
 {
@@ -122,7 +123,7 @@ namespace MediaBrowser.Library
             }
             catch (Exception e)
             {
-               Application.Logger.ReportException("Unable to load Transcode360", e);
+               Logger.ReportException("Unable to load Transcode360", e);
             }   
             return null;
         }

@@ -12,9 +12,7 @@ using System.Diagnostics;
 namespace MediaBrowser.Library.Factories {
     public class MediaLocationFactory : IMediaLocationFactory {
 
-        public static MediaLocationFactory Instance = new MediaLocationFactory();
-
-        private MediaLocationFactory() {
+        public MediaLocationFactory() {
         }
 
         public IMediaLocation Create(string path) {

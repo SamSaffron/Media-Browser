@@ -14,6 +14,7 @@ using MediaBrowser.Library.ImageManagement;
 using MediaBrowser.Library.Sorting;
 using MediaBrowser.Library.Metadata;
 using System.ComponentModel;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library.Entities {
 
@@ -22,36 +23,6 @@ namespace MediaBrowser.Library.Entities {
     public class BaseItem {
 
         public EventHandler<MetadataChangedEventArgs> MetadataChanged;
-
-        #region allow testing classes and other consumers to hook up thier own factories
-
-        IBaseItemFactory baseItemFactory;
-        public IBaseItemFactory BaseItemFactory {
-            get {
-                if (baseItemFactory == null) {
-                    baseItemFactory = MediaBrowser.Library.Factories.BaseItemFactory.Instance;
-                }
-                return baseItemFactory;
-            }
-            set {
-                baseItemFactory = value;
-            }
-        }
-
-        IMediaLocationFactory mediaLocationFactory;
-        public IMediaLocationFactory MediaLocationFactory {
-            get {
-                if (mediaLocationFactory == null) {
-                    mediaLocationFactory = MediaBrowser.Library.Factories.MediaLocationFactory.Instance;
-                }
-                return mediaLocationFactory;
-            }
-            set {
-                mediaLocationFactory = value;
-            }
-        }
-
-        #endregion
 
         public Folder Parent { get; set; }
 
@@ -276,7 +247,7 @@ namespace MediaBrowser.Library.Entities {
                             LibraryImageFactory.Instance.ClearCache(image.Path);
                         }
                     } catch (Exception ex) {
-                        Application.Logger.ReportException("Failed to clear local image (its probably in use)", ex);
+                        Logger.ReportException("Failed to clear local image (its probably in use)", ex);
                     }
                 }
                 

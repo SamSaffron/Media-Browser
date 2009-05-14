@@ -8,6 +8,7 @@ using MediaBrowser.Code.ModelItems;
 using System.Threading;
 using MediaBrowser.Library.Extensions;
 using MediaBrowser.Library.Threading;
+using MediaBrowser.Library.Logging;
 
 
 namespace MediaBrowser.Library {
@@ -361,7 +362,7 @@ namespace MediaBrowser.Library {
 
 
         private void LoadDisplayPreferences() {
-            Application.Logger.ReportInfo("Loading display prefs for " + this.Path);
+            Logger.ReportInfo("Loading display prefs for " + this.Path);
 
             Guid id = Id;
 

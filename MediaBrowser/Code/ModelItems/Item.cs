@@ -13,6 +13,7 @@ using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Threading;
 using MediaBrowser.Library.Metadata;
 using MediaBrowser.Library.RemoteControl;
+using MediaBrowser.Library.Logging;
 
 
 namespace MediaBrowser.Library
@@ -270,7 +271,7 @@ namespace MediaBrowser.Library
 
         public void ToggleWatched()
         {
-            Application.Logger.ReportVerbose("Start ToggleWatched() initial value: " + HaveWatched.ToString());
+            Logger.ReportVerbose("Start ToggleWatched() initial value: " + HaveWatched.ToString());
             SetWatched(!this.HaveWatched);
             lock (watchLock)
                 unwatchedCountCache = -1;
@@ -278,7 +279,7 @@ namespace MediaBrowser.Library
             FirePropertyChanged("UnwatchedCount");
             FirePropertyChanged("ShowUnwatched");
             FirePropertyChanged("UnwatchedCountString");
-            Application.Logger.ReportVerbose("  ToggleWatched() changed to: " + HaveWatched.ToString());
+            Logger.ReportVerbose("  ToggleWatched() changed to: " + HaveWatched.ToString());
             this.PhysicalParent.Children.Sort();
         }
 

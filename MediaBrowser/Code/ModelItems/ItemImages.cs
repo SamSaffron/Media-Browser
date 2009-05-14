@@ -15,6 +15,7 @@ using System.Diagnostics;
 using MediaBrowser.Code.ModelItems;
 using MediaBrowser.Library.Threading;
 using System.Runtime.InteropServices;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library {
     public partial class Item {
@@ -335,7 +336,7 @@ namespace MediaBrowser.Library {
 
                 }
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to gather size information, made a guess ", e);
+                Logger.ReportException("Failed to gather size information, made a guess ", e);
             }
 
             foreach (var item in folder.Children) {

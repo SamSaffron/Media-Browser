@@ -19,6 +19,7 @@ using MediaBrowser.Library.Extensions;
 using MediaBrowser.Library.Filesystem;
 using MediaBrowser.Library.Interfaces;
 using MediaBrowser.Library.Configuration;
+using MediaBrowser.Library.Logging;
 
 namespace MediaBrowser.Library {
     class ItemRepository : IItemRepository, IDisposable {
@@ -74,7 +75,7 @@ namespace MediaBrowser.Library {
                     }
                 }
             } catch (Exception e) {
-                Application.Logger.ReportException("Failed to retrieve children:", e);
+                Logger.ReportException("Failed to retrieve children:", e);
 #if DEBUG
                 throw;
 #else 
