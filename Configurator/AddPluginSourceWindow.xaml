@@ -1,0 +1,15 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Class="Configurator.AddPluginSourceWindow"
+	x:Name="Window"
+	Title="AddPluginSourceWindow"
+	Width="496" Height="175">
+
+	<Grid x:Name="LayoutRoot">
+		 <Button Height="32" HorizontalAlignment="Left" Margin="12,0,0,23" Name="btnOK" VerticalAlignment="Bottom" Width="89"  FontSize="14">OK</Button>
+        <Button Height="32" HorizontalAlignment="Right" Margin="0,0,8,23" Name="btnCancel" VerticalAlignment="Bottom" Width="91" FontSize="14">Cancel</Button>
+        <TextBox Margin="12,44,8,67" Name="tbxName" FontSize="14" />
+        <Label Height="28" Margin="12,8,8,0" Name="lblName" VerticalAlignment="Top" FontSize="14">Add plug-in source (may be a URL or a local path)</Label>
+	</Grid>
+</Window>

@@ -817,6 +817,11 @@ folder: {0}
             }
         }
 
+        private void addPlugin_Click(object sender, RoutedEventArgs e) {
+            AddPluginWindow window = new AddPluginWindow();
+            window.ShowDialog();
+        }
+
 
     }
     #region FormatParser Class

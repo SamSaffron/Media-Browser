@@ -12,12 +12,16 @@ using MediaBrowser.Library.Logging;
 using System.IO;
 
 namespace MediaBrowser.Library.Plugins {
-    class Plugin : IPlugin {
+    public class Plugin : IPlugin {
         string filename;
         Assembly assembly;
         IPlugin pluginInterface;
 
-        public Plugin(string filename, bool forceShadow) {
+        public static Plugin FromFile(string filename, bool forceShadow) {
+            return new Plugin(filename, forceShadow);
+        }
+
+        internal Plugin(string filename, bool forceShadow) {
             this.filename = filename;
 #if DEBUG
             // This will allow us to step through plugins

@@ -93,7 +93,7 @@
                 	<Label Margin="305,0,231,100" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
                 	<Label HorizontalAlignment="Right" Margin="0,0,137,98" VerticalAlignment="Bottom" Width="90" Height="29" Content="{Binding Path=SelectedItem.Version, ElementName=pluginList, Mode=Default}" x:Name="latestPluginVersion"/>
                 	<Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin" Visibility="Visible"/>
-                	<Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin"/>
+                	<Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin" Click="addPlugin_Click" />
                 	<Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin" Click="removePlugin_Click" />
                 	<Label Margin="297,41.38,71,0" VerticalAlignment="Top" Height="30.62" Content="{Binding Path=SelectedItem.Name, ElementName=pluginList, Mode=Default}" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
                   

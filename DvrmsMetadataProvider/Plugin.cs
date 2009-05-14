@@ -13,7 +13,7 @@ namespace DvrmsMetadataProvider {
         }
 
         public override string Name {
-            get { return "DVR-MS metadata."; }
+            get { return "DVR-MS metadata"; }
         }
 
         public override string Description {

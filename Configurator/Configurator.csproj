@@ -56,6 +56,13 @@
     </Reference>
     <Reference Include="Microsoft.MediaCenter" />
     <Reference Include="Microsoft.MediaCenter.UI" />
+    <Page Include="AddPluginSourceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="AddPluginSourceWindow.xaml.cs">
+      <DependentUpon>AddPluginSourceWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -63,6 +70,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AddExtenderFormat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPluginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PluginSourcesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RenameForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,17 +102,20 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+      <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddExtenderFormat.xaml.cs">
       <DependentUpon>AddExtenderFormat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPluginWindow.xaml.cs">
+      <DependentUpon>AddPluginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AddPodcastForm.xaml.cs">
       <DependentUpon>AddPodcastForm.xaml</DependentUpon>
@@ -111,6 +129,9 @@
     <Compile Include="PlayerArgsForm.xaml.cs">
       <DependentUpon>PlayerArgsForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PluginSourcesWindow.xaml.cs">
+      <DependentUpon>PluginSourcesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,8 +142,8 @@
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RenameForm.xaml.cs">
       <DependentUpon>RenameForm.xaml</DependentUpon>
