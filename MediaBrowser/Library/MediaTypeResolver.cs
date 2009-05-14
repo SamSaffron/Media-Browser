@@ -16,6 +16,8 @@ namespace MediaBrowser.Library {
                 return MediaType.Mpg;
             if (path.EndsWith(".mkv"))
                 return MediaType.Mkv;
+            if (path.EndsWith(".mp4"))
+                return MediaType.Mp4;
             if (path.EndsWith(".pls"))
                 return MediaType.PlayList;
             if (path.EndsWith(".ts") || path.EndsWith(".m2ts"))

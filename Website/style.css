@@ -71,7 +71,7 @@ a:hover {text-decoration: underline; }
 #body2Panel h2{ background:#fff; display:block; width:400px; height:50px; margin:0; font:30px Georgia; font-weight:normal; color:#FF7113;}
 #body2Panel p{color:#0F0F0F; padding:0 42px 15px 42px; }
 #body2Panel p span{font-weight:bold;}
-#body2Panel p.dotline{background:url(images/dot-line.gif) 0 0 repeat-x #fff; padding:0; margin:0 40px 15px 25px; color:#000;}
+#body2Panel p.dotline{background:url(images/dot-line.gif) 0 0 repeat-x #fff; padding:0; margin: 0 0px 15px 0px; color:#000;}
 #body2Panel p.capstext{background: url(images/name.png) bottom right no-repeat #fff; font:18px Georgia; font-style:italic; color:#555555; padding:2px 10px 0 25px ; margin:0 35px 10px 0; }
 #body2Panel p.more{height:26px; padding:0; background:none; margin:0;}
 #body2Panel p.more a{width:76px; height:26px; display:block; margin:314px 20px 19px 618px; background:url(images/more.gif) 0 0 no-repeat #fff; color:#555; text-decoration:none; font:15px/26px "Trebuchet MS",Arial, Helvetica, sans-serif; padding:0 0 0 10px; text-transform:uppercase; position:absolute; top:0px; right:0px;}
