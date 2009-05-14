@@ -14,5 +14,7 @@ namespace MediaBrowser.Library.Plugins {
         void Init(Kernel kernel);
         string Name { get; }
         string Description { get; }
+        System.Version Version { get; }
+        System.Version LatestVersion { get; }
     }
 }

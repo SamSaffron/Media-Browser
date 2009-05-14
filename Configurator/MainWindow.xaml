@@ -2,8 +2,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Configurator.MainWindow"
-    Title="Media Browser Configuration Tool" Height="550" Width="700" MinWidth="700" MinHeight="550" Icon="/Configurator;component/Images/config.ico" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser">
+    Title="Media Browser Configuration Tool" Height="550" Width="700" MinWidth="700" MinHeight="550" Icon="/Configurator;component/Images/config.ico" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser"
+    xmlns:Code="clr-namespace:Configurator.Code"
+    >
     <Window.Resources>
+        <ObjectDataProvider x:Key="Plugins" d:IsDataSource="True" ObjectType="{x:Type Code:PluginList}"/>
         <Storyboard x:Key="Default">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="-41"/>
@@ -79,16 +86,16 @@
 			
 			<TabItem Header="plug-ins" x:Name="plugins" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
                 <Grid >
-                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList"/>
-                	<TextBlock Margin="301,80.38,56,156" Text="This is information about the plug-in" TextWrapping="Wrap" x:Name="pluginDescription"/>
-                	<Label Margin="301,0,228,100" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
-                	<Label HorizontalAlignment="Right" Margin="0,0,138,63.31" Width="93" Content="1.0.0.2" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>
-                	<Label Margin="301,0,235,65" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
-                	<Label HorizontalAlignment="Right" Margin="0,0,141,100" VerticalAlignment="Bottom" Width="90" Height="29" Content="1.0.0.1" x:Name="latestPluginVersion"/>
-                	<Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin"/>
+                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList" DisplayMemberPath="Name" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Plugins}}" SelectedIndex="0" OverridesDefaultStyle="False"/>
+                	<TextBlock Margin="301,80.38,56,156" Text="{Binding Path=SelectedItem.Description, ElementName=pluginList, Mode=Default}" TextWrapping="Wrap" x:Name="pluginDescription"/>
+                	<Label Margin="305,0,224,59" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,134,59" Width="93" Content="{Binding Path=SelectedItem.InstalledVersion, ElementName=pluginList, Mode=Default}" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>
+                	<Label Margin="305,0,231,100" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,137,98" VerticalAlignment="Bottom" Width="90" Height="29" Content="{Binding Path=SelectedItem.Version, ElementName=pluginList, Mode=Default}" x:Name="latestPluginVersion"/>
+                	<Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin" Visibility="Visible"/>
                 	<Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin"/>
-                	<Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin"/>
-                	<Label Margin="300,37.38,68,0" VerticalAlignment="Top" Height="30.62" Content="MediaInfo Provider" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
+                	<Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin" Click="removePlugin_Click" />
+                	<Label Margin="297,41.38,71,0" VerticalAlignment="Top" Height="30.62" Content="{Binding Path=SelectedItem.Name, ElementName=pluginList, Mode=Default}" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
                   
                 </Grid>
             </TabItem>

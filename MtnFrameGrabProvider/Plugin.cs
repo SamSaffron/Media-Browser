@@ -12,13 +12,13 @@ using ICSharpCode.SharpZipLib.Zip;
 using MediaBrowser.Library.Extensions;
 
 namespace MtnFrameGrabProvider {
-    public class Plugin : IPlugin {
+    public class Plugin : BasePlugin {
 
         public static readonly string MtnPath = Path.Combine(ApplicationPaths.AppPluginPath, "mtn");
         public static readonly string MtnExe = Path.Combine(MtnPath, "mtn.exe");
         public static readonly string FrameGrabsPath = Path.Combine(MtnPath, "FrameGrabs");
 
-        public void Init(Kernel kernel) {
+        public override void Init(Kernel kernel) {
 
             EnsureMtnIsExtracted();
 
@@ -33,11 +33,11 @@ namespace MtnFrameGrabProvider {
             });
         }
 
-        public string Name {
+        public override string Name {
             get { return "High Quality Thumbnails"; }
         }
 
-        public string Description {
+        public override string Description {
             get { return "High quality automatic thumbnails powered by the mtn project. http://moviethumbnail.sourceforge.net"; }
         }
 

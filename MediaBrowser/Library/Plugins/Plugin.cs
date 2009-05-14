@@ -9,18 +9,23 @@ using System.Drawing;
 using System.Diagnostics;
 using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Logging;
+using System.IO;
 
 namespace MediaBrowser.Library.Plugins {
-    public class Plugin : IPlugin {
+    class Plugin : IPlugin {
         string filename;
         Assembly assembly;
         IPlugin pluginInterface;
 
-        public Plugin(string filename) {
+        public Plugin(string filename, bool forceShadow) {
             this.filename = filename;
 #if DEBUG
             // This will allow us to step through plugins
-            assembly = Assembly.LoadFile(filename);
+            if (forceShadow) {
+                assembly = Assembly.Load(System.IO.File.ReadAllBytes(filename));
+            } else {
+                assembly = Assembly.LoadFile(filename);
+            }
 #else 
             // This will reduce the locking on the plugins files
             assembly = Assembly.Load(System.IO.File.ReadAllBytes(filename)); 
@@ -65,6 +70,17 @@ namespace MediaBrowser.Library.Plugins {
             get { return pluginInterface.Description; }
         }
 
+        public System.Version Version {
+            get { return pluginInterface.Version; }
+        }
 
+        public System.Version LatestVersion {
+            get { return pluginInterface.LatestVersion; }
+        }
+
+
+        public void Delete() {
+            File.Delete(filename);
+        }
     }
 }

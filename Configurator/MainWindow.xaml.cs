@@ -24,6 +24,8 @@ using MediaBrowser.Library.Factories;
 using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Network;
 using MediaBrowser.Library.Logging;
+using Configurator.Code;
+using MediaBrowser.Library.Plugins;
 
 namespace Configurator
 {
@@ -38,6 +40,8 @@ namespace Configurator
 
         public MainWindow()
         {
+            Kernel.Init(KernelLoadDirective.ShadowPlugins);
+
             InitializeComponent();
             LoadComboBoxes();
 
@@ -799,6 +803,17 @@ folder: {0}
                         }
                     }
                 }
+            }
+        }
+
+        private void removePlugin_Click(object sender, RoutedEventArgs e) {
+            var plugins = (this.FindResource("Plugins") as ObjectDataProvider).Data as PluginList;
+            var plugin = pluginList.SelectedItem as IPlugin;
+            var message = "Would you like to remove the plugin " + plugin.Name + "?";
+            if (
+                  MessageBox.Show(message, "Remove plugin", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
+                plugins.Remove(plugin);
+
             }
         }
 

@@ -20,6 +20,15 @@ using System.Diagnostics;
 
 namespace MediaBrowser.Library {
 
+    [Flags]
+    public enum KernelLoadDirective { 
+        None,
+
+        /// <summary>
+        /// Ensure plugin dlls are not locked 
+        /// </summary>
+        ShadowPlugins
+    } 
 
     /// <summary>
     /// This is the one class that contains all the dependencies. 
@@ -27,7 +36,7 @@ namespace MediaBrowser.Library {
     public class Kernel {
 
         static object sync = new object();
-        static Kernel instance;
+        static Kernel kernel;
 
         private static MultiLogger GetDefaultLogger(ConfigData config) {
             var logger = new MultiLogger();
@@ -44,20 +53,32 @@ namespace MediaBrowser.Library {
             return logger;
         }
 
+        public static void Init() {
+            Init(KernelLoadDirective.None);
+        }
 
         public static void Init(ConfigData config) {
-            // its critical to have the logger initialized early so initialization routines can use the right logger.
-            Logger.LoggerInstance = GetDefaultLogger(config);
-            var kernel = GetDefaultKernel(config);
-            Kernel.Instance = kernel;
-
-            // add the podcast home
-            var podcastHome = kernel.GetItem<Folder>(kernel.ConfigData.PodcastHome);
-            if (podcastHome != null && podcastHome.Children.Count > 0) {
-                kernel.RootFolder.AddVirtualChild(podcastHome);
-            }
-
+           Init(KernelLoadDirective.None, config);
         }
+
+        public static void Init(KernelLoadDirective directives) { 
+            Init(directives, ConfigData.FromFile(ApplicationPaths.ConfigFile));
+        } 
+
+        public static void Init(KernelLoadDirective directives, ConfigData config) {
+            lock (sync) {
+                // its critical to have the logger initialized early so initialization routines can use the right logger.
+                Logger.LoggerInstance = GetDefaultLogger(config);
+                var kernel = GetDefaultKernel(config, directives);
+                Kernel.Instance = kernel;
+
+                // add the podcast home
+                var podcastHome = kernel.GetItem<Folder>(kernel.ConfigData.PodcastHome);
+                if (podcastHome != null && podcastHome.Children.Count > 0) {
+                    kernel.RootFolder.AddVirtualChild(podcastHome);
+                }
+            }
+        } 
 
         private static string ResolveInitialFolder(string start) {
             if (start == Helper.MY_VIDEOS)
@@ -92,12 +113,12 @@ namespace MediaBrowser.Library {
             }
         }
 
-        static List<IPlugin> DefaultPlugins() {
+        static List<IPlugin> DefaultPlugins(bool forceShadow) {
             List<IPlugin> plugins = new List<IPlugin>();
             foreach (var file in Directory.GetFiles(ApplicationPaths.AppPluginPath)) {
                 if (file.ToLower().EndsWith(".dll")) {
                     try {
-                        plugins.Add(new Plugin(Path.Combine(ApplicationPaths.AppPluginPath, file)));
+                        plugins.Add(new Plugin(Path.Combine(ApplicationPaths.AppPluginPath, file),forceShadow));
                     } catch (Exception ex) {
                         Debug.Assert(false, "Failed to load plugin: " + ex.ToString());
                         Logger.ReportException("Failed to load plugin", ex);
@@ -107,7 +128,7 @@ namespace MediaBrowser.Library {
             return plugins;
         }
 
-        static Kernel GetDefaultKernel(ConfigData config) {
+        static Kernel GetDefaultKernel(ConfigData config, KernelLoadDirective loadDirective) {
 
             var kernel = new Kernel()
             {
@@ -123,7 +144,7 @@ namespace MediaBrowser.Library {
             kernel.EntityResolver = DefaultResolver(kernel.ConfigData);
             kernel.RootFolder = kernel.GetItem<AggregateFolder>(ResolveInitialFolder(kernel.ConfigData.InitialFolder));
 
-            kernel.Plugins = DefaultPlugins();
+            kernel.Plugins = DefaultPlugins((loadDirective & KernelLoadDirective.ShadowPlugins) == KernelLoadDirective.ShadowPlugins);
 
             // initialize our plugins (maybe we should add a kernel.init ? )
             // The ToList enables us to remove stuff from the list if there is a failure
@@ -142,17 +163,16 @@ namespace MediaBrowser.Library {
 
         public static Kernel Instance {
             get {
-                if (instance != null) return instance;
-
+                if (kernel != null) return kernel;
                 lock (sync) {
-                    if (instance == null) instance = GetDefaultKernel(ConfigData.FromFile(ApplicationPaths.ConfigFile));
+                    if (kernel != null) return kernel;
+                    Init(); 
                 }
-
-                return instance;
+                return kernel;
             }
             set {
                 lock (sync) {
-                    instance = value;
+                    kernel = value;
                 }
             }
         }
@@ -201,6 +221,14 @@ namespace MediaBrowser.Library {
             return LibraryImageFactory.Instance.GetImage(path);
         }
 
-    
+        public void DeletePlugin(IPlugin plugin) {
+            if (!(plugin is Plugin)) {
+                Logger.ReportWarning("Attempting to remove a plugin that we have no location for!");
+                throw new ApplicationException("Attempting to remove a plugin that we have no location for!");
+            }
+
+            (plugin as Plugin).Delete();
+            Plugins.Remove(plugin);
+        }
     }
 }

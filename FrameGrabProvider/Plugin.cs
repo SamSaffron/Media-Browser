@@ -7,9 +7,9 @@ using MediaBrowser.Library.Logging;
 using MediaBrowser.Library;
 
 namespace FrameGrabProvider {
-    public class Plugin : IPlugin {
+    public class Plugin : BasePlugin {
 
-        public void Init(Kernel kernel) {
+        public override void Init(Kernel kernel) {
 
 
             kernel.MetadataProviderFactories.Add(new MetadataProviderFactory(typeof(FrameGrabProvider)));
@@ -24,11 +24,11 @@ namespace FrameGrabProvider {
         }
 
 
-        public string Name {
+        public override string Name {
              get { return "Frame Grab provider"; }
         }
 
-        public string Description {
+        public override string Description {
             get { return "This plugin provides frame grabs for videos which contain no cover art."; }
         }
 

@@ -7,11 +7,11 @@ using MediaBrowser.Library.Logging;
 using MediaBrowser.Library;
 
 namespace ITunesTrailers {
-    public class Plugin : IPlugin {
+    public class Plugin : BasePlugin {
 
         static readonly Guid TrailersGuid = new Guid("{828DCFEF-AEAF-44f2-B6A8-32AEAF27F3DA}");
 
-        public void Init(Kernel config) {
+        public override void Init(Kernel config) {
             var trailers = new ITunesTrailerFolder();
             trailers.Name = "Trailers";
             trailers.Path = "";
@@ -19,11 +19,11 @@ namespace ITunesTrailers {
             config.RootFolder.AddVirtualChild(trailers);
         }
 
-        public string Name {
+        public override string Name {
              get { return "ITunes Trailers"; }
         }
 
-        public string Description {
+        public override string Description {
             get { return "HD Trailers powered by Apple."; }
         }
 

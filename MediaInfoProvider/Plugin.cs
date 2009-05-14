@@ -7,17 +7,17 @@ using MediaBrowser.Library;
 using MediaBrowser.Library.Logging;
 
 namespace MediaInfoProvider {
-    public class Plugin : IPlugin {
+    public class Plugin : BasePlugin {
 
-        public void Init(Kernel kernel) {
+        public override void Init(Kernel kernel) {
             kernel.MetadataProviderFactories.Add(MetadataProviderFactory.Get<MediaInfoProvider>()); 
         }
 
-        public string Name {
+        public override string Name {
             get { return "MediaInfo Provider"; }
         }
 
-        public string Description {
+        public override string Description {
             get { return "This plugin provides rich information about your media using the MediaInfo project."; }
         }
     }

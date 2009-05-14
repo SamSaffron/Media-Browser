@@ -7,19 +7,17 @@ using MediaBrowser.Library.Logging;
 using MediaBrowser.Library;
 
 namespace NndbMetadataProvider {
-    class Plugin : IPlugin {
+    class Plugin : BasePlugin {
 
-
-
-        public void Init(Kernel kernel) {
+        public override void Init(Kernel kernel) {
             kernel.MetadataProviderFactories.Add(MetadataProviderFactory.Get<NndbPeopleProvider>());
         }
 
-        public string Name {
+        public override string Name {
             get { return "Nndb image provider"; }
         }
 
-        public string Description {
+        public override string Description {
             get { return "Downloads actor and director images from nndb.com"; }
         }
     }
