@@ -333,9 +333,9 @@ namespace MediaBrowser.Library.Entities {
         }
 
         void SaveChildren(IList<BaseItem> items) {
-            ItemCache.Instance.SaveChildren(Id, items.Select(i => i.Id));
+            Kernel.Instance.ItemRepository.SaveChildren(Id, items.Select(i => i.Id));
             foreach (var item in items) {
-                ItemCache.Instance.SaveItem(item);
+                Kernel.Instance.ItemRepository.SaveItem(item);
             }
         }
 
@@ -365,11 +365,11 @@ namespace MediaBrowser.Library.Entities {
         List<BaseItem> GetCachedChildren() {
             List<BaseItem> items = null;
 
-            var cached = ItemCache.Instance.RetrieveChildren(Id);
+            var cached = Kernel.Instance.ItemRepository.RetrieveChildren(Id);
             if (cached != null) {
                 items = new List<BaseItem>();
                 foreach (var guid in cached) {
-                    var item = ItemCache.Instance.RetrieveItem(guid);
+                    var item = Kernel.Instance.ItemRepository.RetrieveItem(guid);
                     if (item != null) {
                         items.Add(item);
                     }

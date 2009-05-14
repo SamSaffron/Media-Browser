@@ -32,7 +32,7 @@ namespace TestMediaBrowser {
 
             stat.Save();
 
-            var stat2 = ItemCache.Instance.RetrievePlayState(stat.Id);
+            var stat2 = Kernel.Instance.ItemRepository.RetrievePlayState(stat.Id);
             Assert.AreEqual(stat.Id, stat2.Id);
             Assert.AreEqual(stat.LastPlayed, stat2.LastPlayed);
             Assert.AreEqual(stat.PlayCount, stat2.PlayCount);

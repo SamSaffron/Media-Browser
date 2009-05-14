@@ -788,7 +788,7 @@ folder: {0}
                 var result = form.ShowDialog();
                 if (result == true) {
                     vodcast.Name = form.tbxName.Text;
-                    ItemCache.Instance.SaveItem(vodcast);
+                    Kernel.Instance.ItemRepository.SaveItem(vodcast);
 
                     RefreshPodcasts();
 

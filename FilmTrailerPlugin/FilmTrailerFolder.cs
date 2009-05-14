@@ -62,7 +62,7 @@ namespace FilmTrailerPlugin
             this.trailers = GetTrailers();
             this.OnChildrenChanged(null);
             // cache the children
-            ItemCache.Instance.SaveItem(this);
+            Kernel.Instance.ItemRepository.SaveItem(this);
         }
         #endregion
 

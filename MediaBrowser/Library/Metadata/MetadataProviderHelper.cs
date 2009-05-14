@@ -100,8 +100,8 @@ namespace MediaBrowser.Library.Metadata {
         }
 
         static IList<IMetadataProvider> GetSupportedProviders(BaseItem item) {
-            
-            var cachedProviders = (ItemCache.Instance.RetrieveProviders(item.Id) ?? new List<IMetadataProvider> ())
+
+            var cachedProviders = (Kernel.Instance.ItemRepository.RetrieveProviders(item.Id) ?? new List<IMetadataProvider>())
                 .ToDictionary(provider => provider.GetType());
 
             return Kernel.Instance.MetadataProviderFactories
@@ -137,8 +137,8 @@ namespace MediaBrowser.Library.Metadata {
                 }
             }
             if (changed) {
-                ItemCache.Instance.SaveItem(item);
-                ItemCache.Instance.SaveProviders(item.Id, providers);
+                Kernel.Instance.ItemRepository.SaveItem(item);
+                Kernel.Instance.ItemRepository.SaveProviders(item.Id, providers);
             }
 
             return changed;

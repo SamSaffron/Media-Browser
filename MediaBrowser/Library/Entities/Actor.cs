@@ -17,12 +17,12 @@ namespace MediaBrowser.Library.Entities {
 
         public Person Person {
             get {
-                var person = ItemCache.Instance.RetrieveItem(PersonId) as Person;
+                var person = Kernel.Instance.ItemRepository.RetrieveItem(PersonId) as Person;
                 if (person == null) {
                     person = new Person();
                     person.Name = Name.Trim();
                     person.Id = PersonId;
-                    ItemCache.Instance.SaveItem(person);
+                    Kernel.Instance.ItemRepository.SaveItem(person);
                 }
                 return person;
             }

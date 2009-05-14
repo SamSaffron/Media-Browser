@@ -18,6 +18,7 @@ namespace MediaBrowser.Library.Persistance {
         FileSystemWatcher watcher;
         string path;
         ManualResetEvent asyncValidationDone = new ManualResetEvent(false);
+        bool enableAsyncValidation;
 
 #if DEBUG
         public string TrackingId { get; set; }
@@ -49,6 +50,8 @@ namespace MediaBrowser.Library.Persistance {
 
         internal FileBasedDictionary(string path, bool enableAsyncValidation) {
             Debug.Assert(Directory.Exists(path));
+
+            this.enableAsyncValidation = enableAsyncValidation;
 
             FastLoadFile = Path.Combine(path, "FastLoad");
 
@@ -269,7 +272,8 @@ namespace MediaBrowser.Library.Persistance {
         #region IDisposable Members
 
         public void Dispose() {
-            asyncValidationDone.WaitOne();
+            
+            if (enableAsyncValidation) asyncValidationDone.WaitOne();
             watcher.Dispose();
         }
 

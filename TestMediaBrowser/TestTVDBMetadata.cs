@@ -79,11 +79,11 @@ namespace MediaBrowserTest {
         [Test]
         public void IntegrationTest() {
 
-            var oldRepository = ItemCache.Instance;
+            var oldRepository = Kernel.Instance.ItemRepository;
             
             try {
                 // Swap out item caching 
-                ItemCache.Instance = new DummyItemRepository();
+                Kernel.Instance.ItemRepository = new DummyItemRepository();
 
                 var folder = MockFolderMediaLocation.CreateMockLocation(
     @"
@@ -109,7 +109,7 @@ namespace MediaBrowserTest {
 
                 Assert.AreEqual("1", episode.EpisodeNumber);
             } finally {
-                ItemCache.Instance = oldRepository;
+                Kernel.Instance.ItemRepository = oldRepository;
             }
         }
 

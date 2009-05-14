@@ -62,7 +62,7 @@ namespace MediaBrowser.Library.Entities {
 
                 if (playbackStatus != null) return playbackStatus;
 
-                playbackStatus = ItemCache.Instance.RetrievePlayState(this.Id);
+                playbackStatus = Kernel.Instance.ItemRepository.RetrievePlayState(this.Id);
                 if (playbackStatus == null) {
                     playbackStatus = PlaybackStatusFactory.Instance.Create(Id); // initialise an empty version that items can bind to
                     if (DateCreated <= Config.Instance.AssumeWatchedBefore)

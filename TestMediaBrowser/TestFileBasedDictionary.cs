@@ -14,18 +14,11 @@ namespace TestMediaBrowser {
 
         string path = Path.Combine(Path.GetTempPath(), "temptest");
 
-        [SetUp]
-        public void Setup() {
-            Directory.CreateDirectory(path);
-        }
-
-        [TearDown]
-        public void Teardown() {
-            Directory.Delete(path, true);
-        }
 
         [Test]
         public void TestItemsCanBeSetCorrectly() {
+            Directory.CreateDirectory(path);
+
             var store = new FileBasedDictionary<Dog>(path);
 
             Guid id = Guid.NewGuid();
@@ -34,10 +27,15 @@ namespace TestMediaBrowser {
 
             Assert.AreEqual(dog, store[id]);
             store.Dispose();
+
+            Directory.Delete(path, true);
         }
 
         [Test]
         public void TestItemsCanBeLoadedFromStore() {
+
+            Directory.CreateDirectory(path);
+
             var store = new FileBasedDictionary<Dog>(path);
 
             Guid id = Guid.NewGuid();
@@ -49,10 +47,14 @@ namespace TestMediaBrowser {
 
             store2.Dispose();
             store.Dispose();
+
+            Directory.Delete(path, true);
         }
 
         [Test]
-        public void TestItemsForceOtherStoresToRefresh() { 
+        public void TestItemsForceOtherStoresToRefresh() {
+
+            Directory.CreateDirectory(path);
             
             var store = new FileBasedDictionary<Dog>(path);
             var store2 = new FileBasedDictionary<Dog>(path);
@@ -83,11 +85,16 @@ namespace TestMediaBrowser {
             Assert.IsTrue(dog.ChangeCount > 0);
 
             store.Dispose();
-            store2.Dispose();      
+            store2.Dispose();
+
+            Directory.Delete(path, true);
         }
 
         [Test]
         public void TestFastLoadWorksCorrectly() {
+
+            Directory.CreateDirectory(path);
+
             var store = new FileBasedDictionary<Dog>(path,false);
 
             Guid id = Guid.NewGuid();
@@ -107,6 +114,11 @@ namespace TestMediaBrowser {
             store2.Validate();
 
             Assert.AreEqual(21, store2[id].Age);
+
+            store.Dispose();
+            store2.Dispose();
+
+            Directory.Delete(path, true);
         }
 
 

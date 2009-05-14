@@ -65,7 +65,7 @@ namespace MediaBrowser.Library.Entities {
 
 
         public void Save() {
-            ItemCache.Instance.SavePlayState(this);
+            Kernel.Instance.ItemRepository.SavePlayState(this);
         }
     }
 }

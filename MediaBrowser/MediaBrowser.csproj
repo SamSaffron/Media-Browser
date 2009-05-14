@@ -223,7 +223,6 @@
     <Compile Include="Library\Persistance\ItemRepository.cs" />
     <Compile Include="Code\ModelItems\DisplayPreferences.cs" />
     <Compile Include="Code\ModelItems\Item.cs" />
-    <Compile Include="Library\ItemCache.cs" />
     <Compile Include="Library\Interfaces\IItemRepository.cs" />
     <Compile Include="Library\Playables\PlayableItem.cs" />
     <Compile Include="Library\Playables\PlayableDvd.cs" />

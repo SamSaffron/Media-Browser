@@ -11,6 +11,7 @@ using TestMediaBrowser.SupportingClasses;
 using NUnit.Framework;
 using System.Threading;
 using MediaBrowser.Library.Network;
+using MediaBrowser.Library;
 
 
 namespace TestMediaBrowser {
@@ -20,12 +21,21 @@ namespace TestMediaBrowser {
 
         [Test]
         public void TestPodcastFetching() {
-            VodCast vodcast = new VodCast();
+            var backup = Kernel.Instance.MediaLocationFactory;
+
             MockMediaLocation location = new MockMediaLocation("test.vodcast");
-            location.Contents = "url:http://www.abc.net.au/atthemovies/vodcast_wmv.xml";
+            location.Contents = "url : http://www.abc.net.au/atthemovies/vodcast_wmv.xml";
+
+            // our kernel needs to know how to retrieve our location.
+            Kernel.Instance.MediaLocationFactory = new MockMediaLocationFactory(location);
+
+            VodCast vodcast = new VodCast();
             vodcast.Assign(location, null, Guid.NewGuid());
 
             Assert.IsTrue(vodcast.Children.Count > 0);
+
+            Kernel.Instance.MediaLocationFactory = backup;
+
         }
 
         [Test]

@@ -43,8 +43,8 @@ namespace TestMediaBrowser {
             provider.date = DateTime.Now;
             providers.Add(provider);
             Guid guid = Guid.Empty;
-            ItemCache.Instance.SaveProviders(guid, providers);
-            providers = ItemCache.Instance.RetrieveProviders(guid).ToList();
+            Kernel.Instance.ItemRepository.SaveProviders(guid, providers);
+            providers = Kernel.Instance.ItemRepository.RetrieveProviders(guid).ToList();
             Assert.AreEqual(provider.date, (providers[0] as TestProvider).date);
         }
 
@@ -97,9 +97,9 @@ namespace TestMediaBrowser {
         public void TestChildPersistance() {
             var owner = Guid.NewGuid();
             var children = Enumerable.Range(0, 100).Select(i => Guid.NewGuid()).ToArray();
-            ItemCache.Instance.SaveChildren(owner,children);
+            Kernel.Instance.ItemRepository.SaveChildren(owner, children);
 
-            var childrenCopy = ItemCache.Instance.RetrieveChildren(owner);
+            var childrenCopy = Kernel.Instance.ItemRepository.RetrieveChildren(owner);
 
             Assert.AreEqual(children.Count(), childrenCopy.Count(), "Expecting counts to match up!");
             Assert.AreEqual(0, childrenCopy.Except(children).Count(), "Expecting all items to be the same!");
@@ -109,8 +109,8 @@ namespace TestMediaBrowser {
         public void TestCustomEntityPersistance() {
             TempClass t = new TempClass();
             t.Id = Guid.NewGuid();
-            ItemCache.Instance.SaveItem(t);
-            var copy = ItemCache.Instance.RetrieveItem(t.Id);
+            Kernel.Instance.ItemRepository.SaveItem(t);
+            var copy = Kernel.Instance.ItemRepository.RetrieveItem(t.Id);
             Assert.IsInstanceOfType(typeof(TempClass), copy);
         }
 
@@ -121,9 +121,9 @@ namespace TestMediaBrowser {
             video.MediaType = MediaType.HDDVD;
             video.Id = Guid.NewGuid();
 
-            ItemCache.Instance.SaveItem(video);
+            Kernel.Instance.ItemRepository.SaveItem(video);
 
-            var copy = ItemCache.Instance.RetrieveItem(video.Id) as Video;
+            var copy = Kernel.Instance.ItemRepository.RetrieveItem(video.Id) as Video;
 
             Assert.IsInstanceOfType(typeof(Video), copy);
             Assert.AreEqual(video.Path, copy.Path);
@@ -143,9 +143,9 @@ namespace TestMediaBrowser {
             movie.Directors.Add("hello");
             movie.Directors.Add("goodbye");
 
-            ItemCache.Instance.SaveItem(movie);
+            Kernel.Instance.ItemRepository.SaveItem(movie);
 
-            var copy = ItemCache.Instance.RetrieveItem(movie.Id) as Movie;
+            var copy = Kernel.Instance.ItemRepository.RetrieveItem(movie.Id) as Movie;
 
             Assert.IsInstanceOfType(typeof(Video), copy);
             Assert.AreEqual(movie.Path, copy.Path);

@@ -14,20 +14,6 @@ namespace TestMediaBrowser {
     [TestFixture]
     public class TestFolder {
 
-        class FakeMediaLocationFactory : IMediaLocationFactory {
-
-            IMediaLocation location;
-
-            public FakeMediaLocationFactory(IMediaLocation location) {
-                this.location = location;
-            }
-
-            public IMediaLocation Create(string path) {
-                return location;
-            }
-
-        }
-
         [Test]
         public void TestChildCaching() {
             var rootLocation = MockFolderMediaLocation.CreateMockLocation(
@@ -73,12 +59,13 @@ namespace TestMediaBrowser {
 
             var oldFactory = Kernel.Instance.MediaLocationFactory;
 
-            Kernel.Instance.MediaLocationFactory = new FakeMediaLocationFactory(rootLocationNew);
+            Kernel.Instance.MediaLocationFactory = new MockMediaLocationFactory(rootLocationNew);
             rootFolder.ValidateChildren();
 
             Assert.AreEqual(4, rootFolder.Children.Count());
 
             Kernel.Instance.MediaLocationFactory = oldFactory;
+
 
         }
     }

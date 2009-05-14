@@ -50,6 +50,13 @@ namespace MediaBrowser.Library {
             Logger.LoggerInstance = GetDefaultLogger(config);
             var kernel = GetDefaultKernel(config);
             Kernel.Instance = kernel;
+
+            // add the podcast home
+            var podcastHome = kernel.GetItem<Folder>(kernel.ConfigData.PodcastHome);
+            if (podcastHome != null && podcastHome.Children.Count > 0) {
+                kernel.RootFolder.AddVirtualChild(podcastHome);
+            }
+
         }
 
         private static string ResolveInitialFolder(string start) {
@@ -115,12 +122,6 @@ namespace MediaBrowser.Library {
 
             kernel.EntityResolver = DefaultResolver(kernel.ConfigData);
             kernel.RootFolder = kernel.GetItem<AggregateFolder>(ResolveInitialFolder(kernel.ConfigData.InitialFolder));
-
-            // add the podcast home
-            var podcastHome = kernel.GetItem<Folder>(kernel.ConfigData.PodcastHome);
-            if (podcastHome != null && podcastHome.Children.Count > 0) {
-                kernel.RootFolder.AddVirtualChild(podcastHome);
-            }
 
             kernel.Plugins = DefaultPlugins();
 

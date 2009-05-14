@@ -179,13 +179,13 @@ namespace MediaBrowser.Library {
                     {
                         foreach (var actor in show.Actors) {
                             if (actor.Person.RefreshMetadata(MetadataRefreshOptions.FastOnly)) {
-                                ItemCache.Instance.SaveItem(actor.Person);
+                                Kernel.Instance.ItemRepository.SaveItem(actor.Person);
                             }
                         }
 
                         foreach (var actor in show.Actors) {
                             if (actor.Person.RefreshMetadata()) {
-                                ItemCache.Instance.SaveItem(actor.Person);
+                                Kernel.Instance.ItemRepository.SaveItem(actor.Person);
                             }
                         }
                     });

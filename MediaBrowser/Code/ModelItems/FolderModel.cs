@@ -372,7 +372,7 @@ namespace MediaBrowser.Library {
                 }
             }
 
-            DisplayPreferences dp = ItemCache.Instance.RetrieveDisplayPreferences(id);
+            DisplayPreferences dp = Kernel.Instance.ItemRepository.RetrieveDisplayPreferences(id);
             if (dp == null) {
                 dp = new DisplayPreferences(id);
                 dp.LoadDefaults();

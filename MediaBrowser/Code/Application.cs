@@ -379,7 +379,7 @@ namespace MediaBrowser
             DialogResult r = ev.Dialog("Are you sure you wish to clear the cache?\nThis will erase all cached and downloaded information and images.", "Clear Cache", DialogButtons.Yes | DialogButtons.No, 60, true);
             if (r == DialogResult.Yes)
             {
-                bool ok = ItemCache.Instance.ClearEntireCache();
+                bool ok = Kernel.Instance.ItemRepository.ClearEntireCache();
                 if (!ok)
                 {
                     ev.Dialog("An error occured during the clearing of the cache, you may wish to manually clear it from " + ApplicationPaths.AppCachePath + " before restarting Media Browser", "Error", DialogButtons.Ok, 60, true);

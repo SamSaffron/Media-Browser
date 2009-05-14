@@ -278,7 +278,7 @@ namespace MediaBrowser.Library
         {
             if ((!saveEnabled) || (this.Id == Guid.Empty))
                 return;
-            ItemCache.Instance.SaveDisplayPreferences(this);
+            Kernel.Instance.ItemRepository.SaveDisplayPreferences(this);
         }
 
         public void ToggleViewTypes()

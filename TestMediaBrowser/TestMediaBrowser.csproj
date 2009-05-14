@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SupportingClasses\MockMediaLocationFactory.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestFileBasedDictionary.cs" />
     <Compile Include="TestFolder.cs" />

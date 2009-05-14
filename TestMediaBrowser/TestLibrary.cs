@@ -19,13 +19,13 @@ namespace TestMediaBrowser {
 
         [SetUp]
         public void Setup() {
-            oldRepository = ItemCache.Instance;
-            ItemCache.Instance = new DummyItemRepository();
+            oldRepository = Kernel.Instance.ItemRepository;
+            Kernel.Instance.ItemRepository = new DummyItemRepository();
         }
 
         [TearDown]
         public void Teardown() {
-            ItemCache.Instance = oldRepository;
+            Kernel.Instance.ItemRepository = oldRepository;
         } 
 
         [Test]
