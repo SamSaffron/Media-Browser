@@ -32,7 +32,7 @@ namespace PluginInfoGenerator {
                 try {
                     var plugin = Plugin.FromFile(file, false);
 
-                    writer.WriteStartElement("plugin");
+                    writer.WriteStartElement("Plugin");
                     writer.WriteElementString("Version", plugin.Version.ToString());
                     writer.WriteElementString("Name", plugin.Name);
                     writer.WriteElementString("Description", plugin.Description);
