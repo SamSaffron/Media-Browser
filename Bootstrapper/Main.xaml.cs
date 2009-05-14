@@ -27,6 +27,8 @@ namespace Bootstrapper {
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Main : Window {
+        Process _dotNetInstaller = null;
+
         public Main() {
             InitializeComponent();
             message.Text = "";
@@ -72,18 +74,49 @@ namespace Bootstrapper {
             }
 
             SetMaxProgress(100);
-            try {
-                Process p = Process.Start(tempFile, "");
-            } catch { 
+            try
+            {
+                _dotNetInstaller = new Process();
+                _dotNetInstaller.StartInfo.FileName = tempFile;
+                _dotNetInstaller.EnableRaisingEvents = true;
+                _dotNetInstaller.Exited += new EventHandler(dotNetInstaller_Exited);
+                _dotNetInstaller.Start();
+            }
+            catch
+            { 
                 // if UAC is no accepted we will find ourselves here
-                 Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate() {
+                 Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate()
+                 {
                      MessageBox.Show("Failed to Launch Installer, you really are going to have to accept that UAC message.");
                  });
+                 Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate()
+                 {
+                     this.Close();
+                 });
+                 return;
             }
-            Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate() {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate()
+            {
+                this.Hide();
+            });
+        }
+
+        private void dotNetInstaller_Exited(object sender, EventArgs e)
+        {
+            int exitCode = _dotNetInstaller.ExitCode;
+            // TODO: We really should be checking for more error codes
+            if (exitCode == 3010)
+            {
+                App.AddToRunOnce();
+            }
+            else
+            {
+                App.LaunchInstaller();
+            }
+            Dispatcher.Invoke(DispatcherPriority.Normal, (MethodInvoker)delegate()
+            {
                 this.Close();
             });
-
         }
 
         private bool IsBackgroundThread {

@@ -19,19 +19,22 @@ namespace Bootstrapper {
         public static void Main() {
 
             if (IsDotNet35Installed())
+            {
                 LaunchInstaller();
-            else {
-
+            }
+            else
+            {
                 var app = new Bootstrapper.App();
                 var main = new Main();
                 main.Show();
                 app.Run(main);
+                //AddToRunOnce();
             }
         }
 
         public static bool IsDotNet35Installed() {
             RegistryKey key = Registry.LocalMachine;
-            using (key = key.OpenSubKey(@"Software\Microsoft\NET Framework Setup\NDP\v3.5\1033"))
+            using (key = key.OpenSubKey(@"Software\Microsoft\NET Framework Setup\NDP\v3.5"))
             {
             	return (key != null);
             }
@@ -45,7 +48,7 @@ namespace Bootstrapper {
         }
 
         public static string ExtractInstaller() {
-            var tempfile = Path.Combine(Path.GetTempPath(), "MediaBrowser.msi"); ;
+            var tempfile = Path.Combine(Path.GetTempPath(), "MediaBrowser.msi");
             var name = "Bootstrapper.MediaBrowser.msi.gz";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name)) 
             {
@@ -55,6 +58,21 @@ namespace Bootstrapper {
             return tempfile;
         }
 
+        public static void AddToRunOnce()
+        {
+            try
+            {
+                RegistryKey key = Registry.LocalMachine;
+                using (key = key.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\RunOnce", true))
+                {
+                    key.SetValue("MediaBrowser", Assembly.GetExecutingAssembly().Location, RegistryValueKind.String);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.StackTrace, e.Message);
+            }
+        }
 
         // from http://www.yoda.arachsys.com/csharp/readbinary.html
         private static byte[] ReadStream(Stream stream, int initialLength) {
