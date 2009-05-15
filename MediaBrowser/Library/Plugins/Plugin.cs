@@ -78,10 +78,9 @@ namespace MediaBrowser.Library.Plugins {
             get { return pluginInterface.Version; }
         }
 
-        public System.Version LatestVersion {
-            get { return pluginInterface.LatestVersion; }
+        public string Filename {
+            get { return Path.GetFileName(filename); } 
         }
-
 
         public void Delete() {
             File.Delete(filename);

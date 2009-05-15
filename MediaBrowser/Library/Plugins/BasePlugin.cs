@@ -21,6 +21,18 @@ namespace MediaBrowser.Library.Plugins {
             get;
         }
 
+        /// <summary>
+        /// Filename is assigned by the plugin discovery piece. 
+        /// Do not override this.
+        /// </summary>
+        public string Filename {
+            get {
+                // if you instansiate a class inheriting off BasePlugin 
+                // There is no way to tell what the plugin file name is.
+                throw new NotSupportedException(); 
+            } 
+        } 
+
         public virtual System.Version Version {
             get {
                 return this.GetType().Assembly.GetName().Version;

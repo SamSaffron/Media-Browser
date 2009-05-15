@@ -12,9 +12,9 @@ namespace MediaBrowser.Library.Plugins {
     /// </summary>
     public interface IPlugin {
         void Init(Kernel kernel);
+        string Filename { get; }
         string Name { get; }
         string Description { get; }
         System.Version Version { get; }
-        System.Version LatestVersion { get; }
     }
 }
