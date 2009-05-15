@@ -11,6 +11,7 @@ using MediaBrowser.Library.Entities;
 using MediaBrowser.Library.Providers.Attributes;
 using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Logging;
+using MediaBrowser.LibraryManagement;
 
 namespace MediaBrowser.Library.Providers
 {
@@ -102,7 +103,7 @@ namespace MediaBrowser.Library.Providers
 
             string id = null;
             string url = string.Format(search, UrlEncode(name), ApiKey);
-            XmlDocument doc = Fetch(url);
+            XmlDocument doc = Helper.Fetch(url);
             List<string> possibleTitles = new List<string>();
             if (doc != null)
             {
@@ -195,7 +196,7 @@ namespace MediaBrowser.Library.Providers
             Movie movie = Item as Movie;
 
             string url = string.Format(getInfo, id, ApiKey);
-            XmlDocument doc = Fetch(url);
+            XmlDocument doc = Helper.Fetch(url);
             if (doc != null)
             {
                 moviedbId = id;
@@ -391,55 +392,6 @@ namespace MediaBrowser.Library.Providers
             } while (name.Length != prev_name.Length);
 
             return name.Trim();
-        }
-
-        private static XmlDocument Fetch(string url)
-        {
-            try
-            {
-
-                int attempt = 0;
-                while (attempt < 2)
-                {
-                    attempt++;
-                    try
-                    {
-                        WebRequest req = HttpWebRequest.Create(url);
-                        req.Timeout = 60000;
-
-                        using (WebResponse resp = req.GetResponse())
-                            try
-                            {
-                                using (Stream s = resp.GetResponseStream())
-                                {
-                                    XmlDocument doc = new XmlDocument();
-                                    // this makes it a bit easier to debug.
-                                    string payload = new StreamReader(s).ReadToEnd();
-                                    doc.LoadXml(payload);
-                                    return doc;
-                                }
-                            }
-                            finally
-                            {
-                                resp.Close();
-                            }
-                    }
-                    catch (WebException ex)
-                    {
-                        Trace.TraceWarning("Error requesting: " + url + "\n" + ex.ToString());
-                    }
-                    catch (IOException ex)
-                    {
-                        Trace.TraceWarning("Error requesting: " + url + "\n" + ex.ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceWarning("Failed to fetch url: " + url + "\n" + ex.ToString());
-            }
-
-            return null;
         }
 
     }

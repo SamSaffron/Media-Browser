@@ -17,6 +17,9 @@ namespace MediaBrowser.LibraryManagement
     using System.Diagnostics;
     using System.Text.RegularExpressions;
     using MediaBrowser.Util;
+    using System.Net;
+    using System.Xml;
+    using MediaBrowser.Library.Logging;
 
     public static class Helper
     {
@@ -312,6 +315,46 @@ namespace MediaBrowser.LibraryManagement
             }
             return cleanName.ToString();
 
+        }
+
+        /// <summary>
+        /// Fetch an XmlDocument
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>document on success, null on failure</returns>
+        public static XmlDocument Fetch(string url) {
+            try {
+
+                int attempt = 0;
+                while (attempt < 2) {
+                    attempt++;
+                    try {
+                        WebRequest req = HttpWebRequest.Create(url);
+                        req.Timeout = 60000;
+
+                        using (WebResponse resp = req.GetResponse())
+                            try {
+                                using (Stream s = resp.GetResponseStream()) {
+                                    XmlDocument doc = new XmlDocument();
+                                    // this makes it a bit easier to debug.
+                                    string payload = new StreamReader(s).ReadToEnd();
+                                    doc.LoadXml(payload);
+                                    return doc;
+                                }
+                            } finally {
+                                resp.Close();
+                            }
+                    } catch (WebException ex) {
+                        Logger.ReportWarning("Error requesting: " + url + "\n" + ex.ToString());
+                    } catch (IOException ex) {
+                        Logger.ReportWarning("Error requesting: " + url + "\n" + ex.ToString());
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.ReportWarning("Failed to fetch url: " + url + "\n" + ex.ToString());
+            }
+
+            return null;
         }
     }
 }
