@@ -7,9 +7,9 @@
 	Width="496" Height="175">
 
 	<Grid x:Name="LayoutRoot">
-		 <Button Height="32" HorizontalAlignment="Left" Margin="12,0,0,23" Name="btnOK" VerticalAlignment="Bottom" Width="89"  FontSize="14">OK</Button>
-        <Button Height="32" HorizontalAlignment="Right" Margin="0,0,8,23" Name="btnCancel" VerticalAlignment="Bottom" Width="91" FontSize="14">Cancel</Button>
-        <TextBox Margin="12,44,8,67" Name="tbxName" FontSize="14" />
+		 <Button Height="32" HorizontalAlignment="Left" Margin="12,0,0,23" Name="btnOK" VerticalAlignment="Bottom" Width="89"  FontSize="14" Click="btnOK_Click">OK</Button>
+        <Button Height="32" HorizontalAlignment="Right" Margin="0,0,8,23" Name="btnCancel" VerticalAlignment="Bottom" Width="91" FontSize="14" Click="btnCancel_Click">Cancel</Button>
+        <TextBox Margin="12,44,8,67" Name="pluginSource" FontSize="14" />
         <Label Height="28" Margin="12,8,8,0" Name="lblName" VerticalAlignment="Top" FontSize="14">Add plug-in source (may be a URL or a local path)</Label>
 	</Grid>
 </Window>

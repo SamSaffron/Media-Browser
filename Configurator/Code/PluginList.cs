@@ -7,6 +7,7 @@ using MediaBrowser.Library;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using MediaBrowser.Library.Logging;
 
 namespace Configurator.Code {
 
@@ -57,7 +58,8 @@ namespace Configurator.Code {
                 Kernel.Instance.DeletePlugin(Items[index]);
                 base.RemoveItem(index);
             } catch (Exception e) {
-                MessageBox.Show("Failed to delete the plugin, ensure no one has a lock on the plugin file!"); 
+                MessageBox.Show("Failed to delete the plugin, ensure no one has a lock on the plugin file!");
+                Logger.ReportException("Failed to delete plugin", e);
             }
         }
     }
