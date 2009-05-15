@@ -26,7 +26,7 @@ namespace PluginInfoGenerator {
             XmlTextWriter writer = new XmlTextWriter(PLUGIN_INFO ,Encoding.UTF8);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 3;
-            writer.WriteStartElement("plugins");
+            writer.WriteStartElement("Plugins");
 
             foreach (var file in Directory.GetFiles(dir)) {
                 try {
