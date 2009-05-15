@@ -15,8 +15,10 @@ using MediaBrowser.Library.Configuration;
 using MediaBrowser.LibraryManagement;
 using MediaBrowser.Library.Persistance;
 using MediaBrowser.Library.Factories;
+using MediaBrowser.Library.Extensions;
 using System.IO;
 using System.Diagnostics;
+using System.Net;
 
 namespace MediaBrowser.Library {
 
@@ -229,6 +231,25 @@ namespace MediaBrowser.Library {
 
             (plugin as Plugin).Delete();
             Plugins.Remove(plugin);
+        }
+
+        public void InstallPlugin(string path) {
+            string target = Path.Combine(ApplicationPaths.AppPluginPath, Path.GetFileName(path));
+
+            if (path.ToLower().StartsWith("http")) {
+                WebRequest request = WebRequest.Create(path);
+                using (var response = request.GetResponse()) {
+                    using (var stream = response.GetResponseStream()) {
+                        File.WriteAllBytes(target, stream.ReadAllBytes());
+                    }
+                }
+            } else {
+                File.Copy(path, target);
+            }
+
+            var plugin = Plugin.FromFile(target, true);
+            plugin.Init(this);
+            Plugins.Add(plugin);
         }
     }
 }
