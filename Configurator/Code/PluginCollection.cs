@@ -37,9 +37,9 @@ namespace Configurator.Code {
 
     }
 
-    public class PluginList : ObservableCollection<IPlugin> {
+    public class PluginCollection : ObservableCollection<IPlugin> {
 
-        public PluginList() {
+        public PluginCollection() {
 
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) {
 
@@ -48,22 +48,7 @@ namespace Configurator.Code {
                 Add(new SamplePlugin() { Name = "The other plugin", 
                     Description = "This plugin also does absoulutly nothing, its actually a sample plugin for wpf to bind to." });
 
-            } else {
-                foreach (var plugin in Kernel.Instance.Plugins) {
-                    Add(plugin);
-                }
-            }
-        }
-
-        protected override void RemoveItem(int index) {
-
-            try {
-                Kernel.Instance.DeletePlugin(Items[index]);
-                base.RemoveItem(index);
-            } catch (Exception e) {
-                MessageBox.Show("Failed to delete the plugin, ensure no one has a lock on the plugin file!");
-                Logger.ReportException("Failed to delete plugin", e);
-            }
+            } 
         }
     }
 }

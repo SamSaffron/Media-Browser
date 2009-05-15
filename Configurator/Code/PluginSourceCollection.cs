@@ -13,32 +13,7 @@ using System.IO;
 namespace Configurator.Code {
     class PluginSourceCollection : ObservableCollection<string> {
 
-        class RemotePlugin : IPlugin {
-
-
-            public void Init(MediaBrowser.Library.Kernel kernel) {
-            }
-
-            public string Filename {
-                get;
-                set;
-            }
-
-            public string Name {
-                get;
-                set;
-            }
-
-            public string Description {
-                get;
-                set;
-            }
-
-            public System.Version Version {
-                get;
-                set;
-            }
-        }
+       
 
         public static PluginSourceCollection Instance = new PluginSourceCollection();
 
@@ -97,10 +72,19 @@ namespace Configurator.Code {
                     Description = pluginRoot.SafeGetString("Description"),
                     Filename = pluginRoot.SafeGetString("Filename"),
                     Version = new System.Version(pluginRoot.SafeGetString("Version")),
-                    Name = pluginRoot.SafeGetString("Name")
+                    Name = pluginRoot.SafeGetString("Name"), 
+                    BaseUrl = GetPath(source)
                 });
             }
             return list;
+        }
+
+        private string GetPath(string source) {
+            var index = source.LastIndexOf("\\");
+            if (index<=0) {
+                index = source.LastIndexOf("/");
+            }
+            return source.Substring(0, index);
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Configurator.Code;
+using MediaBrowser.Library.Plugins;
 
 namespace Configurator {
     /// <summary>
@@ -19,12 +20,17 @@ namespace Configurator {
     public partial class AddPluginWindow : Window {
         public AddPluginWindow() {
             InitializeComponent();
-            pluginList.ItemsSource = PluginSourceCollection.Instance.AvailablePlugins;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             PluginSourcesWindow window = new PluginSourcesWindow();
             window.ShowDialog();
+        }
+
+        private void InstallClick(object sender, RoutedEventArgs e) {
+
+            PluginManager.Instance.InstallPlugin(pluginList.SelectedItem as IPlugin);
+            this.Close();
         }
     }
 }
