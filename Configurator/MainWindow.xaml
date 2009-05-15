@@ -8,9 +8,9 @@
     mc:Ignorable="d" 
     xmlns:MediaBrowser="clr-namespace:MediaBrowser;assembly=MediaBrowser"
     xmlns:Code="clr-namespace:Configurator.Code"
+    
     >
     <Window.Resources>
-        <ObjectDataProvider x:Key="Plugins" d:IsDataSource="True" ObjectType="{x:Type Code:PluginList}"/>
         <Storyboard x:Key="Default">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="lblHeader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="-41"/>
@@ -69,7 +69,7 @@
 					<Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
 					<Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
 					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" ToolTip="Change podcast data storage location" />
-					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged" />
+					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged"/>
 					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
 					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
 					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
@@ -85,8 +85,8 @@
 			
 			
 			<TabItem Header="plug-ins" x:Name="plugins" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
-                <Grid >
-                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList" DisplayMemberPath="Name" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Plugins}}" SelectedIndex="0" OverridesDefaultStyle="False"/>
+                <Grid DataContext="{DynamicResource PluginManager}" >
+                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList" DisplayMemberPath="Name" ItemsSource="{Binding Path=InstalledPlugins}" SelectedIndex="0" OverridesDefaultStyle="False"/>
                 	<TextBlock Margin="301,80.38,56,156" Text="{Binding Path=SelectedItem.Description, ElementName=pluginList, Mode=Default}" TextWrapping="Wrap" x:Name="pluginDescription"/>
                 	<Label Margin="305,0,224,59" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
                 	<Label HorizontalAlignment="Right" Margin="0,0,134,59" Width="93" Content="{Binding Path=SelectedItem.InstalledVersion, ElementName=pluginList, Mode=Default}" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>

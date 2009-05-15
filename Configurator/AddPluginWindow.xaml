@@ -2,15 +2,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Configurator.AddPluginWindow"
-    Title="AddPluginWindow" Height="293" Width="593" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+    Title="AddPluginWindow" Height="340" Width="601" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 	<Grid>
-		<Menu x:Name="menua" Height="22" Margin="0,2,8,0" VerticalAlignment="Top" > 
+		<Menu x:Name="menua" Height="22" Margin="0,2,0,0" VerticalAlignment="Top" > 
 			<MenuItem Header="File">
 				<MenuItem Header="Sources..." Click="MenuItem_Click"/> 
 			</MenuItem>
 		</Menu>
 		<Label Margin="18,28,0,0" VerticalAlignment="Top" Height="31" Content="Choose a Plug-in from the list below:" HorizontalAlignment="Left" Width="213"/>
-		<ListBox IsSynchronizedWithCurrentItem="True" Margin="18,59,0,15" Width="244" HorizontalAlignment="Left" Name="pluginList" />
-		<Button Margin="0,0,32,15" Content="Install" Height="31" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="59"/>
+		<ListBox DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" Margin="18,59,0,8" Width="244" HorizontalAlignment="Left" Name="pluginList" DataContext="{DynamicResource PluginManager}" ItemsSource="{Binding Path=AvailablePlugins, Mode=Default}" />
+		<Button Margin="0,0,16,8" Content="Install" Height="37" VerticalAlignment="Bottom" Width="104" HorizontalAlignment="Right" Click="InstallClick" Name="InstallButton" />
+		<TextBlock Margin="281,98,40,98" Text="{Binding Path=SelectedItem.Description, ElementName=pluginList, Mode=Default}" TextWrapping="Wrap" x:Name="pluginDescription"/>
+		<Label Margin="281,0,190,67" VerticalAlignment="Bottom" Height="27" Content="Version:"/>
+		<Label HorizontalAlignment="Right" Margin="0,0,152,65" VerticalAlignment="Bottom" Width="88" Height="29" Content="{Binding Path=SelectedItem.Version, ElementName=pluginList, Mode=Default}" x:Name="latestPluginVersion"/>
+		<Label Margin="277,59,26,0" VerticalAlignment="Top" Height="30.62" Content="{Binding Path=SelectedItem.Name, ElementName=pluginList, Mode=Default}" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
 	</Grid>
 </Window>

@@ -81,6 +81,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GlobalData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,8 +129,10 @@
     <Compile Include="Code\FolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Code\PluginList.cs" />
+    <Compile Include="Code\PluginCollection.cs" />
+    <Compile Include="Code\PluginManager.cs" />
     <Compile Include="Code\PluginSourceCollection.cs" />
+    <Compile Include="Code\RemotePlugin.cs" />
     <Compile Include="PlayerArgsForm.xaml.cs">
       <DependentUpon>PlayerArgsForm.xaml</DependentUpon>
     </Compile>
