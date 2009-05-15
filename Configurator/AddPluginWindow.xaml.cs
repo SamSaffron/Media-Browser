@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Configurator.Code;
 
 namespace Configurator {
     /// <summary>
@@ -18,6 +19,7 @@ namespace Configurator {
     public partial class AddPluginWindow : Window {
         public AddPluginWindow() {
             InitializeComponent();
+            pluginList.ItemsSource = PluginSourceCollection.Instance.AvailablePlugins;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {

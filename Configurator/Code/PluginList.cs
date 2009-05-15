@@ -29,9 +29,12 @@ namespace Configurator.Code {
             get { return new System.Version(1, 2, 3, 4);  }
         }
 
-        public System.Version LatestVersion {
-            get { return null; }
+
+
+        public string Filename {
+            get { return "bob.dll"; }
         }
+
     }
 
     public class PluginList : ObservableCollection<IPlugin> {

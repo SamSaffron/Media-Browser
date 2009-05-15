@@ -126,6 +126,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Code\PluginList.cs" />
+    <Compile Include="Code\PluginSourceCollection.cs" />
     <Compile Include="PlayerArgsForm.xaml.cs">
       <DependentUpon>PlayerArgsForm.xaml</DependentUpon>
     </Compile>

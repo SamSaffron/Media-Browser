@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Configurator.Properties;
 using System.Collections.ObjectModel;
+using Configurator.Code;
 
 namespace Configurator {
 
@@ -20,34 +21,9 @@ namespace Configurator {
     /// </summary>
     public partial class PluginSourcesWindow : Window {
 
-        class SourceCollection : ObservableCollection<string> {
-
-            bool initializing; 
-
-            public SourceCollection() {
-                foreach (var item in Settings.Default.Repositories) {
-                    Items.Add(item);
-                }
-            }
-
-            protected override void InsertItem(int index, string item) {
-                base.InsertItem(index, item);
-                Settings.Default.Repositories.Add(item);
-                Settings.Default.Save(); 
-            }
-
-            protected override void RemoveItem(int index) {
-                Settings.Default.Repositories.Remove(this[index]);
-                Settings.Default.Save();
-                base.RemoveItem(index);
-            }
-        }
-
-        SourceCollection sources = new SourceCollection();
-
         public PluginSourcesWindow() {
             InitializeComponent();
-            sourceList.ItemsSource = sources;
+            sourceList.ItemsSource = PluginSourceCollection.Instance;
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e) {
@@ -55,13 +31,13 @@ namespace Configurator {
             var result = window.ShowDialog();
 
             if (result != null && result.Value) {
-                sources.Add(window.pluginSource.Text);
+                PluginSourceCollection.Instance.Add(window.pluginSource.Text);
             }
        
         }
 
         private void removeButton_Click(object sender, RoutedEventArgs e) {
-            sources.Remove(sourceList.SelectedItem as string);
+            PluginSourceCollection.Instance.Remove(sourceList.SelectedItem as string);
         }
     }
 }
