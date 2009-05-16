@@ -1,0 +1,113 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+    xmlns:lpo="resx://MediaBrowser/MediaBrowser.Resources/LayoutPosterVanilla"
+	  xmlns:lth="resx://MediaBrowser/MediaBrowser.Resources/LayoutThumbVanilla"
+	  xmlns:lde="resx://MediaBrowser/MediaBrowser.Resources/LayoutDetailsVanilla"
+	  xmlns:lcf="resx://MediaBrowser/MediaBrowser.Resources/LayoutCoverflowVanilla"
+	  xmlns:lr="resx://MediaBrowser/MediaBrowser.Resources/LayoutRootVanilla"
+	  xmlns:lts="resx://MediaBrowser/MediaBrowser.Resources/LayoutStripVanilla">
+
+	<UI Name="PageDetailArea">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:FolderModel Name="Folder" FolderModel="$Required"/>
+		</Properties>
+
+
+		<Rules>
+			<Condition Source="[Input.DeepKeyFocus]" SourceValue="false" ConditionOp="Equals">
+				<Actions>
+					<Set Target="[MainPanel.Alpha]" Value="0.4" />
+				</Actions>
+			</Condition>
+
+			<Condition Source="[Input.DeepKeyFocus]" SourceValue="true" ConditionOp="Equals">
+				<Actions>
+					<Set Target="[MainPanel.Alpha]" Value="1" />
+				</Actions>
+			</Condition>
+
+      <Rule ConditionLogicalOp ="And">
+        <Conditions >
+          <Equality Source="[Folder.IsRoot]" Value="true"/>
+          <Equality Source="[Application.Config.EnableRootPage]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[LayoutRoot.Visible]" Value="true"/>
+          <Set Target="[LayoutDetails.Visible]" Value="false"/>
+          <Set Target="[LayoutPoster.Visible]" Value="false"/>
+          <Set Target="[LayoutThumb.Visible]" Value="false"/>
+          <Set Target="[LayoutStrip.Visible]" Value="false"/>
+          <Set Target="[LayoutCoverflow.Visible]" Value="false"/>
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Detail" Target="[LayoutDetails.Visible]" Value="true" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Detail" Target="[LayoutDetails.Visible]" Value="false" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[LayoutPoster.Visible]" Value="true" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[LayoutPoster.Visible]" Value="false" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Thumb" Target="[LayoutThumb.Visible]" Value="true" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Thumb" Target="[LayoutThumb.Visible]" Value="false" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="ThumbStrip" Target="[LayoutStrip.Visible]" Value="true" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="ThumbStrip" Target="[LayoutStrip.Visible]" Value="false" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="CoverFlow" Target="[LayoutCoverflow.Visible]" Value="true" />
+      <Condition Source="[Folder.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="CoverFlow" Target="[LayoutCoverflow.Visible]" Value="false" />
+
+		</Rules>
+
+		<Content>
+			<Panel Name="MainPanel" Layout="Form">
+				<Animations>
+					<Animation Name="AlphaAnimation" Type="Alpha">
+						<Keyframes>
+							<AlphaKeyframe Time="0.0"  RelativeTo="Current" Interpolation="EaseIn"/>
+							<AlphaKeyframe Time="0.5"  RelativeTo="Final"/>
+						</Keyframes>
+					</Animation>
+				</Animations>
+				<Children>
+
+          <lr:LayoutRoot Name="LayoutRoot" Folder="[Folder]" Application="[Application]" Visible="false"  >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </lr:LayoutRoot>
+
+          <lpo:LayoutPoster Name="LayoutPoster" Visible="true" Application="[Application]" Folder="[Folder]"  >
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+						</LayoutInput>
+					</lpo:LayoutPoster>
+
+          <lth:LayoutThumb Name="LayoutThumb" Visible="true" Item="[Folder]" Application="[Application]" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </lth:LayoutThumb>
+
+          <lde:LayoutDetails Name="LayoutDetails" Visible="true" Item="[Folder]" Application="[Application]" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </lde:LayoutDetails>
+
+          <lcf:LayoutCoverflow Name="LayoutCoverflow" Visible="true" Item="[Folder]" Application="[Application]" >
+            <LayoutInput>
+              <FormLayoutInput  Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+					</lcf:LayoutCoverflow>
+
+          <lts:LayoutStrip Name="LayoutStrip" Visible="true" Folder="[Folder]" Application="[Application]" >
+						<LayoutInput>
+							<FormLayoutInput Horizontal="Fill" Top="Parent,0" Bottom="Parent,1"/>
+						</LayoutInput>
+					</lts:LayoutStrip>
+					
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+
+</Mcml>

@@ -15,7 +15,7 @@
     
     <Aggregate Source="resx://MediaBrowser/MediaBrowser.Resources/StarRating"/>
    
-    <UI Name="CoverflowView">
+    <UI Name="LayoutCoverflow">
       <Properties>
         <a:Application Name="Application" Application="$Required"/>
         <lib:FolderModel Name="Item" FolderModel="$Required"/>

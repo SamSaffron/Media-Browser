@@ -526,17 +526,6 @@
     <Content Include="Markup\FontsSmall.mcml" />
     <Content Include="Markup\FontsDefault.mcml" />
     <Content Include="Markup\StylesBlack.mcml" />
-    <Content Include="Markup\Themes\Vanilla\CoverflowView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\Images.mcml" />
-    <Content Include="Markup\Themes\Vanilla\MovieDetailsPage.mcml" />
-    <Content Include="Markup\Themes\Vanilla\Page.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PageDetailArea.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PosterDetailView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PosterView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\StripView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewDetails.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Markup\Themes\Default\Selectors\PageDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieMinimal.mcml" />
@@ -546,6 +535,18 @@
     <Content Include="Markup\MovieDetailsPage.mcml" />
     <Content Include="Markup\Themes\Default\LayoutPoster.mcml" />
     <Content Include="Markup\StylesDefault.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Images.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutCoverflow.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutDetails.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutPoster.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutRoot.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutStrip.mcml" />
+    <Content Include="Markup\Themes\Vanilla\LayoutThumb.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Selectors\PageDefault.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Selectors\PageDetailArea.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewMovie.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Registration.xml" />
   </ItemGroup>
   <ItemGroup>

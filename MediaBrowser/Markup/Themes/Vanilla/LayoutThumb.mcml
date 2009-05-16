@@ -19,7 +19,7 @@
 
   <!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
 
-  <UI Name="PosterDetailView">
+  <UI Name="LayoutThumb">
 
     <Properties>
       <a:Application Name="Application" Application="$Required"/>

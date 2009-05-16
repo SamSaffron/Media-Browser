@@ -457,35 +457,38 @@
   <data name="ViewMenuVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\ViewMenu.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="PosterViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\PosterView.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="LayoutPosterVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutPoster.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CoverflowViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\CoverflowView.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="LayoutCoverflowVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutCoverflow.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ViewDetailsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\ViewDetails.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="LayoutDetailsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutDetails.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LayoutThumbVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutThumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LayoutStripVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutStrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LayoutRootVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\LayoutRoot.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PageDetailAreaVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\PageDetailArea.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>markup\themes\Vanilla\Selectors\PageDetailArea.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ImagesVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\Images.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ViewMovieVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\MovieDetailsPage.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PosterDetailViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\posterdetailview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="StripViewVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\stripview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>markup\themes\Vanilla\ViewMovie.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ViewOptionsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\viewoptions.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PageVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\Page.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>markup\themes\Vanilla\Selectors\PageDefault.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DetailBorderShadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\DetailBorderShadow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

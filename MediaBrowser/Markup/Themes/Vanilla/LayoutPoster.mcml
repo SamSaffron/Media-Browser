@@ -11,7 +11,7 @@
  	  >
     <!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
       
-  <UI Name="PosterView">
+  <UI Name="LayoutPoster">
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
       <lib:FolderModel Name="Folder" FolderModel="$Required"/>

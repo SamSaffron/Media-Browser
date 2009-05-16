@@ -184,7 +184,7 @@ namespace MediaBrowser.Library.Providers
 
                 if (movie.MpaaRating == null)
                 {
-                    int i = doc.SafeGetInt32("Title/ParentalRating/Value", (int)0);
+                    int i = doc.SafeGetInt32("Title/ParentalRating/Value", (int)7);
                     switch (i) {
                         case -1:
                             movie.MpaaRating = "NR";

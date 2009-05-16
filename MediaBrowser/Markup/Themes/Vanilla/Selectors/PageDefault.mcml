@@ -236,6 +236,8 @@
           <Invoke Target="[Application.PlaybackController.GoToFullScreen]"/>
         </Actions>
       </Changed>
+<!--
+      <Binding Source="[Application.ShowNowPlaying]" Target="[TrailerPanel.Visible]" />-->
 
       <Rule ConditionLogicalOp="And">
         <Conditions>
@@ -259,7 +261,7 @@
           <Modified Source="[RecordBtn.Invoked]"/>
         </Conditions>
         <Actions>
-          <PlaySound Sound="sound://sd:Miniselect" />
+          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
           <Invoke Target="[PreSelectedItem.RefreshMetadata]"/>
         </Actions>
       </Rule>
