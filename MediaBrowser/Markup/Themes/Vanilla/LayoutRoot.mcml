@@ -18,7 +18,6 @@
 	  xmlns:s="file://Styles_DoNotEdit.mcml"
 	  xmlns:f="file://Fonts_DoNotEdit.mcml"
 	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
-    xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
     xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ItemButton"
     xmlns:me="Me"
 	  >
@@ -70,8 +69,6 @@
       <cor:Int32 Name="AnimDelay" Int32="300" />
       <!-- This must be greater than NormalKeyRepeat-->
       <cor:Int32 Name="SpeedUpDelay" Int32="2"/>
-
-      <Command Name="ClosePopupPlay"/>
     </Locals>
 
     <Rules>
@@ -82,7 +79,6 @@
       <!-- Bindings -->
       <Binding Source="[SelectedIndex.Value]" Target="[Folder.SelectedChildIndex]" />
       <Binding Source="[SelectedItem.PreferredImage]" Target="[CurrentPoster.Content]"/>
-      <Binding Target="[PopupPlay.Item]" Source="[Folder.SelectedChild]" />
 
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]">
         <Conditions>
@@ -114,24 +110,7 @@
         </Actions>
       </Changed>
 
-      <Rule>
-        <Conditions>
-          <Equality Source="[Application.DisplayPopupPlay]" ConditionOp="Equals" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[PopupPlay.Visible]" Value="true" />
-          <Invoke Target="[PopupPlay.NavigateInto]" />
-        </Actions>
-      </Rule>
 
-      <Changed Source="[ClosePopupPlay.Invoked]">
-        <Actions>
-          <Set Target="[Application.DisplayPopupPlay]" Value="false" />
-          <PlaySound Sound="res://ehres!MiniSelect_a.wav" />
-          <Set Target="[PopupPlay.Visible]" Value="false"/>
-          <Invoke Target="[Scroller.NavigateInto]" />
-        </Actions>
-      </Changed>
 
       <!-- Folder/Item Selection -->
       <Changed Source="[Folder.SelectedChildIndex]">
@@ -325,15 +304,6 @@
         <Children>
           <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
             <Children>
-
-              <!-- Popup Play Panel -->
-              <pp:PopupPlay Name="PopupPlay" Visible="false" Item="[Folder.SelectedChild]" Close="[ClosePopupPlay]"
-                        Application="[Application]" >
-                <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.3" Right="Parent,.7"
-                           Top="Parent,0.35" Bottom="Parent,.7" />
-                </LayoutInput>
-              </pp:PopupPlay>
 
               <!-- Weather Panel -->
               <wea:YahooWeatherLarge>

@@ -1,0 +1,198 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	    xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+	    xmlns:s="file://Styles_DoNotEdit.mcml"
+	    xmlns:f="file://Fonts_DoNotEdit.mcml"
+	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"  
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
+	    xmlns:me="Me"
+	  >
+
+  <UI Name="PopupViewMenu">
+    <Properties>
+      <lib:DisplayPreferences Name="Prefs" DisplayPreferences="$Required" />
+      <Command Name="Close" Command="$Required"/>
+    </Properties>
+    <Locals>
+      <ShortcutHandler Name="BackHandler"  Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[Close]"/>
+      <Command Name="Increase" />
+      <Command Name="Decrease"/>
+    </Locals>
+    <Rules>
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+
+      <Changed Source="[Increase.Invoked]">
+        <Actions>
+          <Invoke Target="[Prefs.IncreaseThumbSize]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Decrease.Invoked]">
+        <Actions>
+          <Invoke Target="[Prefs.DecreaseThumbSize]"/>
+        </Actions>
+      </Changed>
+    </Rules>
+    <Content>
+      <Panel  Navigation="ContainAll,RememberFocus">
+        <Animations>
+          <Animation Name="AlphaAnimation" Type="Show">
+            <Keyframes>
+              <AlphaKeyframe Time="0.0" Value="0" RelativeTo="Current" Interpolation="EaseIn"/>
+              <AlphaKeyframe Time="0.5" Value="1" RelativeTo="Final"/>
+            </Keyframes>
+          </Animation>
+          <Animation Name="AlphaAnimation" Type="Hide">
+            <Keyframes>
+              <AlphaKeyframe Time="0.0" Value="1" RelativeTo="Current" Interpolation="EaseIn"/>
+              <AlphaKeyframe Time="0.5" Value="0" RelativeTo="Final"/>
+            </Keyframes>
+          </Animation>
+        </Animations>
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+        </Layout>
+        <Children>
+          <vot:RadioGroup Model="[Prefs.ViewType]" Size="200,135"/>
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+            </Layout>
+            <Children>
+              <me:MenuCheckBox Name="UseBackdrop" Checked="[Prefs.UseBackdrop]" Image="image://it:MenuOptionBackdrop"/>
+              <me:MenuCheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Image="image://it:MenuOptionLabels"/>
+              <me:MenuCheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Image="image://it:MenuOptionVertScroll"/>
+              <me:MenuCheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Image="image://it:MenuOptionBanners"/>
+              <vot:MenuButton Command="[Increase]" Image="image://it:MenuOptionEnlarge"/>
+              <vot:MenuButton Command="[Decrease]" Image="image://it:MenuOptionShrink"/>
+              <vot:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
+            </Children>
+          </Panel>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+  
+  <UI Name="MenuCheckBox">
+
+    <Properties>
+      <BooleanChoice Name="Checked" BooleanChoice="$Required" />
+      <!--<cor:String Name="Label" String="$Required" />
+      <Font Name="Font" Font="$Required"/>-->
+      <Image Name="Image" Image="$Required"/>
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker" />
+      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
+      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
+      <Image Name="BlankImage" Image="image://it:MenuOptionBGNotFocused"/>
+    </Locals>
+
+    <Rules>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[Image]" Target="[GrapicImage.Content]"/>
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <Set Target="[Checked.Value]" Value="[Checked.Value]">
+            <Transformer>
+              <BooleanTransformer Inverse="true"/>
+            </Transformer>
+          </Set>
+          <PlaySound Sound="sound://sounds:Miniselect" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Checked.Value]">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" />
+        </Layout>
+        <Children>
+          <Graphic Name="BoxImage" Content="image://it:MenuOptionBGNotFocused" SizingPolicy="SizeToChildren">
+            <Children>
+              <Panel >
+                <Children>
+                  <Graphic Name="GrapicImage" Content="image://it:MenuOptionBGNotFocused" MaximumSize="135,135" MaintainAspectRatio="true"/>
+                </Children>
+              </Panel>
+            </Children>
+          </Graphic>
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+</Mcml>

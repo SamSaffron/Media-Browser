@@ -535,6 +535,7 @@
     <Content Include="Markup\MovieDetailsPage.mcml" />
     <Content Include="Markup\Themes\Default\LayoutPoster.mcml" />
     <Content Include="Markup\StylesDefault.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Buttons\SimpleButton.mcml" />
     <Content Include="Markup\Themes\Vanilla\Images.mcml" />
     <Content Include="Markup\Themes\Vanilla\LayoutCoverflow.mcml" />
     <Content Include="Markup\Themes\Vanilla\LayoutDetails.mcml" />
@@ -542,9 +543,14 @@
     <Content Include="Markup\Themes\Vanilla\LayoutRoot.mcml" />
     <Content Include="Markup\Themes\Vanilla\LayoutStrip.mcml" />
     <Content Include="Markup\Themes\Vanilla\LayoutThumb.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Popups\PopupPlay.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Popups\PopupRadioMenu.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Popups\PopupViewMenu.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Scrollers\CoverflowScroller.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Scrollers\ListScroller.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Scrollers\PosterScroller.mcml" />
     <Content Include="Markup\Themes\Vanilla\Selectors\PageDefault.mcml" />
     <Content Include="Markup\Themes\Vanilla\Selectors\PageDetailArea.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
     <Content Include="Markup\Themes\Vanilla\ViewMovie.mcml" />
     <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Registration.xml" />

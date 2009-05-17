@@ -7,14 +7,17 @@
       xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
-		  xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenuVanilla"
 	    xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
 	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	    xmlns:me="Me"
       xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailAreaVanilla"
-      xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupPlay"
+      xmlns:pvm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupViewMenu"
+      xmlns:prm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupRadioMenu"
+      xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
 	  >
   
   <UI Name="Page">
@@ -62,6 +65,7 @@
           <EditableText Value="" />
         </EditableText>
       </TypingHandler>
+      <Command Name="ClosePopupPlay"/>
     </Locals>
 
     <Rules>
@@ -268,7 +272,27 @@
       
       <Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="Equals" SourceValue="Poster" Target="[NowPlayingViewPort.NPVSize]" Value="200,110" />
       <Condition Source="[Item.DisplayPrefs.ViewTypeString]" ConditionOp="NotEquals" SourceValue="Poster" Target="[NowPlayingViewPort.NPVSize]" Value="400,220" />
-      
+
+      <Binding Target="[PopupPlay.Item]" Source="[Item.SelectedChild]" />
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Application.DisplayPopupPlay]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[PopupPlay.Visible]" Value="true" />
+          <Invoke Target="[PopupPlay.NavigateInto]" />
+        </Actions>
+      </Rule>
+
+      <Changed Source="[ClosePopupPlay.Invoked]">
+        <Actions>
+          <Set Target="[Application.DisplayPopupPlay]" Value="false" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
+          <Set Target="[PopupPlay.Visible]" Value="false"/>
+          <!--<Invoke Target="[Scroller.NavigateInto]" />-->
+        </Actions>
+      </Changed>
     </Rules>
     
 
@@ -282,17 +306,18 @@
                 </Animations>
                 <Children>
 
-
+                  <pp:PopupPlay Name="PopupPlay" Visible="false" Item="[Item]" Close="[ClosePopupPlay]" Application="[Application]" />
+                  
                   <!-- Now Playing View Port -->
                   <Panel Name="TrailerPanel" Layout="Anchor" LayoutInput="[NPVRight]" Visible="false" >
                     <Children>
                       <vot:LargeNPV Name="NowPlayingViewPort" Command="[NowPlayingPanel]" NPVSize="200,110"/>
                     </Children>
                   </Panel>
-                  
-                  <vm:ViewConfiguration  Name="ViewConfig"  Visible="false"  Close="[CloseViewConfiguration]"  Prefs="[Item.DisplayPrefs]"/>
-                  <vm:RadioConfiguration Name="SortConfig"  Visible="false"  Close="[CloseSortConfiguration]"  Choice="[Item.DisplayPrefs.SortOrders]"/>
-                  <vm:RadioConfiguration Name="IndexConfig" Visible="false"  Close="[CloseIndexConfiguration]" Choice="[Item.DisplayPrefs.IndexByChoice]"/>
+
+                  <pvm:PopupViewMenu  Name="ViewConfig"  Visible="false"  Close="[CloseViewConfiguration]"  Prefs="[Item.DisplayPrefs]"/>
+                  <prm:PopupRadioMenu Name="SortConfig"  Visible="false"  Close="[CloseSortConfiguration]"  Choice="[Item.DisplayPrefs.SortOrders]"/>
+                  <prm:PopupRadioMenu Name="IndexConfig" Visible="false"  Close="[CloseIndexConfiguration]" Choice="[Item.DisplayPrefs.IndexByChoice]"/>
 
                   <!-- Configuration -->
                   <Panel Name="ConfigurationMenu" Visible="false" Navigation="ContainAll,RememberFocus">
@@ -311,7 +336,7 @@
                               <vot:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://it:MenuOptionViews"/>
                               <vot:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://it:MenuOptionSort"/>
                               <vot:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://it:MenuOptionIndex" />
-                              <vot:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose"/>
+                              <vot:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose" Red="true"/>
                             </Children>
                           </Panel>
                         </Children>
@@ -347,7 +372,7 @@
                       <FormLayoutInput Bottom="Parent,1,-40" Left="Parent,0,2"/>
                     </LayoutInput>
                     <Children>
-                      <vot:SimpleButton Name="ConfigMenuButton" Application="[Application]" ImageNoFocus="image://i:ConfigImg" Command="[ConfigOptions]"/>
+                      <vsb:SimpleButton Name="ConfigMenuButton" Application="[Application]" ImageNoFocus="image://i:ConfigImg" Command="[ConfigOptions]"/>
                     </Children>
                   </Panel>
 

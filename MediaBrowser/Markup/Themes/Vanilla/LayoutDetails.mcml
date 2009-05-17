@@ -2,13 +2,13 @@
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+      xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/VanillaPosterScroller"
+      xmlns:ls="resx://MediaBrowser/MediaBrowser.Resources/VanillaListScroller"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
-      xmlns:lv="resx://MediaBrowser/MediaBrowser.Resources/ListView"
       xmlns:me="Me"
       xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
@@ -184,7 +184,7 @@
               <FormLayoutInput Left="Parent,0,35" Top="Parent,0.67" Bottom="Parent,1" Right="Parent,0.3"/>
             </LayoutInput>
             <Children>
-              <lv:ListView FocusOrder="1" Name="ListItems" Visible="false" Application="[Application]" Folder="[Item]" Font="font://f:DV_ListButtonFont"/>
+              <ls:ListScroller FocusOrder="1" Name="ListItems" Visible="false" Application="[Application]" Folder="[Item]" Font="font://f:DV_ListButtonFont"/>
               <ps:PosterScroller FocusOrder="1" Name="BannerItems" Visible="true" Application="[Application]" Folder="[Item]" NoEndPadding="true" TopLabelFont="font://f:DV_SubTitleFont" LabelFont="font://f:DV_TitleFont" UnwatchedCountFont="font://f:DV_RuntimeFont"/>
             </Children>
           </Panel>

@@ -28,6 +28,7 @@
   <Image Name="MenuOptionBGNotFocused" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGNotFocused"/>
   <Image Name="MenuOptionBGNotFocusedBlack" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGNotFocusedBlack"/>
   <Image Name="MenuOptionBGSelected" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGSelected"/>
+  <Image Name="MenuOptionBGRed" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBGRed"/>
   <Image Name="MenuOptionBackdrop" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionBackdrop"/>
   <Image Name="MenuOptionVertScroll" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionVertScroll"/>
   <Image Name="MenuOptionLabels" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionLabels"/>
@@ -45,6 +46,8 @@
   <Image Name="MenuOptionGenre" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionGenre"/>
   <Image Name="MenuOptionDirector" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionDirector"/>
   <Image Name="MenuOptionStudio" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionStudio"/>
+  <Image Name="MenuOptionPlayAll" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionPlayAll"/>
+  <Image Name="MenuOptionPlayRandom" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionPlayRandom"/>
   
   <Image Name="ViewThumb" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewThumb"/>
   <Image Name="ViewCoverflow" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewCoverflow"/>

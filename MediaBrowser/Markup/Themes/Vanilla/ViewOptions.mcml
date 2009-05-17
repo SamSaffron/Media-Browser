@@ -278,236 +278,20 @@
       </Content>
 
     </UI>
-  
-  
-  <UI Name="MenuCheckBox">
-
-    <Properties>
-      <BooleanChoice Name="Checked" BooleanChoice="$Required" />
-      <!--<cor:String Name="Label" String="$Required" />
-      <Font Name="Font" Font="$Required"/>-->
-      <Image Name="Image" Image="$Required"/>
-    </Properties>
-
-    <Locals>
-      <ClickHandler Name="Clicker" />
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="BlankImage" Image="image://it:MenuOptionBGNotFocused"/>
-    </Locals>
-
-    <Rules>
-
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-      <Binding Source="[Image]" Target="[GrapicImage.Content]"/>
-      <Changed Source="[Clicker.Invoked]">
-        <Actions>
-          <Set Target="[Checked.Value]" Value="[Checked.Value]">
-            <Transformer>
-              <BooleanTransformer Inverse="true"/>
-            </Transformer>
-          </Set>
-          <PlaySound Sound="sound://sd:Miniselect" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[Checked.Value]">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
-        </Actions>
-      </Changed>
-
-      <Condition Source="[Clicker.Clicking]" SourceValue="true">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Clicker.Clicking]" SourceValue="true">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Conditions>
-          <Equality Source="[Checked.Value]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
-        </Actions>
-      </Condition>
-
-    </Rules>
-
-    <Content>
-      <Panel>
-        <Layout>
-          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" />
-        </Layout>
-        <Children>
-          <Graphic Name="BoxImage" Content="image://it:MenuOptionBGNotFocused" SizingPolicy="SizeToChildren">
-            <Children>
-              <Panel >
-                <Children>
-                  <Graphic Name="GrapicImage" Content="image://it:MenuOptionBGNotFocused" MaximumSize="135,135" MaintainAspectRatio="true"/>
-                </Children>
-              </Panel>
-            </Children>
-          </Graphic>
-        </Children>
-      </Panel>
-    </Content>
-
-  </UI>
-
-  <UI Name="SimpleButton">
-
-    <Properties>
-      <a:Application Name="Application" Application="$Required"/>
-      <ICommand Name="Command" ICommand="$Required" />
-      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
-      <Size Name="Size" Size="135,135" />
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="ImageNoFocus" Image="$Required" />
-      <Image Name="BlankImage" Image="null" />
-
-    </Properties>
-
-    <Locals>
-
-      <a:Config Name="Config" Config="[Application.Config]"/>
-      <ClickHandler Name="Clicker" />
-
-    </Locals>
-
-    <Rules>
-
-      <Binding Source="[Command]" Target="[Clicker.Command]" />
-      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-
-      <Condition Source="[Config.Theme]" SourceValue="Black" Target="[NoFocusImage]"  Value="image://it:MenuOptionBGNotFocusedBlack"/>
-
-
-
-      <Rule>
-        <Conditions>
-          <Modified Source="[Clicker.Invoked]"/>
-          <Equality Source="[IsNavigatingCommand]" Value="true" />
-        </Conditions>
-        <Actions>
-          <PlaySound Sound="sound://sd:Select" />
-        </Actions>
-      </Rule>
-
-      <Rule>
-        <Conditions>
-          <Modified Source="[Clicker.Invoked]"/>
-          <Equality Source="[IsNavigatingCommand]" Value="false"/>
-        </Conditions>
-        <Actions>
-          <PlaySound Sound="sound://sd:Miniselect" />
-        </Actions>
-      </Rule>
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="true"/>
-          <Equality Source="[Command.Available]" Value="true"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
-          <PlaySound Sound="sound://sd:Focus" />
-        </Actions>
-      </Rule>
-
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality Source="[Input.KeyFocus]" Value="false"/>
-          <Equality Source="[Command.Available]" Value="true"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
-          <PlaySound Sound="sound://sd:Focus" />
-        </Actions>
-      </Rule>
-
-      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
-        <Actions>
-          <Set Target="[BoxImage.Visible]" Value="false" />
-        </Actions>
-      </Condition>
-
-    </Rules>
-
-    <Content>
-
-      <Panel>
-        <Children>
-          <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren" Padding="3,3,3,3">
-            <Children>
-              <Panel >
-                <Children>
-                  <Graphic Content="[ImageNoFocus]" MaximumSize="[Size]" MaintainAspectRatio="true" />
-                </Children>
-              </Panel>
-            </Children>
-          </Graphic>
-
-        </Children>
-      </Panel>
-    </Content>
-  </UI> 
-  
+    
   <UI Name="MenuButton">
     <Properties>
       <ICommand Name="Command" ICommand="$Required"/>
       <Image Name="Image" Image="image://i:ConfigImg"/>
+      
+      <cor:Boolean Name="Red" Boolean="false"/>
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker" Command="[Command]"/>
       <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
       <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
       <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+      <Image Name="RedImage" Image="image://it:MenuOptionBGRed" />
       <Image Name="BlankImage" Image="null" />
     </Locals>
     <Rules>
@@ -523,12 +307,6 @@
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[BoxImage.Content]" Value="[FocusImage]"/>
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Actions>
-          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
         </Actions>
       </Condition>
 
@@ -538,6 +316,25 @@
           <Set Target="[BoxImage.Content]" Value="[SelectedImage]"/>
         </Actions>
       </Condition>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="false"/>
+          <Equality Source="[Red]" ConditionOp="Equals" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[RedImage]"/>
+        </Actions>
+      </Rule>
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="false"/>
+          <Equality Source="[Red]" ConditionOp="Equals" Value="false"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[BoxImage.Content]" Value="[NoFocusImage]"/>
+        </Actions>
+      </Rule>
     </Rules>
     <Content>
       <Graphic Name="BoxImage" Content="[BlankImage]" SizingPolicy="SizeToChildren">

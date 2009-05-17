@@ -8,7 +8,7 @@
         xmlns:s="file://Styles_DoNotEdit.mcml"
         xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
         xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
-        xmlns:lcf="resx://MediaBrowser/MediaBrowser.Resources/LayoutCoverflow"
+        xmlns:vcfs="resx://MediaBrowser/MediaBrowser.Resources/VanillaCoverflowScroller"
         xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
      >
 <!--        xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
@@ -268,11 +268,11 @@
             </Panel>
 
             <!-- Coverflow Scroller -->
-            <lcf:CoverflowScroller Application="[Application]" Folder="[Item]">
+            <vcfs:CoverflowScroller Application="[Application]" Folder="[Item]">
               <LayoutInput>
                 <AnchorLayoutInput Left="Parent,0,35" Right="Parent,1,-35" Top="Parent, 0,150" Bottom="Parent, 1, 275" />
               </LayoutInput>
-            </lcf:CoverflowScroller>
+            </vcfs:CoverflowScroller>
                   
             <!-- Detail Semi-Transparent Background Shadow-->
             <Panel Layout="HorizontalFlow">

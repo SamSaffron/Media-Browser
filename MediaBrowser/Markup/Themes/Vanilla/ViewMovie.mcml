@@ -8,7 +8,7 @@
 	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
 	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
-	    xmlns:sb="resx://MediaBrowser/MediaBrowser.Resources/SimpleButton"
+	    xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
 	    xmlns:vp="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
 	    xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
 	    xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
@@ -203,10 +203,10 @@
                   <FlowLayout ItemAlignment="Center" Orientation="Vertical" Spacing="3,3"/>
                 </Layout>
                 <Children>
-                  <vot:SimpleButton Name="PlayMovieButton"   ImageNoFocus="image://it:IconPlay"    Command="[PlayMovieCommand]" Application="[Application]" />
-                  <vot:SimpleButton Name="ResumeMovieButton" ImageNoFocus="image://it:IconResume"  Command="[ResumeMovieCommand]" Application="[Application]" />
-                  <vot:SimpleButton Name="TrailerButton"     ImageNoFocus="image://it:IconTrailer" Command="[TrailerCommand]" Application="[Application]"/>
-                  <vot:SimpleButton Name="RefreshButton"     ImageNoFocus="image://it:IconRefresh" Command="[RefreshCommand]" Application="[Application]"/>
+                  <vsb:SimpleButton Name="PlayMovieButton"   ImageNoFocus="image://it:IconPlay"    Command="[PlayMovieCommand]" Application="[Application]" />
+                  <vsb:SimpleButton Name="ResumeMovieButton" ImageNoFocus="image://it:IconResume"  Command="[ResumeMovieCommand]" Application="[Application]" />
+                  <vsb:SimpleButton Name="TrailerButton"     ImageNoFocus="image://it:IconTrailer" Command="[TrailerCommand]" Application="[Application]"/>
+                  <vsb:SimpleButton Name="RefreshButton"     ImageNoFocus="image://it:IconRefresh" Command="[RefreshCommand]" Application="[Application]"/>
                 </Children>
               </Panel>
 
@@ -219,9 +219,9 @@
                   <FlowLayout ItemAlignment="Center" Orientation="Vertical" Spacing="3,3"/>
                 </Layout>
                     <Children>
-                      <vot:SimpleButton Name="SummaryButton" ImageNoFocus="image://it:IconSummary" Command="[SummaryCommand]" Application="[Application]"/>
-                      <vot:SimpleButton Name="ActorsButton"  ImageNoFocus="image://it:IconActor"   Command="[ActorCommand]" Application="[Application]"/>
-                      <!--<vot:SimpleButton Name="MusicButton"   ImageNoFocus="image://it:MusicBtn"   Command="[MusicCommand]" Application="[Application]"/>-->
+                      <vsb:SimpleButton Name="SummaryButton" ImageNoFocus="image://it:IconSummary" Command="[SummaryCommand]" Application="[Application]"/>
+                      <vsb:SimpleButton Name="ActorsButton"  ImageNoFocus="image://it:IconActor"   Command="[ActorCommand]" Application="[Application]"/>
+                      <!--<vsb:SimpleButton Name="MusicButton"   ImageNoFocus="image://it:MusicBtn"   Command="[MusicCommand]" Application="[Application]"/>-->
                 </Children>
               </Panel>
 
