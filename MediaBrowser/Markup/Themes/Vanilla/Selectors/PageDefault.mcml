@@ -6,7 +6,7 @@
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
 	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	    xmlns:me="Me"
@@ -18,6 +18,7 @@
       xmlns:pvm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupViewMenu"
       xmlns:prm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupRadioMenu"
       xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
+      xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
 	  >
   
   <UI Name="Page">
@@ -332,11 +333,11 @@
                         <Children>
                           <Panel Name="ScrollButton"  Layout="HorizontalFlow">
                             <Children>
-                              <vot:MenuButton Name="ConfigBtn"     Command="[Configure]"              Image="image://it:MenuOptionConfiguration"/>
-                              <vot:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://it:MenuOptionViews"/>
-                              <vot:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://it:MenuOptionSort"/>
-                              <vot:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://it:MenuOptionIndex" />
-                              <vot:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose" Red="true"/>
+                              <vmb:MenuButton Name="ConfigBtn"     Command="[Configure]"              Image="image://it:MenuOptionConfiguration"/>
+                              <vmb:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://it:MenuOptionViews"/>
+                              <vmb:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://it:MenuOptionSort"/>
+                              <vmb:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://it:MenuOptionIndex" />
+                              <vmb:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose" Red="true"/>
                             </Children>
                           </Panel>
                         </Children>

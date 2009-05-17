@@ -5,7 +5,7 @@
       xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:fs="resx://MediaBrowser/MediaBrowser.Resources/FocusSelector"
       xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
@@ -15,6 +15,9 @@
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
+      xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
+      xmlns:vs="resx://MediaBrowser/MediaBrowser.Resources/VanillaStudio"
+      xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	  >
   <!--xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
 
@@ -155,7 +158,8 @@
       </Binding>
 
       <Binding Source="[Folder.DisplayPrefs.UseBackdrop.Value]" Target="[Backdrop.Visible]"/>
-      <Binding Source="[PreSelectedItem.BackdropImage]" Target="[ItemBackdrop.Content]"/>
+      <Binding Target="[Backdrop.Image]" Source="[PreSelectedItem.BackdropImage]" />
+      <Binding Target="[Backdrop.Item]" Source="[PreSelectedItem]" />
       <Binding Source="[Application.Config.ShowClock]"        Target="[ClockDisplay.Visible]"/>
 
       <!-- Bind Series Specific MetaData -->
@@ -301,7 +305,7 @@
                               <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
                             </Layout>
                             <Content>
-                              <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="NetworkLogo"/>
+                              <vs:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="NetworkLogo"/>
                             </Content>
                           </Repeater>
                         </Children>
@@ -452,16 +456,16 @@
                               <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
                             </Layout>
                             <Content>
-                              <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
+                              <vs:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
                             </Content>
                           </Repeater>
                         </Children>
                       </Panel>
-                      <vot:MPAARating Name="MPAARating" MaximumSize="0,70">
+                      <vmpaa:MPAARating Name="MPAARating" MaximumSize="0,70">
                         <Layout>
                           <FlowLayout StripAlignment="Center"/>
                         </Layout>
-                      </vot:MPAARating>
+                      </vmpaa:MPAARating>
                       <mi:MediaInfoPanel Name="MovieMediaInfo" Item="[SelectedItem]" MaxIconSize="0,35">
                         <Layout>
                           <FlowLayout Spacing="10,10" StripAlignment="Center"/>
@@ -493,19 +497,7 @@
      
             </Children>
           </Panel>
-
-          <Panel Name="Backdrop" Layout="Form">
-            <Children>
-              <Clip Name="Clip" Orientation="Vertical" Layout="Anchor">
-                <LayoutInput>
-                  <FormLayoutInput Vertical="Fill" Horizontal="Fill"/>
-                </LayoutInput>
-                <Children>
-                  <Graphic Name="ItemBackdrop" Alpha="1" Content="[Folder.BackdropImage]" Layout="Fill" MaintainAspectRatio="true" />
-                </Children>
-              </Clip>
-            </Children>
-          </Panel>
+          <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[PreSelectedItem.BackdropImage]" Item="[PreSelectedItem]"/>
         </Children>
 
       </Panel>
@@ -713,7 +705,7 @@
                     <Children>
                       <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">
                         <Children>
-                          <vot:MPAARating Name="SeriesMPAARating" MaximumSize="0,25"/>
+                          <vmpaa:MPAARating Name="SeriesMPAARating" MaximumSize="0,25"/>
                           <Text Name="MPAAspacer" Content=" ∙ " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"  />
                           <gl:GenreList Name="SeriesGenres" SourceData="[Item.Genres]" Font="font://f:DV_GenreFont" Color="color://s:FontColorLight"/>
                         </Children>

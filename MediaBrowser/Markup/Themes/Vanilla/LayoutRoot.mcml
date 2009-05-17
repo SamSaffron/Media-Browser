@@ -511,6 +511,7 @@
               </Clip>
 
               <!-- Main Background -->
+              <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Folder.BackdropImage]" Item="[Folder]"/>
               <Graphic Name="MainBG" Content="resx://MediaBrowser/MediaBrowser.Resources/Background"
                    Margins="-50,-20,-50,-20" >
                 <LayoutInput>

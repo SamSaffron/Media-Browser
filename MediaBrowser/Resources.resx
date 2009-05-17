@@ -475,8 +475,8 @@
   <data name="PageDetailAreaVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\Selectors\PageDetailArea.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImagesVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\Images.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="VanillaImages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Images\Images.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ViewMovieVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\ViewMovie.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -507,6 +507,18 @@
   </data>
   <data name="VanillaSimpleButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\Buttons\SimpleButton.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="VanillaMenuButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Buttons\MenuButton.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="VanillaRadioButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Buttons\RadioButton.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="VanillaMPAA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Images\MPAARating.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="VanillaStudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Images\Studio.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DetailBorderShadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\DetailBorderShadow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

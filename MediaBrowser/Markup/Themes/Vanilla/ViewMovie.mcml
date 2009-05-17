@@ -6,7 +6,7 @@
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
 	    xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
 	    xmlns:vp="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
@@ -18,8 +18,9 @@
       xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
       xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
-       xmlns:pb="resx://MediaBrowser/MediaBrowser.Resources/PersonButton"
-
+      xmlns:pb="resx://MediaBrowser/MediaBrowser.Resources/PersonButton"
+      xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
+      xmlns:vs="resx://MediaBrowser/MediaBrowser.Resources/VanillaStudio"
       xmlns:me="Me"
     >
 <!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
@@ -307,16 +308,16 @@
                           <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
                         </Layout>
                         <Content>
-                          <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
+                          <vs:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
                         </Content>
                       </Repeater>
                     </Children>
                   </Panel>
-                  <vot:MPAARating Name="MPAARating" MaximumSize="250,70">
+                  <vmpaa:MPAARating Name="MPAARating" MaximumSize="250,70">
                     <Layout>
                       <FlowLayout StripAlignment="Center"/>
                     </Layout>
-                  </vot:MPAARating>
+                  </vmpaa:MPAARating>
                   <mi:MediaInfoPanel Item="[Item]" MaxIconSize="0,35">
                     <Layout>
                       <FlowLayout Spacing="10,10" StripAlignment="Center"/>
@@ -375,18 +376,7 @@
 
           </Clip>
           <!-- Background -->
-          <Panel Name="Backdrop" Layout="Form">
-            <Children>
-              <Clip Name="Clip" Orientation="Vertical" Layout="Anchor">
-                <LayoutInput>
-                  <FormLayoutInput Vertical="Fill" Horizontal="Fill"/>
-                </LayoutInput>
-                <Children>
-                  <Graphic Name="ItemBackdrop" Alpha="1" Content="[Item.BackdropImage]" Layout="Fill" MaintainAspectRatio="true" />
-                </Children>
-              </Clip>
-            </Children>
-          </Panel>
+          <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]"/>
           <Graphic Name="MainBG" Content="image://it:BackgroundDefault" Margins="0,0,0,0" Layout="Fill"/>
         </Children>
 

@@ -5,7 +5,7 @@
       xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/VanillaPosterScroller"
       xmlns:ls="resx://MediaBrowser/MediaBrowser.Resources/VanillaListScroller"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
@@ -14,6 +14,9 @@
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
       xmlns:gl="resx://MediaBrowser/MediaBrowser.Resources/GenreList"
+      xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
+      xmlns:vs="resx://MediaBrowser/MediaBrowser.Resources/VanillaStudio"
+      xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
 	  >
 
   <UI Name="LayoutDetails">
@@ -76,8 +79,9 @@
       <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="true"    Target="[BannerItems.Visible]"      Value="true"/>
       <Condition Source="[Item.DisplayPrefs.UseBanner.Value]"     ConditionOp="Equals"    SourceValue="false"   Target="[BannerItems.Visible]"      Value="false"/>
 
-      <Binding Source="[Item.DisplayPrefs.UseBackdrop.Value]" Target="[Backdrop.Visible]"/>
-      <Binding Target="[ItemBackdrop.Content]" Source="[Item.BackdropImage]" />
+      <Binding Source="[Item.DisplayPrefs.UseBackdrop.Value]" Target="[Backdrop.Visible]"/>     
+      <Binding Target="[Backdrop.Image]" Source="[PreSelectedItem.BackdropImage]" />
+      <Binding Target="[Backdrop.Item]" Source="[PreSelectedItem]" />
 
       <Binding Source="[Application.Config.AlphaBlending!cor:Single]" Target="[DetailBackdrop.Alpha]">
         <Transformer>
@@ -200,7 +204,7 @@
                     <Children>
                       <Panel Name="Genre" Layout="HorizontalFlow" Visible="true">
                         <Children>
-                          <vot:MPAARating Name="SeriesMPAARating" MaximumSize="0,25"/>
+                          <vmpaa:MPAARating Name="SeriesMPAARating" MaximumSize="0,25"/>
                           <Text Name="MPAAspacer" Content=" ∙ " Font="font://f:DV_GenreFont" WordWrap="false" Color="color://s:FontColorLight"  />
                           <gl:GenreList Name="SeriesGenres" SourceData="[PreSelectedItem.Genres]" Font="font://f:DV_GenreFont" Color="color://s:FontColorLight"/>
                         </Children>
@@ -278,7 +282,7 @@
                           <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
                         </Layout>
                         <Content>
-                          <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="NetworkLogo"/>
+                          <vs:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="NetworkLogo"/>
                         </Content>
                       </Repeater>
                     </Children>
@@ -358,16 +362,16 @@
                           <FlowLayout Orientation="Horizontal" ItemAlignment="Center" Spacing="10,10"/>
                         </Layout>
                         <Content>
-                          <vot:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
+                          <vs:Studio StudioItem="[RepeatedItem!lib:StudioItemWrapper]" Name="StudioLogo"/>
                         </Content>
                       </Repeater>
                     </Children>
                   </Panel>
-                  <vot:MPAARating Name="MovieMPAARating" MaximumSize="0,70">
+                  <vmpaa:MPAARating Name="MovieMPAARating" MaximumSize="0,70">
                     <Layout>
                       <FlowLayout StripAlignment="Center"/>
                     </Layout>
-                  </vot:MPAARating>
+                  </vmpaa:MPAARating>
                   <mi:MediaInfoPanel Name="MediaInfo" Item="[Item]" MaxIconSize="0,35">
                     <Layout>
                       <FlowLayout Spacing="10,10" StripAlignment="Center"/>
@@ -415,20 +419,7 @@
         </Children>
       </Panel>
 
-
-      <Panel Name="Backdrop" Layout="Form">
-        <Children>
-          <Clip Name="Clip" Orientation="Vertical" Layout="Anchor">
-            <LayoutInput>
-              <FormLayoutInput Vertical="Fill" Horizontal="Fill"/>
-            </LayoutInput>
-            <Children>
-              <Graphic Name="ItemBackdrop" Alpha="1" Content="[Item.BackdropImage]" Layout="Fill" MaintainAspectRatio="true" />
-            </Children>
-          </Clip>
-        </Children>
-      </Panel>
-
+       <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[PreSelectedItem.BackdropImage]" Item="[PreSelectedItem]"/>
       </Children>
       </Panel>
     </Content>

@@ -4,7 +4,7 @@
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       >
  

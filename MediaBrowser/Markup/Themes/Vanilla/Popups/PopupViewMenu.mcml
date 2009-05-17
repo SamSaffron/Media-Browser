@@ -2,13 +2,15 @@
 	    xmlns:cor="assembly://MSCorLib/System"
       xmlns:a="assembly://MediaBrowser/MediaBrowser"
 	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/ImagesVanilla"
+      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:s="file://Styles_DoNotEdit.mcml"
 	    xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"  
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
+      xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
+      xmlns:vrb="resx://MediaBrowser/MediaBrowser.Resources/VanillaRadioButton"
 	    xmlns:me="Me"
 	  >
 
@@ -58,7 +60,7 @@
           <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
         </Layout>
         <Children>
-          <vot:RadioGroup Model="[Prefs.ViewType]" Size="200,135"/>
+          <vrb:RadioGroup Model="[Prefs.ViewType]" Size="200,135"/>
           <Panel>
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
@@ -68,9 +70,9 @@
               <me:MenuCheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Image="image://it:MenuOptionLabels"/>
               <me:MenuCheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Image="image://it:MenuOptionVertScroll"/>
               <me:MenuCheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Image="image://it:MenuOptionBanners"/>
-              <vot:MenuButton Command="[Increase]" Image="image://it:MenuOptionEnlarge"/>
-              <vot:MenuButton Command="[Decrease]" Image="image://it:MenuOptionShrink"/>
-              <vot:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
+              <vmb:MenuButton Command="[Increase]" Image="image://it:MenuOptionEnlarge"/>
+              <vmb:MenuButton Command="[Decrease]" Image="image://it:MenuOptionShrink"/>
+              <vmb:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
             </Children>
           </Panel>
         </Children>

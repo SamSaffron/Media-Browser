@@ -909,13 +909,6 @@ namespace MediaBrowser {
             }
         }
         
-        internal static byte[] ImagesVanilla {
-            get {
-                object obj = ResourceManager.GetObject("ImagesVanilla", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap IncrementFocused {
             get {
                 object obj = ResourceManager.GetObject("IncrementFocused", resourceCulture);
@@ -1896,9 +1889,30 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] VanillaImages {
+            get {
+                object obj = ResourceManager.GetObject("VanillaImages", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] VanillaListScroller {
             get {
                 object obj = ResourceManager.GetObject("VanillaListScroller", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] VanillaMenuButton {
+            get {
+                object obj = ResourceManager.GetObject("VanillaMenuButton", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] VanillaMPAA {
+            get {
+                object obj = ResourceManager.GetObject("VanillaMPAA", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1931,9 +1945,23 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] VanillaRadioButton {
+            get {
+                object obj = ResourceManager.GetObject("VanillaRadioButton", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] VanillaSimpleButton {
             get {
                 object obj = ResourceManager.GetObject("VanillaSimpleButton", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] VanillaStudio {
+            get {
+                object obj = ResourceManager.GetObject("VanillaStudio", resourceCulture);
                 return ((byte[])(obj));
             }
         }
