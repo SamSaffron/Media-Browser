@@ -1,9 +1,8 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
       xmlns:cor ="assembly://mscorlib/System"
-      xmlns:proxy ="assembly://ehiProxy/ehiProxy"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:me = "Me"
-	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       >
 
 
@@ -21,26 +20,24 @@
       <Condition Source="[MPAARating]" SourceValue="" ConditionOp="Equals" Target="[Image.Visible]" Value="false" />
       <Condition Source="[MPAARating]" SourceValue="" ConditionOp="NotEquals" Target="[Image.Visible]" Value="true" />
 
-      <Condition Source="[MPAARating]" SourceValue="G"       ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedGfull" />
-      <Condition Source="[MPAARating]" SourceValue="NC-17"   ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNC17full" />
-      <Condition Source="[MPAARating]" SourceValue="PG-13"   ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedPG13full" />
-      <Condition Source="[MPAARating]" SourceValue="PG"      ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedPGfull" />
-      <Condition Source="[MPAARating]" SourceValue="R"       ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedRfull" />
-      <Condition Source="[MPAARating]" SourceValue="Unrated" ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNRfull" />
-      <Condition Source="[MPAARating]" SourceValue="NR"      ConditionOp="Equals" Target="[Image.Content]" Value="image://it:RatedNRfull" />
-
-      <Condition Source="[MPAARating]" SourceValue="TV-G"  ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-G" />
-      <Condition Source="[MPAARating]" SourceValue="TV-MA" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-MA" />
-      <Condition Source="[MPAARating]" SourceValue="TV-Y7" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y7" />
-      <Condition Source="[MPAARating]" SourceValue="TV-Y"  ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y" />
-
+      <Condition Source="[MPAARating]" SourceValue="G"        ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedGfull" />
+      <Condition Source="[MPAARating]" SourceValue="NC-17"    ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedNC17full" />
+      <Condition Source="[MPAARating]" SourceValue="PG-13"    ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedPG13full" />
+      <Condition Source="[MPAARating]" SourceValue="PG"       ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedPGfull" />
+      <Condition Source="[MPAARating]" SourceValue="R"        ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedRfull" />
+      <Condition Source="[MPAARating]" SourceValue="Unrated"  ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedNRfull" />
+      <Condition Source="[MPAARating]" SourceValue="NR"       ConditionOp="Equals" Target="[Image.Content]" Value="image://vi:RatedNRfull" />
+      <Condition Source="[MPAARating]" SourceValue="TV-G"     ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-G" />
+      <Condition Source="[MPAARating]" SourceValue="TV-MA"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-MA" />
+      <Condition Source="[MPAARating]" SourceValue="TV-Y7"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y7" />
+      <Condition Source="[MPAARating]" SourceValue="TV-Y"     ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-Y" />
       <Condition Source="[MPAARating]" SourceValue="TV-14"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-14" />
       <Condition Source="[MPAARating]" SourceValue="TV-PG"    ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-PG" />
       <Condition Source="[MPAARating]" SourceValue="TV-V7-FV" ConditionOp="Equals" Target="[Image.Content]" Value="image://i:TV-V7-FV" />
     </Rules>
 
     <Content>
-      <Graphic Name="Image" Visible="true" MaximumSize="0,70" Content="image://it:RatedNRfull" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" />
+      <Graphic Name="Image" Visible="true" MaximumSize="0,70" Content="image://vi:RatedNRfull" SizingPolicy="SizeToConstraint" MaintainAspectRatio="true" />
     </Content>
   </UI>
 

@@ -1,15 +1,9 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:a="assembly://MediaBrowser/MediaBrowser"
-	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
-	    xmlns:s="file://Styles_DoNotEdit.mcml"
-	    xmlns:f="file://Fonts_DoNotEdit.mcml"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"	    
 	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"  
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:me="Me"
 	  >
 
@@ -24,6 +18,7 @@
         <ShortcutHandler Name="BackHandler"  Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[Close]"/>
         <Command Name="CmdPlayAll" />
         <Command Name="CmdPlayRandom"/>
+        <Command Name="CmdPlayUnwatched"/>
       </Locals>
     
       <Rules>
@@ -46,6 +41,14 @@
             <Invoke Target="[Application.Shuffle]" item="[Item]" />
           </Actions>
         </Changed>
+
+        <Changed Source="[CmdPlayUnwatched.Invoked]">
+          <Actions>
+            <Invoke Target="[Close.Invoke]" InvokePolicy="AsynchronousNormal" />
+            <PlaySound Sound="sound://sounds:Miniselect" />
+            <Invoke Target="[Application.Unwatched]" item="[Item]" />
+          </Actions>
+        </Changed>
       </Rules>
     
       <Content>
@@ -54,9 +57,10 @@
             <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
           </Layout>
           <Children>
-            <vmb:MenuButton Command="[CmdPlayAll]" Image="image://it:MenuOptionPlayAll"/>
-            <vmb:MenuButton Command="[CmdPlayRandom]" Image="image://it:MenuOptionPlayRandom"/>
-            <vmb:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
+            <vmb:MenuButton Command="[CmdPlayAll]" Image="image://vi:MenuOptionPlayAll"/>
+            <vmb:MenuButton Command="[CmdPlayRandom]" Image="image://vi:MenuOptionPlayRandom"/>
+            <vmb:MenuButton Command="[CmdPlayUnwatched]" Image="image://vi:MenuOptionPlayUnwatched"/>
+            <vmb:MenuButton Command="[Close]" Image="image://vi:MenuOptionClose" Red="true"/>
           </Children>
         </Panel>
       </Content>

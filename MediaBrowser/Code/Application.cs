@@ -557,6 +557,17 @@ namespace MediaBrowser
                 playable.Play(null, false);
             }
         }
+        public void Unwatched(Item item)
+        {
+            Folder folder = item.BaseItem as Folder;
+            if (folder != null)
+            {
+
+                var playableChildren = folder.RecursiveChildren.Select(i => i as Video).Where(v => v != null && !v.PlaybackStatus.WasPlayed).OrderBy(v => v.Path);
+                PlayableItem playable = new PlayableCollection(item.Name, playableChildren);
+                playable.Play(null, false);
+            }
+        }
 
         public void Play(Item item)
         {

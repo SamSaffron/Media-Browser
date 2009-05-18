@@ -1,16 +1,9 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:a="assembly://MediaBrowser/MediaBrowser"
-	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
-	    xmlns:s="file://Styles_DoNotEdit.mcml"
-	    xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"  
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
       xmlns:vrb="resx://MediaBrowser/MediaBrowser.Resources/VanillaRadioButton"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:me="Me"
 	  >
 
@@ -66,13 +59,13 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
             </Layout>
             <Children>
-              <me:MenuCheckBox Name="UseBackdrop" Checked="[Prefs.UseBackdrop]" Image="image://it:MenuOptionBackdrop"/>
-              <me:MenuCheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Image="image://it:MenuOptionLabels"/>
-              <me:MenuCheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Image="image://it:MenuOptionVertScroll"/>
-              <me:MenuCheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Image="image://it:MenuOptionBanners"/>
-              <vmb:MenuButton Command="[Increase]" Image="image://it:MenuOptionEnlarge"/>
-              <vmb:MenuButton Command="[Decrease]" Image="image://it:MenuOptionShrink"/>
-              <vmb:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
+              <me:MenuCheckBox Name="UseBackdrop" Checked="[Prefs.UseBackdrop]" Image="image://vi:MenuOptionBackdrop"/>
+              <me:MenuCheckBox Name="ShowLabels" Checked="[Prefs.ShowLabels]" Image="image://vi:MenuOptionLabels"/>
+              <me:MenuCheckBox Name="VerticalScroll" Checked="[Prefs.VerticalScroll]" Image="image://vi:MenuOptionVertScroll"/>
+              <me:MenuCheckBox Name="UseBanner" Checked="[Prefs.UseBanner]" Image="image://vi:MenuOptionBanners"/>
+              <vmb:MenuButton Command="[Increase]" Image="image://vi:MenuOptionEnlarge"/>
+              <vmb:MenuButton Command="[Decrease]" Image="image://vi:MenuOptionShrink"/>
+              <vmb:MenuButton Command="[Close]" Image="image://vi:MenuOptionClose" Red="true"/>
             </Children>
           </Panel>
         </Children>
@@ -84,17 +77,15 @@
 
     <Properties>
       <BooleanChoice Name="Checked" BooleanChoice="$Required" />
-      <!--<cor:String Name="Label" String="$Required" />
-      <Font Name="Font" Font="$Required"/>-->
       <Image Name="Image" Image="$Required"/>
     </Properties>
 
     <Locals>
       <ClickHandler Name="Clicker" />
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="BlankImage" Image="image://it:MenuOptionBGNotFocused"/>
+      <Image Name="FocusImage" Image="image://vi:MenuOptionBGFocused" />
+      <Image Name="SelectedImage" Image="image://vi:MenuOptionBGSelected" />
+      <Image Name="NoFocusImage" Image="image://vi:MenuOptionBGNotFocused" />
+      <Image Name="BlankImage" Image="image://vi:MenuOptionBGNotFocused"/>
     </Locals>
 
     <Rules>
@@ -183,11 +174,11 @@
           <FlowLayout Orientation="Horizontal" ItemAlignment="Center" />
         </Layout>
         <Children>
-          <Graphic Name="BoxImage" Content="image://it:MenuOptionBGNotFocused" SizingPolicy="SizeToChildren">
+          <Graphic Name="BoxImage" Content="image://vi:MenuOptionBGNotFocused" SizingPolicy="SizeToChildren">
             <Children>
               <Panel >
                 <Children>
-                  <Graphic Name="GrapicImage" Content="image://it:MenuOptionBGNotFocused" MaximumSize="135,135" MaintainAspectRatio="true"/>
+                  <Graphic Name="GrapicImage" Content="image://vi:MenuOptionBGNotFocused" MaximumSize="135,135" MaintainAspectRatio="true"/>
                 </Children>
               </Panel>
             </Children>

@@ -11,7 +11,6 @@
 	    xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
 	    xmlns:vp="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
 	    xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
-	    xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
 	    xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
 	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
       xmlns:vm="resx://MediaBrowser/MediaBrowser.Resources/ViewMenu"
@@ -21,9 +20,10 @@
       xmlns:pb="resx://MediaBrowser/MediaBrowser.Resources/PersonButton"
       xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
       xmlns:vs="resx://MediaBrowser/MediaBrowser.Resources/VanillaStudio"
+      xmlns:vnpv="resx://MediaBrowser/MediaBrowser.Resources/VanillaNPV"
       xmlns:me="Me"
     >
-<!--      xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->
+
   <!-- Movie Details Page -->
   <UI Name="ViewMovieVanilla">
     <Properties>
@@ -242,7 +242,7 @@
                   <AnchorLayoutInput Top="Parent,0" Horizontal="Far"/>
                 </LayoutInput>
                 <Children>
-                  <vot:LargeNPV Name="NPVOption" Command="[NowPlayingPanel]"/>
+                  <vnpv:LargeNPV Name="NPVOption" Command="[NowPlayingPanel]"/>
                 </Children>
               </Panel>
               

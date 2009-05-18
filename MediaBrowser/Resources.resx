@@ -481,8 +481,8 @@
   <data name="ViewMovieVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\ViewMovie.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ViewOptionsVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>markup\themes\Vanilla\viewoptions.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="VanillaNPV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\Vanilla\Controls\NowPlayingViewport.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PageVanilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\Vanilla\Selectors\PageDefault.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -648,6 +648,9 @@
   </data>
   <data name="MenuOptionPlayRandom" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\options\PlayRandom.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuOptionPlayUnwatched" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\options\PlayUnwatched.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ViewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\options\viewthumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

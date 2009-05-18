@@ -1,16 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
-	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:a="assembly://MediaBrowser/MediaBrowser"
-	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
-	    xmlns:s="file://Styles_DoNotEdit.mcml"
-	    xmlns:f="file://Fonts_DoNotEdit.mcml"
-	    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-	    xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ImageButton"  
-      xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
       xmlns:vrb="resx://MediaBrowser/MediaBrowser.Resources/VanillaRadioButton"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
 	    xmlns:me="Me"
 	  >
 
@@ -49,7 +40,7 @@
         </Animations>
         <Children>
           <vrb:RadioGroup Model="[Choice]" Size="135,135"/>
-          <vmb:MenuButton Command="[Close]" Image="image://it:MenuOptionClose" Red="true"/>
+          <vmb:MenuButton Command="[Close]" Image="image://vi:MenuOptionClose" Red="true"/>
         </Children>
       </Panel>
     </Content>

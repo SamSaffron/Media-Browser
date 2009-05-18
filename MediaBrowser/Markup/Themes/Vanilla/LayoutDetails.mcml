@@ -4,7 +4,6 @@
       xmlns:cor="assembly://MSCorLib/System"
       xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/VanillaPosterScroller"
       xmlns:ls="resx://MediaBrowser/MediaBrowser.Resources/VanillaListScroller"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"

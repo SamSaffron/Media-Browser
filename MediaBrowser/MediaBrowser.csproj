@@ -538,6 +538,7 @@
     <Content Include="Markup\Themes\Vanilla\Buttons\MenuButton.mcml" />
     <Content Include="Markup\Themes\Vanilla\Buttons\RadioButton.mcml" />
     <Content Include="Markup\Themes\Vanilla\Buttons\SimpleButton.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Controls\NowPlayingViewport.mcml" />
     <Content Include="Markup\Themes\Vanilla\Images\Images.mcml" />
     <Content Include="Markup\Themes\Vanilla\Images\MPAARating.mcml" />
     <Content Include="Markup\Themes\Vanilla\Images\Studio.mcml" />
@@ -556,7 +557,6 @@
     <Content Include="Markup\Themes\Vanilla\Selectors\PageDefault.mcml" />
     <Content Include="Markup\Themes\Vanilla\Selectors\PageDetailArea.mcml" />
     <Content Include="Markup\Themes\Vanilla\ViewMovie.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Registration.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,6 @@
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:cor="assembly://MSCorLib/System"
       xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/VanillaPosterScroller"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
 	    xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"

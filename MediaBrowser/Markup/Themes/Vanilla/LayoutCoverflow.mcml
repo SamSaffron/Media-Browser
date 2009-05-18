@@ -10,7 +10,6 @@
         xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
         xmlns:vcfs="resx://MediaBrowser/MediaBrowser.Resources/VanillaCoverflowScroller"
         xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
-        xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
         xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
      >
 <!--        xmlns:ts="resx://MediaBrowser/MediaBrowser.Resources/TitleSet"-->

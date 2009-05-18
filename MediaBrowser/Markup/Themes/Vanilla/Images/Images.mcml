@@ -48,7 +48,7 @@
   <Image Name="MenuOptionStudio" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionStudio"/>
   <Image Name="MenuOptionPlayAll" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionPlayAll"/>
   <Image Name="MenuOptionPlayRandom" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionPlayRandom"/>
-  
+  <Image Name="MenuOptionPlayUnwatched" Source="resx://MediaBrowser/MediaBrowser.Resources/MenuOptionPlayUnwatched"/>
   <Image Name="ViewThumb" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewThumb"/>
   <Image Name="ViewCoverflow" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewCoverflow"/>
   <Image Name="ViewPoster" Source="resx://MediaBrowser/MediaBrowser.Resources/ViewPoster"/>

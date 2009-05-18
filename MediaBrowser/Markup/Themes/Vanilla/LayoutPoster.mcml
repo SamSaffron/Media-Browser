@@ -7,7 +7,6 @@
       xmlns:f="file://Fonts_DoNotEdit.mcml"
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"
       xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
  	  >

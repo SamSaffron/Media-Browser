@@ -1252,6 +1252,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap MenuOptionPlayUnwatched {
+            get {
+                object obj = ResourceManager.GetObject("MenuOptionPlayUnwatched", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap MenuOptionRating {
             get {
                 object obj = ResourceManager.GetObject("MenuOptionRating", resourceCulture);
@@ -1917,6 +1924,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] VanillaNPV {
+            get {
+                object obj = ResourceManager.GetObject("VanillaNPV", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] VanillaPopupPlay {
             get {
                 object obj = ResourceManager.GetObject("VanillaPopupPlay", resourceCulture);
@@ -2004,13 +2018,6 @@ namespace MediaBrowser {
         internal static byte[] ViewMovieVanilla {
             get {
                 object obj = ResourceManager.GetObject("ViewMovieVanilla", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        internal static byte[] ViewOptionsVanilla {
-            get {
-                object obj = ResourceManager.GetObject("ViewOptionsVanilla", resourceCulture);
                 return ((byte[])(obj));
             }
         }

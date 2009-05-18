@@ -1,13 +1,7 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
-      xmlns:a="assembly://MediaBrowser/MediaBrowser"
-      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:f="file://Fonts_DoNotEdit.mcml"
-      xmlns:s="file://Styles_DoNotEdit.mcml"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:me="Me"
-
       >
   
   <UI Name="RadioGroup" >
@@ -46,27 +40,27 @@
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker" HandleEnterSpaceKeys ="true" HandlePrimaryMouseButton ="true" HandlerStage="Bubbled"/>
-      <Image Name="Image" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="ViewThumb" Image="image://it:ViewThumb" />
-      <Image Name="ViewCoverflow" Image="image://it:ViewCoverflow" />
-      <Image Name="ViewPoster" Image="image://it:ViewPoster" />
-      <Image Name="ViewDetail" Image="image://it:ViewDetail" />
-      <Image Name="ViewThumbstrip" Image="image://it:ViewThumbstrip" />
-      <Image Name="MenuOptionName" Image="image://it:MenuOptionName"/>
-      <Image Name="MenuOptionDate" Image="image://it:MenuOptionDate"/>
-      <Image Name="MenuOptionRating" Image="image://it:MenuOptionRating"/>
-      <Image Name="MenuOptionRuntime" Image="image://it:MenuOptionRuntime"/>
-      <Image Name="MenuOptionUnwatched" Image="image://it:MenuOptionUnwatched"/>
-      <Image Name="MenuOptionYear" Image="image://it:MenuOptionYear"/>
-      <Image Name="MenuOptionNone" Image="image://it:MenuOptionNone"/>
-      <Image Name="MenuOptionActor" Image="image://it:MenuOptionActor"/>
-      <Image Name="MenuOptionGenre" Image="image://it:MenuOptionGenre"/>
-      <Image Name="MenuOptionDirector" Image="image://it:MenuOptionDirector"/>
-      <Image Name="MenuOptionStudio" Image="image://it:MenuOptionStudio"/>
-      <Image Name="MenuOptionClose" Image="image://it:MenuOptionClose"/>
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
+      <Image Name="Image" Image="image://vi:MenuOptionBGNotFocused" />
+      <Image Name="ViewThumb" Image="image://vi:ViewThumb" />
+      <Image Name="ViewCoverflow" Image="image://vi:ViewCoverflow" />
+      <Image Name="ViewPoster" Image="image://vi:ViewPoster" />
+      <Image Name="ViewDetail" Image="image://vi:ViewDetail" />
+      <Image Name="ViewThumbstrip" Image="image://vi:ViewThumbstrip" />
+      <Image Name="MenuOptionName" Image="image://vi:MenuOptionName"/>
+      <Image Name="MenuOptionDate" Image="image://vi:MenuOptionDate"/>
+      <Image Name="MenuOptionRating" Image="image://vi:MenuOptionRating"/>
+      <Image Name="MenuOptionRuntime" Image="image://vi:MenuOptionRuntime"/>
+      <Image Name="MenuOptionUnwatched" Image="image://vi:MenuOptionUnwatched"/>
+      <Image Name="MenuOptionYear" Image="image://vi:MenuOptionYear"/>
+      <Image Name="MenuOptionNone" Image="image://vi:MenuOptionNone"/>
+      <Image Name="MenuOptionActor" Image="image://vi:MenuOptionActor"/>
+      <Image Name="MenuOptionGenre" Image="image://vi:MenuOptionGenre"/>
+      <Image Name="MenuOptionDirector" Image="image://vi:MenuOptionDirector"/>
+      <Image Name="MenuOptionStudio" Image="image://vi:MenuOptionStudio"/>
+      <Image Name="MenuOptionClose" Image="image://vi:MenuOptionClose"/>
+      <Image Name="FocusImage" Image="image://vi:MenuOptionBGFocused" />
+      <Image Name="NoFocusImage" Image="image://vi:MenuOptionBGNotFocused" />
+      <Image Name="SelectedImage" Image="image://vi:MenuOptionBGSelected" />
       <Image Name="BlankImage" Image="null" />
     </Locals>
     <Rules>
@@ -117,25 +111,6 @@
           <Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
         </Actions>
       </Changed>
-
-
-      <!--		<Condition Source="[Clicker.Clicking]" SourceValue="true">
-				<Conditions>
-					<Equality Source="[Model.Chosen]" ConditionOp="Equals" Value="[Option]" />
-				</Conditions>
-				<Actions>
-					<Set Target="[BoxImage.Content]" Value="[SelectedImage]" />
-				</Actions>
-			</Condition>
-
-			<Condition Source="[Clicker.Clicking]" SourceValue="true">
-				<Conditions>
-					<Equality Source="[Model.Chosen]"  ConditionOp="NotEquals" Value="[Option]" />
-				</Conditions>
-				<Actions>
-					<Set Target="[BoxImage.Content]" Value="[NoFocusImage]" />
-				</Actions>
-			</Condition>-->
 
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Conditions>

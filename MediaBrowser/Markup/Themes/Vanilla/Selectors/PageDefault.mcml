@@ -5,20 +5,19 @@
       xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
       xmlns:s="file://Styles_DoNotEdit.mcml"
       xmlns:f="file://Fonts_DoNotEdit.mcml"
-	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
-	    xmlns:np="resx://MediaBrowser/MediaBrowser.Resources/NowPlayingViewport"
-	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
-	    xmlns:me="Me"
-      xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailAreaVanilla"
+	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"    
+	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"	         
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:pda="resx://MediaBrowser/MediaBrowser.Resources/PageDetailAreaVanilla"
       xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupPlay"
       xmlns:pvm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupViewMenu"
       xmlns:prm="resx://MediaBrowser/MediaBrowser.Resources/VanillaPopupRadioMenu"
       xmlns:vsb="resx://MediaBrowser/MediaBrowser.Resources/VanillaSimpleButton"
       xmlns:vmb="resx://MediaBrowser/MediaBrowser.Resources/VanillaMenuButton"
+      xmlns:vnpv="resx://MediaBrowser/MediaBrowser.Resources/VanillaNPV"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
+      xmlns:me="Me"
 	  >
   
   <UI Name="Page">
@@ -103,7 +102,7 @@
           <Equality Source="[Application.Config.TransparentBackground]" Value="false"/>
         </Conditions>
         <Actions>
-          <Set Target="[MainBG.Content]" Value="image://it:BackgroundBlack"/>
+          <Set Target="[MainBG.Content]" Value="image://vi:BackgroundBlack"/>
         </Actions>
       </Rule>
 
@@ -113,7 +112,7 @@
           <Equality Source="[Application.Config.TransparentBackground]" Value="false"/>
         </Conditions>
         <Actions>
-          <Set Target="[MainBG.Content]" Value="image://it:BackgroundDefault"/>
+          <Set Target="[MainBG.Content]" Value="image://vi:BackgroundDefault"/>
         </Actions>
       </Rule>
       
@@ -312,7 +311,7 @@
                   <!-- Now Playing View Port -->
                   <Panel Name="TrailerPanel" Layout="Anchor" LayoutInput="[NPVRight]" Visible="false" >
                     <Children>
-                      <vot:LargeNPV Name="NowPlayingViewPort" Command="[NowPlayingPanel]" NPVSize="200,110"/>
+                      <vnpv:LargeNPV Name="NowPlayingViewPort" Command="[NowPlayingPanel]" NPVSize="200,110"/>
                     </Children>
                   </Panel>
 
@@ -333,11 +332,11 @@
                         <Children>
                           <Panel Name="ScrollButton"  Layout="HorizontalFlow">
                             <Children>
-                              <vmb:MenuButton Name="ConfigBtn"     Command="[Configure]"              Image="image://it:MenuOptionConfiguration"/>
-                              <vmb:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://it:MenuOptionViews"/>
-                              <vmb:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://it:MenuOptionSort"/>
-                              <vmb:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://it:MenuOptionIndex" />
-                              <vmb:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://it:MenuOptionClose" Red="true"/>
+                              <vmb:MenuButton Name="ConfigBtn"     Command="[Configure]"              Image="image://vi:MenuOptionConfiguration"/>
+                              <vmb:MenuButton Name="ViewsBtn"      Command="[ShowViewConfiguration]"  Image="image://vi:MenuOptionViews"/>
+                              <vmb:MenuButton Name="SortOrdersBtn" Command="[ShowSortConfiguration]"  Image="image://vi:MenuOptionSort"/>
+                              <vmb:MenuButton Name="IndexesBtn"    Command="[ShowIndexConfiguration]" Image="image://vi:MenuOptionIndex" />
+                              <vmb:MenuButton Name="RefreshButton" Command="[CloseCommand]"           Image="image://vi:MenuOptionClose" Red="true"/>
                             </Children>
                           </Panel>
                         </Children>
@@ -379,7 +378,7 @@
 
                   <pda:PageDetailArea Name="ViewPanel" Folder="[Item]" Application="[Application]"  LayoutInput="[FullScreen]"/>
 
-                  <Graphic Name="MainBG" Content="image://it:BlankGraphic" Layout="Fill"/>
+                  <Graphic Name="MainBG" Content="image://vi:BlankGraphic" Layout="Fill"/>
                 </Children>
               </Clip>
 

@@ -12,7 +12,6 @@
       xmlns:me="Me"
       xmlns:sd="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
       xmlns:anim="resx://MediaBrowser/MediaBrowser.Resources/Animations"
-      xmlns:vot="resx://MediaBrowser/MediaBrowser.Resources/ViewOptionsVanilla"
       xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
       xmlns:vmpaa="resx://MediaBrowser/MediaBrowser.Resources/VanillaMPAA"

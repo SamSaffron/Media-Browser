@@ -1,11 +1,8 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
 	    xmlns:cor="assembly://MSCorLib/System"
-      xmlns:a="assembly://MediaBrowser/MediaBrowser"
-      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
-      xmlns:f="file://Fonts_DoNotEdit.mcml"
-      xmlns:s="file://Styles_DoNotEdit.mcml"
-      xmlns:it="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images" 
       xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+      xmlns:vi="resx://MediaBrowser/MediaBrowser.Resources/VanillaImages"
       xmlns:me="Me"
       >
 
@@ -18,10 +15,10 @@
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker" Command="[Command]"/>
-      <Image Name="FocusImage" Image="image://it:MenuOptionBGFocused" />
-      <Image Name="NoFocusImage" Image="image://it:MenuOptionBGNotFocused" />
-      <Image Name="SelectedImage" Image="image://it:MenuOptionBGSelected" />
-      <Image Name="RedImage" Image="image://it:MenuOptionBGRed" />
+      <Image Name="FocusImage" Image="image://vi:MenuOptionBGFocused" />
+      <Image Name="NoFocusImage" Image="image://vi:MenuOptionBGNotFocused" />
+      <Image Name="SelectedImage" Image="image://vi:MenuOptionBGSelected" />
+      <Image Name="RedImage" Image="image://vi:MenuOptionBGRed" />
       <Image Name="BlankImage" Image="null" />
     </Locals>
     <Rules>
