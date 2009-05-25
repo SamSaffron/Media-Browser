@@ -41,9 +41,17 @@
 			<Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="250" /> <!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
       <a:Clock Name="Clock"/>
       <KeyHandler Name="SwitchKey" Key="D8" Handle="false" Modifiers="Shift" HandlerStage="Bubbled"/>
+      <Timer Name="NavTimer" Interval="150" AutoRepeat="false" Enabled="true"/>
     </Locals>
     
 		<Rules>
+      <Changed Source="[NavTimer.Tick]">
+        <Actions>
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+          <Set Target="[NavTimer.Enabled]" Value="false" />
+        </Actions>
+      </Changed>
+      
       <Rule ConditionLogicalOp ="And">
         <Conditions >
           <Equality Source="[Folder.IsRoot]" Value="true"/>
