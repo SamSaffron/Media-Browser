@@ -1,0 +1,169 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+	  xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
+	  xmlns:mi="resx://MediaBrowser/MediaBrowser.Resources/MovieInfo"
+	  xmlns:lw="resx://MediaBrowser/MediaBrowser.Resources/LastWatched"
+	  xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
+	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
+	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+	  xmlns:lcf="resx://MediaBrowser/MediaBrowser.Resources/DiamondLayoutCoverflow"
+	  xmlns:dtb="resx://MediaBrowser/MediaBrowser.Resources/DiamondToolBox"
+      >
+
+  
+
+	<UI Name="DiamondLayoutThumbStrip">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:FolderModel Name="Item" FolderModel="$Required"/>
+		</Properties>
+
+		<Locals>
+			<lib:Item Name="SelectedItem" Item="[Item.SelectedChild]" />
+			<lib:Item Name="PreSelectedItem" Item="[Item.SelectedChild]" />
+			<lib:Item Name="PreviousSelectedItem" Item="[Item.SelectedChild]" />
+			<lib:Item Name="BlankItem"  Item="[Item.BlankItem]"/>
+			<Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
+
+			<cor:Int32 Name="CurrentItemIndex" Int32="0"/>
+			<BooleanChoice Name="Vertical" Value="false" />
+			<FormLayoutInput Name="MyLayout" Left="Parent,0" Top="Parent,1,-300" Bottom="Parent,1" Right="Parent,1"/>
+
+			<AnchorLayoutInput Name="BaseLayout" Bottom="Parent,1" Top="Parent, 0.5" Horizontal="Fill" />
+		</Locals>
+
+
+		<Rules>
+
+      <Binding Source="[PreSelectedItem.BackdropImage]" Target="[BG_Art.BG]" />
+      <Binding Source="[PreSelectedItem]" Target="[TitleUI.Item]"/>
+      <Binding Source="[PreSelectedItem]" Target="[DiamondInfoBox.Item]" />
+      
+			<Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
+				<Conditions>
+					<Equality ConditionOp="NotEquals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
+				</Conditions>
+				<Actions>
+					<Invoke Target="[FullDetailsTimer.Stop]" />
+					<Invoke Target="[FullDetailsTimer.Start]" />
+					<Set Target="[SelectedItem]"  Value="[BlankItem]" />
+					<Set Target="[PreSelectedItem]"  Value="[Item.SelectedChild]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[Item.SelectedChildIndex]">
+				<Conditions>
+					<Equality ConditionOp="Equals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
+				</Conditions>
+				<Actions>
+					<Set Target="[SelectedItem]"  Value="[BlankItem]" />
+					<Set Target="[PreSelectedItem]"  Value="[BlankItem]" />
+					<Set Target="[PreviousSelectedItem]"  Value="[BlankItem]" />
+				</Actions>
+			</Changed>
+
+			<Changed Source="[FullDetailsTimer.Tick]">
+				<Actions>
+					<Set Target="[SelectedItem]" Value="[PreSelectedItem]"/>
+					<Set Target="[PreviousSelectedItem]" Value="[PreSelectedItem]"/>
+				</Actions>
+			</Changed>
+
+			
+      <!--<Binding Source="[SelectedItem]" Target="[TitleSet.Model]"/>-->
+			<!--<Binding Source="[SelectedItem]" Target="[MovieInfo.Model]"/>
+			<Binding Source="[SelectedItem]" Target="[Summary.Model]"/>-->
+			<!--<Binding Source="[PreSelectedItem]" Target="[TitleSet.ModelFast]"/>-->
+			<!--<Binding Source="[PreSelectedItem]" Target="[MovieInfo.ModelFast]"/>
+			<Binding Source="[PreSelectedItem]" Target="[Summary.ModelFast]"/>-->
+			<!--<Binding Target="[Backdrop.Image]" Source="[SelectedItem.BackdropImage]" />-->
+
+      
+      
+			<Binding Source="[Item.DisplayPrefs.UseCoverflow.Value]" Target="[FlowItems.Visible]"/>
+			<Binding Source="[Item.DisplayPrefs.UseCoverflow.Value]" Target="[PosterItems.Visible]">
+				<Transformer>
+					<BooleanTransformer Inverse="true"/>
+				</Transformer>
+			</Binding>
+			
+      
+      <!-- Counter Bindings -->
+      <Binding Source="[Item.SelectedChildIndex!cor:String]" Target="[List_Counter.Content]">
+        <Transformer>
+          <MathTransformer Add="1"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[Item.Children.Count]" Target="[List_Total.Content]" >
+        <Transformer>
+          <FormatTransformer Format=" | {0}" />
+        </Transformer>
+      </Binding>
+		</Rules>
+
+		<Content>
+			<Panel Layout="Form">
+				<Children>
+
+          <!-- Title Details -->
+          <dtb:DiamondTitleUI Name="TitleUI" Item="[SelectedItem]" LayoutInput="global://dtb:LI_Title" />
+
+          <!-- Details information -->
+          <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0,30" Right="Parent,0.5" Top="Parent,0,80" Bottom="Parent, 0.55" />
+            </LayoutInput>
+          </dtb:DiamondInfoBox>         
+					
+
+          <Graphic Content="image://i:DiamondOverlayDarkAll">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0,30" Right="Parent,0.5" Top="Parent,0,80" Bottom="Parent, 0.55"/>
+            </LayoutInput>
+          </Graphic>
+
+          <!-- List Counter -->
+          <Panel Name="ListCounterPosition" Layout="HorizontalFlow" >
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,.9" Bottom="Parent,1,-15"  />
+            </LayoutInput>
+            <Children>
+              <Text Name="List_Counter" Content="0" Color="Black" Font="font://f:CV_CounterFont" />
+              <Text Name="List_Total" Content="0" Color="DarkSlateGray" Font="font://f:CV_CounterFont" />
+            </Children>
+          </Panel>
+
+          <Panel Name="MyItems" Layout="Anchor" LayoutInput="[BaseLayout]">
+            <Children>
+              <lcf:CoverflowScroller Name="FlowItems" Application="[Application]" Folder="[Item]" >
+                <LayoutInput>
+                  <FormLayoutInput Horizontal="Fill" />
+                </LayoutInput>
+              </lcf:CoverflowScroller>
+              <ps:PosterScroller Name="PosterItems" Application="[Application]" RowLimit="1" Visible="false" Folder="[Item]" CenterFocus="true"
+											   TopLabelFont="font://f:SV_PosterTopLabelFont" LabelFont="font://f:SV_PosterLabelFont" UnwatchedCountFont="font://f:SV_UnwatchedCountFont">
+
+              </ps:PosterScroller>
+            </Children>
+          </Panel>
+
+          <!-- Bottom Clip -->
+          <dtb:DiamondClipBottom LayoutInput="global://dtb:LI_ClipBottom" />
+
+          <!-- Top Clip -->
+          <dtb:DiamondClipTop LayoutInput="global://dtb:LI_ClipTop" />
+
+          <!-- Backdrop -->
+          <dtb:DiamondBG Name="BG_Art" Visible="[Application.Config.ShowBackdrop]" LayoutInput="global://dtb:LI_Bg" />
+					
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+</Mcml>

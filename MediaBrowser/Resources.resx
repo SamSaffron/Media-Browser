@@ -976,4 +976,52 @@
   <data name="InfoMarquee" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\controls\infomarquee.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="DiamondLayoutCoverflow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondlayoutcoverflow.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dia_overlay_bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\diamond\overlay\dia_overlay_bottom.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PageDetailAreaDiamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\selectors\pagedetailareadiamond.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PageDiamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\selectors\pagediamond.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DiamondLayoutDetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondlayoutdetails.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DiamondLayoutPoster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondlayoutposter.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dia_overlay_all" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\diamond\overlay\dia_overlay_all.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DiamondLayoutThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondlayoutthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DiamondLayoutThumbStrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondlayoutthumbstrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DiamondListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\controls\diamondlistview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dia_list_focus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\diamond\dia_list_focus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dia_overlay_all_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\diamond\overlay\dia_overlay_all_dark.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dia_list_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\Diamond\dia_list_bg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DiamondToolBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\controls\diamondtoolbox.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dia_overlay_top_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\diamond\overlay\dia_overlay_top_dark.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DiamondMovieView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\diamondmovieview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

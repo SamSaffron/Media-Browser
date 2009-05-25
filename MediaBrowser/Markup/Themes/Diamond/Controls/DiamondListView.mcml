@@ -1,0 +1,290 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:lb="resx://MediaBrowser/MediaBrowser.Resources/ListButton"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+    xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ItemButton"
+    xmlns:me="Me">
+
+  <UI Name="DiamondListView">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <lib:FolderModel Name="Folder" FolderModel="$Required"/>
+      <Font Name="Font" Font="Segoe Media Center, 16" />
+    </Properties>
+
+    <Locals>
+      <!-- Use the MouseWheel handler to handle the mouse wheel.  -->
+      <ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
+							  HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollingHandler"/>
+
+      <ScrollingData Name="ScrollingData" />
+      <cor:Int32 Name="CounterValue" Int32="0" />
+      <IntRangedValue Name="SelectedIndex" Value="0"/>
+      <Command Name="ClosePopupPlay"/>
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[SelectedIndex.Value]" Target="[Folder.SelectedChildIndex]" />
+      <!-- Give ScrollingData to ScrollingHandler. -->
+      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
+
+      <!-- Give Repeater to ScrollingData. -->
+      <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
+
+      <Binding Source="[SelectedIndex.Value]" Target="[CounterValue]" >
+        <Transformer>
+          <MathTransformer Add="1" />
+        </Transformer>
+      </Binding>
+      <Binding Source="[CounterValue]" Target="[List_Counter.Content]" >
+        <Transformer>
+          <FormatTransformer Format="{0} "/>
+        </Transformer>
+      </Binding>
+
+      <!--`Bind the current number of Folder Items to the List Total -->
+      <Binding Source="[Folder.Children.Count]" Target="[List_Total.Content]" >
+        <Transformer>
+          <FormatTransformer Format="| {0}" />
+        </Transformer>
+      </Binding>
+
+      <Binding Source="[Folder.Children]" Target="[MyRepeater.Source]"/>
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Modified Source="[Application]" InitialEvaluate="true"/>
+          <Equality Source="[Application.NavigatingForward]" Value="true"/>
+          <Equality Source="[Folder.Children.Count]" ConditionOp="GreaterThan" Value="0" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[MyRepeater.NavigateIntoIndex]"  index="[Folder.FirstUnwatchedIndex]"/>
+        </Actions>
+      </Rule>
+      <Changed Source="[Folder.JILShift]">
+        <Actions>
+          <Invoke Target="[ScrollingData.Scroll]"  amount="[Folder.JILShift]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Application]" InitialEvaluate="true">
+        <Actions>
+          <Invoke Target="[Application.FixRepeatRate]" scroller="[Scroller]" val ="50" />
+        </Actions>
+      </Changed>
+
+      <Binding Target="[PopupPlay.Item]" Source="[Folder.SelectedChild]" />
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Application.DisplayPopupPlay]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[PopupPlay.Visible]" Value="true" />
+          <Invoke Target="[PopupPlay.NavigateInto]" />
+        </Actions>
+      </Rule>
+
+      <Changed Source="[ClosePopupPlay.Invoked]">
+        <Actions>
+          <Set Target="[Application.DisplayPopupPlay]" Value="false" />
+          <PlaySound Sound="sound://sounds:Miniselect" />
+          <Set Target="[PopupPlay.Visible]" Value="false"/>
+          <Invoke Target="[Scroller.NavigateInto]" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+      <Panel Layout="Dock">
+        <Children>
+
+          <!-- Spacer -->
+          <Panel>
+            <LayoutInput>
+              <DockLayoutInput Position="Left" Alignment="Near"  />
+            </LayoutInput>
+            <Children>
+              <Clip FadeSize="150" Orientation="Vertical" FadeAmount="1" Margins="5,5,5,5" >
+                <Children>
+                  <ColorFill Content="White" Alpha="0.8" Layout="Fill" MaximumSize="2,0" />
+                </Children>
+              </Clip>
+            </Children>
+          </Panel>
+
+          <!-- List Counter -->
+          <Panel>
+            <LayoutInput>
+              <DockLayoutInput Alignment="Far" Position="Bottom"  />
+            </LayoutInput>
+            <Children>
+              <Panel Layout="HorizontalFlow" Margins="0,5,0,0" >
+                <Children>
+                  <Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="[Font]" />
+                  <Text Name="List_Total" Content="0" Color="color://s:FontColorMedium" Font="[Font]" Margins="0,0,20,0" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+          <!-- Popup Play Panel -->
+          <pp:PopupPlay Name="PopupPlay" Visible="false" Item="[Folder.SelectedChild]" Close="[ClosePopupPlay]"
+                    Application="[Application]" >
+            <LayoutInput>
+              <DockLayoutInput Alignment="Center"  Position="Client"  />
+            </LayoutInput>
+          </pp:PopupPlay>
+
+          <!-- List Repeater -->
+          <Scroller Orientation="Vertical" FadeSize="-10" Margins="5,0,0,5" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
+            <LayoutInput>
+              <DockLayoutInput Alignment="Fill"  Position="Client"  />
+            </LayoutInput>
+            <Children>
+              <Repeater Source="[Folder.Children]" Layout="Fill" Name="MyRepeater" ContentName="BaseItem" >
+                <Layout>
+                  <FlowLayout Orientation="Vertical" ItemAlignment="Center" Spacing="0,0"/>
+                </Layout>
+                <Divider>
+                  <Clip FadeSize="150" Orientation="Horizontal" FadeAmount="1" >
+                    <Children>
+                      <ColorFill Content="DarkSlateGray" Alpha="0.8" Layout="Fill" MaximumSize="0,1" />
+                    </Children>
+                  </Clip>
+                </Divider>
+                <Animations>
+                  <Animation Type="Move">
+                    <Keyframes>
+                      <PositionKeyframe Time="0" RelativeTo="Current"/>
+                      <PositionKeyframe Time="0.2" RelativeTo="Final"/>
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Repeater>
+            </Children>
+           
+          </Scroller>
+        </Children>
+      </Panel>
+    </Content>
+    <Content Name="BaseItem">
+      <me:DiamondListButton Application="[Application]" Index="[RepeatedItemIndex]" Item="[RepeatedItem!lib:Item]" SelectedIndex="[SelectedIndex]" Font="[Font]"/>
+    </Content>
+  </UI>
+
+
+
+  <UI Name="DiamondListButton" BaseUI="ib:ItemButton">
+
+    <Properties>
+      <IntRangedValue Name="SelectedIndex" IntRangedValue="$Required"/>
+      <cor:String Name="Text" String="" />
+      <Index Name="Index" Index="$Required"/>
+      <Font Name="Font" Font="$Required"/>
+    </Properties>
+
+    <Locals>
+      <Image Name="Tick" Image="image://i:Tick"/>
+      <Size Name="MinSize" Size="300,48" />
+      <Size Name="Size" Size="625,48" />
+      <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
+      <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
+      <Color Name="Color" Color="SlateGray" />
+      <Color Name="FocusColor" Color="White" />
+      <cor:Boolean Name="CenterText" Boolean="false"/>
+    </Locals>
+
+    <Rules>
+      <!-- Bind the button's label and command-->
+      <Binding Source="[Item.Name]" Target="[Label.Content]">
+        <Transformer>
+          <FormatTransformer ToUpper="true"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[Item.HaveWatched]" Target="[TickIndicator.Visible]" />
+
+      <!--<Changed Source="[Item.HaveWatched]">
+        <Conditions>
+          <Equality Source="[Item.HaveWatched]" ConditionOp="Equals" Value="true" />
+          <Equality Source="[Application.Config.ListViewWatchedColorMcml]" ConditionOp="NotEquals" Value="Transparent" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Label.Color]" Value="[Application.Config.ListViewWatchedColorMcml]" />
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Item.HaveWatched]" ConditionOp="Equals" Value="true" />
+          <Equality Source="[Application.Config.ListViewWatchedColorMcml]" ConditionOp="NotEquals" Value="Transparent" />
+        </Conditions>
+        <Actions>
+          
+        </Actions>
+      </Rule>-->
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
+          <Set Target="[Label.Color]" Value="[FocusColor]" />
+          <PlaySound Sound="sound://sounds:Focus" />
+          <Set Target="[SelectedIndex.Value]" Value="[Index.Value]"/>
+        </Actions>
+      </Condition>
+    </Rules>
+
+    <Content>
+      <Graphic Name="imgButton"
+           Content="[ImageNoFocus]"
+           MouseInteractive="true"
+           MinimumSize="[MinSize]"
+           MaximumSize="[Size]"
+           SizingPolicy="SizeToConstraint"
+           HorizontalAlignment="Fill"
+           VerticalAlignment="Fill"
+                   >
+        <Children>
+          <Panel Layout="Dock">
+            <Children>
+              <Panel Layout="Center" MaximumSize="20,20" MinimumSize="20,20" >
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Center" Position="Right" />
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="TickIndicator" Visible="false" Content="[Tick]" Margins="0,0,5,0">
+                  </Graphic>
+                </Children>
+              </Panel>
+
+              <Text Name="Label" Color="[Color]" Margins="8,5,0,0" Font="[Font]">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near"  Position="Client"/>
+                </LayoutInput>
+              </Text>
+            </Children>
+          </Panel>
+        </Children>
+      </Graphic>
+
+    </Content>
+  </UI>
+
+  <Image Name="ButtonDisabled"          Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
+  <Image Name="ButtonDormant"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/dia_list_focus"         NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonNoFocus"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedAfterGlow"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedHighlight"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
+
+</Mcml>

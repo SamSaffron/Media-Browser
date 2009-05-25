@@ -3,6 +3,7 @@
 	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
     xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
 		xmlns:pd="resx://MediaBrowser/MediaBrowser.Resources/PageDefault"
+    xmlns:pdia="resx://MediaBrowser/MediaBrowser.Resources/PageDiamond"
     xmlns:pv="resx://MediaBrowser/MediaBrowser.Resources/PageVanilla"
     xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
     xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"      
@@ -22,6 +23,7 @@
       <Condition Source="[Application.Config.ViewTheme]" SourceValue="Classic" Target="[ViewDefault.Visible]" Value="true"/>
       <Condition Source="[Application.Config.ViewTheme]" SourceValue="Default" Target="[ViewDefault.Visible]" Value="true"/>
       <Condition Source="[Application.Config.ViewTheme]" SourceValue="Vanilla" Target="[ViewVanilla.Visible]" Value="true"/>
+      <Condition Source="[Application.Config.ViewTheme]" SourceValue="Diamond" Target="[ViewDiamond.Visible]" Value="true"/>
 
       <!-- END Configuration Checks & Display Setup -->
     </Rules>
@@ -45,6 +47,12 @@
               <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
           </pd:Page>
+
+          <pdia:PageDiamond Name="ViewDiamond" Folder="[Folder]" Application="[Application]" Visible="false" >
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+          </pdia:PageDiamond>
           
           <pv:Page Name="ViewVanilla" Item="[Folder]" Application="[Application]" Visible="false" >
             <LayoutInput>

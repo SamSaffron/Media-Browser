@@ -1,0 +1,182 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	    xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://MediaBrowser/MediaBrowser"
+      xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	    xmlns:s="file://Styles_DoNotEdit.mcml"
+	    xmlns:f="file://Fonts_DoNotEdit.mcml"
+	    xmlns:lv="resx://MediaBrowser/MediaBrowser.Resources/DiamondListView"
+	    xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
+	    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	    
+	    xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+	    xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+      
+      xmlns:link="resx://MediaBrowser/MediaBrowser.Resources/LinkItem"
+      xmlns:dtb="resx://MediaBrowser/MediaBrowser.Resources/DiamondToolBox"
+	    xmlns:me="Me">
+
+  <UI Name="DiamondLayoutDetails">
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <Timer Name="InfoTimer" AutoRepeat="false" Interval="200" Enabled="false"/>
+      <lib:FolderModel Name="Item" FolderModel="$Required"/>
+    </Properties>
+
+    <Locals>
+      <lib:Item Name="SelectedItem" Item="[Item.SelectedChild]"/>
+
+      <!-- Layouts for Episodes -->
+      <AnchorLayoutInput Name="LayoutInfo" Top="Parent,0.05" Right="Parent, 1, -60"/>
+      <AnchorLayoutInput Name="LayoutInfo2" Left="Parent, 0.4, 10" Right="Parent,1,-60" Top="PosterPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
+      <AnchorLayoutInput Name="LayoutPoster" Top="Parent,0.1" Bottom="Parent, 0.9" Left="Parent, 0,20"  Right="Parent, .4"/>
+
+    </Locals>
+
+    <Rules>
+      <!-- Rules for Episode Listing -->
+      <!--<Rule ConditionLogicalOp="And">
+        <Conditions>
+          <IsValid Source="[SelectedItem.ItemTypeString]" />
+          <Equality Source="[SelectedItem.ItemTypeString]" ConditionOp="Equals" Value="Episode" />
+        </Conditions>
+        <Actions>
+          --><!--<Set Target="[PosterPanel.LayoutInput]"  Value="[LayoutPoster]"/>
+          <Set Target="[InfoPanel.LayoutInput]"    Value="[LayoutInfo]"/>
+          <Set Target="[InfoPanel2.LayoutInput]"   Value="[LayoutInfo2]"/>--><!--
+          <Set Target="[StarMPAA.Visible]"         Value="false" />
+          --><!--<Set Target="[MediaInfo.Visible]"         Value="false" />--><!--
+        </Actions>
+      </Rule>-->
+
+      <Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[Item.SelectedChildIndex]" Value="-1"></Equality>
+        </Conditions>
+        <Actions>
+          <Set Target="[InfoTimer.Enabled]" Value="true"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[InfoTimer.Tick]">
+        <Actions>
+          <Set Target="[SelectedItem]" Value="[Item.SelectedChild]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[SelectedItem]">
+        <Actions>
+          <Set Target="[InfoTimer.Enabled]" Value="false"/>
+          <Set Target="[Preview.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
+      
+      <Binding Target="[Preview.Content]" Source="[SelectedItem.PreferredImage]"/>
+      
+      <!-- Title and Year -->
+      <Binding Source="[SelectedItem]" Target="[TitleUI.Item]"/>
+      <Binding Source="[SelectedItem]" Target="[DiamondInfoBox.Item]" />
+      <Binding Source="[SelectedItem.BackdropImage]" Target="[BG_Art.BG]" />
+      
+    </Rules>
+
+    <Content>
+      <Panel Name="MainPanel" Layout="Form">
+        <Children>
+
+          <!-- Title Details -->
+          <dtb:DiamondTitleUI Name="TitleUI" Item="[SelectedItem]" LayoutInput="global://dtb:LI_Title" />
+
+          <!-- Details List -->
+          <Graphic Content="image://i:BlankImage" Layout="VerticalFlow" Padding="25,25,25,25">
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,0.64" Top="Parent,0.15" Right="Parent,1" Bottom="Parent,.9" ></AnchorLayoutInput>
+            </LayoutInput>
+            <Children>
+              <lv:DiamondListView Visible="true" Application="[Application]" Folder="[Item]" Name="MyItems">
+              </lv:DiamondListView>
+            </Children>
+          </Graphic>
+          
+          
+          <!-- Details information -->
+          <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
+            <LayoutInput>
+              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="Parent,.3" Right="Parent, .63"/>
+            </LayoutInput>
+          </dtb:DiamondInfoBox>
+          
+
+          <!-- Thumbnail Poster -->
+          <Graphic Name="PosterPanel" SizingPolicy="SizeToChildren" Layout="Anchor">
+            <LayoutInput>
+              <AnchorLayoutInput Top="Parent,0.2" Left="Parent,0,35" />
+            </LayoutInput>
+            <Children>
+              <Graphic Name="CoverOutline" Content="image://i:PosterFrame"  Margins="-25,-25,-25,-30" >
+                <LayoutInput>
+                  <AnchorLayoutInput Top="Preview,0" Bottom="Preview,1" Left="Preview,0" Right="Preview,1"/>
+                </LayoutInput>
+              </Graphic>
+              <Graphic Name="Preview" MaintainAspectRatio="true" MaximumSize="300,500"  />
+            </Children>
+          </Graphic>
+
+<!--
+          <Graphic Content="image://i:DiamondOverlayMesh2">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0,-50" Top="Parent,0,-25" Bottom="Parent,1,30" Right="Parent,1,50"/>
+            </LayoutInput>
+          </Graphic>-->
+          <!-- Backdrop Image -->         
+          <Graphic Content="image://i:DiamondListBg">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0.3" Top="Parent,0.15" Bottom="Parent,.9" Right="Parent,1,-20"/>
+            </LayoutInput>
+          </Graphic>
+          
+          <!-- Bottom Clip -->
+          <dtb:DiamondClipBottom LayoutInput="global://dtb:LI_ClipBottom" />
+
+          <!-- Top Clip -->
+          <dtb:DiamondClipTop LayoutInput="global://dtb:LI_ClipTop" />
+
+          <!-- Backdrop -->
+          <dtb:DiamondBG Name="BG_Art" Visible="[Application.Config.ShowBackdrop]" LayoutInput="global://dtb:LI_Bg" />
+          
+        </Children>
+
+      </Panel>
+
+    </Content>
+
+  </UI>
+
+  <UI Name="NewItemList">
+    <Properties>
+      <lib:FolderModel Name="Folder"/>
+      <a:Application Name="Application" Application="$Required"/>
+    </Properties>
+    <Rules>
+      <Binding Source="[Folder.NewestItems]" Target="[Repeater.Source]"/>
+    </Rules>
+    <Content>
+      <Scroller Orientation="Vertical" FadeSize="-20" Margins="0,0,0,0" Name="Scroller">
+        <LayoutInput>
+          <DockLayoutInput Alignment="Fill"  Position="Client"  />
+        </LayoutInput>
+        <Children>
+          <Repeater Name="Repeater" Layout="Fill">
+            <Layout>
+              <FlowLayout Orientation="Vertical"  ItemAlignment="Near"/>
+            </Layout>
+            <Content>
+              <link:LinkItem Application="[Application]" Item="[RepeatedItem!lib:Item]" Font="font://f:DV_SummaryFont" Color="color://s:FontColorMedium"/>
+            </Content>
+          </Repeater>
+        </Children>
+      </Scroller>
+    </Content>
+  </UI>
+
+ 
+</Mcml>

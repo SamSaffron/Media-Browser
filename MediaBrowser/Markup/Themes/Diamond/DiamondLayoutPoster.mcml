@@ -1,0 +1,85 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+	  xmlns:a="assembly://MediaBrowser/MediaBrowser"
+	  xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:me="Me"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+	  xmlns:f="file://Fonts_DoNotEdit.mcml"
+	  xmlns:pit="resx://MediaBrowser/MediaBrowser.Resources/PosterItemTitle"
+	  xmlns:ip="resx://MediaBrowser/MediaBrowser.Resources/ItemPoster"
+	  xmlns:bd="resx://MediaBrowser/MediaBrowser.Resources/Backdrop"
+	  
+	  xmlns:ui="assembly://Microsoft.MediaCenter.UI/Microsoft.MediaCenter.UI"
+	  
+	  xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+	  xmlns:ps="resx://MediaBrowser/MediaBrowser.Resources/PosterScroller"
+    xmlns:dtb="resx://MediaBrowser/MediaBrowser.Resources/DiamondToolBox"
+  >
+
+	<Aggregate Source="resx://MediaBrowser/MediaBrowser.Resources/StarRating"/>
+
+	<UI Name="DiamondLayoutPoster">
+		<Properties>
+			<a:Application Name="Application" Application="$Required"/>
+			<lib:FolderModel Name="Folder" FolderModel="$Required"/>
+		</Properties>
+
+		<Locals>
+			<FormLayoutInput Name="TitleLayout" Top="ItemPanel,1"  Left="Parent,0.2" Right="Parent,.89"/>
+			<MathTransformer Name="Add1" AddInt="1"/>
+		</Locals>
+		<Rules>
+      <!-- Title and Year -->
+      <Binding Source="[Folder.SelectedChild]" Target="[TitleUI.Item]"/>
+      <Binding Source="[Folder.SelectedChild.BackdropImage]" Target="[BG_Art.BG]" />
+			<!-- Counter Bindings -->
+			<Binding Source="[Folder.SelectedChildIndex!cor:String]" Transformer="[Add1]" Target="[List_Counter.Content]" />
+			<Binding Source="[Folder.Children.Count]" Target="[List_Total.Content]" >
+				<Transformer>
+					<FormatTransformer Format=" | {0}" />
+				</Transformer>
+			</Binding>
+
+		</Rules>
+		<Content>
+			<Panel Layout="Form">
+				<Children>
+          <!-- Title Details -->
+          <dtb:DiamondTitleUI Name="TitleUI" Item="[Folder.SelectedChild]" LayoutInput="global://dtb:LI_Title" />
+          
+					<ps:PosterScroller Name="ItemPanel" Application="[Application]" Folder="[Folder]"
+                             TopLabelFont="font://f:PV_PosterTopLabelFont"
+                             LabelFont="font://f:PV_PosterLabelFont"
+                             UnwatchedCountFont="font://f:PV_UnwatchedCountFont">
+						<LayoutInput>
+							<FormLayoutInput Left="Parent,.0" Top="Parent,0,80" Bottom="Parent,1,-80" Right="Parent,1"/>
+						</LayoutInput>
+					</ps:PosterScroller>
+
+					<!-- List Counter -->
+          <Panel Name="ListCounterPosition" Layout="HorizontalFlow" >
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,.9" Bottom="Parent,1,-15"  />
+            </LayoutInput>
+            <Children>
+              <Text Name="List_Counter" Content="0" Color="Black" Font="font://f:CV_CounterFont" />
+              <Text Name="List_Total" Content="0" Color="DarkSlateGray" Font="font://f:CV_CounterFont" />
+            </Children>
+          </Panel>
+
+          <!-- Bottom Clip -->
+          <dtb:DiamondClipBottom LayoutInput="global://dtb:LI_ClipBottom" />
+
+          <!-- Top Clip -->
+          <dtb:DiamondClipTop LayoutInput="global://dtb:LI_ClipTop" />
+          
+					<!-- Backdrop -->
+          <dtb:DiamondBG Name="BG_Art" Visible="[Application.Config.ShowBackdrop]" LayoutInput="global://dtb:LI_Bg" />
+
+				</Children>
+			</Panel>
+		</Content>
+	</UI>
+
+
+</Mcml>

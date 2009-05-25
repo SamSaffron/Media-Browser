@@ -1,0 +1,307 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:s="file://Styles_DoNotEdit.mcml"
+	    xmlns:f="file://Fonts_DoNotEdit.mcml"
+      
+      xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
+	    xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
+      xmlns:mp="resx://MediaBrowser/MediaBrowser.Resources/MPAARating"
+      xmlns:gb="resx://MediaBrowser/MediaBrowser.Resources/GenreButton"
+      xmlns:st="resx://MediaBrowser/MediaBrowser.Resources/ScrollableText"
+      xmlns:mip="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
+    xmlns:me="Me">
+
+  <!-- LAYOUT INPUTS -->
+  <FormLayoutInput Name="LI_Bg" Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,10" Right="Parent,1,50"/>
+  <AnchorLayoutInput Name="LI_Title" Top="Parent, 0,20" Left="Parent, 0.5,-350" Right="Parent,.5,350" Horizontal="Center"  />
+  <AnchorLayoutInput Name="LI_ClipTop" Top="Parent,0" Bottom="Parent,0,120" Left="Parent,0" Right="Parent,1" />
+  <FormLayoutInput Name="LI_ClipBottom" Left="Parent,0,-50" Top="Parent,0.65" Bottom="Parent,1,0" Right="Parent,1,50"/>
+  <!-- END LAYOUT INPUTS -->
+
+  <UI Name="DiamondTitleUI">
+
+    <Properties>
+      <lib:Item Name="Item" Item="$Required" />
+    </Properties>
+
+    <Rules>
+      <!-- Title and Year -->
+      <Binding Source="[Item.ProductionYearString]" Target="[IYear.Content]" >
+        <Conditions>
+          <Equality Source="[Item.ProductionYear]" ConditionOp="GreaterThan" Value="1900" />
+        </Conditions>
+        <Transformer>
+          <FormatTransformer Format="({0})" />
+        </Transformer>
+      </Binding>
+      <Binding Source="[Item.Name]" Target="[ITitle.Content]" >
+        <Transformer>
+          <FormatTransformer ToUpper="true"/>
+        </Transformer>
+      </Binding>
+
+
+    </Rules>
+
+    <Content>
+      <!-- Title Details -->
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+        </Layout>
+
+        <Children>
+          <Panel Layout="Scale">
+            <Children>
+              <Panel Layout="HorizontalFlow">
+                <Children>
+                  <Text Name="ITitle" Font="Segoe Media Center Semibold, 26" Color="color://s:FontColorLight" />
+                  <Text Name="IYear" Font="Segoe Media Center Semibold, 26" Color="color://s:FontColorLight" Margins="10,0,0,0" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+          <Clip FadeSize="150" Orientation="Horizontal" FadeAmount="1" >
+            <Children>
+              <ColorFill Content="White" Alpha="0.8" Layout="Fill" MaximumSize="0,2" />
+            </Children>
+          </Clip>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+
+  <UI Name="DiamondInfoBox">
+    <Properties>
+      <lib:Item Name="Item" Item="$Required" />
+      <a:Application Name="Application" Application="$Required"/>
+    </Properties>
+    <Rules>
+      <Binding Target="[StarRating.Value]" Source="[Item.ImdbRating]" />
+      <Binding Target="[MPAARating.Value]" Source="[Item.MpaaRating]" />
+      <Binding Target="[TxtRuntime.Content]" Source="[Item.RunningTimeString]"/>
+      <Binding Target="[GenreRepeater.Source]" Source="[Item.Genres]"/>
+      <Binding Target="[Summary.Model]" Source="[Item]"/>
+      <Binding Target="[Summary.ModelFast]" Source="[Item]"/>
+      <Binding Target="[LastWatched.Content]" Source="[Item.LastPlayedString]"/>
+      <Binding Target="[LastWatched.Visible]" Source="[Item.HaveWatched]"/>
+      <Binding Target="[MediaInfo.Item]" Source="[Item]" />
+
+    </Rules>
+    <Content>
+      <Panel Name="InfoPanel" >
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="2,2"/>
+        </Layout>
+        <Children>
+          <Panel Name="StarMPAA">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" Spacing="10,0"/>
+            </Layout>
+            <Children>
+              <sr:StarRating Name="StarRating" Margins="0,5,0,0" />
+              <mp:MPAARating Name="MPAARating" Margins="10,0,0,0" MaximumSize="0,30"/>
+            </Children>
+          </Panel>
+          <Text Name="TxtRuntime" Color="LightGray" WordWrap="true" Font="font://f:DV_RuntimeFont" Margins="0,0,0,0"/>
+          <Repeater Name="GenreRepeater" Source="[Item.Genres]" >
+            <Layout>
+              <FlowLayout Orientation="Horizontal" AllowWrap="false" Spacing="15,0"/>
+            </Layout>
+            <Divider>
+              <Text Content="/" Font="font://f:MM_GenreFont" Color="Gray" Alpha="0.6"  />
+            </Divider>
+            <Content>
+              <gb:GenreButton Text="[RepeatedItem!cor:String]"
+                      Application="[Application]" Item="[Item]"
+                      GenreCategory="[RepeatedItem!cor:String]"
+                      Font="font://f:MM_GenreFont" Color="LightGray"
+													/>
+            </Content>
+          </Repeater>
+          <mip:MediaInfoPanel Name="MediaInfo" Item="[Item]" />
+          <Text Name="LastWatched" Color="LightGray" Font="font://f:DV_LastWatchedFont"/>
+          <sy:SummaryNonScrolling Name="Summary" Model="[Item]" ModelFast="[Item]" Font="font://f:DV_SummaryFont" Color="White" FocusColor="White"/>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+
+  <UI Name="DiamondBG">
+    <Properties>
+      <Image Name="BG" Image="image://i:BlankImage"/>
+    </Properties>
+    <Rules>
+      <Binding Source="[BG]" Target="[BG_Art.Content]" />
+    </Rules>
+    <Content>
+      <Graphic Name="BG_Art">
+        <Animations>
+          <Animation Type="ContentChangeHide">
+            <Keyframes>
+              <AlphaKeyframe Time="0" Value="1"/>
+              <AlphaKeyframe Time=".8" Value="0"/>
+            </Keyframes>
+          </Animation>
+          <Animation Type="ContentChangeShow">
+            <Keyframes>
+              <AlphaKeyframe Time="0" Value="0.3"/>
+              <AlphaKeyframe Time=".5" Value="1"/>
+            </Keyframes>
+          </Animation>
+        </Animations>
+      </Graphic>
+    </Content>
+  </UI>
+
+
+  <UI Name="DiamondClipTop">
+    <Content>
+      <Clip  FadeSize="100" Orientation="Vertical" ShowNear="false" FadeAmount="1" NearOffset="25" >
+        <Children>
+          <ColorFill Content="Black" Alpha="global://s:FilterAlpha">
+          </ColorFill>
+        </Children>
+      </Clip>
+    </Content>
+  </UI>
+
+  
+  <UI Name="DiamondClipBottom">
+    <Content>
+      <Graphic Content="resx://MediaBrowser/MediaBrowser.Resources/dia_overlay_bottom" />
+    </Content>
+  </UI>
+
+
+  <UI Name="DiamondImageButton">
+
+    <Properties>
+      <ICommand Name="Command" ICommand="$Required" />
+      <Font Name="Font" Font="$Required" />
+
+      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <cor:Boolean Name="LeftAlign" Boolean="true" />
+      <cor:String Name="Text" String="" />
+      <Size Name="Size" Size="0,0" />
+      <Size Name="MinSize" Size="50,50" />
+      <Color Name="Color" Color="DarkSlateGray"/>
+      <Color Name="FocusColor" Color="Black"/>
+      <Image Name="Icon" Image="image://i:BlankImage" />
+      <Image Name="ImageFocus" Image="image://i:DiamondListFocus" />
+      <Image Name="ImageNoFocus" Image="image://i:BlankImage" />
+
+    </Properties>
+
+    <Locals>
+
+      <ClickHandler Name="Clicker" />
+
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Command]" Target="[Clicker.Command]" />
+      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
+      <Binding Source="[Font]" Target="[Label.Font]" />
+      <Binding Source="[Text]" Target="[Label.Content]" />
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Size]" Value="0,0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[imgButton.MaximumSize]" Value="1000,1000"/>
+          <Set Target="[imgButton.SizingPolicy]"  Value="SizeToConstraint"/>
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="true" />
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sounds:Select" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[Clicker.Invoked]"/>
+          <Equality Source="[IsNavigatingCommand]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <PlaySound Sound="sound://sounds:Miniselect" />
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Command.Available]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
+          <Set Target="[imgButton.MinimumSize]" Value="[Size]"/>
+          <Set Target="[imgButton.MaximumSize]" Value="[Size]"/>
+          <Set Target="[Label.Color]" Value="[FocusColor]" />
+          <PlaySound Sound="sound://sounds:Focus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.MouseFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Command.Available]" ConditionOp="Equals" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
+          <Set Target="[Label.Color]" Value="[FocusColor]" />
+        </Actions>
+      </Condition>
+
+      
+      <Condition Source="[LeftAlign]" ConditionOp="Equals" SourceValue="true">
+        <Actions>
+          <Set Target="[imgButton.Layout]" Value="HorizontalFlow" />
+          <Set Target="[Label.HorizontalAlignment]" Value="Near" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel>
+        <Children>
+
+          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[Size]"
+                   MaximumSize="[Size]">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true"
+                           Margins="7,10,3,0" Visible="true" Content="[Icon]">
+              </Graphic>
+              <!-- The label to display. -->
+              <Text Name="Label"  Color="[Color]" MinimumSize="0,30" Margins="4,3,0,0"
+                        FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
+            </Children>
+          </Graphic>
+
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+ 
+</Mcml>

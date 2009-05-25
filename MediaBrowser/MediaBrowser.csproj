@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B27E5F-3D83-4D71-85B9-AF83C8392721}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -275,6 +275,12 @@
     <None Include="Images\Icons\IconShuffle.png" />
     <None Include="Images\Root\roottopw.png" />
     <None Include="Images\Root\rootscrollhilite.png" />
+    <None Include="Images\Diamond\dia_list_bg.png" />
+    <Content Include="Images\Diamond\dia_list_focus.png" />
+    <Content Include="Images\Diamond\Overlay\dia_overlay_all.png" />
+    <Content Include="Images\Diamond\Overlay\dia_overlay_all_dark.png" />
+    <Content Include="Images\Diamond\Overlay\dia_overlay_bottom.png" />
+    <Content Include="Images\Diamond\Overlay\dia_overlay_top_dark.png" />
     <Content Include="Images\Root\flashHorB.png" />
     <Content Include="Images\Root\flashHorT.png" />
     <Content Include="Images\Root\poster-frame.png" />
@@ -526,6 +532,27 @@
     <Content Include="Markup\FontsSmall.mcml" />
     <Content Include="Markup\FontsDefault.mcml" />
     <Content Include="Markup\StylesBlack.mcml" />
+    <Content Include="Markup\Themes\Diamond\Controls\DiamondToolBox.mcml" />
+    <Content Include="Markup\Themes\Diamond\Controls\DiamondListView.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondLayoutCoverflow.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondLayoutPoster.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondLayoutDetails.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondLayoutThumb.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondLayoutThumbStrip.mcml" />
+    <Content Include="Markup\Themes\Diamond\Selectors\PageDetailAreaDiamond.mcml" />
+    <Content Include="Markup\Themes\Diamond\Selectors\PageDiamond.mcml" />
+    <Content Include="Markup\Themes\Diamond\DiamondMovieView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\CoverflowView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Images.mcml" />
+    <Content Include="Markup\Themes\Vanilla\MovieDetailsPage.mcml" />
+    <Content Include="Markup\Themes\Vanilla\Page.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PageDetailArea.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PosterDetailView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\PosterView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\StripView.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewDetails.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
+    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Markup\Themes\Default\Selectors\PageDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieMinimal.mcml" />
