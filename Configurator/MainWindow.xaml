@@ -73,14 +73,10 @@
 					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
 					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
 					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
-					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="310" x:Name="podcastDetails" Height="246">
-						<Grid >
-                            <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="10,44,10,52" Name="podcastDescription" TextWrapping="Wrap" />
-                            <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="11,0,12,6" FontSize="12" Height="40" TextWrapping="Wrap" />
-                            <Label Height="29" Margin="6,9,17,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold">The Cook and the Chef</Label>
-                        </Grid>
-					</Border>
-				</Grid>
+                    <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="0,0,36,92" FontSize="12" Height="38" TextWrapping="Wrap" HorizontalAlignment="Right" Width="285" />
+                    <Label Height="29" Margin="0,21,36,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold" HorizontalAlignment="Right" Width="285">The Cook and the Chef</Label>
+                    <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="323,67,33,136" Name="podcastDescription" TextWrapping="Wrap" />
+                </Grid>
 			</TabItem>
 			
 			
@@ -214,7 +210,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Height="33" HorizontalAlignment="Left" Margin="38,15,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
+        <Label Height="33" HorizontalAlignment="Left" Margin="38,15,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options" Foreground="Black">basic</Label>
         <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="108,15,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
         <Rectangle Height="25.989" Margin="15,19.343,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0">
         	<Rectangle.Fill>

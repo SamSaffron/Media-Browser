@@ -706,13 +706,13 @@ folder: {0}
         private void hdrBasic_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrBasic);
-            externalPlayersTab.Visibility = externalPlayersTab.Visibility  = extendersTab.Visibility = Visibility.Collapsed;
+            externalPlayersTab.Visibility = displayTab.Visibility = extendersTab.Visibility = Visibility.Collapsed;
         }
 
         private void hdrAdvanced_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SetHeader(hdrAdvanced);
-            externalPlayersTab.Visibility = externalPlayersTab.Visibility = extendersTab.Visibility = Visibility.Visible;
+            externalPlayersTab.Visibility = displayTab.Visibility = extendersTab.Visibility = Visibility.Visible;
         }
 
         private void ClearHeaders()
