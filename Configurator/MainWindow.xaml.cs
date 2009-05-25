@@ -90,7 +90,7 @@ namespace Configurator
             RefreshDisplaySettings();
 
             podcastsPath.Content = config.PodcastHome;
-            podcastDetails.Visibility = Visibility.Hidden;
+            podcastDetails(false);
             SaveConfig();
 
         }
@@ -763,7 +763,7 @@ folder: {0}
         private void podcastList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             VodCast vodcast = podcastList.SelectedItem as VodCast;
             if (vodcast != null) {
-                podcastDetails.Visibility = Visibility.Visible;
+                podcastDetails(true);
                 podcastUrl.Text = vodcast.Url;
                 podcastName.Content = vodcast.Name;
                 podcastDescription.Text = vodcast.Overview;
@@ -778,7 +778,7 @@ folder: {0}
                   MessageBox.Show(message, "Remove folder", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes) {
                     File.Delete(vodcast.Path);
                     vodcast.Parent.ValidateChildren();
-                    podcastDetails.Visibility = Visibility.Hidden;
+                    podcastDetails(false);
                     RefreshPodcasts();
                 }
             }
@@ -818,6 +818,18 @@ folder: {0}
         private void addPlugin_Click(object sender, RoutedEventArgs e) {
             AddPluginWindow window = new AddPluginWindow();
             window.ShowDialog();
+        }
+
+        private void podcastDetails(bool display)
+        {
+            if (display)
+            {
+                podcastName.Visibility = podcastDescription.Visibility = podcastUrl.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                podcastName.Visibility = podcastDescription.Visibility = podcastUrl.Visibility = Visibility.Hidden;
+            }
         }
 
 
