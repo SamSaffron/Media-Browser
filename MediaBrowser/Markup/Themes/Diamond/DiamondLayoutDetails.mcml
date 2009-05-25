@@ -89,7 +89,7 @@
           <!-- Details List -->
           <Graphic Content="image://i:BlankImage" Layout="VerticalFlow" Padding="25,25,25,25">
             <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.64" Top="Parent,0.15" Right="Parent,1" Bottom="Parent,.9" ></AnchorLayoutInput>
+              <AnchorLayoutInput Left="Parent,0.62" Top="Parent,0.15" Right="Parent,1,-5" Bottom="Parent,.9" ></AnchorLayoutInput>
             </LayoutInput>
             <Children>
               <lv:DiamondListView Visible="true" Application="[Application]" Folder="[Item]" Name="MyItems">
@@ -101,7 +101,7 @@
           <!-- Details information -->
           <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="Parent,.3" Right="Parent, .63"/>
+              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="Parent,.3,10" Right="Parent, .62"/>
             </LayoutInput>
           </dtb:DiamondInfoBox>
           

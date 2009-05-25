@@ -283,7 +283,7 @@
               <!-- Weather Panel -->
               <wea:YahooWeatherLarge>
                 <LayoutInput>
-                  <AnchorLayoutInput Top="Parent,0,15" Right="Parent,1,-35"/>
+                  <AnchorLayoutInput Top="Parent,0,15" Left="Parent,0,35"/>
                 </LayoutInput>
               </wea:YahooWeatherLarge>
 
@@ -426,7 +426,7 @@
 
               <Panel Name="recentlyAdded">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.30,10" Top="Parent,0.2,-10" />
+                  <FormLayoutInput Right="Parent,.95,-10" Top="Parent,0.1,-10" />
                 </LayoutInput>
                 <Layout>
                   <FlowLayout ItemAlignment="Center"/>
@@ -447,9 +447,9 @@
                 </Children>
               </Panel>
               <!-- Recent Items -->
-              <Panel>
+              <Panel Name="RecentListPanel">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.30,10" Top="recentlyAdded,1,10" Right="Parent,0.85"
+                  <FormLayoutInput Left="Parent,0.40,10" Top="recentlyAdded,1,10" Right="Parent,0.95"
                                    Bottom="Parent, 0.7,0"/>
                 </LayoutInput>
                 <Layout>
@@ -465,7 +465,7 @@
               <!-- Recent Panel Background Fade-->
               <Clip Name="NPClipP" FadeSize="5" Orientation="Horizontal" FadeAmount="1" >
                 <LayoutInput>
-                  <AnchorLayoutInput Top="recentlyAdded,1,5" Bottom="Parent,0.7,25" Left="Parent,0.3" Right="Parent,0.85,25" />
+                  <AnchorLayoutInput Top="recentlyAdded,1,5" Bottom="Parent,0.7,25" Left="RecentListPanel,0,-10" Right="RecentListPanel,1,10" />
                 </LayoutInput>
                 <Children>
                   <ColorFill Content="color://s:FillColor" Alpha="0.7" Layout="Fill">
@@ -661,6 +661,7 @@
 
     <Locals>
       <ClickHandler Name="Clicker"/>
+      <cor:Int32 Name="DisplayCount" Int32="4" />
     </Locals>
 
     <Rules>
@@ -671,7 +672,7 @@
       <Binding Source="[Item.LongName]" Target="[Txt1.Content]" />
       <Binding Source="[Item.CreatedDateString]" Target="[Txt2.Content]" />
 
-      <Condition Source="[Index.Value]" ConditionOp="GreaterThan" SourceValue="3" Target="[Bg.Alpha]" Value="0" />
+      <Condition Source="[Index.Value]" ConditionOp="GreaterThan" SourceValue="[DisplayCount]" Target="[Bg.Alpha]" Value="0" />
 
       <Changed Source="[Input.KeyFocus]" >
         <Conditions>
@@ -704,17 +705,21 @@
     </Rules>
 
     <Content>
-      <Graphic Name="Bg" Content="image://i:BlankImage" Padding="7,5,7,3">
-        <Layout>
-          <FlowLayout Orientation="Horizontal" Spacing="5,5" />
-        </Layout>
+      <Graphic Name="Bg" Content="image://i:BlankImage" Layout="Anchor" Padding="7,5,7,3">        
         <Children>
           <Graphic Name="ItemPoster"  Content="resx://MediaBrowser/Mediabrowser.Resources/MissingPerson"
-                   MaintainAspectRatio="true" MaximumSize="0,65" />
+                   MaintainAspectRatio="true" MaximumSize="120,65" >
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,0" Top="Parent, 0"/>
+            </LayoutInput>
+          </Graphic>
           <Panel>
             <Layout>
               <FlowLayout Orientation="Vertical" Spacing="-3,-3" />
             </Layout>
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,0,125" Top="Parent, 0"/>
+            </LayoutInput>
             <Children>
               <Text Name="Txt1" Color="color://s:FontColorDark" Content="Title of Item 1" Font="Segoe Media Center, 20" />
               <Text Name="Txt2" Color="color://s:FontColorDark" Content="2-Mar-2009 | 14:34" Font="Segoe Media Center, 16" Margins="50,0,0,0" />

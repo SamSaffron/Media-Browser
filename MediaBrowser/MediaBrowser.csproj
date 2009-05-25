@@ -542,17 +542,6 @@
     <Content Include="Markup\Themes\Diamond\Selectors\PageDetailAreaDiamond.mcml" />
     <Content Include="Markup\Themes\Diamond\Selectors\PageDiamond.mcml" />
     <Content Include="Markup\Themes\Diamond\DiamondMovieView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\CoverflowView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\Images.mcml" />
-    <Content Include="Markup\Themes\Vanilla\MovieDetailsPage.mcml" />
-    <Content Include="Markup\Themes\Vanilla\Page.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PageDetailArea.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PosterDetailView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\PosterView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\StripView.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewDetails.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewMenu.mcml" />
-    <Content Include="Markup\Themes\Vanilla\ViewOptions.mcml" />
     <Content Include="Markup\Themes\Default\Selectors\PageDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieDefault.mcml" />
     <Content Include="Markup\Themes\Default\ViewMovieMinimal.mcml" />

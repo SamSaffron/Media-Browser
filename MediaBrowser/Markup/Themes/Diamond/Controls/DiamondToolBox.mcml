@@ -60,7 +60,7 @@
             <Children>
               <Panel Layout="HorizontalFlow">
                 <Children>
-                  <Text Name="ITitle" Font="Segoe Media Center Semibold, 26" Color="color://s:FontColorLight" />
+                  <Text Name="ITitle" Font="Segoe Media Center Semibold, 26" Color="color://s:FontColorLight" MinimumSize="0,40" />
                   <Text Name="IYear" Font="Segoe Media Center Semibold, 26" Color="color://s:FontColorLight" Margins="10,0,0,0" />
                 </Children>
               </Panel>

@@ -75,15 +75,8 @@
           <Equality Source="[Application.Config.EnableRootPage]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[TimePanel.Visible]" Value="false"/>
-          <!--<Set Target="[ConfigBtn.Visible]" Value="false"/>
-          <Set Target="[ViewsBtn.Visible]" Value="false"/>
-          <Set Target="[ViewConfig.Visible]" Value="false"/>
-          <Set Target="[SortOrdersBtn.Visible]" Value="false"/>
-          <Set Target="[SortConfig.Visible]" Value="false"/>
-          <Set Target="[IndexesBtn.Visible]" Value="false"/>
-          <Set Target="[IndexConfig.Visible]" Value="false"/>-->
-          <!--<Set Target="[Breadcrumbs.Visible]" Value="false"/>-->
+          <Set Target="[TimePanel.Visible]" Value="false" />
+          <Set Target="[TheTopBar.Visible]" Value="false" />
           <Set Target="[NowPlaying.Visible]" Value="false"/>
         </Actions>
       </Rule>
