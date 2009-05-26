@@ -280,7 +280,8 @@ namespace MediaBrowser.Library
             FirePropertyChanged("ShowUnwatched");
             FirePropertyChanged("UnwatchedCountString");
             Logger.ReportVerbose("  ToggleWatched() changed to: " + HaveWatched.ToString());
-            this.PhysicalParent.Children.Sort();
+            //HACK: This sort causes errors in detail lists, further debug necessary
+            //this.PhysicalParent.Children.Sort();
         }
 
         internal virtual void SetWatched(bool value)
