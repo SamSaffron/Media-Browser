@@ -176,7 +176,16 @@ namespace FilmTrailerPlugin
                             
                             currentTrailer.DateCreated = DateTime.Parse(node.SelectSingleNode("./region/products/product/pub_date").InnerText);                                
                             currentTrailer.DateModified = currentTrailer.DateCreated;
-                            currentTrailer.PrimaryImagePath = node.SelectSingleNode("./region/pictures/picture/url").InnerText;
+                            //currentTrailer.PrimaryImagePath = node.SelectSingleNode("./region/pictures/picture/url").InnerText;
+                            var pictures = node.SelectNodes("./region/pictures/picture");
+                            foreach (XmlNode pnode in pictures)
+                            {
+                                if (pnode.Attributes["type_name"].Value == "poster")
+                                {
+                                    currentTrailer.PrimaryImagePath = pnode.SelectSingleNode("./url").InnerText;
+                                }
+                            }
+
 
                             var genres = node.SelectNodes("./region/categories/categorie");
                             if (currentTrailer.Genres == null)
