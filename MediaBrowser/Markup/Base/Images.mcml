@@ -92,11 +92,9 @@
   <Image Name="PosterFrame" Source="resx://MediaBrowser/MediaBrowser.Resources/poster_frame" NineGrid="10,10,10,10" />
   <Image Name="DiamondOverlayWhiteAll" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_overlay_all" />
   <Image Name="DiamondOverlayDarkAll" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_overlay_all_dark" />
-  <Image Name="DiamondOverlayMesh" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_honey_black2" />
-  <Image Name="DiamondOverlayMesh2" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_honey_white" />
   <Image Name="DiamondOverlayDarkTop" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_overlay_top_dark" />
   
-  <Image Name="DiamondListBg" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_list_bg" NineGrid="10,10,10,10" />
+  <Image Name="DiamondListBg" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_list_bg" NineGrid="15,15,15,15" />
   <Image Name="DiamondListFocus" Source="resx://MediaBrowser/MediaBrowser.Resources/dia_list_focus" NineGrid="5,5,0,5" />
   
 </Mcml>

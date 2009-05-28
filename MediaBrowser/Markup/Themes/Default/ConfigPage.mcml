@@ -122,8 +122,8 @@
         <Options>
           <cor:String String="Default" />
           <cor:String String="Classic" />
-          <cor:String String="Diamond" />
           <cor:String String="Vanilla" />
+          <cor:String String="Diamond" />
         </Options>
       </Choice>
       <BooleanChoice Name="ThemeLoaded" Value="false" />

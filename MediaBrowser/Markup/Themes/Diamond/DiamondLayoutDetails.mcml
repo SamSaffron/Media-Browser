@@ -77,6 +77,17 @@
       <Binding Source="[SelectedItem]" Target="[DiamondInfoBox.Item]" />
       <Binding Source="[SelectedItem.BackdropImage]" Target="[BG_Art.BG]" />
       
+      <!-- Counter Bindings -->
+      <Binding Source="[Item.SelectedChildIndex!cor:String]" Target="[List_Counter.Content]">
+        <Transformer>
+          <MathTransformer Add="1"/>
+        </Transformer>
+      </Binding>
+      <Binding Source="[Item.Children.Count]" Target="[List_Total.Content]" >
+        <Transformer>
+          <FormatTransformer Format=" | {0}" />
+        </Transformer>
+      </Binding>
     </Rules>
 
     <Content>
@@ -89,22 +100,31 @@
           <!-- Details List -->
           <Graphic Content="image://i:BlankImage" Layout="VerticalFlow" Padding="25,25,25,25">
             <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.62" Top="Parent,0.15" Right="Parent,1,-5" Bottom="Parent,.9" ></AnchorLayoutInput>
+              <AnchorLayoutInput Left="Parent,0.58" Top="Parent,0.15" Right="Parent,1,-5" Bottom="Parent,.9" ></AnchorLayoutInput>
             </LayoutInput>
             <Children>
               <lv:DiamondListView Visible="true" Application="[Application]" Folder="[Item]" Name="MyItems">
               </lv:DiamondListView>
             </Children>
-          </Graphic>
-          
+          </Graphic>        
           
           <!-- Details information -->
           <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="Parent,.3,10" Right="Parent, .62"/>
+              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9,-40" Left="Parent,.3,10" Right="Parent, .58"/>
             </LayoutInput>
           </dtb:DiamondInfoBox>
-          
+
+          <!-- List Counter -->
+          <Panel Name="ListCounterPosition" Layout="HorizontalFlow" >
+            <LayoutInput>
+              <AnchorLayoutInput Left="Parent,.9" Bottom="Parent,1,-15"  />
+            </LayoutInput>
+            <Children>
+              <Text Name="List_Counter" Content="0" Color="Black" Font="font://f:CV_CounterFont" />
+              <Text Name="List_Total" Content="0" Color="DarkSlateGray" Font="font://f:CV_CounterFont" />
+            </Children>
+          </Panel>
 
           <!-- Thumbnail Poster -->
           <Graphic Name="PosterPanel" SizingPolicy="SizeToChildren" Layout="Anchor">

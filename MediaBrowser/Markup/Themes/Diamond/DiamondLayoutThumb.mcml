@@ -105,11 +105,11 @@
 
           <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[SelectedItem]" Application="[Application]">
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="MyItems,1,120" Right="Parent,1,-30"/>
+              <AnchorLayoutInput Top="Parent,0.2,5"  Bottom="Parent, 0.9,-5" Left="MyItems,1,125" Right="Parent,1,-35"/>
             </LayoutInput>
           </dtb:DiamondInfoBox>
 
-          <Graphic Content="image://i:DiamondOverlayDarkAll">
+          <Graphic Content="image://i:DiamondListBg">
             <LayoutInput>
               <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9" Left="MyItems,1,120" Right="Parent,1,-30"/>
             </LayoutInput>

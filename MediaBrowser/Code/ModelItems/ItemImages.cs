@@ -17,57 +17,77 @@ using MediaBrowser.Library.Threading;
 using System.Runtime.InteropServices;
 using MediaBrowser.Library.Logging;
 
-namespace MediaBrowser.Library {
-    public partial class Item {
+namespace MediaBrowser.Library
+{
+    public partial class Item
+    {
 
 
 
-        public bool HasBannerImage {
-            get {
+        public bool HasBannerImage
+        {
+            get
+            {
                 return (BaseItem.BannerImagePath != null) ||
                     (PhysicalParent != null ? PhysicalParent.HasBannerImage : false);
             }
         }
 
         AsyncImageLoader bannerImage = null;
-        public Image BannerImage {
-            get {
-                if (!HasBannerImage) {
-                    if (PhysicalParent != null) {
+        public Image BannerImage
+        {
+            get
+            {
+                if (!HasBannerImage)
+                {
+                    if (PhysicalParent != null)
+                    {
                         return PhysicalParent.BannerImage;
-                    } else {
+                    }
+                    else
+                    {
                         return null;
                     }
-
                 }
 
-                if (bannerImage == null) {
+                if (bannerImage == null)
+                {
                     bannerImage = new AsyncImageLoader(
                         () => baseItem.BannerImage,
                         null,
                         () => this.FirePropertyChanged("BannerImage"));
-
                 }
-
                 return bannerImage.Image;
             }
         }
 
-        public bool HasBackdropImage {
-            get {
+        public bool HasBackdropImage
+        {
+            get
+            {
                 return baseItem.BackdropImagePath != null;
             }
         }
 
         AsyncImageLoader backdropImage = null;
-        public Image BackdropImage {
-            get {
-
-                if (!HasBackdropImage) {
-                    return null;
+        public Image BackdropImage
+        {
+            get
+            {
+                if (!HasBackdropImage)
+                {
+                    if (PhysicalParent != null)
+                    {
+                        return PhysicalParent.BackdropImage;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
 
-                if (backdropImage == null) {
+                if (backdropImage == null)
+                {
                     backdropImage = new AsyncImageLoader(
                         () => baseItem.BackdropImage,
                         null,
@@ -78,30 +98,38 @@ namespace MediaBrowser.Library {
         }
 
         List<AsyncImageLoader> backdropImages = null;
-        public List<Image> BackdropImages {
-            get {
-                if (!HasBackdropImage) {
+        public List<Image> BackdropImages
+        {
+            get
+            {
+                if (!HasBackdropImage)
+                {
                     return null;
                 }
 
-                if (backdropImages == null) {
+                if (backdropImages == null)
+                {
                     EnsureAllBackdropsAreLoaded();
                 }
 
-                lock (backdropImages) {
+                lock (backdropImages)
+                {
                     return backdropImages.Select(async => async.Image).ToList();
                 }
             }
         }
 
-        private void EnsureAllBackdropsAreLoaded() {
-            if (backdropImages == null) {
+        private void EnsureAllBackdropsAreLoaded()
+        {
+            if (backdropImages == null)
+            {
                 backdropImages = new List<AsyncImageLoader>();
 
                 // we need to do this on the thread pool ... 
                 Async.Queue(() =>
                 {
-                    foreach (var image in baseItem.BackdropImages) {
+                    foreach (var image in baseItem.BackdropImages)
+                    {
                         // this is really subtle, we need to capture the image otherwise they will all be the same
                         var captureImage = image;
                         var backdropImage = new AsyncImageLoader(
@@ -109,7 +137,8 @@ namespace MediaBrowser.Library {
                              null,
                              () => this.FirePropertiesChanged("BackdropImages", "BackdropImage"));
 
-                        lock (backdropImages) {
+                        lock (backdropImages)
+                        {
                             backdropImages.Add(backdropImage);
                             // trigger a load
                             var ignore = backdropImage.Image;
@@ -120,17 +149,21 @@ namespace MediaBrowser.Library {
         }
 
         int backdropImageIndex = 0;
-        public void GetNextBackDropImage() {
+        public void GetNextBackDropImage()
+        {
             backdropImageIndex++;
             EnsureAllBackdropsAreLoaded();
             var images = new List<AsyncImageLoader>();
-            lock (backdropImages) {
+            lock (backdropImages)
+            {
                 images.AddRange(backdropImages);
             }
-           
-            if (images != null && images.Count > 0) {
+
+            if (images != null && images.Count > 0)
+            {
                 backdropImageIndex = backdropImageIndex % images.Count;
-                if (images[backdropImageIndex].Image != null) {
+                if (images[backdropImageIndex].Image != null)
+                {
                     backdropImage = images[backdropImageIndex];
                     FirePropertyChanged("BackdropImage");
                 }
@@ -138,9 +171,12 @@ namespace MediaBrowser.Library {
         }
 
         AsyncImageLoader primaryImage = null;
-        public Image PrimaryImage {
-            get {
-                if (baseItem.PrimaryImagePath == null) {
+        public Image PrimaryImage
+        {
+            get
+            {
+                if (baseItem.PrimaryImagePath == null)
+                {
                     return DefaultImage;
                 }
                 EnsurePrimaryImageIsSet();
@@ -148,8 +184,10 @@ namespace MediaBrowser.Library {
             }
         }
 
-        private void EnsurePrimaryImageIsSet() {
-            if (primaryImage == null) {
+        private void EnsurePrimaryImageIsSet()
+        {
+            if (primaryImage == null)
+            {
                 primaryImage = new AsyncImageLoader(
                     () => baseItem.PrimaryImage,
                     DefaultImage,
@@ -158,28 +196,34 @@ namespace MediaBrowser.Library {
             }
         }
 
-        void PrimaryImageChanged() {
+        void PrimaryImageChanged()
+        {
             FirePropertiesChanged("PrimaryImage", "PreferredImage", "PrimaryImageSmall", "PreferredImageSmall");
         }
 
         AsyncImageLoader primaryImageSmall = null;
         // these all come in from the ui thread so no sync is required. 
-        public Image PrimaryImageSmall {
-            get {
+        public Image PrimaryImageSmall
+        {
+            get
+            {
 
-                if (baseItem.PrimaryImagePath == null) {
+                if (baseItem.PrimaryImagePath == null)
+                {
                     return DefaultImage;
                 }
                 EnsurePrimaryImageIsSet();
                 if (!primaryImage.IsLoaded ||
                     preferredImageSmallSize == null ||
                     preferredImageSmallSize.Width < 1 ||
-                    preferredImageSmallSize.Height < 1) {
+                    preferredImageSmallSize.Height < 1)
+                {
                     // we have no aspect ratio... so small image may be bodge. 
                     return DefaultImage;
                 }
 
-                if (primaryImageSmall == null) {
+                if (primaryImageSmall == null)
+                {
                     float aspect = primaryImage.Size.Height / (float)primaryImage.Size.Width;
                     float constraintAspect = preferredImageSmallSize.Height / (float)preferredImageSmallSize.Width;
 
@@ -190,16 +234,22 @@ namespace MediaBrowser.Library {
 
                     smallImageIsDistorted = Math.Abs(aspect - constraintAspect) < Config.Instance.MaximumAspectRatioDistortion;
 
-                    if (smallImageIsDistorted) {
+                    if (smallImageIsDistorted)
+                    {
                         primaryImageSmall.Size = preferredImageSmallSize;
-                    } else {
+                    }
+                    else
+                    {
 
                         int width = preferredImageSmallSize.Width;
                         int height = preferredImageSmallSize.Height;
 
-                        if (aspect > constraintAspect) {
+                        if (aspect > constraintAspect)
+                        {
                             width = (int)((float)height / aspect);
-                        } else {
+                        }
+                        else
+                        {
                             height = (int)((float)width * aspect);
                         }
 
@@ -214,32 +264,42 @@ namespace MediaBrowser.Library {
         }
 
         bool smallImageIsDistorted = false;
-        public bool SmallImageIsDistorted {
-            get {
+        public bool SmallImageIsDistorted
+        {
+            get
+            {
                 return smallImageIsDistorted;
             }
         }
 
-        public Image PreferredImage {
-            get {
+        public Image PreferredImage
+        {
+            get
+            {
                 return preferBanner ? BannerImage : PrimaryImage;
             }
         }
 
 
-        public Image PreferredImageSmall {
-            get {
+        public Image PreferredImageSmall
+        {
+            get
+            {
                 return preferBanner ? BannerImage : PrimaryImageSmall;
             }
         }
 
         Microsoft.MediaCenter.UI.Size preferredImageSmallSize;
-        public Microsoft.MediaCenter.UI.Size PreferredImageSmallSize {
-            get {
+        public Microsoft.MediaCenter.UI.Size PreferredImageSmallSize
+        {
+            get
+            {
                 return preferredImageSmallSize;
             }
-            set {
-                if (value != preferredImageSmallSize) {
+            set
+            {
+                if (value != preferredImageSmallSize)
+                {
                     preferredImageSmallSize = value;
                     FirePropertyChanged("PreferredImageSmall");
                     FirePropertyChanged("PrimaryImageSmall");
@@ -248,20 +308,25 @@ namespace MediaBrowser.Library {
         }
 
 
-        public bool HasPrimaryImage {
+        public bool HasPrimaryImage
+        {
             get { return baseItem.PrimaryImagePath != null; }
         }
 
-        public bool HasPreferredImage {
+        public bool HasPreferredImage
+        {
             get { return (PreferBanner ? HasBannerImage : HasPrimaryImage); }
         }
 
         bool preferBanner;
-        public bool PreferBanner {
-            get {
+        public bool PreferBanner
+        {
+            get
+            {
                 return preferBanner;
             }
-            set {
+            set
+            {
                 preferBanner = value;
                 FirePropertyChanged("HasPreferredImage");
                 FirePropertyChanged("PreferredImage");
@@ -269,22 +334,28 @@ namespace MediaBrowser.Library {
         }
 
 
-        internal float PrimaryImageAspect {
-            get {
+        internal float PrimaryImageAspect
+        {
+            get
+            {
                 return GetAspectRatio(baseItem.PrimaryImagePath);
             }
         }
 
-        internal float BannerImageAspect {
-            get {
+        internal float BannerImageAspect
+        {
+            get
+            {
                 return GetAspectRatio(baseItem.BannerImagePath);
             }
         }
 
-        float GetAspectRatio(string path) {
+        float GetAspectRatio(string path)
+        {
 
             float aspect = 0;
-            if (path != null) {
+            if (path != null)
+            {
                 var image = LibraryImageFactory.Instance.GetImage(path);
                 aspect = ((float)image.Height) / (float)image.Width;
             }
@@ -292,7 +363,8 @@ namespace MediaBrowser.Library {
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct RECT {
+        public struct RECT
+        {
             public int Left;
             public int Top;
             public int Right;
@@ -309,19 +381,22 @@ namespace MediaBrowser.Library {
 
         // I can not figure out any way to pass the size of an element to the code
         // so I cheat 
-        public void SetPreferredImageSmallToEstimatedScreenSize() {
+        public void SetPreferredImageSmallToEstimatedScreenSize()
+        {
 
             var folder = this as FolderModel;
             if (folder == null) return;
 
             Size size = new Size(200, 200);
 
-            try {
+            try
+            {
 
                 // find ehshell 
                 var ehshell = Process.GetProcessesByName("ehshell").First().MainWindowHandle;
 
-                if (ehshell != IntPtr.Zero) {
+                if (ehshell != IntPtr.Zero)
+                {
 
                     RECT windowSize;
                     GetWindowRect(ehshell, out windowSize);
@@ -335,11 +410,14 @@ namespace MediaBrowser.Library {
 
 
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Logger.ReportException("Failed to gather size information, made a guess ", e);
             }
 
-            foreach (var item in folder.Children) {
+            foreach (var item in folder.Children)
+            {
                 item.PreferredImageSmallSize = size;
             }
 
@@ -351,15 +429,22 @@ namespace MediaBrowser.Library {
         static Image DefaultStudioImage = new Image("resx://MediaBrowser/MediaBrowser.Resources/BlankGraphic");
         static Image DefaultFolderImage = new Image("resx://MediaBrowser/MediaBrowser.Resources/folder");
 
-        public Image DefaultImage {
-            get {
+        public Image DefaultImage
+        {
+            get
+            {
                 Image image = DefaultFolderImage;
 
-                if (baseItem is Video) {
+                if (baseItem is Video)
+                {
                     image = DefaultVideoImage;
-                } else if (baseItem is Person) {
+                }
+                else if (baseItem is Person)
+                {
                     image = DefaultActorImage;
-                } else if (baseItem is Studio) {
+                }
+                else if (baseItem is Studio)
+                {
                     image = DefaultStudioImage;
                 }
 

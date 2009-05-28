@@ -6,9 +6,8 @@
 	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
       xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
       xmlns:s="file://Styles_DoNotEdit.mcml"
-	    xmlns:f="file://Fonts_DoNotEdit.mcml"
+	    xmlns:f="file://Fonts_DoNotEdit.mcml"      
       
-      xmlns:sy="resx://MediaBrowser/MediaBrowser.Resources/Summary"
 	    xmlns:sr="resx://MediaBrowser/MediaBrowser.Resources/StarRating"
       xmlns:mp="resx://MediaBrowser/MediaBrowser.Resources/MPAARating"
       xmlns:gb="resx://MediaBrowser/MediaBrowser.Resources/GenreButton"
@@ -87,8 +86,7 @@
       <Binding Target="[MPAARating.Value]" Source="[Item.MpaaRating]" />
       <Binding Target="[TxtRuntime.Content]" Source="[Item.RunningTimeString]"/>
       <Binding Target="[GenreRepeater.Source]" Source="[Item.Genres]"/>
-      <Binding Target="[Summary.Model]" Source="[Item]"/>
-      <Binding Target="[Summary.ModelFast]" Source="[Item]"/>
+      <Binding Target="[Summary.Item]" Source="[Item]"/>
       <Binding Target="[LastWatched.Content]" Source="[Item.LastPlayedString]"/>
       <Binding Target="[LastWatched.Visible]" Source="[Item.HaveWatched]"/>
       <Binding Target="[MediaInfo.Item]" Source="[Item]" />
@@ -127,13 +125,48 @@
           </Repeater>
           <mip:MediaInfoPanel Name="MediaInfo" Item="[Item]" />
           <Text Name="LastWatched" Color="LightGray" Font="font://f:DV_LastWatchedFont"/>
-          <sy:SummaryNonScrolling Name="Summary" Model="[Item]" ModelFast="[Item]" Font="font://f:DV_SummaryFont" Color="White" FocusColor="White"/>
+          <me:SummaryNonScrolling Name="Summary" Item="[Item]" Font="font://f:DV_SummaryFont" Color="White" FocusColor="White"/>
 
         </Children>
       </Panel>
     </Content>
   </UI>
 
+  <UI Name="SummaryNonScrolling">
+    <Properties>
+      <lib:Item Name="Item" Item="$Required"/>
+      <Color Name="Color" Color="color://s:FontColorMedium" />
+      <Color Name="FocusColor" Color="color://s:FontColorLight"/>
+      <Font Name="Font" Font="$Required"/>
+    </Properties>
+    <Rules>
+      <Binding Source="[Item.Overview]" Target="[Summary.Content]" />
+      <Changed Source="[Item]">
+        <Conditions>
+          <Equality Source="[Item.Overview.Length]" ConditionOp="Equals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Summary.Visible]" Value="false"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[Item]">
+        <Conditions>
+          <Equality Source="[Item.Overview.Length]" ConditionOp="NotEquals" Value="0"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Summary.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
+    </Rules>
+    <Content>
+      <Panel >
+        <Children>
+          <Text Visible="false" Name="Summary" Font="[Font]" Color="[Color]" WordWrap="true" FadeSize="100"  >
+          </Text>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
 
   <UI Name="DiamondBG">
     <Properties>

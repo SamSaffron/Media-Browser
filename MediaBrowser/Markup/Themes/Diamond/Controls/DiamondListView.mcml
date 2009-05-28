@@ -31,31 +31,11 @@
     </Locals>
 
     <Rules>
-
       <Binding Source="[SelectedIndex.Value]" Target="[Folder.SelectedChildIndex]" />
-      <!-- Give ScrollingData to ScrollingHandler. -->
+      
       <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]"/>
-
-      <!-- Give Repeater to ScrollingData. -->
       <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
 
-      <Binding Source="[SelectedIndex.Value]" Target="[CounterValue]" >
-        <Transformer>
-          <MathTransformer Add="1" />
-        </Transformer>
-      </Binding>
-      <Binding Source="[CounterValue]" Target="[List_Counter.Content]" >
-        <Transformer>
-          <FormatTransformer Format="{0} "/>
-        </Transformer>
-      </Binding>
-
-      <!--`Bind the current number of Folder Items to the List Total -->
-      <Binding Source="[Folder.Children.Count]" Target="[List_Total.Content]" >
-        <Transformer>
-          <FormatTransformer Format="| {0}" />
-        </Transformer>
-      </Binding>
 
       <Binding Source="[Folder.Children]" Target="[MyRepeater.Source]"/>
       <Rule ConditionLogicalOp="And">
@@ -112,26 +92,11 @@
               <DockLayoutInput Position="Left" Alignment="Near"  />
             </LayoutInput>
             <Children>
-              <Clip FadeSize="150" Orientation="Vertical" FadeAmount="1" Margins="5,5,5,5" >
+              <Clip FadeSize="150" Orientation="Vertical" FadeAmount="1" >
                 <Children>
                   <ColorFill Content="White" Alpha="0.8" Layout="Fill" MaximumSize="2,0" />
                 </Children>
               </Clip>
-            </Children>
-          </Panel>
-
-          <!-- List Counter -->
-          <Panel>
-            <LayoutInput>
-              <DockLayoutInput Alignment="Far" Position="Bottom"  />
-            </LayoutInput>
-            <Children>
-              <Panel Layout="HorizontalFlow" Margins="0,5,0,0" >
-                <Children>
-                  <Text Name="List_Counter" Content="0" Color="color://s:FontColorLight" Font="[Font]" />
-                  <Text Name="List_Total" Content="0" Color="color://s:FontColorMedium" Font="[Font]" Margins="0,0,20,0" />
-                </Children>
-              </Panel>
             </Children>
           </Panel>
 
@@ -144,7 +109,7 @@
           </pp:PopupPlay>
 
           <!-- List Repeater -->
-          <Scroller Orientation="Vertical" FadeSize="-10" Margins="5,0,0,5" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
+          <Scroller Orientation="Vertical" FadeSize="-15" Margins="5,0,0,5" Name="Scroller" Navigation="RememberFocus" ScrollingData="[ScrollingData]" >
             <LayoutInput>
               <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>

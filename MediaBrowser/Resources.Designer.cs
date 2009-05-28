@@ -811,6 +811,13 @@ namespace MediaBrowser {
             }
         }
         
+        internal static byte[] DiamondTab {
+            get {
+                object obj = ResourceManager.GetObject("DiamondTab", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] DiamondToolBox {
             get {
                 object obj = ResourceManager.GetObject("DiamondToolBox", resourceCulture);

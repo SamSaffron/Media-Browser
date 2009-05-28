@@ -1024,4 +1024,7 @@
   <data name="DiamondMovieView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>markup\themes\diamond\diamondmovieview.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="DiamondTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>markup\themes\diamond\controls\diamondtab.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

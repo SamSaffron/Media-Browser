@@ -532,6 +532,7 @@
     <Content Include="Markup\FontsSmall.mcml" />
     <Content Include="Markup\FontsDefault.mcml" />
     <Content Include="Markup\StylesBlack.mcml" />
+    <Content Include="Markup\Themes\Diamond\Controls\DiamondTab.mcml" />
     <Content Include="Markup\Themes\Diamond\Controls\DiamondToolBox.mcml" />
     <Content Include="Markup\Themes\Diamond\Controls\DiamondListView.mcml" />
     <Content Include="Markup\Themes\Diamond\DiamondLayoutCoverflow.mcml" />

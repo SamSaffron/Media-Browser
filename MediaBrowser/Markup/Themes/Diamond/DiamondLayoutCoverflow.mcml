@@ -138,8 +138,6 @@
     </Properties>
 
     <Locals>
-
-
       <ScrollingHandler HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" Name="ScrollingHandler"/>
       <ScrollingData Name="SD" LockedAlignment="0.5" LockedPosition="0.5"/>
       <IntRangedValue Name="SelectRepeaterIndex"/>
@@ -534,14 +532,14 @@
         </Layout>
         <Children>          
           <!-- Focus Outline-->
-          <Graphic Name="FocusBg" Content="[BlankImage]" Padding="25,25,25,30" SizingPolicy="SizeToChildren" Layout="VerticalFlow">
+          <Graphic Name="FocusBg" Content="[BlankImage]" Padding="25,25,25,25" SizingPolicy="SizeToChildren" Layout="VerticalFlow">
             <Children>
               <Panel Name="ConstraintPanel1" Layout="Fill" CenterPointPercent="0.5,0.5,0.5" Padding="0,0,0,0" MaximumSize="[ImageSize.Value]" MinimumSize="[ImageSize.Value]" ColorFilter="150,150,150" >
                 <Layout>
                   <AnchorLayout SizeToHorizontalChildren="false" SizeToVerticalChildren="false"/>
                 </Layout>
                 <Children>
-                  <Graphic Name="CoverOutline" Content="[BlankImage]"  Layout="Fill" Margins="-25,-25,-25,-30" />
+                  <Graphic Name="CoverOutline" Content="[BlankImage]"  Layout="Fill" Margins="-25,-25,-25,-25" />
                   <Panel  Scale="1,1,1" Padding="0,0,0,0" Layout="Center" Alpha="0.8" Name="TickIndicatorPanel" Visible="[Item.HaveWatched]" MaximumSize="32,32" Margins="5,5,0,0">
                     <LayoutInput>
                       <AnchorLayoutInput Horizontal="Near" Vertical="Near" />

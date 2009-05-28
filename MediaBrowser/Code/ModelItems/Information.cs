@@ -45,6 +45,10 @@ namespace MediaBrowser
         {
             _item.Add(info);
         }
+        public void AddInformationString(string info)
+        {
+            _item.Add(new InfomationItem(info));
+        }
 
         private void Begin()
         {

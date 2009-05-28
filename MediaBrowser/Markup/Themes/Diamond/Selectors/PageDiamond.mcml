@@ -40,17 +40,17 @@
 
       <AnchorLayoutInput Name="LayoutTopBarShow" Top="Parent,0" Left="Parent,0" Right="Parent,1" Horizontal="Center" />
       <AnchorLayoutInput Name="LayoutTopBarHide" Left="Parent,0" Top="Parent,0,-100" Right="Parent,1" Horizontal="Center" />
-      <!-- Navigate Timer to bypass view triggering -->
-      <Timer Name="NavTimer" Interval="150" AutoRepeat="false" Enabled="true"/>
+      <!-- Navigate Timer to bypass view triggering 
+      <Timer Name="NavTimer" Interval="150" AutoRepeat="false" Enabled="true"/>-->
     </Locals>
 
     <Rules>
-      <Changed Source="[NavTimer.Tick]">
+      <!--<Changed Source="[NavTimer.Tick]">
         <Actions>
           <Invoke Target="[ViewPanel.NavigateInto]" />
           <Set Target="[NavTimer.Enabled]" Value="false" />
         </Actions>
-      </Changed>
+      </Changed>-->
       
       <Rule>
         <Conditions>
@@ -78,6 +78,7 @@
           <Set Target="[TimePanel.Visible]" Value="false" />
           <Set Target="[TheTopBar.Visible]" Value="false" />
           <Set Target="[NowPlaying.Visible]" Value="false"/>
+          <Set Target="[Breadcrumbs.Visible]" Value="false"/>
         </Actions>
       </Rule>
 
@@ -93,12 +94,12 @@
         </Conditions>
         <Actions>
           <Invoke Target="[Folder.DisplayPrefs.ToggleViewTypes]" />
-          <Invoke Target="[ViewPanel.NavigateInto]" />
+          <!--<Set Target="[NavTimer.Enabled]" Value="true" />-->
         </Actions>
       </Rule>
 
-
-      <!--<Changed Source="[RefocusViewTimer.Tick]">
+<!--
+      <Changed Source="[RefocusViewTimer.Tick]">
         <Actions>
           <Invoke Target="[ViewConfig.NavigateInto]" />
         </Actions>
@@ -159,7 +160,7 @@
     </Rules>
 
     <Content>
-      <Panel Layout="Center">
+      <Panel Layout="Center"  Navigation="RememberFocus">
         <Children>
           <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
             <Children>
@@ -185,6 +186,25 @@
                             Visible="[Application.Config.ShowClock]" />
                     </Children>
                   </Panel>
+                </Children>
+              </Panel>
+
+              <!--Banner / Breadcrumbs -->
+              <Panel Name="Breadcrumbs">
+                <Layout>
+                  <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+                </Layout>
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0.65" Bottom="Parent,1,-15" Right="Parent, 0.89"  />
+                </LayoutInput>
+                <Children>
+                  <Clip Orientation="Vertical" CenterPointPercent="-100,-100,0">
+                    <Children>
+                      <Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" HorizontalAlignment="Far" 
+                            Font="font://f:P_BreadcrumbSmallFont" Color="DarkSlateGray">
+                      </Text>
+                    </Children>
+                  </Clip>
                 </Children>
               </Panel>
 

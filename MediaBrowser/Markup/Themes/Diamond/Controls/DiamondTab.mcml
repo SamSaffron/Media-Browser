@@ -1,0 +1,153 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+	  xmlns:cor="assembly://MSCorLib/System"
+    xmlns:lb="resx://MediaBrowser/MediaBrowser.Resources/ListButton"
+    xmlns:a="assembly://MediaBrowser/MediaBrowser"
+    xmlns:lib="assembly://MediaBrowser/MediaBrowser.Library"
+	  xmlns:s="file://Styles_DoNotEdit.mcml"
+    xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
+    xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+	    xmlns:an="resx://MediaBrowser/MediaBrowser.Resources/Animations"
+      xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
+      xmlns:ib="resx://MediaBrowser/MediaBrowser.Resources/ItemButton"
+    xmlns:me="Me">
+
+  <UI Name="DiamondTab">
+
+    <Properties>
+      <Choice Name="Model" Choice="$Required" />
+    </Properties>
+
+    <Locals>
+      <ScrollingHandler Name="ScrollingHandler" HandlerStage="Bubbled" />
+      <ScrollingData Name="ScrollingData" />
+    </Locals>
+
+    <Rules>
+      <Default Target="[ScrollingHandler.ScrollingData]" Value="[ScrollingData]" />
+      <Default Target="[ScrollingData.Repeater]" Value="[ButtonRepeater]" />
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.DeepMouseFocus]" Value="true"/>
+          <Equality Source="[Input.DeepKeyFocus]" Value="false"/>
+          <Equality Source="[Model.Description]" Value=""/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Model.Description]" Value="Active"/>
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.DeepMouseFocus]" Value="false"/>
+          <Equality Source="[Input.DeepKeyFocus]" Value="true"/>
+          <Equality Source="[Model.Description]" Value=""/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Model.Description]" Value="Active"/>
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[Input.DeepMouseFocus]" Value="false"/>
+          <Equality Source="[Input.DeepKeyFocus]" Value="false"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Model.Description]" Value=""/>
+        </Actions>
+      </Rule>
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Vertical" Spacing="0,0"/>
+        </Layout>
+        <Children>
+          <Clip FadeSize="0" Orientation="Horizontal" FadeAmount="1" >
+            <Children>
+              <ColorFill Content="DimGray" Alpha="0.8" Layout="Fill" MaximumSize="0,2" />
+            </Children>
+          </Clip>
+          <Repeater Source="[Model.Options]" Layout="HorizontalFlow" Name="ButtonRepeater" Navigation="RememberFocus">
+            <Layout>
+              <FlowLayout Repeat="Never" RepeatGap="100,0" Spacing="5,0" ItemAlignment="Near"/>
+            </Layout>
+            <Content>
+              <me:DiamondTabItem Label="[RepeatedItem.ToString]" Index="[RepeatedItemIndex]" Model="[Model]" />
+            </Content>
+          </Repeater>
+          <Clip FadeSize="0" Orientation="Horizontal" FadeAmount="1" >
+            <Children>
+              <ColorFill Content="DimGray" Alpha="0.8" Layout="Fill" MaximumSize="0,2" />
+            </Children>
+          </Clip>
+        </Children>
+      </Panel>
+
+    </Content>
+  </UI>
+
+  <UI Name="DiamondTabItem">
+    <Properties>
+      <cor:String Name="Label" cor:String="$Required"/>
+      <Choice Name="Model" Choice="$Required"/>
+      <Index Name="Index" Index="$Required"/>
+    </Properties>
+
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true"/>
+
+      <Default Target="[Name.Content]" Value="[Label]">
+        <Transformer>
+          <FormatTransformer ToUpper="true"/>
+        </Transformer>
+      </Default>
+
+      <!-- Key Focus = true -->
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" Value="true"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Name.Color]" Value="Black"/>
+          <Set Target="[Name.Font]" Value="Segoe Media Center Semibold, 18"/>
+          <Set Target="[Model.ChosenIndex]" Value="[Index.Value]"/>
+        </Actions>
+      </Rule>
+
+      <!-- This is the selected Tab -->
+      <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
+        <Actions>
+          <Set Target="[Name.Color]" Value="Black"/>
+          <Set Target="[Name.Font]" Value="Segoe Media Center, 18" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <!-- The label to display. -->
+          <Text Name="Name" Font="Segoe Media Center, 18" Color="DarkSlateGray" Margins="5,5,5,-5" >
+          </Text>
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+  <Image Name="ButtonDisabled"          Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
+  <Image Name="ButtonDormant"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocus"         Source="resx://MediaBrowser/MediaBrowser.Resources/dia_list_focus"         NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonNoFocus"           Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedAfterGlow"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedHighlight"  Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
+
+</Mcml>

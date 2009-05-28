@@ -46,7 +46,7 @@
       <Timer Name="InfoTimer" AutoRepeat="false" Interval="200" Enabled="false"/>
       <ScrollingHandler Name="ScrollingHandler"  HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true"
 							  HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled" />
-      <ScrollingData Name="ScrollingData" BeginPadding="50" EndPadding="200"  />
+      <ScrollingData Name="ScrollingData" LockedAlignment="0.5" LockedPosition="0.35"  />
 
 
       <cor:Boolean Name="CanPlay" Boolean="false" />
@@ -153,6 +153,7 @@
         <Actions>
           <Set Target="[RecentItemsPanel.Folder]" Value="[SelectedItem!lib:FolderModel]"/>
           <Set Target="[RecentItemsPanel.Visible]" Value="true"/>
+          <!--<Invoke Target="[Application.Information.AddInformationString]" info="[SelectedItem!lib:FolderModel.Children.Count.ToString]" />-->
         </Actions>
       </Changed>
       <Changed Source="[SelectedItem]" >
@@ -191,8 +192,8 @@
         </Conditions>
         <Actions>
           <Set Target="[RefocusViewTimer.Enabled]" Value="false" />
-          <!--<Set Target="[RecentPanel.Visible]" Value="false" />-->
           <Invoke Target="[ItemMenuPanel.NavigateInto]" />
+          <Set Target="[RecentItemsPanel.Folder]" Value="[SelectedItem!lib:FolderModel]"/>
         </Actions>
       </Rule>
 
@@ -327,7 +328,7 @@
                     <Children>
                       <Repeater Source="[Folder.Children]" Name="Repeater" ContentName="BaseItem" DiscardOffscreenVisuals="false" >
                         <Layout>
-                          <FlowLayout Orientation="Horizontal" Spacing="50,0"/>
+                          <FlowLayout Orientation="Horizontal" Spacing="50,0" Repeat="WhenTooBig" RepeatGap="150,0"/>
                         </Layout>
                         <Animations>
                           <Animation Type="Move">
@@ -449,15 +450,13 @@
               <!-- Recent Items -->
               <Panel Name="RecentListPanel">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.40,10" Top="recentlyAdded,1,10" Right="Parent,0.95"
+                  <FormLayoutInput Left="Parent,0.35,10" Top="recentlyAdded,1,10" Right="Parent,0.95"
                                    Bottom="Parent, 0.7,0"/>
                 </LayoutInput>
                 <Layout>
                   <FlowLayout Orientation="Vertical" Spacing="10,10"/>
                 </Layout>
                 <Children>
-                  <!--<Text Name="NPVTitle" Content="recently added" Color="color://s:FontColorMedium"
-                        Font="Segoe Media Center, 24" Margins="50,0,0,0" />-->
                   <me:RecentItemList Name="RecentItemsPanel" Application="[Application]" />
                 </Children>
               </Panel>
@@ -500,7 +499,7 @@
     </Content>
     <Content Name="BaseItem">
       <me:RootScrollerItem Item="[RepeatedItem!lib:FolderModel]" ParentFolder="[Folder]" Application="[Application]"
-                           SelectedIndex="[SelectedIndex]" Index="[RepeatedItemIndex]" NavCount="[NavCount]" />
+                           SelectedIndex="[SelectedIndex]" Index="[RepeatedItemIndex.SourceValue]" NavCount="[NavCount]" />
     </Content>
   </UI>
 
@@ -508,7 +507,7 @@
     <Properties>
       <lib:FolderModel Name="ParentFolder" FolderModel="$Required" />
       <IntRangedValue Name="SelectedIndex" IntRangedValue="$Required"/>
-      <Index Name="Index" Index="$Required"/>
+      <cor:Int32 Name="Index" Int32="0"/>
       <IntRangedValue Name="NavCount" IntRangedValue="$Required" />
     </Properties>
 
@@ -520,7 +519,7 @@
     <Rules>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[SelectedIndex.Value]" Value="[Index.Value]"/>
+          <Set Target="[SelectedIndex.Value]" Value="[Index]"/>
           <Set Target="[Bg.Content]" Value="image://me:HiliteFocusBg" />
           <Set Target="[FlashTop.Visible]" Value="true"/>
           <Set Target="[FlashBottom.Visible]" Value="true"/>
@@ -529,7 +528,7 @@
 
       <Rule>
         <Conditions>
-          <Equality Source="[SelectedIndex.Value]" ConditionOp="NotEquals" Value="[Index.Value]" />
+          <Equality Source="[SelectedIndex.Value]" ConditionOp="NotEquals" Value="[Index]" />
         </Conditions>
         <Actions>
           <Set Target="[Title.Color]" Value="[IdleColor]"/>
@@ -543,11 +542,11 @@
       </Rule>
       <Rule>
         <Conditions>
-          <Equality Source="[SelectedIndex.Value]" ConditionOp="Equals" Value="[Index.Value]" />
+          <Equality Source="[SelectedIndex.Value]" ConditionOp="Equals" Value="[Index]" />
         </Conditions>
         <Actions>
           <Set Target="[Title.Color]" Value="[FocusedColor]"/>
-          <Set Target="[SelectedIndex.Value]" Value="[Index.Value]"/>
+          <Set Target="[SelectedIndex.Value]" Value="[Index]"/>
           <Set Target="[Bg.Content]" Value="image://me:HiliteBg" />
         </Actions>
       </Rule>
