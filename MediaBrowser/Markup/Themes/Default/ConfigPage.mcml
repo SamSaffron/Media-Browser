@@ -122,6 +122,7 @@
         <Options>
           <cor:String String="Default" />
           <cor:String String="Classic" />
+          <cor:String String="Diamond" />
           <cor:String String="Vanilla" />
         </Options>
       </Choice>

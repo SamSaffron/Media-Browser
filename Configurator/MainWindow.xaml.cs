@@ -153,6 +153,7 @@ namespace Configurator
             // Themes
             ddlOptionViewTheme.Items.Add("Default");
             ddlOptionViewTheme.Items.Add("Classic");
+            ddlOptionViewTheme.Items.Add("Diamond");
             ddlOptionViewTheme.Items.Add("Vanilla");
             // Colors
             ddlOptionThemeColor.Items.Add("Default");
