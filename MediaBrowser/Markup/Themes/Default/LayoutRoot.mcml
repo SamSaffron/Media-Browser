@@ -56,14 +56,13 @@
       <Command Name="CmdRecentItems" />
       <ShortcutHandler Name="JumpForward" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" />
       <ShortcutHandler Name="JumpBack" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true"/>
-      <Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="250" Enabled="true" />
+      <Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="150" Enabled="true" />
       <!-- this timer is needed to ensure focus stas with the view properties when the viewType changes, doing it not via a timer doesn't always work-->
 
       <a:Clock Name="Clock"/>
 
       <lib:Item Name="SelectedItem" Item="[Folder.SelectedChild]" />
       <IntRangedValue Name="SelectedIndex" Value="0"/>
-
 
       <IntRangedValue Name="NavCount" Value="0" />
       <cor:Int32 Name="NormalKeyRepeat" Int32="250"/>
@@ -99,15 +98,7 @@
           <BooleanTransformer Inverse="true"/>
         </Transformer>
       </Binding>
-      <!--<Binding Source="[Application.Config.TransparentBackground]" Target="[MainBGFill.Visible]">
-        <Transformer>
-          <BooleanTransformer Inverse="true"/>
-        </Transformer>
-      </Binding>-->
       <Binding Source="[Folder.BackdropImage]" Target="[MainBG.Content]" >
-        <!--<Conditions>
-          <Equality Source="[Folder.HasBackdropImage]" ConditionOp="Equals" Value="true" />
-        </Conditions>-->
       </Binding>
 
       <!-- Commands -->
@@ -151,7 +142,8 @@
           <Equality Source="[SelectedItem.ShowNewestItems]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[RecentItemsPanel.Folder]" Value="[SelectedItem!lib:FolderModel]"/>
+          <Set Target="[RefocusViewTimer.Enabled]" Value="true" />
+          <!--<Set Target="[RecentItemsPanel.Folder]" Value="[SelectedItem!lib:FolderModel]"/>-->
           <Set Target="[RecentItemsPanel.Visible]" Value="true"/>
           <!--<Invoke Target="[Application.Information.AddInformationString]" info="[SelectedItem!lib:FolderModel.Children.Count.ToString]" />-->
         </Actions>

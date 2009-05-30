@@ -17,9 +17,9 @@
 
   <!-- LAYOUT INPUTS -->
   <FormLayoutInput Name="LI_Bg" Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,10" Right="Parent,1,50"/>
-  <AnchorLayoutInput Name="LI_Title" Top="Parent, 0,20" Left="Parent, 0.5,-350" Right="Parent,.5,350" Horizontal="Center"  />
-  <AnchorLayoutInput Name="LI_ClipTop" Top="Parent,0" Bottom="Parent,0,120" Left="Parent,0" Right="Parent,1" />
-  <FormLayoutInput Name="LI_ClipBottom" Left="Parent,0,-50" Top="Parent,0.65" Bottom="Parent,1,0" Right="Parent,1,50"/>
+  <AnchorLayoutInput Name="LI_Title" Top="Parent, 0" Left="Parent, 0.5,-350" Right="Parent,.5,350" Horizontal="Center"  />
+  <AnchorLayoutInput Name="LI_ClipTop" Top="Parent,0,-20" Bottom="Parent,0,120" Left="Parent,0,-50" Right="Parent,1,50" />
+  <FormLayoutInput Name="LI_ClipBottom" Left="Parent,0,-50" Top="Parent,0.65" Bottom="Parent,1,10" Right="Parent,1,50"/>
   <!-- END LAYOUT INPUTS -->
 
   <UI Name="DiamondTitleUI">
@@ -43,19 +43,15 @@
           <FormatTransformer ToUpper="true"/>
         </Transformer>
       </Binding>
-
-
     </Rules>
-
     <Content>
       <!-- Title Details -->
       <Panel>
         <Layout>
-          <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Center" Spacing="0,0" />
         </Layout>
-
         <Children>
-          <Panel Layout="Scale">
+          <Panel Layout="Scale" MinimumSize="0,40"  >
             <Children>
               <Panel Layout="HorizontalFlow">
                 <Children>
@@ -75,7 +71,61 @@
     </Content>
   </UI>
 
-
+  <UI Name="DiamondDetailInfoBox">
+    <Properties>
+      <lib:Item Name="Item" Item="$Required" />
+      <a:Application Name="Application" Application="$Required"/>
+    </Properties>
+    <Rules>
+      <Binding Target="[StarRating.Value]" Source="[Item.ImdbRating]" />
+      <Binding Target="[MPAARating.Value]" Source="[Item.MpaaRating]" />
+      <Binding Target="[TxtRuntime.Content]" Source="[Item.RunningTimeString]"/>
+      <Binding Target="[GenreRepeater.Source]" Source="[Item.Genres]"/>
+      <!--<Binding Target="[Summary.Item]" Source="[Item]"/>-->
+      <Binding Target="[LastWatched.Content]" Source="[Item.LastPlayedString]"/>
+      <Binding Target="[LastWatched.Visible]" Source="[Item.HaveWatched]"/>
+      <Binding Target="[MediaInfo.Item]" Source="[Item]" />
+      <Binding Target="[MediaInfoText.Content]" Source="[Item.MediaInfo.CombinedInfo]" />
+    </Rules>
+    <Content>
+      <Panel Name="InfoPanel" >
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Far" Spacing="2,2"/>
+        </Layout>
+        <Children>
+          <Panel Name="StarMPAA">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" Spacing="10,0"/>
+            </Layout>
+            <Children>
+              <sr:StarRating Name="StarRating" Margins="0,5,0,0" />
+              <mp:MPAARating Name="MPAARating" Margins="10,0,0,0" MaximumSize="0,30"/>
+            </Children>
+          </Panel>
+          <Text Name="TxtRuntime" Color="LightGray" WordWrap="true" Font="font://f:DV_RuntimeFont" Margins="0,0,0,0"/>
+          <Repeater Name="GenreRepeater" Source="[Item.Genres]" >
+            <Layout>
+              <FlowLayout Orientation="Horizontal" AllowWrap="false" Spacing="15,0"/>
+            </Layout>
+            <Divider>
+              <Text Content="/" Font="font://f:MM_GenreFont" Color="Gray" Alpha="0.6"  />
+            </Divider>
+            <Content>
+              <gb:GenreButton Text="[RepeatedItem!cor:String]"
+                      Application="[Application]" Item="[Item]"
+                      GenreCategory="[RepeatedItem!cor:String]"
+                      Font="font://f:MM_GenreFont" Color="LightGray"
+													/>
+            </Content>
+          </Repeater>
+          <mip:MediaInfoPanel Name="MediaInfo" Item="[Item]" />
+          <Text Name="MediaInfoText" Font="Arial, 12" Color="White" WordWrap="true" />
+          <Text Name="LastWatched" Color="LightGray" Font="font://f:DV_LastWatchedFont"/>          
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+  
   <UI Name="DiamondInfoBox">
     <Properties>
       <lib:Item Name="Item" Item="$Required" />
@@ -226,7 +276,7 @@
       <cor:String Name="Text" String="" />
       <Size Name="Size" Size="0,0" />
       <Size Name="MinSize" Size="50,50" />
-      <Color Name="Color" Color="DarkSlateGray"/>
+      <Color Name="Color" Color="White"/>
       <Color Name="FocusColor" Color="Black"/>
       <Image Name="Icon" Image="image://i:BlankImage" />
       <Image Name="ImageFocus" Image="image://i:DiamondListFocus" />

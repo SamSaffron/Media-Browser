@@ -98,12 +98,8 @@
         </Actions>
       </Rule>
 
-<!--
-      <Changed Source="[RefocusViewTimer.Tick]">
-        <Actions>
-          <Invoke Target="[ViewConfig.NavigateInto]" />
-        </Actions>
-      </Changed>-->
+
+      <!---->
       <!--
 			<Rule>
 				<Actions>
@@ -156,11 +152,16 @@
       </Changed>
 
       <Binding Source="[Application.ShowNowPlaying]" Target="[NowPlaying.Visible]" />
+      <Binding Source="[Application.Config.TransparentBackground]" Target="[Overlay.Visible]">
+        <Transformer>
+          <BooleanTransformer Inverse="true"/>
+        </Transformer>
+      </Binding>
 
     </Rules>
 
     <Content>
-      <Panel Layout="Center"  Navigation="RememberFocus">
+      <Panel Layout="Form"  Navigation="RememberFocus">
         <Children>
           <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
             <Children>
@@ -191,20 +192,16 @@
 
               <!--Banner / Breadcrumbs -->
               <Panel Name="Breadcrumbs">
-                <Layout>
-                  <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
-                </Layout>
                 <LayoutInput>
-                  <AnchorLayoutInput Left="Parent,0.65" Bottom="Parent,1,-15" Right="Parent, 0.89"  />
+                  <AnchorLayoutInput Top="Parent, 0,50" Left="Parent, 0.5,-250" Right="Parent,.5,250" Horizontal="Center"  />
                 </LayoutInput>
                 <Children>
-                  <Clip Orientation="Vertical" CenterPointPercent="-100,-100,0">
+                  <Panel Layout="Scale">
                     <Children>
-                      <Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" HorizontalAlignment="Far" 
-                            Font="font://f:P_BreadcrumbSmallFont" Color="DarkSlateGray">
-                      </Text>
+                      <Text Content="[Application.BreadCrumbs]" HorizontalAlignment="Center"
+                            Font="font://f:P_BreadcrumbSmallFont" Color="White" />
                     </Children>
-                  </Clip>
+                  </Panel>
                 </Children>
               </Panel>
 
@@ -231,38 +228,6 @@
               </Panel>
 
 
-              <!-- Black Overlay to Fade Out contents -->
-              <!--
-							<Panel Name="FadeOutPanel" Visible="false">
-								<LayoutInput>
-									<FormLayoutInput Left="Parent,0" Top="Parent,.11" Right="Parent,1" Bottom="Parent,1"/>
-								</LayoutInput>
-								<Children>
-									<ColorFill Content="Black" Alpha="0"/>
-								</Children>
-							</Panel>
-							-->
-
-              <!--Banner / Breadcrumbs -->
-              <!--<Panel Name="Breadcrumbs">
-								<Layout>
-									<FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
-								</Layout>
-								<Children>
-									<Graphic Name="BannerGraphic" Content="[Folder.BannerImage]" MaintainAspectRatio="true" MaximumSize="600,90">
-									</Graphic>
-									<Clip FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
-										<Children>
-											<Text Name="BreadCrumbs" Content="[Application.BreadCrumbs]" Font="font://f:P_BreadcrumbSmallFont" Color="color://s:FontColorMedium">
-											</Text>
-										</Children>
-									</Clip>
-								</Children>
-								<LayoutInput>
-									<FormLayoutInput Right="Parent,1,-40" Top="Parent,0,10"  />
-								</LayoutInput>
-							</Panel>-->
-
               <!--  View Details-->
               <pda:PageDetailAreaDiamond Name="ViewPanel" Folder="[Folder]" Application="[Application]"  >
                 <LayoutInput>
@@ -283,15 +248,12 @@
           </Clip>
 
 
-          <Graphic Content="image://i:DiamondOverlayDarkAll">
+          <Graphic Name="Overlay" Content="image://i:DiamondOverlayDarkAll">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0,-50" Top="Parent,0,-25" Bottom="Parent,1,30" Right="Parent,1,50"/>
+              <FormLayoutInput Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,10" Right="Parent,1,50"/>
             </LayoutInput>
           </Graphic>
 
-          <!--
-					<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>
-					-->
         </Children>
       </Panel>
     </Content>
@@ -314,7 +276,7 @@
       <Command Name="CloseSortConfiguration" />
       <Command Name="ShowIndexConfiguration" />
       <Command Name="CloseIndexConfiguration" />
-      <Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="250" />
+      <Timer Name="RefocusViewTimer" AutoRepeat="false" Interval="320" />
     </Locals>
 
     <Rules>
@@ -343,35 +305,44 @@
         </Actions>
       </Rule>
 
+      <!-- Go To Configuration Page -->
       <Changed Source="[Configure.Invoked]">
         <Actions>
           <Invoke Target="[Application.OpenConfiguration]" showFullOptions="true" />
         </Actions>
       </Changed>
+
+      <Changed Source="[RefocusViewTimer.Tick]">
+        <Actions>
+          <Invoke Target="[ViewConfig.NavigateInto]" />
+        </Actions>
+      </Changed>
+      
+      <!-- View Configuration Popup Panel -->
       <Changed Source="[ShowViewConfiguration.Invoked]">
         <Actions>
           <Set Target="[ViewConfig.Visible]" Value="true"/>
           <Set Target="[SortConfig.Visible]" Value="false"/>
           <Set Target="[IndexConfig.Visible]" Value="false"/>
-          <Invoke Target="[ViewConfig.NavigateInto]" />
+          <Invoke Target="[PopupContainer.NavigateInto]" />
         </Actions>
       </Changed>
       <Changed Source="[CloseViewConfiguration.Invoked]">
         <Actions>
           <Set Target="[ViewConfig.Visible]" Value="false"/>
-          <Invoke Target="[TopConfigBar.NavigateInto]" />
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
-
       <Changed Source="[Folder.DisplayPrefs.ViewType.Chosen]" >
         <Conditions>
           <Equality Source="[ViewConfig.Visible]" Value="true" />
         </Conditions>
         <Actions>
-          <Invoke Target="[RefocusViewTimer.Start]" />
+          <Invoke Target="[ViewConfig.NavigateInto]" />
         </Actions>
       </Changed>
 
+      <!-- Sort By Popup and Close -->
       <Changed Source="[ShowSortConfiguration.Invoked]">
         <Actions>
           <Set Target="[SortConfig.Visible]" Value="true"/>
@@ -380,21 +351,20 @@
           <Invoke Target="[SortConfig.NavigateInto]" />
         </Actions>
       </Changed>
-
       <Changed Source="[CloseSortConfiguration.Invoked]">
         <Actions>
           <Set Target="[SortConfig.Visible]" Value="false"/>
-          <Invoke Target="[TopConfigBar.NavigateInto]" />
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
-
       <Changed Source="[Folder.DisplayPrefs.SortOrders.Chosen]" >
         <Actions>
           <Set Target="[SortConfig.Visible]" Value="false"/>
-          <Invoke Target="[TopConfigBar.NavigateInto]" />
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
-
+      
+      <!-- Indexed By Open and Close Rules-->
       <Changed Source="[ShowIndexConfiguration.Invoked]">
         <Actions>
           <Set Target="[IndexConfig.Visible]" Value="true"/>
@@ -403,18 +373,16 @@
           <Invoke Target="[IndexConfig.NavigateInto]" />
         </Actions>
       </Changed>
-
       <Changed Source="[CloseIndexConfiguration.Invoked]">
         <Actions>
           <Set Target="[IndexConfig.Visible]" Value="false"/>
-          <Invoke Target="[TopConfigBar.NavigateInto]" />
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
-
       <Changed Source="[Folder.DisplayPrefs.IndexByChoice.Chosen]" >
         <Actions>
           <Set Target="[IndexConfig.Visible]" Value="false"/>
-          <Invoke Target="[TopConfigBar.NavigateInto]" />
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
     </Rules>
@@ -429,7 +397,7 @@
         </LayoutInput>
         <Children>
           <!-- Configuration Buttons -->
-          <Panel>
+          <Panel Name="MainContainer">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Center" StripAlignment="Near" Spacing="10,10"/>
             </Layout>
@@ -443,7 +411,7 @@
           </Panel>
 
           <!-- Configuration Panels -->
-          <Panel>
+          <Panel Name="PopupContainer">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Center" StripAlignment="Near" Spacing="10,10"/>
             </Layout>

@@ -26,27 +26,27 @@
       <lib:Item Name="SelectedItem" Item="[Item.SelectedChild]"/>
 
       <!-- Layouts for Episodes -->
-      <AnchorLayoutInput Name="LayoutInfo" Top="Parent,0.05" Right="Parent, 1, -60"/>
-      <AnchorLayoutInput Name="LayoutInfo2" Left="Parent, 0.4, 10" Right="Parent,1,-60" Top="PosterPanel,1,10" Bottom="Parent,1" Horizontal="Far" />
-      <AnchorLayoutInput Name="LayoutPoster" Top="Parent,0.1" Bottom="Parent, 0.9" Left="Parent, 0,20"  Right="Parent, .4"/>
+      <AnchorLayoutInput Name="EpisodePosterPanel" Top="Parent,0.2" Left="Parent,0,50" Bottom="Parent,0.50"/>
+      <AnchorLayoutInput Name="EpisodeDiamondSummary" Top="Parent,0.52"  Bottom="Parent, 0.9,-40" Left="Parent,.0,35" Right="Parent, .58"/>
+      <AnchorLayoutInput Name="EpisodeDiamondBG"  Left="Parent,0, 20" Top="Parent,0.15" Bottom="Parent,.9" Right="Parent,1,-20"/>
 
     </Locals>
 
     <Rules>
       <!-- Rules for Episode Listing -->
-      <!--<Rule ConditionLogicalOp="And">
+      <Rule ConditionLogicalOp="And">
         <Conditions>
           <IsValid Source="[SelectedItem.ItemTypeString]" />
           <Equality Source="[SelectedItem.ItemTypeString]" ConditionOp="Equals" Value="Episode" />
         </Conditions>
         <Actions>
-          --><!--<Set Target="[PosterPanel.LayoutInput]"  Value="[LayoutPoster]"/>
-          <Set Target="[InfoPanel.LayoutInput]"    Value="[LayoutInfo]"/>
-          <Set Target="[InfoPanel2.LayoutInput]"   Value="[LayoutInfo2]"/>--><!--
-          <Set Target="[StarMPAA.Visible]"         Value="false" />
-          --><!--<Set Target="[MediaInfo.Visible]"         Value="false" />--><!--
+          <Set Target="[DiamondBG.LayoutInput]"  Value="[EpisodeDiamondBG]"/>
+          <Set Target="[DiamondSummary.LayoutInput]"    Value="[EpisodeDiamondSummary]"/>
+          <Set Target="[PosterPanel.LayoutInput]"   Value="[EpisodePosterPanel]"/>
+          <!--<Set Target="[StarMPAA.Visible]"         Value="false" />
+          <Set Target="[MediaInfo.Visible]"         Value="false" />-->
         </Actions>
-      </Rule>-->
+      </Rule>
 
       <Changed Source="[Item.SelectedChildIndex]" InitialEvaluate="true">
         <Conditions>
@@ -74,7 +74,8 @@
       
       <!-- Title and Year -->
       <Binding Source="[SelectedItem]" Target="[TitleUI.Item]"/>
-      <Binding Source="[SelectedItem]" Target="[DiamondInfoBox.Item]" />
+      <Binding Source="[SelectedItem]" Target="[DiamondTopInfoBox.Item]" />
+      <Binding Source="[SelectedItem]" Target="[DiamondSummary.Item]" />
       <Binding Source="[SelectedItem.BackdropImage]" Target="[BG_Art.BG]" />
       
       <!-- Counter Bindings -->
@@ -109,11 +110,17 @@
           </Graphic>        
           
           <!-- Details information -->
-          <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
+          <dtb:DiamondDetailInfoBox Name="DiamondTopInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
             <LayoutInput>
-              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.9,-40" Left="Parent,.3,10" Right="Parent, .58"/>
+              <AnchorLayoutInput Top="Parent,0.2"  Bottom="Parent, 0.5,-10" Left="Parent,.3,10" Right="Parent, .58"/>
             </LayoutInput>
-          </dtb:DiamondInfoBox>
+          </dtb:DiamondDetailInfoBox>
+
+          <dtb:SummaryNonScrolling Name="DiamondSummary" Item="[Item.SelectedChild]" Font="font://f:DV_SummaryFont" Color="White" FocusColor="White">
+            <LayoutInput>
+              <AnchorLayoutInput Top="DiamondTopInfoBox,1,10"  Bottom="Parent, 0.9,-40" Left="Parent,.3,10" Right="Parent, .58"/>
+            </LayoutInput>
+          </dtb:SummaryNonScrolling>
 
           <!-- List Counter -->
           <Panel Name="ListCounterPosition" Layout="HorizontalFlow" >
@@ -148,7 +155,7 @@
             </LayoutInput>
           </Graphic>-->
           <!-- Backdrop Image -->         
-          <Graphic Content="image://i:DiamondListBg">
+          <Graphic Name="DiamondBG" Content="image://i:DiamondListBg">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0.3" Top="Parent,0.15" Bottom="Parent,.9" Right="Parent,1,-20"/>
             </LayoutInput>

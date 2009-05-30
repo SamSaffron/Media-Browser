@@ -94,6 +94,8 @@
       <cor:String Name="Label" cor:String="$Required"/>
       <Choice Name="Model" Choice="$Required"/>
       <Index Name="Index" Index="$Required"/>
+      <Color Name="Color" Color="Gray"/>
+      <Color Name="FocusColor" Color="White"/>
     </Properties>
 
     <Rules>
@@ -111,7 +113,7 @@
           <Equality Source="[Input.KeyFocus]" Value="true"/>
         </Conditions>
         <Actions>
-          <Set Target="[Name.Color]" Value="Black"/>
+          <Set Target="[Name.Color]" Value="[FocusColor]"/>
           <Set Target="[Name.Font]" Value="Segoe Media Center Semibold, 18"/>
           <Set Target="[Model.ChosenIndex]" Value="[Index.Value]"/>
         </Actions>
@@ -120,7 +122,7 @@
       <!-- This is the selected Tab -->
       <Condition Source="[Model.ChosenIndex]" SourceValue="[Index.Value]">
         <Actions>
-          <Set Target="[Name.Color]" Value="Black"/>
+          <Set Target="[Name.Color]" Value="[FocusColor]"/>
           <Set Target="[Name.Font]" Value="Segoe Media Center, 18" />
         </Actions>
       </Condition>
@@ -134,7 +136,7 @@
         </Layout>
         <Children>
           <!-- The label to display. -->
-          <Text Name="Name" Font="Segoe Media Center, 18" Color="DarkSlateGray" Margins="5,5,5,-5" >
+          <Text Name="Name" Font="Segoe Media Center, 18" Color="[Color]" Margins="5,5,5,-5" >
           </Text>
         </Children>
       </Panel>

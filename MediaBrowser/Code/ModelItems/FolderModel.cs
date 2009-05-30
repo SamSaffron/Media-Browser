@@ -86,13 +86,14 @@ namespace MediaBrowser.Library {
             }
         }
 
+        //TODO: This Call MUST BE optimized - It takes a significant amount of processing and time to retreive.
         // to make mcml biniding easier
         public List<Item> NewestItems {
             get {
                 return GetNewestItems(20);
             }
         }
-
+        
         List<Item> newestItems = null; 
         public List<Item> GetNewestItems(int count) {
             if (newestItems == null) {
