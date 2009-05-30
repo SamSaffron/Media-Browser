@@ -20,7 +20,7 @@
       <cor:String Name="PersonName" String="" />
       <cor:String Name="PersonRole" String="" />
       
-      <Size Name="Size" Size="0,0" />
+      <Size Name="Size" Size="330,100" />
       <Size Name="MinSize" Size="50,50" />
       <Font Name="Font" Font="Segoe Media Center, 16" />
       <Color Name="Color" Color="color://s:FontColorLight"/>
@@ -95,7 +95,7 @@
 
     <Content>
 
-      <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="330,100" Padding="5,5,5,5">
+      <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[Size]" Padding="5,5,5,5">
         <Layout>
           <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
         </Layout>
