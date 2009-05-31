@@ -6,6 +6,7 @@
     xmlns:pvi="resx://MediaBrowser/MediaBrowser.Resources/PosterViewItem"
     xmlns:s="file://Styles_DoNotEdit.mcml"
     xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"      
 	  >
 
 	<UI Name="PosterScroller">
@@ -198,6 +199,10 @@
 			<Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
 			<Binding Target="[FocusRect.Scaling]" Source="[Folder.PosterZoom]" />
 			<Binding Target="[MyRepeater.Source]" Source="[Folder.Children]" />
+
+      <!-- Hide focus frame image -->
+      <Condition Source="[Application.Config.HideFocusFrame]" ConditionOp="Equals" SourceValue="true"
+                 Target="[FocusRect.FocusImage]" Value="image://i:BlankImage" />
 		</Rules>
 
 		<Content>

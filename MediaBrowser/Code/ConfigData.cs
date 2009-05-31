@@ -83,6 +83,7 @@ namespace MediaBrowser
         public string YahooWeatherUnit = "c";
 
         public string PodcastHome = ApplicationPaths.DefaultPodcastPath;
+        public bool HideFocusFrame = false;
 
         public class ExternalPlayer
         {

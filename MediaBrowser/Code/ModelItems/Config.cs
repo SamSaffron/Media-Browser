@@ -490,7 +490,11 @@ namespace MediaBrowser
             get { return this.data.PodcastHome; }
             set { if (this.data.PodcastHome != value) { this.data.PodcastHome = value; Save(); FirePropertyChanged("PodcastHome"); } }
         }
-
+        public bool HideFocusFrame
+        {
+            get { return this.data.HideFocusFrame; }
+            set { if (this.data.HideFocusFrame != value) { this.data.HideFocusFrame = value; Save(); FirePropertyChanged("HideFocusFrame"); } }
+        }
         
         /* End of app specific settings*/
 

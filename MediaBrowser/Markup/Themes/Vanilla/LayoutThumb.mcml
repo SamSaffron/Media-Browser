@@ -766,6 +766,10 @@
       <Default Target="[ScrollingData.Repeater]" Value="[MyRepeater]"/>
       <Binding Target="[FocusRect.Scaling]" Source="[Item.PosterZoom]" />
       <Binding Target="[MyRepeater.Source]" Source="[Item.Children]" />
+      
+      <!-- Hide focus frame image -->
+      <Condition Source="[Application.Config.HideFocusFrame]" ConditionOp="Equals" SourceValue="true"
+                 Target="[FocusRect.FocusImage]" Value="image://i:BlankImage" />
     </Rules>
 
     <Content>

@@ -62,6 +62,7 @@
                     <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
                   </Layout>
                   <Children>
+                    <Text Content="Folder Play Menu" Font="font://f:VM_ConfigItemFont" Color="color://s:FontColorLight"/>
                     <ib:ImageButton Name="PlayMovieButton" Text="All" Command="[CmdPlayAll]" 
                                     Icon="resx://MediaBrowser/MediaBrowser.Resources/IconPlay" Size="200,50" 
                                     Font="font://f:MM_ButtonFont" DisplayText="true" MinSize="200,50" />

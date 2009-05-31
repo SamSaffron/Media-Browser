@@ -1735,13 +1735,6 @@ namespace MediaBrowser {
             }
         }
         
-        internal static byte[] RootScroller {
-            get {
-                object obj = ResourceManager.GetObject("RootScroller", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap rootscrollhilite {
             get {
                 object obj = ResourceManager.GetObject("rootscrollhilite", resourceCulture);

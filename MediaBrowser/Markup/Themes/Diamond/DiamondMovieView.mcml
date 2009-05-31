@@ -149,7 +149,7 @@
             </LayoutInput>
             <Children>
                   <as:AutoScroller Name="Overview" Text="[Item.Overview]" Font="font://f:MM_SummaryFont"
-                                   Color="Gray" FocusColor="White"/>
+                                   Color="[ValueColor]" FocusColor="White"/>
                 
             </Children>
           </Panel>

@@ -7,6 +7,7 @@
     xmlns:pp="resx://MediaBrowser/MediaBrowser.Resources/PopupPlay"
     xmlns:s="file://Styles_DoNotEdit.mcml"
     xmlns:sounds="resx://MediaBrowser/MediaBrowser.Resources/Sounds"
+    xmlns:i="resx://MediaBrowser/MediaBrowser.Resources/Images"
 	  >
 
 	<UI Name="PosterScroller">
@@ -220,6 +221,10 @@
           <Invoke Target="[Scroller.NavigateInto]" />          
         </Actions>
       </Changed>
+
+      <!-- Hide focus frame image -->
+      <Condition Source="[Application.Config.HideFocusFrame]" ConditionOp="Equals" SourceValue="true" 
+                 Target="[FocusRect.FocusImage]" Value="image://i:BlankImage" />
 		</Rules>
 
 		<Content>

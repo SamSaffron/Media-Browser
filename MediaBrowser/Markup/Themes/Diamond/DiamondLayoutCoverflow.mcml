@@ -381,7 +381,15 @@
     </Locals>
 
     <Rules>
-
+      <!-- Hide focus frame image -->
+      <Condition Source="[Application.Config.HideFocusFrame]" ConditionOp="Equals" SourceValue="true">
+        <Actions>
+          <Set Target="[FocusImage]" Value="image://i:BlankImage" />
+          <Set Target="[FocusBg.Padding]" Value="0,0,0,0" />
+        </Actions>
+      </Condition>
+     
+      
       <!-- Set the UI to be mouse and keyboard interactive. -->
       <Default Target="[Input.KeyInteractive]" Value="true"/>
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>

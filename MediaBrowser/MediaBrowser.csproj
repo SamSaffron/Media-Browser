@@ -504,7 +504,6 @@
     <Content Include="Markup\Controls\PosterItemTitle.mcml" />
     <Content Include="Markup\Controls\PosterViewItem.mcml" />
     <Content Include="Markup\Controls\RadioGroup.mcml" />
-    <Content Include="Markup\Controls\RootScroller.mcml" />
     <Content Include="Markup\Controls\Scrollers\AutoScroller.mcml" />
     <Content Include="Markup\Controls\Scrollers\PosterScroller.mcml" />
     <Content Include="Markup\Controls\Scrollers\ScrollableText.mcml" />
