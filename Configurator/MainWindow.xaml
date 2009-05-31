@@ -43,7 +43,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl Margin="12,67,12,47" x:Name="tabControl1" Background="{x:Null}">
+        <TabControl Margin="12,67,12,12" x:Name="tabControl1" Background="{x:Null}">
             <TabItem Header="media collection" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
                 <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
@@ -123,13 +123,14 @@
             <TabItem Header="display" x:Name="displayTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid >
                     
-                    <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,0" Name="groupBox1" Width="287" Height="157.38" VerticalAlignment="Top">
+                    <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,198" Name="groupBox1" Width="287">
                         <Grid>
-                            <CheckBox Height="32" Margin="25,10,100,0" Name="cbxOptionClock" ToolTip="Display time clock within Media Browser" VerticalAlignment="Top">Display Clock</CheckBox>
-                            <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background">Transparent Background</CheckBox>
-                            <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items">Dim Unselected Posters</CheckBox>
-                            <CheckBox Margin="25,0,25,30" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Bottom">Remember Folder Indexing</CheckBox>
-                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area">Stretch Poster Art Image</CheckBox>
+                            <CheckBox Height="32" Margin="25,10,100,0" Name="cbxOptionClock" ToolTip="Display time clock within Media Browser" VerticalAlignment="Top" Click="cbxOptionClock_Click">Display Clock</CheckBox>
+                            <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background" Click="cbxOptionTransparent_Click">Transparent Background</CheckBox>
+                            <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items" Click="cbxOptionDimPoster_Click">Dim Unselected Posters</CheckBox>
+                            <CheckBox Margin="25,82,25,0" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Top" Click="cbxOptionIndexing_Click">Remember Folder Indexing</CheckBox>
+                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area" Height="24.38" VerticalAlignment="Top" Click="cbxOptionAspectRatio_Click">Stretch Poster Art Image</CheckBox>
+                            <CheckBox Height="24.38" Margin="25,0,25,6" Name="cbxOptionHideFrame" ToolTip="Hide focus frame around posters." VerticalAlignment="Bottom" Click="cbxOptionHideFrame_Click">Hide Focus Frame</CheckBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Media Tracking" HorizontalAlignment="Right" Margin="0,14,20,0" Name="groupBox2" Width="287" Height="157.38" VerticalAlignment="Top">
@@ -141,7 +142,7 @@
                             <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,190,0,0" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Top">
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,13" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom">
                         <Grid>
                             <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
                     <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
@@ -152,7 +153,7 @@
                     
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
+                    <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,0,20,12" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Bottom">
                         <Grid>
                             <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Enable the enhanced home screen" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
                             <Label Margin="25,60,130,36" ToolTip="Weather temperature unit">Weather Unit</Label>

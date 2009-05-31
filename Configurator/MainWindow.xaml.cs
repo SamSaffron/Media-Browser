@@ -119,6 +119,7 @@ namespace Configurator
             cbxOptionTransparent.IsChecked = config.TransparentBackground;
             cbxOptionIndexing.IsChecked = config.RememberIndexing;
             cbxOptionDimPoster.IsChecked = config.DimUnselectedPosters;
+            cbxOptionHideFrame.IsChecked = config.HideFocusFrame;
 
             cbxOptionUnwatchedCount.IsChecked      = config.ShowUnwatchedCount;
             cbxOptionUnwatchedOnFolder.IsChecked   = config.ShowWatchedTickOnFolders;
@@ -151,8 +152,8 @@ namespace Configurator
         private void LoadComboBoxes()
         {
             // Themes
-            ddlOptionViewTheme.Items.Add("Default");
-            ddlOptionViewTheme.Items.Add("Classic");
+            ddlOptionViewTheme.Items.Add("Classic"); 
+            ddlOptionViewTheme.Items.Add("Default");            
             ddlOptionViewTheme.Items.Add("Diamond");
             ddlOptionViewTheme.Items.Add("Vanilla");
             // Colors
@@ -654,6 +655,12 @@ folder: {0}
             SaveConfig();
         }
 
+        private void cbxOptionHideFrame_Click(object sender, RoutedEventArgs e)
+        {
+            config.HideFocusFrame = (bool)cbxOptionHideFrame.IsChecked;
+            SaveConfig();
+        }
+
         private void cbxOptionAspectRatio_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)cbxOptionAspectRatio.IsChecked)
@@ -832,6 +839,11 @@ folder: {0}
                 podcastName.Visibility = podcastDescription.Visibility = podcastUrl.Visibility = Visibility.Hidden;
             }
         }
+
+        
+
+                
+
 
 
     }
