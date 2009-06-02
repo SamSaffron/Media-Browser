@@ -19,7 +19,7 @@
     xmlns:gb="resx://MediaBrowser/MediaBrowser.Resources/GenreButton"
     xmlns:mip="resx://MediaBrowser/MediaBrowser.Resources/MediaInfoPanel"
     xmlns:pb="resx://MediaBrowser/MediaBrowser.Resources/PersonButton"
-    xmlns:db="resx://MediaBrowser/MediaBrowser.Resources/DirectorButton"  
+    xmlns:db="resx://MediaBrowser/MediaBrowser.Resources/DirectorButton"
       xmlns:dtb="resx://MediaBrowser/MediaBrowser.Resources/DiamondToolBox"
     xmlns:me="Me"
     >
@@ -49,7 +49,7 @@
 
     <Rules>
       <Binding Source="[Item]" Target="[TitleUI.Item]"/>
-      <Binding Source="[Item.PreferredImage]" Target="[Preview.Content]" />  
+      <Binding Source="[Item.PreferredImage]" Target="[Preview.Content]" />
       <Binding Source="[Item.BackdropImage]" Target="[Backdrop.Image]" />
       <Binding Source="[Item.Overview]" Target="[Overview.Text]" />
 
@@ -64,13 +64,13 @@
           <Equality Source="[Application.Config.ShowClock]" ConditionOp="Equals" Value="true" />
         </Conditions>
       </Binding>
-      
+
       <Condition Source="[Item.Actors.Count]" ConditionOp="LessThan" SourceValue="1" Target="[ActorsPanel.Visible]" Value="false" />
 
       <!-- Show and hide Selectors -->
       <Condition Source="[Model.ChosenIndex]" SourceValue="0" ConditionOp="Equals" Target="[OverviewPanel.Visible]" Value="true" />
       <Condition Source="[Model.ChosenIndex]" SourceValue="1" ConditionOp="Equals" Target="[ActorsPanel.Visible]" Value="true" />
-      
+
       <!-- Common Info Panel-->
       <Binding Source="[Item.ImdbRatingString]" Target="[IMDBRating.Content]" />
       <Binding Source="[Item.ImdbRating]" Target="[StarRating.Value]" />
@@ -86,215 +86,218 @@
           <Set Target="[MediaInfo.Content]" Value="[Item.MediaInfo.CombinedInfo]"/>
         </Actions>
       </Changed>
-      
+
     </Rules>
 
     <Content>
       <ColorFill Content="Transparent" Layout="Form">
-        
         <Children>
 
-          <!-- Title Details -->
-          <dtb:DiamondTitleUI Name="TitleUI" Item="[Item]" LayoutInput="global://dtb:LI_Title" />
-
-          <!-- Time Panel -->
-          <Panel Name="TimePanel">
-            <Layout>
-              <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
-            </Layout>
-            <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0,50" Bottom="Parent,0,50" Right="Parent,0,125" Horizontal="Center"/>
-            </LayoutInput>
+          <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
             <Children>
-              <Panel Layout="Scale">
-                <Children>
-                  <Text Name="TimeDate" Font="font://f:P_ClockFont"  Color="White"
-                        Visible="[Application.Config.ShowClock]" />
-                </Children>
-              </Panel>
-            </Children>
-          </Panel>
 
-          <!-- play/resume buttons-->
-          <me:CommandButtons Application="[Application]" Item="[Item]" FilterColor="[FilterColor]"
-                             Alpha="global://s:FilterAlpha" FocusOrder="0">
-            <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0,20" Top="Parent,0.2,25" />
-            </LayoutInput>
-          </me:CommandButtons>
+              <!-- Title Details -->
+              <dtb:DiamondTitleUI Name="TitleUI" Item="[Item]" LayoutInput="global://dtb:LI_Title" />
 
-          <!-- Selector buttons-->
-          <Panel Name="SelectorPanel">
-            <Layout>
-              <AnchorLayout SizeToHorizontalChildren="true"/>
-            </Layout>
-            <LayoutInput>
-              <AnchorLayoutInput Top="CommonInfoPanel,1,10" Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" />
-            </LayoutInput>
-            <Children>
-              <Panel>
+              <!-- Time Panel -->
+              <Panel Name="TimePanel">
                 <Layout>
-                  <FlowLayout Orientation="Horizontal" ItemAlignment="Far"/>
+                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                 </Layout>
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0,50" Bottom="Parent,0,50" Right="Parent,0,125" Horizontal="Center"/>
+                </LayoutInput>
                 <Children>
-                  <ta:DiamondTab Model="[Model]" Name="FullConfigNav" />
+                  <Panel Layout="Scale">
+                    <Children>
+                      <Text Name="TimeDate" Font="font://f:P_ClockFont"  Color="White"
+                            Visible="[Application.Config.ShowClock]" />
+                    </Children>
+                  </Panel>
                 </Children>
               </Panel>
-            </Children>
-          </Panel>
 
-          <Panel Name="OverviewPanel" Layout="VerticalFlow" Margins="0,0,0,0" Visible="false" >
-            <LayoutInput>
-              <AnchorLayoutInput Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" Top="SelectorPanel,1,10" Bottom="SelectorPanel,1,210"/>
-            </LayoutInput>
-            <Children>
+              <!-- play/resume buttons-->
+              <me:CommandButtons Application="[Application]" Item="[Item]" FilterColor="[FilterColor]"
+                                 Alpha="global://s:FilterAlpha" FocusOrder="0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0,20" Top="Parent,0.2,25" />
+                </LayoutInput>
+              </me:CommandButtons>
+
+              <!-- Selector buttons-->
+              <Panel Name="SelectorPanel">
+                <Layout>
+                  <AnchorLayout SizeToHorizontalChildren="true"/>
+                </Layout>
+                <LayoutInput>
+                  <AnchorLayoutInput Top="CommonInfoPanel,1,10" Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" />
+                </LayoutInput>
+                <Children>
+                  <Panel>
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" ItemAlignment="Far"/>
+                    </Layout>
+                    <Children>
+                      <ta:DiamondTab Model="[Model]" Name="FullConfigNav" />
+                    </Children>
+                  </Panel>
+                </Children>
+              </Panel>
+
+              <Panel Name="OverviewPanel" Layout="VerticalFlow" Margins="0,0,0,0" Visible="false" >
+                <LayoutInput>
+                  <AnchorLayoutInput Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" Top="SelectorPanel,1,10" Bottom="SelectorPanel,1,210"/>
+                </LayoutInput>
+                <Children>
                   <as:AutoScroller Name="Overview" Text="[Item.Overview]" Font="font://f:MM_SummaryFont"
                                    Color="[ValueColor]" FocusColor="White"/>
-                
-            </Children>
-          </Panel>
 
-          <Panel Name="ActorsPanel" Margins="0,0,0,0" Visible="false" >
-            <LayoutInput>
-              <AnchorLayoutInput Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" Top="SelectorPanel,1,10" Bottom="Parent,1,-85"/>
-            </LayoutInput>
-            <Children>
-              <me:ActorList Name="ActorScroller" Item="[Item]" Application="[Application]" />
-            </Children>
-          </Panel>
-
-          <!-- Column 2 (IMDB, Director, Rating, Runtime)-->
-          <Panel Name="CommonInfoPanel" Layout="VerticalFlow" Margins="0,0,0,0" >
-            <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.48" Right="Parent,1,-30" Top="Parent,0.2"/>
-            </LayoutInput>
-            <Children>
-
-              <Panel Name="IMDBRatingPanel" Visible="false">
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" Spacing="5,5"/>
-                </Layout>
-                <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="IMDB RATING"  MinimumSize="200,0"/>
-                  <Text Name="IMDBRating" Content="" Color="[ValueColor]" Font="font://f:MM_ItemFont"/>
-                  <Text Font="font://f:MM_ItemFont" Color="[ValueColor]" Content="/ 10"/>
-                  <sr:StarRating Name="StarRating" Value="[Item.ImdbRating]" />
-                  <mp:MPAARating Name="MPAARating" Value="[Item.MpaaRating]" Margins="5,0,0,0" MaximumSize="0,30"/>               
-                </Children>
-              </Panel>
-              
-              <Panel Name="RuntimePanel" >
-                <Layout>
-                  <FlowLayout Orientation="Horizontal"/>
-                </Layout>
-                <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="RUNTIME" MinimumSize="200,0"/>
-                  <Text Name="Runtime" Content="[Item.RunningTimeString]"
-										  Font="font://f:MM_ItemFont" Color="[ValueColor]" />
                 </Children>
               </Panel>
 
-              <Panel Name="GenrePanel">
-                <Layout>
-                  <FlowLayout Orientation="Horizontal"/>
-                </Layout>
+              <Panel Name="ActorsPanel" Margins="0,0,0,0" Visible="false" >
+                <LayoutInput>
+                  <AnchorLayoutInput Left="CommonInfoPanel,0" Right="CommonInfoPanel,1" Top="SelectorPanel,1,10" Bottom="Parent,1,-85"/>
+                </LayoutInput>
                 <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="GENRE"  MinimumSize="200,0"/>
-                  <Repeater Name="GenreRepeater" Source="[Item.Genres]" Margins="0,0,0,0" MaximumSize="0,100" >
+                  <me:ActorList Name="ActorScroller" Item="[Item]" Application="[Application]" />
+                </Children>
+              </Panel>
+
+              <!-- Column 2 (IMDB, Director, Rating, Runtime)-->
+              <Panel Name="CommonInfoPanel" Layout="VerticalFlow" Margins="0,0,0,0" >
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0.48" Right="Parent,1,-30" Top="Parent,0.2"/>
+                </LayoutInput>
+                <Children>
+
+                  <Panel Name="IMDBRatingPanel" Visible="false">
                     <Layout>
-                      <FlowLayout Orientation="Horizontal" AllowWrap="true"  Spacing="25,0"  />
+                      <FlowLayout Orientation="Horizontal" Spacing="5,5"/>
                     </Layout>
-                    <Divider>
-                      <Text Content="●" Font="font://f:MM_GenreFont" Color="190,190,190" Alpha="0.6"  />
-                    </Divider>
-                    <Content>
-                      <gb:GenreButton Text="[RepeatedItem!cor:String]"
-                              Application="[Application]" Item="[Item]"
-                              GenreCategory="[RepeatedItem!cor:String]"
-                              Font="font://f:MM_GenreFont" Color="190,190,190"/>
-                    </Content>
-                  </Repeater>
+                    <Children>
+                      <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="IMDB RATING"  MinimumSize="200,0"/>
+                      <Text Name="IMDBRating" Content="" Color="[ValueColor]" Font="font://f:MM_ItemFont"/>
+                      <Text Font="font://f:MM_ItemFont" Color="[ValueColor]" Content="/ 10"/>
+                      <sr:StarRating Name="StarRating" Value="[Item.ImdbRating]" />
+                      <mp:MPAARating Name="MPAARating" Value="[Item.MpaaRating]" Margins="5,0,0,0" MaximumSize="0,30"/>
+                    </Children>
+                  </Panel>
 
-                </Children>
-              </Panel>
-              
-              <Panel Name="DirectedByPanel" Layout="HorizontalFlow" Visible="false">
-                <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="DIRECTOR" MinimumSize="200,0"/>
-                  <!--<Text Name="Director" Font="font://f:MM_ItemFont" WordWrap="true" MaximumLines="3" Color="[ValueColor]" Content="[Item.DirectorString]"/>-->
-                  <Repeater Name="DirectorRepeater" Source="[Item.Directors]" Margins="0,0,0,0" MaximumSize="0,150" >
+                  <Panel Name="RuntimePanel" >
                     <Layout>
-                      <FlowLayout Orientation="Horizontal" AllowWrap="true"  Spacing="25,0"  />
+                      <FlowLayout Orientation="Horizontal"/>
                     </Layout>
-                    <Divider>
-                      <Text Content="●" Font="font://f:MM_GenreFont" Color="Gray" />
-                    </Divider>
-                    <Content>
-                      <db:DirectorButton Text="[RepeatedItem!cor:String]"
-                              Application="[Application]" Item="[Item]"
-                              DirectorName="[RepeatedItem!cor:String]"
-                              Font="font://f:MM_ItemFont" Color="[ValueColor]"/>
-                    </Content>
-                  </Repeater>
+                    <Children>
+                      <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="RUNTIME" MinimumSize="200,0"/>
+                      <Text Name="Runtime" Content="[Item.RunningTimeString]"
+                          Font="font://f:MM_ItemFont" Color="[ValueColor]" />
+                    </Children>
+                  </Panel>
 
-                </Children>
-              </Panel>              
-              
-              <Panel  Name="MediaInfoPane" Visible="false" >
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
-                </Layout>
-                <Children>
-                  <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="MEDIA INFO"  MinimumSize="200,0"/>
-                  <mip:MediaInfoPanel Name="MediaInfoPanel" Item="[Item]" />
-                  <Text Name="MediaInfo" Font="Arial, 12" Color="[ValueColor]" WordWrap="true" Margins="200,0,0,0" />
+                  <Panel Name="GenrePanel">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal"/>
+                    </Layout>
+                    <Children>
+                      <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="GENRE"  MinimumSize="200,0"/>
+                      <Repeater Name="GenreRepeater" Source="[Item.Genres]" Margins="0,0,0,0" MaximumSize="0,100" >
+                        <Layout>
+                          <FlowLayout Orientation="Horizontal" AllowWrap="true"  Spacing="25,0"  />
+                        </Layout>
+                        <Divider>
+                          <Text Content="●" Font="font://f:MM_GenreFont" Color="190,190,190" Alpha="0.6"  />
+                        </Divider>
+                        <Content>
+                          <gb:GenreButton Text="[RepeatedItem!cor:String]"
+                                  Application="[Application]" Item="[Item]"
+                                  GenreCategory="[RepeatedItem!cor:String]"
+                                  Font="font://f:MM_GenreFont" Color="190,190,190"/>
+                        </Content>
+                      </Repeater>
+
+                    </Children>
+                  </Panel>
+
+                  <Panel Name="DirectedByPanel" Layout="HorizontalFlow" Visible="false">
+                    <Children>
+                      <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="DIRECTOR" MinimumSize="200,0"/>
+                      <!--<Text Name="Director" Font="font://f:MM_ItemFont" WordWrap="true" MaximumLines="3" Color="[ValueColor]" Content="[Item.DirectorString]"/>-->
+                      <Repeater Name="DirectorRepeater" Source="[Item.Directors]" Margins="0,0,0,0" MaximumSize="0,150" >
+                        <Layout>
+                          <FlowLayout Orientation="Horizontal" AllowWrap="true"  Spacing="25,0"  />
+                        </Layout>
+                        <Divider>
+                          <Text Content="●" Font="font://f:MM_GenreFont" Color="Gray" />
+                        </Divider>
+                        <Content>
+                          <db:DirectorButton Text="[RepeatedItem!cor:String]"
+                                  Application="[Application]" Item="[Item]"
+                                  DirectorName="[RepeatedItem!cor:String]"
+                                  Font="font://f:MM_ItemFont" Color="[ValueColor]"/>
+                        </Content>
+                      </Repeater>
+
+                    </Children>
+                  </Panel>
+
+                  <Panel  Name="MediaInfoPane" Visible="false" >
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" AllowWrap="true"/>
+                    </Layout>
+                    <Children>
+                      <Text Font="font://f:MM_ItemTitleFont" Color="[AttributeColor]" Content="MEDIA INFO"  MinimumSize="200,0"/>
+                      <mip:MediaInfoPanel Name="MediaInfoPanel" Item="[Item]" />
+                      <Text Name="MediaInfo" Font="Arial, 12" Color="[ValueColor]" WordWrap="true" Margins="200,0,0,0" />
+                    </Children>
+                  </Panel>
+
                 </Children>
               </Panel>
 
-            </Children>
-          </Panel>
-          
-          <!-- Poster (large movie pick) -->
-          <Graphic Name="CoverOutline" Content="image://i:PosterFrame"  Padding="20,20,20,25" MaximumSize="350,500">             
-            <LayoutInput>
-              <AnchorLayoutInput Left="Parent,0.19" Top="Parent, 0.2,15"/>
-            </LayoutInput>
-            <Children>
-              <Graphic Name="Preview" MaintainAspectRatio="true" SizingPolicy="SizeToConstraint" >
+              <!-- Poster (large movie pick) -->
+              <Graphic Name="CoverOutline" Content="image://i:PosterFrame"  Padding="20,20,20,25" MaximumSize="350,500">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="Parent,0.19" Top="Parent, 0.2,15"/>
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="Preview" MaintainAspectRatio="true" SizingPolicy="SizeToConstraint" >
+                  </Graphic>
+                </Children>
               </Graphic>
-            </Children>
-          </Graphic>
 
-          <!-- Detail Box (Alpha Gradient Bottom of Screen)
+              <!-- Detail Box (Alpha Gradient Bottom of Screen)
           <ColorFill Content="color://s:FillColor"  Name="DetailBox" Alpha="global://s:FilterAlpha">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,0.675" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
           </ColorFill>-->
-          <Graphic Content="image://i:DiamondListBg">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0,20" Right="Parent,1,-20" Top="Parent,0.2,-15" Bottom="Parent,1,-75"/>
-            </LayoutInput>
-          </Graphic>
-          
-          <!-- Top Clip -->
-          <dtb:DiamondClipTop LayoutInput="global://dtb:LI_ClipTop" />
-          
-          <!-- Movie Backdrop -->
-          <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]">
-            <LayoutInput>
-              <FormLayoutInput Top="Parent,0,-20" Left="Parent,0,-50" Bottom="Parent,1,10" Right="Parent,1,50" />
-            </LayoutInput>
-          </bd:Backdrop4>
+              <Graphic Content="image://i:DiamondListBg">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,0,20" Right="Parent,1,-20" Top="Parent,0.2,-15" Bottom="Parent,1,-75"/>
+                </LayoutInput>
+              </Graphic>
 
-          <!-- Main Background -->
-          <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-50,-20" Layout="Fill"/>
+              <!-- Top Clip -->
+              <dtb:DiamondClipTop LayoutInput="global://dtb:LI_ClipTop" />
+
+              <!-- Movie Backdrop -->
+              <bd:Backdrop4 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]" Item="[Item]">
+                <LayoutInput>
+                  <FormLayoutInput Top="Parent,0,-20" Left="Parent,0,-50" Bottom="Parent,1,10" Right="Parent,1,50" />
+                </LayoutInput>
+              </bd:Backdrop4>
+
+              <!-- Main Background -->
+              <Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-50,-20" Layout="Fill"/>
+            </Children>
+          </Clip>
 
         </Children>
       </ColorFill>
 
     </Content>
-
   </UI>
 
   <UI Name="CommandButtons">
@@ -310,7 +313,7 @@
       <Command Name="ResumeMovieCommand" />
       <Command Name="RefreshMovieCommand" />
       <Command Name="DeleteMovieCommand" />
-      <Command Name="NullCommand" />      
+      <Command Name="NullCommand" />
     </Locals>
 
     <Rules>
@@ -334,20 +337,20 @@
           <Invoke Target="[Item.RefreshMetadata]"/>
         </Actions>
       </Changed>
-            
+
       <Changed Source="[DeleteMovieCommand.Invoked]">
         <Actions>
           <Invoke Target="[Application.DeleteMediaItem]">
             <Item>
               <lib:Item Item="[Item]"/>
-            </Item>            
+            </Item>
           </Invoke>
         </Actions>
       </Changed>
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
-      <Rule ConditionLogicalOp="And">        
+      <Rule ConditionLogicalOp="And">
         <Conditions>
           <Equality Source="[Application.Config.Advanced_EnableDelete]" ConditionOp="Equals" Value="true" />
           <Equality Source="[Application.Config.EnableAdvancedCmds]" ConditionOp="Equals" Value="true" />
@@ -356,13 +359,13 @@
           <Set Target="[DeleteMovieButton.Visible]" Value="true" />
         </Actions>
       </Rule>
-      
+
     </Rules>
-    
+
     <Content>
       <Panel Layout="Anchor">
         <Children>
-          
+
           <Panel Name="PlayPanel" Layout="Anchor">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0,0" Top="Parent,0,0" />
@@ -375,12 +378,12 @@
                   <dtb:DiamondImageButton Name="PlayMovieButton" Text="PLAY" Command="[PlayMovieCommand]" Icon="resx://MediaBrowser/MediaBrowser.Resources/IconPlay" Size="200,50" Font="font://f:MM_ButtonFont" />
                   <dtb:DiamondImageButton Name="RefreshMovieButton" Text="REFRESH" Command="[RefreshMovieCommand]" Icon="resx://MediaBrowser/MediaBrowser.Resources/IconRefresh" Size="200,50" Font="font://f:MM_ButtonFont" />
                   <dtb:DiamondImageButton Name="CacheMovieButton" Text="CACHE 2 XML" Command="[NullCommand]" Icon="resx://MediaBrowser/MediaBrowser.Resources/Lines" Size="200,50" Font="font://f:MM_ButtonFont" Visible="false" />
-                  <dtb:DiamondImageButton Name="DeleteMovieButton" Text="DELETE" Command="[DeleteMovieCommand]" Icon="resx://MediaBrowser/MediaBrowser.Resources/IconDelete" Size="200,50" Font="font://f:MM_ButtonFont" Visible="false" />                  
+                  <dtb:DiamondImageButton Name="DeleteMovieButton" Text="DELETE" Command="[DeleteMovieCommand]" Icon="resx://MediaBrowser/MediaBrowser.Resources/IconDelete" Size="200,50" Font="font://f:MM_ButtonFont" Visible="false" />
                 </Children>
               </ColorFill>
             </Children>
-          </Panel>          
-         
+          </Panel>
+
         </Children>
       </Panel>
     </Content>
@@ -459,12 +462,12 @@
         </Actions>
       </Rule>
 
-      </Rules>
+    </Rules>
     <Content>
       <!-- Cast (Actors) -->
       <Panel Name="MovieActors" Layout="Dock">
         <Children>
-          <Graphic Content="image://i:BlankImage" Name="ImagePanel" Layout="Form">            
+          <Graphic Content="image://i:BlankImage" Name="ImagePanel" Layout="Form">
             <LayoutInput>
               <DockLayoutInput Position="Client"/>
             </LayoutInput>
@@ -520,11 +523,11 @@
       <lib:ActorItemWrapper Name="aiw" ActorItemWrapper="$Required" />
       <Font Name="Font" Font="$Required"/>
     </Properties>
-    
+
     <Locals>
       <Command Name="NavigateToActorsCommand"/>
     </Locals>
-    
+
     <Rules>
       <Changed Source="[NavigateToActorsCommand.Invoked]">
         <Actions>
@@ -532,19 +535,19 @@
         </Actions>
       </Changed>
     </Rules>
-    
+
     <Content>
       <Panel Layout="HorizontalFlow" >
         <Children>
           <pb:PersonButton PersonItem="[aiw]" Color="color://s:FontColorMedium" Command="[NavigateToActorsCommand]" Size="300,100" />
-         <!-- <sb:SimpleButton Text="[actor.DisplayName]" Font="[Font]" Command="[NavigateToActorsCommand]" Size="230,40" LeftAlign="true"  />
+          <!-- <sb:SimpleButton Text="[actor.DisplayName]" Font="[Font]" Command="[NavigateToActorsCommand]" Size="230,40" LeftAlign="true"  />
           <Text Name="ActorRole" Font="[Font]" Color="color://s:FontColorMedium" Content="[aiw.Actor.DisplayName]" MinimumSize="150,40" />-->
         </Children>
       </Panel>
     </Content>
   </UI>
 
-  
+
   <Image Name="ButtonLeftFocus" Source="resx://MediaBrowser/MediaBrowser.Resources/ButtonLeftFocus" NineGrid="7,7,7,7" />
   <Image Name="50AlphaBg" Image="null" NineGrid="7,7,7,7" />
   <Image Name="65AlphaBg" Source="resx://MediaBrowser/MediaBrowser.Resources/BlackBtnAlpha65" NineGrid="7,7,7,7" />

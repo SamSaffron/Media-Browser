@@ -42,8 +42,8 @@
       <Condition Source="[Item.Actors.Count]" ConditionOp="LessThan" SourceValue="1" Target="[ActorScroller.Visible]" Value="false" />
       <Condition Source="[Item.Actors.Count]" ConditionOp="LessThan" SourceValue="1" Target="[ActorDivider.Visible]" Value="false" />
       <Condition Source="[Item.Overview.Length]" ConditionOp="LessThan" SourceValue="1" Target="[ActorDivider.Visible]" Value="false" />
-      
-      
+
+
       <Changed Source="[ResumeMovieCommand.Invoked]">
         <Actions>
           <Invoke Target="[Item.Resume]"/>
@@ -69,50 +69,53 @@
       <ColorFill Content="Transparent" Layout="Form">
         <Children>
 
-          <!-- Gradiented movie title -->
-          <Clip Name="Title" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
-            <LayoutInput>
-              <FormLayoutInput Right="Parent,1,-40" Top="Parent,0,25" Left="Parent,0,20" />
-            </LayoutInput>
-            <Layout>
-              <FlowLayout ItemAlignment="Far" Orientation="Horizontal" StripAlignment="Far"/>
-            </Layout>
+          <Clip Layout="Form" Padding="[Application.Config.OverScanPadding]" Scale="[Application.Config.OverScanScaling]" CenterPointPercent="0.5,0.5,0.5">
             <Children>
-              <Panel Layout="Scale">
+
+              <!-- Gradiented movie title -->
+              <Clip Name="Title" FadeSize="40" Orientation="Vertical" FadeAmount="0.7" NearOffset="-25" CenterPointPercent="-100,-100,0">
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,1,-40" Top="Parent,0,25" Left="Parent,0,20" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout ItemAlignment="Far" Orientation="Horizontal" StripAlignment="Far"/>
+                </Layout>
                 <Children>
-                  <Text Name="TitleName" Content="" HorizontalAlignment="Far" Font="font://f:MD_TitleFont" Color="color://s:FontColorDark"></Text>
+                  <Panel Layout="Scale">
+                    <Children>
+                      <Text Name="TitleName" Content="" HorizontalAlignment="Far" Font="font://f:MD_TitleFont" Color="color://s:FontColorDark"></Text>
+                    </Children>
+                  </Panel>
+                </Children>
+              </Clip>
+
+              <!-- Poster (large movie pick) -->
+              <Panel Visible="true" Name="PosterPanel" Layout="VerticalFlow" MaximumSize="317,444">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,.035" Top="Parent,0.20" />
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="Preview" MaintainAspectRatio="true" Content="[Item.PrimaryImage]" SizingPolicy="SizeToConstraint">
+                  </Graphic>
                 </Children>
               </Panel>
-            </Children>
-          </Clip>
 
-          <!-- Poster (large movie pick) -->
-          <Panel Visible="true" Name="PosterPanel" Layout="VerticalFlow" MaximumSize="317,444">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.035" Top="Parent,0.20" />
-            </LayoutInput>
-            <Children>
-              <Graphic Name="Preview" MaintainAspectRatio="true" Content="[Item.PrimaryImage]" SizingPolicy="SizeToConstraint">
-              </Graphic>
-            </Children>
-          </Panel>
+              <!-- play/resume buttons-->
+              <Panel>
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" Spacing="10,0" StripAlignment="Center"/>
+                </Layout>
+                <LayoutInput>
+                  <FormLayoutInput Left="PosterPanel,0" Right="PosterPanel,1" Top="PosterPanel,1,15"/>
+                </LayoutInput>
+                <Children>
+                  <sb:SimpleButton Name="ResumeMovieButton" Text="Resume" Command="[ResumeMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont"/>
+                  <sb:SimpleButton Name="PlayMovieButton" Text="Play" Command="[PlayMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont" />
+                  <!-- <vm:ImgButton Name="PlayBtn" Command="[PlayMovieCommand]" Content="Play" Image="image://i:PlayImg" /> -->
+                </Children>
+              </Panel>
 
-          <!-- play/resume buttons-->
-          <Panel>
-            <Layout>
-              <FlowLayout Orientation="Horizontal" Spacing="10,0" StripAlignment="Center"/>
-            </Layout>
-            <LayoutInput>
-              <FormLayoutInput Left="PosterPanel,0" Right="PosterPanel,1" Top="PosterPanel,1,15"/>
-            </LayoutInput>
-            <Children>
-              <sb:SimpleButton Name="ResumeMovieButton" Text="Resume" Command="[ResumeMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont"/>
-              <sb:SimpleButton Name="PlayMovieButton" Text="Play" Command="[PlayMovieCommand]" Size="125,50" Font="font://f:MD_ButtonFont" />
-              <!-- <vm:ImgButton Name="PlayBtn" Command="[PlayMovieCommand]" Content="Play" Image="image://i:PlayImg" /> -->
-            </Children>
-          </Panel>
-
-          <!--
+              <!--
 					<vp:NowPlayingViewport>
 						<LayoutInput>
 							<FormLayoutInput Left="Parent,0,10" Bottom="Parent,1,-10" />
@@ -120,70 +123,73 @@
 					</vp:NowPlayingViewport>
 					-->
 
-          <!-- Description field -->
-          <st:ScrollableText Name="Overview" Text="" Font="font://f:MD_SummaryFont" Color="color://s:FontColorMedium" 
-									FocusColor="color://s:FontColorLight" FocusImage="image://me:ButtonLeftFocus" ImagePadding="10,20,10,20" >
-            <LayoutInput>
-              <FormLayoutInput Left="PosterPanel,1,20" Top="TopBlock,1,5" Right="Parent,.715" Bottom="Parent,1,-83" />
-            </LayoutInput>
-          </st:ScrollableText>
-
-          <!-- Creates the vertical strip between plot/cast -->
-          
-          <ColorFill Content="White" Alpha="0.1" Name="ActorDivider">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.725" Top="TopBlock,1,10" Bottom="Parent,1,-83" Right="Parent,0.73"  />
-            </LayoutInput>
-          </ColorFill> 
-         
-
-          <me:ActorList Name="ActorScroller" Item="[Item]"  >
-            <LayoutInput>
-              <AnchorLayoutInput Top="TopBlock,1,5" Left="Parent,0.74" Right="Parent,0.97" Bottom="Parent,1,-83" />         
-            </LayoutInput>
-          </me:ActorList>
-
-          <!-- Info Panel Block-->
-          <Panel Name="TopBlock" Layout="Anchor" MaximumSize="0,260">
-            <LayoutInput>
-              <FormLayoutInput Left="PosterPanel,1,20" Top="Parent,0,140" Right="Parent,.97" Bottom="Parent,.35"></FormLayoutInput>
-            </LayoutInput>
-            <Children>
-              <me:InfoBlock Name="Info" Application="[Application]" Item="[Item]" >
+              <!-- Description field -->
+              <st:ScrollableText Name="Overview" Text="" Font="font://f:MD_SummaryFont" Color="color://s:FontColorMedium"
+                      FocusColor="color://s:FontColorLight" FocusImage="image://me:ButtonLeftFocus" ImagePadding="10,20,10,20" >
                 <LayoutInput>
-                  <AnchorLayoutInput Top="Parent,0" Left="Parent,0"  />
+                  <FormLayoutInput Left="PosterPanel,1,20" Top="TopBlock,1,5" Right="Parent,.715" Bottom="Parent,1,-83" />
                 </LayoutInput>
-              </me:InfoBlock>
+              </st:ScrollableText>
 
-            </Children>
-          </Panel>
+              <!-- Creates the vertical strip between plot/cast -->
 
-			<bd:Backdrop2 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]">
-				<LayoutInput>
-					<FormLayoutInput Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1,0" />
-				</LayoutInput>
-			</bd:Backdrop2>
-
-         
+              <ColorFill Content="White" Alpha="0.1" Name="ActorDivider">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,.725" Top="TopBlock,1,10" Bottom="Parent,1,-83" Right="Parent,0.73"  />
+                </LayoutInput>
+              </ColorFill>
 
 
-          <!-- Background brightening (creates the darker strips on top/bottom -->
-          <ColorFill Content="White" Alpha="0.1">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
-            </LayoutInput>
-          </ColorFill>
-          <Panel Name="MainBG" Layout="Fill" Margins="-50,-20,-150,-20" >
-            <Children>
-              <Clip FadeSize="360" Orientation="Vertical" FadeAmount="1" CenterPointPercent="0.5,0.5,0.5" FarOffset="50" NearOffset="50" >
+              <me:ActorList Name="ActorScroller" Item="[Item]"  >
+                <LayoutInput>
+                  <AnchorLayoutInput Top="TopBlock,1,5" Left="Parent,0.74" Right="Parent,0.97" Bottom="Parent,1,-83" />
+                </LayoutInput>
+              </me:ActorList>
+
+              <!-- Info Panel Block-->
+              <Panel Name="TopBlock" Layout="Anchor" MaximumSize="0,260">
+                <LayoutInput>
+                  <FormLayoutInput Left="PosterPanel,1,20" Top="Parent,0,140" Right="Parent,.97" Bottom="Parent,.35"></FormLayoutInput>
+                </LayoutInput>
                 <Children>
-                  <ColorFill Content="color://s:BackgroundColor1" Layout="Fill"/>
+                  <me:InfoBlock Name="Info" Application="[Application]" Item="[Item]" >
+                    <LayoutInput>
+                      <AnchorLayoutInput Top="Parent,0" Left="Parent,0"  />
+                    </LayoutInput>
+                  </me:InfoBlock>
+
                 </Children>
-              </Clip>
-              <ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>
+              </Panel>
+
+              <bd:Backdrop2 Name="Backdrop" Visible="[Application.Config.ShowBackdrop]" Image="[Item.BackdropImage]">
+                <LayoutInput>
+                  <FormLayoutInput Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1,0" />
+                </LayoutInput>
+              </bd:Backdrop2>
+
+
+
+
+              <!-- Background brightening (creates the darker strips on top/bottom -->
+              <ColorFill Content="White" Alpha="0.1">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,.0" Top="Parent,0,130" Bottom="Parent,1,-80" Right="Parent,1"/>
+                </LayoutInput>
+              </ColorFill>
+              <Panel Name="MainBG" Layout="Fill" Margins="-50,-20,-150,-20" >
+                <Children>
+                  <Clip FadeSize="360" Orientation="Vertical" FadeAmount="1" CenterPointPercent="0.5,0.5,0.5" FarOffset="50" NearOffset="50" >
+                    <Children>
+                      <ColorFill Content="color://s:BackgroundColor1" Layout="Fill"/>
+                    </Children>
+                  </Clip>
+                  <ColorFill Content="color://s:BackgroundColor2" Layout="Fill"/>
+                </Children>
+              </Panel>
+              <!--<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>-->
+
             </Children>
-          </Panel>
-          <!--<Graphic Name="MainBG" Content="image://i:Background" Margins="-50,-20,-150,-20" Layout="Fill"/>-->
+          </Clip>
 
         </Children>
       </ColorFill>
@@ -195,7 +201,7 @@
   <UI Name="ActorList">
     <Properties>
       <lib:Item Name="Item" Item="$Required"/>
-      
+
     </Properties>
     <Locals>
       <ScrollingHandler Name="ScrollingHandler" HandleDirectionalKeys="true"/>
@@ -380,12 +386,12 @@
       <Binding Source="[Item.DirectorString]" Target="[Director.Content]"/>
       <Condition Source="[Item.ImdbRating]" ConditionOp="GreaterThanOrEquals" SourceValue="0" Target="[IMDBRatingPanel.Visible]" Value="true"  />
       <Condition Source="[Item.Directors.Count]" ConditionOp="GreaterThan" SourceValue="0" Target="[DirectedByPanel.Visible]" Value="true"  />
-		<Changed Source="[Item.MediaInfo]" InitialEvaluate="true">
-			<Actions>
-				<Set Target="[MediaInfo.Content]" Value="[Item.MediaInfo.CombinedInfo]"/>
-			</Actions>
-		</Changed>
-		<Binding Target="[MediaInfo.Visible]" Source="[Item.HasMediaInfo]" />
+      <Changed Source="[Item.MediaInfo]" InitialEvaluate="true">
+        <Actions>
+          <Set Target="[MediaInfo.Content]" Value="[Item.MediaInfo.CombinedInfo]"/>
+        </Actions>
+      </Changed>
+      <Binding Target="[MediaInfo.Visible]" Source="[Item.HasMediaInfo]" />
     </Rules>
     <Content>
       <Panel  Layout="Form" Margins="0,0,0,0">
@@ -441,17 +447,17 @@
                   </TransformAnimation>
                 </Animations>
               </Text>
-				<Text Name="MediaInfo" Font="font://f:MD_MediaInfoFont" Color="color://s:FontColorLight" >
-					<Animations>
-						<TransformAnimation Delay="0.9">
-							<Source>
-								<Animation Animation="animation://an:SlideUpFade" />
-							</Source>
-						</TransformAnimation>
-					</Animations>
-				</Text>
-					
-					
+              <Text Name="MediaInfo" Font="font://f:MD_MediaInfoFont" Color="color://s:FontColorLight" >
+                <Animations>
+                  <TransformAnimation Delay="0.9">
+                    <Source>
+                      <Animation Animation="animation://an:SlideUpFade" />
+                    </Source>
+                  </TransformAnimation>
+                </Animations>
+              </Text>
+
+
             </Children>
           </Panel>
 

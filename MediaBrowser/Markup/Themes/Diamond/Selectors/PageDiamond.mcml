@@ -51,7 +51,7 @@
           <Set Target="[NavTimer.Enabled]" Value="false" />
         </Actions>
       </Changed>-->
-      
+
       <Rule>
         <Conditions>
           <Equality Source="[TopBarHasFocus.Value]" ConditionOp="Equals" Value="true" />
@@ -242,17 +242,14 @@
                 </LayoutInput>
               </np:NowPlayingViewport>
 
-
+              <Graphic Name="Overlay" Content="image://i:DiamondOverlayDarkAll">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,10" Right="Parent,1,50"/>
+                </LayoutInput>
+              </Graphic>
 
             </Children>
           </Clip>
-
-
-          <Graphic Name="Overlay" Content="image://i:DiamondOverlayDarkAll">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,10" Right="Parent,1,50"/>
-            </LayoutInput>
-          </Graphic>
 
         </Children>
       </Panel>
@@ -317,7 +314,7 @@
           <Invoke Target="[ViewConfig.NavigateInto]" />
         </Actions>
       </Changed>
-      
+
       <!-- View Configuration Popup Panel -->
       <Changed Source="[ShowViewConfiguration.Invoked]">
         <Actions>
@@ -363,7 +360,7 @@
           <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
-      
+
       <!-- Indexed By Open and Close Rules-->
       <Changed Source="[ShowIndexConfiguration.Invoked]">
         <Actions>
@@ -415,7 +412,7 @@
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Center" StripAlignment="Near" Spacing="10,10"/>
             </Layout>
-            <Children>              
+            <Children>
               <vm:ViewConfiguration Name="ViewConfig" Visible="false" Prefs="[Folder.DisplayPrefs]" Close="[CloseViewConfiguration]" />
               <vm:RadioConfiguration Name="SortConfig" Visible="false" Choice="[Folder.DisplayPrefs.SortOrders]" Close="[CloseSortConfiguration]" />
               <vm:RadioConfiguration Name="IndexConfig" Visible="false" Choice="[Folder.DisplayPrefs.IndexByChoice]" Close="[CloseIndexConfiguration]" />
