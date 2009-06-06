@@ -131,7 +131,7 @@
           <!-- Details information -->
           <dtb:DiamondInfoBox Name="DiamondInfoBox" Item="[Item.SelectedChild]" Application="[Application]">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0,30" Right="Parent,0.5,-5" Top="Parent,0,85" Bottom="Parent, 0.55,-5" />
+              <FormLayoutInput Left="Parent,0,35" Right="Parent,0.5,-10" Top="Parent,0,90" Bottom="Parent, 0.55,-10" />
             </LayoutInput>
           </dtb:DiamondInfoBox>         
 					

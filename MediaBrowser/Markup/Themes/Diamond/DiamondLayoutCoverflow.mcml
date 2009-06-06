@@ -33,7 +33,7 @@
       <lib:Item Name="PreviousSelectedItem" Item="[Folder.SelectedChild]" />
       <lib:Item Name="BlankItem"  Item="[Folder.BlankItem]"/>
       <Timer Name="FullDetailsTimer" Interval="300" AutoRepeat="false"/>
-      <AnchorLayoutInput Name="AnchorNormal" Horizontal="Fill" Top="Parent, 0.5" Bottom="Parent, .95" />
+      <AnchorLayoutInput Name="AnchorNormal" Horizontal="Fill" Top="Parent, 0.4" Bottom="Parent, .95" />
       <AnchorLayoutInput Name="AnchorCustom" Horizontal="Fill" Top="Parent, 0,-50" Bottom="Parent, 1, 250" />
     </Locals>
 
