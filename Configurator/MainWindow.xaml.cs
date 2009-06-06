@@ -310,6 +310,7 @@ folder: {0}
             {
                 var form = new RenameForm(virtualFolder.Name);
                 form.Owner = this;
+                form.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 var result = form.ShowDialog();
                 if (result == true)
                 {
@@ -428,6 +429,7 @@ folder: {0}
         {
             var form = new AddExtenderFormat();
             form.Owner = this;
+            form.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = form.ShowDialog();
             if (result == true)
             {
@@ -503,7 +505,7 @@ folder: {0}
 
             var form = new SelectMediaTypeForm(list);
             form.Owner = this;
-
+            form.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             if (form.ShowDialog() == true)
             {
                 ConfigData.ExternalPlayer player = new ConfigData.ExternalPlayer();
@@ -558,6 +560,7 @@ folder: {0}
             {
                 var form = new PlayerArgsForm(mediaPlayer.Args);
                 form.Owner = this;
+                form.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (form.ShowDialog() == true)
                 {
                     mediaPlayer.Args = form.txtArgs.Text;
@@ -825,6 +828,8 @@ folder: {0}
 
         private void addPlugin_Click(object sender, RoutedEventArgs e) {
             AddPluginWindow window = new AddPluginWindow();
+            window.Owner = this;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             window.ShowDialog();
         }
 

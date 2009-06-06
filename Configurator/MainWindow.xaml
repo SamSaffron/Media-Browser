@@ -129,8 +129,8 @@
                             <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background" Click="cbxOptionTransparent_Click">Transparent Background</CheckBox>
                             <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items" Click="cbxOptionDimPoster_Click">Dim Unselected Posters</CheckBox>
                             <CheckBox Margin="25,82,25,0" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Top" Click="cbxOptionIndexing_Click">Remember Folder Indexing</CheckBox>
-                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area" Height="24.38" VerticalAlignment="Top" Click="cbxOptionAspectRatio_Click">Stretch Poster Art Image</CheckBox>
-                            <CheckBox Height="24.38" Margin="25,0,25,6" Name="cbxOptionHideFrame" ToolTip="Hide focus frame around posters." VerticalAlignment="Bottom" Click="cbxOptionHideFrame_Click">Hide Focus Frame</CheckBox>
+                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area" Height="24.38" VerticalAlignment="Top" Click="cbxOptionAspectRatio_Click">Override Poster Aspect Ratio</CheckBox>
+                            <CheckBox Height="24.38" Margin="25,130.38,25,0" Name="cbxOptionHideFrame" ToolTip="Hide focus frame around posters." VerticalAlignment="Top" Click="cbxOptionHideFrame_Click">Hide Focus Frame</CheckBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Media Tracking" HorizontalAlignment="Right" Margin="0,14,20,0" Name="groupBox2" Width="287" Height="157.38" VerticalAlignment="Top">
@@ -142,7 +142,7 @@
                             <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,13" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom">
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,13" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom" Foreground="#FF323232" BorderBrush="Transparent">
                         <Grid>
                             <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
                     <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
