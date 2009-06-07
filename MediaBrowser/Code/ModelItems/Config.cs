@@ -543,11 +543,6 @@ namespace MediaBrowser
         private Config()
         {
             isValid = Load();
-            if (isValid) {
-                if (!string.IsNullOrEmpty(this.UserSettingsPath) && Directory.Exists(this.UserSettingsPath)) {
-                    ApplicationPaths.SetUserSettingsPath(this.UserSettingsPath);
-                }
-            }
         }
 
         public bool IsValid {
