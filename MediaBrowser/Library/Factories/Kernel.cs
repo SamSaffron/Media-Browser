@@ -69,6 +69,13 @@ namespace MediaBrowser.Library {
 
         public static void Init(KernelLoadDirective directives, ConfigData config) {
             lock (sync) {
+
+                // we must set up some paths as well as a side effect (should be refactored) 
+                if (!string.IsNullOrEmpty(config.UserSettingsPath) && Directory.Exists(config.UserSettingsPath)) {
+                    ApplicationPaths.SetUserSettingsPath(config.UserSettingsPath);
+                }
+                
+
                 // its critical to have the logger initialized early so initialization routines can use the right logger.
                 Logger.LoggerInstance = GetDefaultLogger(config);
                 var kernel = GetDefaultKernel(config, directives);
