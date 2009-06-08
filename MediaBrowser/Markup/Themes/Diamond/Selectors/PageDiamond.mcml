@@ -40,8 +40,8 @@
 
       <AnchorLayoutInput Name="LayoutTopBarShow" Top="Parent,0" Left="Parent,0" Right="Parent,1" Horizontal="Center" />
       <AnchorLayoutInput Name="LayoutTopBarHide" Left="Parent,0" Top="Parent,0,-100" Right="Parent,1" Horizontal="Center" />
-      <!-- Navigate Timer to bypass view triggering 
-      <Timer Name="NavTimer" Interval="150" AutoRepeat="false" Enabled="true"/>-->
+      <!-- Navigate Timer to bypass view triggering -->
+      <Timer Name="NavTimer" Interval="550" AutoRepeat="false" Enabled="true"/>
     </Locals>
 
     <Rules>
@@ -199,7 +199,7 @@
                   <Panel Layout="Scale">
                     <Children>
                       <Text Content="[Application.BreadCrumbs]" HorizontalAlignment="Center"
-                            Font="font://f:P_BreadcrumbSmallFont" Color="White" />
+                            Font="Segoe Media Center, 18" Color="White" />
                     </Children>
                   </Panel>
                 </Children>
@@ -277,6 +277,9 @@
     </Locals>
 
     <Rules>
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+      
       <Binding Source="[Folder.IsRoot]" Target="[ConfigBtn.Visible]"/>
       <!-- Sort and Index current values-->
       <Binding Source="[Folder.DisplayPrefs.SortOrders.Chosen!cor:String]" Target="[SortOrdersBtn.Content]" />
