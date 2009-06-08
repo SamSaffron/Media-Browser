@@ -416,9 +416,10 @@
         <Actions>
           <Set Target="[Main.Scale]" Value="1.2,1.2,1"/>
           <Set Target="[Main.Rotation]" Value="0deg;0,1,0" />
-          <Set Target="[CoverOutline.Content]" Value="[FocusImage]" /><!---->
+          <Set Target="[CoverOutline.Content]" Value="[FocusImage]" />
           <Set Target="[ConstraintPanel1.ColorFilter]" Value="White" />
           <Set Target="[ConstraintPanel1.Alpha]" Value="1" />
+          <Set Target="[g1.Content]" Value="[Item.PreferredImage]" />
         </Actions>
       </Condition>
 

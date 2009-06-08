@@ -17,9 +17,9 @@
 
   <!-- LAYOUT INPUTS -->
   <FormLayoutInput Name="LI_Bg" Left="Parent,0,-50" Top="Parent,0,-20" Bottom="Parent,1,20" Right="Parent,1,50"/>
-  <AnchorLayoutInput Name="LI_Title" Top="Parent, 0" Left="Parent, 0.5,-350" Right="Parent,.5,350" Horizontal="Center"  />
+  <AnchorLayoutInput Name="LI_Title" Top="Parent, 0" Left="Parent, 0.5,-400" Right="Parent,.5,400" Horizontal="Center"  />
   <AnchorLayoutInput Name="LI_ClipTop" Top="Parent,0,-20" Bottom="Parent,0,120" Left="Parent,0,-50" Right="Parent,1,50" />
-  <FormLayoutInput Name="LI_ClipBottom" Left="Parent,0,-50" Top="Parent,1,-100" Bottom="Parent,1,20" Right="Parent,1,50"/>
+  <FormLayoutInput Name="LI_ClipBottom" Left="Parent,0,-50" Top="Parent,1,-200" Bottom="Parent,1,20" Right="Parent,1,50"/>
   <!-- END LAYOUT INPUTS -->
 
   <UI Name="DiamondTitleUI">
@@ -260,12 +260,7 @@
   
   <UI Name="DiamondClipBottom">
     <Content>
-      <Clip  FadeSize="80" Orientation="Vertical" ShowFar="false" FadeAmount="1" FarOffset="25" >
-        <Children>
-          <ColorFill Content="White" Alpha="global://s:FilterAlpha">
-          </ColorFill>
-        </Children>
-      </Clip>
+      <Graphic Content="resx://MediaBrowser/MediaBrowser.Resources/dia_overlay_bottom" />
     </Content>
   </UI>
 
