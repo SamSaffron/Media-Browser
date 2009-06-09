@@ -574,6 +574,7 @@
     <Content Include="Markup\Themes\Vanilla\Selectors\PageDetailArea.mcml" />
     <Content Include="Markup\Themes\Vanilla\ViewMovie.mcml" />
     <Content Include="Registration.xml" />
+    <Content Include="Registration7.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
