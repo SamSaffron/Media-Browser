@@ -151,7 +151,10 @@ namespace MediaBrowser.Library {
 
 
             kernel.EntityResolver = DefaultResolver(kernel.ConfigData);
-            kernel.RootFolder = kernel.GetItem<AggregateFolder>(ResolveInitialFolder(kernel.ConfigData.InitialFolder));
+
+            // we need to enforce that the root folder is an aggregate folder
+            var root = kernel.GetLocation(ResolveInitialFolder(kernel.ConfigData.InitialFolder));
+            kernel.RootFolder = (AggregateFolder)BaseItemFactory<AggregateFolder>.Instance.CreateInstance(root, null);
 
             kernel.Plugins = DefaultPlugins((loadDirective & KernelLoadDirective.ShadowPlugins) == KernelLoadDirective.ShadowPlugins);
 
