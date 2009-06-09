@@ -86,6 +86,9 @@
 			<Component Id="Registration.xml" Guid="C3CA4268-C97F-414f-99E8-BD1106A6B12C" DiskId="1">
 				<File Id="Registration.xml" Name="Registration.xml" Source="..\MediaBrowser\Registration.xml" Checksum="no" />
 			</Component>
+      <Component Id="Registration7.xml" Guid="C079A9EC-299A-4b0b-B5F3-9661E3A32AD0" DiskId="1">
+        <File Id="Registration7.xml" Name="Registration.xml7" Source="..\MediaBrowser\Registration7.xml" Checksum="no" />
+      </Component>
 			<Component Id="Application.png" Guid="85297F6D-29E5-4288-83EB-FBF9C2D70FE2" DiskId="1">
 				<File Id="Application.png" Name="Application.png" Source="..\MediaBrowser\Images\Application.png" Checksum="no" />
 			</Component>
@@ -100,10 +103,11 @@
 		<Feature Id="APPROOTFEATURE" Title="MediaBrowser" Level="1">
       <ComponentRef Id="Configurator.exe" />
       <ComponentRef Id="MediaBrowser.dll" />
-			<ComponentRef Id="Registration.xml" />
 			<ComponentRef Id="Application.png" />
       <ComponentRef Id="ApplicationInactive.png" />
-      <ComponentRef Id="ApplicationShortcut" /> 
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="Registration.xml" />
+      <ComponentRef Id="Registration7.xml" />
     </Feature>
 
 		<!-- The media table defines the location that the MSI will look to find source files during         -->
@@ -126,7 +130,14 @@
 		<CustomAction Id="CA_RegisterMceApp_Register_Cmd" Property="CA_RegisterMceApp_Register" Value="&quot;[REGISTERMCEAPP]&quot; /allusers &quot;[#Registration.xml]&quot;"/>
 		<CustomAction Id="CA_RegisterMceApp_Rollback_Cmd" Property="CA_RegisterMceApp_Rollback" Value="&quot;[REGISTERMCEAPP]&quot; /u /allusers &quot;[#Registration.xml]&quot;"/>
 
-		<CustomAction Id="CA_RegisterMceApp_Unregister_Install" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="ignore" Impersonate="no"/>
+    <!-- Windows 7 -->
+    <CustomAction Id="CA_RegisterMceApp_Unregister_Install_Cmd7" Property="CA_RegisterMceApp_Unregister_Install" Value="&quot;[REGISTERMCEAPP]&quot; /u /allusers &quot;[#Registration7.xml]&quot;"/>
+    <CustomAction Id="CA_RegisterMceApp_Unregister_Uninstall_Cmd7" Property="CA_RegisterMceApp_Unregister_Uninstall" Value="&quot;[REGISTERMCEAPP]&quot; /u /allusers &quot;[#Registration7.xml]&quot;"/>
+    <CustomAction Id="CA_RegisterMceApp_Register_Cmd7" Property="CA_RegisterMceApp_Register" Value="&quot;[REGISTERMCEAPP]&quot; /allusers &quot;[#Registration7.xml]&quot;"/>
+    <CustomAction Id="CA_RegisterMceApp_Rollback_Cmd7" Property="CA_RegisterMceApp_Rollback" Value="&quot;[REGISTERMCEAPP]&quot; /u /allusers &quot;[#Registration7.xml]&quot;"/>
+
+
+    <CustomAction Id="CA_RegisterMceApp_Unregister_Install" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="ignore" Impersonate="no"/>
 		<CustomAction Id="CA_RegisterMceApp_Unregister_Uninstall" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="ignore" Impersonate="no"/>
 		<CustomAction Id="CA_RegisterMceApp_Register" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="check" Impersonate="no"/>
 		<CustomAction Id="CA_RegisterMceApp_Rollback" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="rollback" Return="ignore" Impersonate="no"/>
@@ -149,17 +160,31 @@
       <Custom Action="CA_ErrWrongWindowsVersion" Before="CostInitialize"><![CDATA[(NOT VersionNT >= 600 OR NOT REGISTERMCEAPP) AND NOT Installed]]></Custom>
 
 			<Custom Action="CA_RegisterMceApp_Unregister_Install_Cmd" After="CostFinalize">
-				<![CDATA[NOT REMOVE]]>
+				<![CDATA[(NOT REMOVE) AND (VersionNT = 600)]]>
 			</Custom>
 			<Custom Action="CA_RegisterMceApp_Unregister_Uninstall_Cmd" After="CA_RegisterMceApp_Unregister_Install_Cmd" >
-				<![CDATA[(REMOVE) AND (NOT UPGRADINGPRODUCTCODE)]]>
+				<![CDATA[(REMOVE) AND (NOT UPGRADINGPRODUCTCODE) AND (VersionNT = 600)]]>
 			</Custom>
 			<Custom Action="CA_RegisterMceApp_Register_Cmd" After="CA_RegisterMceApp_Unregister_Uninstall_Cmd">
-				<![CDATA[NOT REMOVE]]>
+				<![CDATA[NOT REMOVE AND (VersionNT = 600)]]>
 			</Custom>
 			<Custom Action="CA_RegisterMceApp_Rollback_Cmd" After="CA_RegisterMceApp_Register_Cmd">
-				<![CDATA[NOT REMOVE]]>
+				<![CDATA[NOT REMOVE AND (VersionNT = 600)]]>
 			</Custom>
+
+      <!-- Win 7 -->
+      <Custom Action="CA_RegisterMceApp_Unregister_Install_Cmd7" After="CostFinalize">
+        <![CDATA[(NOT REMOVE) AND (VersionNT = 601)]]>
+      </Custom>
+      <Custom Action="CA_RegisterMceApp_Unregister_Uninstall_Cmd7" After="CA_RegisterMceApp_Unregister_Install_Cmd7" >
+        <![CDATA[(REMOVE) AND (NOT UPGRADINGPRODUCTCODE) AND (VersionNT = 601)]]>
+      </Custom>
+      <Custom Action="CA_RegisterMceApp_Register_Cmd7" After="CA_RegisterMceApp_Unregister_Uninstall_Cmd7">
+        <![CDATA[NOT REMOVE AND (VersionNT = 601)]]>
+      </Custom>
+      <Custom Action="CA_RegisterMceApp_Rollback_Cmd7" After="CA_RegisterMceApp_Register_Cmd7">
+        <![CDATA[NOT REMOVE AND (VersionNT = 601)]]>
+      </Custom>
 
 			<!-- This unregistration custom action must occur before files are removed during uninstall of the -->
 			<!-- product because the custom action requires the registration XML file in order to run          -->
