@@ -334,11 +334,13 @@
         </Actions>
       </Changed>
       <Changed Source="[Folder.DisplayPrefs.ViewType.Chosen]" >
-        <Conditions>
+        <!--<Conditions>
           <Equality Source="[ViewConfig.Visible]" Value="true" />
-        </Conditions>
+        </Conditions>-->
         <Actions>
-          <Invoke Target="[ViewConfig.NavigateInto]" />
+         <!-- <Invoke Target="[ViewConfig.NavigateInto]" />-->
+          <Set Target="[ViewConfig.Visible]" Value="false"/>
+          <Invoke Target="[MainContainer.NavigateInto]" />
         </Actions>
       </Changed>
 

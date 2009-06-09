@@ -30,7 +30,7 @@
     <Locals>
       <Timer Name="AnimTimer" Interval="[AnimDelay]" Enabled="false" AutoRepeat="false"/>
       <BooleanChoice Name="InFocus" Value="false" />
-  
+      <Timer Name="OneTimeImageReloader" Interval="250" Enabled="true" AutoRepeat="false"/>
     </Locals>
 
     <Rules>
@@ -46,6 +46,13 @@
 			<Binding Source="[Item.Name]" Target="[BelowLabelPanel.Content]" />
 			<Binding Source="[Item.Name]" Target="[Label.Content]" />
 
+      <Changed Source="[OneTimeImageReloader.Tick]">
+        <Actions>
+          <Set Target="[BoxArt.Content]" Value="[Item.PreferredImage]"/>
+          <Set Target="[OneTimeImageReloader.Enabled]" Value="false"/>
+        </Actions>
+      </Changed>
+      
       <Changed Source="[Item.HaveWatched]">
         <Conditions>
           <Equality Source="[Item.HaveWatched]" ConditionOp="Equals" Value="true" />
