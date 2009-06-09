@@ -43,7 +43,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl Margin="12,67,12,12" x:Name="tabControl1" Background="{x:Null}">
+        <TabControl Margin="12,67,12,47" x:Name="tabControl1" Background="{x:Null}">
             <TabItem Header="media collection" FontSize="14" FontWeight="Normal" Foreground="#FF323232">
                 <Grid>
                     <ListBox HorizontalAlignment="Left" Margin="20,40,0,52" x:Name="folderList" Width="269" SelectionChanged="folderList_SelectionChanged" FontSize="14" />
@@ -64,38 +64,42 @@
                     <Label Height="34" HorizontalAlignment="Left" Margin="52,6,0,0" x:Name="lblStep1b" VerticalAlignment="Top" Width="237" Foreground="#FF030303" Content="Add your media"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="podcasts" FontSize="14">
-                <Grid>
-                    <Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
-                    <Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
-                    <Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" ToolTip="Change podcast data storage location" />
-                    <ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged"/>
-                    <Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
-                    <Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
-                    <Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
-                    <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="0,0,36,92" FontSize="12" Height="38" TextWrapping="Wrap" HorizontalAlignment="Right" Width="285" />
-                    <Label Height="29" Margin="0,21,36,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold" HorizontalAlignment="Right" Width="285">The Cook and the Chef</Label>
-                    <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="323,67,33,136" Name="podcastDescription" TextWrapping="Wrap" />
-                </Grid>
-            </TabItem>
-
-
-            <TabItem Header="plug-ins" x:Name="plugins" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
+			<TabItem Header="podcasts" FontSize="14">
+				<Grid>
+					<Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
+					<Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
+					<Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" ToolTip="Change podcast data storage location" />
+					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged"/>
+					<Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
+					<Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
+					<Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
+					<Border HorizontalAlignment="Right" Margin="0,20.38,8,130" Width="310" x:Name="podcastDetails" Height="246">
+						<Grid >
+                            <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="10,44,10,52" Name="podcastDescription" TextWrapping="Wrap" />
+                            <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="11,0,12,6" FontSize="12" Height="40" TextWrapping="Wrap" />
+                            <Label Height="29" Margin="6,9,17,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold">The Cook and the Chef</Label>
+                        </Grid>
+					</Border>
+				</Grid>
+			</TabItem>
+			
+			
+			<TabItem Header="plug-ins" x:Name="plugins" Foreground="#FF323232" FontSize="14" FontWeight="Normal">
                 <Grid DataContext="{DynamicResource PluginManager}" >
-                    <ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList" DisplayMemberPath="Name" ItemsSource="{Binding Path=InstalledPlugins}" SelectedIndex="0" OverridesDefaultStyle="False"/>
-                    <TextBlock Margin="301,80.38,56,156" Text="{Binding Path=SelectedItem.Description, ElementName=pluginList, Mode=Default}" TextWrapping="Wrap" x:Name="pluginDescription"/>
-                    <Label Margin="305,0,224,59" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
-                    <Label HorizontalAlignment="Right" Margin="0,0,134,59" Width="93" Content="{Binding Path=SelectedItem.InstalledVersion, ElementName=pluginList, Mode=Default}" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>
-                    <Label Margin="305,0,231,100" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
-                    <Label HorizontalAlignment="Right" Margin="0,0,137,98" VerticalAlignment="Bottom" Width="90" Height="29" Content="{Binding Path=SelectedItem.Version, ElementName=pluginList, Mode=Default}" x:Name="latestPluginVersion"/>
-                    <Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin" Visibility="Visible"/>
-                    <Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin" Click="addPlugin_Click" />
-                    <Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin" Click="removePlugin_Click" />
-                    <Label Margin="297,41.38,71,0" VerticalAlignment="Top" Height="30.62" Content="{Binding Path=SelectedItem.Name, ElementName=pluginList, Mode=Default}" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
-
+                	<ListBox IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" Margin="21,27.38,0,62" Width="240" x:Name="pluginList" DisplayMemberPath="Name" ItemsSource="{Binding Path=InstalledPlugins}" SelectedIndex="0" OverridesDefaultStyle="False"/>
+                	<TextBlock Margin="301,80.38,56,156" Text="{Binding Path=SelectedItem.Description, ElementName=pluginList, Mode=Default}" TextWrapping="Wrap" x:Name="pluginDescription"/>
+                	<Label Margin="305,0,224,59" Content="Latest Version:" VerticalAlignment="Bottom" Height="33"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,134,59" Width="93" Content="{Binding Path=SelectedItem.InstalledVersion, ElementName=pluginList, Mode=Default}" Height="30" VerticalAlignment="Bottom" x:Name="installedPluginVersion"/>
+                	<Label Margin="305,0,231,100" VerticalAlignment="Bottom" Height="27" Content="Installed Version:"/>
+                	<Label HorizontalAlignment="Right" Margin="0,0,137,98" VerticalAlignment="Bottom" Width="90" Height="29" Content="{Binding Path=SelectedItem.Version, ElementName=pluginList, Mode=Default}" x:Name="latestPluginVersion"/>
+                	<Button Margin="0,0,46,66" VerticalAlignment="Bottom" Height="26" Content="Upgrade ..." Width="78" HorizontalAlignment="Right" x:Name="upgradePlugin" Visibility="Visible"/>
+                	<Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="69" Height="27" Content="Add" x:Name="addPlugin" Click="addPlugin_Click" />
+                	<Button HorizontalAlignment="Left" Margin="182,0,0,25" VerticalAlignment="Bottom" Width="79" Height="27" Content="Remove" x:Name="removePlugin" Click="removePlugin_Click" />
+                	<Label Margin="297,41.38,71,0" VerticalAlignment="Top" Height="30.62" Content="{Binding Path=SelectedItem.Name, ElementName=pluginList, Mode=Default}" FontWeight="Normal" FontSize="18" FontFamily="Trebuchet MS" x:Name="pluginName"/>
+                  
                 </Grid>
             </TabItem>
-
+			
             <TabItem Header="extenders + iso" x:Name="extendersTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed">
                 <Grid >
                     <GroupBox Header="Extender Settings" Margin="9,16,0,14" Name="groupBox6" HorizontalAlignment="Left" Width="225">
@@ -118,19 +122,18 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-
-
+			
+			
             <TabItem Header="display" x:Name="displayTab" Foreground="#FF323232" FontSize="14" FontWeight="Normal" Visibility="Collapsed" >
                 <Grid >
-
-                    <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,198" Name="groupBox1" Width="287">
+                    
+                    <GroupBox Header="General Display Settings" HorizontalAlignment="Left" Margin="9,14,0,0" Name="groupBox1" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
-                            <CheckBox Height="32" Margin="25,10,100,0" Name="cbxOptionClock" ToolTip="Display time clock within Media Browser" VerticalAlignment="Top" Click="cbxOptionClock_Click">Display Clock</CheckBox>
-                            <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background" Click="cbxOptionTransparent_Click">Transparent Background</CheckBox>
-                            <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items" Click="cbxOptionDimPoster_Click">Dim Unselected Posters</CheckBox>
-                            <CheckBox Margin="25,82,25,0" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Top" Click="cbxOptionIndexing_Click">Remember Folder Indexing</CheckBox>
-                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area" Height="24.38" VerticalAlignment="Top" Click="cbxOptionAspectRatio_Click">Override Poster Aspect Ratio</CheckBox>
-                            <CheckBox Height="24.38" Margin="25,130.38,25,0" Name="cbxOptionHideFrame" ToolTip="Hide focus frame around posters." VerticalAlignment="Top" Click="cbxOptionHideFrame_Click">Hide Focus Frame</CheckBox>
+                            <CheckBox Height="32" Margin="25,10,100,0" Name="cbxOptionClock" ToolTip="Display time clock within Media Browser" VerticalAlignment="Top">Display Clock</CheckBox>
+                            <CheckBox Margin="25,34,36,54.38" Name="cbxOptionTransparent" ToolTip="Enable transparent background">Transparent Background</CheckBox>
+                            <CheckBox Margin="25,58,45,30.38" Name="cbxOptionDimPoster" ToolTip="Dim unselected items">Dim Unselected Posters</CheckBox>
+                            <CheckBox Margin="25,0,25,30" Name="cbxOptionIndexing" ToolTip="Remember indexed filter settings for each folder" Height="19.76" VerticalAlignment="Bottom">Remember Folder Indexing</CheckBox>
+                            <CheckBox Margin="25,106,25,0" Name="cbxOptionAspectRatio" ToolTip="Stretch folder image to fill display area">Stretch Poster Art Image</CheckBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Media Tracking" HorizontalAlignment="Right" Margin="0,14,20,0" Name="groupBox2" Width="287" Height="157.38" VerticalAlignment="Top">
@@ -142,29 +145,25 @@
                             <CheckBox Margin="25,106,0,0" Name="cbxOptionDefaultToUnwatched" HorizontalAlignment="Left" Width="234" Content="Default to First Unwatched Item" Click="cbxOptionDefaultToUnwatched_Click" Height="32" VerticalAlignment="Top" ToolTip="Automatically highlight the first unwatched item" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,0,0,13" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Bottom" Foreground="#FF323232" BorderBrush="Transparent">
+                    <GroupBox Header="Theme Settings" HorizontalAlignment="Left" Margin="10,190,0,0" Name="groupBox3" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
                             <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,9,12,0" Name="ddlOptionViewTheme" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionViewTheme_SelectionChanged" ToolTip="Visual theme of Media Browser" />
-                            <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
-                            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,38,11,0" Name="ddlOptionThemeColor" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionThemeColor_SelectionChanged" ToolTip="Change the color scheme of a theme" />
-                            <Label Margin="20,32,135,64" ToolTip="Change the color scheme of a theme">Color Scheme</Label>
-                            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,11,41" Name="ddlOptionThemeFont" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeFont_SelectionChanged" ToolTip="Font size displayed within Media Browser" />
-                            <Label Margin="20,63,135,33" ToolTip="Font size displayed within Media Browser">Font Size</Label>
-
+                    <Label Height="35.38" Margin="20,5,135,0" VerticalAlignment="Top" ToolTip="Visual theme of Media Browser">Visual Theme</Label>
+                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,38,11,0" Name="ddlOptionThemeColor" VerticalAlignment="Top" Width="120" SelectionChanged="ddlOptionThemeColor_SelectionChanged" ToolTip="Change the color scheme of a theme" />
+                    <Label Margin="20,32,135,64" ToolTip="Change the color scheme of a theme">Color Scheme</Label>
+                    <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,0,11,41" Name="ddlOptionThemeFont" VerticalAlignment="Bottom" Width="120" SelectionChanged="ddlOptionThemeFont_SelectionChanged" ToolTip="Font size displayed within Media Browser" />
+                    <Label Margin="20,63,135,33" ToolTip="Font size displayed within Media Browser">Font Size</Label>
+                    
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,0,20,12" Name="groupBox4" Width="287" Height="177" VerticalAlignment="Bottom">
+                    <GroupBox Header="Enhanced Home Screen" HorizontalAlignment="Right" Margin="0,190,20,0" Name="groupBox4" Width="287" Height="157.38" VerticalAlignment="Top">
                         <Grid>
                             <CheckBox Height="32" HorizontalAlignment="Left" Margin="25,10,0,0" Name="cbxRootPage" ToolTip="Enable the enhanced home screen" VerticalAlignment="Top" Width="234" Click="cbxRootPage_Click">Enable Enhanced Home Screen</CheckBox>
-                            <Label Margin="25,0,130,12" ToolTip="Weather temperature unit" Height="55.38" VerticalAlignment="Bottom">Weather Unit</Label>
-                            <Label Margin="25,58,130,58" ToolTip="Yahoo! Weather location ID (e.g. UKXX0055)">Weather ID</Label>
-                            <TextBox Margin="120,61,35,67" Name="tbxWeatherID" />
-                            <ComboBox Margin="120,88,35,0" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" Height="22.38" VerticalAlignment="Top" />
+                            <Label Margin="25,60,130,36" ToolTip="Weather temperature unit">Weather Unit</Label>
+                            <Label Height="35.38" HorizontalAlignment="Left" Margin="25,34,0,0" ToolTip="Yahoo! Weather location ID (e.g. UKXX0055)" VerticalAlignment="Top" Width="120">Weather ID</Label>
+                            <TextBox Height="23" Margin="120,37,35,0" Name="tbxWeatherID" VerticalAlignment="Top" />
+                            <ComboBox Margin="120,64,35,45" Name="ddlWeatherUnits" ToolTip="Change the color scheme of a theme" />
                             <Button Height="29.76" Margin="25,0,0,6" Name="btnWeatherID" VerticalAlignment="Bottom" Click="btnWeatherID_Click" HorizontalAlignment="Left" Width="85">Save</Button>
-                            <TextBlock Margin="25,33.62,78,0" Height="25.38" VerticalAlignment="Top">
-                                <Hyperlink NavigateUri="http://weather.yahoo.com/" RequestNavigate="HandleRequestNavigate" Name="hl">
-                                  Yahoo! Weather ID Lookup
-                                </Hyperlink></TextBlock>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -215,17 +214,17 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Height="33" HorizontalAlignment="Left" Margin="38,15,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options" Foreground="Black">basic</Label>
+        <Label Height="33" HorizontalAlignment="Left" Margin="38,15,0,0" Name="hdrBasic" VerticalAlignment="Top" Width="68" FontSize="18" MouseDown="hdrBasic_MouseDown" FontWeight="Bold" ToolTip="Click to display basic configuration options">basic</Label>
         <Label FontSize="18" Height="33" HorizontalAlignment="Left" Margin="108,15,0,0" Name="hdrAdvanced" VerticalAlignment="Top" Width="91" Foreground="Gray" MouseDown="hdrAdvanced_MouseDown" ToolTip="Click to display advanced configuration options">advanced</Label>
         <Rectangle Height="25.989" Margin="15,19.343,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF234502" Offset="1"/>
-                    <GradientStop Color="#FF77CA29" Offset="0.518"/>
-                    <GradientStop Color="#FFA0F54F" Offset="0"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
+        	<Rectangle.Fill>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF234502" Offset="1"/>
+        			<GradientStop Color="#FF77CA29" Offset="0.518"/>
+        			<GradientStop Color="#FFA0F54F" Offset="0"/>
+        		</LinearGradientBrush>
+        	</Rectangle.Fill>
         </Rectangle>
-
+        
     </Grid>
 </Window>
