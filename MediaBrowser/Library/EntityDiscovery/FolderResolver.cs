@@ -22,11 +22,7 @@ namespace MediaBrowser.Library.EntityDiscovery {
             var folder = location as IFolderMediaLocation; 
             if (!(folder==null))
             {
-                // root folder special handling 
-                if (folder.Parent == null) {
-                    factory = BaseItemFactory<AggregateFolder>.Instance;
-                }
-                else if (folder.Children.Count > 0 && !ignoreFolders.Contains(folder.Name.ToLower())) {
+                if (folder.Children.Count > 0 && !ignoreFolders.Contains(folder.Name.ToLower())) {
                     if (!folder.ContainsChild(IGNORE_FOLDER)) { 
                         factory = BaseItemFactory<Folder>.Instance;
                     }
