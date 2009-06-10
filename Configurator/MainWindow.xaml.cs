@@ -41,71 +41,74 @@ namespace Configurator
 
         public MainWindow()
         {
-            Kernel.Init(KernelLoadDirective.ShadowPlugins);
+            try {        
+                Initialize();
+            } catch (Exception ex) {
+                MessageBox.Show("Failed to start up, please post this contents on mediabrowser.tv/forums " + ex.ToString());
+            }
 
+        }
+
+        private void Initialize() {
+            Kernel.Init(KernelLoadDirective.ShadowPlugins);
+            
             InitializeComponent();
             LoadComboBoxes();
 
-            config = ConfigData.FromFile(ApplicationPaths.ConfigFile);
+            config = Kernel.Instance.ConfigData;
 
             infoPanel.Visibility = Visibility.Hidden;
             infoPlayerPanel.Visibility = Visibility.Hidden;
 
             // first time the wizard has run 
-            if (config.InitialFolder != ApplicationPaths.AppInitialDirPath)
-            {
-                try
-                {
+            if (config.InitialFolder != ApplicationPaths.AppInitialDirPath) {
+                try {
                     MigrateOldInitialFolder();
-                }
-                catch
-                {
+                } catch {
                     MessageBox.Show("For some reason we were not able to migrate your old initial path, you are going to have to start from scratch.");
                 }
             }
+
 
             config.InitialFolder = ApplicationPaths.AppInitialDirPath;
             RefreshItems();
             RefreshPodcasts();
             RefreshPlayers();
-            LoadConfigurationSettings();            
 
-            for (char c = 'D'; c <= 'Z'; c++)
-            {
+            LoadConfigurationSettings();
+
+            for (char c = 'D'; c <= 'Z'; c++) {
                 daemonToolsDrive.Items.Add(c.ToString());
             }
 
-            try
-            {
+            try {
                 daemonToolsDrive.SelectedValue = config.DaemonToolsDrive;
-            }
-            catch
-            {
+            } catch {
                 // someone bodged up the config
             }
 
             daemonToolsLocation.Content = config.DaemonToolsLocation;
 
-            
+
             RefreshExtenderFormats();
             RefreshDisplaySettings();
-
-            podcastsPath.Content = config.PodcastHome;
             podcastDetails(false);
             SaveConfig();
-
         }
 
         private void RefreshPodcasts() {
             var podcasts = Kernel.Instance.GetItem<Folder>(config.PodcastHome);
-            podcasts.ValidateChildren();
-
             podcastList.Items.Clear();
 
-            foreach (var item in podcasts.Children) {
-                if (item is VodCast) {
-                    (item as VodCast).ValidateChildren();
-                    podcastList.Items.Add(item);
+
+            if (podcasts != null) {
+                podcasts.ValidateChildren();
+
+                foreach (var item in podcasts.Children) {
+                    if (item is VodCast) {
+                        (item as VodCast).ValidateChildren();
+                        podcastList.Items.Add(item);
+                    }
                 }
             }
         }
@@ -749,16 +752,6 @@ folder: {0}
                 config.YahooWeatherUnit = "c";
             config.YahooWeatherFeed = tbxWeatherID.Text;
             SaveConfig();
-        }
-
-        private void ChangePodcastPathClick(object sender, RoutedEventArgs e) {
-            BrowseForFolderDialog dlg = new BrowseForFolderDialog();
-
-            if (true == dlg.ShowDialog(this)) {
-                config.PodcastHome = dlg.SelectedFolder;
-                podcastsPath.Content = dlg.SelectedFolder;
-                SaveConfig();
-            }
         }
 
         private void addPodcast_Click(object sender, RoutedEventArgs e) {

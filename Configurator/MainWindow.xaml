@@ -66,14 +66,11 @@
             </TabItem>
             <TabItem Header="podcasts" FontSize="14">
                 <Grid>
-                    <Label HorizontalAlignment="Left" Margin="21,0,0,42" VerticalAlignment="Bottom" Width="173" Height="35" Content="Podcast storage location:"/>
-                    <Label VerticalAlignment="Bottom" Height="35" Content="C:\ProgramData\MediaBrowser" Margin="200,0,19,42" x:Name="podcastsPath"/>
-                    <Button Margin="92,0,0,17" VerticalAlignment="Bottom" Height="30" Content="Change..." x:Name="changePodcastPath" Click="ChangePodcastPathClick" HorizontalAlignment="Left" Width="90" ToolTip="Change podcast data storage location" />
-					<ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,130" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged"/>
-                    <Button HorizontalAlignment="Left" Margin="21,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
-                    <Button HorizontalAlignment="Left" Margin="123,0,0,92" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
-                    <Button Margin="224,0,0,92" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
-                    <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="0,0,36,92" FontSize="12" Height="38" TextWrapping="Wrap" HorizontalAlignment="Right" Width="285" />
+                    <ListBox IsSynchronizedWithCurrentItem="True" Margin="21,20.38,0,76" x:Name="podcastList" DisplayMemberPath="Name" HorizontalAlignment="Left" Width="287" SelectionChanged="podcastList_SelectionChanged"/>
+                    <Button HorizontalAlignment="Left" Margin="21,0,0,25" VerticalAlignment="Bottom" Width="90" Height="32" Content="Add" x:Name="addPodcast" Click="addPodcast_Click" ToolTip="Add a video RSS feed" />
+                    <Button HorizontalAlignment="Left" Margin="123,0,0,25" VerticalAlignment="Bottom" Width="90" Height="32" Content="Remove" x:Name="removePodcast" Click="removePodcast_Click" ToolTip="Remove selected video RSS feed" />
+                    <Button Margin="224,0,0,25" VerticalAlignment="Bottom" Height="32" Content="Rename" x:Name="renamePodcast" HorizontalAlignment="Left" Width="84" Click="renamePodcast_Click" ToolTip="Rename video RSS feed display name" />
+                    <TextBlock Text="http://somepodcast.com/podcast.rss" d:LayoutOverrides="HorizontalAlignment, Height" x:Name="podcastUrl" VerticalAlignment="Bottom" Margin="0,0,33,76" FontSize="12" Height="38" TextWrapping="Wrap" HorizontalAlignment="Right" Width="285" />
                     <Label Height="29" Margin="0,21,36,0" Name="podcastName" VerticalAlignment="Top" FontWeight="Bold" HorizontalAlignment="Right" Width="285">The Cook and the Chef</Label>
                     <TextBlock Text="This is the podcast description hdkjhfsdk fdskfjhskfjhfdskjf kjshkfsjhfskjsdhkjh" Margin="323,67,33,136" Name="podcastDescription" TextWrapping="Wrap" />
                 </Grid>
